@@ -1,0 +1,85 @@
+import {TestBed} from '@angular/core/testing';
+
+import {AnalysisService} from './analysis.service';
+import {HttpTestingController} from '@angular/common/http/testing';
+import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
+import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
+import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
+import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
+import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
+
+export const analysisServiceSpy = () => {
+  const spy = jasmine.createSpyObj('AnalysisService', [
+    'runTest',
+    'debugTest',
+    'deleteTest',
+    'record',
+  ]);
+  return spy;
+};
+
+describe('AnalysisService', () => {
+  let service: AnalysisService;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestModule],
+      providers: [
+        {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
+        AnalysisService,
+      ]
+    });
+    service = TestBed.get(AnalysisService);
+    httpTestingController = TestBed.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should run test', () => {
+    const runDescription = 'runDescription';
+    const env = {};
+    service.runTest(runDescription, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
+    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/run');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.params.get('runDescription')).toEqual(runDescription);
+    expect(req.request.body).toEqual(env);
+    req.flush('cmdId');
+  });
+
+  it('should debug test', () => {
+    const runDescription = 'runDescription';
+    const env = {};
+    service.debugTest(runDescription, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
+    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/debug');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.params.get('runDescription')).toEqual(runDescription);
+    expect(req.request.body).toEqual(env);
+    req.flush('cmdId');
+  });
+
+  it('should record', () => {
+    const env = {};
+    service.record(env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
+    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/record');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(env);
+    req.flush('cmdId');
+  });
+
+  it('should delete test', () => {
+    const testId = 'testId';
+    service.deleteTest(testId).subscribe(value => expect(value).toBe(testId), () => fail('delete failed'));
+    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/delete');
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.params.get('testId')).toEqual('testId');
+    req.flush(testId);
+  });
+
+});

@@ -1,0 +1,9 @@
+<div class="messages" *ngIf="contentService.state !== 'loaded'">
+  <lib-message level="loading" *ngIf="contentService.state === 'loading'">
+    Loading file content...
+  </lib-message>
+  <lib-message level="warn" *ngIf="contentService.state === 'error'">
+    Failed to load the content of the file in UTF-8. If this is a binary file, please use the Download
+    button.
+  </lib-message>
+</div>

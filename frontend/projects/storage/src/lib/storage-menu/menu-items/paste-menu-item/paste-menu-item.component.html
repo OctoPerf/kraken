@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleOrNoSelection && copyPaste.canPaste()"
+        (click)="copyPaste.paste(treeControl.selectedDirectory)" matTooltip="Paste files (Ctrl + v)">
+  <lib-icon [icon]="pasteIcon"></lib-icon>
+  Paste
+</button>

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Inspect {{data.name}}</h1>
+<div mat-dialog-content>
+  <lib-code-editor mode="json"
+                   [value]="data.object | json" readonly="true"></lib-code-editor>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Close</button>
+</div>

@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="!treeControl.hasSingleSelection"
+        (click)="simulation.uploadHar()">
+  <lib-icon [icon]="uploadFileIcon"></lib-icon>
+  Upload HAR
+</button>

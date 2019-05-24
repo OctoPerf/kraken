@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSelection" (click)="copyPaste.cut(treeControl.selected)"
+        matTooltip="Cut files (Ctrl + x)">
+  <lib-icon [icon]="cutIcon"></lib-icon>
+  Cut
+</button>

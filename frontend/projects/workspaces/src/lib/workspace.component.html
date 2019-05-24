@@ -1,0 +1,54 @@
+<!-- TABS -->
+<!-- bottom -->
+<ng-template cdkPortal #bottomSideSplitPortal="cdkPortal">
+  <lib-side-split *ngIf="!bottom.empty" [id]="id"
+                  [side]="'bottom'"
+                  [config]="bottom"
+                  (expand)="bottomPaneExpanded()"
+                  (collapse)="bottomPaneCollapsed()"
+                  #bottomSideSplit></lib-side-split>
+</ng-template>
+<lib-tabs-header *ngIf="!bottom.start.empty" [tabs]="bottom.start.tabs" [position]="'start'"
+                 [side]="'bottom'"></lib-tabs-header>
+<lib-tabs-header *ngIf="!bottom.end.empty" [tabs]="bottom.end.tabs" [position]="'end'"
+                 [side]="'bottom'"></lib-tabs-header>
+
+<!-- left -->
+<ng-template cdkPortal #leftSideSplitPortal="cdkPortal">
+  <lib-side-split *ngIf="!left.empty" [id]="id"
+                  [side]="'left'"
+                  [config]="left"
+                  (expand)="leftPaneExpanded()"
+                  (collapse)="leftPaneCollapsed()"
+                  #leftSideSplit></lib-side-split>
+</ng-template>
+<lib-tabs-header *ngIf="!left.start.empty" [tabs]="left.start.tabs" [position]="'start'"
+                 [side]="'left'"></lib-tabs-header>
+<lib-tabs-header *ngIf="!left.end.empty" [tabs]="left.end.tabs" [position]="'end'"
+                 [side]="'left'"></lib-tabs-header>
+
+<!-- right -->
+<ng-template cdkPortal #rightSideSplitPortal="cdkPortal">
+  <lib-side-split *ngIf="!right.empty" [id]="id"
+                  [side]="'right'"
+                  [config]="right"
+                  (expand)="rightPaneExpanded()"
+                  (collapse)="rightPaneCollapsed()"
+                  #rightSideSplit></lib-side-split>
+</ng-template>
+<lib-tabs-header *ngIf="!right.start.empty" [tabs]="right.start.tabs" [position]="'start'"
+                 [side]="'right'"></lib-tabs-header>
+<lib-tabs-header *ngIf="!right.end.empty" [tabs]="right.end.tabs" [position]="'end'"
+                 [side]="'right'"></lib-tabs-header>
+
+<!-- SPLITS -->
+<!-- Vertical -->
+<lib-split-panes [id]="id + '-vertical-split'" [panes]="verticalSplits" direction="vertical"
+                 (paneHidden)="bottomPaneHidden()"
+                 #verticalSplit></lib-split-panes>
+
+<!-- Horizontal -->
+<ng-template cdkPortal #horizontalSplitPortal="cdkPortal">
+  <lib-split-panes [id]="id + '-horizontal-split'" [panes]="horizontalSplits" direction="horizontal"
+                   (paneHidden)="leftRightPaneHidden($event)" #horizontalSplit></lib-split-panes>
+</ng-template>

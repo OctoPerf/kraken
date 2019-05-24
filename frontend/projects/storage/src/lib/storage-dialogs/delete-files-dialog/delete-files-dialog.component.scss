@@ -1,0 +1,7 @@
+@import 'app-filler';
+@import 'app-margin';
+
+lib-message {
+  @include m-t();
+  @include m-b();
+}

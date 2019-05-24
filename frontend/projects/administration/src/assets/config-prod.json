@@ -1,0 +1,15 @@
+{
+  "version": "administration-1",
+  "applicationId": "administration",
+  "storageApiUrl": "/api/storage/files",
+  "readmeNode": {
+    "path": "README.md",
+    "type": "FILE",
+    "depth": 0,
+    "length": 0,
+    "lastModified": 0
+  },
+  "executorApiUrl": "/api/executor",
+  "docUrl": "https://doc.octoperf.com",
+  "errorsMatcher": "^.*$"
+}

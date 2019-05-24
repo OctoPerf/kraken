@@ -1,0 +1,119 @@
+@import 'app-variables';
+
+// Text color
+@mixin text-error() {
+  color: mat-color($app-error);
+}
+
+@mixin text-warn() {
+  color: mat-color($app-warn);
+}
+
+@mixin text-success() {
+  color: mat-color($app-success);
+}
+
+@mixin text-info() {
+  color: mat-color($app-info);
+}
+
+@mixin text-primary() {
+  color: mat-color($app-primary);
+}
+
+@mixin text-accent() {
+  color: mat-color($app-accent);
+}
+
+@mixin text-background() {
+  color: mat-color($app-background);
+}
+
+@mixin text-muted() {
+  color: $app-foreground-secondary-color;
+}
+
+@mixin text-highlight() {
+  color: mat-color($app-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+// Text color
+.text-error {
+  @include text-error();
+}
+
+.text-warn {
+  @include text-warn();
+}
+
+.text-success {
+  @include text-success();
+}
+
+.text-info {
+  @include text-info();
+}
+
+.text-primary {
+  @include text-primary();
+}
+
+.text-accent {
+  @include text-accent();
+}
+
+.text-background {
+  @include text-background();
+}
+
+.text-highlight {
+  @include text-highlight();
+}
+
+.text-muted {
+  @include text-muted();
+}
+
+// Fonts
+
+@mixin font-sm() {
+  font-size: $app-font-size-sm;
+  line-height: $app-line-height-sm;
+}
+
+@mixin font-lg() {
+  font-size: $app-font-size-lg;
+  line-height: $app-line-height-lg;
+}
+
+// Fonts
+
+.font-sm {
+  @include font-sm();
+}
+
+.font-lg {
+  @include font-lg();
+}
+
+// Ellipsis
+
+@mixin text-ellipsis() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.text-ellipsis {
+  @include text-ellipsis();
+}
+
+@mixin text-center() {
+  text-align: center;
+}
+
+.text-center {
+  @include text-center();
+}

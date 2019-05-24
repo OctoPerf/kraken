@@ -1,0 +1,11 @@
+@import 'app-margin';
+@import 'app-filler';
+
+:host {
+  @include block-filler-x();
+}
+
+.messages {
+  @include m-t();
+  text-align: center;
+}

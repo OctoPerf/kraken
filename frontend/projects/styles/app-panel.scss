@@ -1,0 +1,62 @@
+@import 'app-filler';
+@import 'app-padding';
+@import 'app-compact';
+@import 'app-util';
+
+@mixin panel-header(){
+  @include block-filler-x();
+  background-color: mat-color($app-background, 800);
+  border-bottom: 1px solid mat-color($app-background, 700);
+  margin-top: -1px;
+  min-height: 36px;
+}
+
+@mixin panel-header-table-like {
+  @include panel-header();
+  @include p-h-sm();
+  @include compact-button();
+}
+
+@mixin panel-header-padder {
+  @include panel-header();
+  @include p();
+  @include p-b-n();
+}
+
+@mixin panel-vertical {
+  @include block-filler();
+}
+
+@mixin panel-horizontal {
+  @include block-filler-x();
+}
+
+.panel-header {
+  @include panel-header();
+}
+
+.panel-header-table-like {
+  @include panel-header-table-like();
+}
+
+.panel-header-padder {
+  @include panel-header-padder();
+}
+
+.panel-vertical {
+  @include panel-vertical();
+}
+
+.panel-horizontal {
+  @include panel-horizontal();
+}
+
+.panel-scroll {
+  @include block-filler();
+  @include scrollable();
+
+  .panel-padder {
+    @include p();
+    @include p-t-n();
+  }
+}

@@ -1,0 +1,19 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+}
+
+.node {
+  height: 100%;
+}
+
+.text-ellipsis {
+  min-width: 0;
+  width: 0;
+}
+
+.node-label {
+  padding-top: 5px;
+  padding-bottom: 5px
+}

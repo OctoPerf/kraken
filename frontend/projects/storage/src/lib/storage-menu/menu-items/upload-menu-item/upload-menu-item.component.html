@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleOrNoSelection"
+        (click)="storage.upload(treeControl.selectedDirectory)">
+  <lib-icon [icon]="uploadFileIcon"></lib-icon>
+  Upload
+</button>

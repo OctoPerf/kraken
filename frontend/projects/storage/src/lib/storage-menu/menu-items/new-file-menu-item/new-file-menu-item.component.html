@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleOrNoSelection"
+        (click)="storage.addFile(treeControl.selectedDirectory)">
+  <lib-icon [icon]="addFileIcon"></lib-icon>
+  New File
+</button>

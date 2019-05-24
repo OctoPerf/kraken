@@ -1,0 +1,158 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+}
+
+@import 'app-font';
+
+@mixin ace_marker($color) {
+  background-color: rgba(mat-color($color), .3);
+  border: 1px solid mat-color($color);
+  position: absolute;
+}
+
+::ng-deep {
+
+  .ace-kraken {
+
+    background-color: $app-background-color;
+    color: $app-foreground-color;
+
+    .ace_search {
+      background-color: mat-color($app-background, 800);
+      color: $app-foreground-color;
+      border-bottom-color: mat-color($app-background, 700);
+      border-left-color: mat-color($app-background, 700);
+      @include mat-elevation(8);
+    }
+
+    .ace_button {
+      color: $app-foreground-color;
+      &:hover {
+        background-color: mat-color($app-background, 700);
+      }
+    }
+
+    .ace_log {
+      font-weight: bold;
+
+      &.ace_info {
+        @include text-info();
+      }
+
+      &.ace_warn {
+        @include text-warn();
+      }
+
+      &.ace_error {
+        background-color: mat-color($app-error, 700);
+      }
+    }
+
+    .ace_gutter {
+      background: mat-color($app-background, 800);
+      color: $app-foreground-secondary-color;
+    }
+    .ace_print-margin {
+      width: 1px;
+      background: #3b3b3b
+    }
+    .ace_cursor {
+      color: mat-color($app-accent, A700);
+    }
+
+    .ace_completion-highlight {
+      color: mat-color($app-accent, A700) !important;
+    }
+
+    .ace_autocomplete .ace_marker-layer .ace_active-line {
+      background-color: mat-color($app-accent, 900) !important;
+    }
+
+    .ace_marker-layer .ace_selection {
+      background: rgba(90, 100, 126, 0.88)
+    }
+
+    &.ace_multiselect .ace_selection.ace_start {
+      box-shadow: 0 0 3px 0px #323232;
+    }
+
+    .ace_marker-layer .ace_step {
+      background: rgb(102, 82, 0)
+    }
+    .ace_marker-layer .ace_bracket {
+      margin: -1px 0 0 -1px;
+      border: 1px solid #404040
+    }
+    .ace_marker-layer .ace_active-line {
+      background: #353637
+    }
+    .ace_gutter-active-line {
+      background-color: #353637
+    }
+    .ace_marker-layer .ace_selected-word {
+      border: 1px solid rgba(mat-color($app-accent, 900), 0.88)
+    }
+    .ace_invisible {
+      color: #404040
+    }
+    .ace_keyword,
+    .ace_meta {
+      color: #CC7833
+    }
+    .ace_constant,
+    .ace_constant.ace_character,
+    .ace_constant.ace_character.ace_escape,
+    .ace_constant.ace_other,
+    .ace_support.ace_constant {
+      color: #6C99BB
+    }
+    .ace_invalid {
+      color: #FFFFFF;
+      background-color: mat-color($app-error)
+    }
+    .ace_fold {
+      background-color: #CC7833;
+      border-color: #FFFFFF
+    }
+    .ace_support.ace_function {
+      color: mat-color($app-error, 800)
+    }
+    .ace_variable.ace_parameter {
+      font-style: italic
+    }
+    .ace_string {
+      color: #A5C261
+    }
+    .ace_string.ace_regexp {
+      color: #CCCC33
+    }
+    .ace_comment {
+      font-style: italic;
+      color: #BC9458
+    }
+    .ace_meta.ace_tag {
+      color: #FFE5BB
+    }
+    .ace_entity.ace_name {
+      color: #FFC66D
+    }
+    .ace_collab.ace_user1 {
+      color: #323232;
+      background-color: #FFF980
+    }
+    .ace_indent-guide {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWMwMjLyZYiPj/8PAAreAwAI1+g0AAAAAElFTkSuQmCC) right repeat-y
+    }
+
+    .ace_prefix {
+      @include ace_marker($app-primary);
+    }
+
+    .ace_suffix {
+      @include ace_marker($app-accent);
+    }
+  }
+
+}

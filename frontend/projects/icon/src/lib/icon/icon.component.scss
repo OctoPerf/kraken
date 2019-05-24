@@ -1,0 +1,44 @@
+@import 'app-margin';
+
+lib-icon {
+  width: 1em;
+  display: inline-block;
+  text-align: center;
+}
+
+$icon-font-size : 18px;
+$button-font-size : 16px;
+
+.icon-md {
+  font-size: $icon-font-size;
+  line-height: $button-font-size;
+}
+
+.mat-menu-item {
+  lib-icon {
+    font-size: $icon-font-size;
+    display: inline-block;
+    width: 1.25em;
+    margin-right: 12px;
+  }
+}
+
+.mat-icon-button {
+  lib-icon {
+    font-size: $icon-font-size;
+  }
+}
+
+.mat-raised-button, .mat-raised-button, .mat-flat-button, .mat-stroked-button {
+  lib-icon {
+    font-size: $button-font-size;
+    line-height: $button-font-size;
+    @include m-r-sm();
+  }
+}
+
+.mat-mini-fab {
+  lib-icon {
+    font-size: $icon-font-size;
+  }
+}

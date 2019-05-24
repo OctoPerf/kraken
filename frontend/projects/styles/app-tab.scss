@@ -1,0 +1,55 @@
+@import 'app-variables';
+
+$app-tabs-height: 24px;
+$app-tabs-font-size: 12px;
+$app-tabs-icon-font-size: $app-tabs-font-size;
+$app-tabs-icon-line-height: $app-tabs-icon-font-size + 2;
+
+// Tabs
+@mixin tab-header() {
+  line-height: $app-tabs-height;
+  font-size: $app-tabs-font-size;
+  min-width: 0;
+  max-height: $app-tabs-height;
+  overflow-y: hidden;
+
+  .ng-fa-icon {
+    transform: translateY(-3px);
+    font-size: $app-tabs-icon-font-size;
+    line-height: $app-tabs-icon-line-height;
+    height: $app-tabs-icon-font-size;
+    width: $app-tabs-icon-font-size;
+  }
+
+  .tab-label {
+    margin-left: $app-margin-y-sm;
+    display: inline-block;
+  }
+
+  @media (max-width: 1024px) {
+    .tab-label-bottom, .tab-label-top {
+      display: none;
+    }
+  }
+
+  @media (max-height: 740px) {
+    .tab-label-right, .tab-label-left {
+      display: none;
+    }
+  }
+}
+
+@mixin scrollable-mat-tabs(){
+  height: 100%;
+  .mat-tab-body-wrapper {
+    height: 100%;
+  }
+  mat-tab-group {
+    height: 100%;
+  }
+}
+
+// Tabs
+.scrollable-mat-tabs {
+  @include scrollable-mat-tabs();
+}

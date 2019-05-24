@@ -1,0 +1,77 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+}
+
+.split-panes {
+  @include block-filler();
+  &.drag.horizontal {
+    cursor: col-resize;
+  }
+  &.drag.vertical {
+    cursor: row-resize;
+  }
+}
+
+.split-pane {
+  overflow: hidden;
+}
+
+// Also udate the fxFlex="2px" in the html template if you update the gutter-size
+$gutter-size: 2px;
+$gutter-sensitivity: 2px;
+$gutter-color: mat-color($app-background, 900);
+$gutter-color-hover: mat-color($app-primary);
+
+.gutter-vertical {
+  overflow: visible;
+  max-width: $gutter-size;
+  z-index: 999999;
+
+  .gutter-handle {
+    @include block-filler();
+    cursor: col-resize;
+    margin-left: -$gutter-sensitivity;
+    width: 2 * $gutter-sensitivity + $gutter-size;
+
+    &:hover, &.dragged {
+      .gutter-color {
+        background-color: $gutter-color-hover;
+      }
+    }
+
+    .gutter-color {
+      @include block-filler();
+      margin-left: $gutter-sensitivity;
+      width: $gutter-size;
+      background-color: $gutter-color;
+    }
+  }
+}
+
+.gutter-horizontal {
+  overflow: visible;
+  max-height: $gutter-size;
+  z-index: 999999;
+
+  .gutter-handle {
+    @include block-filler();
+    cursor: row-resize;
+    margin-top: -$gutter-sensitivity;
+    height: 2 * $gutter-sensitivity + $gutter-size;
+
+    &:hover, &.dragged {
+      .gutter-color {
+        background-color: $gutter-color-hover;
+      }
+    }
+
+    .gutter-color {
+      @include block-filler();
+      margin-top: $gutter-sensitivity;
+      height: $gutter-size;
+      background-color: $gutter-color;
+    }
+  }
+}

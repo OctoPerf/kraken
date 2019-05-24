@@ -1,0 +1,56 @@
+@import 'app-variables';
+// Fillers
+
+@mixin full-height() {
+  height: 100%;
+}
+
+@mixin block-filler-y() {
+  display: block;
+  height: 100%;
+}
+
+@mixin block-filler-x() {
+  display: block;
+  width: 100%;
+}
+
+@mixin block-filler() {
+  @include block-filler-x();
+  @include full-height();
+}
+
+@mixin absolute-filler() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+@mixin flex-filler() {
+  /* This fills the remaining space, by using flexbox. */
+  flex: 1 1 auto;
+}
+
+// Fillers
+
+.block-filler {
+  @include block-filler();
+}
+
+.block-filler-x {
+  @include block-filler-x();
+}
+
+.block-filler-y {
+  @include block-filler-y();
+}
+
+.flex-filler {
+  @include flex-filler();
+}
+
+.full-height {
+  @include full-height();
+}

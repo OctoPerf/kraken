@@ -1,0 +1,12 @@
+.close-button {
+  position: relative;
+  right: -20px;
+}
+
+.pending-save {
+  font-style: italic;
+
+  &::after {
+    content: " *";
+  }
+}

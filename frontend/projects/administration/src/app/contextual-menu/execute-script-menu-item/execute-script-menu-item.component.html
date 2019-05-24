@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleFileSelection && (treeControl.first | storageNodeToExt) === 'sh'"
+        (click)="execute()">
+  <lib-icon [icon]="executeCommandIcon"></lib-icon>
+  Run Script
+</button>

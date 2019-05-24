@@ -1,0 +1,17 @@
+<div class="buttons-group" *ngIf="contentService.state === 'loaded'">
+  <button mat-icon-button (click)="simulation.run(node)" matTooltip="Run Simulation">
+    <lib-icon [icon]="runIcon"></lib-icon>
+  </button>
+  <button mat-icon-button (click)="simulation.debug(node)" matTooltip="Debug Simulation">
+    <lib-icon [icon]="debugIcon"></lib-icon>
+  </button>
+</div>
+
+<lib-code-editor *ngIf="contentService.state === 'loaded'" [mode]="node.path | pathToCodeEditorMode"
+                 [variablesAutoCompleter]="autoCompleter"
+                 [tabsSize]="2"
+                 [enableSnippets]="true"
+                 [value]="contentService.content" (contentChange)="contentService.content = $event"></lib-code-editor>
+
+<lib-editor-messages></lib-editor-messages>
+

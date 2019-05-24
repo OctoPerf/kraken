@@ -1,0 +1,20 @@
+<div class="buttons-group" *ngIf="contentService.state === 'loaded'">
+  <button mat-icon-button (click)="command('down')" matTooltip="docker-compose down">
+    <lib-icon [icon]="downIcon"></lib-icon>
+  </button>
+  <button mat-icon-button (click)="command('up')" matTooltip="docker-compose up">
+    <lib-icon [icon]="upIcon"></lib-icon>
+  </button>
+  <button mat-icon-button (click)="command('logs')" matTooltip="docker-compose logs">
+    <lib-icon [icon]="logsIcon"></lib-icon>
+  </button>
+  <button mat-icon-button (click)="command('ps')" matTooltip="docker-compose ps">
+    <lib-icon [icon]="psIcon"></lib-icon>
+  </button>
+</div>
+
+<lib-code-editor *ngIf="contentService.state === 'loaded'" [mode]="node.path | pathToCodeEditorMode"
+                 [value]="contentService.content" (contentChange)="contentService.content = $event"></lib-code-editor>
+
+<lib-editor-messages></lib-editor-messages>
+

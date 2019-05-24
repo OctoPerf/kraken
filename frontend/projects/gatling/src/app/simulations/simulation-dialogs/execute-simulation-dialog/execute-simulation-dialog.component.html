@@ -1,0 +1,43 @@
+<form [formGroup]="simulationForm" autocomplete=off>
+  <h1 mat-dialog-title>{{data.debug ? 'Debug' : 'Run'}} Simulation</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="package.Class" formControlName="simulationName"
+             cdkFocusInitial
+             (keydown.enter)="simulationForm.valid ? close() : null"
+             required>
+      <mat-error *ngIf="simulationName.hasError('required')">
+        Simulation name is required.
+      </mat-error>
+      <mat-error *ngIf="simulationName.hasError('pattern')">
+        Invalid simulation name.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Run Description" formControlName="runDescription"
+             required>
+      <mat-error *ngIf="runDescription.hasError('required')">
+        Run description is required.
+      </mat-error>
+      <mat-error *ngIf="runDescription.hasError('pattern')">
+        Invalid run description.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Java Opts" formControlName="javaOpts">
+      <mat-hint>-Xmx1G -Dfoo=bar</mat-hint>
+    </mat-form-field>
+    <lib-message level="error" centered="true" class="text-error" *ngIf="data.debug && !data.atOnce">Please configure
+      your script to run only one iteration
+      '.inject(atOnceUsers(1)'. You might generate a lot of debug files and crash the system otherwise!
+    </lib-message>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button (click)="close()"
+            type="submit" color="accent"
+            [disabled]="!simulationForm.valid">
+      Run
+    </button>
+  </div>
+</form>

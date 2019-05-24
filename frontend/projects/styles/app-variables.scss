@@ -1,0 +1,25 @@
+@import 'app-material-theme';
+
+$app-header-height: 46px;
+$app-font-family: Roboto, "Helvetica Neue", sans-serif;
+$app-font-size: 14px;
+$app-font-size-xs: 10px !default;
+$app-font-size-sm: 12px !default;
+$app-font-size-lg: 16px !default;
+$app-font-weight: 300;
+$app-font-weight-bold: 600;
+
+$app-line-height: (28 / 14) !default;
+$app-line-height-sm: 1.2 !default;
+$app-line-height-lg: 1.5 !default;
+$app-line-height-em: $app-line-height * 1em;
+
+$app-margin-x-sm: 12px;
+$app-margin-y-sm: 8px;
+$app-margin-x: 24px;
+$app-margin-y: 16px;
+
+$app-padding-x-sm: $app-margin-x-sm;
+$app-padding-y-sm: $app-margin-y-sm;
+$app-padding-x: $app-margin-x;
+$app-padding-y: $app-margin-y;

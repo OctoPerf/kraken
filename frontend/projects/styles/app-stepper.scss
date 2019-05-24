@@ -1,0 +1,19 @@
+.stepper-full-height {
+  height: 100%;
+
+  .mat-horizontal-stepper-header-container {
+    min-height: 72px;
+  }
+
+  .mat-horizontal-content-container{
+    height: 100%;
+    padding: 0 !important;
+  }
+
+  .mat-horizontal-stepper-content{
+    height: 100%;
+    display: flex;
+  }
+
+}
+

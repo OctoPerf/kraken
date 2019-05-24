@@ -1,0 +1,23 @@
+.dialog-sm {
+  width: 90%;
+  max-width: 300px !important;
+}
+
+.dialog-md {
+  width: 90%;
+  max-width: 600px !important;
+}
+
+.dialog-lg {
+  width: 90%;
+  max-width: 1200px !important;
+}
+
+.dialog-full {
+  //height: 98%;
+  width: 100vw;
+
+  .mat-dialog-container {
+    max-width: none;
+  }
+}

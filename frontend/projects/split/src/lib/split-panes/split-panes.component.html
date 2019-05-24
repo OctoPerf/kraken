@@ -1,0 +1,20 @@
+<div [fxLayout]="direction.fxLayout"
+     [ngClass]="{'split-panes': true, 'drag' : !!drag, 'vertical': directionId === 'vertical', 'horizontal': directionId === 'horizontal'}"
+     (mousemove)="cursorDragged($event)"
+     (mouseleave)="stopDrag()"
+     (mouseup)="stopDrag()">
+  <ng-container *ngFor="let pane of panes; index as i; last as isLast">
+    <div libSplitPane class="split-pane" [fxFlex]="configurations[i].visibleSize" [fxHide]="configurations[i].visibleSize === 0">
+      <ng-template [cdkPortalOutlet]="pane.portal"></ng-template>
+    </div>
+    <div fxFlex="2px" *ngIf="isLast === false" libSplitGutter
+         [fxHide]="configurations[i].visibleSize === 0 || configurations[i + 1].visibleSize === 0"
+         [ngClass]="{'gutter-vertical': directionId === 'horizontal', 'gutter-horizontal': directionId === 'vertical'}"
+         >
+      <div class="gutter-handle"
+           [ngClass]="{'dragged' : drag?.beforeIndex === i}" (mousedown)="cursorPressed(i, $event)">
+        <div class="gutter-color"></div>
+      </div>
+    </div>
+  </ng-container>
+</div>

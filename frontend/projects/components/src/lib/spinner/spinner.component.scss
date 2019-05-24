@@ -1,0 +1,111 @@
+$animation-duration: 1s;
+
+@mixin keyframes() {
+  0% {
+    visibility: visible;
+  }
+  40% {
+    visibility: visible;
+  }
+  70% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+@mixin animation-delay($pos) {
+  $delay: $animation-duration / 16 * $pos;
+  -webkit-animation-delay: $delay;
+  -moz-animation-delay: $delay;
+  -o-animation-delay: $delay;
+  animation-delay: $delay;
+  visibility: hidden;
+}
+
+@mixin animation() {
+  -webkit-animation-name: spinner;
+  -moz-animation-name: spinner;
+  -o-animation-name: spinner;
+  animation-name: spinner;
+
+  -webkit-animation-duration: $animation-duration;
+  -moz-animation-duration: $animation-duration;
+  -o-animation-duration: $animation-duration;
+  animation-duration: $animation-duration;
+
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+rect {
+  @include animation();
+}
+
+rect:nth-child(1) {
+  @include animation-delay(1);
+}
+rect:nth-child(2) {
+  @include animation-delay(2);
+}
+rect:nth-child(3) {
+  @include animation-delay(3);
+}
+rect:nth-child(4) {
+  @include animation-delay(4);
+}
+rect:nth-child(5) {
+  @include animation-delay(5);
+}
+rect:nth-child(6) {
+  @include animation-delay(6);
+}
+rect:nth-child(7) {
+  @include animation-delay(7);
+}
+rect:nth-child(8) {
+  @include animation-delay(8);
+}
+rect:nth-child(9) {
+  @include animation-delay(9);
+}
+rect:nth-child(10) {
+  @include animation-delay(10);
+}
+rect:nth-child(11) {
+  @include animation-delay(11);
+}
+rect:nth-child(12) {
+  @include animation-delay(12);
+}
+rect:nth-child(13) {
+  @include animation-delay(13);
+}
+rect:nth-child(14) {
+  @include animation-delay(14);
+}
+rect:nth-child(15) {
+  @include animation-delay(15);
+}
+rect:nth-child(16) {
+  @include animation-delay(16);
+}
+
+/*
+ * Animation
+ */
+@-webkit-keyframes spinner {
+  @include keyframes();
+}
+@-moz-keyframes spinner {
+  @include keyframes();
+}
+@-o-keyframes spinner {
+  @include keyframes();
+}
+@keyframes spinner {
+  @include keyframes();
+}

@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="node hover-show-parent-2"
+     (contextmenu)="treeControl.nodeContextMenu($event, node)">
+  <span fxFlex class="node-label text-ellipsis no-selection"
+        [title]="node.path + ' - ' +  (node.length | fileSize) + ' - '+ (node.lastModified | dateTimeToStringMs)"
+        (click)="treeControl.nodeClick($event, node)"
+        (dblclick)="treeControl.nodeDoubleClick($event, node)">
+    <lib-icon class="m-r-xs" [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
+    {{node | storageNodeToName}}
+  </span>
+  <div fxFlex="none" class="hover-show-child-2">
+    <ng-template [cdkPortalOutlet]="nodeButtons"></ng-template>
+  </div>
+</div>

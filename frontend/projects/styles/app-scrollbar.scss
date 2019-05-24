@@ -1,0 +1,87 @@
+@import 'app-variables';
+
+$app-scrollbar-size: 10px;
+$app-scrollbar-track-color: mat-color($app-background, 800);
+$app-scrollbar-buttons-color: mat-color($app-background, 700);
+$app-scrollbar-hover-color: mat-color($app-primary);
+
+::-webkit-scrollbar {
+  width: $app-scrollbar-size;
+  height: $app-scrollbar-size;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $app-scrollbar-track-color;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: $app-scrollbar-track-color;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $app-scrollbar-buttons-color;
+  //border: 2px solid $app-scrollbar-track-color;
+
+  &:hover {
+    background-color: $app-scrollbar-hover-color;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background-color: $app-scrollbar-track-color;
+}
+
+::-webkit-resizer {
+  background-color: $app-scrollbar-buttons-color;
+}
+
+/* Buttons */
+::-webkit-scrollbar-button {
+  background-color: $app-scrollbar-track-color;
+  border-style: solid;
+  height: $app-scrollbar-size;
+  width: $app-scrollbar-size;
+}
+
+$app-scrollbar-size-half: $app-scrollbar-size / 2;
+
+/* Up */
+::-webkit-scrollbar-button:vertical:decrement {
+  border-width: 0 $app-scrollbar-size-half $app-scrollbar-size $app-scrollbar-size-half;
+  border-color: transparent transparent $app-scrollbar-track-color transparent;
+}
+
+::-webkit-scrollbar-button:vertical:decrement:hover {
+  border-color: transparent transparent $app-scrollbar-hover-color transparent;
+}
+
+/* Down */
+::-webkit-scrollbar-button:vertical:increment {
+  border-width: $app-scrollbar-size $app-scrollbar-size-half 0 $app-scrollbar-size-half;
+  border-color: $app-scrollbar-track-color transparent transparent transparent;
+}
+
+::-webkit-scrollbar-button:vertical:increment:hover {
+  border-color: $app-scrollbar-hover-color transparent transparent transparent;
+}
+
+/* Left */
+::-webkit-scrollbar-button:horizontal:decrement {
+  border-width: $app-scrollbar-size-half $app-scrollbar-size $app-scrollbar-size-half 0;
+  border-color: transparent $app-scrollbar-track-color transparent transparent;
+}
+
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+  border-color: transparent $app-scrollbar-hover-color transparent transparent;
+}
+
+/* Right */
+::-webkit-scrollbar-button:horizontal:increment {
+  border-width: $app-scrollbar-size-half 0 $app-scrollbar-size-half $app-scrollbar-size;
+  border-color: transparent transparent transparent $app-scrollbar-track-color;
+}
+
+::-webkit-scrollbar-button:horizontal:increment:hover {
+  border-color: transparent transparent transparent $app-scrollbar-hover-color;
+}
+

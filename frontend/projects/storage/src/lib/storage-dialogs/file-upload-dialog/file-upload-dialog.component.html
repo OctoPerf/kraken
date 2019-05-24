@@ -1,0 +1,22 @@
+<input type="file" #file style="display: none" (change)="onFilesAdded()" [multiple]="data.multiple" [accept]="data.accept"/>
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <mat-list>
+    <mat-list-item *ngFor="let file of files; index as i;">
+
+      <h4 mat-line>{{file.name}}</h4>
+
+      <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[i] | async"></mat-progress-bar>
+
+    </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button [disabled]="uploading" mat-button mat-dialog-close>Cancel</button>
+  <button [disabled]="uploading" mat-button color="primary" (click)="addFiles()">
+    <lib-loading-icon [loading]="uploading">
+      <lib-icon [icon]="uploadIcon"></lib-icon>
+    </lib-loading-icon>
+    {{uploading ? 'Uploading...' : 'Select File(s)'}}
+  </button>
+</div>

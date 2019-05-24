@@ -1,0 +1,13 @@
+<table mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="cookie"
+       matSortDirection="asc">
+  <ng-container matColumnDef="cookie">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cookie</th>
+    <td mat-cell *matCellDef="let cookie">
+      {{cookie}}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+  </tr>
+</table>

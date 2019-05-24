@@ -1,0 +1,4 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleSelection" (click)="storage.rename(treeControl.first, dataSource.parentNode(treeControl.first))">
+  <lib-icon [icon]="renameIcon"></lib-icon>
+  Rename
+</button>

@@ -1,0 +1,34 @@
+@import 'app-variables';
+
+$backdrop-color: rgba(mat-color($app-background, 900), 0.9);
+
+.backdrop{
+  position: fixed;
+  background-color: $backdrop-color;
+
+  &.top {
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  &.left {
+    left: 0;
+  }
+
+  &.right {
+  }
+
+  &.bottom {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+.rect {
+  position: fixed;
+  border-radius: 10px;
+  box-shadow: 0 0 0 5px $backdrop-color;
+}
+

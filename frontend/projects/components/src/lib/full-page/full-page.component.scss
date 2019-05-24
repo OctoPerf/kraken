@@ -1,0 +1,43 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-background';
+@import 'app-variables';
+@import 'app-tab';
+
+:host {
+  @include block-filler();
+  background-color: mat-color($app-background, 900);
+}
+
+.full-page-menu {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.full-page-content {
+  position: fixed;
+  top: $app-header-height;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  @include octagon-background();
+
+  &.tabs-left {
+    left: $app-tabs-height;
+  }
+
+  &.tabs-right {
+    right: $app-tabs-height;
+  }
+
+  &.tabs-bottom {
+    bottom: $app-tabs-height;
+  }
+
+  &.tabs-top {
+    top: $app-header-height + $app-tabs-height;
+  }
+}
+

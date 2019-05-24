@@ -1,0 +1,6 @@
+<div class="full-page-menu">
+  <ng-content select="[full-page-menu]"></ng-content>
+</div>
+<div [ngClass]="{'full-page-content': true, 'tabs-left': tabsLeft, 'tabs-right': tabsRight, 'tabs-bottom': tabsBottom, 'tabs-top': tabsTop}">
+  <ng-content select="[full-page-content]"></ng-content>
+</div>

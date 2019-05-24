@@ -1,0 +1,22 @@
+<mat-tab-group class="scrollable-mat-tabs compact-tabs" (animationDone)="windowService.resizeNow()"
+               [selectedIndex]="selectedIndex.value"
+               (selectedIndexChange)="selectIndex($event)">
+
+  <mat-tab *ngFor="let node of nodes.value; let index = index">
+    <ng-template mat-tab-label>
+      <lib-storage-node-tab-header class="compact-button" [node]="node" [selected]="selectedIndex.value === index"
+                                   [pendingSave]="isPendingSave(node)"
+                                   (closeNode)="closeNode(index)"
+                                   (openContextualMenu)="selectIndex(index);menu.open($event)"></lib-storage-node-tab-header>
+    </ng-template>
+    <ng-template *libLazyIf="selectedIndex.value === index" [cdkPortalOutlet]="getNodeEditor(node)"></ng-template>
+  </mat-tab>
+</mat-tab-group>
+<lib-contextual-menu #menu>
+  <button mat-menu-item (click)="closeOthers()">
+    Close others
+  </button>
+  <button mat-menu-item (click)="closeAll()">
+    Close all
+  </button>
+</lib-contextual-menu>

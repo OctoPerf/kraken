@@ -1,0 +1,27 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-background';
+@import 'app-font';
+
+:host {
+  @include block-filler();
+
+}
+
+.selected-node {
+  @include background-primary-shade(900);
+}
+
+.cut-node {
+  @include text-muted();
+}
+
+.storage-tree {
+  border: 1px solid $app-background-color;
+  padding-top: 1px;
+}
+
+.storage-tree:focus {
+  outline: none;
+  border-color: mat-color($app-primary);
+}

@@ -1,0 +1,45 @@
+@import 'app-variables';
+@import 'app-font';
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  height: 100%;
+  margin: 0;
+  color: $app-foreground-color;
+  font-family: $app-font-family;
+  font-size: $app-font-size;
+  font-weight: $app-font-weight;
+  background-color: $app-background-color;
+
+  a {
+    color: $app-foreground-secondary-color
+  }
+}
+
+.mat-input-width-auto {
+  .mat-form-field-infix {
+    // Fix material inputs with min width set to 180px
+    width: auto;
+  }
+}
+
+.mat-table-body-bg {
+  tbody {
+    background-color: $app-background-color !important;
+  }
+}
+
+.snackbar-long-text {
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.mat-header-row {
+  height: 35px !important;
+}

@@ -1,0 +1,5 @@
+@import 'app-tab';
+
+:host {
+  @include tab-header();
+}

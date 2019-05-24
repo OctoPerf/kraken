@@ -1,0 +1,27 @@
+@import 'app-font';
+
+.container {
+  position: relative;
+}
+
+.table-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.loading-shade, .no-data-shade {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  min-height: 100px;
+  background-color: rgba($app-background-color, .6);
+  z-index: 1000000000;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
+  @include font-lg();
+}

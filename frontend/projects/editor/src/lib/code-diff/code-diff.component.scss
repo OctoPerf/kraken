@@ -1,0 +1,69 @@
+@import 'app-variables';
+
+$diff-height: 450px;
+$merge-color: mat-color($app-info);
+
+::ng-deep {
+  .CodeMirror {
+    font-size: $app-font-size-sm;
+  }
+
+  .CodeMirror-dialog-top {
+    border-bottom: 1px solid mat-color($app-background, 700);
+  }
+
+  .CodeMirror-scrollbar-filler {
+    background-color: $app-background-color;
+  }
+
+  .CodeMirror-merge, .CodeMirror-merge .CodeMirror {
+    height: $diff-height;
+  }
+
+  .CodeMirror-merge {
+    border: none;
+    height: $diff-height;
+  }
+
+  .CodeMirror-merge-editor {
+    height: $diff-height;
+  }
+
+  .CodeMirror-hscrollbar, .CodeMirror-vscrollbar {
+    outline: none !important;
+  }
+
+  .CodeMirror-merge-gap {
+    border-left: 1px solid mat-color($app-background, 900);
+    border-right: 1px solid mat-color($app-background, 900);
+    background: mat-color($app-background, 900);
+  }
+
+  .CodeMirror-merge-scrolllock {
+    color: $app-foreground-secondary-color;
+  }
+
+  .CodeMirror-merge-r-chunk {
+    background: rgba($merge-color, .2);
+  }
+
+  .CodeMirror-merge-r-chunk-start {
+    border-top: 1px solid rgba($merge-color, .3);
+  }
+
+  .CodeMirror-merge-r-chunk-end {
+    border-bottom: 1px solid rgba($merge-color, .3);
+  }
+
+  .CodeMirror-merge-r-connect {
+    fill: rgba($merge-color, .2);
+    stroke: rgba($merge-color, .3);
+  }
+
+  .CodeMirror-merge-collapsed-widget {
+    color: $app-foreground-color;
+    background: rgba(mat-color($app-success), .2);
+    border: 1px solid rgba(mat-color($app-success), .3);
+  }
+
+}

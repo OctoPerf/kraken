@@ -1,0 +1,20 @@
+<form [formGroup]="pullForm" autocomplete=off>
+  <h1 mat-dialog-title>Pull Docker Image</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Image name" type="text" formControlName="image"
+             cdkFocusInitial
+             (keydown.enter)="pullForm.valid ? dialogRef.close(image.value) : null"
+             required>
+      <mat-hint>Type the image-name:tag and click on Ok to pull it.</mat-hint>
+      <mat-error *ngIf="image.hasError('required')">
+          Image name is required.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button [mat-dialog-close]="image.value" type="submit" color="primary" [disabled]="!pullForm.valid">Ok
+    </button>
+  </div>
+</form>

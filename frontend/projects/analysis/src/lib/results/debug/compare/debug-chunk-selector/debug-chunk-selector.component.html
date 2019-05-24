@@ -1,0 +1,12 @@
+<mat-form-field class="block-filler-x">
+  <mat-label>Debug</mat-label>
+  <mat-select (selectionChange)="debugChunkSelected($event.value)" [value]="resultId + ':' + debugChunkId">
+    <mat-optgroup *ngFor="let result of results"
+                  [label]="result.runDescription + ' - '+ (result.startDate | dateTimeFromNow)">
+      <mat-option *ngFor="let debugChunk of filter(result.id)" [value]="debugChunk.resultId + ':' + debugChunk.id">
+        {{debugChunk.requestName}} - {{debugChunk.date | timeToStringMs}}
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+  <mat-hint>{{result.runDescription}} - {{result.startDate | dateTimeFromNow}}</mat-hint>
+</mat-form-field>

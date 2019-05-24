@@ -1,0 +1,15 @@
+{
+  "version": "administration-test-1",
+  "applicationId": "administration",
+  "storageApiUrl": "http://localhost:8080/files",
+  "readmeNode": {
+    "path": "README.md",
+    "type": "FILE",
+    "depth": 0,
+    "length": 0,
+    "lastModified": 0
+  },
+  "executorApiUrl": "http://localhost:8081",
+  "docUrl": "https://doc.octoperf.com",
+  "errorsMatcher": "^.*$"
+}

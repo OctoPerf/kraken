@@ -1,0 +1,11 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+  overflow: hidden;
+}
+
+.tab-content {
+  @include block-filler();
+  overflow: hidden;
+}

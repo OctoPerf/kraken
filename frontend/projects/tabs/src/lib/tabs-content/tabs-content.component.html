@@ -1,0 +1,3 @@
+<div class="tab-content" *ngFor="let tab of tabs" [@tabState]="tab === selectedTab ? 'active' : 'inactive'">
+  <ng-template *ngIf="tab.keepContent || tab === selectedTab" [cdkPortalOutlet]="tab.portal"></ng-template>
+</div>

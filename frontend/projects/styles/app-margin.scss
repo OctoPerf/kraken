@@ -1,0 +1,76 @@
+@import 'app-variables';
+
+// Margins
+
+@mixin m-r() {
+  margin-right: $app-margin-x;
+}
+
+@mixin m-l() {
+  margin-left: $app-margin-x;
+}
+
+@mixin m-t() {
+  margin-top: $app-margin-y;
+}
+
+@mixin m-b() {
+  margin-bottom: $app-margin-y;
+}
+
+@mixin m-r-sm() {
+  margin-right: $app-margin-x-sm;
+}
+
+@mixin m-r-xs() {
+  margin-right: $app-margin-x-sm / 2;
+}
+
+@mixin m-l-sm() {
+  margin-left: $app-margin-x-sm;
+}
+
+@mixin m-t-sm() {
+  margin-top: $app-margin-y-sm;
+}
+
+@mixin m-b-sm() {
+  margin-bottom: $app-margin-y-sm;
+}
+
+
+.m-r {
+  @include m-r();
+}
+
+.m-l {
+  @include m-l();
+}
+
+.m-t {
+  @include m-t();
+}
+
+.m-b {
+  @include m-b();
+}
+
+.m-r-sm {
+  @include m-r-sm();
+}
+
+.m-r-xs {
+  @include m-r-xs();
+}
+
+.m-l-sm {
+  @include m-l-sm();
+}
+
+.m-t-sm {
+  @include m-t-sm();
+}
+
+.m-b-sm {
+  @include m-b-sm();
+}

@@ -1,0 +1,9 @@
+@import 'app-padding';
+
+.panel-status {
+  background-color: $app-background-color;
+  border-bottom: 1px solid mat-color($app-background, 700);
+  margin-top: -1px;
+  @include p-h-sm();
+}
+

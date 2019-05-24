@@ -1,0 +1,26 @@
+<lib-message *ngIf="!commandTabs.length" centered="true" class="m-t" level="info">Execution logs for every command
+  appear here.
+</lib-message>
+
+<mat-tab-group *ngIf="commandTabs.length" class="scrollable-mat-tabs compact-tabs"
+               (animationDone)="windowService.resizeNow()"
+               [selectedIndex]="selectedIndex"
+               (selectedIndexChange)="selectedIndex = $event">
+
+  <mat-tab *ngFor="let tab of commandTabs; let index = index">
+    <ng-template mat-tab-label>
+      <lib-command-tab-header class="compact-button"
+                              [log]="tab.lastLog"
+                              [selected]="selectedIndex === index"
+                              (closeCommand)="closeCommand(index)"
+                              (stopCommand)="stopCommand(tab.lastLog.command.id)"
+                              (openContextualMenu)="selectedIndex = index; menu.open($event)"></lib-command-tab-header>
+    </ng-template>
+    <ng-template [cdkPortalOutlet]="tab.content"></ng-template>
+  </mat-tab>
+</mat-tab-group>
+<lib-contextual-menu #menu>
+  <button mat-menu-item (click)="closeFinishedTasks()">
+    Close Finished Tasks
+  </button>
+</lib-contextual-menu>

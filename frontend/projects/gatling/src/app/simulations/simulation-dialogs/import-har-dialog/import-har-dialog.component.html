@@ -1,0 +1,36 @@
+<form [formGroup]="recordForm" autocomplete=off>
+  <h1 mat-dialog-title>Import HAR</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Simulation package" formControlName="simulationPackage"
+             cdkFocusInitial
+             required>
+      <mat-error *ngIf="simulationPackage.hasError('required')">
+        Simulation package is required.
+      </mat-error>
+      <mat-error *ngIf="simulationPackage.hasError('pattern')">
+        Invalid simulation package.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Simulation class" formControlName="simulationClass"
+             (keydown.enter)="recordForm.valid ? dialogRef.close({simulationPackage: simulationPackage.value, simulationClass: simulationClass.value}) : null"
+             required>
+      <mat-error *ngIf="simulationClass.hasError('required')">
+        Simulation class is required.
+      </mat-error>
+      <mat-error *ngIf="simulationClass.hasError('pattern')">
+        Invalid simulation class.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button
+            [mat-dialog-close]="{simulationPackage: simulationPackage.value, simulationClass: simulationClass.value}"
+            type="submit" color="accent"
+            [disabled]="!recordForm.valid">
+      Import
+    </button>
+  </div>
+</form>

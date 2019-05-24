@@ -1,0 +1,24 @@
+<ng-template cdkPortal #startTabsPortal="cdkPortal">
+  <lib-tabs-content *ngIf="!start.empty" [id]="id + '-tabs-' + side + '-start'" [defaultTabIndex]="start.index"
+                    [tabs]="start.tabs"
+                    [headerPosition]="'start'"
+                    [headerSide]="side"
+                    (tabUnselected)="tabUnselected('start')"
+                    (tabSelected)="tabSelected('start', $event)"
+                    #startTabsContent></lib-tabs-content>
+</ng-template>
+
+<ng-template cdkPortal #endTabsPortal="cdkPortal">
+  <lib-tabs-content *ngIf="!end.empty" [id]="id + '-tabs-' + side + '-end'" [defaultTabIndex]="end.index"
+                    [tabs]="end.tabs"
+                    [headerPosition]="'end'"
+                    [headerSide]="side"
+                    (tabUnselected)="tabUnselected('end')"
+                    (tabSelected)="tabSelected('end', $event)"
+                    #endTabsContent></lib-tabs-content>
+</ng-template>
+
+
+<lib-split-panes [id]="id + '-split-' + side" [panes]="splits" [direction]="direction"
+                 (paneHidden)="paneHidden($event)" (paneShown)="paneShown($event)"
+                 #split></lib-split-panes>

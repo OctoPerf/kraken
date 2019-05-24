@@ -1,0 +1,6 @@
+<div [class]="side + '-' + position" *ngIf="content">
+  <button mat-button *ngFor="let tab of tabs; index as i" (click)="selectTab(i)"
+          [ngClass]="'tab-' + (tab === content.selectedTab ? 'active' : 'inactive')">
+    <ng-template [cdkPortalOutlet]="portals[i]"></ng-template>
+  </button>
+</div>

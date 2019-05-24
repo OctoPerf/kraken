@@ -1,0 +1,14 @@
+<mat-button-toggle-group #group="matButtonToggleGroup" value="view">
+  <mat-button-toggle value="view">
+    View
+  </mat-button-toggle>
+  <mat-button-toggle value="edit">
+    Edit
+  </mat-button-toggle>
+</mat-button-toggle-group>
+<div *ngIf="group.value === 'view'" class="p-sm" [innerHtml]="contentService.content | markdownToHtml"></div>
+
+<lib-code-editor *ngIf="contentService.state === 'loaded' && group.value === 'edit'" [mode]="node.path | pathToCodeEditorMode"
+                 [value]="contentService.content" (contentChange)="contentService.content = $event"></lib-code-editor>
+
+<lib-editor-messages></lib-editor-messages>

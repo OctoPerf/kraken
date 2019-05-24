@@ -1,0 +1,25 @@
+<form [formGroup]="nameForm" autocomplete=off>
+  <h1 mat-dialog-title>{{data.title}}</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Name" formControlName="fileName"
+             cdkFocusInitial
+             (keydown.enter)="nameForm.valid ? dialogRef.close(fileName.value) : null"
+             required>
+      <mat-error *ngIf="fileName.hasError('required')">
+        File name is required.
+      </mat-error>
+      <mat-error *ngIf="fileName.hasError('maxLength')">
+        File name be at less than 256 characters long.
+      </mat-error>
+      <mat-error *ngIf="fileName.hasError('pattern')">
+        Invalid file name.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button [mat-dialog-close]="fileName.value" type="submit" color="primary" [disabled]="!nameForm.valid">Ok
+    </button>
+  </div>
+</form>

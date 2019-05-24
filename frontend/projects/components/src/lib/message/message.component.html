@@ -1,0 +1,7 @@
+<span class="message-icon" [ngSwitch]="level">
+  <lib-icon [icon]="errorIcon" *ngSwitchCase="'error'"></lib-icon>
+  <lib-icon [icon]="warnIcon" *ngSwitchCase="'warn'"></lib-icon>
+  <lib-icon [icon]="infoIcon" *ngSwitchCase="'info'"></lib-icon>
+  <lib-spinner [size]="16" [color]="'primary'" *ngSwitchCase="'loading'"></lib-spinner>
+</span>
+<ng-content></ng-content>

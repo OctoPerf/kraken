@@ -1,0 +1,8 @@
+@import 'app-variables';
+
+mat-button-toggle-group {
+  z-index: 9;
+  position: absolute;
+  top: $app-margin-y-sm;
+  right: $app-margin-x-sm;
+}

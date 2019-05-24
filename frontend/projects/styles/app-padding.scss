@@ -1,0 +1,90 @@
+@import 'app-variables';
+
+
+// paddings
+@mixin p() {
+  padding: $app-padding-y $app-margin-x !important;
+}
+
+@mixin p-sm() {
+  padding: $app-padding-y-sm $app-margin-x-sm !important;
+}
+
+@mixin p-h() {
+  padding-left: $app-padding-x !important;
+  padding-right: $app-padding-x !important;
+}
+
+@mixin p-h-sm() {
+  padding-left: $app-padding-x-sm !important;
+  padding-right: $app-padding-x-sm !important;
+}
+
+@mixin p-v() {
+  padding-top: $app-padding-y !important;
+  padding-bottom: $app-padding-y !important;
+}
+
+@mixin p-v-sm() {
+  padding-top: $app-padding-y-sm !important;
+  padding-bottom: $app-padding-y-sm !important;
+}
+
+@mixin p-r-n() {
+  padding-right: 0 !important;
+}
+
+@mixin p-l-n() {
+  padding-left: 0 !important;
+}
+
+@mixin p-t-n() {
+  padding-top: 0 !important;
+}
+
+@mixin p-b-n() {
+  padding-bottom: 0 !important;
+}
+
+
+// Paddings
+
+.p {
+  @include p();
+}
+
+.p-sm {
+  @include p-sm();
+}
+
+.p-h {
+  @include p-h();
+}
+
+.p-h-sm {
+  @include p-h-sm();
+}
+
+.p-v {
+  @include p-v();
+}
+
+.p-v-sm {
+  @include p-v-sm();
+}
+
+.p-r-n {
+  @include p-r-n();
+}
+
+.p-l-n {
+  @include p-l-n();
+}
+
+.p-t-n {
+  @include p-t-n();
+}
+
+.p-b-n {
+  @include p-b-n();
+}

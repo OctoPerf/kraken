@@ -1,0 +1,20 @@
+@import 'app-margin';
+
+:host {
+  font-size: $app-font-size-lg;
+  line-height: $app-line-height;
+}
+
+.mat-button {
+  .loading-spinner {
+    @include m-r-sm();
+    display: inline-block;
+  }
+}
+
+.mat-icon-button {
+  .loading-spinner {
+    margin-top: 4px;
+    display: block;
+  }
+}

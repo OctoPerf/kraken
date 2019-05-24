@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSelection" (click)="storage.deleteFiles(treeControl.selected)"
+        matTooltip="Delete files (Del.)">
+  <lib-icon [icon]="deleteIcon"></lib-icon>
+  Delete
+</button>

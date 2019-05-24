@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="start center" (dblclick)="expand()" (contextmenu)="openContextualMenu.emit($event)">
+        <span fxFlex
+              [matTooltip]="node.path"
+              [ngClass]="{'pending-save' : pendingSave}">
+          <lib-icon class="icon-md m-r-xs" [icon]="node | storageNodeToIcon" [state]="selected ? 'expanded' : ''"></lib-icon>
+          {{node | storageNodeToName}}
+        </span>
+  <div fxFlex="none">
+    <button mat-icon-button class="close-button" (click)="closeNode.emit()" matTooltip="Close Tab">
+      <lib-icon [icon]="closeIcon" [state]="selected ? 'selected' : ''"></lib-icon>
+    </button>
+  </div>
+</div>

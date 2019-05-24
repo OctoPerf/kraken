@@ -1,0 +1,14 @@
+<lib-contextual-menu>
+  <ng-content></ng-content>
+  <lib-new-directory-menu-item></lib-new-directory-menu-item>
+  <lib-new-file-menu-item></lib-new-file-menu-item>
+  <lib-upload-menu-item></lib-upload-menu-item>
+  <lib-download-menu-item></lib-download-menu-item>
+  <lib-rename-menu-item></lib-rename-menu-item>
+  <mat-divider *ngIf="treeControl.hasSingleOrNoSelection && copyPaste.canPaste()"></mat-divider>
+  <lib-copy-menu-item></lib-copy-menu-item>
+  <lib-cut-menu-item></lib-cut-menu-item>
+  <lib-paste-menu-item></lib-paste-menu-item>
+  <mat-divider *ngIf="treeControl.hasSelection"></mat-divider>
+  <lib-delete-menu-item></lib-delete-menu-item>
+</lib-contextual-menu>

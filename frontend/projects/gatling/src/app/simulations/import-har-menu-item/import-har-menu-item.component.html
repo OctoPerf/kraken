@@ -1,0 +1,5 @@
+<button mat-menu-item *ngIf="treeControl.hasSingleSelection && simulation.isHarNode(treeControl.first)"
+        (click)="simulation.importHar(treeControl.first)">
+  <lib-icon [icon]="importFileIcon"></lib-icon>
+  Import HAR
+</button>

@@ -1,0 +1,40 @@
+<!-- tabindex="0" allows the tree to take the focus-->
+<div fxLayout="column" tabindex="0" [id]="id" class="storage-tree panel-vertical hover-show-parent">
+  <div fxFlex="none">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="panel-header-table-like">
+      <div fxFlex="grow">
+        {{label}}
+      </div>
+      <div fxFlex="none" class="hover-show-child">
+        <lib-link-selection-button></lib-link-selection-button>
+        <button mat-icon-button matTooltip="Expand tree" (click)="treeControl.expandAll()">
+          <lib-icon [icon]="expandAllIcon"></lib-icon>
+        </button>
+        <button mat-icon-button matTooltip="Open file menu"
+                (click)="treeControl.clearSelection();treeControl.nodeContextMenu($event)">
+          <lib-icon [icon]="menuIcon"></lib-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="grow" class="scrollable background-background" (click)="treeControl.clearSelection()"
+       (contextmenu)="treeControl.nodeContextMenu($event)">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="compact-tree background-background">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding [matTreeNodePaddingIndent]="20"
+                     [ngClass]="{'selected-node': treeControl.isSelected(node), 'cut-node': copyPaste.isCut(node)}">
+        <button mat-icon-button disabled></button>
+        <lib-storage-node [node]="node" [expanded]="false">
+        </lib-storage-node>
+      </mat-tree-node>
+
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding [matTreeNodePaddingIndent]="20"
+                     [ngClass]="{'selected-node': treeControl.isSelected(node), 'cut-node': copyPaste.isCut(node)}">
+        <lib-toggle-button [expanded]="treeControl.isExpanded(node)"></lib-toggle-button>
+        <lib-storage-node [node]="node" [expanded]="treeControl.isExpanded(node)">
+        </lib-storage-node>
+      </mat-tree-node>
+    </mat-tree>
+
+    <ng-template [cdkPortalOutlet]="contextualMenu"></ng-template>
+  </div>
+</div>

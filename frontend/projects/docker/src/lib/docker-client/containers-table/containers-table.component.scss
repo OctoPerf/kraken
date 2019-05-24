@@ -1,0 +1,23 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-compact';
+@import 'app-table';
+@import 'app-font';
+
+:host {
+  @include block-filler();
+  @include compact-table();
+  @include scrollable();
+}
+
+table {
+  @include table-filler();
+}
+
+.mat-column-logs, .mat-column-rm, .mat-column-full {
+  @include column-action();
+}
+
+.mat-column-image, .mat-column-name {
+  @include column-text-ellipsis(150px);
+}

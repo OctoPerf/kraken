@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="loading-shade"
+       *ngIf="loading">
+    <lib-spinner *ngIf="loading" [size]="48"></lib-spinner>
+  </div>
+
+  <div class="no-data-shade"
+       *ngIf="!loading && dataLength === 0">
+    <em>{{noDataLabel}}</em>
+  </div>
+
+  <ng-content></ng-content>
+
+</div>

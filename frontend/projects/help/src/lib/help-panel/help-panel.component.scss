@@ -1,0 +1,16 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+  overflow: hidden;
+  background-color: white;
+}
+
+.openInNew {
+  position: absolute;
+  top: 5px;
+  right: $app-margin-y;
+  z-index: 1000;
+  transform: scale(0.8);
+  transform-origin: 100% 0;
+}

@@ -1,0 +1,126 @@
+@import 'app-padding';
+@import 'app-font';
+
+// Must also disable the ripple effect
+@mixin compact-checkbox($size: 34px) {
+  $half: $size / 2;
+  .mat-checkbox-inner-container {
+    height: $half;
+    width: $half;
+  }
+}
+
+@mixin compact-button($size: 34px) {
+  .mat-icon-button {
+    width: $size;
+    height: $size;
+    line-height: $size * 0.9;
+
+    .ng-fa-icon {
+      font-size: $size * 0.5;
+    }
+  }
+}
+
+@mixin compact-tabs($row-height: 34px) {
+  .mat-tab-label {
+    height: $row-height;
+  }
+}
+
+@mixin compact-table($row-height: 34px) {
+  table {
+    tr.mat-header-row {
+      height: $row-height;
+    }
+
+    tr.mat-row {
+      height: $row-height;
+    }
+
+    td.mat-cell:last-child, td.mat-footer-cell:last-child, th.mat-header-cell:last-child {
+      padding-right: $app-padding-x-sm;
+    }
+
+    td.mat-cell:first-child, td.mat-footer-cell:first-child, th.mat-header-cell:first-child {
+      padding-left: $app-padding-x-sm;
+    }
+
+    td.mat-cell {
+      @include font-sm();
+    }
+
+    @include compact-button($row-height);
+  }
+
+  .mat-paginator-container {
+    height: $row-height;
+    min-height: $row-height;
+  }
+}
+
+@mixin compact-stepper($stepper-header-height: 56px) {
+  .mat-vertical-stepper-header {
+    @include p();
+  }
+
+  .mat-horizontal-stepper-header {
+    height: $stepper-header-height;
+  }
+
+  .mat-horizontal-stepper-header-container {
+    min-height: $stepper-header-height !important;
+    max-height: $stepper-header-height;
+  }
+}
+
+@mixin compact-tree($size: 34px) {
+  .mat-tree-node {
+    min-height: auto !important;
+    height: $size;
+  }
+
+  .tree-invisible {
+    display: none;
+  }
+
+  ul, li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+
+}
+
+@mixin compact() {
+  @include compact-table();
+  @include compact-button();
+  @include compact-stepper();
+  @include compact-tabs();
+}
+
+.compact {
+  @include compact();
+}
+
+.compact-table {
+  @include compact-table();
+}
+
+.compact-tabs {
+  @include compact-tabs();
+}
+
+.compact-button {
+  @include compact-button();
+}
+
+.compact-stepper {
+  @include compact-stepper();
+}
+
+.compact-tree {
+  @include compact-tree(26px);
+  @include compact-button(26px);
+  @include compact-checkbox(26px);
+}

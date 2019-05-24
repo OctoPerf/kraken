@@ -1,0 +1,6 @@
+<ng-container *ngIf="icon" [ngSwitch]="icon['@type']">
+  <lib-icon-fa *ngSwitchCase="'IconFa'" [icon]="icon"></lib-icon-fa>
+  <lib-icon-fa-addon *ngSwitchCase="'IconFaAddon'" [icon]="icon"></lib-icon-fa-addon>
+  <lib-icon-fa-counter *ngSwitchCase="'IconFaCounter'" [icon]="icon"></lib-icon-fa-counter>
+  <lib-icon-dynamic *ngSwitchCase="'IconDynamic'" [icon]="icon" [state]="state"></lib-icon-dynamic>
+</ng-container>

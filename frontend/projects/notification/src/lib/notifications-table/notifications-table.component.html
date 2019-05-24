@@ -1,0 +1,44 @@
+<table mat-table [dataSource]="dataSource" class="mat-table-body-bg">
+  <ng-container matColumnDef="level">
+    <th mat-header-cell *matHeaderCellDef>Lvl</th>
+    <td mat-cell *matCellDef="let notification">
+      <lib-icon class="icon-md" [icon]="notification.level | notificationLevelToIcon"></lib-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="message">
+    <th mat-header-cell *matHeaderCellDef>Notifications</th>
+    <td mat-cell *matCellDef="let notification" [title]="notification.message">
+      {{notification.message}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="highlight">
+    <th mat-header-cell *matHeaderCellDef>Highlight</th>
+    <td mat-cell *matCellDef="let notification">
+      <button mat-icon-button *ngIf="notification.highlight" [libHighlight]="notification.highlight.selector"
+              [busEvent]="notification.highlight.busEvent">
+        <lib-icon [icon]="highlightIcon"></lib-icon>
+      </button>
+      <button mat-icon-button *ngIf="notification.trace" (click)="openTrace(notification)">
+        <lib-icon [icon]="traceIcon"></lib-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="help">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button (click)="notificationsService.clear()" matTooltip="Clear notifications">
+        <lib-icon [icon]="clearIcon"></lib-icon>
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let notification">
+      <button mat-icon-button *ngIf="notification.helpPage" [libOpenHelp]="notification.helpPage">
+        <lib-icon [icon]="openHelpIcon"></lib-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+  </tr>
+</table>

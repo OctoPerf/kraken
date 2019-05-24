@@ -1,0 +1,155 @@
+@import 'app-variables';
+
+// Backgrounds
+
+@mixin octagon-background(
+  $direction: to bottom,
+  $top-alpha: 0.99,
+  $top-percent: 0%,
+  $bottom-alpha: 1,
+  $bottom-percent: 25%
+) {
+  background-image: linear-gradient($direction, rgba($app-background-color, $top-alpha) $top-percent, rgba($app-background-color, $bottom-alpha) $bottom-percent), url('/assets/octagon-background.svg');
+  background-repeat: no-repeat, repeat;
+  background-size: cover, 100px 100px;
+}
+
+.octagon-background {
+  @include octagon-background();
+}
+
+// Fill color
+
+.fill-error {
+  fill: mat-color($app-error);
+}
+
+.fill-warn {
+  fill: mat-color($app-warn);
+}
+
+.fill-success {
+  fill: mat-color($app-success);
+}
+
+.fill-info {
+  fill: mat-color($app-info);
+}
+
+.fill-primary {
+  fill: mat-color($app-primary);
+}
+
+.fill-accent {
+  fill: mat-color($app-accent);
+}
+
+.fill-background {
+  fill: mat-color($app-background);
+}
+
+.fill-foreground {
+  fill: $app-foreground-color;
+}
+
+.fill-highlight {
+  fill: mat-color($app-primary);
+}
+
+.fill-muted {
+  fill: $app-foreground-secondary-color;
+}
+
+// background color
+
+@mixin background-error() {
+  background-color: mat-color($app-error);
+}
+
+@mixin background-warn() {
+  background-color: mat-color($app-warn);
+}
+
+@mixin background-success() {
+  background-color: mat-color($app-success);
+}
+
+@mixin background-info() {
+  background-color: mat-color($app-info);
+}
+
+@mixin background-primary() {
+  background-color: mat-color($app-primary);
+}
+
+@mixin background-primary-shade($shade) {
+  background-color: mat-color($app-primary, $shade);
+}
+
+@mixin background-accent() {
+  background-color: mat-color($app-accent);
+}
+
+@mixin background-accent-shade($shade) {
+  background-color: mat-color($app-accent, $shade);
+}
+
+@mixin background-background() {
+  background-color: $app-background-color !important;
+}
+
+@mixin background-background-shade($shade) {
+  background-color: mat-color($app-background, $shade);
+}
+
+@mixin background-foreground() {
+  background-color: $app-foreground-color;
+}
+
+@mixin background-highlight() {
+  background-color: mat-color($app-primary);
+}
+
+@mixin background-muted() {
+  background-color: $app-background-color !important;
+}
+
+.background-error {
+  @include background-error();
+}
+
+.background-warn {
+  @include background-warn();
+}
+
+.background-success {
+  @include background-success();
+}
+
+.background-info {
+  @include background-info();
+}
+
+.background-primary {
+  @include background-primary();
+}
+
+.background-accent {
+  @include background-accent();
+}
+
+.background-background {
+  @include background-background();
+}
+
+.background-foreground {
+  @include background-foreground();
+}
+
+.background-highlight {
+  @include background-highlight();
+}
+
+.background-muted {
+  @include background-muted();
+}

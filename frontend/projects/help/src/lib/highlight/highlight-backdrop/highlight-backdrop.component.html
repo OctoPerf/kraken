@@ -1,0 +1,18 @@
+<div *ngIf="fadeIn" [@fadeIn]>
+  <div class="backdrop top" [style.height.px]="rect.top">
+  </div>
+  <div class="backdrop left" [style.top.px]="rect.top"
+       [style.width.px]="rect.left" [style.height.px]="rect.height">
+  </div>
+  <div class="backdrop right" [style.left.px]="rect.right"
+       [style.top.px]="rect.top"
+       [style.width.px]="window.innerWidth - rect.right"
+       [style.height.px]="rect.height">
+  </div>
+  <div class="backdrop bottom" [style.height.px]="window.innerHeight - rect.bottom">
+  </div>
+  <div class="rect" [style.left.px]="rect.left"
+       [style.top.px]="rect.top"
+       [style.width.px]="rect.width"
+       [style.height.px]="rect.height"></div>
+</div>

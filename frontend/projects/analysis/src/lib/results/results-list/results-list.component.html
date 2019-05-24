@@ -1,0 +1,55 @@
+<table mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="startDate"
+       matSortDirection="desc">
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let result" [title]="result.status">
+      <lib-icon [icon]="statusIcon" [state]="result.status"></lib-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="runDescription">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Run Description</th>
+    <td mat-cell *matCellDef="let result" [title]="result.type + ' - ' + result.runDescription">
+      <lib-icon [icon]="typeIcon" [state]="result.type" class="m-r-sm"></lib-icon>
+      {{result.runDescription}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="startDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+    <td mat-cell *matCellDef="let result"
+        [title]="(result.startDate | dateTimeToString) + ' -> ' + (result.endDate | dateTimeToString)">
+      {{result.startDate | dateTimeFromNow}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="contextualMenu">
+    <th mat-header-cell *matHeaderCellDef>More</th>
+    <td mat-cell *matCellDef="let result">
+      <button mat-icon-button (click)="menu.open($event)">
+        <lib-icon [icon]="menuIcon"></lib-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="results.selection = row"
+      (contextmenu)="results.selection = row; menu.open($event)"
+      [ngClass]="{'mat-row-selected' : results.isSelected(row), 'mat-row-debug' : row.type !== 'RUN'}">
+  </tr>
+</table>
+
+<lib-contextual-menu #menu>
+  <button mat-menu-item (click)="gatling.openGrafanaReport(results.selection)"
+          [disabled]="!gatling.canOpenGrafanaReport(results.selection)">
+    <lib-icon [icon]="chartIcon"></lib-icon>
+    Open Grafana Report
+  </button>
+  <button mat-menu-item (click)="gatling.openGatlingReport(results.selection)"
+          [disabled]="!gatling.canOpenGatlingReport(results.selection)">
+    <lib-icon [icon]="reportIcon"></lib-icon>
+    Open Gatling Report
+  </button>
+  <button mat-menu-item (click)="gatling.deleteResult(results.selection).subscribe()"
+          [disabled]="!gatling.canDeleteResult(results.selection)">
+    <lib-icon [icon]="deleteIcon"></lib-icon>
+    Delete Result
+  </button>
+</lib-contextual-menu>

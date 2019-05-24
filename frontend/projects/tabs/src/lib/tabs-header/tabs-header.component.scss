@@ -1,0 +1,75 @@
+@import 'app-tab';
+
+.mat-button {
+  @include tab-header();
+}
+
+button {
+  border-radius: 0;
+}
+
+.left-end {
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+.left-start {
+  transform: translate(-100%, 0) rotate(-90deg);
+  transform-origin: 100% 0;
+  position: fixed;
+  left: 0;
+  top: $app-header-height;
+}
+
+.bottom-start {
+  position: fixed;
+  left: $app-tabs-height;
+  bottom: 0;
+}
+
+.bottom-end {
+  position: fixed;
+  right: $app-tabs-height;
+  bottom: 0;
+}
+
+.right-start {
+  transform: translate(100%, 0) rotate(90deg);
+  transform-origin: 0 0;
+  position: fixed;
+  right: 0;
+  top: $app-header-height;
+}
+
+.right-end {
+  transform: rotate(90deg);
+  transform-origin: 100% 0;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+.top-start {
+  position: fixed;
+  left: $app-tabs-height;
+  top: $app-header-height;
+}
+
+.top-end {
+  position: fixed;
+  right: $app-tabs-height;
+  top: $app-header-height;
+}
+
+.tab-active {
+  background-color: mat-color($app-background, 800);
+  transition: background-color 300ms ease-in;
+}
+
+.tab-inactive {
+  background-color: transparent;
+  transition: background-color 300ms ease-out;
+}

@@ -1,0 +1,12 @@
+@import 'app-variables';
+@import 'app-material-theme';
+
+.mat-toolbar-single-row {
+  height: $app-header-height;
+  background-color: mat-color($app-background, 900) !important;
+  //padding-right: 2px;
+}
+
+.mat-icon-button {
+  margin-left: $app-margin-x;
+}

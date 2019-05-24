@@ -1,0 +1,39 @@
+{
+  "version": "gatling-1",
+  "applicationId": "gatling",
+  "storageApiUrl": "/api/storage/files",
+  "readmeNode": {
+    "path": "gatling/README.md",
+    "type": "FILE",
+    "depth": 1,
+    "length": 0,
+    "lastModified": 0
+  },
+  "executorApiUrl": "/api/executor",
+  "docUrl": "https://doc.octoperf.com",
+  "errorsMatcher": "^.*$",
+  "staticApiUrl": "/api/static",
+  "analysisApiUrl": "/api/analysis/test",
+  "analysisRootNode": {
+    "path": "gatling/results",
+    "type": "DIRECTORY",
+    "depth": 1,
+    "length": 0,
+    "lastModified": 0
+  },
+  "grafanaUrl": "/grafana/d",
+  "gatlingSimulationsRootNode": {
+    "path": "gatling/user-files/simulations",
+    "type": "DIRECTORY",
+    "depth": 2,
+    "length": 0,
+    "lastModified": 0
+  },
+  "gatlingResourcesRootNode": {
+    "path": "gatling/user-files/resources",
+    "type": "DIRECTORY",
+    "depth": 2,
+    "length": 0,
+    "lastModified": 0
+  }
+}

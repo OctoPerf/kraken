@@ -1,0 +1,4 @@
+<ng-container *ngIf="!loading"><ng-content></ng-content></ng-container>
+<div *ngIf="loading" class="loading-spinner">
+  <lib-spinner [size]="16" [color]="'foreground'"></lib-spinner>
+</div>

@@ -1,0 +1,4 @@
+<lib-code-editor *ngIf="contentService.state === 'loaded'" [mode]="node.path | pathToCodeEditorMode"
+                 [value]="contentService.content" (contentChange)="contentService.content = $event"></lib-code-editor>
+
+<lib-editor-messages></lib-editor-messages>
