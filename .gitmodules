@@ -1,0 +1,9 @@
+[submodule "backend/applications/ee"]
+	path = backend/applications/ee
+	url = git@github.com:geraldpereira/kraken-applications-ee.git
+[submodule "backend/commons/ee"]
+	path = backend/commons/ee
+	url = git@github.com:geraldpereira/kraken-commons-ee.git
+[submodule "docker"]
+	path = docker
+	url = git@github.com:geraldpereira/kraken-docker.git
