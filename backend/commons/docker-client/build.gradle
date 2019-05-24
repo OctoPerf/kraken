@@ -1,0 +1,26 @@
+ext {
+    jacksonVersion = '2.9.8'
+    springJmsVersion = '5.1.4.RELEASE'
+    springIntegrationVersion = '5.1.2.RELEASE'
+    activeMQVersion = '5.15.8'
+}
+
+dependencies {
+    implementation 'com.spotify:docker-client:8.14.3'
+    // https://github.com/spotify/docker-client/issues/1030
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.26'
+    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.25.1'
+    // Used to execute docker-compose commands
+    implementation 'org.zeroturnaround:zt-exec:1.10'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: jacksonVersion
+
+    implementation project(':commons:configuration')
+    implementation project(':commons:command-entity')
+    implementation project(':commons:command')
+
+    implementation project(':commons:docker-client-entity')
+    testCompile project(path: ':commons:docker-client-entity', configuration: 'testArtifacts')
+}

@@ -1,0 +1,11 @@
+dependencies {
+    // Used to execute docker-compose commands
+    implementation 'org.zeroturnaround:zt-exec:1.10'
+
+    implementation project(':commons:configuration')
+    testCompile project(path: ':commons:configuration', configuration: 'testArtifacts')
+
+    implementation project(':commons:command-entity')
+    testCompile project(path: ':commons:command-entity', configuration: 'testArtifacts')
+
+}

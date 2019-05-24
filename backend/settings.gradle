@@ -1,0 +1,46 @@
+rootProject.name = 'backend'
+
+include ':commons:analysis-entity'
+include ':commons:storage-entity'
+include ':commons:storage-file'
+include ':commons:storage-client'
+include ':commons:command-entity'
+include ':commons:command'
+include ':commons:command-client'
+include ':commons:docker-client-entity'
+include ':commons:docker-client'
+include ':commons:configuration'
+include ':commons:grafana-client'
+include ':commons:influxdb-client'
+include ':commons:gatling-properties'
+include ':commons:ee:debug-chunk-writer'
+include ':commons:ee:license'
+include ':applications:executor'
+include ':applications:storage'
+include ':applications:analysis'
+include ':applications:ee:gatling-log-parser'
+include ':applications:ee:har-parser'
+include ':test-utils'
+
+project(':commons:analysis-entity').projectDir = file('commons/analysis-entity')
+project(':commons:storage-entity').projectDir = file('commons/storage-entity')
+project(':commons:storage-file').projectDir = file('commons/storage-file')
+project(':commons:storage-client').projectDir = file('commons/storage-client')
+project(':commons:command-entity').projectDir = file('commons/command-entity')
+project(':commons:command').projectDir = file('commons/command')
+project(':commons:command-client').projectDir = file('commons/command-client')
+project(':commons:docker-client-entity').projectDir = file('commons/docker-client-entity')
+project(':commons:docker-client').projectDir = file('commons/docker-client')
+project(':commons:configuration').projectDir = file('commons/configuration')
+project(':commons:grafana-client').projectDir = file('commons/grafana-client')
+project(':commons:influxdb-client').projectDir = file('commons/influxdb-client')
+project(':commons:gatling-properties').projectDir = file('commons/gatling-properties')
+project(':commons:ee:debug-chunk-writer').projectDir = file('commons/ee/debug-chunk-writer')
+project(':commons:ee:license').projectDir = file('commons/ee/license')
+project(':applications:executor').projectDir = file('applications/executor')
+project(':applications:storage').projectDir = file('applications/storage')
+project(':applications:analysis').projectDir = file('applications/analysis')
+project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
+project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
+project(':test-utils').projectDir = file('test-utils')
+

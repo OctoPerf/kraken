@@ -1,0 +1,37 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: "kraken"
+
+services:
+  kraken-har-parser:
+    image: octoperf/kraken-ee-har-parser:${KRAKEN_VERSION}
+    container_name: kraken-har-parser
+    networks:
+      - kraken
+    environment:
+      KRAKEN_HOST_UID: ${KRAKEN_HOST_UID}
+      KRAKEN_HOST_GID: ${KRAKEN_HOST_GID}
+      KRAKEN_HOST_DATA: ${KRAKEN_HOST_DATA}
+      KRAKEN_DATA: ${KRAKEN_DATA}
+      KRAKEN_TEST_ID: ${KRAKEN_TEST_ID}
+      KRAKEN_VERSION: ${KRAKEN_VERSION}
+      KRAKEN_HAR_PATH: ${KRAKEN_DATA}/gatling/user-files/simulations/${HAR_PATH}
+    volumes:
+      - ${KRAKEN_HOST_DATA}:${KRAKEN_DATA}
+
+  kraken-gatling-recorder:
+    image: octoperf/kraken-gatling-recorder:3.0.3
+    container_name: kraken-gatling-recorder
+    networks:
+      - kraken
+    environment:
+      KRAKEN_HOST_UID: ${KRAKEN_HOST_UID}
+      KRAKEN_HOST_GID: ${KRAKEN_HOST_GID}
+      KRAKEN_HOST_DATA: ${KRAKEN_HOST_DATA}
+    volumes:
+      - ${KRAKEN_HOST_DATA}/gatling/conf/run:/kraken/gatling/conf
+      - ${KRAKEN_HOST_DATA}/gatling/user-files:/kraken/gatling/user-files
+      - ${KRAKEN_HOST_DATA}/gatling/results:/kraken/gatling/results
+    command: ${GATLING_COMMAND}

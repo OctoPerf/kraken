@@ -1,0 +1,19 @@
+plugins {
+    // TODO Cannot use ${springBootVersion} here ... why?
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+}
+
+subprojects {
+    buildscript {
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        }
+    }
+
+    apply plugin: 'org.springframework.boot'
+
+    dependencies {
+        testCompile project(path: ':test-utils', configuration: 'testArtifacts')
+    }
+
+}

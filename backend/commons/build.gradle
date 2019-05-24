@@ -1,0 +1,5 @@
+subprojects {
+    dependencies {
+        testCompile project(path: ':test-utils', configuration: 'testArtifacts')
+    }
+}

@@ -1,0 +1,3 @@
+kraken:
+  command:
+    url: http://localhost:8081

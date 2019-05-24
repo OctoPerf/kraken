@@ -1,0 +1,3 @@
+Image: image
+HostConfig:
+  Privileged: true
