@@ -1,11 +1,11 @@
 .EXPORT_ALL_VARIABLES:
 
-TAG := $(shell cat ../version.txt)
+VERSION := $(shell cat ../version.txt)
 KRAKEN_HOST_DATA := $(PWD)/applications/data
 KRAKEN_DATA := $(PWD)/applications/data
 KRAKEN_HOST_UID := $(shell id -u)
 KRAKEN_HOST_GID := $(shell id -g)
-KRAKEN_VERSION := $(TAG)
+KRAKEN_VERSION := $(VERSION)
 
 clean-all:
 	./gradlew clean
@@ -53,5 +53,5 @@ clean:
 bootJar:
 	./gradlew $(APP):bootJar
 
-echo-tag:
-	echo $(TAG)
+echo:
+	echo $(VERSION)
