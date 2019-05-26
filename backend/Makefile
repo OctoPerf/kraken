@@ -1,6 +1,6 @@
 .EXPORT_ALL_VARIABLES:
 
-TAG ?= 1.0.0
+TAG := $(shell cat ../version.txt)
 KRAKEN_HOST_DATA := $(PWD)/applications/data
 KRAKEN_DATA := $(PWD)/applications/data
 KRAKEN_HOST_UID := $(shell id -u)
