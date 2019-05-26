@@ -54,4 +54,4 @@ bootJar:
 	./gradlew $(APP):bootJar
 
 echo:
-	echo $(VERSION)
+	@echo $(VERSION)
