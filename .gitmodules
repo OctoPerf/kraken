@@ -4,3 +4,6 @@
 [submodule "backend/commons/ee"]
 	path = backend/commons/ee
 	url = git@github.com:geraldpereira/kraken-commons-ee.git
+[submodule "deployment"]
+	path = deployment
+	url = git@github.com:geraldpereira/kraken-deployment.git
