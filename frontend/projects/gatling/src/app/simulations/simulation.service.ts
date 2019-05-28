@@ -91,7 +91,6 @@ export class SimulationService {
       accept: '.har',
       title: 'Upload HAR File',
     }).pipe(filter(filesNames => !!filesNames[0])).subscribe((fileNames: string[]) => {
-      console.log(fileNames);
       const harPath = path + '/' + fileNames[0];
       this.importHar({path: harPath} as StorageNode);
     });

@@ -48,7 +48,6 @@ export class ExecuteSimulationDialogComponent {
   }
 
   close() {
-    console.log('Closing execution dialog');
     const javaOpts = this.javaOpts.value || '';
     this.localStorage.set('run-simulation-' + this.data.debug, javaOpts);
     this.dialogRef.close({
