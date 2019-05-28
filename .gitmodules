@@ -7,3 +7,6 @@
 [submodule "deployment"]
 	path = deployment
 	url = git@github.com:geraldpereira/kraken-deployment.git
+[submodule "documentation"]
+	path = documentation
+	url = git@github.com:geraldpereira/kraken-documentation.git
