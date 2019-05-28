@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageNodeToExtPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-ext.pipe';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {
   ExecuteSimulationDialogComponent,
@@ -90,7 +90,8 @@ export class SimulationService {
       multiple: false,
       accept: '.har',
       title: 'Upload HAR File',
-    }).subscribe((fileNames: string[]) => {
+    }).pipe(filter(filesNames => !!filesNames[0])).subscribe((fileNames: string[]) => {
+      console.log(fileNames);
       const harPath = path + '/' + fileNames[0];
       this.importHar({path: harPath} as StorageNode);
     });

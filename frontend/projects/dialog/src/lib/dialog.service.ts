@@ -15,22 +15,6 @@ import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 })
 export class DialogService {
 
-//   private _configurations: {[key in DialogSize]: MatDialogConfig} = {
-//     DialogSize.SIZE_FULL: {
-//
-// }
-//   }
-//
-//   config = {
-//     position: {
-//       top: '10px',
-//       right: '10px'
-//     },
-//     height: '98%',
-//     width: '100vw',
-//     panelClass: 'full-screen-modal',
-//   }
-
   constructor(public dialog: MatDialog) {
   }
 

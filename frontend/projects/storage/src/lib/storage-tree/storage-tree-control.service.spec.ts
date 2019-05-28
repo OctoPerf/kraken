@@ -146,6 +146,7 @@ describe('StorageTreeControlService', () => {
     (selection as any).selected = [directoryNode];
     expect(service.isSelected(directoryNode)).toBe(true);
     expect(service.isSelected(fileNode)).toBe(false);
+    expect(service.isSelected(undefined)).toBe(false);
   });
 
   it('should handle double click on file', () => {
