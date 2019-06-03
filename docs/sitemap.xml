@@ -9,4 +9,32 @@
         </url>
         
     
+        
+        <url>
+            <loc>https://kraken.octoperf.com/download/</loc>
+            <lastmod>2019-06-03</lastmod>
+            <changefreq>weekly</changefreq>
+        </url>
+        
+    
+        
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/install/linux/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/install/windows/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+        
+    
 </urlset>
