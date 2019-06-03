@@ -37,4 +37,84 @@
             
         
     
+        
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/gatling/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/gatling/import-gatling-scripts/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/gatling/advanced-configuration-files/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+        
+    
+        
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/files-manager-usage/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/files-editor-usage/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/docker-containers-table/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/docker-images-table/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+                
+                    <url>
+                        <loc>https://kraken.octoperf.com/administration/commands-execution/</loc>
+                        <lastmod>2019-06-03</lastmod>
+                        <changefreq>weekly</changefreq>
+                    </url>
+                
+            
+        
+    
 </urlset>

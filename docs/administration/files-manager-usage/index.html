@@ -1,0 +1,150 @@
+<!doctype html><html lang="en" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="description" content="How to use the File Manager of the Administration Application embedded in Kraken by OctoPerf? Complete usage and features list."><link rel="canonical" href="https://kraken.octoperf.com/administration/files-manager-usage/"><meta name="lang:clipboard.copy" content="Copy to clipboard"><meta name="lang:clipboard.copied" content="Copied to clipboard"><meta name="lang:search.language" content="en"><meta name="lang:search.pipeline.stopwords" content="True"><meta name="lang:search.pipeline.trimmer" content="True"><meta name="lang:search.result.none" content="No matching documents"><meta name="lang:search.result.one" content="1 matching document"><meta name="lang:search.result.other" content="# matching documents"><meta name="lang:search.tokenizer" content="[\s\-]+"><link rel="shortcut icon" href="../../img/favicon.ico"><meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.3.1"><title>Kraken's Administration Files Manager Usage - Documentation - Kraken</title><link rel="stylesheet" href="../../assets/stylesheets/application.4031d38b.css"><link rel="stylesheet" href="../../assets/stylesheets/application-palette.224b79ff.css"><meta name="theme-color" content="#2196f3"><script src="../../assets/javascripts/modernizr.74668098.js"></script><link href="https://fonts.gstatic.com" rel="preconnect" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=swap"><style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style><link rel="stylesheet" href="../../assets/fonts/material-icons.css"><link rel="stylesheet" href="../../stylesheets/video.css"><link rel="stylesheet" href="../../stylesheets/embed.css"></head><body dir="ltr" data-md-color-primary="blue" data-md-color-accent="green"><svg class="md-svg"><defs><svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg></defs></svg> <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off"> <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off"> <label class="md-overlay" data-md-component="overlay" for="__drawer"></label><a href="#files-manager-usage" tabindex="1" class="md-skip">Skip to content </a><header class="md-header" data-md-component="header"><nav class="md-header-nav md-grid"><div class="md-flex"><div class="md-flex__cell md-flex__cell--shrink"><a href="https://kraken.octoperf.com" title="Documentation - Kraken" class="md-header-nav__button md-logo"><img src="../../img/kraken.svg" width="24" height="24"></a></div><div class="md-flex__cell md-flex__cell--shrink"><label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label></div><div class="md-flex__cell md-flex__cell--stretch"><div class="md-flex__ellipsis md-header-nav__title" data-md-component="title"><span class="md-header-nav__topic">Documentation - Kraken</span><span class="md-header-nav__topic">Kraken's Administration Files Manager Usage - Documentation - Kraken</span></div></div><div class="md-flex__cell md-flex__cell--shrink"><label class="md-icon md-icon--search md-header-nav__button" for="__search"></label><div class="md-search" data-md-component="search" role="dialog"><label class="md-search__overlay" for="__search"></label><div class="md-search__inner" role="search"><form class="md-search__form" name="search"><input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active"> <label class="md-icon md-search__icon" for="__search"></label> <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">&#xE5CD;</button></form><div class="md-search__output"><div class="md-search__scrollwrap" data-md-scrollfix><div class="md-search-result" data-md-component="result"><div class="md-search-result__meta">Type to start searching</div><ol class="md-search-result__list"></ol></div></div></div></div></div></div><div class="md-flex__cell md-flex__cell--shrink"><div class="md-header-nav__source"><a href="https://github.com/OctoPerf/kraken" title="Go to repository" class="md-source" data-md-source="github"><div class="md-source__icon"><svg viewBox="0 0 24 24" width="24" height="24"><use xlink:href="#__github" width="24" height="24"></use></svg></div><div class="md-source__repository">OctoPerf/kraken</div></a></div></div></div></nav></header><div class="md-container"><main class="md-main"><div class="md-main__inner md-grid" data-md-component="container"><div class="md-sidebar md-sidebar--primary" data-md-component="navigation"><div class="md-sidebar__scrollwrap"><div class="md-sidebar__inner"><nav class="md-nav md-nav--primary" data-md-level="0"><label class="md-nav__title md-nav__title--site" for="__drawer"><a href="https://kraken.octoperf.com" title="Documentation - Kraken" class="md-nav__button md-logo"><img src="../../img/kraken.svg" width="48" height="48"></a>Documentation - Kraken</label><div class="md-nav__source"><a href="https://github.com/OctoPerf/kraken" title="Go to repository" class="md-source" data-md-source="github"><div class="md-source__icon"><svg viewBox="0 0 24 24" width="24" height="24"><use xlink:href="#__github" width="24" height="24"></use></svg></div><div class="md-source__repository">OctoPerf/kraken</div></a></div><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="../.." title="Getting Started" class="md-nav__link">Getting Started</a></li><li class="md-nav__item"><a href="../../download/" title="Download" class="md-nav__link">Download</a></li><li class="md-nav__item md-nav__item--nested"><input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3"><label class="md-nav__link" for="nav-3">Install</label><nav class="md-nav" data-md-component="collapsible" data-md-level="1"><label class="md-nav__title" for="nav-3">Install</label><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="../../install/linux/" title="Linux" class="md-nav__link">Linux</a></li><li class="md-nav__item"><a href="../../install/windows/" title="Windows" class="md-nav__link">Windows</a></li></ul></nav></li><li class="md-nav__item md-nav__item--nested"><input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4"><label class="md-nav__link" for="nav-4">Gatling User Manual</label><nav class="md-nav" data-md-component="collapsible" data-md-level="1"><label class="md-nav__title" for="nav-4">Gatling User Manual</label><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="../../gatling/" title="Gatling App Purpose" class="md-nav__link">Gatling App Purpose</a></li><li class="md-nav__item"><a href="../../gatling/import-gatling-scripts/" title="Importing HAR and Script Files" class="md-nav__link">Importing HAR and Script Files</a></li><li class="md-nav__item"><a href="../../gatling/advanced-configuration-files/" title="Advanced Configuration Files" class="md-nav__link">Advanced Configuration Files</a></li></ul></nav></li><li class="md-nav__item md-nav__item--active md-nav__item--nested"><input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked><label class="md-nav__link" for="nav-5">Administration User Manual</label><nav class="md-nav" data-md-component="collapsible" data-md-level="1"><label class="md-nav__title" for="nav-5">Administration User Manual</label><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="../" title="Administration App Purpose" class="md-nav__link">Administration App Purpose</a></li><li class="md-nav__item md-nav__item--active"><input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc"><label class="md-nav__link md-nav__link--active" for="__toc">Using the Files Manager</label><a href="./" title="Using the Files Manager" class="md-nav__link md-nav__link--active">Using the Files Manager</a><nav class="md-nav md-nav--secondary"><label class="md-nav__title" for="__toc">Table of contents</label><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="#showhide-panel" title="Show/Hide Panel" class="md-nav__link">Show/Hide Panel</a></li><li class="md-nav__item"><a href="#panel-resizing" title="Panel Resizing" class="md-nav__link">Panel Resizing</a></li><li class="md-nav__item"><a href="#listing-files-and-directories" title="Listing Files and Directories" class="md-nav__link">Listing Files and Directories</a><nav class="md-nav"><ul class="md-nav__list"><li class="md-nav__item"><a href="#expanding-or-collapsing-the-files-tree" title="Expanding or Collapsing the Files Tree" class="md-nav__link">Expanding or Collapsing the Files Tree</a></li><li class="md-nav__item"><a href="#file-and-folder-selection" title="File and Folder Selection" class="md-nav__link">File and Folder Selection</a></li><li class="md-nav__item"><a href="#menu-contextuel" title="Menu contextuel" class="md-nav__link">Menu contextuel</a></li></ul></nav></li><li class="md-nav__item"><a href="#creating-files-and-directories" title="Creating Files and Directories" class="md-nav__link">Creating Files and Directories</a></li><li class="md-nav__item"><a href="#cutcopy-and-paste-usage" title="Cut/Copy and Paste usage" class="md-nav__link">Cut/Copy and Paste usage</a></li><li class="md-nav__item"><a href="#running-shell-commands" title="Running shell commands" class="md-nav__link">Running shell commands</a></li><li class="md-nav__item"><a href="#uploading-and-downloading" title="Uploading and Downloading" class="md-nav__link">Uploading and Downloading</a></li></ul></nav></li><li class="md-nav__item"><a href="../files-editor-usage/" title="Using the Files Editor" class="md-nav__link">Using the Files Editor</a></li><li class="md-nav__item"><a href="../docker-containers-table/" title="Docker Containers Table" class="md-nav__link">Docker Containers Table</a></li><li class="md-nav__item"><a href="../docker-images-table/" title="Docker Images Table" class="md-nav__link">Docker Images Table</a></li><li class="md-nav__item"><a href="../commands-execution/" title="Executing Commands" class="md-nav__link">Executing Commands</a></li></ul></nav></li></ul></nav></div></div></div><div class="md-sidebar md-sidebar--secondary" data-md-component="toc"><div class="md-sidebar__scrollwrap"><div class="md-sidebar__inner"><nav class="md-nav md-nav--secondary"><label class="md-nav__title" for="__toc">Table of contents</label><ul class="md-nav__list" data-md-scrollfix><li class="md-nav__item"><a href="#showhide-panel" title="Show/Hide Panel" class="md-nav__link">Show/Hide Panel</a></li><li class="md-nav__item"><a href="#panel-resizing" title="Panel Resizing" class="md-nav__link">Panel Resizing</a></li><li class="md-nav__item"><a href="#listing-files-and-directories" title="Listing Files and Directories" class="md-nav__link">Listing Files and Directories</a><nav class="md-nav"><ul class="md-nav__list"><li class="md-nav__item"><a href="#expanding-or-collapsing-the-files-tree" title="Expanding or Collapsing the Files Tree" class="md-nav__link">Expanding or Collapsing the Files Tree</a></li><li class="md-nav__item"><a href="#file-and-folder-selection" title="File and Folder Selection" class="md-nav__link">File and Folder Selection</a></li><li class="md-nav__item"><a href="#menu-contextuel" title="Menu contextuel" class="md-nav__link">Menu contextuel</a></li></ul></nav></li><li class="md-nav__item"><a href="#creating-files-and-directories" title="Creating Files and Directories" class="md-nav__link">Creating Files and Directories</a></li><li class="md-nav__item"><a href="#cutcopy-and-paste-usage" title="Cut/Copy and Paste usage" class="md-nav__link">Cut/Copy and Paste usage</a></li><li class="md-nav__item"><a href="#running-shell-commands" title="Running shell commands" class="md-nav__link">Running shell commands</a></li><li class="md-nav__item"><a href="#uploading-and-downloading" title="Uploading and Downloading" class="md-nav__link">Uploading and Downloading</a></li></ul></nav></div></div></div><div class="md-content"><article class="md-content__inner md-typeset"><h1 id="files-manager-usage">Files Manager Usage<a class="headerlink" href="#files-manager-usage" title="Permanent link">&para;</a></h1>
+<p>The Kraken's File Manager behaves like any heavy client:
+It displays a tree of files and folders, allows you to select, open and manipulate its content. </p>
+<p><img alt="Administration Files Manager" src="../img/files-manager.png" title="Administration Files Manager" /></p>
+<p>All files from the <a href="../../install/linux/#post-installation-instructions">host <em>data</em> folder</a> are accessible and editable from this File Manager named 'Configuration' visible on the left of the application.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Removing or editing these files may break the <a href="../../gatling/">Kraken's Gatling Application</a>.</p>
+</div>
+<h2 id="showhide-panel">Show/Hide Panel<a class="headerlink" href="#showhide-panel" title="Permanent link">&para;</a></h2>
+<p>You can click on the panel title 'Configuration' to hide/show the Files Manager.</p>
+<video autoplay loop>
+  <source src="../img/hide-show-files-manager.webm" type="video/webm">
+</video>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All panels on the side of Kraken application can be hidden/shown by clicking on their title.</p>
+</div>
+<h2 id="panel-resizing">Panel Resizing<a class="headerlink" href="#panel-resizing" title="Permanent link">&para;</a></h2>
+<p>You can resize the 'Configuration' panel dragging its edges.</p>
+<video autoplay loop>
+  <source src="../img/resize-files-manager.webm" type="video/webm">
+</video>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most panels in Kraken application can resized by dragging their edges. 
+Look for blue vertical/horizontal lines when hovering panel sides to know when you can resize them.</p>
+</div>
+<h2 id="listing-files-and-directories">Listing Files and Directories<a class="headerlink" href="#listing-files-and-directories" title="Permanent link">&para;</a></h2>
+<p><strong>The Files Manager lets you visualise the files tree structure.</strong>
+Most actions are available via:</p>
+<ul>
+<li>Buttons on top of the manager,</li>
+<li>Buttons on each tree node (file or directory),</li>
+<li>Contextual menus (right click) on files or on the plain root part of the manager.</li>
+<li>Left-click menus displayed by clicking on the 3 dots icons <img alt="Menu Icon" src="../../img/icons/menu.png" title="Menu Icon" /></li>
+</ul>
+<video autoplay loop>
+  <source src="../img/files-manager-menu.webm" type="video/webm">
+</video>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Drag and drop is not currently available: you cannot drag a file from a folder to another one.
+Please use the <a href="#cutcopy-and-paste-usage">Cut and Paste feature instead</a>.</p>
+</div>
+<h3 id="expanding-or-collapsing-the-files-tree">Expanding or Collapsing the Files Tree<a class="headerlink" href="#expanding-or-collapsing-the-files-tree" title="Permanent link">&para;</a></h3>
+<p>You can browse through the files and folders hierarchy by expanding (or collapsing) folders.</p>
+<ul>
+<li>Simply click on the leftmost expand icon <img alt="Expand Icon" src="../../img/icons/expand-tree-node.png" title="Menu Icon" /> to display a folder's content,</li>
+<li>Click on the leftmost collapse icon <img alt="Collapse Icon" src="../../img/icons/collapse-tree-node.png" title="Menu Icon" /> to hide a folder's content.</li>
+</ul>
+<video autoplay loop>
+  <source src="../img/expand-collapse-folder.webm" type="video/webm">
+</video>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can click on the <em>Expand tree</em> icon on top of the panel to expand all folders at once.</p>
+</div>
+<h3 id="file-and-folder-selection">File and Folder Selection<a class="headerlink" href="#file-and-folder-selection" title="Permanent link">&para;</a></h3>
+<p>raccourcis clavier
+multi selection
+Link selection </p>
+<h3 id="menu-contextuel">Menu contextuel<a class="headerlink" href="#menu-contextuel" title="Permanent link">&para;</a></h3>
+<p>raccourcis clavier</p>
+<h2 id="creating-files-and-directories">Creating Files and Directories<a class="headerlink" href="#creating-files-and-directories" title="Permanent link">&para;</a></h2>
+<h2 id="cutcopy-and-paste-usage">Cut/Copy and Paste usage<a class="headerlink" href="#cutcopy-and-paste-usage" title="Permanent link">&para;</a></h2>
+<h2 id="running-shell-commands">Running shell commands<a class="headerlink" href="#running-shell-commands" title="Permanent link">&para;</a></h2>
+<p>lien vers la page dédiée </p>
+<h2 id="uploading-and-downloading">Uploading and Downloading<a class="headerlink" href="#uploading-and-downloading" title="Permanent link">&para;</a></h2>
+<p>Upload and Download files or directories.</p></article></div></div></main>
+
+<!-- Application footer -->
+<footer class="md-footer">
+
+  <!-- Link to previous and/or next page -->
+  
+  <div class="md-footer-nav">
+    <nav class="md-footer-nav__inner md-grid">
+
+      <!-- Link to previous page -->
+      
+      <a href="../"
+         title="Administration App Purpose"
+         class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+         rel="prev">
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <i class="md-icon md-icon--arrow-back
+                    md-footer-nav__button"></i>
+        </div>
+        <div class="md-flex__cell md-flex__cell--stretch
+                  md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Administration App Purpose
+              </span>
+        </div>
+      </a>
+      
+
+      <!-- Link to next page -->
+      
+      <a href="../files-editor-usage/"
+         title="Using the Files Editor"
+         class="md-flex md-footer-nav__link md-footer-nav__link--next"
+         rel="next">
+        <div class="md-flex__cell md-flex__cell--stretch
+                  md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Using the Files Editor
+              </span>
+        </div>
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <i class="md-icon md-icon--arrow-forward
+                    md-footer-nav__button"></i>
+        </div>
+      </a>
+      
+    </nav>
+  </div>
+  
+
+  <!-- Further information -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+
+      <!-- Copyright and theme information -->
+      <div class="md-footer-copyright">
+        
+        <div class="md-footer-copyright__highlight">
+          OctoPerf 2019
+        </div>
+        
+      </div>
+
+      <!-- Social links -->
+      
+      <div class="md-footer-social"><link rel="stylesheet" href="../../assets/fonts/font-awesome.css"> <a href="https://github.com/OctoPerf" class="md-footer-social__link fa fa-github"></a> </div>
+      
+    </div>
+  </div>
+</footer></div><script src="../../assets/javascripts/application.b260a35d.js"></script><script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script></body></html>
