@@ -2,6 +2,8 @@
 
 TODO
 
+[Documentation](https://octoperf.github.io/kraken/)
+
 ## License
 
 Kraken is an open core product:
