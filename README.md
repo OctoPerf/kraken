@@ -2,7 +2,7 @@
 
 TODO
 
-[Documentation](https://octoperf.github.io/kraken/)
+[Kraken Documentation](https://kraken.octoperf.com/)
 
 ## License
 
