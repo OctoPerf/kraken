@@ -1,8 +1,15 @@
 # Kraken
 
-TODO
+Kraken by [OctoPerf](https://octoperf.com) is a [load testing IDE](https://kraken.octoperf.com/).
 
-[Kraken Documentation](https://kraken.octoperf.com/)
+![Kraken Gatling](https://kraken.octoperf.com/img/gatling.png "Kraken Gatling")
+
+* [Getting Started](https://kraken.octoperf.com/)
+* [Download](https://kraken.octoperf.com/download/)
+* [Install](https://kraken.octoperf.com/install/linux/)
+* [Gatling Integration](https://kraken.octoperf.com/gatling/)
+* [Administration](https://kraken.octoperf.com/administration/)
+
 
 ## License
 
