@@ -51,7 +51,7 @@ To run Kraken from the source code you need to:
   * `make serve APP=gatling`
   * `make serve APP=administration`
 
-### Tests and bugs finders
+### Tests and bug finders
 
 #### Frontend
 
