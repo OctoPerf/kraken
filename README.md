@@ -1,4 +1,4 @@
-# Kraken - Te Load Testing IDE
+# Kraken - The Load Testing IDE
 
 Kraken by [OctoPerf](https://octoperf.com) is a [load testing IDE](https://kraken.octoperf.com/).
 
