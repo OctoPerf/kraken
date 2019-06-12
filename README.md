@@ -64,6 +64,10 @@ To run Kraken from the source code you need to:
 * `make check` to run all unit test and SpotBugs
 * `make test APP=<module-path>` to run unit test for a single sub-module (for example ``make test APP=:commons:docker-client)
 
+### Roadmap
+
+Check out the [next milestone](https://github.com/OctoPerf/kraken/milestones).
+
 ## License
 
 Kraken is an open core product:
