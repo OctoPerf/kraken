@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, flatMap, map} from 'rxjs/operators';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {Observable, of} from 'rxjs';
 import {Result} from 'projects/analysis/src/lib/entities/result';
@@ -12,6 +12,7 @@ import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-conf
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 
 @Injectable()
 export class GatlingResultService {
@@ -24,12 +25,13 @@ export class GatlingResultService {
     private eventBus: EventBusService,
     private window: WindowService,
     private analysisConfiguration: AnalysisConfigurationService,
+    private dialogs: DialogService,
   ) {
     this.rootNode = this.analysisConfiguration.analysisRootNode;
   }
 
   deleteResult(result: Result): Observable<string> {
-    return this.analysis.deleteTest(result.id);
+    return this.dialogs.delete('test result', [result.runDescription]).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
   }
 
   openGrafanaReport(result: Result) {

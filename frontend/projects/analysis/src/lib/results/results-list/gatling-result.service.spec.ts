@@ -24,6 +24,9 @@ import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-c
 import {analysisServiceSpy} from 'projects/analysis/src/lib/analysis.service.spec';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {Test} from 'tslint';
+import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 
 
 export const gatlingResultServiceSpy = () => {
@@ -40,6 +43,7 @@ describe('GatlingResultService', () => {
   let events: SpyObj<EventBusService>;
   let window: SpyObj<WindowService>;
   let analysis: SpyObj<AnalysisService>;
+  let dialogs: SpyObj<DialogService>;
 
   let resultsRootNode: StorageNode;
   let resultNode: StorageNode;
@@ -58,6 +62,7 @@ describe('GatlingResultService', () => {
         {provide: WindowService, useValue: windowSpy()},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         {provide: AnalysisService, useValue: analysisServiceSpy()},
+        {provide: DialogService, useValue: dialogsServiceSpy()},
         GatlingResultService,
       ]
     });
@@ -66,6 +71,7 @@ describe('GatlingResultService', () => {
     storage = TestBed.get(StorageService);
     events = TestBed.get(EventBusService);
     window = TestBed.get(WindowService);
+    dialogs = TestBed.get(DialogService);
   });
 
   it('should be created', () => {
@@ -73,8 +79,10 @@ describe('GatlingResultService', () => {
   });
 
   it('should delete result', () => {
+    dialogs.delete.and.returnValue(of(null));
     analysis.deleteTest.and.returnValue(of('testId'));
     service.deleteResult(result).subscribe();
+    expect(dialogs.delete).toHaveBeenCalledWith('test result', [result.runDescription]);
     expect(analysis.deleteTest).toHaveBeenCalledWith(result.id);
   });
 

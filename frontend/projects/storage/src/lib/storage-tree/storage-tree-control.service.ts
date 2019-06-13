@@ -88,7 +88,7 @@ export class StorageTreeControlService extends FlatTreeControl<StorageNode> impl
 
   public isSelected(node: StorageNode) {
     // Do not compare by node reference, but by path
-    return node && _.findIndex(this._selection.selected, current => current.path === node.path) !== -1;
+    return !!node && _.findIndex(this._selection.selected, current => current.path === node.path) !== -1;
   }
 
   public selectOne(node: StorageNode) {
