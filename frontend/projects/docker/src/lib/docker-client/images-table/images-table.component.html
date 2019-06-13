@@ -33,12 +33,12 @@
 
     <ng-container matColumnDef="full">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button (click)="pullImage()">
+        <button mat-icon-button (click)="pullImage()" matTooltip="Pull image">
           <lib-icon [icon]="pullIcon"></lib-icon>
         </button>
       </th>
       <td mat-cell *matCellDef="let image">
-        <button mat-icon-button (click)="full(image)">
+        <button mat-icon-button (click)="full(image)" matTooltip="Inspect image">
           <lib-icon [icon]="fullIcon"></lib-icon>
         </button>
       </td>
@@ -51,7 +51,7 @@
         </button>
       </th>
       <td mat-cell *matCellDef="let image">
-        <button mat-icon-button (click)="rmi(image)">
+        <button mat-icon-button (click)="rmi(image)" matTooltip="Delete image (rmi)">
           <lib-icon [icon]="deleteIcon"></lib-icon>
         </button>
       </td>
