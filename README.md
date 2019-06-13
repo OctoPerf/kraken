@@ -41,6 +41,7 @@ To run Kraken from the source code you need to:
   * `./up.sh`
 2. Start the backend servers
   * `cd backend`
+  * `make copy-data` (one time only)
   * `make serve-analysis`
   * `make serve-executor`
   * `make serve-storage`
