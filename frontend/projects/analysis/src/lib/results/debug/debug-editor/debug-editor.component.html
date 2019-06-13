@@ -7,7 +7,7 @@
         <div fxFlex="60px">
           <b>Request:</b>
         </div>
-        <div fxFlex class="text-ellipsis">
+        <div fxFlex class="text-ellipsis" [title]="debug.chunk.requestName">
           {{debug.chunk.requestName}}
         </div>
         <div fxFlex="nogrow" class="compact-button">
@@ -20,14 +20,14 @@
         <div fxFlex="60px">
           Status:
         </div>
-        <div fxFlex class="text-ellipsis" [ngClass]="{'text-error': !debug.chunk.requestStatus.startsWith('OK')}">
+        <div fxFlex class="text-ellipsis" [ngClass]="{'text-error': !debug.chunk.requestStatus.startsWith('OK')}" [title]="debug.chunk.requestStatus">
           {{debug.chunk.requestStatus}}
         </div>
         <div fxFlex="grow"></div>
         <div fxFlex="60px">
           URL:
         </div>
-        <div fxFlex class="text-ellipsis">
+        <div fxFlex class="text-ellipsis" [title]="debug.chunk.requestUrl">
           {{debug.chunk.requestUrl}}
         </div>
         <div fxFlex="grow"></div>
