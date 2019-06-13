@@ -38,7 +38,7 @@ serve:
 
 # You may need to update the property "sourceMap": true, in the angular.json file
 serve-prod:
-	npm run ng-high-memory -- serve --open --project=$(APP) --prod  --sourceMap=true --base-href /$(APP)/
+	npm run ng-high-memory -- serve --open --project=$(APP) --prod --sourceMap=true --base-href /$(APP)/
 
 build-prod: clean
 	npm run ng-high-memory -- build $(APP) --prod --base-href /$(APP)/
