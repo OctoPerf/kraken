@@ -70,11 +70,11 @@ describe('DialogService', () => {
   });
 
   it('should inspect', () => {
-    service.inspect('name', {});
+    service.inspect('name', '{}');
     expect(dialog.open).toHaveBeenCalledWith(InspectDialogComponent, {
       panelClass: DialogSize.SIZE_LG,
       data: {
-        object: {},
+        object: '{}',
         name: 'name',
       }
     });

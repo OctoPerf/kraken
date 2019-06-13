@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 export interface InspectDialogData {
-  object: any;
+  object: string;
   name: string;
 }
 

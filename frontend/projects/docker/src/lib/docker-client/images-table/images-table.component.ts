@@ -10,6 +10,7 @@ import {faDownload} from '@fortawesome/free-solid-svg-icons/faDownload';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {ImageNameDialogComponent} from 'projects/docker/src/lib/docker-dialogs/image-name-dialog/image-name-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {JsonPipe} from '@angular/common';
 
 library.add(faDownload);
 
@@ -33,7 +34,8 @@ export class ImagesTableComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(private dockerService: DockerService,
-              private dialogs: DialogService) {
+              private dialogs: DialogService,
+              private json: JsonPipe) {
     this.dataSource = new MatTableDataSource([]);
     this.subscription = this.dockerService.imagesSubject.subscribe((images) => this.images = images);
   }
@@ -52,7 +54,7 @@ export class ImagesTableComponent implements OnInit, OnDestroy {
   }
 
   full(image: DockerImage) {
-    this.dialogs.inspect('Docker Image', image.full);
+    this.dialogs.inspect('Docker Image', this.json.transform(image.full));
   }
 
   rmi(image: DockerImage) {

@@ -13,6 +13,7 @@ import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {of} from 'rxjs';
 import {DockerImage} from 'projects/docker/src/lib/entities/docker-image';
 import SpyObj = jasmine.SpyObj;
+import {JsonPipe} from '@angular/common';
 
 describe('ImagesTableComponent', () => {
   let component: ImagesTableComponent;
@@ -29,6 +30,7 @@ describe('ImagesTableComponent', () => {
       providers: [
         {provide: DockerService, useValue: dockerServiceSpy()},
         {provide: DialogService, useValue: dialogsServiceSpy()},
+        JsonPipe,
       ]
     })
       .overrideTemplate(ImagesTableComponent, '')
@@ -70,7 +72,7 @@ describe('ImagesTableComponent', () => {
 
   it('should full', () => {
     component.full(image);
-    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Image', image.full);
+    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Image', '{}');
   });
 
   it('should rmi', () => {

@@ -25,6 +25,7 @@ import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service'
 import {SystemPruneDialogComponent} from 'projects/docker/src/lib/docker-dialogs/system-prune-dialog/system-prune-dialog.component';
 import {faBroom} from '@fortawesome/free-solid-svg-icons/faBroom';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {JsonPipe} from '@angular/common';
 
 
 library.add(faFileAlt, faPlay, faPause, faPlusCircle, faBroom);
@@ -59,7 +60,8 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
               private dockerService: DockerService,
               private dialogs: DialogService,
               private eventBus: EventBusService,
-              private localStorage: LocalStorageService) {
+              private localStorage: LocalStorageService,
+              private json: JsonPipe) {
     this.dataSource = new MatTableDataSource([]);
     this.subscription = this.dockerService.containersSubject.subscribe((containers) => this.containers = containers);
   }
@@ -78,7 +80,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   }
 
   full(container: DockerContainer) {
-    this.dialogs.inspect('Docker Container', container.full);
+    this.dialogs.inspect('Docker Container', this.json.transform(container.full));
   }
 
   rm(container: DockerContainer) {

@@ -28,7 +28,7 @@ export class DialogService {
     return dialogRef.afterClosed().pipe(filter((result: R) => result !== undefined));
   }
 
-  public inspect(name: string, object: any): MatDialogRef<InspectDialogComponent, void> {
+  public inspect(name: string, object: string): MatDialogRef<InspectDialogComponent, void> {
     return this.dialog.open(InspectDialogComponent, {
       panelClass: DialogSize.SIZE_LG,
       data: {

@@ -10,6 +10,8 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {Portal} from '@angular/cdk/portal';
 import {SplitPane} from 'projects/split/src/lib/split-pane';
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {StringToolsService} from 'projects/tools/src/lib/string-tools.service';
 
 library.add(faExternalLinkAlt, faInfoCircle);
 
@@ -32,7 +34,9 @@ export class DebugEditorComponent extends DefaultStorageNodeEditorComponent impl
   @ViewChild('responsePortal') responsePortal: Portal<any>;
 
   constructor(@Inject(STORAGE_NODE) node: StorageNode,
-              public contentService: StorageNodeEditorContentService,) {
+              public contentService: StorageNodeEditorContentService,
+              private dialogs: DialogService,
+              private strings: StringToolsService) {
     super(node, contentService);
     this.debug = contentService as DebugEditorContentService;
   }
@@ -40,5 +44,9 @@ export class DebugEditorComponent extends DefaultStorageNodeEditorComponent impl
   ngOnInit() {
     super.ngOnInit();
     this.splits = [new SplitPane(this.requestPortal, 50, 20), new SplitPane(this.responsePortal, 50, 20)];
+  }
+
+  public inspectSession() {
+    this.dialogs.inspect('Gatling Session', this.strings.replaceAll(this.debug.chunk.session, ',', ',\n\t'));
   }
 }

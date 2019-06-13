@@ -21,6 +21,7 @@ import SpyObj = jasmine.SpyObj;
 import {DockerContainer} from 'projects/docker/src/lib/entities/docker-container';
 import {SystemPruneDialogComponent} from 'projects/docker/src/lib/docker-dialogs/system-prune-dialog/system-prune-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {JsonPipe} from '@angular/common';
 
 describe('ContainersTableComponent', () => {
   let component: ContainersTableComponent;
@@ -40,7 +41,8 @@ describe('ContainersTableComponent', () => {
         {provide: DialogService, useValue: dialogsServiceSpy()},
         {provide: EventBusService, useValue: eventBusSpy()},
         {provide: LocalStorageService, useValue: localStorageServiceSpy()},
-        {provide: DOCKER_ID, useValue: 'docker'}
+        {provide: DOCKER_ID, useValue: 'docker'},
+        JsonPipe,
       ]
     })
       .overrideTemplate(ContainersTableComponent, '')
@@ -82,7 +84,7 @@ describe('ContainersTableComponent', () => {
 
   it('should full', () => {
     component.full(container);
-    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Container', container.full);
+    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Container', '{}');
   });
 
   it('should rm', () => {

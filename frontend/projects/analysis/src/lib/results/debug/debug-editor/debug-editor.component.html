@@ -10,8 +10,10 @@
         <div fxFlex class="text-ellipsis">
           {{debug.chunk.requestName}}
         </div>
-        <div fxFlex="nogrow">
-          <lib-icon [icon]="sessionIcon" [matTooltip]="debug.chunk.session"></lib-icon>
+        <div fxFlex="nogrow" class="compact-button">
+          <button mat-icon-button (click)="inspectSession()" [matTooltip]="debug.chunk.session">
+            <lib-icon [icon]="sessionIcon" [matTooltip]="debug.chunk.session"></lib-icon>
+          </button>
         </div>
         <div fxFlex="grow">
         </div>
