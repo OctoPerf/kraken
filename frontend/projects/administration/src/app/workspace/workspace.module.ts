@@ -34,7 +34,8 @@ import {ContextualMenuModule} from 'projects/administration/src/app/contextual-m
       'administration-storage',
       [{
         regexp: 'docker-compose.yml',
-        editor: DockerComposeEditorComponent
+        editor: DockerComposeEditorComponent,
+        helpPageId: 'EDITOR_DOCKER_COMPOSE'
       }]
     ),
     DockerModule.forRoot(

@@ -10,6 +10,6 @@
     "lastModified": 0
   },
   "executorApiUrl": "/api/executor",
-  "docUrl": "https://doc.octoperf.com",
+  "docUrl": "https://kraken.octoperf.com",
   "errorsMatcher": "^.*$"
 }

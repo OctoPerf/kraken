@@ -18,8 +18,6 @@ import {SimulationsModule} from 'projects/gatling/src/app/simulations/simulation
 import {SimulationEditorComponent} from 'projects/gatling/src/app/simulations/simulation-editor/simulation-editor.component';
 import {ResultsModule} from 'projects/analysis/src/lib/results/results.module';
 import {DebugEditorComponent} from 'projects/analysis/src/lib/results/debug/debug-editor/debug-editor.component';
-import {StorageWatcherEvent} from 'projects/storage/src/lib/entities/storage-watcher-event';
-import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
 
 @NgModule({
@@ -39,11 +37,13 @@ import {ResultsListService} from 'projects/analysis/src/lib/results/results-list
       'gatling-storage',
       [{
         regexp: '.*\\.scala',
-        editor: SimulationEditorComponent
+        editor: SimulationEditorComponent,
+        helpPageId: 'EDITOR_GATLING'
       },
         {
           regexp: '.*\\.debug',
-          editor: DebugEditorComponent
+          editor: DebugEditorComponent,
+          helpPageId: 'EDITOR_DEBUG'
         }]
     ),
     DockerModule.forRoot(

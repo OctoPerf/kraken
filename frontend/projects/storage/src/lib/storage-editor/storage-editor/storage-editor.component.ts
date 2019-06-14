@@ -18,6 +18,8 @@ import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-binding
 import {SaveNodeEvent} from 'projects/storage/src/lib/events/save-node-event';
 import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-predicate.pipe';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
+import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
+import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 
 export const STORAGE_EDITOR_README_NODE = new InjectionToken<StorageNode>('StorageEditorReadmeNode');
 
@@ -108,6 +110,7 @@ export class StorageEditorComponent implements OnDestroy {
     this.selectedIndex.next(index);
     const node = this.nodes.value[index];
     this.eventBus.publish(new SelectNodeEvent(node));
+    this.eventBus.publish(new SelectHelpEvent(this.editorService.getHelpPageId(node)));
   }
 
   public getNodeEditor(node: StorageNode): ComponentPortal<StorageNodeEditor> {

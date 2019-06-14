@@ -36,8 +36,8 @@ describe('StorageEditorService', () => {
 
   it('should be created with custom mapping', () => {
     const _service = new StorageEditorService([
-        {regexp: 'txt', editor: MarkdownStorageNodeEditorComponent},
-        {regexp: /txt/, editor: MarkdownStorageNodeEditorComponent}
+        {regexp: 'txt', editor: MarkdownStorageNodeEditorComponent, helpPageId: 'TEST'},
+        {regexp: /txt/, editor: MarkdownStorageNodeEditorComponent, helpPageId: 'TEST'}
       ],
       MarkdownStorageNodeEditorComponent,
       null);

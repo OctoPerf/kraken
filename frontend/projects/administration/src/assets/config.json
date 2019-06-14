@@ -10,6 +10,6 @@
     "lastModified": 0
   },
   "executorApiUrl": "http://localhost:8081",
-  "docUrl": "https://doc.octoperf.com",
+  "docUrl": "https://kraken.octoperf.com",
   "errorsMatcher": "^.*$"
 }

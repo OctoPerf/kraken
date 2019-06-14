@@ -13,13 +13,14 @@ import {MarkdownStorageNodeEditorComponent} from 'projects/storage/src/lib/stora
 import {DefaultStorageNodeEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-node-editors/default-storage-node-editor/default-storage-node-editor.component';
 import * as _ from 'lodash';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 @Injectable()
 export class StorageEditorService {
 
   private static readonly MATCHERS: EditorMatcher[] = [
-    {regexp: /.*\.markdown/, editor: MarkdownStorageNodeEditorComponent},
-    {regexp: /.*\.md/, editor: MarkdownStorageNodeEditorComponent},
+    {regexp: /.*\.markdown/, editor: MarkdownStorageNodeEditorComponent, helpPageId: 'EDITOR_MARKDOWN'},
+    {regexp: /.*\.md/, editor: MarkdownStorageNodeEditorComponent, helpPageId: 'EDITOR_MARKDOWN'},
   ];
 
   editorsMapping: EditorMatcher[];
@@ -46,5 +47,11 @@ export class StorageEditorService {
     const injectorTokens = new WeakMap();
     injectorTokens.set(STORAGE_NODE, node);
     return new ComponentPortal(editor, null, new PortalInjector(this.injector, injectorTokens));
+  }
+
+  getHelpPageId(node: StorageNode): HelpPageId {
+    const matcher: EditorMatcher = _.find(this.editorsMapping,
+      (current: EditorMatcher) => node.path.match(current.regexp)) as EditorMatcher;
+    return matcher ? matcher.helpPageId : 'FILE_EDITOR';
   }
 }
