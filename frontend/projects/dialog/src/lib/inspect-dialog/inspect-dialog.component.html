@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>Inspect {{data.name}}</h1>
 <div mat-dialog-content>
+  <lib-help-anchor [pageId]="data.helpPageId"></lib-help-anchor>
   <lib-code-editor mode="json"
                    [value]="data.object" readonly="true"></lib-code-editor>
 </div>

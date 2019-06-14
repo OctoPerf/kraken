@@ -1,6 +1,7 @@
 <form [formGroup]="nameForm" autocomplete=off>
   <h1 mat-dialog-title>{{data.title}}</h1>
   <div mat-dialog-content>
+    <lib-help-anchor [pageId]="data.helpPageId"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="Name" formControlName="fileName"
              cdkFocusInitial

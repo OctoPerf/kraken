@@ -1,10 +1,12 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 export interface FileNameDialogData {
   title: string;
   name: string;
+  helpPageId?: HelpPageId;
 }
 
 @Component({

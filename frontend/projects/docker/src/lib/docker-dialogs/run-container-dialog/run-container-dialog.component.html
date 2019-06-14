@@ -1,6 +1,7 @@
 <form [formGroup]="runForm" autocomplete=off>
   <h1 mat-dialog-title>Run Docker Container</h1>
   <div mat-dialog-content>
+    <lib-help-anchor pageId="ADMIN_RUN_CONTAINER"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="Container name" type="text" formControlName="name"
              cdkFocusInitial

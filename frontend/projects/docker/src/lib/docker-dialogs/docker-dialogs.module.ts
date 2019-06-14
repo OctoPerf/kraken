@@ -6,6 +6,7 @@ import {RunContainerDialogComponent} from './run-container-dialog/run-container-
 import {EditorModule} from 'projects/editor/src/lib/editor.module';
 import { SystemPruneDialogComponent } from './system-prune-dialog/system-prune-dialog.component';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
+import {HelpModule} from 'projects/help/src/lib/help.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
     VendorsModule,
     EditorModule,
     ComponentsModule,
+    HelpModule,
   ],
   declarations: [ImageNameDialogComponent, RunContainerDialogComponent, SystemPruneDialogComponent],
   exports: [ImageNameDialogComponent, RunContainerDialogComponent, SystemPruneDialogComponent],

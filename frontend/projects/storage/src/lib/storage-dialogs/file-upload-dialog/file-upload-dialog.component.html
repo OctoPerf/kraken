@@ -1,6 +1,7 @@
 <input type="file" #file style="display: none" (change)="onFilesAdded()" [multiple]="data.multiple" [accept]="data.accept"/>
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content>
+  <lib-help-anchor pageId="ADMIN_UPLOAD_FILE"></lib-help-anchor>
   <mat-list>
     <mat-list-item *ngFor="let file of files; index as i;">
 

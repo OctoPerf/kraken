@@ -6,12 +6,14 @@ import {EditorModule} from 'projects/editor/src/lib/editor.module';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { LogsDialogComponent } from './logs-dialog/logs-dialog.component';
 import { WaitDialogComponent } from './wait-dialog/wait-dialog.component';
+import {HelpModule} from 'projects/help/src/lib/help.module';
 
 @NgModule({
   imports: [
     CommonModule,
     VendorsModule,
     EditorModule,
+    HelpModule,
   ],
   declarations: [
     InspectDialogComponent,

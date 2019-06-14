@@ -8,6 +8,7 @@ import {InlineHelpComponent} from 'projects/help/src/lib/inline-help/inline-help
 import {OpenHelpDirective} from 'projects/help/src/lib/help-panel/open-help.directive';
 import {HelpService} from 'projects/help/src/lib/help-panel/help.service';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
+import { HelpAnchorComponent } from './help-anchor/help-anchor.component';
 
 @NgModule({
   imports: [
@@ -21,12 +22,14 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
     HelpPanelComponent,
     InlineHelpComponent,
     OpenHelpDirective,
+    HelpAnchorComponent,
   ],
   exports: [
     HelpPanelComponent,
     InlineHelpComponent,
     HighlightModule,
     OpenHelpDirective,
+    HelpAnchorComponent,
   ],
   entryComponents: [
     HelpPanelComponent,

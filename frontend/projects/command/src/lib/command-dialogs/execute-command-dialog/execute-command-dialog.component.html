@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>Execute Command <span class="font-sm">{{path}}</span></h1>
 <div mat-dialog-content>
+  <lib-help-anchor pageId="ADMIN_RUN_COMMAND"></lib-help-anchor>
   <mat-tab-group [(selectedIndex)]="selectedIndex">
     <mat-tab label="Shell">
       <form [formGroup]="shellForm" class="m-t-sm" fxLayout="row" fxLayoutAlign="start center">

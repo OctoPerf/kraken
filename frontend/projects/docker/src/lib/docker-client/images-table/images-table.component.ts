@@ -54,11 +54,11 @@ export class ImagesTableComponent implements OnInit, OnDestroy {
   }
 
   full(image: DockerImage) {
-    this.dialogs.inspect('Docker Image', this.json.transform(image.full));
+    this.dialogs.inspect('Docker Image', this.json.transform(image.full), 'ADMIN_INSPECT_IMAGE');
   }
 
   rmi(image: DockerImage) {
-    this.dialogs.delete('Docker Image', [`${image.name}:${image.tag}`]).subscribe(() => {
+    this.dialogs.delete('Docker Image', [`${image.name}:${image.tag}`], 'ADMIN_DELETE_IMAGE').subscribe(() => {
       this.dockerService.rmi(image).subscribe();
     });
   }

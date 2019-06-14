@@ -71,7 +71,7 @@ export class StorageService {
   }
 
   private _add(parent: StorageNode, title: string, path: string, content?: string) {
-    this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {title, name: ''})
+    this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {title, name: '', helpPageId: 'ADMIN_CREATE_FILE'})
       .pipe(flatMap((name: string) => {
         return this.http.post<StorageNode>(this.configuration.storageApiUrl(path), content, {
           params: {

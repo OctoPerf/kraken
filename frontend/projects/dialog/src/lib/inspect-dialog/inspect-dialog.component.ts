@@ -1,9 +1,11 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 export interface InspectDialogData {
   object: string;
   name: string;
+  helpPageId: HelpPageId;
 }
 
 @Component({

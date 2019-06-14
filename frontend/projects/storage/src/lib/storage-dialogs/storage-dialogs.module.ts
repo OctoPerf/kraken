@@ -7,6 +7,7 @@ import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
+import {HelpModule} from 'projects/help/src/lib/help.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
     VendorsModule,
     ComponentsModule,
     IconModule,
+    HelpModule,
   ],
   exports: [
     FileNameDialogComponent,

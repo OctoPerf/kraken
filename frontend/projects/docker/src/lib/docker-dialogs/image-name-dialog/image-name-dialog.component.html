@@ -1,6 +1,7 @@
 <form [formGroup]="pullForm" autocomplete=off>
   <h1 mat-dialog-title>Pull Docker Image</h1>
   <div mat-dialog-content>
+    <lib-help-anchor pageId="ADMIN_PULL_IMAGE"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="Image name" type="text" formControlName="image"
              cdkFocusInitial

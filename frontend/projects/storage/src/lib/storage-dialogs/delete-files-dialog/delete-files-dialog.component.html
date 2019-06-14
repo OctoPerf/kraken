@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>Delete {{data.nodes.length}} file(s)?</h1>
 <div mat-dialog-content>
+  <lib-help-anchor pageId="ADMIN_DELETE_FILE"></lib-help-anchor>
   Please confirm that you want to delete {{filesCount}} file(s) and  {{directoriesCount}} directory(s):
   <ul>
     <li *ngFor="let node of data.nodes">

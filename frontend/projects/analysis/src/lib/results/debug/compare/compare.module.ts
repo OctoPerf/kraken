@@ -7,6 +7,7 @@ import {DebugChunkSelectorComponent} from './debug-chunk-selector/debug-chunk-se
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {EditorModule} from 'projects/editor/src/lib/editor.module';
 import {DebugPipesModule} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-pipes.module';
+import {HelpModule} from 'projects/help/src/lib/help.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {DebugPipesModule} from 'projects/analysis/src/lib/results/debug/debug-pi
     ComponentsModule,
     EditorModule,
     DebugPipesModule,
+    HelpModule,
   ]
 })
 export class CompareModule {

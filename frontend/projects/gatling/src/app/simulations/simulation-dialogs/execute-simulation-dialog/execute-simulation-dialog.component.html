@@ -1,6 +1,7 @@
 <form [formGroup]="simulationForm" autocomplete=off>
   <h1 mat-dialog-title>{{data.debug ? 'Debug' : 'Run'}} Simulation</h1>
   <div mat-dialog-content>
+    <lib-help-anchor [pageId]="data.debug ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="package.Class" formControlName="simulationName"
              cdkFocusInitial

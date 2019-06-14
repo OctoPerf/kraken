@@ -80,11 +80,11 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   }
 
   full(container: DockerContainer) {
-    this.dialogs.inspect('Docker Container', this.json.transform(container.full));
+    this.dialogs.inspect('Docker Container', this.json.transform(container.full), 'ADMIN_INSPECT_CONTAINER');
   }
 
   rm(container: DockerContainer) {
-    this.dialogs.delete('Docker Container', [`${container.image} (${container.name})`]).subscribe(() => {
+    this.dialogs.delete('Docker Container', [`${container.image} (${container.name})`], 'ADMIN_DELETE_CONTAINER').subscribe(() => {
       this.dockerService.rm(container).subscribe();
     });
   }

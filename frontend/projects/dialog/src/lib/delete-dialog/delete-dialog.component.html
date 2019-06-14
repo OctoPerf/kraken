@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>Delete {{data.name}}</h1>
 <div mat-dialog-content>
+  <lib-help-anchor [pageId]="data.helpPageId"></lib-help-anchor>
   Please confirm that you want to delete the following {{data.name | lowercase}}(s):
   <ul>
     <li *ngFor="let item of data.items">{{item}}</li>

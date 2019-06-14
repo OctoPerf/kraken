@@ -9,6 +9,7 @@ import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dial
 import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
 import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +29,13 @@ export class DialogService {
     return dialogRef.afterClosed().pipe(filter((result: R) => result !== undefined));
   }
 
-  public inspect(name: string, object: string): MatDialogRef<InspectDialogComponent, void> {
+  public inspect(name: string, object: string, helpPageId?: HelpPageId): MatDialogRef<InspectDialogComponent, void> {
     return this.dialog.open(InspectDialogComponent, {
       panelClass: DialogSize.SIZE_LG,
       data: {
         object,
         name,
+        helpPageId,
       }
     });
   }
@@ -48,10 +50,11 @@ export class DialogService {
     });
   }
 
-  public delete(name: string, items: string[]): Observable<void> {
+  public delete(name: string, items: string[], helpPageId?: HelpPageId): Observable<void> {
     return this.open(DeleteDialogComponent, DialogSize.SIZE_MD, {
       name,
       items,
+      helpPageId,
     });
   }
 
