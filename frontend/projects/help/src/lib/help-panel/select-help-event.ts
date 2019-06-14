@@ -6,7 +6,7 @@ export class SelectHelpEvent extends BusEvent implements HelpEvent {
 
   public static readonly CHANNEL = 'select-help';
 
-  constructor(public pageId: HelpPageId) {
+  constructor(public pageId?: HelpPageId) {
     super(SelectHelpEvent.CHANNEL);
   }
 }

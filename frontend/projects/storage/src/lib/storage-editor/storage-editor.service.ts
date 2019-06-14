@@ -52,6 +52,6 @@ export class StorageEditorService {
   getHelpPageId(node: StorageNode): HelpPageId {
     const matcher: EditorMatcher = _.find(this.editorsMapping,
       (current: EditorMatcher) => node.path.match(current.regexp)) as EditorMatcher;
-    return matcher ? matcher.helpPageId : 'FILE_EDITOR';
+    return matcher ? matcher.helpPageId : 'ADMIN_FILE_EDITOR';
   }
 }

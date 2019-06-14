@@ -12,6 +12,7 @@ import {TabSelectedEvent} from 'projects/tabs/src/lib/tab-selected-event';
 import {TabsContentInitializedEvent} from 'projects/tabs/src/lib/tabs-content/tabs-content-initialized-event';
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';
 import {CloseTabsEvent} from 'projects/tabs/src/lib/close-tabs-event';
+import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 
 @Component({
   selector: 'lib-tabs-content',
@@ -77,6 +78,7 @@ export class TabsContentComponent implements OnInit, OnDestroy {
       this.eventBus.publish(new TabUnselectedEvent(this.selectedTab));
     }
     this.eventBus.publish(new TabSelectedEvent(tab));
+    this.eventBus.publish(new SelectHelpEvent(tab.helpPageId));
     this.selectedTab = tab;
     this.storage.set(this.id, index);
     this.tabSelected.emit([index, tab]);

@@ -8,6 +8,7 @@ import {TabSelectedEvent} from 'projects/tabs/src/lib/tab-selected-event';
 import {Subscription} from 'rxjs';
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 export const TAB_HEADER_DATA = new InjectionToken<Tab>('TabHeaderData');
 export const SIDE_HEADER_DATA = new InjectionToken<TabsSide>('SideHeaderData');
@@ -49,6 +50,7 @@ export class Tab {
     public portal: Portal<any>,
     public label: string,
     public icon: Icon,
+    public helpPageId: HelpPageId = null,
     public keepContent: boolean = true,
     public selectOn: string[] = [],
     public headerComponentRef: ComponentType<TabHeaderComponent> = TabHeaderComponent,

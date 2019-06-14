@@ -15,9 +15,7 @@ export class HelpAnchorComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.pageId) {
-      this.eventBus.publish(new SelectHelpEvent(this.pageId));
-    }
+    this.eventBus.publish(new SelectHelpEvent(this.pageId));
   }
 
 }

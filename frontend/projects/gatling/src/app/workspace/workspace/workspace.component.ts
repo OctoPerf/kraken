@@ -93,6 +93,7 @@ export class WorkspaceComponent implements OnInit {
       new TabsConfiguration(
         [new Tab(simulationsTree, 'Simulations',
           new IconFa(faCode),
+          'GATLING_SIMULATIONS',
           false,
           [OpenStorageTreeEvent.CHANNEL])],
         0,
@@ -101,6 +102,7 @@ export class WorkspaceComponent implements OnInit {
       new TabsConfiguration(
         [new Tab(resourcesTree, 'Resources',
           new IconFa(faFile),
+          'GATLING_RESOURCES',
           false)],
         0,
         40,
@@ -111,10 +113,13 @@ export class WorkspaceComponent implements OnInit {
     this.right = new SideConfiguration(
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(HelpPanelComponent), 'Help', new IconFa(faQuestionCircle, 'accent'), false,
+          new Tab(new ComponentPortal(HelpPanelComponent), 'Help', new IconFa(faQuestionCircle, 'accent'),
+            null,
+            false,
             [OpenHelpEvent.CHANNEL]),
           new Tab(new ComponentPortal(ResultsListComponent), 'Results',
             new IconFa(faPoll),
+            'GATLING_RESULT_LIST',
             false,
             ['open-gatling-results']),
         ],
@@ -123,7 +128,9 @@ export class WorkspaceComponent implements OnInit {
       ),
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(DebugChunksListComponent), 'Debug', new IconFa(faBug, 'accent'), false,
+          new Tab(new ComponentPortal(DebugChunksListComponent), 'Debug', new IconFa(faBug, 'accent'),
+            'GATLING_DEBUG_LIST',
+            false,
             [OpenDebugEvent.CHANNEL]),
         ],
         -1,
@@ -139,6 +146,7 @@ export class WorkspaceComponent implements OnInit {
             new ComponentPortal(CommandTabsPanelComponent),
             'Gatling Executions',
             PLAY_ICON,
+            'GATLING_EXECUTIONS',
             true,
             [OpenCommandLogsEvent.CHANNEL]),
         ],
@@ -150,6 +158,7 @@ export class WorkspaceComponent implements OnInit {
           new Tab(new ComponentPortal(NotificationsTableComponent),
             'Notifications',
             new IconFa(faBell),
+            null,
             false,
             [OpenNotificationsEvent.CHANNEL],
             NotificationsTabHeaderComponent),

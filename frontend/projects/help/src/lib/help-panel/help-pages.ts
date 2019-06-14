@@ -4,7 +4,7 @@ export type HelpPageId = 'HOME'
   | 'EDITOR_DOCKER_COMPOSE'
   | 'EDITOR_GATLING'
   | 'EDITOR_DEBUG'
-  | 'FILE_EDITOR'
+  | 'ADMIN_FILE_EDITOR'
   | 'administration-storage'
   | 'resources-tree'
   | 'simulations-tree'
@@ -24,6 +24,15 @@ export type HelpPageId = 'HOME'
   | 'ADMIN_PULL_IMAGE'
   | 'ADMIN_RUN_SCRIPT'
   | 'ADMIN_RUN_COMMAND'
+  | 'ADMIN_CONFIGURATION'
+  | 'GATLING_RESOURCES'
+  | 'GATLING_SIMULATIONS'
+  | 'GATLING_EXECUTIONS'
+  | 'GATLING_RESULT_LIST'
+  | 'GATLING_DEBUG_LIST'
+  | 'ADMIN_CONTAINERS'
+  | 'ADMIN_IMAGES'
+  | 'ADMIN_EXECUTIONS'
   ;
 
 
@@ -34,10 +43,24 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   EDITOR_DOCKER_COMPOSE: '/editors/docker-compose/',
   EDITOR_GATLING: '/editors/gatling-scala/',
   EDITOR_DEBUG: '/editors/debug-request-response/',
-  FILE_EDITOR: '/administration/files-editor-usage/',
+  ADMIN_FILE_EDITOR: '/administration/files-editor-usage/',
+
+  // Tabs
   'administration-storage': '/administration/files-manager-usage/',
   'resources-tree': '/gatling/#resources-tree',
   'simulations-tree': '/gatling/#simulations-tree',
+
+  ADMIN_CONFIGURATION: '/administration/files-manager-usage/',
+  GATLING_RESOURCES: '/gatling/#resources-tree',
+  GATLING_SIMULATIONS: '/gatling/#simulations-tree',
+  GATLING_EXECUTIONS: '/gatling/#gatling-executions',
+  GATLING_RESULT_LIST: '/gatling/#gatling-test-results',
+  GATLING_DEBUG_LIST: '/gatling/#debug-table',
+  ADMIN_CONTAINERS: '/administration/#docker-containers',
+  ADMIN_IMAGES: '/administration/#docker-images',
+  ADMIN_EXECUTIONS: '/administration/execute-commands/',
+
+  // Dialogs
   GATLING_IMPORT_HAR: '/gatling/import-har-gatling-scripts/#import-http-archives',
   GATLING_DEBUG_DIALOG: '/gatling/debug-gatling-scripts/#execution-dialog',
   GATLING_COMPARE_DEBUG: '/gatling/debug-gatling-scripts/#compare-debug-results',
@@ -55,8 +78,3 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_RUN_SCRIPT: '/administration/execute-commands/#run-a-shell-script',
   ADMIN_RUN_COMMAND: '/administration/execute-commands/#run-a-shell-command',
 };
-
-// Tabs
-// 'administration-storage': '/administration/files-manager-usage/',
-// 'resources-tree': '/gatling/#resources-tree',
-// 'simulations-tree': '/gatling/#simulations-tree',

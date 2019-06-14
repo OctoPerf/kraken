@@ -79,6 +79,7 @@ export class WorkspaceComponent implements OnInit {
       new TabsConfiguration(
         [new Tab(adminTree, 'Configuration',
           new IconDynamic(new IconFa(faFolder), {'selected': new IconFa(faFolderOpen)}),
+          'ADMIN_CONFIGURATION',
           false,
           [OpenStorageTreeEvent.CHANNEL])],
         0,
@@ -91,7 +92,7 @@ export class WorkspaceComponent implements OnInit {
     this.right = new SideConfiguration(
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(HelpPanelComponent), 'Help', new IconFa(faQuestionCircle, 'accent'), false,
+          new Tab(new ComponentPortal(HelpPanelComponent), 'Help', new IconFa(faQuestionCircle, 'accent'), null, false,
             [OpenHelpEvent.CHANNEL]),
         ],
         -1,
@@ -108,18 +109,21 @@ export class WorkspaceComponent implements OnInit {
             new ComponentPortal(ContainersTableComponent),
             'Docker Containers',
             new IconFa(faDocker),
+            'ADMIN_CONTAINERS',
             false,
             ['open-docker-client-containers']),
           new Tab(
             new ComponentPortal(ImagesTableComponent),
             'Docker Images',
             new IconFa(faArchive),
+            'ADMIN_IMAGES',
             false,
             ['open-docker-client-images']),
           new Tab(
             new ComponentPortal(CommandTabsPanelComponent),
             'Command Executions',
             PLAY_ICON,
+            'ADMIN_EXECUTIONS',
             true,
             [OpenCommandLogsEvent.CHANNEL]),
         ],
@@ -131,6 +135,7 @@ export class WorkspaceComponent implements OnInit {
           new Tab(new ComponentPortal(NotificationsTableComponent),
             'Notifications',
             new IconFa(faBell),
+            null,
             false,
             [OpenNotificationsEvent.CHANNEL],
             NotificationsTabHeaderComponent),
