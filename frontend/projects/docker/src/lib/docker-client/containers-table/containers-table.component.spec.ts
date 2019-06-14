@@ -84,14 +84,14 @@ describe('ContainersTableComponent', () => {
 
   it('should full', () => {
     component.full(container);
-    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Container', '{}');
+    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Container', '{}', 'ADMIN_INSPECT_CONTAINER');
   });
 
   it('should rm', () => {
     dialogs.delete.and.returnValue(of(true));
     dockerService.rm.and.returnValue(of(true));
     component.rm(container);
-    expect(dialogs.delete).toHaveBeenCalledWith('Docker Container', [`${container.image} (${container.name})`]);
+    expect(dialogs.delete).toHaveBeenCalledWith('Docker Container', [`${container.image} (${container.name})`], 'ADMIN_DELETE_CONTAINER');
     expect(dockerService.rm).toHaveBeenCalledWith(container);
   });
 

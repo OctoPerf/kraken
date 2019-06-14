@@ -10,7 +10,9 @@ import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-nod
 export const storageEditorServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageEditorService', [
     'getNodeEditor',
+    'getHelpPageId',
   ]);
+  spy.getHelpPageId.and.returnValue('TEST');
   return spy;
 };
 
@@ -64,4 +66,23 @@ describe('StorageEditorService', () => {
     expect(portal.component).toBe(MarkdownStorageNodeEditorComponent);
   });
 
+  it('should return helpPageId', () => {
+    expect(service.getHelpPageId({
+      path: 'spotbugs/main.md',
+      type: 'FILE',
+      depth: 1,
+      length: 42,
+      lastModified: 1337
+    })).toBe('EDITOR_MARKDOWN');
+  });
+
+  it('should return default helpPageId', () => {
+    expect(service.getHelpPageId({
+      path: 'spotbugs/main.other',
+      type: 'FILE',
+      depth: 1,
+      length: 42,
+      lastModified: 1337
+    })).toBe('ADMIN_FILE_EDITOR');
+  });
 });

@@ -70,12 +70,13 @@ describe('DialogService', () => {
   });
 
   it('should inspect', () => {
-    service.inspect('name', '{}');
+    service.inspect('name', '{}', 'TEST');
     expect(dialog.open).toHaveBeenCalledWith(InspectDialogComponent, {
       panelClass: DialogSize.SIZE_LG,
       data: {
         object: '{}',
         name: 'name',
+        helpPageId: 'TEST'
       }
     });
   });
@@ -93,11 +94,12 @@ describe('DialogService', () => {
 
   it('should delete', () => {
     const spy = spyOn(service, 'open');
-    service.delete('name', ['item']);
+    service.delete('name', ['item'], 'TEST');
     expect(spy).toHaveBeenCalledWith(
       DeleteDialogComponent, DialogSize.SIZE_MD, {
         name: 'name',
         items: ['item'],
+        helpPageId: 'TEST'
       });
   });
 

@@ -12,6 +12,7 @@ import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service'
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
 import Spy = jasmine.Spy;
+import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 
 @Component({
   selector: 'lib-test',
@@ -105,6 +106,7 @@ describe('TabsContentComponent', () => {
     expect(storage.set).toHaveBeenCalledWith(component.id, 0);
     expect(emit).toHaveBeenCalledWith([0, component.tabs[0]]);
     expect(publish).toHaveBeenCalledWith(new TabSelectedEvent(component.selectedTab));
+    expect(publish).toHaveBeenCalledWith(new SelectHelpEvent('TEST'));
   }));
 
   it('should other selectTab', inject([LocalStorageService, EventBusService], (storage: LocalStorageService, eventBus: EventBusService) => {

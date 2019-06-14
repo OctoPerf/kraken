@@ -123,7 +123,8 @@ describe('StorageService', () => {
     service.addFile(node);
     expect(dialogs.open).toHaveBeenCalledWith(FileNameDialogComponent, DialogSize.SIZE_SM, {
       title: 'New File',
-      name: ''
+      name: '',
+      helpPageId: 'ADMIN_CREATE_FILE'
     });
     const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/set/content');
     expect(req.request.method).toEqual('POST');
@@ -138,7 +139,8 @@ describe('StorageService', () => {
     service.addDirectory(node);
     expect(dialogs.open).toHaveBeenCalledWith(FileNameDialogComponent, DialogSize.SIZE_SM, {
       title: 'New Directory',
-      name: ''
+      name: '',
+      helpPageId: 'ADMIN_CREATE_FILE'
     });
     const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/set/directory');
     expect(req.request.method).toEqual('POST');

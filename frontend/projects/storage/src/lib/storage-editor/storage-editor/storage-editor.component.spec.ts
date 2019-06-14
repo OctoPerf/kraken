@@ -24,6 +24,7 @@ import SpyObj = jasmine.SpyObj;
 import {cold, getTestScheduler} from 'jasmine-marbles';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
+import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 
 describe('StorageEditorComponent', () => {
   let component: StorageEditorComponent;
@@ -115,6 +116,7 @@ describe('StorageEditorComponent', () => {
     component.selectedIndex.next(0);
     component.selectIndex(2);
     expect(eventBus.publish).toHaveBeenCalledWith(new SelectNodeEvent(nodes[2]));
+    expect(eventBus.publish).toHaveBeenCalledWith(new SelectHelpEvent('TEST'));
   });
 
   it('should _openNode select tab', () => {

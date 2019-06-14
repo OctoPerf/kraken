@@ -4,7 +4,12 @@ import {ComponentPortal} from '@angular/cdk/portal';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {Component} from '@angular/core';
-import {SIDE_HEADER_DATA, Tab, TAB_HEADER_DATA, TabHeaderComponent} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {
+  SIDE_HEADER_DATA,
+  Tab,
+  TAB_HEADER_DATA,
+  TabHeaderComponent
+} from 'projects/tabs/src/lib/tab-header/tab-header.component';
 import {TabsModule} from 'projects/tabs/src/lib/tabs.module';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
@@ -18,7 +23,7 @@ import Spy = jasmine.Spy;
 library.add(faQuestionCircle);
 
 export const newTestTab = (component: ComponentType<any>) => {
-  return new Tab(new ComponentPortal(component), 'TestStart', new IconFa(faQuestionCircle), false, ['test']);
+  return new Tab(new ComponentPortal(component), 'TestStart', new IconFa(faQuestionCircle), 'TEST', false, ['test']);
 };
 
 @Component({

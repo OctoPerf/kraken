@@ -72,14 +72,14 @@ describe('ImagesTableComponent', () => {
 
   it('should full', () => {
     component.full(image);
-    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Image', '{}');
+    expect(dialogs.inspect).toHaveBeenCalledWith('Docker Image', '{}', 'ADMIN_INSPECT_IMAGE');
   });
 
   it('should rmi', () => {
     dialogs.delete.and.returnValue(of(true));
     dockerService.rmi.and.returnValue(of(true));
     component.rmi(image);
-    expect(dialogs.delete).toHaveBeenCalledWith('Docker Image', [`${image.name}:${image.tag}`]);
+    expect(dialogs.delete).toHaveBeenCalledWith('Docker Image', [`${image.name}:${image.tag}`], 'ADMIN_DELETE_IMAGE');
     expect(dockerService.rmi).toHaveBeenCalledWith(image);
   });
 
