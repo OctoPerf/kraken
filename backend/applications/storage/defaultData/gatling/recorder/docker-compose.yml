@@ -23,7 +23,7 @@ services:
       - ${KRAKEN_HOST_DATA}:${KRAKEN_DATA}
 
   kraken-gatling-recorder:
-    image: octoperf/kraken-gatling-recorder:3.0.3
+    image: octoperf/kraken-gatling-recorder:3.1.2
     container_name: kraken-gatling-recorder
     networks:
       - kraken

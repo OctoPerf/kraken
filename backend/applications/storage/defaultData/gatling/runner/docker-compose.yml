@@ -21,7 +21,7 @@ services:
       - ${KRAKEN_HOST_DATA}/gatling/runner/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
   kraken-gatling-runner:
-    image: octoperf/kraken-gatling-runner:3.0.3
+    image: octoperf/kraken-gatling-runner:3.1.2
     container_name: kraken-gatling-runner
     networks:
       - kraken
