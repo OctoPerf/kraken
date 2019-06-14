@@ -13,6 +13,9 @@ import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
 import {StorageContextualMenuComponent} from 'projects/storage/src/lib/storage-menu/storage-contextual-menu/storage-contextual-menu.component';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
+import {EventBusService} from 'projects/event/src/lib/event-bus.service';
+import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
 
 library.add(
   faEllipsisV,
@@ -51,7 +54,8 @@ export class StorageTreeComponent implements OnInit {
               public copyPaste: CopyPasteService,
               @Inject(STORAGE_CONTEXTUAL_MENU) @Optional() contextualMenuType: ComponentType<any>,
               @Inject(STORAGE_TREE_LABEL) @Optional() label: string,
-              @Inject(STORAGE_ID) public id: string) {
+              @Inject(STORAGE_ID) public id: string,
+              private eventBus: EventBusService) {
     dataSource.treeControl = treeControl;
     this.contextualMenu = new ComponentPortal<any>(contextualMenuType ? contextualMenuType : StorageContextualMenuComponent);
     this.label = label ? label : 'Files';
@@ -59,6 +63,10 @@ export class StorageTreeComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.init();
+  }
+
+  selectHelpPage() {
+    this.eventBus.publish(new SelectHelpEvent(this.id as HelpPageId));
   }
 
   hasChild = (_number: number, _nodeData: StorageNode) => _nodeData.type === 'DIRECTORY';

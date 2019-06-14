@@ -1,5 +1,5 @@
 <!-- tabindex="0" allows the tree to take the focus-->
-<div fxLayout="column" tabindex="0" [id]="id" class="storage-tree panel-vertical hover-show-parent">
+<div fxLayout="column" tabindex="0" [id]="id" (focus)="selectHelpPage()"  class="storage-tree panel-vertical hover-show-parent">
   <div fxFlex="none">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="panel-header-table-like">
       <div fxFlex="grow">

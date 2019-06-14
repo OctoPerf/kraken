@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, JsonPipe} from '@angular/common';
 import {ContainersTableComponent} from './containers-table/containers-table.component';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {EventModule} from 'projects/event/src/lib/event.module';
@@ -39,6 +39,7 @@ import {DockerDialogsModule} from 'projects/docker/src/lib/docker-dialogs/docker
     ImagesTableComponent,
   ],
   providers: [
+    JsonPipe,
     DockerService,
   ]
 })
