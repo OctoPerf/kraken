@@ -76,6 +76,6 @@ describe('StorageTreeComponent', () => {
 
   it('should selectHelpPage', () => {
     component.selectHelpPage();
-    expect(eventBus.publish).toHaveBeenCalledWith(new SelectHelpEvent('TEST'));
+    expect(eventBus.publish).toHaveBeenCalledWith(new SelectHelpEvent('storage' as any));
   });
 });

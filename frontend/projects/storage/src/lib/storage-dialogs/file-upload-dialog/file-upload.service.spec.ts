@@ -41,6 +41,8 @@ describe('FileUploadService', () => {
   });
 
   it('should upload file', () => {
+    const formData = jasmine.createSpyObj('formData', ['append']);
+    spyOn(service, '_newFormData').and.returnValue(formData);
     const values = [];
     service._uploadFile({name: 'filename'} as any, 'endpoint').subscribe((value) => values.push(value));
     const req = httpTestingController.expectOne('endpoint');
@@ -55,6 +57,8 @@ describe('FileUploadService', () => {
   });
 
   it('should upload fail', () => {
+    const formData = jasmine.createSpyObj('formData', ['append']);
+    spyOn(service, '_newFormData').and.returnValue(formData);
     const values = [];
     service._uploadFile({name: 'filename'} as any, 'endpoint').subscribe((value) => values.push(value));
     const req = httpTestingController.expectOne('endpoint');
@@ -62,5 +66,9 @@ describe('FileUploadService', () => {
     req.error(testErrorEvent());
     httpTestingController.verify();
     expect(values).toEqual([0]);
+  });
+
+  it('should _newFormData', () => {
+    expect(service._newFormData()).toBeDefined();
   });
 });

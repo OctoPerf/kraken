@@ -15,7 +15,7 @@ export class FileUploadService {
 
   _uploadFile(file: File, endpoint: string): Observable<number> {
     const progress = new BehaviorSubject<number>(0);
-    const formData = new FormData();
+    const formData = this._newFormData();
     formData.append('file', file, file.name);
     const req = new HttpRequest('POST', endpoint, formData, {reportProgress: true});
     this.http.request(req).subscribe(event => {
@@ -27,5 +27,9 @@ export class FileUploadService {
       }
     }, () => progress.complete());
     return progress.asObservable();
+  }
+
+  _newFormData(): FormData {
+    return new FormData();
   }
 }
