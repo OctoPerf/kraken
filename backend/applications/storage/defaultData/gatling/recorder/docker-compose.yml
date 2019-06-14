@@ -18,6 +18,7 @@ services:
       KRAKEN_TEST_ID: ${KRAKEN_TEST_ID}
       KRAKEN_VERSION: ${KRAKEN_VERSION}
       KRAKEN_HAR_PATH: ${KRAKEN_DATA}/gatling/user-files/simulations/${HAR_PATH}
+      JAVA_OPTS: -Xmx512m
     volumes:
       - ${KRAKEN_HOST_DATA}:${KRAKEN_DATA}
 
