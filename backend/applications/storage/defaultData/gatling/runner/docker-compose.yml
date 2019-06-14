@@ -18,7 +18,7 @@ services:
       INFLUXDB_USER: ${KRAKEN_INFLUXDB_USER}
       INFLUXDB_USER_PASSWORD: ${KRAKEN_INFLUXDB_PASSWORD}
     volumes:
-      - ${KRAKEN_HOST_DATA}/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ${KRAKEN_HOST_DATA}/gatling/runner/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
   kraken-gatling-runner:
     image: octoperf/kraken-gatling-runner:3.0.3
