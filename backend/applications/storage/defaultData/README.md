@@ -13,6 +13,6 @@ Learn more about Kraken Administration features and usage in <a href="https://kr
 You can also **click on the Help button** at the right of the window to open the embedded Help.
 
 The Administration application is for an advanced usage only. 
-Modifying configuration files used by <a href="/gatling" target="_blank">the Gatling application</a> mays break it.
+Modifying configuration files used by <a href="/gatling" target="_blank">the Gatling application</a> may break it.
 
 **Use with caution!**
