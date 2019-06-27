@@ -1,4 +1,4 @@
-import {ComponentType, Portal} from '@angular/cdk/portal';
+import {Portal} from '@angular/cdk/portal';
 import {Icon} from 'projects/icon/src/lib/icon';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 
@@ -11,7 +11,7 @@ export class Tab {
     public helpPageId: HelpPageId = null,
     public keepContent: boolean = true,
     public selectOn: string[] = [],
-    public headerComponentRef?: ComponentType<any>,
+    public headerComponentRef?: any /*ComponentType<any>*/,
   ) {
   }
 }

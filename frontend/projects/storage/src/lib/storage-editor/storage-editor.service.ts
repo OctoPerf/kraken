@@ -4,7 +4,7 @@ import {
   STORAGE_DEFAULT_EDITOR,
   STORAGE_EDITORS_MAPPING,
 } from 'projects/storage/src/lib/storage-editors-mapping';
-import {ComponentPortal, ComponentType, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
 import {
   STORAGE_NODE,
   StorageNodeEditor
@@ -24,10 +24,10 @@ export class StorageEditorService {
   ];
 
   editorsMapping: EditorMatcher[];
-  defaultEditor: ComponentType<StorageNodeEditor>;
+  defaultEditor: any /*ComponentType<StorageNodeEditor>*/;
 
   constructor(@Optional() @Inject(STORAGE_EDITORS_MAPPING) _editorsMapping: EditorMatcher[],
-              @Optional() @Inject(STORAGE_DEFAULT_EDITOR) _defaultEditor: ComponentType<StorageNodeEditor>,
+              @Optional() @Inject(STORAGE_DEFAULT_EDITOR) _defaultEditor: any /*ComponentType<StorageNodeEditor>*/,
               private injector: Injector) {
     this.defaultEditor = _defaultEditor ? _defaultEditor : DefaultStorageNodeEditorComponent;
     this.editorsMapping = _editorsMapping ? _.concat(_editorsMapping, StorageEditorService.MATCHERS) : StorageEditorService.MATCHERS;
@@ -43,7 +43,7 @@ export class StorageEditorService {
   getNodeEditor(node: StorageNode): ComponentPortal<StorageNodeEditor> {
     const matcher: EditorMatcher = _.find(this.editorsMapping,
       (current: EditorMatcher) => node.path.match(current.regexp)) as EditorMatcher;
-    const editor: ComponentType<StorageNodeEditor> = matcher ? matcher.editor : this.defaultEditor;
+    const editor /*: ComponentType<StorageNodeEditor>*/ = matcher ? matcher.editor : this.defaultEditor;
     const injectorTokens = new WeakMap();
     injectorTokens.set(STORAGE_NODE, node);
     return new ComponentPortal(editor, null, new PortalInjector(this.injector, injectorTokens));

@@ -9,7 +9,7 @@ import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste.service';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
-import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {StorageContextualMenuComponent} from 'projects/storage/src/lib/storage-menu/storage-contextual-menu/storage-contextual-menu.component';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
@@ -23,7 +23,7 @@ library.add(
   faMinus
 );
 
-export const STORAGE_CONTEXTUAL_MENU = new InjectionToken<ComponentType<any>>('StorageContextualMenu');
+export const STORAGE_CONTEXTUAL_MENU = new InjectionToken<any /*ComponentType<any>*/>('StorageContextualMenu');
 export const STORAGE_TREE_LABEL = new InjectionToken<string>('StorageTreeLabel');
 
 @Component({
@@ -52,7 +52,7 @@ export class StorageTreeComponent implements OnInit {
   constructor(public treeControl: StorageTreeControlService,
               public dataSource: StorageTreeDataSourceService,
               public copyPaste: CopyPasteService,
-              @Inject(STORAGE_CONTEXTUAL_MENU) @Optional() contextualMenuType: ComponentType<any>,
+              @Inject(STORAGE_CONTEXTUAL_MENU) @Optional() contextualMenuType: any /*ComponentType<any>*/,
               @Inject(STORAGE_TREE_LABEL) @Optional() label: string,
               @Inject(STORAGE_ID) public id: string,
               private eventBus: EventBusService) {

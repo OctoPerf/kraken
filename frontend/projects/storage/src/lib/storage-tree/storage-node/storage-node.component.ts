@@ -21,7 +21,7 @@ export class StorageNodeComponent implements OnInit {
 
   constructor(public treeControl: StorageTreeControlService,
               private injector: Injector,
-              @Inject(STORAGE_NODE_BUTTONS) @Optional() private nodeButtonsType: ComponentType<any>) {
+              @Inject(STORAGE_NODE_BUTTONS) @Optional() private nodeButtonsType: any /*ComponentType<any>*/) {
   }
 
   ngOnInit() {
