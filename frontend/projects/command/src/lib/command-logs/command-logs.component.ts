@@ -13,7 +13,7 @@ export const COMMAND_LOGS = new InjectionToken<CommandLog>('CommandLogs');
 })
 export class CommandLogsComponent implements OnDestroy, AfterViewInit {
 
-  @ViewChild(CodeEditorComponent) codeEditor: CodeEditorComponent;
+  @ViewChild(CodeEditorComponent, { static: true }) codeEditor: CodeEditorComponent;
 
   private subscription: Subscription;
 

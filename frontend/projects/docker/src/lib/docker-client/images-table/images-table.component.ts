@@ -29,7 +29,7 @@ export class ImagesTableComponent implements OnInit, OnDestroy {
   loading = true;
   dataSource: MatTableDataSource<DockerImage>;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private subscription: Subscription;
 

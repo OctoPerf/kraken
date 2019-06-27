@@ -52,7 +52,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<DockerContainer>;
   tooltips: { [key in string]: { date: Moment, text: string } } = {};
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   private subscription: Subscription;
 

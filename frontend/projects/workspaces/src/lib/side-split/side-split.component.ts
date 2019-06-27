@@ -18,15 +18,15 @@ import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
 export class SideSplitComponent implements OnInit {
 
   // Tabs portals
-  @ViewChild('startTabsPortal') startTabsPortal: Portal<any>;
-  @ViewChild('endTabsPortal') endTabsPortal: Portal<any>;
+  @ViewChild('startTabsPortal', { static: true }) startTabsPortal: Portal<any>;
+  @ViewChild('endTabsPortal', { static: true }) endTabsPortal: Portal<any>;
 
   // Tabs
-  @ViewChild('startTabsContent') startTabsContent: TabsContentComponent;
-  @ViewChild('endTabsContent') endTabsContent: TabsContentComponent;
+  @ViewChild('startTabsContent', { static: false }) startTabsContent: TabsContentComponent;
+  @ViewChild('endTabsContent', { static: false }) endTabsContent: TabsContentComponent;
 
   // Splits
-  @ViewChild('split') split: SplitPanesComponent;
+  @ViewChild('split', { static: true }) split: SplitPanesComponent;
 
   @Input() id: string;
   @Input() side: TabsSide;

@@ -36,7 +36,7 @@ export class DebugChunksListComponent implements OnInit {
   readonly compareIcon = new IconFa(faNotEqual, 'success');
 
   dataSource: MatTableDataSource<DebugChunk>;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(public resultsList: ResultsListService,
               public debugResult: DebugChunksListService) {

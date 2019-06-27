@@ -29,7 +29,7 @@ export class FileUploadDialogComponent {
   public uploading = false;
   public progress: Observable<number>[];
 
-  @ViewChild('file') _fileInput: ElementRef;
+  @ViewChild('file', { static: true }) _fileInput: ElementRef;
 
   constructor(private dialogRef: MatDialogRef<FileUploadDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: FileUploadDialogData,

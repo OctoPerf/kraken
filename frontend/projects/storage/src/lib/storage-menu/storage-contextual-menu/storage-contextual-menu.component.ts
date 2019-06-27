@@ -14,7 +14,7 @@ import {filter} from 'rxjs/operators';
 })
 export class StorageContextualMenuComponent {
 
-  @ViewChild(ContextualMenuComponent) _contextualMenu: ContextualMenuComponent;
+  @ViewChild(ContextualMenuComponent, { static: true }) _contextualMenu: ContextualMenuComponent;
 
   constructor(
     @Inject(STORAGE_ID) private id: string,

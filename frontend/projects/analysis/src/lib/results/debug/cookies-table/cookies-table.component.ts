@@ -11,7 +11,7 @@ export class CookiesTableComponent implements OnInit {
   readonly displayedColumns: string[] = ['cookie'];
 
   dataSource: MatTableDataSource<string>;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() cookies: string[];
 
   ngOnInit() {

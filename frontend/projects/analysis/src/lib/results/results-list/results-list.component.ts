@@ -51,7 +51,7 @@ export class ResultsListComponent implements OnInit {
   );
 
   dataSource: MatTableDataSource<Result>;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public gatling: GatlingResultService,
               public results: ResultsListService) {

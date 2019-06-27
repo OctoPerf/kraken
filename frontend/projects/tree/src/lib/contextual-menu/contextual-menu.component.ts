@@ -10,7 +10,7 @@ export class ContextualMenuComponent {
 
   contextMenuPosition = {x: 0, y: 0};
 
-  @ViewChild(MatMenuTrigger)
+  @ViewChild(MatMenuTrigger, { static: true })
   contextMenu: MatMenuTrigger;
 
   open(event: MouseEvent) {

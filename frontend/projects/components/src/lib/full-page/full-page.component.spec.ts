@@ -19,7 +19,7 @@ import {TabsPosition} from 'projects/tabs/src/lib/tabs-position';
   `
 })
 class TestComponent {
-  @ViewChild(FullPageComponent) fullPage: FullPageComponent;
+  @ViewChild(FullPageComponent, /* TODO: add static flag */ {}) fullPage: FullPageComponent;
 }
 
 describe('FullPageComponent', () => {

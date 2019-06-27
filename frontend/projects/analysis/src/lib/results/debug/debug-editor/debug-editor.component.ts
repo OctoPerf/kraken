@@ -30,8 +30,8 @@ export class DebugEditorComponent extends DefaultStorageNodeEditorComponent impl
 
   public debug: DebugEditorContentService;
   public splits: SplitPane[];
-  @ViewChild('requestPortal') requestPortal: Portal<any>;
-  @ViewChild('responsePortal') responsePortal: Portal<any>;
+  @ViewChild('requestPortal', { static: true }) requestPortal: Portal<any>;
+  @ViewChild('responsePortal', { static: true }) responsePortal: Portal<any>;
 
   constructor(@Inject(STORAGE_NODE) node: StorageNode,
               public contentService: StorageNodeEditorContentService,

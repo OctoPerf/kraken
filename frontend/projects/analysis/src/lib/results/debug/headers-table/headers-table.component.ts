@@ -13,7 +13,7 @@ export class HeadersTableComponent implements OnInit {
   readonly displayedColumns: string[] = ['key', 'value'];
 
   dataSource: MatTableDataSource<{ key: string, value: string }>;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() headers: HttpHeader[];
 
   constructor() {

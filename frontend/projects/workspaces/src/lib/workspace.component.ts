@@ -13,20 +13,20 @@ import {SplitPane} from 'projects/split/src/lib/split-pane';
 export class WorkspaceComponent implements OnInit {
 
   // Split portals
-  @ViewChild('horizontalSplitPortal') horizontalSplitPortal: Portal<any>;
+  @ViewChild('horizontalSplitPortal', { static: true }) horizontalSplitPortal: Portal<any>;
 
   // Splits
-  @ViewChild('verticalSplit') verticalSplit: SplitPanesComponent;
-  @ViewChild('horizontalSplit') horizontalSplit: SplitPanesComponent;
+  @ViewChild('verticalSplit', { static: true }) verticalSplit: SplitPanesComponent;
+  @ViewChild('horizontalSplit', { static: false }) horizontalSplit: SplitPanesComponent;
 
   // Side Splits
-  @ViewChild('leftSideSplit') leftSideSplit: SideSplitComponent;
-  @ViewChild('rightSideSplit') rightSideSplit: SideSplitComponent;
-  @ViewChild('bottomSideSplit') bottomSideSplit: SideSplitComponent;
+  @ViewChild('leftSideSplit', { static: false }) leftSideSplit: SideSplitComponent;
+  @ViewChild('rightSideSplit', { static: false }) rightSideSplit: SideSplitComponent;
+  @ViewChild('bottomSideSplit', { static: false }) bottomSideSplit: SideSplitComponent;
 
-  @ViewChild('leftSideSplitPortal') leftSideSplitPortal: Portal<any>;
-  @ViewChild('rightSideSplitPortal') rightSideSplitPortal: Portal<any>;
-  @ViewChild('bottomSideSplitPortal') bottomSideSplitPortal: Portal<any>;
+  @ViewChild('leftSideSplitPortal', { static: true }) leftSideSplitPortal: Portal<any>;
+  @ViewChild('rightSideSplitPortal', { static: true }) rightSideSplitPortal: Portal<any>;
+  @ViewChild('bottomSideSplitPortal', { static: true }) bottomSideSplitPortal: Portal<any>;
 
   @Input() id: string;
   @Input() center: Portal<any>;
