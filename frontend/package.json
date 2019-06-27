@@ -47,7 +47,7 @@
     "uuid": "~3.3.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.800.4",
+    "@angular-devkit/build-angular": "^0.800.6",
     "@angular-devkit/build-ng-packagr": "~0.800.4",
     "@angular/cli": "~8.0.4",
     "@angular/compiler-cli": "~8.0.3",
@@ -73,9 +73,6 @@
     "tsickle": "^0.35.0",
     "tslib": "^1.10.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.4.5",
-    "tar": ">=4.4.10",
-    "webpack-dev-server": ">=3.7.2",
-    "fstream": ">=1.0.12"
+    "typescript": "~3.4.5"
   }
 }
