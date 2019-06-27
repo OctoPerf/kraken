@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {DialogService} from './dialog.service';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {Observable, of} from 'rxjs';
 import {Component} from '@angular/core';
 import SpyObj = jasmine.SpyObj;

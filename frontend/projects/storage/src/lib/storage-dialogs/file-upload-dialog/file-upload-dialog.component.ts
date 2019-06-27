@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {FileUploadService} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {forkJoin, Observable} from 'rxjs';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faFileUpload} from '@fortawesome/free-solid-svg-icons';

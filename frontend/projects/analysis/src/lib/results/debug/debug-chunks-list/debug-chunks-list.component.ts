@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DebugChunksListService} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.service';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
 import {IconDynamic} from 'projects/icon/src/lib/icon-dynamic';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';

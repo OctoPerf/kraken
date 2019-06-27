@@ -1,6 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DockerService} from 'projects/docker/src/lib/docker-client/docker.service';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';

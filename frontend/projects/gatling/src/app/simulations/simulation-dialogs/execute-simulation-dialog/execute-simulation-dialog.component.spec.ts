@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ExecuteSimulationDialogComponent} from './execute-simulation-dialog.component';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import SpyObj = jasmine.SpyObj;
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';

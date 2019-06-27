@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Inject, OnDestroy} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugChunkToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-string.pipe';

@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {HighlightService} from 'projects/help/src/lib/highlight/highlight.service';

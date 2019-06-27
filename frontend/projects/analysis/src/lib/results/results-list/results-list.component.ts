@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {GatlingResultService} from 'projects/analysis/src/lib/results/results-list/gatling-result.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {IconDynamic} from 'projects/icon/src/lib/icon-dynamic';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faQuestion} from '@fortawesome/free-solid-svg-icons/faQuestion';

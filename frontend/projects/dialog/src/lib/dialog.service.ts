@@ -1,5 +1,5 @@
 import {Injectable, TemplateRef} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {ComponentType} from '@angular/cdk/portal';
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';

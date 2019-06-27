@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
 
 @Component({
