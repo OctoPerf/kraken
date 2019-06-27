@@ -1,4 +1,4 @@
-import {HelpPageId} from './help-pages';
+import {HelpPageId} from './help-page-id';
 
 export interface HelpEvent {
   pageId?: HelpPageId;

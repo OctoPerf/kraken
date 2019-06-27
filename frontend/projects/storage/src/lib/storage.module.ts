@@ -9,10 +9,10 @@ import {
   STORAGE_DEFAULT_EDITOR,
   STORAGE_EDITORS_MAPPING
 } from 'projects/storage/src/lib/storage-editors-mapping';
-import {ComponentType} from '@angular/cdk/typings/portal';
 import {StorageNodeEditor} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {StorageDialogsModule} from 'projects/storage/src/lib/storage-dialogs/storage-dialogs.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
+import {ComponentType} from '@angular/cdk/portal';
 
 @NgModule({
   imports: [

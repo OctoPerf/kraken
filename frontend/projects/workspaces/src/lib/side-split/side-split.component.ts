@@ -8,7 +8,7 @@ import {TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration'
 import {SplitDirection} from 'projects/split/src/lib/split-direction';
 import {SplitPane} from 'projects/split/src/lib/split-pane';
 import {TabsPosition} from 'projects/tabs/src/lib/tabs-position';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 
 @Component({
   selector: 'lib-side-split',

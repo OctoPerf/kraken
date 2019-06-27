@@ -1,4 +1,4 @@
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {BusEvent} from 'projects/event/src/lib/bus-event';
 import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
 import {Notification} from 'projects/notification/src/lib/notification';

@@ -1,5 +1,5 @@
 import {Portal} from '@angular/cdk/portal';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {SplitPane} from 'projects/split/src/lib/split-pane';
 
 export class TabsConfiguration {

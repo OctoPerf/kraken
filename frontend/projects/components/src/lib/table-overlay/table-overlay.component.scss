@@ -20,7 +20,7 @@
   background-color: rgba($app-background-color, .6);
   z-index: 1000000000;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   text-align: center;
   @include font-lg();

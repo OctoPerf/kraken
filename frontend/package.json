@@ -73,7 +73,7 @@
     "tsickle": "^0.35.0",
     "tslib": "^1.10.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.5.2",
+    "typescript": "~3.4.5",
     "tar": ">=4.4.10",
     "webpack-dev-server": ">=3.7.2",
     "fstream": ">=1.0.12"

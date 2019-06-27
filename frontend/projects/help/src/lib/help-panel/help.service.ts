@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {HelpEvent} from 'projects/help/src/lib/help-panel/help-event';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';

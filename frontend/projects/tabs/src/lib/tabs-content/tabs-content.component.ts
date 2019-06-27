@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {state, style, transition, trigger, useAnimation} from '@angular/animations';
 import {Subscription} from 'rxjs';
 import {fadeInAnimation} from 'projects/commons/src/lib/animations';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {TabsPosition} from 'projects/tabs/src/lib/tabs-position';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';

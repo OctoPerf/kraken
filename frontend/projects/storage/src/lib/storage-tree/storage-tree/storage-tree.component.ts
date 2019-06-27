@@ -15,7 +15,7 @@ import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 
 library.add(
   faEllipsisV,

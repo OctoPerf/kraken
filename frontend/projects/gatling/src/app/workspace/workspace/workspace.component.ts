@@ -3,8 +3,8 @@ import {SideConfiguration} from 'projects/workspaces/src/lib/side-configuration'
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
-import {EMPTY_TABS_CONFIG, TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {HelpPanelComponent} from 'projects/help/src/lib/help-panel/help-panel.component';
 import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons/faQuestionCircle';
 import {NotificationsTableComponent} from 'projects/notification/src/lib/notifications-table/notifications-table.component';

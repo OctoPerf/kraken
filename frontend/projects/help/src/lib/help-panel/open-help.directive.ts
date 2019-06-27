@@ -1,5 +1,5 @@
 import {Directive, HostListener, Input} from '@angular/core';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 

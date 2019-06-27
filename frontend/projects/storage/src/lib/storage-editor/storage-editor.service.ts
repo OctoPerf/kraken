@@ -13,7 +13,7 @@ import {MarkdownStorageNodeEditorComponent} from 'projects/storage/src/lib/stora
 import {DefaultStorageNodeEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-node-editors/default-storage-node-editor/default-storage-node-editor.component';
 import * as _ from 'lodash';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 
 @Injectable()
 export class StorageEditorService {

@@ -1,5 +1,5 @@
 import {Injectable, TemplateRef} from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ComponentType} from '@angular/cdk/portal';
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dial
 import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
 import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 
 @Injectable({
   providedIn: 'root'

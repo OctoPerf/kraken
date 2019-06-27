@@ -3,7 +3,12 @@ import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/internal/operators';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
-import {SIDE_HEADER_DATA, Tab, TAB_HEADER_DATA, TabHeaderComponent} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {
+  SIDE_HEADER_DATA,
+  TAB_HEADER_DATA,
+  TabHeaderComponent
+} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {TabsPosition} from 'projects/tabs/src/lib/tabs-position';
 import {TabsContentComponent} from 'projects/tabs/src/lib/tabs-content/tabs-content.component';
@@ -41,7 +46,7 @@ export class TabsHeaderComponent implements OnInit, OnDestroy {
       const injectorTokens = new WeakMap();
       injectorTokens.set(TAB_HEADER_DATA, tab);
       injectorTokens.set(SIDE_HEADER_DATA, this.side);
-      return new ComponentPortal(tab.headerComponentRef, null, new PortalInjector(this.injector, injectorTokens));
+      return new ComponentPortal(tab.headerComponentRef ? tab.headerComponentRef : TabHeaderComponent, null, new PortalInjector(this.injector, injectorTokens));
     });
   }
 

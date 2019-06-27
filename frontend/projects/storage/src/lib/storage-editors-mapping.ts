@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
-import {ComponentType} from '@angular/cdk/typings/portal';
 import {StorageNodeEditor} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
+import {ComponentType} from '@angular/cdk/portal';
 
 export interface EditorMatcher {
   regexp: RegExp | string;

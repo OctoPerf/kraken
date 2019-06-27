@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {Injectable, OnDestroy} from '@angular/core';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {TabSelectedEvent} from 'projects/tabs/src/lib/tab-selected-event';
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';

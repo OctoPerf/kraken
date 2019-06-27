@@ -6,10 +6,10 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {Component} from '@angular/core';
 import {
   SIDE_HEADER_DATA,
-  Tab,
   TAB_HEADER_DATA,
   TabHeaderComponent
 } from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 import {TabsModule} from 'projects/tabs/src/lib/tabs.module';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
@@ -74,12 +74,4 @@ describe('TabHeaderComponent', () => {
     eventBus.publish(new TabUnselectedEvent(testTab));
     expect(component.state).toBe('');
   }));
-});
-
-describe('Tab', () => {
-  it('should create', () => {
-    expect(new Tab(null, 'TestStart', new IconFa(faQuestionCircle))).toBeTruthy();
-    expect(new Tab(null, 'TestStart', new IconFa(faQuestionCircle), false, ['test'])).toBeTruthy();
-    expect(new Tab(null, 'TestStart', new IconFa(faQuestionCircle), false, ['test'], null)).toBeTruthy();
-  });
 });

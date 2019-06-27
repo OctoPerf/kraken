@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url.match(this.configuration.errorsMatcherRegexp)) {
-      return next.handle(request).pipe(catchError<any, RestServerError>((error) => {
+      return next.handle(request).pipe(catchError<any, any>((error) => {
         const restError = RestServerError.fromError(error);
         this.eventBus.publish(new NotificationEvent(
           new ErrorNotification(`${restError.title}: ${restError.message}`, NotificationLevel.ERROR, restError.trace)

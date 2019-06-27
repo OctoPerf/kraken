@@ -1,14 +1,12 @@
 import {Component, Inject, InjectionToken, OnDestroy} from '@angular/core';
-import {ComponentType, Portal} from '@angular/cdk/portal';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
-import {Icon} from 'projects/icon/src/lib/icon';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {filter} from 'rxjs/operators';
 import {TabSelectedEvent} from 'projects/tabs/src/lib/tab-selected-event';
 import {Subscription} from 'rxjs';
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {Tab} from 'projects/tabs/src/lib/tab';
 
 export const TAB_HEADER_DATA = new InjectionToken<Tab>('TabHeaderData');
 export const SIDE_HEADER_DATA = new InjectionToken<TabsSide>('SideHeaderData');
@@ -42,18 +40,4 @@ export class TabHeaderComponent implements OnDestroy {
     this.unselectedSubscription.unsubscribe();
   }
 
-}
-
-export class Tab {
-
-  constructor(
-    public portal: Portal<any>,
-    public label: string,
-    public icon: Icon,
-    public helpPageId: HelpPageId = null,
-    public keepContent: boolean = true,
-    public selectOn: string[] = [],
-    public headerComponentRef: ComponentType<TabHeaderComponent> = TabHeaderComponent,
-  ) {
-  }
 }

@@ -15,6 +15,10 @@ import {TabsContentInitializedEvent} from 'projects/tabs/src/lib/tabs-content/ta
 import {TabsPosition} from 'projects/tabs/src/lib/tabs-position';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {tabsServiceSpy} from 'projects/tabs/src/lib/tabs.service.spec';
+import {ComponentPortal} from '@angular/cdk/portal';
+import {IconFa} from 'projects/icon/src/lib/icon-fa';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
+import {Tab} from 'projects/tabs/src/lib/tab';
 
 @Component({
   selector: 'lib-test',
@@ -57,6 +61,7 @@ describe('TabsHeaderComponent', () => {
     component = fixture.componentInstance;
     component.tabs = [
       newTestTab(TestComponent),
+      new Tab(new ComponentPortal(TestComponent), 'TestStart', new IconFa(faQuestionCircle), 'TEST', false, ['test'], TestComponent)
     ];
     component.side = TabsSide.TOP;
     component.position = TabsPosition.START;

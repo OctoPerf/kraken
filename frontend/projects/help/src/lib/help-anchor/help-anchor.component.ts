@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HelpPageId} from 'projects/help/src/lib/help-panel/help-pages';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 

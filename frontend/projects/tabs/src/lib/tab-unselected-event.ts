@@ -1,5 +1,5 @@
 import {BusEvent} from 'projects/event/src/lib/bus-event';
-import {Tab} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {Tab} from 'projects/tabs/src/lib/tab';
 
 export class TabUnselectedEvent extends BusEvent {
 

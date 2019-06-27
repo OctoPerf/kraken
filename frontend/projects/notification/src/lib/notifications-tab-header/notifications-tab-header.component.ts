@@ -1,11 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {SIDE_HEADER_DATA, Tab, TAB_HEADER_DATA, TabHeaderComponent} from 'projects/tabs/src/lib/tab-header/tab-header.component';
+import {SIDE_HEADER_DATA, TAB_HEADER_DATA, TabHeaderComponent} from 'projects/tabs/src/lib/tab-header/tab-header.component';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {NotificationService} from 'projects/notification/src/lib/notification.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {IconFaCounter} from 'projects/icon/src/lib/icon-fa-counter';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
+import {Tab} from 'projects/tabs/src/lib/tab';
 
 @Component({
   selector: 'lib-notifications-tab-header',
