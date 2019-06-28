@@ -1,15 +1,15 @@
 ext {
-    jacksonVersion = '2.9.8'
+    jacksonVersion = '2.9.9'
     springJmsVersion = '5.1.4.RELEASE'
     springIntegrationVersion = '5.1.2.RELEASE'
     activeMQVersion = '5.15.8'
 }
 
 dependencies {
-    implementation 'com.spotify:docker-client:8.14.3'
+    implementation 'com.spotify:docker-client:8.16.0'
     // https://github.com/spotify/docker-client/issues/1030
-    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.26'
-    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.25.1'
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.29'
+    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.26-b03'
     // Used to execute docker-compose commands
     implementation 'org.zeroturnaround:zt-exec:1.10'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml

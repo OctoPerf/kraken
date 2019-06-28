@@ -8,7 +8,7 @@ dependencies {
     implementation project(':commons:influxdb-client')
     implementation project(':commons:analysis-entity')
     implementation project(':commons:gatling-properties')
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.14.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
     testCompile project(path: ':commons:grafana-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:influxdb-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:gatling-properties', configuration: 'testArtifacts')

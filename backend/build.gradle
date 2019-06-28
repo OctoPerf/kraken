@@ -2,12 +2,15 @@ plugins {
     // Build scans
     id 'com.gradle.build-scan' version '2.3'
 
-    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     // Required by lombok
     id 'net.ltgt.apt' version '0.21'
     id 'com.github.spotbugs' version '2.0.0'
 //    Uncomment only to get license info : https://github.com/hierynomus/license-gradle-plugin/issues/161
 //    id 'com.github.hierynomus.license-report' version '0.15.0'
+
+//    https://github.com/ben-manes/gradle-versions-plugin
+    id "com.github.ben-manes.versions" version "0.21.0"
 }
 
 allprojects {
@@ -33,11 +36,11 @@ subprojects {
     }
 
     ext {
-        springBootVersion = '2.1.5.RELEASE'
-        springReactorVersion = '3.2.9.RELEASE'
+        springBootVersion = '2.1.6.RELEASE'
+        springReactorVersion = '3.2.10.RELEASE'
         lombokVersion = '1.18.8'
-        guavaVersion = '27.1-jre'
-        equalsVerifierVersion = '3.0.2'
+        guavaVersion = '28.0-jre'
+        equalsVerifierVersion = '3.1.9'
     }
 
     apply plugin: 'java'
