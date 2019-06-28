@@ -1,29 +1,29 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ExecuteCommandMenuItemComponent} from './execute-command-menu-item.component';
+import {ExecuteShellMenuItemComponent} from './execute-shell-menu-item.component';
 import {CommandService} from 'projects/command/src/lib/command.service';
 import {commandServiceSpy} from 'projects/command/src/lib/command.service.spec';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 
-describe('ExecuteCommandMenuItemComponent', () => {
-  let component: ExecuteCommandMenuItemComponent;
-  let fixture: ComponentFixture<ExecuteCommandMenuItemComponent>;
+describe('ExecuteShellMenuItemComponent', () => {
+  let component: ExecuteShellMenuItemComponent;
+  let fixture: ComponentFixture<ExecuteShellMenuItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ExecuteCommandMenuItemComponent],
+      declarations: [ExecuteShellMenuItemComponent],
       providers: [
         {provide: CommandService, useValue: commandServiceSpy()},
         {provide: StorageTreeControlService, useValue: storageTreeControlServiceSpy()},
       ]
     })
-      .overrideTemplate(ExecuteCommandMenuItemComponent, '')
+      .overrideTemplate(ExecuteShellMenuItemComponent, '')
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExecuteCommandMenuItemComponent);
+    fixture = TestBed.createComponent(ExecuteShellMenuItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

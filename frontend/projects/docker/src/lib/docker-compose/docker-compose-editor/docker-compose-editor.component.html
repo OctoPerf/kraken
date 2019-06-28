@@ -1,14 +1,14 @@
 <div class="buttons-group" *ngIf="contentService.state === 'loaded'">
-  <button mat-icon-button (click)="command('down')" matTooltip="docker-compose down">
+  <button mat-icon-button (click)="down()" matTooltip="docker-compose down">
     <lib-icon [icon]="downIcon"></lib-icon>
   </button>
-  <button mat-icon-button (click)="command('up')" matTooltip="docker-compose up">
+  <button mat-icon-button (click)="up()" matTooltip="docker-compose up">
     <lib-icon [icon]="upIcon"></lib-icon>
   </button>
-  <button mat-icon-button (click)="command('logs')" matTooltip="docker-compose logs">
+  <button mat-icon-button (click)="logs()" matTooltip="docker-compose logs">
     <lib-icon [icon]="logsIcon"></lib-icon>
   </button>
-  <button mat-icon-button (click)="command('ps')" matTooltip="docker-compose ps">
+  <button mat-icon-button (click)="ps()" matTooltip="docker-compose ps">
     <lib-icon [icon]="psIcon"></lib-icon>
   </button>
 </div>

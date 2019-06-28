@@ -56,7 +56,7 @@ export class CommandService implements OnDestroy {
     this._destroyed = true;
   }
 
-  execute(path: string): Observable<string> {
+  executeShell(path: string): Observable<string> {
     const command = this.storage.getItem('command', new Command([Command.SHELL_0, Command.SHELL_1, 'echo $KEY'], {KEY: 'value'}));
     return this.dialogs.open(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {
       command,
@@ -65,7 +65,7 @@ export class CommandService implements OnDestroy {
       .pipe(flatMap((_command: Command) => {
         _command.path = path;
         this.storage.setItem('command', _command);
-        return this.executeCommand(_command);
+        return this.runCommand(_command);
       }));
   }
 
@@ -75,10 +75,18 @@ export class CommandService implements OnDestroy {
       '-c',
       `chmod +x ${name} && ./${name}`
     ], {}, path);
-    return this.executeCommand(command);
+    return this.runCommand(command);
   }
 
   executeCommand(command: Command): Observable<string> {
+    return this.dialogs.open(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {
+      command,
+      path: this.formatCommandPath(command.path)
+    })
+      .pipe(flatMap(this.runCommand.bind(this)));
+  }
+
+  runCommand(command: Command): Observable<string> {
     command.applicationId = this.configuration.applicationId;
     return this.http.post(this.commandConfiguration.commandApiUrl('/execute'), command, {
       responseType: 'text',

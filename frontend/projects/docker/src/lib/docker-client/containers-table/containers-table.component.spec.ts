@@ -88,7 +88,7 @@ describe('ContainersTableComponent', () => {
   });
 
   it('should rm', () => {
-    dialogs.delete.and.returnValue(of(true));
+    dialogs.delete.and.returnValue(of(null));
     dockerService.rm.and.returnValue(of(true));
     component.rm(container);
     expect(dialogs.delete).toHaveBeenCalledWith('Docker Container', [`${container.image} (${container.name})`], 'ADMIN_DELETE_CONTAINER');

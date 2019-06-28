@@ -28,9 +28,10 @@ import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 
 export const commandServiceSpy = () => {
   const spy = jasmine.createSpyObj('CommandService', [
-    'execute',
     'executeCommand',
+    'executeShell',
     'executeScript',
+    'runCommand',
     'listen',
     'cancel',
     'setCommandLabel',
@@ -91,9 +92,22 @@ describe('CommandService', () => {
     expect(subscription.unsubscribe).toHaveBeenCalled();
   });
 
-  it('should execute', () => {
+  it('should executeCommand', () => {
+    const command = new Command(['test']);
+    dialogs.open.and.returnValue(of(command));
+    service.executeCommand(command).subscribe();
+    const path = service.formatCommandPath(command.path);
+    expect(dialogs.open).toHaveBeenCalledWith(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {command, path});
+    const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(new Command(['test'], {}, '', [], 'application'));
+    req.flush('commandId');
+    httpTestingController.verify();
+  });
+
+  it('should executeShell', () => {
     dialogs.open.and.returnValue(of(new Command(['test'])));
-    service.execute('path').subscribe();
+    service.executeShell('path').subscribe();
     const command = new Command([Command.SHELL_0, Command.SHELL_1, 'echo $KEY'], {KEY: 'value'});
     const path = service.formatCommandPath('path');
     expect(dialogs.open).toHaveBeenCalledWith(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {command, path});
@@ -119,8 +133,8 @@ describe('CommandService', () => {
     httpTestingController.verify();
   });
 
-  it('should execute command', () => {
-    service.executeCommand(new Command(['test'], {}, 'path')).subscribe();
+  it('should run command', () => {
+    service.runCommand(new Command(['test'], {}, 'path')).subscribe();
     const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(new Command(['test'], {}, 'path', [], 'application'));

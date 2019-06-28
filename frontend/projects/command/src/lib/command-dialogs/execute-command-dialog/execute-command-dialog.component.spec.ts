@@ -1,12 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ExecuteCommandDialogComponent} from './execute-command-dialog.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {Command} from 'projects/command/src/lib/entities/command';
-import SpyObj = jasmine.SpyObj;
-import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import {FormBuilder} from '@angular/forms';
 import {CommandDialogsModule} from 'projects/command/src/lib/command-dialogs/command-dialogs.module';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 
@@ -15,7 +12,7 @@ describe('ExecuteCommandDialogComponent shell', () => {
   let fixture: ComponentFixture<ExecuteCommandDialogComponent>;
   let dialogRef: MatDialogRef<ExecuteCommandDialogComponent>;
 
-  const shellCommand = new Command([Command.SHELL_0, Command.SHELL_1, 'ls'], {KEY: 'value'});
+  const shellCommand = new Command([Command.SHELL_0, Command.SHELL_1, 'ls'], {KEY: 'value'}, 'path');
 
   beforeEach(async(() => {
     dialogRef = dialogRefSpy();

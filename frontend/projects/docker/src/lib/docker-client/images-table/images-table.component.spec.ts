@@ -64,7 +64,7 @@ describe('ImagesTableComponent', () => {
   });
 
   it('should refresh', () => {
-    dockerService.images.and.returnValue(of(testDockerImage()));
+    dockerService.images.and.returnValue(of([testDockerImage()]));
     component.refresh();
     expect(component.loading).toBe(true);
     expect(dockerService.images).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('ImagesTableComponent', () => {
   });
 
   it('should rmi', () => {
-    dialogs.delete.and.returnValue(of(true));
+    dialogs.delete.and.returnValue(of(null));
     dockerService.rmi.and.returnValue(of(true));
     component.rmi(image);
     expect(dialogs.delete).toHaveBeenCalledWith('Docker Image', [`${image.name}:${image.tag}`], 'ADMIN_DELETE_IMAGE');

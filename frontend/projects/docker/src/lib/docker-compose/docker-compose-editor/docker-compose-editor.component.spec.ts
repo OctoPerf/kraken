@@ -5,32 +5,33 @@ import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-
 import {StorageNodeToParentPathPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-parent-path.pipe';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {storageNodeEditorContentServiceSpy} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service.spec';
-import {dockerComposeServiceSpy} from 'projects/docker/src/lib/docker-compose/docker-compose.service.spec';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {DockerComposeEditorComponent} from 'projects/docker/src/lib/docker-compose/docker-compose-editor/docker-compose-editor.component';
-import {DockerComposeService} from 'projects/docker/src/lib/docker-compose/docker-compose.service';
 import SpyObj = jasmine.SpyObj;
 import {of} from 'rxjs';
+import {CommandService} from 'projects/command/src/lib/command.service';
+import {commandServiceSpy} from 'projects/command/src/lib/command.service.spec';
+import {Command} from 'projects/command/src/lib/entities/command';
 
 describe('DockerComposeEditorComponent', () => {
   let component: DockerComposeEditorComponent;
   let fixture: ComponentFixture<DockerComposeEditorComponent>;
   let node: StorageNode;
   let contentService: StorageNodeEditorContentService;
-  let dockerComposeService: SpyObj<DockerComposeService>;
+  let commandService: SpyObj<CommandService>;
   let toParentPath: StorageNodeToParentPathPipe;
 
   beforeEach(async(() => {
     node = testStorageFileNode();
     contentService = storageNodeEditorContentServiceSpy();
-    dockerComposeService = dockerComposeServiceSpy();
+    commandService = commandServiceSpy();
     toParentPath = new StorageNodeToParentPathPipe();
 
     TestBed.configureTestingModule({
       declarations: [DockerComposeEditorComponent],
       providers: [
         {provide: STORAGE_NODE, useValue: node},
-        {provide: DockerComposeService, useValue: dockerComposeService},
+        {provide: CommandService, useValue: commandService},
         {provide: StorageNodeToParentPathPipe, useValue: toParentPath},
       ]
     })
@@ -49,9 +50,27 @@ describe('DockerComposeEditorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should command', () => {
-    dockerComposeService.command.and.returnValue(of('commandId'));
-    component.command('up');
-    expect(dockerComposeService.command).toHaveBeenCalledWith('up', 'spotbugs');
+  it('should up', () => {
+    commandService.executeCommand.and.returnValue(of('commandId'));
+    component.up();
+    expect(commandService.executeCommand).toHaveBeenCalledWith(new Command([ 'docker-compose', '--no-ansi', 'up', '-d', '--no-color'], {}, 'spotbugs'));
+  });
+
+  it('should down', () => {
+    commandService.executeCommand.and.returnValue(of('commandId'));
+    component.down();
+    expect(commandService.executeCommand).toHaveBeenCalledWith(new Command([ 'docker-compose', '--no-ansi', 'down'], {}, 'spotbugs'));
+  });
+
+  it('should ps', () => {
+    commandService.executeCommand.and.returnValue(of('commandId'));
+    component.ps();
+    expect(commandService.executeCommand).toHaveBeenCalledWith(new Command([ 'docker-compose', '--no-ansi', 'ps'], {}, 'spotbugs'));
+  });
+
+  it('should logs', () => {
+    commandService.executeCommand.and.returnValue(of('commandId'));
+    component.logs();
+    expect(commandService.executeCommand).toHaveBeenCalledWith(new Command([ 'docker-compose', '--no-ansi', 'logs', '--no-color'], {}, 'spotbugs'));
   });
 });

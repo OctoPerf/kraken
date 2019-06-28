@@ -38,7 +38,7 @@ export class ExecuteCommandDialogComponent {
   public path: string;
 
   constructor(public dialogRef: MatDialogRef<ExecuteCommandDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) data: { command: Command, path: string },
+              @Inject(MAT_DIALOG_DATA) private data: { command: Command, path: string },
               private fb: FormBuilder) {
     this.command = data.command;
     this.path = data.path;
@@ -79,7 +79,7 @@ export class ExecuteCommandDialogComponent {
     } else {
       command = this.commands.getRawValue();
     }
-    this.dialogRef.close(new Command(command, env));
+    this.dialogRef.close(new Command(command, env, this.data.command.path));
   }
 
   isValid(): boolean {

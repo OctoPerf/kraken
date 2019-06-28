@@ -4,12 +4,12 @@ import {PLAY_ICON} from 'projects/icon/src/lib/icons';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 
 @Component({
-  selector: 'app-execute-command-menu-item',
-  templateUrl: './execute-command-menu-item.component.html',
+  selector: 'app-execute-shell-menu-item',
+  templateUrl: './execute-shell-menu-item.component.html',
 })
-export class ExecuteCommandMenuItemComponent {
+export class ExecuteShellMenuItemComponent {
 
-  readonly executeCommandIcon = PLAY_ICON;
+  readonly executeShellIcon = PLAY_ICON;
 
   constructor(public commands: CommandService,
               public treeControl: StorageTreeControlService) { }
