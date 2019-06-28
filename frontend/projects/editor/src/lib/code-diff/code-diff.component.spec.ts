@@ -27,8 +27,8 @@ describe('CodeDiffComponent', () => {
 
   it('should resize fail', () => {
     fixture.detectChanges();
-    spyOn(component.mergeView, 'rightOriginal').and.returnValue({});
-    spyOn(component.mergeView, 'editor').and.returnValue({});
+    spyOn(component.mergeView, 'rightOriginal').and.returnValue({} as any);
+    spyOn(component.mergeView, 'editor').and.returnValue({} as any);
     component.resize();
   });
 });

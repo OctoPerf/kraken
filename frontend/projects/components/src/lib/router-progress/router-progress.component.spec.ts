@@ -50,7 +50,7 @@ describe('RouterProgressComponent', () => {
       new NavigationCancel(null, null, null),
       new NavigationError(null, null, null),
     );
-    const spyHTML = {outerHTML: 'someText', setAttribute: jasmine.createSpy('setAttribute')};
+    const spyHTML: any = {outerHTML: 'someText', setAttribute: jasmine.createSpy('setAttribute')};
     spyOn(document, 'getElementById').and.returnValue(spyHTML);
     fixture = TestBed.createComponent(RouterProgressComponent);
     component = fixture.componentInstance;

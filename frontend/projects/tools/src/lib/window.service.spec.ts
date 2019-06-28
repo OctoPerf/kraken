@@ -18,7 +18,7 @@ describe('WindowService', () => {
 
   it('should open', fakeAsync(() => {
     const service = new WindowService();
-    const tab = {
+    const tab: any = {
       location: {
         href: ''
       }
@@ -32,7 +32,7 @@ describe('WindowService', () => {
 
   it('should open fail', fakeAsync(() => {
     const service = new WindowService();
-    const tab = {
+    const tab: any = {
       close: jasmine.createSpy('close')
     };
     const open = spyOn(service.window, 'open');
