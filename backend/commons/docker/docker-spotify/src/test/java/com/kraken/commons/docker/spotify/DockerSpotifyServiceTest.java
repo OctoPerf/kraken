@@ -1,9 +1,6 @@
 package com.kraken.commons.docker.spotify;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.kraken.commons.command.entity.Command;
-import com.kraken.commons.command.executor.CommandExecutor;
 import com.kraken.commons.docker.entity.DockerContainer;
 import com.kraken.commons.docker.entity.DockerImage;
 import com.kraken.test.utils.TestUtils;
@@ -22,7 +19,6 @@ import reactor.test.StepVerifier;
 import java.util.function.Function;
 
 import static com.spotify.docker.client.DockerClient.ListContainersParam.allContainers;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -32,8 +28,6 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class DockerSpotifyServiceTest {
 
-  @Mock
-  CommandExecutor executor;
   @Mock
   DockerClient client;
   @Mock
@@ -46,9 +40,8 @@ public class DockerSpotifyServiceTest {
   @Before
   public void before() {
     commandId = Mono.just("commandId");
-    given(executor.execute(any())).willReturn(commandId);
     given(ymlToConfig.apply(anyString())).willReturn(configuration);
-    service = new DockerSpotifyService(client, executor, ymlToConfig);
+    service = new DockerSpotifyService(client, ymlToConfig);
   }
 
   @Test
@@ -56,18 +49,6 @@ public class DockerSpotifyServiceTest {
     TestUtils.shouldPassNPE(DockerSpotifyService.class);
   }
 
-  @Test
-  public void shouldPull() {
-    assertThat(service.pull("app", "image")).isSameAs(commandId);
-    verify(executor).execute(Command.builder()
-        .id("")
-        .applicationId("app")
-        .command(ImmutableList.of("docker", "pull", "image"))
-        .environment(ImmutableMap.of())
-        .path("")
-        .onCancel(ImmutableList.of())
-        .build());
-  }
 
   @Test
   public void shouldPs() throws DockerException, InterruptedException {
@@ -108,19 +89,6 @@ public class DockerSpotifyServiceTest {
         .expectComplete()
         .verify();
     verify(client).createContainer(any(), any());
-  }
-
-  @Test
-  public void shouldLogs() {
-    assertThat(service.logs("app", "containerId")).isSameAs(commandId);
-    verify(executor).execute(Command.builder()
-        .id("")
-        .applicationId("app")
-        .command(ImmutableList.of("docker", "logs", "-f", "containerId"))
-        .environment(ImmutableMap.of())
-        .path("")
-        .onCancel(ImmutableList.of())
-        .build());
   }
 
   @Test
@@ -242,31 +210,5 @@ public class DockerSpotifyServiceTest {
         .expectComplete()
         .verify();
     verify(client).removeImage("imageId", true, false);
-  }
-
-  @Test
-  public void shouldPrune() {
-    assertThat(service.prune("app", false, false)).isSameAs(commandId);
-    verify(executor).execute(Command.builder()
-        .id("")
-        .applicationId("app")
-        .command(ImmutableList.of("docker", "system", "prune", "-f"))
-        .environment(ImmutableMap.of())
-        .path("")
-        .onCancel(ImmutableList.of())
-        .build());
-  }
-
-  @Test
-  public void shouldPruneAllVolumes() {
-    assertThat(service.prune("app", true, true)).isSameAs(commandId);
-    verify(executor).execute(Command.builder()
-        .id("")
-        .applicationId("app")
-        .command(ImmutableList.of("docker", "system", "prune", "-f", "--all", "--volumes"))
-        .environment(ImmutableMap.of())
-        .path("")
-        .onCancel(ImmutableList.of())
-        .build());
   }
 }

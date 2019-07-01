@@ -1,5 +1,9 @@
 package com.kraken.commons.docker.spotify.rest;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.kraken.commons.command.client.CommandClient;
+import com.kraken.commons.command.entity.Command;
 import com.kraken.commons.docker.entity.DockerContainerTest;
 import com.kraken.commons.docker.entity.DockerImageTest;
 import com.kraken.commons.docker.spotify.DockerService;
@@ -18,7 +22,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
@@ -33,6 +39,9 @@ public class DockerControllerTest {
   @MockBean
   DockerService service;
 
+  @MockBean
+  CommandClient commandClient;
+
   @Test
   public void shouldPassTestUtils() {
     shouldPassNPE(DockerController.class);
@@ -40,19 +49,35 @@ public class DockerControllerTest {
 
   @Test
   public void shouldPullImage() {
-    given(service.pull("app", "image"))
-        .willReturn(Mono.just("commandId"));
+    final var commandId = "commandId";
+
+    given(commandClient.execute(any()))
+        .willReturn(Mono.just(commandId));
+
+    final var image = "image";
+    final var application = "app";
+
+    final Command command = Command.builder()
+        .id("")
+        .applicationId("app")
+        .command(ImmutableList.of("docker", "pull", image))
+        .environment(ImmutableMap.of())
+        .path("")
+        .onCancel(ImmutableList.of())
+        .build();
 
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/docker/pull")
-            .queryParam("image", "image")
+            .queryParam("image", image)
             .build())
-        .header("ApplicationId", "app")
+        .header("ApplicationId", application)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType("text/plain;charset=UTF-8")
         .expectBody(String.class)
-        .isEqualTo("commandId");
+        .isEqualTo(commandId);
+
+    verify(commandClient).execute(command);
   }
 
   @Test
@@ -108,19 +133,34 @@ public class DockerControllerTest {
 
   @Test
   public void shouldReturnLogs() {
-    given(service.logs("app", "containerId"))
-        .willReturn(Mono.just("commandId"));
+    final var commandId = "commandId";
+    final var containerId = "containerId";
+    final var applicationId = "app";
+
+    given(commandClient.execute(any()))
+        .willReturn(Mono.just(commandId));
+
+    final Command command = Command.builder()
+        .id("")
+        .applicationId(applicationId)
+        .command(ImmutableList.of("docker", "logs", "-f", containerId))
+        .environment(ImmutableMap.of())
+        .path("")
+        .onCancel(ImmutableList.of())
+        .build();
 
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/docker/logs")
-            .queryParam("containerId", "containerId")
+            .queryParam("containerId", containerId)
             .build())
-        .header("ApplicationId", "app")
+        .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType("text/plain;charset=UTF-8")
         .expectBody(String.class)
-        .isEqualTo("commandId");
+        .isEqualTo(commandId);
+
+    verify(commandClient).execute(command);
   }
 
   @Test
@@ -242,20 +282,65 @@ public class DockerControllerTest {
 
   @Test
   public void shouldPrune() {
-    given(service.prune("app", true, true))
-        .willReturn(Mono.just("commandId"));
+    final var commandId = "commandId";
+    final var applicationId = "app";
+
+    given(commandClient.execute(any()))
+        .willReturn(Mono.just(commandId));
+
+    final Command command = Command.builder()
+        .id("")
+        .applicationId(applicationId)
+        .command(ImmutableList.of("docker", "system", "prune", "-f"))
+        .environment(ImmutableMap.of())
+        .path("")
+        .onCancel(ImmutableList.of())
+        .build();
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/docker/prune")
+            .queryParam("all", "false")
+            .queryParam("volumes", "false")
+            .build())
+        .header("ApplicationId", applicationId)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType("text/plain;charset=UTF-8")
+        .expectBody(String.class)
+        .isEqualTo(commandId);
+
+    verify(commandClient).execute(command);
+  }
+
+  @Test
+  public void shouldPruneAll() {
+    final var commandId = "commandId";
+    final var applicationId = "app";
+
+    given(commandClient.execute(any()))
+        .willReturn(Mono.just(commandId));
+
+    final Command command = Command.builder()
+        .id("")
+        .applicationId(applicationId)
+        .command(ImmutableList.of("docker", "system", "prune", "-f", "--all", "--volumes"))
+        .environment(ImmutableMap.of())
+        .path("")
+        .onCancel(ImmutableList.of())
+        .build();
 
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/docker/prune")
             .queryParam("all", "true")
             .queryParam("volumes", "true")
             .build())
-        .header("ApplicationId", "app")
+        .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType("text/plain;charset=UTF-8")
         .expectBody(String.class)
-        .isEqualTo("commandId");
-  }
+        .isEqualTo(commandId);
 
+    verify(commandClient).execute(command);
+  }
 }
