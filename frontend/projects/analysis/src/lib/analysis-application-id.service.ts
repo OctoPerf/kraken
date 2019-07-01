@@ -7,7 +7,7 @@ import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-c
 export class AnalysisApplicationIdService extends ApplicationIdHeaderInterceptor {
 
   constructor(configuration: ConfigurationService, analysisConfiguration: AnalysisConfigurationService) {
-    super(configuration, () => analysisConfiguration.analysisApiUrl(''));
+    super(configuration, () => [analysisConfiguration.analysisApiUrl('')]);
   }
 
 }
