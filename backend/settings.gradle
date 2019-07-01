@@ -10,6 +10,7 @@ include ':commons:command:command-client'
 
 include ':commons:docker:docker-entity'
 include ':commons:docker:docker-spotify'
+include ':commons:docker:docker-client'
 
 include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
@@ -22,7 +23,8 @@ include ':test-utils'
 include ':commons:ee:debug-chunk-writer'
 include ':commons:ee:license'
 
-include ':applications:executor'
+include ':applications:command'
+include ':applications:docker'
 include ':applications:storage'
 include ':applications:analysis'
 include ':applications:ee:gatling-log-parser'
@@ -42,6 +44,7 @@ project(':commons:command:command-client').projectDir = file('commons/command/co
 
 project(':commons:docker:docker-entity').projectDir = file('commons/docker/docker-entity')
 project(':commons:docker:docker-spotify').projectDir = file('commons/docker/docker-spotify')
+project(':commons:docker:docker-client').projectDir = file('commons/docker/docker-client')
 
 project(':commons:gatling-properties').projectDir = file('commons/gatling-properties')
 project(':commons:configuration').projectDir = file('commons/configuration')
@@ -50,7 +53,8 @@ project(':test-utils').projectDir = file('test-utils')
 project(':commons:ee:debug-chunk-writer').projectDir = file('commons/ee/debug-chunk-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
 
-project(':applications:executor').projectDir = file('applications/executor')
+project(':applications:command').projectDir = file('applications/command')
+project(':applications:docker').projectDir = file('applications/docker')
 project(':applications:storage').projectDir = file('applications/storage')
 project(':applications:analysis').projectDir = file('applications/analysis')
 project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')

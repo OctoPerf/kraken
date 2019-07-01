@@ -10,8 +10,7 @@ dependencies {
     // https://github.com/spotify/docker-client/issues/1030
     implementation 'org.glassfish.jersey.inject:jersey-hk2:2.29'
     implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.26-b03'
-    // Used to execute docker-compose commands
-    implementation 'org.zeroturnaround:zt-exec:1.10'
+
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava
@@ -20,7 +19,7 @@ dependencies {
     implementation project(':commons:configuration')
 
     implementation project(':commons:command:command-entity')
-    implementation project(':commons:command:command-zt')
+    implementation project(':commons:command:command-client')
 
     implementation project(':commons:docker:docker-entity')
     testCompile project(path: ':commons:docker:docker-entity', configuration: 'testArtifacts')

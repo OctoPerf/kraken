@@ -5,13 +5,13 @@ import org.junit.Test;
 
 public class CommandClientPropertiesTest {
 
-  public static final CommandClientProperties ANALYSIS_PROPERTIES = CommandClientProperties.builder()
+  public static final CommandClientProperties COMMAND_PROPERTIES = CommandClientProperties.builder()
       .commandUrl("commandUrl")
       .build();
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(ANALYSIS_PROPERTIES);
+    TestUtils.shouldPassAll(COMMAND_PROPERTIES);
   }
 
 }
