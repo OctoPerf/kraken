@@ -36,8 +36,11 @@ copy-data:
 serve-analysis:
 	$(MAKE) serve APP=:applications:analysis
 
-serve-executor:
-	$(MAKE) serve APP=:applications:executor
+serve-command:
+	$(MAKE) serve APP=:applications:command
+
+serve-docker:
+	$(MAKE) serve APP=:applications:docker
 
 serve-storage:
 	$(MAKE) serve APP=:applications:storage
