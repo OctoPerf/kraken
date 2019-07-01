@@ -33,13 +33,11 @@ public class DockerSpotifyServiceTest {
   @Mock
   Function<String, ContainerConfig> ymlToConfig;
 
-  private Mono<String> commandId;
   private DockerSpotifyService service;
   private ContainerConfig configuration = ContainerConfig.builder().image("image").build();
 
   @Before
   public void before() {
-    commandId = Mono.just("commandId");
     given(ymlToConfig.apply(anyString())).willReturn(configuration);
     service = new DockerSpotifyService(client, ymlToConfig);
   }

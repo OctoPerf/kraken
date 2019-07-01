@@ -90,7 +90,7 @@ class DockerController {
     return this.service.run(name, config);
   }
 
-  @GetMapping(value = "/start", consumes = MediaType.TEXT_PLAIN)
+  @GetMapping(value = "/start")
   public Mono<Boolean> start(@RequestParam("containerId") final String containerId) {
     return this.service.start(containerId);
   }
