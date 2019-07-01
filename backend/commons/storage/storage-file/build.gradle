@@ -3,8 +3,8 @@ dependencies {
     implementation group: 'io.methvin', name: 'directory-watcher', version: '0.9.6'
 
     implementation project(':commons:configuration')
-
-    implementation project(':commons:storage-entity')
-    testCompile project(path: ':commons:storage-entity', configuration: 'testArtifacts')
     testCompile project(path: ':commons:configuration', configuration: 'testArtifacts')
+
+    implementation project(':commons:storage:storage-entity')
+    testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }

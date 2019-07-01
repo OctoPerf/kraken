@@ -18,9 +18,10 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: jacksonVersion
 
     implementation project(':commons:configuration')
-    implementation project(':commons:command-entity')
-    implementation project(':commons:command')
 
-    implementation project(':commons:docker-client-entity')
-    testCompile project(path: ':commons:docker-client-entity', configuration: 'testArtifacts')
+    implementation project(':commons:command:command-entity')
+    implementation project(':commons:command:command-zt')
+
+    implementation project(':commons:docker:docker-entity')
+    testCompile project(path: ':commons:docker:docker-entity', configuration: 'testArtifacts')
 }

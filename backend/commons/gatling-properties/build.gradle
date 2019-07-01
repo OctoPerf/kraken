@@ -1,4 +1,5 @@
 dependencies {
     implementation project(':commons:configuration')
+
     testCompile project(path: ':commons:configuration', configuration: 'testArtifacts')
 }

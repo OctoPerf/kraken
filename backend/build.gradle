@@ -88,6 +88,8 @@ subprojects {
         testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: equalsVerifierVersion
         // https://mvnrepository.com/artifact/com.google.code.findbugs/annotations
         compile group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+
+        testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
     }
 
     dependencyManagement {

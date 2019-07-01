@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':commons:storage:storage-entity')
+
+//    implementation project(':commons:analysis:analysis-entity')
+//    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testRuntime')
+}
