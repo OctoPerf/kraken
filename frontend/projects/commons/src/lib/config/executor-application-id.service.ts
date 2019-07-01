@@ -6,7 +6,7 @@ import {ApplicationIdHeaderInterceptor} from 'projects/commons/src/lib/config/ap
 export class ExecutorApplicationIdService extends ApplicationIdHeaderInterceptor {
 
   constructor(configuration: ConfigurationService) {
-    super(configuration, () => configuration.executorApiUrl(''));
+    super(configuration, () => [configuration.commandApiUrl(''), configuration.dockerApiUrl('')]);
   }
 
 }

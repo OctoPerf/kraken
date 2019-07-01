@@ -6,11 +6,11 @@ import * as _ from 'lodash';
 export class ApplicationIdHeaderInterceptor implements HttpInterceptor {
 
   constructor(private configuration: ConfigurationService,
-              private url: () => string) {
+              private url: () => string[]) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (_.includes(request.url, this.url())) {
+    if (_.findIndex(this.url(), url => _.includes(request.url, url)) !== -1) {
       const withApp = request.clone({
         headers: request.headers.set('ApplicationId', this.configuration.applicationId)
       });

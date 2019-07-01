@@ -98,7 +98,7 @@ describe('CommandService', () => {
     service.executeCommand(command).subscribe();
     const path = service.formatCommandPath(command.path);
     expect(dialogs.open).toHaveBeenCalledWith(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {command, path});
-    const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
+    const req = httpTestingController.expectOne(request => request.url === 'commandApiUrl/command/execute');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(new Command(['test'], {}, '', [], 'application'));
     req.flush('commandId');
@@ -111,7 +111,7 @@ describe('CommandService', () => {
     const command = new Command([Command.SHELL_0, Command.SHELL_1, 'echo $KEY'], {KEY: 'value'});
     const path = service.formatCommandPath('path');
     expect(dialogs.open).toHaveBeenCalledWith(ExecuteCommandDialogComponent, DialogSize.SIZE_MD, {command, path});
-    const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
+    const req = httpTestingController.expectOne(request => request.url === 'commandApiUrl/command/execute');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(new Command(['test'], {}, 'path', [], 'application'));
     req.flush('commandId');
@@ -120,7 +120,7 @@ describe('CommandService', () => {
 
   it('should execute script', () => {
     service.executeScript('path', 'name').subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
+    const req = httpTestingController.expectOne(request => request.url === 'commandApiUrl/command/execute');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(
       new Command([
@@ -135,7 +135,7 @@ describe('CommandService', () => {
 
   it('should run command', () => {
     service.runCommand(new Command(['test'], {}, 'path')).subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'executorApiUrl/command/execute');
+    const req = httpTestingController.expectOne(request => request.url === 'commandApiUrl/command/execute');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(new Command(['test'], {}, 'path', [], 'application'));
     req.flush('commandId');
@@ -144,7 +144,7 @@ describe('CommandService', () => {
 
   it('should cancel succeed', () => {
     service.cancel('commandId').subscribe();
-    const request = httpTestingController.expectOne(req => req.url === 'executorApiUrl/command/cancel');
+    const request = httpTestingController.expectOne(req => req.url === 'commandApiUrl/command/cancel');
     expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('commandId')).toBe('commandId');
     request.flush('true');
@@ -152,7 +152,7 @@ describe('CommandService', () => {
 
   it('should cancel fail', () => {
     service.cancel('commandId').subscribe();
-    const request = httpTestingController.expectOne(req => req.url === 'executorApiUrl/command/cancel');
+    const request = httpTestingController.expectOne(req => req.url === 'commandApiUrl/command/cancel');
     expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('commandId')).toBe('commandId');
     request.flush('false');

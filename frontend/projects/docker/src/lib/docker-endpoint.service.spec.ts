@@ -11,12 +11,9 @@ import {
 export const dockerEndpointServiceSpy = () => {
   const spy = jasmine.createSpyObj('DockerEndpointService', [
     'dockerPath',
-    'dockerComposePath',
   ]);
-  spy.dockerPath.and.callFake((path: string) => 'executorApiUrl/docker' + path);
+  spy.dockerPath.and.callFake((path: string) => 'dockerApiUrl/docker' + path);
   spy.dockerRoot = '/docker';
-  spy.dockerComposePath.and.callFake((path: string) => 'executorApiUrl/docker-compose' + path);
-  spy.dockerComposeRoot = '/docker-compose';
   return spy;
 };
 
@@ -40,19 +37,11 @@ describe('DockerEndpointService', () => {
   });
 
   it('should return docker path', () => {
-    expect(service.dockerPath('/suffix')).toBe('executorApiUrl/docker/suffix');
-  });
-
-  it('should return docker compose path', () => {
-    expect(service.dockerComposePath('/suffix')).toBe('executorApiUrl/docker-compose/suffix');
+    expect(service.dockerPath('/suffix')).toBe('dockerApiUrl/docker/suffix');
   });
 
   it('should return dockerRoot', () => {
     expect(service.dockerRoot).toBe('/docker');
-  });
-
-  it('should return dockerComposeRoot', () => {
-    expect(service.dockerComposeRoot).toBe('/docker-compose');
   });
 
 });

@@ -46,7 +46,8 @@ describe('ConfigurationService', () => {
     const testConf: Configuration = {
       version: 'version',
       applicationId: 'application',
-      executorApiUrl: 'executorApiUrl',
+      commandApiUrl: 'commandApiUrl',
+      dockerApiUrl: 'dockerApiUrl',
       storageApiUrl: 'storageApiUrl',
       docUrl: 'docUrl',
       errorsMatcher: '^.*$',
@@ -69,8 +70,12 @@ describe('ConfigurationService', () => {
     expect(service.applicationId).toBe('application');
   });
 
+  it('should return command API URL', () => {
+    expect(service.commandApiUrl('/path')).toBe('commandApiUrl/path');
+  });
+
   it('should return executor API URL', () => {
-    expect(service.executorApiUrl('/path')).toBe('executorApiUrl/path');
+    expect(service.dockerApiUrl('/path')).toBe('dockerApiUrl/path');
   });
 
   it('should return errors matcher', () => {

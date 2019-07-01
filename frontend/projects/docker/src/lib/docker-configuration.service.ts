@@ -10,11 +10,7 @@ export class DockerConfigurationService {
   }
 
   dockerApiUrl(path: string): string {
-    return this.configuration.url('executorApiUrl', `/docker${path}`);
-  }
-
-  dockerComposeApiUrl(path: string): string {
-    return this.configuration.url('executorApiUrl', `/docker-compose${path}`);
+    return this.configuration.url('dockerApiUrl', `/docker${path}`);
   }
 
 }

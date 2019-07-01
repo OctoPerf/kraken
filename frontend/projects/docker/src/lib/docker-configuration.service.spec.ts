@@ -8,10 +8,8 @@ import {configurationServiceSpy} from 'projects/commons/src/lib/config/configura
 export const dockerConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('DockerConfigurationService', [
     'dockerApiUrl',
-    'dockerComposeApiUrl',
   ]);
-  spy.dockerApiUrl.and.callFake((path) => 'executorApiUrl/docker' + path);
-  spy.dockerComposeApiUrl.and.callFake((path) => 'executorApiUrl/docker-compose' + path);
+  spy.dockerApiUrl.and.callFake((path) => 'dockerApiUrl/docker' + path);
   return spy;
 };
 
@@ -41,7 +39,6 @@ describe('DockerConfigurationService', () => {
   it('should return staticApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.dockerApiUrl('path')).toBe('url');
-    expect(service.dockerComposeApiUrl('path')).toBe('url');
   });
 
 });

@@ -13,19 +13,11 @@ export class DockerEndpointService {
   }
 
   dockerPath(suffix: string): string {
-    return this.config.executorApiUrl(`${this._dockerRoot}${suffix}`);
-  }
-
-  dockerComposePath(suffix: string): string {
-    return this.config.executorApiUrl(`${this._dockerComposeRoot}${suffix}`);
+    return this.config.dockerApiUrl(`${this._dockerRoot}${suffix}`);
   }
 
   get dockerRoot(): string {
     return this._dockerRoot;
-  }
-
-  get dockerComposeRoot(): string {
-    return this._dockerComposeRoot;
   }
 
 }

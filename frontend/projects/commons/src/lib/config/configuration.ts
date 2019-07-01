@@ -1,7 +1,8 @@
 export interface Configuration {
   version: string;
   applicationId: string;
-  executorApiUrl: string;
+  commandApiUrl: string;
+  dockerApiUrl: string;
   storageApiUrl: string;
   docUrl: string;
   errorsMatcher: string;

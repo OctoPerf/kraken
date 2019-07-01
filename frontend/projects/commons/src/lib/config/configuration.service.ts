@@ -16,7 +16,8 @@ export class ConfigurationService {
   _config = new BehaviorSubject<Configuration>({
     version: 'version',
     applicationId: 'application',
-    executorApiUrl: 'executorApiUrl',
+    commandApiUrl: 'commandApiUrl',
+    dockerApiUrl: 'dockerApiUrl',
     storageApiUrl: 'storageApiUrl',
     docUrl: 'docUrl',
     errorsMatcher: '^.*$',
@@ -43,8 +44,12 @@ export class ConfigurationService {
     return this._config.value.applicationId;
   }
 
-  executorApiUrl(path: string): string {
-    return this.url('executorApiUrl', path);
+  commandApiUrl(path: string): string {
+    return this.url('commandApiUrl', path);
+  }
+
+  dockerApiUrl(path: string): string {
+    return this.url('dockerApiUrl', path);
   }
 
   storageApiUrl(path: string): string {
