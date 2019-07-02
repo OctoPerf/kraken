@@ -1,3 +1,5 @@
+.PHONY: build-prod
+
 # Node.js and Docker are required to run this Makefile
 
 setup:
