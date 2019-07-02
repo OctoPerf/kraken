@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Observer, Subscription} from 'rxjs';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {EventSourceService} from 'projects/tools/src/lib/event-source.service';
 import {HttpClient} from '@angular/common/http';
@@ -24,14 +24,14 @@ import {Retry} from 'projects/tools/src/lib/retry';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 
 @Injectable()
-export class CommandService implements OnDestroy {
+export class CommandService implements OnDestroy, Observer<CommandLog> {
 
   private static readonly TRUNC = 50;
 
   private commandLabels: Map<string, { name: string, title: string }> = new Map([]);
   _eventSourceSubscription: Subscription;
   _retry: Retry;
-  _destroyed = false;
+  closed = false;
 
   public commandLabelsChanged: EventEmitter<void> = new EventEmitter<void>();
 
@@ -53,7 +53,7 @@ export class CommandService implements OnDestroy {
     if (this._eventSourceSubscription) {
       this._eventSourceSubscription.unsubscribe();
     }
-    this._destroyed = true;
+    this.closed = true;
   }
 
   executeShell(path: string): Observable<string> {
@@ -100,15 +100,15 @@ export class CommandService implements OnDestroy {
     // ApplicationId Header cannot be used here as it is not supported by SSE
     this._eventSourceSubscription = this.eventSourceService
       .newObservable(this.commandConfiguration.commandApiUrl(`/listen/${this.configuration.applicationId}`), {converter: JSON.parse})
-      .subscribe(this._onMessage.bind(this), this._onError.bind(this), this._onError.bind(this));
+      .subscribe(this);
   }
 
-  _onMessage(log: CommandLog) {
+  next(log: CommandLog) {
     this._retry.reset();
     this.eventBus.publish(new CommandLogEvent(log));
   }
 
-  _onError() {
+  error(err: any) {
     const delay = this._retry.getDelay();
     this.eventBus.publish(new NotificationEvent(
       new BaseNotification(
@@ -119,10 +119,14 @@ export class CommandService implements OnDestroy {
           selector: 'lib-command-tabs-panel',
           busEvent: new OpenCommandLogsEvent()
         })));
-    if (this._destroyed) {
+    if (this.closed) {
       return;
     }
     setTimeout(this.listen.bind(this), delay);
+  }
+
+  complete() {
+    this.error(null);
   }
 
   cancel(commandId: string): Observable<boolean> {

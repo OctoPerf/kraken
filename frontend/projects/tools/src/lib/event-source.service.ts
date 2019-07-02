@@ -23,7 +23,7 @@ export class EventSourceService {
       errorMessage: '',
       converter: _.identity,
     });
-    return Observable.create(observer => {
+    return new Observable(observer => {
       const eventSource = this.newEventSource(path + this.paramsToString.transform(options.params));
       eventSource.onmessage = event => {
         observer.next(options.converter(event.data));

@@ -8,20 +8,19 @@ import {NodeDeletedEvent} from 'projects/storage/src/lib/events/node-deleted-eve
 import {NodeModifiedEvent} from 'projects/storage/src/lib/events/node-modified-event';
 import {EventSourceService} from 'projects/tools/src/lib/event-source.service';
 import {BaseNotification} from 'projects/notification/src/lib/base-notification';
-import {Subscription} from 'rxjs';
+import {Observer, Subscription} from 'rxjs';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
-import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {DurationToStringPipe} from 'projects/date/src/lib/duration-to-string.pipe';
 import {RetriesService} from 'projects/tools/src/lib/retries.service';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {Retry} from 'projects/tools/src/lib/retry';
 
 @Injectable()
-export class StorageWatcherService implements OnDestroy {
+export class StorageWatcherService implements OnDestroy, Observer<StorageWatcherEvent> {
 
   _subscription: Subscription;
   _retry: Retry;
-  _destroyed = false;
+  closed = false;
   public reconnected: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private configuration: StorageConfigurationService,
@@ -35,7 +34,7 @@ export class StorageWatcherService implements OnDestroy {
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
-    this._destroyed = true;
+    this.closed = true;
   }
 
   watch() {
@@ -43,10 +42,10 @@ export class StorageWatcherService implements OnDestroy {
       this._subscription.unsubscribe();
     }
     this._subscription = this.eventSourceService.newObservable(this.configuration.storageApiUrl('/watch'), {converter: JSON.parse})
-      .subscribe(this._onMessage.bind(this), this._onError.bind(this), this._onError.bind(this));
+      .subscribe(this);
   }
 
-  _onMessage(watcherEvent: StorageWatcherEvent) {
+  next(watcherEvent: StorageWatcherEvent) {
     this._retry.reset();
     switch (watcherEvent.event) {
       case 'CREATE':
@@ -61,7 +60,7 @@ export class StorageWatcherService implements OnDestroy {
     }
   }
 
-  _onError() {
+  error(err: any) {
     const delay = this._retry.getDelay();
     this.eventBus.publish(new NotificationEvent(new BaseNotification(
       `An error occurred while listening for file events. Will reconnect in ${this.durationToString.transform(delay)}.`,
@@ -72,12 +71,16 @@ export class StorageWatcherService implements OnDestroy {
         busEvent: new OpenStorageTreeEvent()
       })));
 
-    if (this._destroyed) {
+    if (this.closed) {
       return;
     }
     setTimeout(() => {
       this.watch();
       this.reconnected.emit();
     }, delay);
+  }
+
+  complete() {
+    this.error(null);
   }
 }

@@ -181,7 +181,7 @@ describe('CommandService', () => {
 
   it('should handle error', fakeAsync(() => {
     const listen = spyOn(service, 'listen');
-    service._onError();
+    service.error(null);
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(listen).toHaveBeenCalled();
@@ -190,14 +190,14 @@ describe('CommandService', () => {
   it('should not handle error destroyed', fakeAsync(() => {
     const listen = spyOn(service, 'listen');
     service.ngOnDestroy();
-    service._onError();
+    service.complete();
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(listen).not.toHaveBeenCalled();
   }));
 
   it('should send event on message', () => {
-    service._onMessage({command: new Command(['java', '--version']), status: 'INITIALIZED', text: ''});
+    service.next({command: new Command(['java', '--version']), status: 'INITIALIZED', text: ''});
     expect(service._retry.reset).toHaveBeenCalled();
     expect(eventBus.publish).toHaveBeenCalled();
   });

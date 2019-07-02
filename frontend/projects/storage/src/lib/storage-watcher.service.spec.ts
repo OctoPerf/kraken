@@ -61,27 +61,27 @@ describe('StorageWatcherService', () => {
 
   it('should handle CREATE message', () => {
     const node = testStorageDirectoryNode();
-    service._onMessage({node, event: 'CREATE'});
+    service.next({node, event: 'CREATE'});
     expect(eventBus.publish).toHaveBeenCalledWith(new NodeCreatedEvent(node));
     expect(service._retry.reset).toHaveBeenCalled();
   });
 
   it('should handle DELETE message', () => {
     const node = testStorageDirectoryNode();
-    service._onMessage({node, event: 'DELETE'});
+    service.next({node, event: 'DELETE'});
     expect(eventBus.publish).toHaveBeenCalledWith(new NodeDeletedEvent(node));
   });
 
   it('should handle MODIFY message', () => {
     const node = testStorageDirectoryNode();
-    service._onMessage({node, event: 'MODIFY'});
+    service.next({node, event: 'MODIFY'});
     expect(eventBus.publish).toHaveBeenCalledWith(new NodeModifiedEvent(node));
   });
 
   it('should handle error', fakeAsync(() => {
     const reconnected = spyOn(service.reconnected, 'emit');
     const watch = spyOn(service, 'watch');
-    service._onError();
+    service.error(null);
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(watch).toHaveBeenCalled();
@@ -92,7 +92,7 @@ describe('StorageWatcherService', () => {
     const reconnected = spyOn(service.reconnected, 'emit');
     const watch = spyOn(service, 'watch');
     service.ngOnDestroy();
-    service._onError();
+    service.complete();
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(watch).not.toHaveBeenCalled();
