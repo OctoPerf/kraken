@@ -42,15 +42,13 @@ describe('ExecuteCommandDialogComponent shell', () => {
     expect(component.advancedForm).toBeDefined();
   });
 
-  it('should execute', () => {
-    component.execute();
-    expect(dialogRef.close).toHaveBeenCalledWith(shellCommand);
+  it('should return command', () => {
+    expect(component.newCommand()).toEqual(shellCommand);
   });
 
   it('should execute advanced', () => {
     component.selectedIndex = ExecuteCommandDialogComponent.ADVANCED_INDEX;
-    component.execute();
-    expect(dialogRef.close).toHaveBeenCalledWith(shellCommand);
+    expect(component.newCommand()).toEqual(shellCommand);
   });
 
   it('should isValid', () => {
