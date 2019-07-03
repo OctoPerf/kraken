@@ -177,7 +177,7 @@ public class DockerContainerControllerTest {
         .willReturn(Mono.just(DockerContainerTest.DOCKER_CONTAINER));
 
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/container")
+        .uri(uriBuilder -> uriBuilder.path("/container/inspect")
             .queryParam("containerId", containerId)
             .build())
         .exchange()
@@ -194,7 +194,7 @@ public class DockerContainerControllerTest {
         .willReturn(Flux.just(DockerContainerTest.DOCKER_CONTAINER));
 
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/container/ps")
+        .uri(uriBuilder -> uriBuilder.path("/container")
             .build())
         .exchange()
         .expectStatus().isOk()

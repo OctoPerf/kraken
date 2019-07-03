@@ -10,7 +10,7 @@ export class CommandConfigurationService {
   }
 
   commandApiUrl(path: string): string {
-    return this.configuration.url('commandApiUrl', `/command${path}`);
+    return this.configuration.url('commandApiUrl', path);
   }
 
 }

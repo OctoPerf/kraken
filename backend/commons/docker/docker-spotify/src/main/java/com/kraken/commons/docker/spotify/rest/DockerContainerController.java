@@ -65,12 +65,12 @@ class DockerContainerController {
     return this.service.stop(containerId, Optional.ofNullable(secondsToWaitBeforeKilling).orElse(10));
   }
 
-  @GetMapping()
+  @GetMapping("/inspect")
   public Mono<DockerContainer> inspect(@RequestParam("containerId") final String containerId) {
     return this.service.inspect(containerId);
   }
 
-  @GetMapping("/ps")
+  @GetMapping()
   public Flux<DockerContainer> ps() {
     return this.service.ps();
   }

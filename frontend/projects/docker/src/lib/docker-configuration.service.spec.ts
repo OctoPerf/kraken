@@ -7,9 +7,13 @@ import {configurationServiceSpy} from 'projects/commons/src/lib/config/configura
 
 export const dockerConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('DockerConfigurationService', [
-    'dockerApiUrl',
+    'dockerContainerApiUrl',
+    'dockerImageApiUrl',
+    'dockerSystemApiUrl',
   ]);
-  spy.dockerApiUrl.and.callFake((path) => 'dockerApiUrl/docker' + path);
+  spy.dockerContainerApiUrl.and.callFake((path) => 'dockerApiUrl/container' + path ? path : '');
+  spy.dockerImageApiUrl.and.callFake((path) => 'dockerApiUrl/image' + path ? path : '');
+  spy.dockerSystemApiUrl.and.callFake((path) => 'dockerApiUrl/system' + path ? path : '');
   return spy;
 };
 
@@ -36,9 +40,22 @@ describe('DockerConfigurationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return staticApiUrl', () => {
+  it('should return dockerContainerApiUrl', () => {
     configuration.url.and.returnValue('url');
-    expect(service.dockerApiUrl('path')).toBe('url');
+    expect(service.dockerContainerApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('dockerApiUrl', '/container/path');
+  });
+
+  it('should return dockerImageApiUrl', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.dockerImageApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('dockerApiUrl', '/image/path');
+  });
+
+  it('should return dockerSystemApiUrl', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.dockerSystemApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('dockerApiUrl', '/system/path');
   });
 
 });

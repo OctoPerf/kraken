@@ -84,7 +84,7 @@ class DockerContainerWebClient implements DockerContainerClient {
   @Override
   public Mono<DockerContainer> inspect(final String containerId) {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/container").queryParam("containerId", containerId).build())
+        .uri(uriBuilder -> uriBuilder.path("/container/inspect").queryParam("containerId", containerId).build())
         .retrieve()
         .bodyToMono(DockerContainer.class);
   }

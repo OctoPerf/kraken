@@ -9,8 +9,15 @@ export class DockerConfigurationService {
   constructor(private configuration: ConfigurationService) {
   }
 
-  dockerApiUrl(path: string): string {
-    return this.configuration.url('dockerApiUrl', `/docker${path}`);
+  dockerContainerApiUrl(path: string = ''): string {
+    return this.configuration.url('dockerApiUrl', `/container${path}`);
   }
 
+  dockerImageApiUrl(path: string = ''): string {
+    return this.configuration.url('dockerApiUrl', `/image${path}`);
+  }
+
+  dockerSystemApiUrl(path: string): string {
+    return this.configuration.url('dockerApiUrl', `/system${path}`);
+  }
 }

@@ -22,11 +22,11 @@ export class DockerService {
   }
 
   images(): Observable<DockerImage[]> {
-    return this.http.get<DockerImage[]>(this.configuration.dockerApiUrl('/images')).pipe(tap(data => this.imagesSubject.next(data)));
+    return this.http.get<DockerImage[]>(this.configuration.dockerImageApiUrl()).pipe(tap(data => this.imagesSubject.next(data)));
   }
 
   rmi(image: DockerImage): Observable<boolean> {
-    return this.http.delete(this.configuration.dockerApiUrl(`/rmi`), {
+    return this.http.delete(this.configuration.dockerImageApiUrl(), {
       responseType: 'text',
       params: {
         imageId: image.id
@@ -40,7 +40,7 @@ export class DockerService {
   }
 
   pull(image: string): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/pull'), {
+    return this.http.get(this.configuration.dockerImageApiUrl('/pull'), {
       responseType: 'text',
       params: {
         image,
@@ -49,11 +49,11 @@ export class DockerService {
   }
 
   ps(): Observable<DockerContainer[]> {
-    return this.http.get<DockerContainer[]>(this.configuration.dockerApiUrl('/ps')).pipe(tap(data => this.containersSubject.next(data)));
+    return this.http.get<DockerContainer[]>(this.configuration.dockerContainerApiUrl()).pipe(tap(data => this.containersSubject.next(data)));
   }
 
   rm(container: DockerContainer): Observable<boolean> {
-    return this.http.delete(this.configuration.dockerApiUrl(`/rm`), {
+    return this.http.delete(this.configuration.dockerContainerApiUrl(), {
       responseType: 'text',
       params: {
         containerId: container.id
@@ -67,7 +67,7 @@ export class DockerService {
   }
 
   tail(container: DockerContainer): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/tail'), {
+    return this.http.get(this.configuration.dockerContainerApiUrl('/tail'), {
       responseType: 'text',
       params: {
         containerId: container.id,
@@ -77,7 +77,7 @@ export class DockerService {
   }
 
   logs(container: DockerContainer): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/logs'), {
+    return this.http.get(this.configuration.dockerContainerApiUrl('/logs'), {
       responseType: 'text',
       params: {
         containerId: container.name,
@@ -86,7 +86,7 @@ export class DockerService {
   }
 
   start(container: DockerContainer): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/start'), {
+    return this.http.get(this.configuration.dockerContainerApiUrl('/start'), {
       responseType: 'text',
       params: {
         containerId: container.id,
@@ -95,7 +95,7 @@ export class DockerService {
   }
 
   stop(container: DockerContainer): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/stop'), {
+    return this.http.delete(this.configuration.dockerContainerApiUrl('/stop'), {
       responseType: 'text',
       params: {
         containerId: container.id,
@@ -104,7 +104,7 @@ export class DockerService {
   }
 
   run(name: string, config: string): Observable<string> {
-    return this.http.post(this.configuration.dockerApiUrl('/run'), config, {
+    return this.http.post(this.configuration.dockerContainerApiUrl('/run'), config, {
       responseType: 'text',
       params: {
         name,
@@ -119,7 +119,7 @@ export class DockerService {
   }
 
   prune(all: boolean, volumes: boolean): Observable<string> {
-    return this.http.get(this.configuration.dockerApiUrl('/prune'), {
+    return this.http.get(this.configuration.dockerSystemApiUrl('/prune'), {
       responseType: 'text',
       params: {
         all: all.toString(),

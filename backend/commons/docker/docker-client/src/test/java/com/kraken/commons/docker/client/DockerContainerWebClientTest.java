@@ -187,7 +187,7 @@ public class DockerContainerWebClientTest {
     assertThat(response).isEqualTo(DockerContainerTest.DOCKER_CONTAINER);
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/container?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/inspect?containerId=containerId");
   }
 
   @Test
