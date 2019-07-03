@@ -61,7 +61,7 @@ public class CommandWebClientTest {
     assertThat(response).isEqualTo(commandId);
 
     final RecordedRequest commandRequest = commandMockWebServer.takeRequest();
-    assertThat(commandRequest.getPath()).startsWith("/command/execute");
+    assertThat(commandRequest.getPath()).startsWith("/execute");
     assertThat(mapper.readValue(commandRequest.getBody().readString(Charsets.UTF_8), Command.class)).isEqualTo(command);
   }
 }

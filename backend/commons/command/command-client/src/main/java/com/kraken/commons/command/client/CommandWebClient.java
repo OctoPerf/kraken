@@ -25,7 +25,7 @@ class CommandWebClient implements CommandClient {
 
   public Mono<String> execute(final Command command) {
     return webClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/command/execute").build())
+        .uri(uriBuilder -> uriBuilder.path("/execute").build())
         .body(BodyInserters.fromObject(command))
         .retrieve()
         .bodyToMono(String.class);

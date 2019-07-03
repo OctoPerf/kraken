@@ -43,7 +43,7 @@ public class CommandControllerTest {
         .willReturn(Mono.just("commandId"));
 
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/command/execute")
+        .uri(uriBuilder -> uriBuilder.path("/execute")
             .build())
         .body(BodyInserters.fromObject(CommandTest.SHELL_COMMAND))
         .exchange()
@@ -58,7 +58,7 @@ public class CommandControllerTest {
         .willReturn(Flux.just(CommandLogTest.SHELL_LOGS));
 
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/command/listen/app")
+        .uri(uriBuilder -> uriBuilder.path("/listen/app")
             .build())
         .exchange()
         .expectStatus().isOk()
@@ -73,7 +73,7 @@ public class CommandControllerTest {
         .willReturn(true);
 
     webTestClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/command/cancel")
+        .uri(uriBuilder -> uriBuilder.path("/cancel")
             .queryParam("commandId", "commandId")
             .build())
         .exchange()
