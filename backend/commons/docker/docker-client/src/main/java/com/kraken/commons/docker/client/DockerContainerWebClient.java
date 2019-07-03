@@ -1,7 +1,6 @@
 package com.kraken.commons.docker.client;
 
 import com.kraken.commons.docker.entity.DockerContainer;
-import com.kraken.commons.docker.entity.DockerImage;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,18 +19,18 @@ import static lombok.AccessLevel.PRIVATE;
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @Component
-class DockerWebClient implements DockerClient {
+class DockerContainerWebClient implements DockerContainerClient {
 
   WebClient webClient;
 
-  DockerWebClient(@Qualifier("webClientDocker") final WebClient webClient) {
+  DockerContainerWebClient(@Qualifier("webClientDockerContainer") final WebClient webClient) {
     this.webClient = requireNonNull(webClient);
   }
 
   @Override
   public Mono<String> run(final String name, final String config) {
     return webClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/docker/run").queryParam("name", name).build())
+        .uri(uriBuilder -> uriBuilder.path("/container/run").queryParam("name", name).build())
         .contentType(MediaType.TEXT_PLAIN)
         .body(BodyInserters.fromObject(config))
         .retrieve()
@@ -40,8 +39,8 @@ class DockerWebClient implements DockerClient {
 
   @Override
   public Mono<Boolean> start(final String containerId) {
-    return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/docker/start").queryParam("containerId", containerId).build())
+    return webClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/container/start").queryParam("containerId", containerId).build())
         .retrieve()
         .bodyToMono(String.class)
         .map(Boolean::parseBoolean);
@@ -49,9 +48,9 @@ class DockerWebClient implements DockerClient {
 
   @Override
   public Mono<Boolean> stop(final String containerId, final Optional<Integer> secondsToWaitBeforeKilling) {
-    return webClient.get()
+    return webClient.delete()
         .uri(uriBuilder -> {
-          uriBuilder.path("/docker/stop")
+          uriBuilder.path("/container/stop")
               .queryParam("containerId", containerId);
           secondsToWaitBeforeKilling.ifPresent(value -> uriBuilder.queryParam("secondsToWaitBeforeKilling", value));
           return uriBuilder.build();
@@ -65,7 +64,7 @@ class DockerWebClient implements DockerClient {
   public Mono<String> tail(final String containerId, final Optional<Integer> lines) {
     return webClient.get()
         .uri(uriBuilder -> {
-          uriBuilder.path("/docker/tail")
+          uriBuilder.path("/container/tail")
               .queryParam("containerId", containerId);
           lines.ifPresent(value -> uriBuilder.queryParam("lines", value));
           return uriBuilder.build();
@@ -77,7 +76,7 @@ class DockerWebClient implements DockerClient {
   @Override
   public Flux<DockerContainer> ps() {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/docker/ps").build())
+        .uri(uriBuilder -> uriBuilder.path("/container").build())
         .retrieve()
         .bodyToFlux(DockerContainer.class);
   }
@@ -85,7 +84,7 @@ class DockerWebClient implements DockerClient {
   @Override
   public Mono<DockerContainer> inspect(final String containerId) {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/docker/inspect").queryParam("containerId", containerId).build())
+        .uri(uriBuilder -> uriBuilder.path("/container").queryParam("containerId", containerId).build())
         .retrieve()
         .bodyToMono(DockerContainer.class);
   }
@@ -93,24 +92,7 @@ class DockerWebClient implements DockerClient {
   @Override
   public Mono<Boolean> rm(final String containerId) {
     return webClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/docker/rm").queryParam("containerId", containerId).build())
-        .retrieve()
-        .bodyToMono(String.class)
-        .map(Boolean::parseBoolean);
-  }
-
-  @Override
-  public Flux<DockerImage> images() {
-    return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/docker/images").build())
-        .retrieve()
-        .bodyToFlux(DockerImage.class);
-  }
-
-  @Override
-  public Mono<Boolean> rmi(final String imageId) {
-    return webClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/docker/rmi").queryParam("imageId", imageId).build())
+        .uri(uriBuilder -> uriBuilder.path("/container").queryParam("containerId", containerId).build())
         .retrieve()
         .bodyToMono(String.class)
         .map(Boolean::parseBoolean);

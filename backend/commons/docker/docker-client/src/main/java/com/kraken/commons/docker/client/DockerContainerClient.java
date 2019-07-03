@@ -1,13 +1,12 @@
 package com.kraken.commons.docker.client;
 
 import com.kraken.commons.docker.entity.DockerContainer;
-import com.kraken.commons.docker.entity.DockerImage;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-public interface DockerClient {
+public interface DockerContainerClient {
 
   Mono<String> run(String name, String config);
 
@@ -22,9 +21,5 @@ public interface DockerClient {
   Mono<DockerContainer> inspect(String containerId);
 
   Mono<Boolean> rm(String containerId);
-
-  Flux<DockerImage> images();
-
-  Mono<Boolean> rmi(String imageId);
 
 }

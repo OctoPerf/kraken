@@ -21,13 +21,21 @@ class DockerClientConfiguration {
         .build();
   }
 
-  @Bean("webClientDocker")
+  @Bean("webClientDockerContainer")
   @Autowired
-  WebClient dockerWebClient(final DockerClientProperties properties) {
+  WebClient dockerContainerWebClient(final DockerClientProperties properties) {
     return WebClient
         .builder()
         .baseUrl(properties.getDockerUrl())
         .build();
   }
 
+  @Bean("webClientDockerImage")
+  @Autowired
+  WebClient dockerImageWebClient(final DockerClientProperties properties) {
+    return WebClient
+        .builder()
+        .baseUrl(properties.getDockerUrl())
+        .build();
+  }
 }

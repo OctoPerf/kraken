@@ -21,17 +21,17 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DockerWebClientTest {
+public class DockerContainerWebClientTest {
 
   private ObjectMapper mapper;
   private MockWebServer dockerMockWebServer;
-  private DockerClient client;
+  private DockerContainerClient client;
 
   @Before
   public void before() {
     dockerMockWebServer = new MockWebServer();
     mapper = new ObjectMapper();
-    client = new DockerWebClient(WebClient.create(dockerMockWebServer.url("/").toString()));
+    client = new DockerContainerWebClient(WebClient.create(dockerMockWebServer.url("/").toString()));
   }
 
   @After
@@ -55,7 +55,7 @@ public class DockerWebClientTest {
     assertThat(response).isEqualTo(containerId);
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).startsWith("/docker/run");
+    assertThat(dockerRequest.getPath()).startsWith("/container/run");
     assertThat(dockerRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(config);
   }
 
@@ -74,7 +74,7 @@ public class DockerWebClientTest {
     assertThat(response).isTrue();
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/start?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/start?containerId=containerId");
   }
 
   @Test
@@ -93,7 +93,7 @@ public class DockerWebClientTest {
     assertThat(response).isTrue();
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/stop?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/stop?containerId=containerId");
   }
 
   @Test
@@ -112,7 +112,8 @@ public class DockerWebClientTest {
     assertThat(response).isTrue();
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/stop?containerId=containerId&secondsToWaitBeforeKilling=42");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/stop?containerId=containerId&secondsToWaitBeforeKilling=42");
+    assertThat(dockerRequest.getMethod()).isEqualTo("DELETE");
   }
 
   @Test
@@ -131,7 +132,7 @@ public class DockerWebClientTest {
     assertThat(response).isEqualTo("some logs");
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/tail?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/tail?containerId=containerId");
   }
 
   @Test
@@ -150,7 +151,7 @@ public class DockerWebClientTest {
     assertThat(response).isEqualTo("some logs");
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/tail?containerId=containerId&lines=42");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/tail?containerId=containerId&lines=42");
   }
 
 
@@ -167,7 +168,7 @@ public class DockerWebClientTest {
     assertThat(response).isEqualTo(DockerContainerTest.DOCKER_CONTAINER);
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/ps");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container");
   }
 
 
@@ -186,7 +187,7 @@ public class DockerWebClientTest {
     assertThat(response).isEqualTo(DockerContainerTest.DOCKER_CONTAINER);
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/inspect?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container?containerId=containerId");
   }
 
   @Test
@@ -204,42 +205,8 @@ public class DockerWebClientTest {
     assertThat(response).isTrue();
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/rm?containerId=containerId");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container?containerId=containerId");
     assertThat(dockerRequest.getMethod()).isEqualTo("DELETE");
   }
 
-  @Test
-  public void shouldImages() throws InterruptedException, JsonProcessingException {
-    dockerMockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(ImmutableList.of(DockerImageTest.DOCKER_IMAGE)))
-    );
-
-    final var response = client.images().blockFirst();
-    assertThat(response).isEqualTo(DockerImageTest.DOCKER_IMAGE);
-
-    final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/images");
-  }
-
-  @Test
-  public void shouldRmi() throws InterruptedException {
-    final var imageId = "imageId";
-
-    dockerMockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
-            .setBody("true")
-    );
-
-    final var response = client.rmi(imageId).block();
-    assertThat(response).isTrue();
-
-    final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/docker/rmi?imageId=imageId");
-    assertThat(dockerRequest.getMethod()).isEqualTo("DELETE");
-  }
 }

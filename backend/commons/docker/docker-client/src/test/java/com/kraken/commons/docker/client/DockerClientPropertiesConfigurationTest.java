@@ -19,9 +19,13 @@ public class DockerClientPropertiesConfigurationTest {
   @Autowired
   DockerClientProperties properties;
 
-  @Qualifier("webClientDocker")
+  @Qualifier("webClientDockerContainer")
   @Autowired
-  WebClient dockerWebClient;
+  WebClient dockerContainerWebClient;
+
+  @Qualifier("webClientDockerImage")
+  @Autowired
+  WebClient dockerImageWebClient;
 
   @Test
   public void shouldCreateProperties() {
@@ -30,6 +34,7 @@ public class DockerClientPropertiesConfigurationTest {
 
   @Test
   public void shouldCreateWebClients() {
-    Assertions.assertThat(dockerWebClient).isNotNull();
+    Assertions.assertThat(dockerContainerWebClient).isNotNull();
+    Assertions.assertThat(dockerImageWebClient).isNotNull();
   }
 }
