@@ -36,7 +36,7 @@ lint:
 	ng lint --fix
 
 serve:
-	ng serve --open --aot --project=$(APP) --base-href /$(APP)/
+	ng serve --open --project=$(APP) --base-href /$(APP)/
 
 # You may need to update the property "sourceMap": true, in the angular.json file
 serve-prod:
