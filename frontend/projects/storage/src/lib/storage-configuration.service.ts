@@ -10,8 +10,8 @@ export class StorageConfigurationService {
   constructor(private configuration: ConfigurationService) {
   }
 
-  storageApiUrl(path: string): string {
-    return this.configuration.url('storageApiUrl', path);
+  storageApiUrl(path: string = ''): string {
+    return this.configuration.url('storageApiUrl', `/files${path}`);
   }
 
   get readmeNode(): StorageNode {

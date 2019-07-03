@@ -2,8 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {StorageService} from './storage.service';
 import {cold} from 'jasmine-marbles';
-import {BehaviorSubject, of} from 'rxjs';
-import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {of} from 'rxjs';
 import {HttpTestingController} from '@angular/common/http/testing';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
@@ -27,8 +26,8 @@ import {NodeEventToNodePipe} from 'projects/storage/src/lib/storage-pipes/node-e
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
 import * as _ from 'lodash';
-import SpyObj = jasmine.SpyObj;
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import SpyObj = jasmine.SpyObj;
 
 export const storageServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageService', [
@@ -98,7 +97,7 @@ describe('StorageService', () => {
       title: 'Rename File',
       name: 'main.html'
     });
-    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'storageApiUrl/rename');
+    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'storageApiUrl/files/rename');
     expect(req.request.method).toBe('POST');
     expect(req.request.params.get('directoryPath')).toEqual(directoryNode.path);
     expect(req.request.params.get('oldName')).toEqual('main.html');
@@ -111,7 +110,7 @@ describe('StorageService', () => {
     dialogs.open.and.returnValue(of('close'));
     service.deleteFiles(nodes);
     expect(dialogs.open).toHaveBeenCalledWith(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes});
-    const req = httpTestingController.expectOne('storageApiUrl/delete');
+    const req = httpTestingController.expectOne('storageApiUrl/files/delete');
     expect(req.request.method).toBe('POST');
     req.flush([true]);
     expect(eventBus.publish).toHaveBeenCalledWith(new DeleteFilesEvent([true]));
@@ -126,7 +125,7 @@ describe('StorageService', () => {
       name: '',
       helpPageId: 'ADMIN_CREATE_FILE'
     });
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/set/content');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/set/content');
     expect(req.request.method).toEqual('POST');
     expect(req.request.params.get('path')).toEqual('filename');
     req.flush(node);
@@ -142,7 +141,7 @@ describe('StorageService', () => {
       name: '',
       helpPageId: 'ADMIN_CREATE_FILE'
     });
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/set/directory');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/set/directory');
     expect(req.request.method).toEqual('POST');
     expect(req.request.params.get('path')).toEqual(node.path + '/filename');
     req.flush(node);
@@ -156,7 +155,7 @@ describe('StorageService', () => {
     expect(dialogs.open).toHaveBeenCalledWith(FileUploadDialogComponent,
       DialogSize.SIZE_MD,
       {
-        endpoint: 'storageApiUrl/set/file?path=spotbugs',
+        endpoint: 'storageApiUrl/files/set/file?path=spotbugs',
         multiple: true,
         accept: '*',
         title: 'Upload Files',
@@ -165,14 +164,14 @@ describe('StorageService', () => {
 
   it('should download', () => {
     const node = testStorageDirectoryNode();
-    expect(service.downloadLink(node)).toBe('storageApiUrl/get/file?path=' + node.path);
-    expect(service.downloadLink()).toBe('storageApiUrl/get/file?path=');
+    expect(service.downloadLink(node)).toBe('storageApiUrl/files/get/file?path=' + node.path);
+    expect(service.downloadLink()).toBe('storageApiUrl/files/get/file?path=');
   });
 
   it('should getContent', () => {
     const node = testStorageFileNode();
     service.getContent(node).subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/get/content');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/content');
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush('content');
@@ -182,7 +181,7 @@ describe('StorageService', () => {
     const node = testStorageFileNode();
     const response = {key: 'value'};
     service.getJSON(node).subscribe(value => expect(value).toEqual(response));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/get/json');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/json');
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush(response);
@@ -191,7 +190,7 @@ describe('StorageService', () => {
   it('should get', () => {
     const node = testStorageFileNode();
     service.get(node.path).subscribe(value => expect(value).toEqual(node));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/get');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get');
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush(node);
@@ -201,7 +200,7 @@ describe('StorageService', () => {
     const nodes = testStorageNodes();
     const response = [{key: 'value'}, {key: 'value'}];
     service.listJSON(nodes).subscribe(value => expect(value).toEqual(response));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/list/json');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/list/json');
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(_.map(nodes, 'path'));
     req.flush(response);
@@ -210,7 +209,7 @@ describe('StorageService', () => {
   it('should deleteFile', () => {
     const node = testStorageFileNode();
     service.deleteFile(node.path).subscribe();
-    const req = httpTestingController.expectOne('storageApiUrl/delete');
+    const req = httpTestingController.expectOne('storageApiUrl/files/delete');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual([node.path]);
     req.flush([true]);
@@ -218,7 +217,7 @@ describe('StorageService', () => {
 
   it('should find', () => {
     service.find('rootPath', 'matcher', 42).subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/find');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/find');
     expect(req.request.method).toBe('GET');
     expect(req.request.params.get('rootPath')).toEqual('rootPath');
     expect(req.request.params.get('matcher')).toEqual('matcher');
@@ -228,7 +227,7 @@ describe('StorageService', () => {
 
   it('should find defaults', () => {
     service.find('rootPath').subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/find');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/find');
     expect(req.request.method).toBe('GET');
     expect(req.request.params.get('rootPath')).toEqual('rootPath');
     expect(req.request.params.has('matcher')).toBeFalsy();
@@ -239,7 +238,7 @@ describe('StorageService', () => {
   it('should filter existing', () => {
     const nodes = testStorageNodes();
     service.filterExisting(nodes).subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/filter/existing');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/filter/existing');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(nodes);
     req.flush(nodes);
@@ -247,7 +246,7 @@ describe('StorageService', () => {
 
   it('should list', () => {
     service.list().subscribe();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/list');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/list');
     expect(req.request.method).toEqual('GET');
     req.flush(testStorageNodes());
   });

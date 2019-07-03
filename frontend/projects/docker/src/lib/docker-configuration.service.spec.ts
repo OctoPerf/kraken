@@ -11,9 +11,9 @@ export const dockerConfigurationServiceSpy = () => {
     'dockerImageApiUrl',
     'dockerSystemApiUrl',
   ]);
-  spy.dockerContainerApiUrl.and.callFake((path) => 'dockerApiUrl/container' + path ? path : '');
-  spy.dockerImageApiUrl.and.callFake((path) => 'dockerApiUrl/image' + path ? path : '');
-  spy.dockerSystemApiUrl.and.callFake((path) => 'dockerApiUrl/system' + path ? path : '');
+  spy.dockerContainerApiUrl.and.callFake((path = '') => `dockerApiUrl/container${path}`);
+  spy.dockerImageApiUrl.and.callFake((path = '') => `dockerApiUrl/image${path}`);
+  spy.dockerSystemApiUrl.and.callFake((path) => `dockerApiUrl/system${path}`);
   return spy;
 };
 

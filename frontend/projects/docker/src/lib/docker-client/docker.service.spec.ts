@@ -68,10 +68,12 @@ describe('DockerService', () => {
   let container: DockerContainer;
 
   beforeEach(() => {
+    const config = dockerConfigurationServiceSpy();
+
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       providers: [
-        {provide: DockerConfigurationService, useValue: dockerConfigurationServiceSpy()},
+        {provide: DockerConfigurationService, useValue: config},
         {provide: DialogService, useValue: dialogsServiceSpy()},
         {provide: EventSourceService, useValue: eventSourceServiceSpy()},
         DockerService,
@@ -95,7 +97,7 @@ describe('DockerService', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should list images', () => {
+  it('should list images', () => {
     service.images().subscribe(value => expect(value).toBe(images), () => fail('list failed'));
     const request = httpTestingController.expectOne('dockerApiUrl/image');
     expect(request.request.method).toBe('GET');
@@ -106,7 +108,7 @@ describe('DockerService', () => {
   it('should rmi', () => {
     service.imagesSubject.next(images);
     service.rmi(image).subscribe(value => expect(value).toBeTruthy(), () => fail('rmi failed'));
-    const request = httpTestingController.expectOne('dockerApiUrl/image');
+    const request = httpTestingController.expectOne(req => req.url === 'dockerApiUrl/image');
     expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('imageId')).toBe(image.id);
     request.flush('true');
@@ -151,10 +153,10 @@ describe('DockerService', () => {
     expect(service.containersSubject.value.length).toBe(2);
   });
 
-  fit('should pull image', () => {
+  it('should pull image', () => {
     const imageName = 'image';
     service.pull(imageName).subscribe();
-    const request = httpTestingController.expectOne('dockerApiUrl/image/pull');
+    const request = httpTestingController.expectOne(req => req.url === 'dockerApiUrl/image/pull');
     expect(request.request.method).toBe('GET');
     expect(request.request.params.get('image')).toBe(imageName);
     request.flush('commandId');
@@ -179,7 +181,7 @@ describe('DockerService', () => {
 
   it('should start', () => {
     service.start(container).subscribe();
-    const request = httpTestingController.expectOne('dockerApiUrl/container/start');
+    const request = httpTestingController.expectOne(req => req.url === 'dockerApiUrl/container/start');
     expect(request.request.method).toBe('GET');
     expect(request.request.params.get('containerId')).toBe(container.id);
     request.flush('true');

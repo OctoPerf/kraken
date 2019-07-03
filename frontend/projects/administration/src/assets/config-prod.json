@@ -1,7 +1,7 @@
 {
   "version": "administration-1",
   "applicationId": "administration",
-  "storageApiUrl": "/api/storage/files",
+  "storageApiUrl": "/api/storage",
   "readmeNode": {
     "path": "README.md",
     "type": "FILE",

@@ -1,7 +1,7 @@
 {
   "version": "gatling-test-1",
   "applicationId": "gatling",
-  "storageApiUrl": "http://localhost:8080/files",
+  "storageApiUrl": "http://localhost:8080",
   "readmeNode": {
     "path": "gatling/README.md",
     "type": "FILE",
@@ -14,7 +14,7 @@
   "docUrl": "https://kraken.octoperf.com",
   "errorsMatcher": "^.*$",
   "staticApiUrl": "http://localhost:8088",
-  "analysisApiUrl": "http://localhost:8083/test",
+  "analysisApiUrl": "http://localhost:8083",
   "analysisRootNode": {
     "path": "gatling/results",
     "type": "DIRECTORY",

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
-import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 
 @Injectable({
   providedIn: 'root'

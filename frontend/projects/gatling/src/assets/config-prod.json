@@ -1,7 +1,7 @@
 {
   "version": "gatling-1",
   "applicationId": "gatling",
-  "storageApiUrl": "/api/storage/files",
+  "storageApiUrl": "/api/storage",
   "readmeNode": {
     "path": "gatling/README.md",
     "type": "FILE",
@@ -14,7 +14,7 @@
   "docUrl": "https://kraken.octoperf.com",
   "errorsMatcher": "^.*$",
   "staticApiUrl": "/api/static",
-  "analysisApiUrl": "/api/analysis/test",
+  "analysisApiUrl": "/api/analysis",
   "analysisRootNode": {
     "path": "gatling/results",
     "type": "DIRECTORY",

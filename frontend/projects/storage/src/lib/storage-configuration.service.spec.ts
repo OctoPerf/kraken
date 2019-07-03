@@ -11,7 +11,7 @@ export const storageConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageConfigurationService', [
     'storageApiUrl',
   ]);
-  spy.storageApiUrl.and.callFake((path) => 'storageApiUrl' + path);
+  spy.storageApiUrl.and.callFake((path = '') => `storageApiUrl/files${path}`);
   spy.readmeNode = {
     'path': 'gatling/README.md',
     'type': 'FILE',

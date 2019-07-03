@@ -1,7 +1,7 @@
 {
   "version": "administration-test-1",
   "applicationId": "administration",
-  "storageApiUrl": "http://localhost:8080/files",
+  "storageApiUrl": "http://localhost:8080",
   "readmeNode": {
     "path": "README.md",
     "type": "FILE",
