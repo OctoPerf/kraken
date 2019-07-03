@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 
 import static lombok.AccessLevel.PACKAGE;
