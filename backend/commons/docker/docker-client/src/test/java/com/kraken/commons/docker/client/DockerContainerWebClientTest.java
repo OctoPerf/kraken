@@ -168,7 +168,7 @@ public class DockerContainerWebClientTest {
     assertThat(response).isEqualTo(DockerContainerTest.DOCKER_CONTAINER);
 
     final RecordedRequest dockerRequest = dockerMockWebServer.takeRequest();
-    assertThat(dockerRequest.getPath()).isEqualTo("/container");
+    assertThat(dockerRequest.getPath()).isEqualTo("/container/ps");
   }
 
 

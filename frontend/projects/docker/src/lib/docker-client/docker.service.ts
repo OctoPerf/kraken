@@ -49,7 +49,7 @@ export class DockerService {
   }
 
   ps(): Observable<DockerContainer[]> {
-    return this.http.get<DockerContainer[]>(this.configuration.dockerContainerApiUrl()).pipe(tap(data => this.containersSubject.next(data)));
+    return this.http.get<DockerContainer[]>(this.configuration.dockerContainerApiUrl('/ps')).pipe(tap(data => this.containersSubject.next(data)));
   }
 
   rm(container: DockerContainer): Observable<boolean> {
@@ -86,7 +86,7 @@ export class DockerService {
   }
 
   start(container: DockerContainer): Observable<string> {
-    return this.http.get(this.configuration.dockerContainerApiUrl('/start'), {
+    return this.http.post(this.configuration.dockerContainerApiUrl('/start'), '', {
       responseType: 'text',
       params: {
         containerId: container.id,

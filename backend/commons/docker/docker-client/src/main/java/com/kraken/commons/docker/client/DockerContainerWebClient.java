@@ -76,7 +76,7 @@ class DockerContainerWebClient implements DockerContainerClient {
   @Override
   public Flux<DockerContainer> ps() {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/container").build())
+        .uri(uriBuilder -> uriBuilder.path("/container/ps").build())
         .retrieve()
         .bodyToFlux(DockerContainer.class);
   }

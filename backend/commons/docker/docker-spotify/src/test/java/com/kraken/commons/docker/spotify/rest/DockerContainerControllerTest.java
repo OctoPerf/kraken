@@ -194,7 +194,7 @@ public class DockerContainerControllerTest {
         .willReturn(Flux.just(DockerContainerTest.DOCKER_CONTAINER));
 
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/container")
+        .uri(uriBuilder -> uriBuilder.path("/container/ps")
             .build())
         .exchange()
         .expectStatus().isOk()

@@ -70,7 +70,7 @@ class DockerContainerController {
     return this.service.inspect(containerId);
   }
 
-  @GetMapping()
+  @GetMapping("ps")
   public Flux<DockerContainer> ps() {
     return this.service.ps();
   }

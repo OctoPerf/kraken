@@ -127,7 +127,7 @@ describe('DockerService', () => {
 
   it('should list containers', () => {
     service.ps().subscribe(value => expect(value).toBe(containers), () => fail('list failed'));
-    const request = httpTestingController.expectOne('dockerApiUrl/container');
+    const request = httpTestingController.expectOne('dockerApiUrl/container/ps');
     expect(request.request.method).toBe('GET');
     request.flush(containers);
     expect(service.containersSubject.value).toEqual(containers);
@@ -182,7 +182,7 @@ describe('DockerService', () => {
   it('should start', () => {
     service.start(container).subscribe();
     const request = httpTestingController.expectOne(req => req.url === 'dockerApiUrl/container/start');
-    expect(request.request.method).toBe('GET');
+    expect(request.request.method).toBe('POST');
     expect(request.request.params.get('containerId')).toBe(container.id);
     request.flush('true');
     const ps = httpTestingController.expectOne('dockerApiUrl/container');
