@@ -44,16 +44,16 @@ export class ConfigurationService {
     return this._config.value.applicationId;
   }
 
-  commandApiUrl(path: string): string {
-    return this.url('commandApiUrl', path);
+  get commandApiUrl(): string {
+    return this.value('commandApiUrl');
   }
 
-  dockerApiUrl(path: string): string {
-    return this.url('dockerApiUrl', path);
+  get dockerApiUrl(): string {
+    return this.value('dockerApiUrl');
   }
 
-  storageApiUrl(path: string): string {
-    return this.url('storageApiUrl', path);
+  get storageApiUrl(): string {
+    return this.value('storageApiUrl');
   }
 
   docUrl(path: string): string {

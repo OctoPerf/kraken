@@ -47,7 +47,7 @@ export class ExecuteSimulationDialogComponent {
     return this.simulationForm.get('javaOpts');
   }
 
-  close() {
+  run() {
     const javaOpts = this.javaOpts.value || '';
     this.localStorage.set('run-simulation-' + this.data.debug, javaOpts);
     this.dialogRef.close({

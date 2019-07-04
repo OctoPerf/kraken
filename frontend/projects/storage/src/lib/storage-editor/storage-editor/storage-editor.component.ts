@@ -108,8 +108,10 @@ export class StorageEditorComponent implements OnDestroy {
   public selectIndex(index: number) {
     this.selectedIndex.next(index);
     const node = this.nodes.value[index];
-    this.eventBus.publish(new SelectNodeEvent(node));
-    this.eventBus.publish(new SelectHelpEvent(this.editorService.getHelpPageId(node)));
+    if (node) {
+      this.eventBus.publish(new SelectNodeEvent(node));
+      this.eventBus.publish(new SelectHelpEvent(this.editorService.getHelpPageId(node)));
+    }
   }
 
   public getNodeEditor(node: StorageNode): ComponentPortal<StorageNodeEditor> {

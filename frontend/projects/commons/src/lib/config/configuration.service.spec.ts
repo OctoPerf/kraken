@@ -71,11 +71,11 @@ describe('ConfigurationService', () => {
   });
 
   it('should return command API URL', () => {
-    expect(service.commandApiUrl('/path')).toBe('commandApiUrl/path');
+    expect(service.commandApiUrl).toBe('commandApiUrl');
   });
 
   it('should return executor API URL', () => {
-    expect(service.dockerApiUrl('/path')).toBe('dockerApiUrl/path');
+    expect(service.dockerApiUrl).toBe('dockerApiUrl');
   });
 
   it('should return errors matcher', () => {
@@ -87,7 +87,7 @@ describe('ConfigurationService', () => {
   });
 
   it('should return storage API URL', () => {
-    expect(service.storageApiUrl('/path')).toBe('storageApiUrl/path');
+    expect(service.storageApiUrl).toBe('storageApiUrl');
   });
 
   it('should return Doc URL', () => {

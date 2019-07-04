@@ -119,6 +119,13 @@ describe('StorageEditorComponent', () => {
     expect(eventBus.publish).toHaveBeenCalledWith(new SelectHelpEvent('TEST'));
   });
 
+  it('should selectIndex -1', () => {
+    component.nodes.next(nodes);
+    component.selectedIndex.next(0);
+    component.selectIndex(-1);
+    expect(eventBus.publish).not.toHaveBeenCalled();
+  });
+
   it('should _openNode select tab', () => {
     component.nodes.next(nodes);
     component.selectedIndex.next(0);

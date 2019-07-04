@@ -53,8 +53,8 @@ describe('ExecuteSimulationDialogComponent', () => {
     expect(component.javaOpts).toBeDefined();
   });
 
-  it('should close', () => {
-    component.close();
+  it('should run', () => {
+    component.run();
     expect(dialogRef.close).toHaveBeenCalledWith({
       simulationName: 'simulationPackage.simulationClass',
       runDescription: 'simulationClass',

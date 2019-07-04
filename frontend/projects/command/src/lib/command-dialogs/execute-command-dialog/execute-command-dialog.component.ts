@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Command} from 'projects/command/src/lib/entities/command';
 import * as _ from 'lodash';
@@ -68,7 +68,7 @@ export class ExecuteCommandDialogComponent {
     this.envExpanded = !!this.variables.controls.length;
   }
 
-  newCommand(): Command {
+  execute() {
     const env: { [key in string]: string } = {};
     for (let i = 0; i < this.variables.controls.length; i++) {
       env[this.getKey(i).value] = this.getValue(i).value;
@@ -79,7 +79,7 @@ export class ExecuteCommandDialogComponent {
     } else {
       command = this.commands.getRawValue();
     }
-    return new Command(command, env, this.data.command.path);
+    this.dialogRef.close(new Command(command, env, this.data.command.path));
   }
 
   isValid(): boolean {

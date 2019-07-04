@@ -4,8 +4,7 @@
     <lib-help-anchor [pageId]="data.debug ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="package.Class" formControlName="simulationName"
-             cdkFocusInitial
-             (keydown.enter)="simulationForm.valid ? close() : null"
+             (keydown.enter)="simulationForm.valid ? run() : null"
              required>
       <mat-error *ngIf="simulationName.hasError('required')">
         Simulation name is required.
@@ -35,7 +34,7 @@
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
-    <button mat-button (click)="close()"
+    <button mat-button (click)="run()" cdkFocusInitial
             type="submit" color="accent"
             [disabled]="!simulationForm.valid">
       Run

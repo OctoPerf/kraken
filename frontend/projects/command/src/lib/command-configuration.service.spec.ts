@@ -11,7 +11,7 @@ export const commandConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('CommandConfigurationService', [
     'commandApiUrl',
   ]);
-  spy.commandApiUrl.and.callFake((path) => 'commandApiUrl/command' + path);
+  spy.commandApiUrl.and.callFake((path = '') => `commandApiUrl/command${path}`);
   return spy;
 };
 

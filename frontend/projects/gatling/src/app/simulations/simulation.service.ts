@@ -19,6 +19,7 @@ import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/sim
 import {Observable} from 'rxjs';
 import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 
 @Injectable()
 export class SimulationService {
@@ -30,7 +31,7 @@ export class SimulationService {
               private analysis: AnalysisService,
               private dateToString: DateTimeToStringPipe,
               private eventBus: EventBusService,
-              private configuration: ConfigurationService,
+              private storageConfiguration: StorageConfigurationService,
               private gatlingConfiguration: GatlingConfigurationService) {
   }
 
@@ -84,7 +85,7 @@ export class SimulationService {
 
   uploadHar() {
     const path = this.gatlingConfiguration.simulationsRootNode.path;
-    const endpoint = this.configuration.storageApiUrl(`/set/file?path=${path}`);
+    const endpoint = this.storageConfiguration.storageApiUrl(`/set/file?path=${path}`);
     this.dialogs.open(FileUploadDialogComponent, DialogSize.SIZE_MD, {
       endpoint,
       multiple: false,

@@ -21,7 +21,7 @@ describe('ExecutorApplicationIdService', () => {
   });
 
   it('should intercept', () => {
-    const req = new HttpRequest('GET', configuration.commandApiUrl('/path'));
+    const req = new HttpRequest('GET', configuration.commandApiUrl + '/path');
     const intercepted = req.clone({
       headers: req.headers.set('ApplicationId', configuration.applicationId)
     });
@@ -30,7 +30,7 @@ describe('ExecutorApplicationIdService', () => {
   });
 
   it('should intercept docker', () => {
-    const req = new HttpRequest('GET', configuration.dockerApiUrl('/path'));
+    const req = new HttpRequest('GET', configuration.dockerApiUrl + '/path');
     const intercepted = req.clone({
       headers: req.headers.set('ApplicationId', configuration.applicationId)
     });

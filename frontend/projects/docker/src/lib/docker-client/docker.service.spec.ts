@@ -185,7 +185,7 @@ describe('DockerService', () => {
     expect(request.request.method).toBe('POST');
     expect(request.request.params.get('containerId')).toBe(container.id);
     request.flush('true');
-    const ps = httpTestingController.expectOne('dockerApiUrl/container');
+    const ps = httpTestingController.expectOne('dockerApiUrl/container/ps');
     expect(ps.request.method).toBe('GET');
     ps.flush(containers);
     expect(service.containersSubject.value).toEqual(containers);
@@ -197,7 +197,7 @@ describe('DockerService', () => {
     expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('containerId')).toBe(container.id);
     request.flush('true');
-    const ps = httpTestingController.expectOne('dockerApiUrl/container');
+    const ps = httpTestingController.expectOne('dockerApiUrl/container/ps');
     expect(ps.request.method).toBe('GET');
     ps.flush(containers);
     expect(service.containersSubject.value).toEqual(containers);
@@ -219,7 +219,7 @@ describe('DockerService', () => {
   it('should prune', () => {
     service.prune(true, false).subscribe();
     const request = httpTestingController.expectOne(req => req.url === 'dockerApiUrl/system/prune');
-    expect(request.request.method).toBe('GET');
+    expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('all')).toBe('true');
     expect(request.request.params.get('volumes')).toBe('false');
     request.flush('containerId');

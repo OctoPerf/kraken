@@ -119,7 +119,7 @@ export class DockerService {
   }
 
   prune(all: boolean, volumes: boolean): Observable<string> {
-    return this.http.get(this.configuration.dockerSystemApiUrl('/prune'), {
+    return this.http.delete(this.configuration.dockerSystemApiUrl('/prune'), {
       responseType: 'text',
       params: {
         all: all.toString(),

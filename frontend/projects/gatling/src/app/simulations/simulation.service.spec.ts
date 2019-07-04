@@ -27,6 +27,8 @@ import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/sim
 import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import SpyObj = jasmine.SpyObj;
+import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
+import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
 
 export const simulationServiceSpy = () => {
   const spy = jasmine.createSpyObj('SimulationService', [
@@ -55,7 +57,7 @@ describe('SimulationService', () => {
         {provide: CommandService, useValue: commandServiceSpy()},
         {provide: AnalysisService, useValue: analysisServiceSpy()},
         {provide: EventBusService, useValue: eventBusSpy()},
-        {provide: ConfigurationService, useValue: configurationServiceMock()},
+        {provide: StorageConfigurationService, useValue: storageConfigurationServiceSpy()},
         {provide: GatlingConfigurationService, useValue: gatlingConfigurationServiceSpy()},
         StorageNodeToExtPipe,
         DateTimeToStringPipe,
@@ -181,7 +183,7 @@ object Search {
     service.uploadHar();
     expect(dialogs.open).toHaveBeenCalledWith(FileUploadDialogComponent,
       DialogSize.SIZE_MD, {
-        endpoint: 'storageApiUrl/set/file?path=gatling/user-files/simulations',
+        endpoint: 'storageApiUrl/files/set/file?path=gatling/user-files/simulations',
         multiple: false,
         accept: '.har',
         title: 'Upload HAR File'
