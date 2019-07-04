@@ -4,6 +4,8 @@ Kraken by [OctoPerf](https://octoperf.com) is a [load testing IDE](https://krake
 
 ![Kraken Gatling](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-preview.gif "Kraken Gatling")
 
+More information in [our load testing blog](https://octoperf.com/categories/kraken/)
+
 ## Documentation
 
 * [Getting Started](https://kraken.octoperf.com/)
