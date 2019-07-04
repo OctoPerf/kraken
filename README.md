@@ -29,7 +29,7 @@ The source code of Kraken is divided in several folders:
 
 ### Prerequisites
 
-* Requires the make command `sudo apt-get install build-essential`
+* Requires the **make** command `sudo apt-get install build-essential`
 * Requires [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 * Requires [docker compose](https://docs.docker.com/compose/install/#install-compose)
 * Requires the [JDK 11 ](https://openjdk.java.net/projects/jdk/11/)
@@ -61,14 +61,14 @@ To run Kraken from the source code you need to:
 
 #### Frontend
 
-* `./test-coverage-all` to generate test coverage for the complete project
-* `make test APP=<library-or-app>` to run test for a single module (for example `make test APP=commons`)
-* `make lint` to run TSLint on the whole project
+* `./test-coverage-all` to generate test coverage for the complete project,
+* `make test APP=<library-or-app>` to run tests for a single module (for example `make test APP=commons`),
+* `make lint` to run TSLint on the whole project.
 
 #### Backend
 
-* `make check` to run all unit test and SpotBugs
-* `make test APP=<module-path>` to run unit test for a single sub-module (for example ``make test APP=:commons:docker-client)
+* `make check` to run all unit tests and SpotBugs,
+* `make test APP=<module-path>` to run unit test for a single sub-module (for example `make test APP=:commons:docker-client`).
 
 ### Roadmap
 
