@@ -44,15 +44,18 @@ To run Kraken from the source code you need to:
 2. Start the backend servers
   * `cd backend`
   * `make copy-data` (one time only)
-  * `make serve-analysis`
-  * `make serve-executor`
   * `make serve-storage`
+  * `make serve-command`
+  * `make serve-docker`
   * `make serve-static`
+  * `make serve-analysis`
 3. Start the frontend applications
   * `cd frontend`
   * `make setup` (one time only)
   * `make serve APP=gatling`
   * `make serve APP=administration`
+  
+![Kraken Dev Architecture](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-dev-architecture.png "Kraken Dev Architecture")
 
 ### Tests and bug finders
 
