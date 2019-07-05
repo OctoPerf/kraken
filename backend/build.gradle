@@ -35,6 +35,15 @@ allprojects {
 }
 
 subprojects {
+    repositories {
+        maven {
+            url "http://www.license4j.com/maven/"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
     buildscript {
         repositories {
             mavenCentral()
@@ -83,7 +92,7 @@ subprojects {
         // https://mvnrepository.com/artifact/nl.jqno.equalsverifier/equalsverifier
         testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: equalsVerifierVersion
         // https://mvnrepository.com/artifact/com.google.code.findbugs/annotations
-        compile group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+        implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
 
         testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
     }
