@@ -11,6 +11,5 @@
   },
   "commandApiUrl": "http://localhost:8081",
   "dockerApiUrl": "http://localhost:8082",
-  "docUrl": "https://kraken.octoperf.com",
-  "errorsMatcher": "^.*$"
+  "docUrl": "https://kraken.octoperf.com"
 }

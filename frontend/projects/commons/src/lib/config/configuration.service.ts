@@ -19,15 +19,11 @@ export class ConfigurationService {
     commandApiUrl: 'commandApiUrl',
     dockerApiUrl: 'dockerApiUrl',
     storageApiUrl: 'storageApiUrl',
-    docUrl: 'docUrl',
-    errorsMatcher: '^.*$',
+    docUrl: 'docUrl'
   });
-
-  _errorsMatcherRegexp = new RegExp(this._config.value.errorsMatcher, 's');
 
   constructor(private http: HttpClient,
               @Inject(ENVIRONMENT) private env) {
-    this._config.subscribe((config) => this._errorsMatcherRegexp = new RegExp(config.errorsMatcher, 's'));
   }
 
   load(): Promise<Configuration> {
@@ -58,10 +54,6 @@ export class ConfigurationService {
 
   docUrl(path: string): string {
     return this.url('docUrl', path);
-  }
-
-  get errorsMatcherRegexp(): RegExp {
-    return this._errorsMatcherRegexp;
   }
 
   version(key: string) {

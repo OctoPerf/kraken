@@ -5,5 +5,4 @@ export interface Configuration {
   dockerApiUrl: string;
   storageApiUrl: string;
   docUrl: string;
-  errorsMatcher: string;
 }

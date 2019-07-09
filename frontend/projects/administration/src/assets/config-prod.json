@@ -11,6 +11,5 @@
   },
   "commandApiUrl": "/api/command",
   "dockerApiUrl": "/api/docker",
-  "docUrl": "https://kraken.octoperf.com",
-  "errorsMatcher": "^.*$"
+  "docUrl": "https://kraken.octoperf.com"
 }

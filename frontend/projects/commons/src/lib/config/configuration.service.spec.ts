@@ -49,8 +49,7 @@ describe('ConfigurationService', () => {
       commandApiUrl: 'commandApiUrl',
       dockerApiUrl: 'dockerApiUrl',
       storageApiUrl: 'storageApiUrl',
-      docUrl: 'docUrl',
-      errorsMatcher: '^.*$',
+      docUrl: 'docUrl'
     };
     service.load().then(config => expect(config).toBeDefined(), () => fail('load failed'));
     const req = httpTestingController.expectOne('assets/config.json');
@@ -76,10 +75,6 @@ describe('ConfigurationService', () => {
 
   it('should return executor API URL', () => {
     expect(service.dockerApiUrl).toBe('dockerApiUrl');
-  });
-
-  it('should return errors matcher', () => {
-    expect(service.errorsMatcherRegexp).toEqual(new RegExp('^.*$', 's'));
   });
 
   it('should return value', () => {
