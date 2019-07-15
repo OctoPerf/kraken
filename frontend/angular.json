@@ -27,7 +27,7 @@
               "projects/administration/src/assets",
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               },
               {
@@ -46,7 +46,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             },
             "scripts": [
@@ -75,8 +75,8 @@
               "node_modules/ace-builds/src-min/ext-searchbox.js",
               "node_modules/ace-builds/src-min/ext-language_tools.js",
               "node_modules/ace-builds/src-min/ext-modelist.js",
-              "projects/ext/mode-log.js",
-              "projects/ext/theme-kraken.js"
+              "ext/mode-log.js",
+              "ext/theme-kraken.js"
             ]
           },
           "configurations": {
@@ -136,7 +136,7 @@
               "projects/administration/src/assets",
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               }
             ],
@@ -145,7 +145,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -214,13 +214,13 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -365,7 +365,7 @@
             "karmaConfig": "projects/icon/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -475,7 +475,7 @@
             "karmaConfig": "projects/tree/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -515,7 +515,7 @@
             "karmaConfig": "projects/tabs/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -555,7 +555,7 @@
             "karmaConfig": "projects/split/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -595,7 +595,7 @@
             "karmaConfig": "projects/workspaces/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -635,7 +635,7 @@
             "karmaConfig": "projects/components/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -675,7 +675,7 @@
             "karmaConfig": "projects/help/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -715,7 +715,7 @@
             "karmaConfig": "projects/notification/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -756,7 +756,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               },
               {
@@ -767,7 +767,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -842,7 +842,7 @@
             "karmaConfig": "projects/storage/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -882,7 +882,7 @@
             "karmaConfig": "projects/docker/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -922,7 +922,7 @@
             "karmaConfig": "projects/command/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -965,7 +965,7 @@
               "projects/gatling/src/assets",
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               },
               {
@@ -984,7 +984,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             },
             "scripts": [
@@ -1013,9 +1013,9 @@
               "node_modules/ace-builds/src-min/ext-searchbox.js",
               "node_modules/ace-builds/src-min/ext-language_tools.js",
               "node_modules/ace-builds/src-min/ext-modelist.js",
-              "projects/ext/mode-log.js",
-              "projects/ext/theme-kraken.js",
-              "projects/ext/snippets/scala.js"
+              "ext/mode-log.js",
+              "ext/theme-kraken.js",
+              "ext/snippets/scala.js"
             ]
           },
           "configurations": {
@@ -1076,7 +1076,7 @@
               "projects/gatling/src/assets",
               {
                 "glob": "**/*",
-                "input": "projects/assets/",
+                "input": "assets/",
                 "output": "assets/"
               }
             ],
@@ -1085,7 +1085,7 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
@@ -1153,7 +1153,7 @@
             "karmaConfig": "projects/analysis/karma.conf.js",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "projects/styles"
+                "styles"
               ]
             }
           }
