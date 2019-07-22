@@ -22,10 +22,10 @@ test:
 
 # use 'fit' instead of 'it' with auto run tests to debug particular unit tests
 test-auto:
-	ng test --source-map=false --project=$(APP)
+	ng test --sourceMap=false --project=$(APP)
 
 test-coverage:
-	ng test --watch=false --code-coverage --source-map --project=$(APP)
+	ng test --watch=false --codeCoverage=true --sourceMap=true --project=$(APP)
 	google-chrome ./coverage/$(APP)/index.html &
 
 test-coverage-all:

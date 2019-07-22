@@ -11,7 +11,7 @@ for dir in projects/*; do
     prefix="projects/";
     project=${dir#$prefix}; #Remove prefix
     echo "$project"
-    ng test --watch=false --code-coverage --source-map --project=$project &
+    ng test --watch=false --codeCoverage=true --sourceMap=true --project=$project &
   fi
 done
 
