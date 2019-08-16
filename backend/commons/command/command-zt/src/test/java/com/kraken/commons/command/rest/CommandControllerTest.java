@@ -1,14 +1,20 @@
 package com.kraken.commons.command.rest;
 
+import com.google.common.base.Charsets;
+import com.kraken.commons.command.entity.CommandLog;
 import com.kraken.commons.command.entity.CommandLogTest;
 import com.kraken.commons.command.executor.CommandExecutor;
 import com.kraken.commons.command.entity.CommandTest;
+import com.kraken.commons.sse.SSEService;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -32,6 +38,9 @@ public class CommandControllerTest {
   @MockBean
   CommandExecutor executor;
 
+  @MockBean
+  SSEService sse;
+
   @Test
   public void shouldPassTestUtils() {
     shouldPassNPE(CommandController.class);
@@ -54,17 +63,31 @@ public class CommandControllerTest {
 
   @Test
   public void shouldListen() {
-    given(executor.listen("app"))
-        .willReturn(Flux.just(CommandLogTest.SHELL_LOGS));
+    final var flux = Flux.just(CommandLogTest.SHELL_LOGS, CommandLogTest.SHELL_LOGS);
+    final var sseFlux = Flux.just(ServerSentEvent.builder(CommandLogTest.SHELL_LOGS).build(), ServerSentEvent.<CommandLog>builder().comment("keep alive").build(), ServerSentEvent.builder(CommandLogTest.SHELL_LOGS).build());
 
-    webTestClient.get()
+    given(executor.listen("app"))
+        .willReturn(flux);
+
+    given(sse.wrap(flux)).willReturn(sseFlux);
+
+    final var result = webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/listen/app")
             .build())
         .exchange()
         .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8")
         .expectBody()
-        .jsonPath("$[0].command.id")
-        .isEqualTo(CommandLogTest.SHELL_LOGS.getCommand().getId());
+        .returnResult();
+
+    Assertions.assertThat(result.getResponseBody()).isNotNull();
+    final var body = new String(result.getResponseBody(), Charsets.UTF_8);
+    Assertions.assertThat(body).isEqualTo("data:{\"command\":{\"id\":\"id\",\"applicationId\":\"app\",\"command\":[\"java\",\"--version\"],\"environment\":{\"key\":\"value\"},\"path\":\".\",\"onCancel\":[]},\"status\":\"RUNNING\",\"text\":\"text\"}\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:{\"command\":{\"id\":\"id\",\"applicationId\":\"app\",\"command\":[\"java\",\"--version\"],\"environment\":{\"key\":\"value\"},\"path\":\".\",\"onCancel\":[]},\"status\":\"RUNNING\",\"text\":\"text\"}\n" +
+        "\n");
   }
 
   @Test

@@ -2,10 +2,13 @@ package com.kraken.commons.storage.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.kraken.commons.sse.SSEService;
 import com.kraken.commons.storage.entity.StorageNode;
 import com.kraken.commons.storage.entity.StorageNodeTest;
+import com.kraken.commons.storage.entity.StorageWatcherEvent;
 import com.kraken.commons.storage.service.StorageService;
 import com.kraken.commons.storage.service.StorageWatcherService;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -46,6 +50,9 @@ public class StorageControllerTest {
 
   @MockBean
   StorageWatcherService watcher;
+
+  @MockBean
+  SSEService sse;
 
   @Test
   public void shouldPassTestUtils() {
@@ -257,17 +264,30 @@ public class StorageControllerTest {
 
   @Test
   public void shouldWatch() {
-    given(watcher.watch())
-        .willReturn(Flux.just(STORAGE_WATCHER_EVENT, STORAGE_WATCHER_EVENT));
+    final var flux = Flux.just(STORAGE_WATCHER_EVENT, STORAGE_WATCHER_EVENT);
+    final var sseFlux = Flux.just(ServerSentEvent.builder(STORAGE_WATCHER_EVENT).build(), ServerSentEvent.<StorageWatcherEvent>builder().comment("keep alive").build(), ServerSentEvent.builder(STORAGE_WATCHER_EVENT).build());
 
-    webTestClient.get()
+    given(watcher.watch())
+        .willReturn(flux);
+
+    given(sse.wrap(flux)).willReturn(sseFlux);
+
+    final var result = webTestClient.get()
         .uri("/files/watch")
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8")
         .expectBody()
-        .jsonPath("$[0].node.path").isEqualTo(STORAGE_WATCHER_EVENT.getNode().getPath())
-        .jsonPath("$[1].node.path").isEqualTo(STORAGE_WATCHER_EVENT.getNode().getPath());
+        .returnResult();
+
+    Assertions.assertThat(result.getResponseBody()).isNotNull();
+    final var body = new String(result.getResponseBody(), Charsets.UTF_8);
+    Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"event\":\"Event\"}\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"event\":\"Event\"}\n" +
+        "\n");
   }
 
   @Test

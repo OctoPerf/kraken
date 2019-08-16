@@ -7,4 +7,6 @@ dependencies {
 
     implementation project(':commons:command:command-entity')
     testCompile project(path: ':commons:command:command-entity', configuration: 'testArtifacts')
+
+    implementation project(':commons:sse')
 }
