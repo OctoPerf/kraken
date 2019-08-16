@@ -18,7 +18,7 @@ final class SSEKeepAliveService implements SSEService {
   long delay;
 
   @Autowired
-  SSEKeepAliveService(@Value("${kraken.sse.keep-alive:#{environment.KRAKEN_SSE_KEEP_ALIVE_DELAY ?: 5}}") final Long delay) {
+  SSEKeepAliveService(@Value("${kraken.sse.keep-alive:#{environment.KRAKEN_SSE_KEEP_ALIVE_DELAY ?: 15}}") final Long delay) {
     this.delay = delay;
   }
 
