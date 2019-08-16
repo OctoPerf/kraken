@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.Optional;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {SSEKeepAliveService.class, SSETestController.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,8 +33,7 @@ public class SSEKeepAliveServiceIntegrationTest {
         .expectHeader().contentType(MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8")
         .expectBody()
         .returnResult();
-    Assertions.assertThat(result.getResponseBody()).isNotNull();
-    final var body = new String(result.getResponseBody(), Charsets.UTF_8);
+    final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
     Assertions.assertThat(body).isEqualTo("data:event0\n" +
         "\n" +
         ":keep alive\n" +

@@ -3,8 +3,8 @@ package com.kraken.commons.command.rest;
 import com.google.common.base.Charsets;
 import com.kraken.commons.command.entity.CommandLog;
 import com.kraken.commons.command.entity.CommandLogTest;
-import com.kraken.commons.command.executor.CommandExecutor;
 import com.kraken.commons.command.entity.CommandTest;
+import com.kraken.commons.command.executor.CommandExecutor;
 import com.kraken.commons.sse.SSEService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -21,6 +21,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
@@ -80,8 +82,7 @@ public class CommandControllerTest {
         .expectBody()
         .returnResult();
 
-    Assertions.assertThat(result.getResponseBody()).isNotNull();
-    final var body = new String(result.getResponseBody(), Charsets.UTF_8);
+    final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
     Assertions.assertThat(body).isEqualTo("data:{\"command\":{\"id\":\"id\",\"applicationId\":\"app\",\"command\":[\"java\",\"--version\"],\"environment\":{\"key\":\"value\"},\"path\":\".\",\"onCancel\":[]},\"status\":\"RUNNING\",\"text\":\"text\"}\n" +
         "\n" +
         ":keep alive\n" +

@@ -28,6 +28,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.kraken.commons.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.commons.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
@@ -280,8 +281,7 @@ public class StorageControllerTest {
         .expectBody()
         .returnResult();
 
-    Assertions.assertThat(result.getResponseBody()).isNotNull();
-    final var body = new String(result.getResponseBody(), Charsets.UTF_8);
+    final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
     Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"event\":\"Event\"}\n" +
         "\n" +
         ":keep alive\n" +
