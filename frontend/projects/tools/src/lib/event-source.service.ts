@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import * as _ from 'lodash';
 import {QueryParamsToStringPipe} from 'projects/tools/src/lib/query-params-to-string.pipe';
+import {NativeEventSource, EventSourcePolyfill} from 'event-source-polyfill';
+
+const EventSource = NativeEventSource || EventSourcePolyfill;
 
 @Injectable({
   providedIn: 'root'
