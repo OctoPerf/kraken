@@ -1,0 +1,3 @@
+kraken:
+  sse:
+    keep-alive: 1

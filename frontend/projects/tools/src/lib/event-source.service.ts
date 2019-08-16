@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import * as _ from 'lodash';
 import {QueryParamsToStringPipe} from 'projects/tools/src/lib/query-params-to-string.pipe';
-import {StringToolsService} from 'projects/tools/src/lib/string-tools.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +25,7 @@ export class EventSourceService {
     return new Observable(observer => {
       const eventSource = this.newEventSource(path + this.paramsToString.transform(options.params));
       eventSource.onmessage = event => {
+        console.log(event);
         observer.next(options.converter(event.data));
       };
       eventSource.onerror = () => {

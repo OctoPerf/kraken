@@ -22,6 +22,7 @@ include ':test-utils'
 
 include ':commons:ee:debug-chunk-writer'
 include ':commons:ee:license'
+include ':commons:sse'
 
 include ':applications:command'
 include ':applications:docker'
@@ -52,6 +53,7 @@ project(':test-utils').projectDir = file('test-utils')
 
 project(':commons:ee:debug-chunk-writer').projectDir = file('commons/ee/debug-chunk-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
+project(':commons:sse').projectDir = file('commons/sse')
 
 project(':applications:command').projectDir = file('applications/command')
 project(':applications:docker').projectDir = file('applications/docker')
@@ -59,5 +61,3 @@ project(':applications:storage').projectDir = file('applications/storage')
 project(':applications:analysis').projectDir = file('applications/analysis')
 project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
-
-

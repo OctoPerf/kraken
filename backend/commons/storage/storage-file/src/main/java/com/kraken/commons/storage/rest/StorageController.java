@@ -1,5 +1,6 @@
 package com.kraken.commons.storage.rest;
 
+import com.kraken.commons.sse.SSEService;
 import com.kraken.commons.storage.entity.StorageNode;
 import com.kraken.commons.storage.entity.StorageWatcherEvent;
 import com.kraken.commons.storage.service.StorageService;
@@ -11,6 +12,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -18,7 +20,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Strings.nullToEmpty;
 import static lombok.AccessLevel.PACKAGE;
@@ -37,6 +38,9 @@ class StorageController {
 
   @NonNull
   StorageWatcherService watcher;
+
+  @NonNull
+  SSEService sse;
 
   @GetMapping("/list")
   public Flux<StorageNode> list() {
@@ -117,8 +121,8 @@ class StorageController {
   }
 
   @GetMapping(value = "/watch")
-  public Flux<StorageWatcherEvent> watch() {
-    return this.watcher.watch();
+  public Flux<ServerSentEvent<StorageWatcherEvent>> watch() {
+    return this.sse.wrap(this.watcher.watch());
   }
 
   @PostMapping("/copy")
