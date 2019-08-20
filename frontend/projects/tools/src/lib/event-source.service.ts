@@ -28,7 +28,6 @@ export class EventSourceService {
     return new Observable(observer => {
       const eventSource = this.newEventSource(path + this.paramsToString.transform(options.params));
       eventSource.onmessage = event => {
-        console.log(event);
         observer.next(options.converter(event.data));
       };
       eventSource.onerror = () => {
