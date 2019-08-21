@@ -1,0 +1,3 @@
+dependencies {
+    compile 'io.kubernetes:client-java:5.0.0'
+}

@@ -16,6 +16,8 @@ include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
 include ':commons:storage:storage-client'
 
+include ':commons:kubernetes:kubernetes-client'
+
 include ':commons:configuration'
 include ':commons:gatling-properties'
 include ':test-utils'
@@ -46,6 +48,8 @@ project(':commons:command:command-client').projectDir = file('commons/command/co
 project(':commons:docker:docker-entity').projectDir = file('commons/docker/docker-entity')
 project(':commons:docker:docker-spotify').projectDir = file('commons/docker/docker-spotify')
 project(':commons:docker:docker-client').projectDir = file('commons/docker/docker-client')
+
+project(':commons:kubernetes:kubernetes-java').projectDir = file('commons/kubernetes/kubernetes-java')
 
 project(':commons:gatling-properties').projectDir = file('commons/gatling-properties')
 project(':commons:configuration').projectDir = file('commons/configuration')
