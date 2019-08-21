@@ -16,7 +16,7 @@ include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
 include ':commons:storage:storage-client'
 
-include ':commons:kubernetes:kubernetes-client'
+include ':commons:kubernetes:kubernetes-java'
 
 include ':commons:configuration'
 include ':commons:gatling-properties'
