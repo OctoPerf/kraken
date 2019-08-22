@@ -5,6 +5,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface StorageClient {
@@ -21,5 +22,9 @@ public interface StorageClient {
   Mono<String> getContent(String path);
 
   Flux<DataBuffer> getFile(Optional<String> path);
+
+  Mono<StorageNode> setFile(String path);
+
+  Flux<Boolean> deleteFiles(List<String> path);
 
 }
