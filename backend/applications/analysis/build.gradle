@@ -1,12 +1,12 @@
 dependencies {
-    implementation project(':commons:configuration')
-    implementation project(':commons:gatling-properties')
+    implementation project(':commons:tools:configuration')
+    implementation project(':commons:tools:gatling-properties')
 
     implementation project(':commons:storage:storage-client')
     implementation project(':commons:storage:storage-entity')
 
-    implementation project(':commons:command:command-client')
-    implementation project(':commons:command:command-entity')
+    implementation project(':commons:runtime:command:command-client')
+    implementation project(':commons:runtime:command:command-entity')
 
     implementation project(':commons:analysis:grafana-client')
     implementation project(':commons:analysis:influxdb-client')
@@ -17,5 +17,5 @@ dependencies {
     testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
 
-    testCompile project(path: ':commons:gatling-properties', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:tools:gatling-properties', configuration: 'testArtifacts')
 }

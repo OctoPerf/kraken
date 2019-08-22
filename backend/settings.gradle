@@ -1,30 +1,30 @@
 rootProject.name = 'backend'
 
+include ':test-utils'
+
 include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
 include ':commons:analysis:influxdb-client'
 
-include ':commons:command:command-entity'
-include ':commons:command:command-zt'
-include ':commons:command:command-client'
-
-include ':commons:docker:docker-entity'
-include ':commons:docker:docker-spotify'
-include ':commons:docker:docker-client'
+include ':commons:runtime:command:command-entity'
+include ':commons:runtime:command:command-zt'
+include ':commons:runtime:command:command-client'
+include ':commons:runtime:docker:docker-entity'
+include ':commons:runtime:docker:docker-spotify'
+include ':commons:runtime:docker:docker-client'
+//include ':commons:runtime:kubernetes:kubernetes-java'
 
 include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
 include ':commons:storage:storage-client'
+include ':commons:storage:storage-controller'
 
-include ':commons:kubernetes:kubernetes-java'
-
-include ':commons:configuration'
-include ':commons:gatling-properties'
-include ':test-utils'
+include ':commons:tools:configuration'
+include ':commons:tools:gatling-properties'
+include ':commons:tools:sse'
 
 include ':commons:ee:debug-chunk-writer'
 include ':commons:ee:license'
-include ':commons:sse'
 
 include ':applications:command'
 include ':applications:docker'
@@ -33,31 +33,31 @@ include ':applications:analysis'
 include ':applications:ee:gatling-log-parser'
 include ':applications:ee:har-parser'
 
+project(':test-utils').projectDir = file('test-utils')
+
 project(':commons:analysis:analysis-entity').projectDir = file('commons/analysis/analysis-entity')
 project(':commons:analysis:grafana-client').projectDir = file('commons/analysis/grafana-client')
 project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis/influxdb-client')
 
+project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
+project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
+project(':commons:runtime:command:command-client').projectDir = file('commons/runtime/command/command-client')
+project(':commons:runtime:docker:docker-entity').projectDir = file('commons/runtime/docker/docker-entity')
+project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/runtime/docker/docker-spotify')
+project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
+//project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
+
 project(':commons:storage:storage-entity').projectDir = file('commons/storage/storage-entity')
 project(':commons:storage:storage-file').projectDir = file('commons/storage/storage-file')
 project(':commons:storage:storage-client').projectDir = file('commons/storage/storage-client')
+project(':commons:storage:storage-controller').projectDir = file('commons/storage/storage-controller')
 
-project(':commons:command:command-entity').projectDir = file('commons/command/command-entity')
-project(':commons:command:command-zt').projectDir = file('commons/command/command-zt')
-project(':commons:command:command-client').projectDir = file('commons/command/command-client')
-
-project(':commons:docker:docker-entity').projectDir = file('commons/docker/docker-entity')
-project(':commons:docker:docker-spotify').projectDir = file('commons/docker/docker-spotify')
-project(':commons:docker:docker-client').projectDir = file('commons/docker/docker-client')
-
-project(':commons:kubernetes:kubernetes-java').projectDir = file('commons/kubernetes/kubernetes-java')
-
-project(':commons:gatling-properties').projectDir = file('commons/gatling-properties')
-project(':commons:configuration').projectDir = file('commons/configuration')
-project(':test-utils').projectDir = file('test-utils')
+project(':commons:tools:gatling-properties').projectDir = file('commons/tools/gatling-properties')
+project(':commons:tools:configuration').projectDir = file('commons/tools/configuration')
+project(':commons:tools:sse').projectDir = file('commons/tools/sse')
 
 project(':commons:ee:debug-chunk-writer').projectDir = file('commons/ee/debug-chunk-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
-project(':commons:sse').projectDir = file('commons/sse')
 
 project(':applications:command').projectDir = file('applications/command')
 project(':applications:docker').projectDir = file('applications/docker')

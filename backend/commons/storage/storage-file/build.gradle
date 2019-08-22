@@ -2,11 +2,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.methvin/directory-watcher
     implementation group: 'io.methvin', name: 'directory-watcher', version: '0.9.6'
 
-    implementation project(':commons:configuration')
-    testCompile project(path: ':commons:configuration', configuration: 'testArtifacts')
+    implementation project(':commons:tools:configuration')
+    testCompile project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
 
     implementation project(':commons:storage:storage-entity')
     testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-
-    implementation project(':commons:sse')
 }

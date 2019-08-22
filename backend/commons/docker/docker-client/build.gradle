@@ -1,4 +1,0 @@
-dependencies {
-    implementation project(':commons:docker:docker-entity')
-    testCompile project(path: ':commons:docker:docker-entity', configuration: 'testArtifacts')
-}

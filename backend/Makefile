@@ -20,7 +20,7 @@ scan:
 	./gradlew build --scan
 
 # Runs tests continuously for a project
-# Example: make test APP=:commons:docker-client
+# Example: make test APP=:commons:runtime:docker:docker-client
 test:
 	./gradlew $(APP):test --continuous
 

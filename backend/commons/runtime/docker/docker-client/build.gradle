@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:runtime:docker:docker-entity')
+    testCompile project(path: ':commons:runtime:docker:docker-entity', configuration: 'testArtifacts')
+}
