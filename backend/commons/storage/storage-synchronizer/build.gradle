@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':commons:tools:configuration')
+    implementation project(':commons:storage:storage-client')
+    implementation 'org.zeroturnaround:zt-zip:1.13'
+
+    testCompile project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+}

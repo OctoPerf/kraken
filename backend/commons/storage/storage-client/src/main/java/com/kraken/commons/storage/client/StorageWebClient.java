@@ -6,15 +6,18 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -31,6 +34,7 @@ class StorageWebClient implements StorageClient {
     this.mapper = Objects.requireNonNull(mapper);
   }
 
+  @Override
   public Mono<StorageNode> createFolder(final String path) {
     return webClient
         .post()
@@ -39,6 +43,7 @@ class StorageWebClient implements StorageClient {
         .bodyToMono(StorageNode.class);
   }
 
+  @Override
   public Mono<Boolean> delete(final String path) {
     return webClient.post()
         .uri("/files/delete")
@@ -48,10 +53,12 @@ class StorageWebClient implements StorageClient {
         .map(list -> list.get(0));
   }
 
+  @Override
   public <T> Mono<StorageNode> setJsonContent(final String path, final T object) {
     return this.setContent(path, this.objectToContent(object));
   }
 
+  @Override
   public <T> Mono<T> getJsonContent(final String path, final Class<T> clazz) {
     return webClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/get/json")
@@ -60,6 +67,7 @@ class StorageWebClient implements StorageClient {
         .bodyToMono(clazz);
   }
 
+  @Override
   public Mono<StorageNode> setContent(final String path, final String content) {
     return webClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/content")
@@ -70,12 +78,22 @@ class StorageWebClient implements StorageClient {
         .bodyToMono(StorageNode.class);
   }
 
+  @Override
   public Mono<String> getContent(final String path) {
     return webClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/get/content")
             .queryParam("path", path).build())
         .retrieve()
         .bodyToMono(String.class);
+  }
+
+  @Override
+  public Flux<DataBuffer> getFile(final Optional<String> path) {
+    return webClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/get/file")
+            .queryParam("path", path.orElse("")).build())
+        .retrieve()
+        .bodyToFlux(DataBuffer.class);
   }
 
   private <T> String objectToContent(final T object) {

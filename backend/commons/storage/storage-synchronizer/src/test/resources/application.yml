@@ -1,0 +1,11 @@
+kraken:
+  storage:
+    synchronizer:
+      update-filter: test
+      download-folder: garling/
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: DEBUG

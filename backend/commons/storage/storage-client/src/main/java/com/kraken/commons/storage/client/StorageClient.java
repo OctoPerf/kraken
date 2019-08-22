@@ -1,7 +1,11 @@
 package com.kraken.commons.storage.client;
 
 import com.kraken.commons.storage.entity.StorageNode;
+import org.springframework.core.io.buffer.DataBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 public interface StorageClient {
   Mono<StorageNode> createFolder(String path);
@@ -15,4 +19,7 @@ public interface StorageClient {
   Mono<StorageNode> setContent(String path, String content);
 
   Mono<String> getContent(String path);
+
+  Flux<DataBuffer> getFile(Optional<String> path);
+
 }
