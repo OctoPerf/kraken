@@ -72,6 +72,7 @@ final class StorageSynchronizer {
 //        TODO filtrer les créations/modifications de directory
         break;
       case "DELETE":
+//        TODO ignorer les suppressions ? y'en a d'ailleurs ?
         break;
 
     }

@@ -25,6 +25,4 @@ public interface StorageClient {
 
   Mono<StorageNode> setFile(String path);
 
-  Flux<Boolean> deleteFiles(List<String> path);
-
 }

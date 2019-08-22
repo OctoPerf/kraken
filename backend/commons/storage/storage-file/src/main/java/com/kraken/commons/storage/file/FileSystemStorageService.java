@@ -84,7 +84,7 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Mono<StorageNode> setFile(final String path, final Mono<FilePart> file) {
-    return file.map((part) -> {
+    return this.setDirectory(path).flatMap(directoryNode -> file.map((part) -> {
       final var currentPath = this.stringToPath(path);
       final var filename = part.filename();
       checkArgument(!filename.contains(".."), "Cannot store file with relative path outside current directory "
@@ -92,7 +92,7 @@ final class FileSystemStorageService implements StorageService {
       final var filePath = currentPath.resolve(filename);
       part.transferTo(filePath).block();
       return toStorageNode.apply(filePath);
-    });
+    }));
   }
 
   @Override

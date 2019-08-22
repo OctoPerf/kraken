@@ -171,6 +171,24 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
+  public void shouldNewSetSubFolderFileAndDelete() throws IOException {
+    final var filename = "myFile.txt";
+    final var createdPath = "visitorTest/someOther/myFile.txt";
+    given(part.filename()).willReturn(filename);
+
+    StepVerifier.create(service.setFile("visitorTest/someOther", just(part)))
+        .expectNextMatches(next -> next.getPath().equals(createdPath) && next.getDepth() == 2)
+        .expectComplete()
+        .verify();
+
+    StepVerifier.create(service.delete(of(createdPath)))
+        .expectNext(true)
+        .expectComplete()
+        .verify();
+    Files.delete(Path.of("testDir/visitorTest/someOther"));
+  }
+
+  @Test
   public void shouldSetSubFolderFileFailRelativePath() {
     final var filename = "../myFile.txt";
     given(part.filename()).willReturn(filename);
