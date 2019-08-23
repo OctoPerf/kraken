@@ -5,6 +5,7 @@ include ':test-utils'
 include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
 include ':commons:analysis:influxdb-client'
+include ':commons:analysis:analysis-server'
 
 include ':commons:runtime:command:command-entity'
 include ':commons:runtime:command:command-zt'
@@ -13,6 +14,7 @@ include ':commons:runtime:docker:docker-entity'
 include ':commons:runtime:docker:docker-spotify'
 include ':commons:runtime:docker:docker-client'
 //include ':commons:runtime:kubernetes:kubernetes-java'
+include ':commons:runtime:runtime-server'
 
 include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
@@ -26,18 +28,19 @@ include ':commons:tools:sse'
 include ':commons:ee:debug-chunk-writer'
 include ':commons:ee:license'
 
-include ':applications:command'
-include ':applications:docker'
+//include ':applications:command'
+//include ':applications:docker'
 include ':applications:storage'
-include ':applications:analysis'
-include ':applications:ee:gatling-log-parser'
-include ':applications:ee:har-parser'
+//include ':applications:analysis'
+//include ':applications:ee:gatling-log-parser'
+//include ':applications:ee:har-parser'
 
 project(':test-utils').projectDir = file('test-utils')
 
 project(':commons:analysis:analysis-entity').projectDir = file('commons/analysis/analysis-entity')
 project(':commons:analysis:grafana-client').projectDir = file('commons/analysis/grafana-client')
 project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis/influxdb-client')
+project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
 
 project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
 project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
@@ -46,6 +49,7 @@ project(':commons:runtime:docker:docker-entity').projectDir = file('commons/runt
 project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/runtime/docker/docker-spotify')
 project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
 //project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
+project(':commons:runtime:runtime-server').projectDir = file('commons/runtime/runtime-server')
 
 project(':commons:storage:storage-entity').projectDir = file('commons/storage/storage-entity')
 project(':commons:storage:storage-file').projectDir = file('commons/storage/storage-file')
@@ -59,9 +63,12 @@ project(':commons:tools:sse').projectDir = file('commons/tools/sse')
 project(':commons:ee:debug-chunk-writer').projectDir = file('commons/ee/debug-chunk-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
 
-project(':applications:command').projectDir = file('applications/command')
-project(':applications:docker').projectDir = file('applications/docker')
+//project(':applications:command').projectDir = file('applications/command')
+//project(':applications:docker').projectDir = file('applications/docker')
 project(':applications:storage').projectDir = file('applications/storage')
-project(':applications:analysis').projectDir = file('applications/analysis')
-project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
-project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
+//project(':applications:analysis').projectDir = file('applications/analysis')
+//project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
+//project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
+include 'commons:analysis:analysis-properties'
+findProject(':commons:analysis:analysis-properties')?.name = 'analysis-properties'
+

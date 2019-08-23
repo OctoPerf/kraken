@@ -1,0 +1,17 @@
+dependencies {
+    implementation project(':commons:tools:configuration')
+
+    implementation project(':commons:storage:storage-client')
+    implementation project(':commons:storage:storage-entity')
+
+    implementation project(':commons:analysis:grafana-client')
+    implementation project(':commons:analysis:influxdb-client')
+    implementation project(':commons:analysis:analysis-entity')
+    implementation project(':commons:analysis:analysis-properties')
+
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
+
+    testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:analysis-properties', configuration: 'testArtifacts')
+}

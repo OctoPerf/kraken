@@ -1,0 +1,11 @@
+kraken:
+  version: version
+  analysis:
+    results:
+      root: data
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: DEBUG
