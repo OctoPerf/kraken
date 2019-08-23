@@ -5,8 +5,6 @@ import com.kraken.commons.rest.configuration.ApplicationProperties;
 import org.junit.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.util.FileSystemUtils.deleteRecursively;
 
 public class FileSystemStorageServiceTest {
 

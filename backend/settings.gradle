@@ -17,8 +17,7 @@ include ':commons:runtime:docker:docker-client'
 include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
 include ':commons:storage:storage-client'
-include ':commons:storage:storage-controller'
-include ':commons:storage:storage-synchronizer'
+include ':commons:storage:storage-server'
 
 include ':commons:tools:configuration'
 include ':commons:tools:gatling-properties'
@@ -51,8 +50,7 @@ project(':commons:runtime:docker:docker-client').projectDir = file('commons/runt
 project(':commons:storage:storage-entity').projectDir = file('commons/storage/storage-entity')
 project(':commons:storage:storage-file').projectDir = file('commons/storage/storage-file')
 project(':commons:storage:storage-client').projectDir = file('commons/storage/storage-client')
-project(':commons:storage:storage-controller').projectDir = file('commons/storage/storage-controller')
-project(':commons:storage:storage-synchronizer').projectDir = file('commons/storage/storage-synchronizer')
+project(':commons:storage:storage-server').projectDir = file('commons/storage/storage-server')
 
 project(':commons:tools:gatling-properties').projectDir = file('commons/tools/gatling-properties')
 project(':commons:tools:configuration').projectDir = file('commons/tools/configuration')

@@ -6,20 +6,27 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.zeroturnaround.zip.ZipUtil;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 import static lombok.AccessLevel.PRIVATE;
+import static reactor.core.publisher.Mono.error;
 
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -49,7 +56,8 @@ class StorageWebClient implements StorageClient {
         .uri("/files/delete")
         .body(BodyInserters.fromObject(Collections.singletonList(path)))
         .retrieve()
-        .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() { })
+        .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() {
+        })
         .map(list -> list.get(0));
   }
 
@@ -88,12 +96,88 @@ class StorageWebClient implements StorageClient {
   }
 
   @Override
-  public Flux<DataBuffer> getFile(final Optional<String> path) {
+  public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
+    final Flux<DataBuffer> flux = this.getFile(Optional.of(remotePath));
+    try {
+      return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile()).getChannel())
+          .map(DataBufferUtils::release).then();
+    } catch (IOException e) {
+      return error(e);
+    }
+  }
+
+  @Override
+  public Mono<Void> downloadFolder(final Path localParentFolderPath, final Optional<String> path) {
+    final var zipName = UUID.randomUUID().toString() + ".zip";
+    final var zipPath = localParentFolderPath.resolve(zipName);
+
+    final Flux<DataBuffer> flux = this.getFile(path);
+    try {
+      return DataBufferUtils.write(flux, new FileOutputStream(zipPath.toFile()).getChannel())
+          .map(DataBufferUtils::release).then(Mono.fromCallable(() -> {
+            ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
+            try {
+              Files.delete(zipPath);
+            } catch (IOException e) {
+              log.error("Failed to delete downloaded Zip file", e);
+              throw new RuntimeException(e);
+            }
+            return null;
+          }));
+    } catch (FileNotFoundException e) {
+      return error(e);
+    }
+  }
+
+  @Override
+  public Mono<StorageNode> uploadFile(final Path localFilePath, final Optional<String> remotePath) {
+    return this.setFile(localFilePath, remotePath);
+  }
+
+  @Override
+  public Mono<Boolean> uploadFolder(final Path localFolderPath, final Optional<String> remotePath) {
+    return this.zipLocalFolder(localFolderPath)
+        .flatMap(path -> this.setFile(path, remotePath))
+        .flatMap(storageNode -> this.extractZip(storageNode.getPath()))
+        .flatMap(storageNode -> this.delete(storageNode.getPath()));
+  }
+
+  private Mono<StorageNode> setFile(final Path localFilePath, final Optional<String> path) {
+    try {
+      return webClient.post()
+          .uri(uriBuilder -> uriBuilder.path("/files/set/file")
+              .queryParam("path", path.orElse("")).build())
+          .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localFilePath.toString())))
+          .retrieve()
+          .bodyToMono(StorageNode.class);
+    } catch (MalformedURLException e) {
+      return error(e);
+    }
+  }
+
+  private Flux<DataBuffer> getFile(final Optional<String> path) {
     return webClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/get/file")
             .queryParam("path", path.orElse("")).build())
         .retrieve()
         .bodyToFlux(DataBuffer.class);
+  }
+
+  private Mono<StorageNode> extractZip(final String path) {
+    return webClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/extract/zip")
+            .queryParam("path", path).build())
+        .retrieve()
+        .bodyToMono(StorageNode.class);
+  }
+
+  private Mono<Path> zipLocalFolder(final Path path) {
+    return Mono.fromCallable(() -> {
+      final var tmp = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
+      tmp.deleteOnExit();
+      ZipUtil.pack(path.toFile(), tmp);
+      return tmp.toPath();
+    });
   }
 
   private <T> String objectToContent(final T object) {

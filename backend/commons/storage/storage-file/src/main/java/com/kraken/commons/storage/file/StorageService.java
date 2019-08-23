@@ -40,4 +40,6 @@ public interface StorageService {
 
   Flux<StorageNode> filterExisting(List<StorageNode> nodes);
 
+  Mono<StorageNode> extractZip(String path);
+
 }

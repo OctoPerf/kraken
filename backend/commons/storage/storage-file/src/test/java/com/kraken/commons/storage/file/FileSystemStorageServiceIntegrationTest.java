@@ -21,14 +21,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.collect.ImmutableList.of;
 import static com.kraken.commons.storage.entity.StorageNodeType.DIRECTORY;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static reactor.core.publisher.Mono.empty;
 import static reactor.core.publisher.Mono.just;
+import static reactor.test.StepVerifier.create;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {ApplicationPropertiesTestConfiguration.class, TestConfiguration.class})
@@ -50,8 +53,8 @@ public class FileSystemStorageServiceIntegrationTest {
 
   @Test
   public void shouldList() {
-    StepVerifier.create(service.list())
-        .expectNextCount(23)
+    create(service.list())
+        .expectNextCount(25)
         .expectComplete()
         .verify();
   }
@@ -59,21 +62,21 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldGet() {
     final var filename = "README.md";
-    StepVerifier.create(service.get(filename))
+    create(service.get(filename))
         .expectNextMatches(next -> next.getPath().equals(filename))
         .expectComplete().verify();
   }
 
   @Test
   public void shouldGetContent() {
-    StepVerifier.create(service.getContent("README.md"))
+    create(service.getContent("README.md"))
         .expectNext("Hello!")
         .expectComplete().verify();
   }
 
   @Test
   public void shouldGetContents() {
-    StepVerifier.create(service.getContent(ImmutableList.of("visitorTest/dir1/file1.md", "visitorTest/dir1/file2.md")))
+    create(service.getContent(ImmutableList.of("visitorTest/dir1/file1.md", "visitorTest/dir1/file2.md")))
         .expectNext("File1")
         .expectNext("File2")
         .expectComplete().verify();
@@ -82,12 +85,12 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetContentAndDelete() {
     final var filename = "README2.md";
-    StepVerifier.create(service.setContent(filename, "Some Content"))
+    create(service.setContent(filename, "Some Content"))
         .expectNextMatches(next -> next.getPath().equals(filename))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(filename)))
+    create(service.delete(of(filename)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -97,17 +100,17 @@ public class FileSystemStorageServiceIntegrationTest {
   public void shouldSetContentRenameAndDelete() {
     final var oldName = "oldName.txt";
     final var newName = "newName.txt";
-    StepVerifier.create(service.setContent(oldName, "Some Content"))
+    create(service.setContent(oldName, "Some Content"))
         .expectNextMatches(next -> next.getPath().equals(oldName))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.rename("", oldName, newName))
+    create(service.rename("", oldName, newName))
         .expectNextMatches(next -> next.getPath().equals(newName))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(newName)))
+    create(service.delete(of(newName)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -116,12 +119,12 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetDirectoryAndDelete() {
     final var path = "some/directory";
-    StepVerifier.create(service.setDirectory(path))
+    create(service.setDirectory(path))
         .expectNextMatches(next -> next.getPath().equals(path))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of("some")))
+    create(service.delete(of("some")))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -132,12 +135,12 @@ public class FileSystemStorageServiceIntegrationTest {
     final var filename = "myFile.txt";
     given(part.filename()).willReturn(filename);
 
-    StepVerifier.create(service.setFile("", just(part)))
+    create(service.setFile("", just(part)))
         .expectNextMatches(next -> next.getPath().equals(filename))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(filename)))
+    create(service.delete(of(filename)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -148,7 +151,7 @@ public class FileSystemStorageServiceIntegrationTest {
     final var filename = "myFile.txt";
     given(part.filename()).willReturn(filename);
 
-    StepVerifier.create(service.setFile("../", just(part)))
+    create(service.setFile("../", just(part)))
         .expectError(IllegalArgumentException.class)
         .verify();
   }
@@ -159,12 +162,12 @@ public class FileSystemStorageServiceIntegrationTest {
     final var createdPath = "visitorTest/myFile.txt";
     given(part.filename()).willReturn(filename);
 
-    StepVerifier.create(service.setFile("visitorTest", just(part)))
+    create(service.setFile("visitorTest", just(part)))
         .expectNextMatches(next -> next.getPath().equals(createdPath) && next.getDepth() == 1)
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(createdPath)))
+    create(service.delete(of(createdPath)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -176,12 +179,12 @@ public class FileSystemStorageServiceIntegrationTest {
     final var createdPath = "visitorTest/someOther/myFile.txt";
     given(part.filename()).willReturn(filename);
 
-    StepVerifier.create(service.setFile("visitorTest/someOther", just(part)))
+    create(service.setFile("visitorTest/someOther", just(part)))
         .expectNextMatches(next -> next.getPath().equals(createdPath) && next.getDepth() == 2)
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(createdPath)))
+    create(service.delete(of(createdPath)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -193,7 +196,7 @@ public class FileSystemStorageServiceIntegrationTest {
     final var filename = "../myFile.txt";
     given(part.filename()).willReturn(filename);
 
-    StepVerifier.create(service.setFile("visitorTest", just(part)))
+    create(service.setFile("visitorTest", just(part)))
         .expectError(IllegalArgumentException.class)
         .verify();
   }
@@ -233,47 +236,47 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldGetRootFileName() {
     final var filename = service.getFileName("");
-    Assertions.assertThat(filename).isEqualTo("testDir.zip");
+    assertThat(filename).isEqualTo("testDir.zip");
   }
 
   @Test
   public void shouldGetFileName() {
     final var filename = service.getFileName("README.md");
-    Assertions.assertThat(filename).isEqualTo("README.md");
+    assertThat(filename).isEqualTo("README.md");
   }
 
   @Test
   public void shouldGetDirectoryName() {
     final var filename = service.getFileName("visitorTest");
-    Assertions.assertThat(filename).isEqualTo("visitorTest.zip");
+    assertThat(filename).isEqualTo("visitorTest.zip");
   }
 
   @Test
   public void shouldMove() {
     final var testFolder = "moveDest";
-    StepVerifier.create(service.setDirectory(testFolder))
+    create(service.setDirectory(testFolder))
         .expectNextMatches(next -> next.getPath().equals(testFolder))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.move(ImmutableList.of("moveTest/dir1", "moveTest/dir1/file1.md", "moveTest/dir1/file2.md", "moveTest/dir2/file1.md"), testFolder))
+    create(service.move(ImmutableList.of("moveTest/dir1", "moveTest/dir1/file1.md", "moveTest/dir1/file2.md", "moveTest/dir2/file1.md"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("moveDest/dir1"))
         .expectNextMatches(next -> next.getPath().equals("moveDest/file1.md"))
         .expectComplete()
         .verify();
 
     // Revert move
-    StepVerifier.create(service.move(ImmutableList.of("moveDest/dir1"), "moveTest"))
+    create(service.move(ImmutableList.of("moveDest/dir1"), "moveTest"))
         .expectNextMatches(next -> next.getPath().equals("moveTest/dir1"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.move(ImmutableList.of("moveDest/file1.md"), "moveTest/dir2"))
+    create(service.move(ImmutableList.of("moveDest/file1.md"), "moveTest/dir2"))
         .expectNextMatches(next -> next.getPath().equals("moveTest/dir2/file1.md"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(testFolder)))
+    create(service.delete(of(testFolder)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -282,18 +285,18 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopy() {
     final var testFolder = "copyDest";
-    StepVerifier.create(service.setDirectory(testFolder))
+    create(service.setDirectory(testFolder))
         .expectNextMatches(next -> next.getPath().equals(testFolder))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.copy(ImmutableList.of("copyTest/dir1", "copyTest/dir1/file1.md", "copyTest/dir1/file2.md", "copyTest/dir2/file1.md"), testFolder))
+    create(service.copy(ImmutableList.of("copyTest/dir1", "copyTest/dir1/file1.md", "copyTest/dir1/file2.md", "copyTest/dir2/file1.md"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("copyDest/dir1"))
         .expectNextMatches(next -> next.getPath().equals("copyDest/file1.md"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(testFolder)))
+    create(service.delete(of(testFolder)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -302,22 +305,22 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolder() {
     final var testFolder = "copyDest";
-    StepVerifier.create(service.setDirectory(testFolder))
+    create(service.setDirectory(testFolder))
         .expectNextMatches(next -> next.getPath().equals(testFolder))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.copy(ImmutableList.of("copyTest/dir1/file1.md"), testFolder))
+    create(service.copy(ImmutableList.of("copyTest/dir1/file1.md"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("copyDest/file1.md"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.copy(ImmutableList.of("copyDest/file1.md"), testFolder))
+    create(service.copy(ImmutableList.of("copyDest/file1.md"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("copyDest/file1_copy.md"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(testFolder)))
+    create(service.delete(of(testFolder)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -326,22 +329,22 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolderDot() {
     final var testFolder = "copyDest";
-    StepVerifier.create(service.setDirectory(testFolder))
+    create(service.setDirectory(testFolder))
         .expectNextMatches(next -> next.getPath().equals(testFolder))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.copy(ImmutableList.of("copyTest/.someFile"), testFolder))
+    create(service.copy(ImmutableList.of("copyTest/.someFile"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("copyDest/.someFile"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.copy(ImmutableList.of("copyDest/.someFile"), testFolder))
+    create(service.copy(ImmutableList.of("copyDest/.someFile"), testFolder))
         .expectNextMatches(next -> next.getPath().equals("copyDest/_copy.someFile"))
         .expectComplete()
         .verify();
 
-    StepVerifier.create(service.delete(of(testFolder)))
+    create(service.delete(of(testFolder)))
         .expectNext(true)
         .expectComplete()
         .verify();
@@ -349,7 +352,7 @@ public class FileSystemStorageServiceIntegrationTest {
 
   @Test
   public void shouldFindFile() {
-    StepVerifier.create(service.find("visitorTest/dir1", Integer.MAX_VALUE, "file1\\.md"))
+    create(service.find("visitorTest/dir1", Integer.MAX_VALUE, "file1\\.md"))
         .expectNextMatches(next -> next.getPath().equals("visitorTest/dir1/file1.md"))
         .expectComplete()
         .verify();
@@ -357,7 +360,7 @@ public class FileSystemStorageServiceIntegrationTest {
 
   @Test
   public void shouldFindSubDirectories() {
-    StepVerifier.create(service.find("visitorTest/", 1, ".*"))
+    create(service.find("visitorTest/", 1, ".*"))
         .expectNextCount(2)
         .expectComplete()
         .verify();
@@ -365,7 +368,7 @@ public class FileSystemStorageServiceIntegrationTest {
 
   @Test
   public void shouldFindSubDirectoriesBis() {
-    StepVerifier.create(service.find("visitorTest/dir1", 1, ".*1\\.md"))
+    create(service.find("visitorTest/dir1", 1, ".*1\\.md"))
         .expectNextMatches(next -> next.getPath().equals("visitorTest/dir1/file1.md"))
         .expectComplete()
         .verify();
@@ -397,10 +400,19 @@ public class FileSystemStorageServiceIntegrationTest {
             .build()
     );
 
-    StepVerifier.create(service.filterExisting(nodes))
+    create(service.filterExisting(nodes))
         .expectNextMatches(next -> next.getPath().equals("visitorTest/dir1"))
         .expectNextMatches(next -> next.getPath().equals("visitorTest/dir2"))
         .expectComplete()
         .verify();
+  }
+
+  @Test
+  public void shouldExtractZip() {
+    create(service.extractZip("zipDir/kraken.zip")).verifyComplete();
+    final var files = service.find("zipDir", 1, "^((?!kraken\\.zip).)*$").map(StorageNode::getPath).collect(Collectors.toList()).block();
+    assertThat(files).isNotNull();
+    assertThat(files.size()).isEqualTo(4);
+    assertThat(service.delete(files).blockLast()).isTrue();
   }
 }

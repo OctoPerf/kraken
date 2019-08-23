@@ -1,4 +1,4 @@
-package com.kraken.commons.storage.controller;
+package com.kraken.commons.storage.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -8,7 +8,6 @@ import com.kraken.commons.storage.entity.StorageNodeTest;
 import com.kraken.commons.storage.entity.StorageWatcherEvent;
 import com.kraken.commons.storage.file.StorageService;
 import com.kraken.commons.storage.file.StorageWatcherService;
-import com.kraken.test.utils.ResourceUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -130,7 +130,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/file")
             .queryParam("path", path)
             .build())
-        .body(BodyInserters.fromMultipartData("file", new ClassPathResource("testupload.txt", StorageControllerTest.class)))
+        .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/testupload.txt")))
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -378,5 +378,22 @@ public class StorageControllerTest {
         .jsonPath("$[0].path").isEqualTo(nodes.get(0).getPath())
         .jsonPath("$[1].path").isEqualTo(nodes.get(1).getPath())
         .jsonPath("$.length()").isEqualTo(2);
+  }
+
+  @Test
+  public void shouldExtractZip() {
+    final var path = "path/archive.zip";
+    given(service.extractZip(path))
+        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/extract/zip")
+            .queryParam("path", path)
+            .build())
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectBody()
+        .jsonPath("$.path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
   }
 }

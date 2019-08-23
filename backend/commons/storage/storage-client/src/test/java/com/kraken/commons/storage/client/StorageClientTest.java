@@ -5,6 +5,7 @@ import com.google.common.base.Charsets;
 import com.kraken.commons.analysis.entity.Result;
 import com.kraken.commons.analysis.entity.ResultStatus;
 import com.kraken.commons.storage.entity.StorageNode;
+import com.kraken.commons.storage.entity.StorageNodeTest;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -14,23 +15,19 @@ import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.zip.CRC32;
 
 import static com.kraken.commons.analysis.entity.ResultType.RUN;
+import static com.kraken.commons.storage.entity.StorageNodeTest.STORAGE_NODE;
 import static com.kraken.commons.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.commons.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -192,9 +189,42 @@ public class StorageClientTest {
   }
 
   @Test
-  public void shouldGetFile() throws InterruptedException, IOException {
-    final var testFile = "testDir/test.xml";
-    final var outFile = "testDir/out.xml";
+  public void shouldDownloadFile() throws InterruptedException, IOException {
+    final var testFile = Paths.get("testDir/test.xml");
+    final var outFile = Paths.get("testDir/out.xml");
+
+    final var buffer = new Buffer();
+    buffer.writeAll(Okio.source(testFile.toFile()));
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+            .setChunkedBody(buffer, 128)
+    );
+
+    client.downloadFile(outFile, testFile.toString()).block();
+
+    try {
+      final var test = Files.readString(testFile, Charsets.UTF_8);
+      final var out = Files.readString(outFile, Charsets.UTF_8);
+      assertThat(test).isEqualTo(out);
+      System.out.println(out);
+      Files.delete(outFile);
+    } catch (IOException e) {
+      Assertions.fail(e.getMessage());
+    }
+
+    final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
+    assertThat(recordedRequest.getPath()).startsWith("/files/get/file?path=testDir/test.xml");
+  }
+
+  @Test
+  public void shouldDownloadFolder() throws InterruptedException, IOException {
+    final var testFile = "testDir/gatling.zip";
+    final var outDir = Paths.get("testDir/gatling");
+
+    assertThat(outDir.toFile().mkdirs()).isTrue();
 
     final var buffer = new Buffer();
     buffer.writeAll(Okio.source(new File(testFile)));
@@ -206,21 +236,73 @@ public class StorageClientTest {
             .setChunkedBody(buffer, 128)
     );
 
-    final Flux<DataBuffer> flux = client.getFile(Optional.empty());
-    DataBufferUtils.write(flux, new FileOutputStream(outFile).getChannel())
-        .map(DataBufferUtils::release).blockLast();
 
-    try {
-      final var test = Files.readString(Paths.get(testFile), Charsets.UTF_8);
-      final var out = Files.readString(Paths.get(outFile), Charsets.UTF_8);
-      Assertions.assertThat(test).isEqualTo(out);
-      System.out.println(out);
-      Files.delete(Paths.get(outFile));
-    } catch (IOException e) {
-      Assertions.fail(e.getMessage());
-    }
+    client.downloadFolder(outDir, Optional.empty()).block();
 
     final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/file?path=");
+
+    assertThat(Files.list(outDir).count()).isEqualTo(7);
+    FileSystemUtils.deleteRecursively(outDir);
+  }
+
+  @Test
+  public void shouldUploadFile() throws InterruptedException, IOException {
+    final var testFile = Paths.get("testDir/test.xml");
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody(mapper.writeValueAsString(STORAGE_NODE))
+    );
+
+    final var response = client.uploadFile(testFile, Optional.empty()).block();
+
+    assertThat(response).isEqualTo(STORAGE_NODE);
+
+    final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
+    assertThat(recordedRequest.getPath()).startsWith("/files/set/file?path=");
+    assertThat(recordedRequest.getBodySize()).isGreaterThan(testFile.toFile().length());
+  }
+
+  @Test
+  public void shouldUploadFolder() throws InterruptedException, IOException {
+    final var testFile = Paths.get("testDir/zipDir");
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody(mapper.writeValueAsString(STORAGE_NODE))
+    );
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody(mapper.writeValueAsString(STORAGE_NODE))
+    );
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody("[true]")
+    );
+
+    final var response = client.uploadFolder(testFile, Optional.empty()).block();
+
+    assertThat(response).isTrue();
+
+    final RecordedRequest setRequest = storageMockWebServer.takeRequest();
+    assertThat(setRequest.getPath()).isEqualTo("/files/set/file?path=");
+
+    final RecordedRequest extractRequest = storageMockWebServer.takeRequest();
+    assertThat(extractRequest.getPath()).isEqualTo("/files/extract/zip?path="+ STORAGE_NODE.getPath());
+
+    final RecordedRequest deleteRequest = storageMockWebServer.takeRequest();
+    assertThat(deleteRequest.getPath()).isEqualTo("/files/delete");
+    assertThat(deleteRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(String.format("[\"%s\"]", STORAGE_NODE.getPath()));
   }
 }

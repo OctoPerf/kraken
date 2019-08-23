@@ -1,4 +1,4 @@
-package com.kraken.commons.storage.controller;
+package com.kraken.commons.storage.server;
 
 import com.kraken.commons.sse.SSEService;
 import org.mockito.Mockito;

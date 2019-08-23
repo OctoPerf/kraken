@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
+import org.zeroturnaround.zip.ZipUtil;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -158,6 +159,15 @@ final class FileSystemStorageService implements StorageService {
       final var path = this.stringToPath(storageNode.getPath());
       return path.toFile().exists();
     }));
+  }
+
+  @Override
+  public Mono<StorageNode> extractZip(String path) {
+    final var zipPath = this.stringToPath(path);
+    return Mono.fromCallable(() -> {
+      ZipUtil.unpack(zipPath.toFile(), zipPath.getParent().toFile());
+      return toStorageNode.apply(zipPath);
+    });
   }
 
   @Override

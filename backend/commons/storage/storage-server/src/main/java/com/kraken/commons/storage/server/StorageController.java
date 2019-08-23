@@ -1,4 +1,4 @@
-package com.kraken.commons.storage.controller;
+package com.kraken.commons.storage.server;
 
 import com.kraken.commons.sse.SSEService;
 import com.kraken.commons.storage.entity.StorageNode;
@@ -68,6 +68,12 @@ class StorageController {
   public Mono<StorageNode> setDirectory(
       @RequestParam("path") final String path) {
     return service.setDirectory(path);
+  }
+
+  @GetMapping("/extract/zip")
+  public Mono<StorageNode> extractZip(
+      @RequestParam("path") final String path) {
+    return service.extractZip(path);
   }
 
   @PostMapping(value = "/set/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
