@@ -2,6 +2,8 @@ package com.kraken.analysis.entity;
 
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,11 +11,22 @@ public class ResultTest {
 
   public static final Result RESULT = Result.builder()
       .id("id")
-      .startDate(0L)
-      .endDate(0L)
+      .startDate(42L)
+      .endDate(1337L)
       .status(ResultStatus.STARTING)
-      .description("runDescription")
+      .name("name")
+      .description(Optional.of("description"))
       .type(ResultType.RUN)
+      .build();
+
+  public static final Result DEBUG_RESULT = Result.builder()
+      .id("id")
+      .startDate(42L)
+      .endDate(1337L)
+      .status(ResultStatus.STARTING)
+      .name("name")
+      .description(Optional.of("description"))
+      .type(ResultType.DEBUG)
       .build();
 
   @Test

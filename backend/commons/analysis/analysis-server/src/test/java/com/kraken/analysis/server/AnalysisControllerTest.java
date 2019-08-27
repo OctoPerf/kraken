@@ -1,8 +1,10 @@
 package com.kraken.analysis.server;
 
-import com.google.common.collect.ImmutableMap;
+import com.kraken.analysis.entity.DebugEntryTest;
 import com.kraken.analysis.entity.ResultStatus;
+import com.kraken.analysis.entity.ResultTest;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
@@ -40,24 +40,41 @@ public class AnalysisControllerTest {
   }
 
   @Test
+  public void shouldCreate() {
+    final var result = ResultTest.RESULT;
+    final var node = StorageNodeTest.STORAGE_NODE;
+    given(service.create(result))
+        .willReturn(Mono.just(node));
+
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/result")
+            .build())
+        .body(BodyInserters.fromObject(result))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(StorageNode.class)
+        .isEqualTo(node);
+  }
+
+  @Test
   public void shouldDelete() {
-    final var testId = "testId";
-    given(service.delete(testId))
-        .willReturn(Mono.just(testId));
+    final var resultId = "resultId";
+    given(service.delete(resultId))
+        .willReturn(Mono.just(resultId));
 
     webTestClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/test/delete")
-            .queryParam("testId", testId)
+        .uri(uriBuilder -> uriBuilder.path("/result/delete")
+            .queryParam("resultId", resultId)
             .build())
         .exchange()
         .expectStatus().isOk()
         .expectBody(String.class)
-        .isEqualTo(testId);
+        .isEqualTo(resultId);
   }
 
   @Test
   public void shouldSetStatus() {
-    final var testId = "testId";
+    final var resultId = "resultId";
     final var status = ResultStatus.COMPLETED;
     final var resultNode = StorageNode.builder()
         .depth(1)
@@ -67,12 +84,12 @@ public class AnalysisControllerTest {
         .lastModified(0L)
         .build();
 
-    given(service.setStatus(testId, status))
+    given(service.setStatus(resultId, status))
         .willReturn(Mono.just(resultNode));
 
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/test/status/COMPLETED")
-            .queryParam("testId", testId)
+        .uri(uriBuilder -> uriBuilder.path("/result/status/COMPLETED")
+            .queryParam("resultId", resultId)
             .build())
         .exchange()
         .expectStatus().isOk()
@@ -81,66 +98,19 @@ public class AnalysisControllerTest {
   }
 
   @Test
-  public void shouldRun() {
-    final var applicationId = "applicationId";
-    final var runDescription = "runDescription";
-    final Map<String, String> environment = ImmutableMap.of();
-    final var commandId = "commandId";
+  public void shouldAddDebug() {
+    final var debug = DebugEntryTest.DEBUG_ENTRY;
 
-    given(service.run(applicationId, runDescription, environment))
-        .willReturn(Mono.just(commandId));
+    given(service.addDebug(debug))
+        .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/test/run")
-            .queryParam("runDescription", "runDescription")
+        .uri(uriBuilder -> uriBuilder.path("/result/debug")
             .build())
-        .header("ApplicationId", "applicationId")
-        .body(BodyInserters.fromObject(environment))
+        .body(BodyInserters.fromObject(debug))
         .exchange()
-        .expectStatus().isOk()
-        .expectBody(String.class)
-        .isEqualTo(commandId);
+        .expectStatus().isOk();
   }
 
-  @Test
-  public void shouldDebug() {
-    final var applicationId = "applicationId";
-    final var runDescription = "runDescription";
-    final Map<String, String> environment = ImmutableMap.of();
-    final var commandId = "commandId";
-
-    given(service.debug(applicationId, runDescription, environment))
-        .willReturn(Mono.just(commandId));
-
-    webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/test/debug")
-            .queryParam("runDescription", "runDescription")
-            .build())
-        .header("ApplicationId", "applicationId")
-        .body(BodyInserters.fromObject(environment))
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody(String.class)
-        .isEqualTo(commandId);
-  }
-
-  @Test
-  public void shouldRecord() {
-    final var applicationId = "applicationId";
-    final Map<String, String> environment = ImmutableMap.of();
-    final var commandId = "commandId";
-
-    given(service.record(applicationId, environment))
-        .willReturn(Mono.just(commandId));
-
-    webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/test/record")
-            .build())
-        .header("ApplicationId", "applicationId")
-        .body(BodyInserters.fromObject(environment))
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody(String.class)
-        .isEqualTo(commandId);
-  }
 }
+

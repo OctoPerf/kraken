@@ -1,30 +1,29 @@
 package com.kraken.analysis.server;
 
+import com.google.common.collect.ImmutableMap;
+import com.kraken.analysis.entity.DebugEntry;
+import com.kraken.analysis.entity.HttpHeader;
+import com.kraken.analysis.entity.Result;
+import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.properties.AnalysisProperties;
+import com.kraken.grafana.client.GrafanaClient;
+import com.kraken.grafana.client.GrafanaClientProperties;
+import com.kraken.influxdb.client.InfluxDBClient;
+import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import com.google.common.collect.ImmutableMap;
-import com.kraken.analysis.entity.Result;
-import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.command.client.CommandClient;
-import com.kraken.grafana.client.GrafanaClient;
-import com.kraken.grafana.client.GrafanaClientProperties;
-import com.kraken.influxdb.client.InfluxDBClient;
-import com.kraken.influxdb.client.InfluxDBClientProperties;
-import com.kraken.storage.client.StorageClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
-
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -40,6 +39,8 @@ class AnalysisService {
   GrafanaClient grafanaClient;
   InfluxDBClient influxdbClient;
 
+  Function<List<HttpHeader>, String> headersToExtension;
+
   Map<ResultStatus, Supplier<Long>> statusToEndDate;
 
 
@@ -47,13 +48,15 @@ class AnalysisService {
                   final GrafanaClientProperties grafanaClientProperties,
                   final StorageClient storageClient,
                   final GrafanaClient grafanaClient,
-                  final InfluxDBClient influxdbClient) {
+                  final InfluxDBClient influxdbClient,
+                  final Function<List<HttpHeader>, String> headersToExtension) {
     super();
     this.properties = requireNonNull(properties);
     this.grafanaClientProperties = requireNonNull(grafanaClientProperties);
     this.storageClient = requireNonNull(storageClient);
     this.grafanaClient = requireNonNull(grafanaClient);
     this.influxdbClient = requireNonNull(influxdbClient);
+    this.headersToExtension = requireNonNull(headersToExtension);
 
     final Supplier<Long> endDateNow = () -> new Date().getTime();
     this.statusToEndDate = ImmutableMap.of(ResultStatus.RUNNING, () -> 0L,
@@ -63,17 +66,17 @@ class AnalysisService {
   }
 
   Mono<StorageNode> create(final Result result) {
-      final var resultPath = properties.getResultPath(result.getId());
-      final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
+    final var resultPath = properties.getResultPath(result.getId());
+    final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
 
-      final var createGrafanaReport = storageClient.getContent(grafanaClientProperties.getGrafanaDashboard())
-          .map(dashboard -> grafanaClient.initDashboard(result.getId(), result.getName() + " - " + result.getId(), result.getStartDate(), dashboard))
-          .flatMap(grafanaClient::importDashboard);
+    final var createGrafanaReport = storageClient.getContent(grafanaClientProperties.getGrafanaDashboard())
+        .map(dashboard -> grafanaClient.initDashboard(result.getId(), result.getName() + " - " + result.getId(), result.getStartDate(), dashboard))
+        .flatMap(grafanaClient::importDashboard);
 
-      final var createGrafanaReportOrNot = Mono.just(result).flatMap(res -> res.getType().isDebug() ? Mono.just("ok") : createGrafanaReport);
+    final var createGrafanaReportOrNot = Mono.just(result).flatMap(res -> res.getType().isDebug() ? Mono.just("ok") : createGrafanaReport);
 
-      return createGrafanaReportOrNot.flatMap(s -> storageClient.createFolder(resultPath.toString()))
-          .flatMap(storageNode -> storageClient.setJsonContent(resultJsonPath, result));
+    return createGrafanaReportOrNot.flatMap(s -> storageClient.createFolder(resultPath.toString()))
+        .flatMap(storageNode -> storageClient.setJsonContent(resultJsonPath, result));
   }
 
   Mono<String> delete(final String resultId) {
@@ -102,6 +105,29 @@ class AnalysisService {
         })
         .map(result -> result.withEndDate(endDate).withStatus(status))
         .flatMap(result -> storageClient.setJsonContent(resultPath, result));
+  }
+
+  Mono<DebugEntry> addDebug(final DebugEntry debug) {
+    final var outputFolder = properties.getResultPath(debug.getResultId());
+
+    return Mono.just(debug)
+        .flatMap(debugEntry -> {
+          if (!debug.getRequestBodyFile().isEmpty()) {
+            final var body = debug.getRequestBodyFile();
+            final var bodyFile = String.format("%s-request%s", debugEntry.getId(), this.headersToExtension.apply(debugEntry.getRequestHeaders()));
+            return storageClient.setContent(outputFolder.resolve(bodyFile).toString(), body).map(s -> debugEntry.withRequestBodyFile(bodyFile));
+          }
+          return Mono.just(debugEntry);
+        })
+        .flatMap(debugEntry -> {
+          if (!debug.getResponseBodyFile().isEmpty()) {
+            final var body = debug.getResponseBodyFile();
+            final var bodyFile = String.format("%s-response%s", debugEntry.getId(), this.headersToExtension.apply(debugEntry.getResponseHeaders()));
+            return storageClient.setContent(outputFolder.resolve(bodyFile).toString(), body).map(s -> debugEntry.withResponseBodyFile(bodyFile));
+          }
+          return Mono.just(debugEntry);
+        })
+        .flatMap(debugEntry -> storageClient.setJsonContent(outputFolder.resolve(debugEntry.getId() + ".debug").toString(), debugEntry).map(storageNode -> debugEntry));
   }
 
 }

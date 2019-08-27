@@ -9,9 +9,14 @@ dependencies {
     implementation project(':commons:analysis:analysis-entity')
     implementation project(':commons:analysis:analysis-properties')
 
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-core
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '1.21'
+
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
 
+    testCompile project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:analysis-properties', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:analysis:analysis-properties', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }

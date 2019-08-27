@@ -5,7 +5,7 @@ import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.commons.storage.entity.StorageNodeTest;
+import com.kraken.storage.entity.StorageNodeTest;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import static com.kraken.analysis.entity.ResultType.RUN;
-import static com.kraken.commons.storage.entity.StorageNodeTest.STORAGE_NODE;
+import static com.kraken.storage.entity.StorageNodeTest.STORAGE_NODE;
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -6,6 +6,7 @@ include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
 include ':commons:analysis:influxdb-client'
 include ':commons:analysis:analysis-server'
+include ':commons:analysis:analysis-properties'
 
 include ':commons:runtime:command:command-entity'
 include ':commons:runtime:command:command-zt'
@@ -41,6 +42,7 @@ project(':commons:analysis:analysis-entity').projectDir = file('commons/analysis
 project(':commons:analysis:grafana-client').projectDir = file('commons/analysis/grafana-client')
 project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis/influxdb-client')
 project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
+project(':commons:analysis:analysis-properties').projectDir = file('commons/analysis/analysis-properties')
 
 project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
 project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
@@ -69,6 +71,4 @@ project(':applications:storage').projectDir = file('applications/storage')
 //project(':applications:analysis').projectDir = file('applications/analysis')
 //project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 //project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
-include 'commons:analysis:analysis-properties'
-findProject(':commons:analysis:analysis-properties')?.name = 'analysis-properties'
 

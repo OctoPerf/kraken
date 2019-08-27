@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DebugEntryTest {
 
-  public static final DebugEntry DEBUG_CHUNK = DebugEntry.builder()
+  public static final DebugEntry DEBUG_ENTRY = DebugEntry.builder()
       .id("id")
       .resultId("resultId")
       .date(0L)
@@ -26,14 +26,14 @@ public class DebugEntryTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(DEBUG_CHUNK);
+    TestUtils.shouldPassAll(DEBUG_ENTRY);
   }
 
   @Test
   public void shouldWither() {
-    assertThat(DEBUG_CHUNK.withResultId("otherId").getResultId()).isEqualTo("otherId");
-    assertThat(DEBUG_CHUNK.withRequestBodyFile("withRequestBodyFile").getRequestBodyFile()).isEqualTo("withRequestBodyFile");
-    assertThat(DEBUG_CHUNK.withResponseBodyFile("withResponseBodyFile").getResponseBodyFile()).isEqualTo("withResponseBodyFile");
+    assertThat(DEBUG_ENTRY.withResultId("otherId").getResultId()).isEqualTo("otherId");
+    assertThat(DEBUG_ENTRY.withRequestBodyFile("withRequestBodyFile").getRequestBodyFile()).isEqualTo("withRequestBodyFile");
+    assertThat(DEBUG_ENTRY.withResponseBodyFile("withResponseBodyFile").getResponseBodyFile()).isEqualTo("withResponseBodyFile");
   }
 
 }
