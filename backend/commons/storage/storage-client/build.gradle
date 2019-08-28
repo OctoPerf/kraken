@@ -1,9 +1,9 @@
 dependencies {
     implementation project(':commons:storage:storage-entity')
 
-    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testRuntime')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(':commons:analysis:analysis-entity')
-    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testRuntime')
+    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
 
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: ztZipVersion
 }
