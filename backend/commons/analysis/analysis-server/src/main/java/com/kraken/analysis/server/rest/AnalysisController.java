@@ -30,7 +30,7 @@ class AnalysisController {
     return service.create(result);
   }
 
-  @DeleteMapping("/delete")
+  @DeleteMapping()
   public Mono<String> delete(@RequestParam("resultId") final String resultId) {
     return service.delete(resultId);
   }

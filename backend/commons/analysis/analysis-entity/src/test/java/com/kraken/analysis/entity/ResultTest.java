@@ -15,7 +15,7 @@ public class ResultTest {
       .endDate(1337L)
       .status(ResultStatus.STARTING)
       .name("name")
-      .description(Optional.of("description"))
+      .description("description")
       .type(ResultType.RUN)
       .build();
 
@@ -25,7 +25,7 @@ public class ResultTest {
       .endDate(1337L)
       .status(ResultStatus.STARTING)
       .name("name")
-      .description(Optional.of("description"))
+      .description("description")
       .type(ResultType.DEBUG)
       .build();
 

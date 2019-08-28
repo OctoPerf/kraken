@@ -6,6 +6,7 @@ include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
 include ':commons:analysis:influxdb-client'
 include ':commons:analysis:analysis-server'
+include ':commons:analysis:analysis-client'
 
 include ':commons:runtime:command:command-entity'
 include ':commons:runtime:command:command-zt'
@@ -41,6 +42,7 @@ project(':commons:analysis:analysis-entity').projectDir = file('commons/analysis
 project(':commons:analysis:grafana-client').projectDir = file('commons/analysis/grafana-client')
 project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis/influxdb-client')
 project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
+project(':commons:analysis:analysis-client').projectDir = file('commons/analysis/analysis-client')
 
 project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
 project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')

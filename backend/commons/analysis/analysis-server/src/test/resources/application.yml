@@ -1,11 +1,7 @@
 kraken:
-  gatling:
-    results:
-      root: gatling/results
   analysis:
     results:
       root: data
-    url: http://localhost:8083
   storage:
     url: http://localhost:8080
   grafana:

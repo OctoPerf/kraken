@@ -20,7 +20,7 @@ public class Result {
   @Wither
   ResultStatus status;
   String name;
-  Optional<String> description;
+  String description;
   ResultType type;
 
   @JsonCreator
@@ -30,7 +30,7 @@ public class Result {
       @JsonProperty("endDate") final Long endDate,
       @JsonProperty("status") final ResultStatus status,
       @JsonProperty("name") final String name,
-      @JsonProperty("description") final Optional<String> description,
+      @JsonProperty("description") final String description,
       @JsonProperty("type") final ResultType type) {
     super();
     this.id = requireNonNull(id);

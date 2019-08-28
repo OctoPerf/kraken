@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 public interface StorageClient {
+
   Mono<StorageNode> createFolder(String path);
 
   Mono<Boolean> delete(String path);
