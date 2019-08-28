@@ -26,6 +26,7 @@ include ':commons:tools:configuration'
 include ':commons:tools:gatling-properties'
 include ':commons:tools:sse'
 
+include ':commons:ee:har-parser'
 include ':commons:ee:debug-entry-writer'
 include ':commons:ee:license'
 
@@ -63,7 +64,9 @@ project(':commons:tools:configuration').projectDir = file('commons/tools/configu
 project(':commons:tools:sse').projectDir = file('commons/tools/sse')
 
 project(':commons:ee:debug-entry-writer').projectDir = file('commons/ee/debug-entry-writer')
+project(':commons:ee:har-parser').projectDir = file('commons/ee/har-parser')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
+
 
 //project(':applications:command').projectDir = file('applications/command')
 //project(':applications:docker').projectDir = file('applications/docker')

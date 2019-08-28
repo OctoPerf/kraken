@@ -12,8 +12,6 @@ dependencies {
     implementation project(':commons:analysis:influxdb-client')
     implementation project(':commons:analysis:analysis-entity')
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.0'
-
     testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
 
