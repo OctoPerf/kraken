@@ -1,8 +1,10 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.rest;
 
 import com.kraken.analysis.entity.DebugEntryTest;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
+import com.kraken.analysis.server.rest.AnalysisController;
+import com.kraken.analysis.server.service.AnalysisService;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Test;

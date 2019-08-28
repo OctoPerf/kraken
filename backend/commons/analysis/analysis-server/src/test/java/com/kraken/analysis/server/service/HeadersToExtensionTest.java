@@ -1,7 +1,8 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.service;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.analysis.entity.HttpHeader;
+import com.kraken.analysis.server.service.HeadersToExtension;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

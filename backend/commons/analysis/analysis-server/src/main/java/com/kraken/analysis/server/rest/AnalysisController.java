@@ -1,15 +1,14 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.rest;
 
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
+import com.kraken.analysis.server.service.AnalysisService;
 import com.kraken.storage.entity.StorageNode;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 

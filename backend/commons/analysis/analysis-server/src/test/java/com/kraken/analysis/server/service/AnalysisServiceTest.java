@@ -1,7 +1,7 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.service;
 
 import com.kraken.analysis.entity.*;
-import com.kraken.analysis.properties.AnalysisPropertiesTest;
+import com.kraken.analysis.server.properties.AnalysisPropertiesTest;
 import com.kraken.grafana.client.GrafanaClient;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
@@ -44,7 +44,7 @@ public class AnalysisServiceTest {
   @Before
   public void before() {
     when(headersToExtension.apply(anyList())).thenReturn(".txt");
-    service = new AnalysisService(AnalysisPropertiesTest.ANALYSIS_PROPERTIES,
+    service = new SpringAnalysisService(AnalysisPropertiesTest.ANALYSIS_PROPERTIES,
         GRAFANA_CLIENT_PROPERTIES,
         storageClient,
         grafanaClient,

@@ -1,11 +1,11 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.service;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.HttpHeader;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.analysis.properties.AnalysisProperties;
+import com.kraken.analysis.server.properties.AnalysisProperties;
 import com.kraken.grafana.client.GrafanaClient;
 import com.kraken.grafana.client.GrafanaClientProperties;
 import com.kraken.influxdb.client.InfluxDBClient;
@@ -28,7 +28,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @Component
-class AnalysisService {
+class SpringAnalysisService implements AnalysisService {
 
   private static final String RESULT_JSON = "result.json";
 
@@ -44,12 +44,12 @@ class AnalysisService {
   Map<ResultStatus, Supplier<Long>> statusToEndDate;
 
 
-  AnalysisService(final AnalysisProperties properties,
-                  final GrafanaClientProperties grafanaClientProperties,
-                  final StorageClient storageClient,
-                  final GrafanaClient grafanaClient,
-                  final InfluxDBClient influxdbClient,
-                  final Function<List<HttpHeader>, String> headersToExtension) {
+  SpringAnalysisService(final AnalysisProperties properties,
+                        final GrafanaClientProperties grafanaClientProperties,
+                        final StorageClient storageClient,
+                        final GrafanaClient grafanaClient,
+                        final InfluxDBClient influxdbClient,
+                        final Function<List<HttpHeader>, String> headersToExtension) {
     super();
     this.properties = requireNonNull(properties);
     this.grafanaClientProperties = requireNonNull(grafanaClientProperties);
@@ -65,7 +65,8 @@ class AnalysisService {
         ResultStatus.FAILED, endDateNow);
   }
 
-  Mono<StorageNode> create(final Result result) {
+  @Override
+  public Mono<StorageNode> create(final Result result) {
     final var resultPath = properties.getResultPath(result.getId());
     final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
 
@@ -79,7 +80,8 @@ class AnalysisService {
         .flatMap(storageNode -> storageClient.setJsonContent(resultJsonPath, result));
   }
 
-  Mono<String> delete(final String resultId) {
+  @Override
+  public Mono<String> delete(final String resultId) {
     final var resultPath = properties.getResultPath(resultId);
     final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
     final var deleteFolder = storageClient.delete(resultPath.toString());
@@ -88,7 +90,8 @@ class AnalysisService {
     return Mono.zip(deleteFolder, deleteReport).map(objects -> resultId);
   }
 
-  Mono<StorageNode> setStatus(final String resultId, final ResultStatus status) {
+  @Override
+  public Mono<StorageNode> setStatus(final String resultId, final ResultStatus status) {
     final var endDate = this.statusToEndDate.get(status).get();
     final var resultPath = properties.getResultPath(resultId).resolve(RESULT_JSON).toString();
 
@@ -107,7 +110,8 @@ class AnalysisService {
         .flatMap(result -> storageClient.setJsonContent(resultPath, result));
   }
 
-  Mono<DebugEntry> addDebug(final DebugEntry debug) {
+  @Override
+  public Mono<DebugEntry> addDebug(final DebugEntry debug) {
     final var outputFolder = properties.getResultPath(debug.getResultId());
 
     return Mono.just(debug)

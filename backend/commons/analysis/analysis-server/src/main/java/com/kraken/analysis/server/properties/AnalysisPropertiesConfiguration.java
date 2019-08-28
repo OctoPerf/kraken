@@ -1,4 +1,4 @@
-package com.kraken.analysis.properties;
+package com.kraken.analysis.server.properties;
 
 import com.kraken.tools.configuration.properties.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;

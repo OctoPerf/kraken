@@ -1,4 +1,4 @@
-package com.kraken.analysis.server;
+package com.kraken.analysis.server.service;
 
 import com.kraken.analysis.entity.HttpHeader;
 import lombok.extern.slf4j.Slf4j;

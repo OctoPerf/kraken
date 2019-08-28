@@ -1,4 +1,4 @@
-package com.kraken.analysis.properties;
+package com.kraken.analysis.server.properties;
 
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Test;
