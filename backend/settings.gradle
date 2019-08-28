@@ -27,6 +27,7 @@ include ':commons:tools:gatling-properties'
 include ':commons:tools:sse'
 
 include ':commons:ee:har-parser'
+include ':commons:ee:gatling-log-parser'
 include ':commons:ee:debug-entry-writer'
 include ':commons:ee:license'
 
@@ -63,10 +64,10 @@ project(':commons:tools:gatling-properties').projectDir = file('commons/tools/ga
 project(':commons:tools:configuration').projectDir = file('commons/tools/configuration')
 project(':commons:tools:sse').projectDir = file('commons/tools/sse')
 
-project(':commons:ee:debug-entry-writer').projectDir = file('commons/ee/debug-entry-writer')
 project(':commons:ee:har-parser').projectDir = file('commons/ee/har-parser')
+project(':commons:ee:gatling-log-parser').projectDir = file('commons/ee/gatling-log-parser')
+project(':commons:ee:debug-entry-writer').projectDir = file('commons/ee/debug-entry-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
-
 
 //project(':applications:command').projectDir = file('applications/command')
 //project(':applications:docker').projectDir = file('applications/docker')
@@ -74,4 +75,6 @@ project(':applications:storage').projectDir = file('applications/storage')
 //project(':applications:analysis').projectDir = file('applications/analysis')
 //project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 //project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
+include 'commons:ee:gatling-log-parser'
+findProject(':commons:ee:gatling-log-parser')?.name = 'gatling-log-parser'
 
