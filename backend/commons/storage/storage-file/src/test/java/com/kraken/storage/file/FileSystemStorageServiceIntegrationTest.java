@@ -407,7 +407,10 @@ public class FileSystemStorageServiceIntegrationTest {
 
   @Test
   public void shouldExtractZip() {
-    create(service.extractZip("zipDir/kraken.zip")).verifyComplete();
+    create(service.extractZip("zipDir/kraken.zip"))
+        .expectNextMatches(next -> next.getPath().equals("zipDir/kraken.zip"))
+        .expectComplete()
+        .verify();
     final var files = service.find("zipDir", 1, "^((?!kraken\\.zip).)*$").map(StorageNode::getPath).collect(Collectors.toList()).block();
     assertThat(files).isNotNull();
     assertThat(files.size()).isEqualTo(4);

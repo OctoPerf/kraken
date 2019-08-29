@@ -65,7 +65,7 @@ public class AnalysisControllerTest {
         .willReturn(Mono.just(resultId));
 
     webTestClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/result/delete")
+        .uri(uriBuilder -> uriBuilder.path("/result")
             .queryParam("resultId", resultId)
             .build())
         .exchange()

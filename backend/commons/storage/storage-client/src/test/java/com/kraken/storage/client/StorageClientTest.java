@@ -141,7 +141,8 @@ public class StorageClientTest {
         .build();
     final var result = Result.builder()
         .id("id")
-        .description("runDescription")
+        .name("name")
+        .description("description")
         .status(ResultStatus.STARTING)
         .endDate(0L)
         .startDate(42L)
@@ -167,7 +168,8 @@ public class StorageClientTest {
   public void shouldGetJsonContent() throws InterruptedException, IOException {
     final var result = Result.builder()
         .id("id")
-        .description("runDescription")
+        .name("name")
+        .description("description")
         .status(ResultStatus.STARTING)
         .endDate(0L)
         .startDate(42L)
