@@ -12,18 +12,18 @@ import static java.util.Objects.requireNonNull;
 @Builder
 public class Container {
   String id;
+  String name;
   Long startDate;
   @Wither
   ContainerStatus status;
-  String name;
   String type;
 
   @JsonCreator
   Container(
       @JsonProperty("id") final String id,
+      @JsonProperty("name") final String name,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status,
-      @JsonProperty("name") final String name,
       @JsonProperty("type") final String type) {
     super();
     this.id = requireNonNull(id);

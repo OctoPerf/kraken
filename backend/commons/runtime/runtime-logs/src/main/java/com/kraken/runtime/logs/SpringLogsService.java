@@ -66,6 +66,7 @@ final class SpringLogsService implements LogsService {
   public Disposable push(final String applicationId, final String id, final Flux<String> stringFlux) {
     final var subscription = stringFlux.map(text -> Log.builder().applicationId(applicationId).id(id).text(text).build())
         .doOnTerminate(() -> subscriptions.remove(id))
+        .subscribeOn(Schedulers.elastic())
         .subscribe(log -> {
           if (!this.listeners.isEmpty()) {
             this.logs.add(log);

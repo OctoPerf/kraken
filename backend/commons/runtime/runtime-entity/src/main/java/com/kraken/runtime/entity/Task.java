@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.Wither;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 
 @Value
@@ -15,24 +17,22 @@ public class Task {
   Long startDate;
   @Wither
   TaskStatus status;
-  String name;
-  String description;
   TaskType type;
+  List<Container> containers;
 
   @JsonCreator
   Task(
       @JsonProperty("id") final String id,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final TaskStatus status,
-      @JsonProperty("name") final String name,
-      @JsonProperty("description") final String description,
-      @JsonProperty("type") final TaskType type) {
+      @JsonProperty("type") final TaskType type,
+      @JsonProperty("containers") final List<Container> containers
+  ) {
     super();
     this.id = requireNonNull(id);
     this.startDate = requireNonNull(startDate);
     this.status = requireNonNull(status);
-    this.name = requireNonNull(name);
-    this.description = requireNonNull(description);
     this.type = requireNonNull(type);
+    this.containers = requireNonNull(containers);
   }
 }
