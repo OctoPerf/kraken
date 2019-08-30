@@ -83,3 +83,6 @@ project(':applications:storage').projectDir = file('applications/storage')
 //project(':applications:analysis').projectDir = file('applications/analysis')
 //project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 //project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
+include 'commons:runtime:runtime-logs'
+findProject(':commons:runtime:runtime-logs')?.name = 'runtime-logs'
+

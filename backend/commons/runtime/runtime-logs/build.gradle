@@ -1,0 +1,3 @@
+dependencies {
+    implementation project(':commons:runtime:runtime-entity')
+}
