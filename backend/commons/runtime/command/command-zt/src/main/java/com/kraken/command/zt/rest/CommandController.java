@@ -35,7 +35,7 @@ class CommandController {
   // ApplicationId Header cannot be used here as it is not supported by SSE
   @GetMapping("/listen/{applicationId}")
   public Flux<ServerSentEvent<CommandLog>> listen(@PathVariable("applicationId") final String applicationId) {
-    return this.sse.wrap(this.executor.listen(applicationId));
+    return this.sse.keepAlive(this.executor.listen(applicationId));
   }
 
   @DeleteMapping("/cancel")

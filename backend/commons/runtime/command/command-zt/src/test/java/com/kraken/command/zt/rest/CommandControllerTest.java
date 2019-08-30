@@ -71,7 +71,7 @@ public class CommandControllerTest {
     given(executor.listen("app"))
         .willReturn(flux);
 
-    given(sse.wrap(flux)).willReturn(sseFlux);
+    given(sse.keepAlive(flux)).willReturn(sseFlux);
 
     final var result = webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/listen/app")

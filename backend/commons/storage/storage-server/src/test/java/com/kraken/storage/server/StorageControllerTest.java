@@ -272,7 +272,7 @@ public class StorageControllerTest {
     given(watcher.watch())
         .willReturn(flux);
 
-    given(sse.wrap(flux)).willReturn(sseFlux);
+    given(sse.keepAlive(flux)).willReturn(sseFlux);
 
     final var result = webTestClient.get()
         .uri("/files/watch")

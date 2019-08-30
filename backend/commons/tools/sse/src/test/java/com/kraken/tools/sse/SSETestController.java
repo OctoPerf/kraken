@@ -25,7 +25,14 @@ class SSETestController {
 
   @GetMapping(value = "/watch")
   public Flux<ServerSentEvent<String>> watch() {
-    return this.sse.wrap(Flux.interval(Duration.ofMillis(700)).map(aLong -> String.format("event%d", aLong))).take(6);
+    return this.sse.keepAlive(Flux.interval(Duration.ofMillis(700)).map(aLong -> String.format("event%d", aLong))).take(6);
   }
 
+  @GetMapping(value = "/merge")
+  public Flux<SSEWrapper<Object>> merge() {
+    final var strFlux = Flux.interval(Duration.ofMillis(500)).take(3)
+        .map(aLong -> String.format("event%d", aLong));
+    final var longFlux = Flux.interval(Duration.ofMillis(700)).take(3);
+    return this.sse.<Object>merge("String", strFlux, "Long", longFlux ).take(6);
+  }
 }
