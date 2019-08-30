@@ -16,6 +16,10 @@ include ':commons:runtime:docker:docker-spotify'
 include ':commons:runtime:docker:docker-client'
 //include ':commons:runtime:kubernetes:kubernetes-java'
 include ':commons:runtime:runtime-server'
+include ':commons:runtime:runtime-entity'
+include ':commons:runtime:runtime-container'
+include ':commons:runtime:runtime-docker'
+include ':commons:runtime:runtime-client'
 
 include ':commons:storage:storage-entity'
 include ':commons:storage:storage-file'
@@ -54,6 +58,10 @@ project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/run
 project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
 //project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
 project(':commons:runtime:runtime-server').projectDir = file('commons/runtime/runtime-server')
+project(':commons:runtime:runtime-entity').projectDir = file('commons/runtime/runtime-entity')
+project(':commons:runtime:runtime-container').projectDir = file('commons/runtime/runtime-container')
+project(':commons:runtime:runtime-docker').projectDir = file('commons/runtime/runtime-docker')
+project(':commons:runtime:runtime-client').projectDir = file('commons/runtime/runtime-client')
 
 project(':commons:storage:storage-entity').projectDir = file('commons/storage/storage-entity')
 project(':commons:storage:storage-file').projectDir = file('commons/storage/storage-file')
@@ -75,6 +83,3 @@ project(':applications:storage').projectDir = file('applications/storage')
 //project(':applications:analysis').projectDir = file('applications/analysis')
 //project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 //project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
-include 'commons:ee:gatling-log-parser'
-findProject(':commons:ee:gatling-log-parser')?.name = 'gatling-log-parser'
-
