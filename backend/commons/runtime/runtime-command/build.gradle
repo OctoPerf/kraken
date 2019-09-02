@@ -1,0 +1,6 @@
+dependencies {
+    // Used to execute docker-compose commands
+    implementation 'org.zeroturnaround:zt-exec:1.10'
+
+    implementation project(':commons:runtime:runtime-logs')
+}

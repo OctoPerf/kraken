@@ -14,16 +14,18 @@ public class DockerService implements ContainerService {
 
   @Override
   public void execute(TaskType taskType, Map<String, String> environment) {
-
+// TODO Run docker-compose up
   }
 
   @Override
   public Flux<Task> list() {
+//     TODO use docker ps instead of the spotify client
     return null;
   }
 
   @Override
   public Flux<List<Task>> tasks() {
+//    TODO Periodical call to list
     return null;
   }
 

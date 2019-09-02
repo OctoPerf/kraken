@@ -1,0 +1,14 @@
+version: '3.5'
+
+networks:
+  commons-test:
+    name: "commons-test"
+
+services:
+  hello:
+    labels:
+      com.kraken.id: "some-kraken-id"
+    container_name: "test-nginx-STARTING"
+    image: nginx
+    networks:
+      - commons-test
