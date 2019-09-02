@@ -8,12 +8,12 @@ include ':commons:analysis:influxdb-client'
 include ':commons:analysis:analysis-server'
 include ':commons:analysis:analysis-client'
 
-include ':commons:runtime:command:command-entity'
-include ':commons:runtime:command:command-zt'
-include ':commons:runtime:command:command-client'
-include ':commons:runtime:docker:docker-entity'
-include ':commons:runtime:docker:docker-spotify'
-include ':commons:runtime:docker:docker-client'
+//include ':commons:runtime:command:command-entity'
+//include ':commons:runtime:command:command-zt'
+//include ':commons:runtime:command:command-client'
+//include ':commons:runtime:docker:docker-entity'
+//include ':commons:runtime:docker:docker-spotify'
+//include ':commons:runtime:docker:docker-client'
 //include ':commons:runtime:kubernetes:kubernetes-java'
 include ':commons:runtime:runtime-server'
 include ':commons:runtime:runtime-entity'
@@ -52,12 +52,12 @@ project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis
 project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
 project(':commons:analysis:analysis-client').projectDir = file('commons/analysis/analysis-client')
 
-project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
-project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
-project(':commons:runtime:command:command-client').projectDir = file('commons/runtime/command/command-client')
-project(':commons:runtime:docker:docker-entity').projectDir = file('commons/runtime/docker/docker-entity')
-project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/runtime/docker/docker-spotify')
-project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
+//project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
+//project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
+//project(':commons:runtime:command:command-client').projectDir = file('commons/runtime/command/command-client')
+//project(':commons:runtime:docker:docker-entity').projectDir = file('commons/runtime/docker/docker-entity')
+//project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/runtime/docker/docker-spotify')
+//project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
 //project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
 project(':commons:runtime:runtime-server').projectDir = file('commons/runtime/runtime-server')
 project(':commons:runtime:runtime-entity').projectDir = file('commons/runtime/runtime-entity')
