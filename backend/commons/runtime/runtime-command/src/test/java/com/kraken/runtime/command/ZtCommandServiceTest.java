@@ -1,6 +1,5 @@
 package com.kraken.runtime.command;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.test.StepVerifier;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,8 +30,6 @@ public class ZtCommandServiceTest {
   @Test
   public void shouldEchoEnvData() {
     final var command = Command.builder()
-        .id("")
-        .applicationId("app")
         .path(".")
         .command(Arrays.asList("/bin/sh", "-c", "echo $FOO"))
         .environment(ImmutableMap.of("FOO", "BAR"))
@@ -47,8 +43,6 @@ public class ZtCommandServiceTest {
   @Test
   public void shouldCancelSleepSimple() throws InterruptedException {
     final var command = Command.builder()
-        .id("")
-        .applicationId("app")
         .path(".")
         .command(Arrays.asList("/bin/sh", "-c", "sleep 10 && echo run"))
         .environment(ImmutableMap.of())
@@ -63,8 +57,6 @@ public class ZtCommandServiceTest {
   @Test
   public void shouldCommandFail() throws InterruptedException {
     final var command = Command.builder()
-        .id("")
-        .applicationId("app")
         .path(".")
         .command(Collections.singletonList("ca va fail !"))
         .environment(ImmutableMap.of())
@@ -77,15 +69,11 @@ public class ZtCommandServiceTest {
   @Test
   public void shouldRunDockerCommands() throws InterruptedException {
     final var up = Command.builder()
-        .id("")
-        .applicationId("app")
         .path("./testDir")
         .command(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     final var ps = Command.builder()
-        .id("")
-        .applicationId("app")
         .path("./testDir")
         .command(Arrays.asList("docker",
             "ps",
@@ -95,8 +83,6 @@ public class ZtCommandServiceTest {
         .environment(ImmutableMap.of())
         .build();
     final var rename = Command.builder()
-        .id("")
-        .applicationId("app")
         .path("./testDir")
         .command(Arrays.asList("docker",
             "rename",
@@ -105,8 +91,6 @@ public class ZtCommandServiceTest {
         .environment(ImmutableMap.of())
         .build();
     final var down = Command.builder()
-        .id("")
-        .applicationId("app")
         .path("./testDir")
         .command(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())

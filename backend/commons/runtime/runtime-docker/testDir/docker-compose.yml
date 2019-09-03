@@ -1,0 +1,39 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: "kraken"
+
+services:
+  kraken-container-one:
+    labels:
+      com.kraken.taskId: "taskId"
+      com.kraken.taskType: "DEBUG"
+      com.kraken.containerId: "containerOneId"
+      com.kraken.name: "Container One"
+    container_name: "container-one_READY"
+    image: nginx
+    networks:
+      - kraken
+
+  kraken-container-two:
+    labels:
+      com.kraken.taskId: "taskId"
+      com.kraken.taskType: "DEBUG"
+      com.kraken.containerId: "containerTwoId"
+      com.kraken.name: "Container Two"
+    container_name: "container-two_DONE"
+    image: nginx
+    networks:
+      - kraken
+
+  kraken-container-three:
+    labels:
+      com.kraken.taskId: "taskIdBis"
+      com.kraken.taskType: "RUN"
+      com.kraken.containerId: "containerThreeId"
+      com.kraken.name: "Container Three"
+    container_name: "container-three_STARTING"
+    image: nginx
+    networks:
+      - kraken

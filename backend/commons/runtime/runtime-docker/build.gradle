@@ -5,14 +5,15 @@ ext {
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-command')
 
-    implementation 'com.spotify:docker-client:8.16.0'
-    // https://github.com/spotify/docker-client/issues/1030
-    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.29'
-    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.26-b03'
-
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
-    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: jacksonVersion
+//    implementation 'com.spotify:docker-client:8.16.0'
+//    // https://github.com/spotify/docker-client/issues/1030
+//    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.29'
+//    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-guava:2.26-b03'
+//
+//    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
+//    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
+//    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava
+//    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: jacksonVersion
 }

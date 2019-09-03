@@ -16,7 +16,7 @@ public class Task {
   String id;
   Long startDate;
   @Wither
-  TaskStatus status;
+  ContainerStatus status;
   TaskType type;
   List<Container> containers;
 
@@ -24,7 +24,7 @@ public class Task {
   Task(
       @JsonProperty("id") final String id,
       @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final TaskStatus status,
+      @JsonProperty("status") final ContainerStatus status,
       @JsonProperty("type") final TaskType type,
       @JsonProperty("containers") final List<Container> containers
   ) {
