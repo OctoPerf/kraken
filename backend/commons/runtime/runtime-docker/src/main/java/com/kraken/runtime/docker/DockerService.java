@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -39,19 +40,54 @@ final class DockerService implements ContainerService {
 
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
 
+  @NonNull Function<TaskType, String> taskTypeToPath;
+
   @Override
-  public Mono<Void> execute(TaskType taskType, Map<String, String> environment) {
-//  Comment faire pour les logs de lancement ? faudrait les afficher en stream car c'est surement long s'il faut pull les images ...
-//    On peut faire un attach Logs avec un l'id de la task crée ?
-// TODO Run docker-compose up
-//    TODO Valider le resultat => si fail retourner une erreur, si pas fail retourner les logs ?
-    return null;
+  public Mono<String> execute(final String applicationId,
+                              final TaskType taskType,
+                              final Map<String, String> environment) {
+    final var taskId = UUID.randomUUID().toString();
+
+    final var env = ImmutableMap.<String, String>builder()
+        .putAll(environment)
+        .put("KRAKEN_TASK_ID", taskId)
+        .build();
+
+    final var command = Command.builder()
+        .path(taskTypeToPath.apply(taskType))
+        .command(Arrays.asList("docker-compose",
+            "up",
+            "-d"))
+        .environment(env)
+        .build();
+
+    // Automatically display logs stream
+    final var logs = logsService.concat(commandService.execute(command));
+    return Mono.fromCallable(() -> {
+      logsService.push(applicationId, taskId, LogType.TASK, logs);
+      return taskId;
+    });
   }
 
   @Override
-  public Mono<Void> cancel(final Task task) {
-//    TODO docker-compose down et force si ca veut pas
-    return null;
+  public Mono<Void> cancel(final String applicationId,
+                           final Task task) {
+
+    final var taskId = task.getId();
+
+    final var command = Command.builder()
+        .path(taskTypeToPath.apply(task.getType()))
+        .command(Arrays.asList("docker-compose",
+            "down"))
+        .environment(ImmutableMap.of())
+        .build();
+
+    // Automatically display logs stream
+    final var logs = logsService.concat(commandService.execute(command));
+    return Mono.fromCallable(() -> {
+      logsService.push(applicationId, taskId, LogType.TASK, logs);
+      return null;
+    });
   }
 
   @Override
@@ -94,7 +130,7 @@ final class DockerService implements ContainerService {
         .build();
     final var logs = logsService.concat(commandService.execute(command));
     return Mono.fromCallable(() -> {
-      logsService.push(applicationId, container.getContainerId(), logs);
+      logsService.push(applicationId, container.getContainerId(), LogType.CONTAINER, logs);
       return null;
     });
   }

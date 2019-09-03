@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class ApplicationPropertiesTest {
 
   public static final ApplicationProperties APPLICATION_PROPERTIES = ApplicationProperties.builder()
-      .data(Paths.get("."))
+      .data(Paths.get("testDir"))
       .build();
 
   @Test

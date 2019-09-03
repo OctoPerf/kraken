@@ -1,6 +1,7 @@
 package com.kraken.runtime.logs;
 
 import com.kraken.runtime.entity.Log;
+import com.kraken.runtime.entity.LogType;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
@@ -46,15 +47,15 @@ public class SpringLogsServiceTest {
     final var logsEmitter2 = Flux.interval(Duration.ofMillis(200)).map(aLong -> log2 + " at " + 200 * (aLong + 1));
     final var logsEmitter3 = Flux.interval(Duration.ofMillis(550)).map(aLong -> log3 + " at " + 550 * (aLong + 1));
     new Thread(() -> {
-      service.push(applicationId0, log0, logsEmitter0);
+      service.push(applicationId0, log0, LogType.CONTAINER, logsEmitter0);
       try {
         Thread.sleep(1000);
       } catch (Exception e) {
         e.printStackTrace();
       }
-      service.push(applicationId1, log1, logsEmitter1);
-      service.push(applicationId2, log2, logsEmitter2);
-      service.push(applicationId1, log3, logsEmitter3);
+      service.push(applicationId1, log1, LogType.CONTAINER, logsEmitter1);
+      service.push(applicationId2, log2, LogType.CONTAINER, logsEmitter2);
+      service.push(applicationId1, log3, LogType.CONTAINER, logsEmitter3);
     }).start();
 
     final var mono0 = service.listen(applicationId0).take(Duration.ofMillis(2200)).collectList();
@@ -71,8 +72,8 @@ public class SpringLogsServiceTest {
     final var app1Logs = zip.getT2();
     assertThat(app1Logs).isNotNull();
     assertThat(app1Logs.size()).isGreaterThan(11);
-    assertThat(app1Logs.get(0)).isEqualTo(Log.builder().applicationId(applicationId1).id(log1).text("log1 at 100").build());
-    assertThat(app1Logs.get(12)).isEqualTo(Log.builder().applicationId(applicationId1).id(log3).text("log3 at 1100").build());
+    assertThat(app1Logs.get(0)).isEqualTo(Log.builder().applicationId(applicationId1).id(log1).type(LogType.CONTAINER).text("log1 at 100").build());
+    assertThat(app1Logs.get(12)).isEqualTo(Log.builder().applicationId(applicationId1).id(log3).type(LogType.CONTAINER).text("log3 at 1100").build());
 
     final var app2Logs = zip.getT2();
     assertThat(app2Logs).isNotNull();
@@ -85,7 +86,7 @@ public class SpringLogsServiceTest {
     final var applicationId0 = "applicationId0";
     final var log0 = "log0";
     final var logsEmitter0 = Flux.interval(Duration.ofMillis(100)).map(aLong -> log0 + " at " + 100 * (aLong + 1));
-    service.push(applicationId0, log0, logsEmitter0);
+    service.push(applicationId0, log0, LogType.CONTAINER, logsEmitter0);
 
     new Thread(() -> {
       try {
@@ -120,7 +121,7 @@ public class SpringLogsServiceTest {
       app0Logs.addAll(result);
     }).start();
 
-    service.push(applicationId0, log0, logsEmitter0);
+    service.push(applicationId0, log0, LogType.CONTAINER, logsEmitter0);
     Thread.sleep(3000);
     System.out.println(app0Logs);
     // Wait 1sec, listen for log for 1 sec => 10 logs max

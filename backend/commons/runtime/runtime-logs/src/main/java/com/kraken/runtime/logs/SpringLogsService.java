@@ -1,6 +1,7 @@
 package com.kraken.runtime.logs;
 
 import com.kraken.runtime.entity.Log;
+import com.kraken.runtime.entity.LogType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -65,8 +66,8 @@ final class SpringLogsService implements LogsService {
   }
 
   @Override
-  public Disposable push(final String applicationId, final String id, final Flux<String> stringFlux) {
-    final var subscription = stringFlux.map(text -> Log.builder().applicationId(applicationId).id(id).text(text).build())
+  public Disposable push(final String applicationId, final String id, final LogType type, final Flux<String> stringFlux) {
+    final var subscription = stringFlux.map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).build())
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(log -> {

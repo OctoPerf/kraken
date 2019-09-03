@@ -10,18 +10,21 @@ import static java.util.Objects.requireNonNull;
 @Value
 @Builder
 public class Log {
-  String id;
   String applicationId;
+  String id;
+  LogType type;
   String text;
 
   @JsonCreator
   Log(
-      @JsonProperty("id") final String id,
       @JsonProperty("applicationId") final String applicationId,
+      @JsonProperty("id") final String id,
+      @JsonProperty("type") final LogType type,
       @JsonProperty("text") final String text) {
     super();
     this.id = requireNonNull(id);
     this.applicationId = requireNonNull(applicationId);
+    this.type = requireNonNull(type);
     this.text = requireNonNull(text);
   }
 }

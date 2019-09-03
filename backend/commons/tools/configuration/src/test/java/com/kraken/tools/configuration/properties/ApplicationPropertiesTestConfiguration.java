@@ -14,8 +14,7 @@ public class ApplicationPropertiesTestConfiguration {
 
   @Bean
   ApplicationProperties applicationProperties() {
-    return ApplicationProperties.builder().data(Path.of("testDir"))
-        .build();
+    return ApplicationPropertiesTest.APPLICATION_PROPERTIES;
   }
 
 }

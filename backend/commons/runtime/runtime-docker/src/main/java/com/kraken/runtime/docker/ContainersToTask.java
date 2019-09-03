@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 @Component
 @Slf4j
-class ContainersToTask implements Function<GroupedFlux<String, Container>, Mono<Task>> {
+final class ContainersToTask implements Function<GroupedFlux<String, Container>, Mono<Task>> {
 
   @Override
   public Mono<Task> apply(final GroupedFlux<String, Container> containersFlux) {

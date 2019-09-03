@@ -7,8 +7,9 @@ import static com.kraken.test.utils.TestUtils.shouldPassAll;
 public class LogTest {
 
   public static final Log LOG = Log.builder()
-      .id("id")
       .applicationId("applicationId")
+      .id("id")
+      .type(LogType.CONTAINER)
       .text("text")
       .build();
 
