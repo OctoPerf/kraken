@@ -6,6 +6,11 @@ dependencies {
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:runtime:runtime-container')
     implementation project(':commons:runtime:runtime-command')
+    implementation project(':commons:runtime:runtime-logs')
+//    implementation project(':commons:tools:configuration')
+
+//    testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 
 //    implementation 'com.spotify:docker-client:8.16.0'
 //    // https://github.com/spotify/docker-client/issues/1030

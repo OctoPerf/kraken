@@ -14,21 +14,12 @@ public class ApplicationPropertiesConfiguration {
 
   @Autowired
   @Bean
-  ApplicationProperties applicationProperties(@Value("${kraken.data:#{environment.KRAKEN_DATA}}") final String data,
-                                              @Value("${kraken.host.data:#{environment.KRAKEN_HOST_DATA}}") final String hostData,
-                                              @Value("${kraken.host.uid:#{environment.KRAKEN_HOST_UID}}") final String hostUId,
-                                              @Value("${kraken.host.gid:#{environment.KRAKEN_HOST_GID}}") final String hostGId) {
+  ApplicationProperties applicationProperties(@Value("${kraken.data:#{environment.KRAKEN_DATA}}") final String data) {
     final var dataPath = Path.of(data);
     log.info("Data location is set to " + dataPath.toAbsolutePath());
-    log.info("Host Data location is set to " + hostData);
-    log.info("Host UID location is set to " + hostUId);
-    log.info("Host GID location is set to " + hostGId);
 
     return ApplicationProperties.builder()
         .data(dataPath)
-        .hostData(hostData)
-        .hostUId(hostUId)
-        .hostGId(hostGId)
         .build();
   }
 

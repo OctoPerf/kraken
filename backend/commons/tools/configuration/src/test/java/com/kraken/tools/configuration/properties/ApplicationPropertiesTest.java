@@ -9,9 +9,6 @@ public class ApplicationPropertiesTest {
 
   public static final ApplicationProperties APPLICATION_PROPERTIES = ApplicationProperties.builder()
       .data(Paths.get("."))
-      .hostData("hostData")
-      .hostUId("1001")
-      .hostGId("1001")
       .build();
 
   @Test

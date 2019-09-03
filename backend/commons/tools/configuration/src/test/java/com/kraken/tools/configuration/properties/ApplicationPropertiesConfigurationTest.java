@@ -20,6 +20,5 @@ public class ApplicationPropertiesConfigurationTest {
   @Test
   public void shouldCreateProperties() {
     Assertions.assertThat(applicationProperties.getData()).isNotNull();
-    Assertions.assertThat(applicationProperties.getHostData()).isNotNull();
   }
 }

@@ -3,7 +3,6 @@ package com.kraken.runtime.logs;
 import com.kraken.runtime.entity.Log;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.reactivestreams.Subscription;
 import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
@@ -21,7 +20,10 @@ import java.util.concurrent.ConcurrentMap;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class SpringLogsService implements LogsService {
 
-  static final Duration INTERVAL = Duration.ofMillis(100);
+  private static final int MAX_LOGS_SIZE = 500;
+  private static final Duration MAX_LOGS_TIMEOUT_MS = Duration.ofMillis(1000);
+  private static final String LINE_SEP = "\r\n";
+  private static final Duration INTERVAL = Duration.ofMillis(100);
 
   ConcurrentLinkedQueue<Log> logs = new ConcurrentLinkedQueue<>();
   ConcurrentMap<String, FluxSink<Log>> listeners = new ConcurrentHashMap<>();
@@ -82,5 +84,11 @@ final class SpringLogsService implements LogsService {
     listeners.clear();
     subscriptions.values().forEach(Disposable::dispose);
     subscriptions.clear();
+  }
+
+  @Override
+  public Flux<String> concat(final Flux<String> logs) {
+    return logs.windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
+        .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2));
   }
 }

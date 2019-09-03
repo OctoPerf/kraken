@@ -17,18 +17,19 @@ import java.util.function.Function;
 @Slf4j
 class StringToContainer implements Function<String, Container> {
 
-  public static String FORMAT = "\"{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.name\"}}\"";
+  public static String FORMAT = "\"{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}}\"";
   private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z z");
 
   @Override
   public Container apply(final String str) {
     final var split = str.split("[;_]");
+    final var id = split[0];
+    final var name = split[1];
     final var status = split[2];
     final var dateStr = split[3];
     final var taskId = split[4];
     final var taskType = split[5];
     final var containerId = split[6];
-    final var name = split[7];
 
     var date = new Date().getTime();
     try {
@@ -38,7 +39,8 @@ class StringToContainer implements Function<String, Container> {
     }
 
     return Container.builder()
-        .id(containerId)
+        .id(id)
+        .containerId(containerId)
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType))
         .name(name)

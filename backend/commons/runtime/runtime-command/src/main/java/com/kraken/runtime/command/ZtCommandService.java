@@ -20,9 +20,6 @@ import java.util.function.Function;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 final class ZtCommandService implements CommandService {
-  private static final int MAX_LOGS_SIZE = 500;
-  private static final int MAX_LOGS_TIMEOUT_MS = 1000;
-  private static final String LINE_SEP = "\r\n";
 
   @NonNull
   Function<String, String> stringCleaner;
@@ -48,9 +45,9 @@ final class ZtCommandService implements CommandService {
       }
       emitter.complete();
     })
-        .map((line) -> stringCleaner.apply(line) + LINE_SEP)
-        .windowTimeout(MAX_LOGS_SIZE, Duration.ofMillis(MAX_LOGS_TIMEOUT_MS))
-        .flatMap(window -> window.reduce((o, o2) -> o + o2))
+        .map(stringCleaner)
         .subscribeOn(Schedulers.elastic());
   }
+
+
 }

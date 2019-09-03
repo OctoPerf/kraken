@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import lombok.experimental.Wither;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import static java.util.Objects.requireNonNull;
 public class Task {
   String id;
   Long startDate;
-  @Wither
   ContainerStatus status;
   TaskType type;
   List<Container> containers;

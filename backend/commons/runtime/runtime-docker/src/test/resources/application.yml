@@ -1,0 +1,3 @@
+kraken:
+  docker:
+    watch-tasks-delay: 2000

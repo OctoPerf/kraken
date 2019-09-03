@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
 import java.util.ArrayList;
@@ -44,13 +45,14 @@ public class ZtCommandServiceTest {
   public void shouldCancelSleepSimple() throws InterruptedException {
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("/bin/sh", "-c", "sleep 10 && echo run"))
+        .command(Arrays.asList("/bin/sh", "-c", "sleep 5 && echo run"))
         .environment(ImmutableMap.of())
         .build();
     final var logs = new ArrayList<String>();
     final var subscription = service.execute(command).subscribe(logs::add);
     Thread.sleep(SLEEP);
     subscription.dispose();
+    System.out.println(logs);
     assertThat(logs.size()).isEqualTo(0);
   }
 

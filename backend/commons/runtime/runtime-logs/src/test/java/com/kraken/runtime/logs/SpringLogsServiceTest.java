@@ -10,6 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -129,6 +131,32 @@ public class SpringLogsServiceTest {
   @Test
   public void shouldCancelNope() {
     assertThat(service.cancel("nope")).isFalse();
+  }
+
+  @Test
+  public void shouldConcatLogsCount() {
+    final var log0 = "log0";
+    final var logsEmitter0 = Flux.interval(Duration.ofMillis(1))
+        .map(aLong -> log0 + " at " + 100 * (aLong + 1))
+        .take(1000)
+        .subscribeOn(Schedulers.elastic());
+    final var logs = service.concat(logsEmitter0).collectList().block();
+
+    assertThat(logs).isNotNull();
+    assertThat(logs.size()).isEqualTo(2);
+  }
+
+  @Test
+  public void shouldConcatLogsDuration() {
+    final var log0 = "log0";
+    final var logsEmitter0 = Flux.interval(Duration.ofMillis(400))
+        .map(aLong -> log0 + " at " + 100 * (aLong + 1))
+        .take(4)
+        .subscribeOn(Schedulers.elastic());
+    final var logs = service.concat(logsEmitter0).collectList().block();
+
+    assertThat(logs).isNotNull();
+    assertThat(logs.size()).isEqualTo(2);
   }
 }
 

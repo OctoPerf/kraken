@@ -15,9 +15,6 @@ public class ApplicationPropertiesTestConfiguration {
   @Bean
   ApplicationProperties applicationProperties() {
     return ApplicationProperties.builder().data(Path.of("testDir"))
-        .hostData(Path.of("testDir").toAbsolutePath().toString())
-        .hostUId("1001")
-        .hostGId("1001")
         .build();
   }
 
