@@ -41,8 +41,16 @@ final class DockerService implements ContainerService {
 
   @Override
   public Mono<Void> execute(TaskType taskType, Map<String, String> environment) {
+//  Comment faire pour les logs de lancement ? faudrait les afficher en stream car c'est surement long s'il faut pull les images ...
+//    On peut faire un attach Logs avec un l'id de la task crée ?
 // TODO Run docker-compose up
 //    TODO Valider le resultat => si fail retourner une erreur, si pas fail retourner les logs ?
+    return null;
+  }
+
+  @Override
+  public Mono<Void> cancel(final Task task) {
+//    TODO docker-compose down et force si ca veut pas
     return null;
   }
 
@@ -101,7 +109,7 @@ final class DockerService implements ContainerService {
 
   @Override
   public Mono<Container> setStatus(final String containerId, final ContainerStatus status) {
-    return this.find(containerId).map(container -> {
+    return this.find(containerId).flatMap(container -> {
       final var command = Command.builder()
           .path(".")
           .command(Arrays.asList("docker",
@@ -110,12 +118,11 @@ final class DockerService implements ContainerService {
               containerStatusToName.apply(container.getName(), status)))
           .environment(ImmutableMap.of())
           .build();
-      commandService.execute(command).blockLast();
-      return container.withStatus(status);
+      return commandService.execute(command).collectList().map(list -> container.withStatus(status));
     });
   }
 
-  private Mono<Container> find(final String containerId) {
+  public Mono<Container> find(final String containerId) {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",

@@ -25,6 +25,6 @@ public class ContainerTest {
 
   @Test
   public void shouldWither() {
-    assertThat(CONTAINER.withStatus(ContainerStatus.READY).getStatus()).isEqualTo(ContainerStatus.CANCELED);
+    assertThat(CONTAINER.withStatus(ContainerStatus.READY).getStatus()).isEqualTo(ContainerStatus.READY);
   }
 }

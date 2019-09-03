@@ -12,6 +12,8 @@ public interface ContainerService {
   Mono<Void> execute(TaskType taskType,
                Map<String, String> environment);
 
+  Mono<Void> cancel(Task task);
+
   Flux<Task> listTasks();
 
   Flux<List<Task>> watchTasks();

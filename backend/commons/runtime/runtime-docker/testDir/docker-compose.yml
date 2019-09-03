@@ -31,6 +31,6 @@ services:
       com.kraken.taskType: "RUN"
       com.kraken.containerId: "containerThreeId"
     container_name: "container-three_STARTING"
-    image: nginx
+    image: "octoperf/kraken-echo:latest"
     networks:
       - kraken
