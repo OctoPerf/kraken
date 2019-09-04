@@ -1,0 +1,26 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: "kraken"
+
+services:
+  kraken-container-one:
+    labels:
+      com.kraken.taskId: ${KRAKEN_TASK_ID}
+      com.kraken.taskType: "RECORD"
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-container-one
+    container_name: "container-one_STARTING"
+    image: ${KRAKEN_IMAGE}
+    networks:
+      - kraken
+
+  kraken-container-two:
+    labels:
+      com.kraken.taskId: ${KRAKEN_TASK_ID}
+      com.kraken.taskType: "RECORD"
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-container-two
+    container_name: "container-two_STARTING"
+    image: ${KRAKEN_IMAGE}
+    networks:
+      - kraken

@@ -61,9 +61,9 @@ final class DockerService implements ContainerService {
         .environment(env)
         .build();
 
-    // Automatically display logs stream
-    final var logs = logsService.concat(commandService.execute(command));
     return Mono.fromCallable(() -> {
+      // Automatically display logs stream
+      final var logs = logsService.concat(commandService.execute(command));
       logsService.push(applicationId, taskId, LogType.TASK, logs);
       return taskId;
     });
@@ -82,9 +82,9 @@ final class DockerService implements ContainerService {
         .environment(ImmutableMap.of())
         .build();
 
-    // Automatically display logs stream
-    final var logs = logsService.concat(commandService.execute(command));
     return Mono.fromCallable(() -> {
+      // Automatically display logs stream
+      final var logs = logsService.concat(commandService.execute(command));
       logsService.push(applicationId, taskId, LogType.TASK, logs);
       return null;
     });
