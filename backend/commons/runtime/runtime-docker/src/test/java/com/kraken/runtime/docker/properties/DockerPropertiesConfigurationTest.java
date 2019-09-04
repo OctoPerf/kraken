@@ -1,6 +1,5 @@
 package com.kraken.runtime.docker.properties;
 
-import com.kraken.tools.configuration.properties.ApplicationPropertiesConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {ApplicationPropertiesConfiguration.class},
+    classes = {DockerPropertiesConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class DockerPropertiesConfigurationTest {
 

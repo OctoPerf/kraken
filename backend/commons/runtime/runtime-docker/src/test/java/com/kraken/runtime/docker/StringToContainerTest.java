@@ -25,7 +25,7 @@ public class StringToContainerTest {
         .id("6ea1e79088d9")
         .containerId("containerOneId")
         .taskId("taskId")
-        .name("Container One")
+        .name("container-one")
         .startDate(1567501871000L)
         .status(ContainerStatus.READY)
         .taskType(TaskType.RUN)
@@ -40,7 +40,7 @@ public class StringToContainerTest {
     assertThat(container.getId()).isEqualTo("fd6c4a0fb80d");
     assertThat(container.getContainerId()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");
-    assertThat(container.getName()).isEqualTo("Container Three");
+    assertThat(container.getName()).isEqualTo("container-three");
     assertThat(container.getStatus()).isEqualTo(ContainerStatus.STARTING);
     assertThat(container.getStartDate()).isGreaterThanOrEqualTo(currentDate);
   }
