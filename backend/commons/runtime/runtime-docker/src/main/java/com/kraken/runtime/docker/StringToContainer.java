@@ -17,7 +17,7 @@ import java.util.function.Function;
 final class StringToContainer implements Function<String, Container> {
 
   public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}}";
-  private static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z z");
+  private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
   public Container apply(final String str) {
@@ -32,7 +32,7 @@ final class StringToContainer implements Function<String, Container> {
 
     var date = new Date().getTime();
     try {
-      date = DATE_FORMAT.parse(dateStr).getTime();
+      date = new SimpleDateFormat(DATE_FORMAT).parse(dateStr).getTime();
     } catch (ParseException e) {
       log.error("Failed to parse container date", e);
     }
