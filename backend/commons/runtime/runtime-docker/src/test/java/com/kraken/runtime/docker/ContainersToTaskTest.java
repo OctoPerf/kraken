@@ -21,6 +21,7 @@ public class ContainersToTaskTest {
         .taskId("taskId")
         .taskType(TaskType.RUN)
         .name("name")
+        .description("description")
         .startDate(42L)
         .status(ContainerStatus.READY)
         .build();
@@ -29,6 +30,7 @@ public class ContainersToTaskTest {
     final var task = containersToTask.apply(flux).block();
     assertThat(task).isNotNull();
     assertThat(task.getStatus()).isEqualTo(ContainerStatus.CREATING);
+    assertThat(task.getDescription()).isEqualTo("description");
     assertThat(task.getContainers().size()).isEqualTo(2);
   }
 

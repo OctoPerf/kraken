@@ -20,12 +20,13 @@ public class StringToContainerTest {
 
   @Test
   public void shouldConvert(){
-    final var container = stringToContainer.apply("6ea1e79088d9;container-one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId");
+    final var container = stringToContainer.apply("6ea1e79088d9;container-one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;Some description; test!");
     assertThat(container).isEqualTo(Container.builder()
         .id("6ea1e79088d9")
         .containerId("containerOneId")
         .taskId("taskId")
         .name("container-one")
+        .description("Some description; test!")
         .startDate(1567501871000L)
         .status(ContainerStatus.READY)
         .taskType(TaskType.RUN)
@@ -36,7 +37,7 @@ public class StringToContainerTest {
   public void shouldConvertDateFail(){
     final var currentDate = new Date().getTime();
 
-    final var container = stringToContainer.apply("fd6c4a0fb80d;container-three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId");
+    final var container = stringToContainer.apply("fd6c4a0fb80d;container-three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;description");
     assertThat(container.getId()).isEqualTo("fd6c4a0fb80d");
     assertThat(container.getContainerId()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");

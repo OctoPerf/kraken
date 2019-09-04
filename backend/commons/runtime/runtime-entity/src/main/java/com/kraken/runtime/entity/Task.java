@@ -17,6 +17,7 @@ public class Task {
   ContainerStatus status;
   TaskType type;
   List<Container> containers;
+  String description;
 
   @JsonCreator
   Task(
@@ -24,7 +25,8 @@ public class Task {
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status,
       @JsonProperty("type") final TaskType type,
-      @JsonProperty("containers") final List<Container> containers
+      @JsonProperty("containers") final List<Container> containers,
+      @JsonProperty("description") final String description
   ) {
     super();
     this.id = requireNonNull(id);
@@ -32,5 +34,6 @@ public class Task {
     this.status = requireNonNull(status);
     this.type = requireNonNull(type);
     this.containers = requireNonNull(containers);
+    this.description = requireNonNull(description);
   }
 }

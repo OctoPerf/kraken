@@ -10,6 +10,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: "RECORD"
       com.kraken.containerId: ${KRAKEN_TASK_ID}-container-one
+      com.kraken.description: ${KRAKEN_DESCRIPTION}
     container_name: "container-one_STARTING"
     image: ${KRAKEN_IMAGE}
     networks:
@@ -20,6 +21,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: "RECORD"
       com.kraken.containerId: ${KRAKEN_TASK_ID}-container-two
+      com.kraken.description: ${KRAKEN_DESCRIPTION}
     container_name: "container-two_STARTING"
     image: ${KRAKEN_IMAGE}
     networks:

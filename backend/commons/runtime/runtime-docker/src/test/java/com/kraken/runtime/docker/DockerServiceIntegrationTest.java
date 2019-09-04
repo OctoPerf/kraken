@@ -69,6 +69,7 @@ public class DockerServiceIntegrationTest {
     final var debugTask = tasks.stream().filter(task -> task.getType() == TaskType.DEBUG).findFirst().orElse(TaskTest.TASK);
     final var runTask = tasks.stream().filter(task -> task.getType() == TaskType.RUN).findFirst().orElse(TaskTest.TASK);
     assertThat(debugTask.getId()).isEqualTo("taskId");
+    assertThat(debugTask.getDescription()).isEqualTo("Debug Task");
     assertThat(debugTask.getContainers().size()).isEqualTo(2);
     assertThat(runTask.getId()).isEqualTo("taskIdBis");
     assertThat(runTask.getContainers().size()).isEqualTo(1);

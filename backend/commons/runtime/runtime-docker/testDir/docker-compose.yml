@@ -10,6 +10,7 @@ services:
       com.kraken.taskId: "taskId"
       com.kraken.taskType: "DEBUG"
       com.kraken.containerId: "containerOneId"
+      com.kraken.description: "Debug Task"
     container_name: "container-one_READY"
     image: nginx
     networks:
@@ -20,6 +21,7 @@ services:
       com.kraken.taskId: "taskId"
       com.kraken.taskType: "DEBUG"
       com.kraken.containerId: "containerTwoId"
+      com.kraken.description: "Debug Task"
     container_name: "container-two_DONE"
     image: nginx
     networks:
@@ -30,6 +32,7 @@ services:
       com.kraken.taskId: "taskIdBis"
       com.kraken.taskType: "RUN"
       com.kraken.containerId: "containerThreeId"
+      com.kraken.description: "Run Task"
     container_name: "container-three_STARTING"
     image: "octoperf/kraken-echo:latest"
     networks:

@@ -29,7 +29,9 @@ final class ContainersToTask implements Function<GroupedFlux<String, Container>,
   @Override
   public Mono<Task> apply(final GroupedFlux<String, Container> containersFlux) {
     return containersFlux.collectList().map(containers -> {
-      final var taskType = containers.get(0).getTaskType();
+      final var first = containers.get(0);
+      final var taskType = first.getTaskType();
+      final var description = first.getDescription();
       while (containers.size() < dockerProperties.getContainersCount().get(taskType)) {
         containers.add(Container.builder()
             .id("")
@@ -37,6 +39,7 @@ final class ContainersToTask implements Function<GroupedFlux<String, Container>,
             .taskId(containersFlux.key())
             .taskType(taskType)
             .name("creating")
+            .description(description)
             .startDate(0L)
             .status(ContainerStatus.CREATING)
             .build());
@@ -49,6 +52,7 @@ final class ContainersToTask implements Function<GroupedFlux<String, Container>,
           .status(containerStatus)
           .type(taskType)
           .containers(containers)
+          .description(description)
           .build();
     });
   }

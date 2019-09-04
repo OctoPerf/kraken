@@ -15,6 +15,7 @@ public class ContainerTest {
       .status(ContainerStatus.STARTING)
       .name("name")
       .taskType(TaskType.RUN)
+      .description("description")
       .build();
 
 

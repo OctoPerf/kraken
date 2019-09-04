@@ -16,6 +16,7 @@ public class Container {
   String taskId;
   TaskType taskType;
   String name;
+  String description;
 // TODO add String hostname;
   Long startDate;
   @Wither
@@ -28,6 +29,7 @@ public class Container {
       @JsonProperty("taskId") final String taskId,
       @JsonProperty("taskType") final TaskType taskType,
       @JsonProperty("name") final String name,
+      @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status) {
     super();
@@ -38,5 +40,6 @@ public class Container {
     this.startDate = requireNonNull(startDate);
     this.status = requireNonNull(status);
     this.name = requireNonNull(name);
+    this.description = requireNonNull(description);
   }
 }
