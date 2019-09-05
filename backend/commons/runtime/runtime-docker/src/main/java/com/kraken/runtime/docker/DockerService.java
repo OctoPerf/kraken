@@ -44,6 +44,7 @@ final class DockerService implements ContainerService {
 
   @Override
   public Mono<String> execute(final String applicationId,
+                              final String description,
                               final TaskType taskType,
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
@@ -51,6 +52,7 @@ final class DockerService implements ContainerService {
     final var env = ImmutableMap.<String, String>builder()
         .putAll(environment)
         .put("KRAKEN_TASK_ID", taskId)
+        .put("KRAKEN_DESCRIPTION", description)
         .build();
 
     final var command = Command.builder()

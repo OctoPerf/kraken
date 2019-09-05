@@ -10,6 +10,7 @@ import java.util.Map;
 public interface ContainerService {
 
   Mono<String> execute(String applicationId,
+                       String description,
                        TaskType taskType,
                        Map<String, String> environment);
 
