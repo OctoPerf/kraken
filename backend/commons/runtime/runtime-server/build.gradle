@@ -1,4 +1,9 @@
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
-    implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-api')
+    implementation project(':commons:runtime:runtime-logs')
+    implementation project(':commons:tools:sse')
+
+    testCompile project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:tools:sse', configuration: 'testArtifacts')
 }

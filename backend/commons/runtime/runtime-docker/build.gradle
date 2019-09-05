@@ -4,7 +4,7 @@ ext {
 
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
-    implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-api')
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:runtime:runtime-logs')
     implementation project(':commons:tools:configuration')

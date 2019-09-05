@@ -9,14 +9,14 @@ import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder
-public class SSEWrapper<T> {
+public class SSEWrapper {
   String type;
-  T value;
+  Object value;
 
   @JsonCreator
   SSEWrapper(
       @JsonProperty("type") final String type,
-      @JsonProperty("value") final T value) {
+      @JsonProperty("value") final Object value) {
     super();
     this.type = requireNonNull(type);
     this.value = requireNonNull(value);

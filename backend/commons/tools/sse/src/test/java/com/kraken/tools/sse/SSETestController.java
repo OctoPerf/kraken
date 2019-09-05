@@ -29,7 +29,7 @@ class SSETestController {
   }
 
   @GetMapping(value = "/merge")
-  public Flux<SSEWrapper<Object>> merge() {
+  public Flux<SSEWrapper> merge() {
     final var strFlux = Flux.interval(Duration.ofMillis(500)).take(3)
         .map(aLong -> String.format("event%d", aLong));
     final var longFlux = Flux.interval(Duration.ofMillis(700)).take(3);

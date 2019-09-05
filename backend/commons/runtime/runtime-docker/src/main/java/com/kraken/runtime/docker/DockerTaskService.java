@@ -1,11 +1,14 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.container.ContainerService;
 import com.kraken.runtime.docker.properties.DockerProperties;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.Container;
+import com.kraken.runtime.entity.LogType;
+import com.kraken.runtime.entity.Task;
+import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,13 +23,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-final class DockerService implements ContainerService {
+final class DockerTaskService implements TaskService {
 
   @NonNull CommandService commandService;
 
@@ -38,13 +40,10 @@ final class DockerService implements ContainerService {
 
   @NonNull Function<GroupedFlux<String, Container>, Mono<Task>> containersToTask;
 
-  @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
-
   @NonNull Function<TaskType, String> taskTypeToPath;
 
   @Override
   public Mono<String> execute(final String applicationId,
-                              final String description,
                               final TaskType taskType,
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
@@ -52,7 +51,6 @@ final class DockerService implements ContainerService {
     final var env = ImmutableMap.<String, String>builder()
         .putAll(environment)
         .put("KRAKEN_TASK_ID", taskId)
-        .put("KRAKEN_DESCRIPTION", description)
         .build();
 
     final var command = Command.builder()
@@ -93,7 +91,7 @@ final class DockerService implements ContainerService {
   }
 
   @Override
-  public Flux<Task> listTasks() {
+  public Flux<Task> list() {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
@@ -110,69 +108,10 @@ final class DockerService implements ContainerService {
   }
 
   @Override
-  public Flux<List<Task>> watchTasks() {
+  public Flux<List<Task>> watch() {
     return Flux.interval(dockerProperties.getWatchTasksDelay())
-        .flatMap(aLong -> this.listTasks().collectList())
+        .flatMap(aLong -> this.list().collectList())
         .distinctUntilChanged();
   }
 
-  @Override
-  public Flux<Log> logs(final String applicationId) {
-    return logsService.listen(applicationId);
-  }
-
-  @Override
-  public Mono<Void> attachLogs(final String applicationId, final Container container) {
-    final var command = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "logs",
-            "-f", container.getId()))
-        .environment(ImmutableMap.of())
-        .build();
-    final var logs = logsService.concat(commandService.execute(command));
-    return Mono.fromCallable(() -> {
-      logsService.push(applicationId, container.getContainerId(), LogType.CONTAINER, logs);
-      return null;
-    });
-  }
-
-  @Override
-  public Mono<Void> detachLogs(final Container container) {
-    return Mono.fromCallable(() -> {
-      logsService.cancel(container.getContainerId());
-      return null;
-    });
-  }
-
-  @Override
-  public Mono<Container> setStatus(final String containerId, final ContainerStatus status) {
-    return this.find(containerId).flatMap(container -> {
-      final var command = Command.builder()
-          .path(".")
-          .command(Arrays.asList("docker",
-              "rename",
-              container.getId(),
-              containerStatusToName.apply(container.getName(), status)))
-          .environment(ImmutableMap.of())
-          .build();
-      return commandService.execute(command).collectList().map(list -> container.withStatus(status));
-    });
-  }
-
-  public Mono<Container> find(final String containerId) {
-    final var command = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "ps",
-            "--filter", "label=com.kraken.containerId=" + containerId,
-            "--format", StringToContainer.FORMAT,
-            "--latest"))
-        .environment(ImmutableMap.of())
-        .build();
-
-    return commandService.execute(command)
-        .map(stringToContainer)
-        .next();
-  }
 }

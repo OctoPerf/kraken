@@ -30,15 +30,15 @@ final class SpringSSEService implements SSEService {
   }
 
   @Override
-  public <T> Flux<SSEWrapper<T>> merge(final String type1,
-                                       final Flux<? extends T> flux1,
+  public Flux<SSEWrapper> merge(final String type1,
+                                       final Flux<? extends Object> flux1,
                                        final String type2,
-                                       final Flux<? extends T> flux2) {
-    final List<Flux<SSEWrapper<T>>> asEvents = ImmutableList.of(wrap(type1, flux1), wrap(type2, flux2));
+                                       final Flux<? extends Object> flux2) {
+    final List<Flux<SSEWrapper>> asEvents = ImmutableList.of(wrap(type1, flux1), wrap(type2, flux2));
     return Flux.merge(asEvents);
   }
 
-  private <T> Flux<SSEWrapper<T>> wrap(final String type, final Flux<? extends T> flux) {
-    return flux.map(t -> SSEWrapper.<T>builder().type(type).value(t).build());
+  private <T> Flux<SSEWrapper> wrap(final String type, final Flux<? extends T> flux) {
+    return flux.map(t -> SSEWrapper.builder().type(type).value(t).build());
   }
 }
