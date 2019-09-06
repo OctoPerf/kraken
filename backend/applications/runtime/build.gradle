@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:runtime:runtime-server')
+    implementation project(':commons:runtime:runtime-docker')
+}

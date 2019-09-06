@@ -8,12 +8,6 @@ include ':commons:analysis:influxdb-client'
 include ':commons:analysis:analysis-server'
 include ':commons:analysis:analysis-client'
 
-//include ':commons:runtime:command:command-entity'
-//include ':commons:runtime:command:command-zt'
-//include ':commons:runtime:command:command-client'
-//include ':commons:runtime:docker:docker-entity'
-//include ':commons:runtime:docker:docker-spotify'
-//include ':commons:runtime:docker:docker-client'
 //include ':commons:runtime:kubernetes:kubernetes-java'
 include ':commons:runtime:runtime-server'
 include ':commons:runtime:runtime-entity'
@@ -37,10 +31,9 @@ include ':commons:ee:gatling-log-parser'
 include ':commons:ee:debug-entry-writer'
 include ':commons:ee:license'
 
-//include ':applications:command'
-//include ':applications:docker'
 include ':applications:storage'
-//include ':applications:analysis'
+include ':applications:runtime'
+include ':applications:analysis'
 //include ':applications:ee:gatling-log-parser'
 //include ':applications:ee:har-parser'
 
@@ -52,12 +45,6 @@ project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis
 project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
 project(':commons:analysis:analysis-client').projectDir = file('commons/analysis/analysis-client')
 
-//project(':commons:runtime:command:command-entity').projectDir = file('commons/runtime/command/command-entity')
-//project(':commons:runtime:command:command-zt').projectDir = file('commons/runtime/command/command-zt')
-//project(':commons:runtime:command:command-client').projectDir = file('commons/runtime/command/command-client')
-//project(':commons:runtime:docker:docker-entity').projectDir = file('commons/runtime/docker/docker-entity')
-//project(':commons:runtime:docker:docker-spotify').projectDir = file('commons/runtime/docker/docker-spotify')
-//project(':commons:runtime:docker:docker-client').projectDir = file('commons/runtime/docker/docker-client')
 //project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
 project(':commons:runtime:runtime-server').projectDir = file('commons/runtime/runtime-server')
 project(':commons:runtime:runtime-entity').projectDir = file('commons/runtime/runtime-entity')
@@ -81,10 +68,9 @@ project(':commons:ee:gatling-log-parser').projectDir = file('commons/ee/gatling-
 project(':commons:ee:debug-entry-writer').projectDir = file('commons/ee/debug-entry-writer')
 project(':commons:ee:license').projectDir = file('commons/ee/license')
 
-//project(':applications:command').projectDir = file('applications/command')
-//project(':applications:docker').projectDir = file('applications/docker')
 project(':applications:storage').projectDir = file('applications/storage')
-//project(':applications:analysis').projectDir = file('applications/analysis')
+project(':applications:runtime').projectDir = file('applications/runtime')
+project(':applications:analysis').projectDir = file('applications/analysis')
 //project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
 //project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
 

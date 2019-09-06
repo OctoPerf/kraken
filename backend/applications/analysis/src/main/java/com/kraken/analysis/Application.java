@@ -1,11 +1,11 @@
-package com.kraken.commons.analysis.server;
+package com.kraken.analysis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.kraken.analysis", "com.kraken.commons"})
+@ComponentScan(basePackages = {"com.kraken"})
 public class Application {
 
   public static void main(String[] args) {

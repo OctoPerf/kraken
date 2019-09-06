@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.kraken.storage", "com.kraken.commons"})
+@ComponentScan(basePackages = {"com.kraken"})
 public class Application {
 
   public static void main(String[] args) {

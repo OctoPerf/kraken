@@ -1,8 +1,5 @@
 kraken:
 #  data: ../data/
-#  host.data: /home/kraken/data
-#  host.uid: 1001
-#  host.gid: 1001
 
 spring:
   servlet:
@@ -31,4 +28,3 @@ spring:
 
 kraken:
 #  data: must be given using env variable KRAKEN_DATA
-#  host.data: must be given as using env variable KRAKEN_HOST_DATA

@@ -1,24 +1,9 @@
 kraken:
-  gatling:
+  analysis:
     results:
       root: gatling/results
-  analysis:
-    url: http://localhost:8083
-    runner:
-      root: gatling/runner
-      script: runner.sh
-      cancel: onCancel.sh
-    debugger:
-      root: gatling/debugger
-      script: debugger.sh
-      cancel: onCancel.sh
-    recorder:
-      root: gatling/recorder
-      script: recorder.sh
   storage:
     url: http://localhost:8080
-  command:
-    url: http://localhost:8081
   grafana:
     url: http://localhost:3000
     dashboard: grafana/grafana-gatling-dashboard.json
@@ -48,7 +33,7 @@ logging:
     kraken: INFO
 
 server:
-  port: 8083
+  port: 8081
   error:
     include-stacktrace: always
 
@@ -58,15 +43,8 @@ spring:
 
 kraken:
 #  data: must be given using env variable KRAKEN_DATA
-#  host.data: must be given as using env variable KRAKEN_HOST_DATA
-#  host.uid: must be given as using env variable KRAKEN_HOST_UID
-#  host.gid: must be given as using env variable KRAKEN_HOST_GID
-  analysis:
-    url: http://kraken-analysis:8083
   storage:
     url: http://kraken-storage:8080
-  command:
-    url: http://kraken-command:8081
   grafana:
     url: http://kraken-grafana:3000
   influxdb:

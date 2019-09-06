@@ -1,10 +1,10 @@
 kraken:
-#  data: ../data/
-#  host.data: /home/kraken/data
-#  host.uid: 1001
-#  host.gid: 1001
-  command:
-    url: http://localhost:8081
+  docker:
+    watch-tasks-delay: 2000
+    containers-count:
+      run: 1
+      debug: 2
+      record: 2
 
 spring:
   servlet:
@@ -23,18 +23,10 @@ logging:
     kraken: INFO
 
 server:
-  port: 8082
+  port: 8080
   error:
     include-stacktrace: always
 
 ---
 spring:
   profiles: prod
-
-kraken:
-#  data: must be given using env variable KRAKEN_DATA
-#  host.data: must be given as using env variable KRAKEN_HOST_DATA
-#  host.uid: must be given as using env variable KRAKEN_HOST_UID
-#  host.gid: must be given as using env variable KRAKEN_HOST_GID
-  command:
-    url: http://kraken-command:8081
