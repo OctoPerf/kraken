@@ -3,13 +3,22 @@ package com.kraken.runtime.server.rest;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.testing.NullPointerTester;
+import com.kraken.analysis.client.AnalysisClientProperties;
+import com.kraken.analysis.client.AnalysisClientPropertiesTest;
+import com.kraken.analysis.client.AnalysisClientPropertiesTestConfiguration;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.server.service.ResultUpdater;
+import com.kraken.storage.client.StorageClientProperties;
+import com.kraken.storage.client.StorageClientPropertiesTest;
+import com.kraken.storage.client.StorageClientPropertiesTestConfiguration;
+import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapperTest;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +41,14 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {TaskController.class})
+    classes = {TaskController.class, AnalysisClientPropertiesTestConfiguration.class, StorageClientPropertiesTestConfiguration.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
 public class TaskControllerTest {
@@ -56,19 +67,32 @@ public class TaskControllerTest {
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassNPE(TaskController.class);
+    new NullPointerTester()
+        .setDefault(AnalysisClientProperties.class, AnalysisClientPropertiesTest.ANALYSIS_CLIENT_PROPERTIES)
+        .setDefault(StorageClientProperties.class, StorageClientPropertiesTest.STORAGE_PROPERTIES)
+        .testConstructors(TaskController.class, PACKAGE);
   }
 
   @Test
   public void shouldRun() {
     final var applicationId = "applicationId";
     final var env = ImmutableMap.<String, String>of();
+    final var envUpdated = ImmutableMap.<String, String>builder()
+        .putAll(env)
+        .put("KRAKEN_ANALYSIS_URL", AnalysisClientPropertiesTest.ANALYSIS_CLIENT_PROPERTIES.getAnalysisUrl())
+        .put("KRAKEN_STORAGE_URL", StorageClientPropertiesTest.STORAGE_PROPERTIES.getStorageUrl())
+        .build();
     final var taskId = "taskId";
-    given(service.execute(applicationId, TaskType.RUN, "Foo", env))
+    final var description = "Foo";
+    given(service.execute(applicationId, TaskType.RUN, description, envUpdated))
         .willReturn(Mono.just(taskId));
+    given(updater.taskExecuted(taskId, TaskType.RUN, description)).willReturn(Mono.just(taskId));
 
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/task").pathSegment(TaskType.RUN.toString()).build())
+        .uri(uriBuilder -> uriBuilder.path("/task")
+            .pathSegment(TaskType.RUN.toString())
+            .queryParam("description", description)
+            .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(env))
         .exchange()
@@ -90,6 +114,9 @@ public class TaskControllerTest {
         .body(BodyInserters.fromObject(task))
         .exchange()
         .expectStatus().isOk();
+
+    verify(service).cancel(applicationId, task);
+//    verify(updater).taskCanceled(task.getId());
   }
 
   @Test

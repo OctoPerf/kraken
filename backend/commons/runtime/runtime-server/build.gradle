@@ -9,5 +9,7 @@ dependencies {
     implementation project(':commons:storage:storage-entity')
 
     testCompile project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:analysis:analysis-client', configuration: 'testArtifacts')
+    testCompile project(path: ':commons:storage:storage-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:tools:sse', configuration: 'testArtifacts')
 }
