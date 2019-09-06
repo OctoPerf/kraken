@@ -1,0 +1,3 @@
+kraken:
+  runtime:
+    url: http://localhost:8081
