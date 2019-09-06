@@ -51,7 +51,7 @@ public class RuntimeClientTest {
     assertThat(response).isEqualTo(container);
 
     final var request = runtimeMockWebServer.takeRequest();
-    assertThat(request.getPath()).isEqualTo("/container/status/READY");
+    assertThat(request.getPath()).isEqualTo("/container/status/READY?containerId=containerId");
   }
 
   @Test
