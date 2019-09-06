@@ -14,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 import java.util.function.Function;
@@ -158,6 +159,24 @@ public class AnalysisServiceTest {
 
     verify(grafanaClient, never()).getDashboard(anyString());
     verify(storageClient).setJsonContent(anyString(), any(Result.class));
+  }
+
+  @Test
+  public void shouldSetStatusFail() {
+    final var resultId = "resultId";
+    final var result = Result.builder()
+        .id(resultId)
+        .startDate(42L)
+        .endDate(1337L)
+        .status(ResultStatus.COMPLETED)
+        .description("description")
+        .type(ResultType.RUN)
+        .build();
+
+    given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
+
+    StepVerifier.create(service.setStatus(resultId, ResultStatus.RUNNING))
+        .expectError();
   }
 
   @Test

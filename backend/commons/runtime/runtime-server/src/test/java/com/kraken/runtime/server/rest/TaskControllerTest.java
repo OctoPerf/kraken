@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.*;
+import com.kraken.runtime.server.service.ResultUpdater;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapperTest;
 import org.assertj.core.api.Assertions;
@@ -48,6 +49,9 @@ public class TaskControllerTest {
   TaskService service;
 
   @MockBean
+  ResultUpdater updater;
+
+  @MockBean
   SSEService sse;
 
   @Test
@@ -58,9 +62,9 @@ public class TaskControllerTest {
   @Test
   public void shouldRun() {
     final var applicationId = "applicationId";
-    final var env = ImmutableMap.of("KRAKEN_DESCRIPTION", "Foo");
+    final var env = ImmutableMap.<String, String>of();
     final var taskId = "taskId";
-    given(service.execute(applicationId, TaskType.RUN, env))
+    given(service.execute(applicationId, TaskType.RUN, "Foo", env))
         .willReturn(Mono.just(taskId));
 
     webTestClient.post()

@@ -13,7 +13,7 @@ public class AnalysisClientConfiguration {
 
   @Autowired
   @Bean
-  AnalysisClientProperties influxDBClientProperties(@Value("${kraken.analysis.url:#{environment.KRAKEN_URLS_ANALYSIS}}") final String analysisUrl) {
+  AnalysisClientProperties influxDBClientProperties(@Value("${kraken.analysis.url:#{environment.KRAKEN_ANALYSIS_URL}}") final String analysisUrl) {
     log.info("Analysis URL is set to " + analysisUrl);
 
     return AnalysisClientProperties.builder()

@@ -3,6 +3,10 @@ dependencies {
     implementation project(':commons:runtime:runtime-api')
     implementation project(':commons:runtime:runtime-logs')
     implementation project(':commons:tools:sse')
+    implementation project(':commons:analysis:analysis-client')
+    implementation project(':commons:analysis:analysis-entity')
+    implementation project(':commons:storage:storage-client')
+    implementation project(':commons:storage:storage-entity')
 
     testCompile project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testCompile project(path: ':commons:tools:sse', configuration: 'testArtifacts')

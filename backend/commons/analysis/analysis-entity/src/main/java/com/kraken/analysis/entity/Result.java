@@ -19,7 +19,6 @@ public class Result {
   Long endDate;
   @Wither
   ResultStatus status;
-  String name;
   String description;
   ResultType type;
 
@@ -29,7 +28,6 @@ public class Result {
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("endDate") final Long endDate,
       @JsonProperty("status") final ResultStatus status,
-      @JsonProperty("name") final String name,
       @JsonProperty("description") final String description,
       @JsonProperty("type") final ResultType type) {
     super();
@@ -37,7 +35,6 @@ public class Result {
     this.startDate = requireNonNull(startDate);
     this.endDate = requireNonNull(endDate);
     this.status = requireNonNull(status);
-    this.name = requireNonNull(name);
     this.description = requireNonNull(description);
     this.type = requireNonNull(type);
   }

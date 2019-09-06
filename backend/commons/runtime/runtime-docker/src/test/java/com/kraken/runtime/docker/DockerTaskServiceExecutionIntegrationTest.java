@@ -37,7 +37,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var taskId = taskService.execute(appId, TaskType.RECORD, ImmutableMap.of("KRAKEN_DESCRIPTION", "description", "KRAKEN_IMAGE", "nginx")).block();
+    final var taskId = taskService.execute(appId, TaskType.RECORD, "description", ImmutableMap.of("KRAKEN_IMAGE", "nginx")).block();
 
     taskService.watch().filter(tasks -> tasks.size() > 0 && tasks.get(0).getStatus() == ContainerStatus.STARTING).next().block();
 

@@ -45,12 +45,14 @@ final class DockerTaskService implements TaskService {
   @Override
   public Mono<String> execute(final String applicationId,
                               final TaskType taskType,
+                              final String description,
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
     final var env = ImmutableMap.<String, String>builder()
         .putAll(environment)
         .put("KRAKEN_TASK_ID", taskId)
+        .put("KRAKEN_DESCRIPTION", description)
         .build();
 
     final var command = Command.builder()

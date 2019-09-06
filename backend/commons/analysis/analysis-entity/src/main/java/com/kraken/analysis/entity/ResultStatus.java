@@ -5,6 +5,7 @@ public enum ResultStatus {
   RUNNING(false),
   COMPLETED(true),
   CANCELED(true),
+//  TODO a supprimer ?
   FAILED(true);
 
   ResultStatus(boolean terminal) {

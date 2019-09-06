@@ -14,7 +14,6 @@ public class ResultTest {
       .startDate(42L)
       .endDate(1337L)
       .status(ResultStatus.STARTING)
-      .name("name")
       .description("description")
       .type(ResultType.RUN)
       .build();
@@ -24,7 +23,6 @@ public class ResultTest {
       .startDate(42L)
       .endDate(1337L)
       .status(ResultStatus.STARTING)
-      .name("name")
       .description("description")
       .type(ResultType.DEBUG)
       .build();

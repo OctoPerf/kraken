@@ -16,7 +16,7 @@ class InfluxDBClientConfiguration {
 
   @Autowired
   @Bean
-  InfluxDBClientProperties influxDBClientProperties(@Value("${kraken.influxdb.url:#{environment.KRAKEN_URLS_INFLUXDB}}") final String influxdbUrl,
+  InfluxDBClientProperties influxDBClientProperties(@Value("${kraken.influxdb.url:#{environment.KRAKEN_INFLUXDB_URL}}") final String influxdbUrl,
                                               @Value("${kraken.influxdb.user:#{environment.KRAKEN_INFLUXDB_USER}}") final String influxdbUser,
                                               @Value("${kraken.influxdb.password:#{environment.KRAKEN_INFLUXDB_PASSWORD}}") final String influxdbPassword,
                                               @Value("${kraken.influxdb.database:#{environment.KRAKEN_INFLUXDB_DATABASE}}") final String influxdbDatabase,

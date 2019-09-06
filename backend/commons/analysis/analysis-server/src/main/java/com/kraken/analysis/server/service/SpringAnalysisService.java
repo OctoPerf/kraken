@@ -71,7 +71,7 @@ class SpringAnalysisService implements AnalysisService {
     final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
 
     final var createGrafanaReport = storageClient.getContent(grafanaClientProperties.getGrafanaDashboard())
-        .map(dashboard -> grafanaClient.initDashboard(result.getId(), result.getName() + " - " + result.getId(), result.getStartDate(), dashboard))
+        .map(dashboard -> grafanaClient.initDashboard(result.getId(), result.getDescription() + " - " + result.getId(), result.getStartDate(), dashboard))
         .flatMap(grafanaClient::importDashboard);
 
     final var createGrafanaReportOrNot = Mono.just(result).flatMap(res -> res.getType().isDebug() ? Mono.just("ok") : createGrafanaReport);
@@ -97,14 +97,16 @@ class SpringAnalysisService implements AnalysisService {
 
     return storageClient.getJsonContent(resultPath, Result.class)
         .flatMap(result -> {
+          if (result.getStatus().isTerminal()) {
+            return Mono.error(new IllegalArgumentException(String.format("Result %s is already in state %s and thus cannot be changed.", resultId, result.getStatus().toString())));
+          }
           if (result.getType().isDebug()) {
             return Mono.just(result);
-          } else {
-            return grafanaClient.getDashboard(resultId)
-                .map(dashboard -> grafanaClient.updatedDashboard(endDate, dashboard))
-                .flatMap(grafanaClient::setDashboard)
-                .map(s -> result);
           }
+          return grafanaClient.getDashboard(resultId)
+              .map(dashboard -> grafanaClient.updatedDashboard(endDate, dashboard))
+              .flatMap(grafanaClient::setDashboard)
+              .map(s -> result);
         })
         .map(result -> result.withEndDate(endDate).withStatus(status))
         .flatMap(result -> storageClient.setJsonContent(resultPath, result));

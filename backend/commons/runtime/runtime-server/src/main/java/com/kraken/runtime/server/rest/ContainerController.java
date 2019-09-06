@@ -18,8 +18,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ContainerController {
 
-  @NonNull
-  ContainerService service;
+  @NonNull ContainerService service;
 
   @PostMapping("/logs/attach")
   public Mono<Void> attachLogs(@RequestHeader("ApplicationId") final String applicationId,

@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder
-class StorageClientProperties {
+public class StorageClientProperties {
 
   @NonNull
   String storageUrl;
