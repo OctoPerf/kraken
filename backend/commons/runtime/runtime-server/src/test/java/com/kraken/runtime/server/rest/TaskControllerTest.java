@@ -106,7 +106,9 @@ public class TaskControllerTest {
     final var applicationId = "applicationId";
     final var task = TaskTest.TASK;
     given(service.cancel(applicationId, task))
-        .willReturn(Mono.fromCallable(() -> null));
+        .willReturn(Mono.just(task.getId()));
+    given(updater.taskCanceled(task.getId()))
+        .willReturn(Mono.just(task.getId()));
 
     webTestClient.post()
         .uri("/task/cancel")
@@ -116,7 +118,7 @@ public class TaskControllerTest {
         .expectStatus().isOk();
 
     verify(service).cancel(applicationId, task);
-//    verify(updater).taskCanceled(task.getId());
+    verify(updater).taskCanceled(task.getId());
   }
 
   @Test

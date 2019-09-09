@@ -48,9 +48,9 @@ public class TaskController {
   }
 
   @PostMapping("/cancel")
-  public Mono<Void> cancel(@RequestHeader("ApplicationId") final String applicationId,
+  public Mono<String> cancel(@RequestHeader("ApplicationId") final String applicationId,
                            @RequestBody() final Task task) {
-    return service.cancel(applicationId, task).then(resultUpdater.taskCanceled(task.getId()));
+    return service.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
   }
 
   @GetMapping(value = "/watch")

@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
@@ -48,6 +49,8 @@ public class ContainerControllerTest {
         .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
         .exchange()
         .expectStatus().isOk();
+
+    verify(service).attachLogs(applicationId, ContainerTest.CONTAINER);
   }
 
   @Test
@@ -60,6 +63,8 @@ public class ContainerControllerTest {
         .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
         .exchange()
         .expectStatus().isOk();
+
+    verify(service).detachLogs(ContainerTest.CONTAINER);
   }
 
   @Test
@@ -77,6 +82,8 @@ public class ContainerControllerTest {
         .expectStatus().isOk()
         .expectBody(Container.class)
         .isEqualTo(container);
+
+    verify(service).setStatus(container.getContainerId(), container.getStatus());
   }
 
 }

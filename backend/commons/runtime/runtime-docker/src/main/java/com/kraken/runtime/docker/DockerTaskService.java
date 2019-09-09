@@ -72,7 +72,7 @@ final class DockerTaskService implements TaskService {
   }
 
   @Override
-  public Mono<Void> cancel(final String applicationId,
+  public Mono<String> cancel(final String applicationId,
                            final Task task) {
 
     final var taskId = task.getId();
@@ -88,7 +88,7 @@ final class DockerTaskService implements TaskService {
       // Automatically display logs stream
       final var logs = logsService.concat(commandService.execute(command));
       logsService.push(applicationId, taskId, LogType.TASK, logs);
-      return null;
+      return taskId;
     });
   }
 

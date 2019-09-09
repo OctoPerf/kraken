@@ -55,11 +55,11 @@ final class SpringResultUpdater implements ResultUpdater {
   }
 
   @Override
-  public Mono<Void> taskCanceled(String taskId) {
-    return analysisClient.setStatus(taskId, ResultStatus.CANCELED).map(storageNode -> null);
+  public Mono<String> taskCanceled(final String taskId) {
+    return analysisClient.setStatus(taskId, ResultStatus.CANCELED).map(storageNode -> taskId);
   }
 
-  private void updateResults(List<Task> tasks) {
+  private void updateResults(final List<Task> tasks) {
     Flux.fromIterable(tasks)
         .flatMap(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())))
         .onErrorResume(e -> Mono.empty())

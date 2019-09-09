@@ -7,6 +7,6 @@ public interface ResultUpdater {
 
   Mono<String> taskExecuted(String taskId, TaskType taskType, String description);
 
-  Mono<Void> taskCanceled(String taskId);
+  Mono<String> taskCanceled(String taskId);
 
 }

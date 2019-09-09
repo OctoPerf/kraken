@@ -15,7 +15,7 @@ public interface TaskService {
                        String description,
                        Map<String, String> environment);
 
-  Mono<Void> cancel(String applicationId,
+  Mono<String> cancel(String applicationId,
                     Task task);
 
   Flux<Task> list();
