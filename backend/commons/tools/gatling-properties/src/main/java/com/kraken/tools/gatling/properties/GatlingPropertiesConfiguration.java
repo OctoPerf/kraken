@@ -14,8 +14,8 @@ public class GatlingPropertiesConfiguration {
   @Autowired
   @Bean
   GatlingProperties gatlingProperties(final ApplicationProperties applicationProperties,
-                                      @Value("${kraken.gatling.results.root:#{environment.KRAKEN_GATLING_RESULTS_ROOT}}") final String resultsRoot,
-                                      @Value("${kraken.version:#{environment.KRAKEN_VERSION}}") final String version) {
+                                      @Value("${kraken.gatling.results.root}") final String resultsRoot,
+                                      @Value("${kraken.version}") final String version) {
     final var root = applicationProperties.getData().resolve(resultsRoot).toString();
     log.info("Results root is set to " + root);
     log.info("Version is set to " + version);

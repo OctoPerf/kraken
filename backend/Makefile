@@ -1,11 +1,7 @@
 .EXPORT_ALL_VARIABLES:
 
-VERSION := $(shell cat ../version.txt)
-KRAKEN_HOST_DATA := $(PWD)/applications/data
-KRAKEN_DATA := $(PWD)/applications/data
-KRAKEN_HOST_UID := $(shell id -u)
-KRAKEN_HOST_GID := $(shell id -g)
-KRAKEN_VERSION := $(VERSION)
+kraken.version := $(shell cat ../version.txt)
+kraken.data := $(PWD)/applications/data
 
 clean-all:
 	./gradlew clean
@@ -46,7 +42,7 @@ serve-storage:
 	$(MAKE) serve APP=:applications:storage
 
 serve-static:
-	docker run --rm --name kraken-static-dev -v $(KRAKEN_HOST_DATA):/usr/share/nginx/html:ro -p 8088:80 octoperf/kraken-static
+	docker run --rm --name kraken-static-dev -v $(kraken.data):/usr/share/nginx/html:ro -p 8088:80 octoperf/kraken-static
 
 clean:
 	./gradlew $(APP):clean
@@ -57,4 +53,4 @@ bootJar:
 	./gradlew $(APP):bootJar
 
 echo:
-	@echo $(VERSION)
+	@echo $(kraken.version)

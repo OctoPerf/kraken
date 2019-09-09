@@ -20,7 +20,7 @@ final class SpringSSEService implements SSEService {
   long delay;
 
   @Autowired
-  SpringSSEService(@Value("${kraken.sse.keep-alive:#{environment.KRAKEN_SSE_KEEP_ALIVE_DELAY ?: 15}}") final Long delay) {
+  SpringSSEService(@Value("${kraken.sse.keep-alive:15}") final Long delay) {
     this.delay = delay;
   }
 

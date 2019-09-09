@@ -14,7 +14,7 @@ public class ApplicationPropertiesConfiguration {
 
   @Autowired
   @Bean
-  ApplicationProperties applicationProperties(@Value("${kraken.data:#{environment.KRAKEN_DATA}}") final String data) {
+  ApplicationProperties applicationProperties(@Value("${kraken.data}") final String data) {
     final var dataPath = Path.of(data);
     log.info("Data location is set to " + dataPath.toAbsolutePath());
 

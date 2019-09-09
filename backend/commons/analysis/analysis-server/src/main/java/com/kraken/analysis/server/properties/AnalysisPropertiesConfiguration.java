@@ -14,7 +14,7 @@ public class AnalysisPropertiesConfiguration {
   @Autowired
   @Bean
   AnalysisProperties gatlingProperties(final ApplicationProperties applicationProperties,
-                                       @Value("${kraken.analysis.results.root:#{environment.KRAKEN_ANALYSIS_RESULTS_ROOT}}") final String resultsRoot) {
+                                       @Value("${kraken.analysis.results.root}") final String resultsRoot) {
     final var root = applicationProperties.getData().resolve(resultsRoot).toString();
     log.info("Results root is set to " + root);
 
