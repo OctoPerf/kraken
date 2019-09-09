@@ -1,5 +1,5 @@
 kraken:
-#  data: ../data/
+  data: ../data/
 
 spring:
   servlet:

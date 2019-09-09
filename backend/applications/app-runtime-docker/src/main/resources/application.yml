@@ -1,4 +1,9 @@
 kraken:
+  data: defaultData/
+  storage:
+    url: "htpp://localhost:8080"
+  analysis:
+    url: "htpp://localhost:8081"
   docker:
     watch-tasks-delay: 2000
     containers-count:
@@ -23,7 +28,7 @@ logging:
     kraken: INFO
 
 server:
-  port: 8080
+  port: 8082
   error:
     include-stacktrace: always
 

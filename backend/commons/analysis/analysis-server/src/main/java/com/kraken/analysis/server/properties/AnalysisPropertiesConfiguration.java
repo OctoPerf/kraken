@@ -1,6 +1,5 @@
 package com.kraken.analysis.server.properties;
 
-import com.kraken.tools.configuration.properties.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +12,11 @@ public class AnalysisPropertiesConfiguration {
 
   @Autowired
   @Bean
-  AnalysisProperties gatlingProperties(final ApplicationProperties applicationProperties,
-                                       @Value("${kraken.analysis.results.root:#{environment.KRAKEN_ANALYSIS_RESULTS_ROOT}}") final String resultsRoot) {
-    final var root = applicationProperties.getData().resolve(resultsRoot).toString();
-    log.info("Results root is set to " + root);
+  AnalysisProperties analysisProperties(@Value("${kraken.analysis.results.root:#{environment.KRAKEN_ANALYSIS_RESULTS_ROOT}}") final String resultsRoot) {
+    log.info("Results root is set to " + resultsRoot);
 
     return AnalysisProperties.builder()
-        .resultsRoot(root)
+        .resultsRoot(resultsRoot)
         .build();
   }
 }

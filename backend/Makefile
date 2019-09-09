@@ -28,17 +28,16 @@ serve:
 
 copy-data:
 	rm -rf applications/data
-	cp -a applications/storage/defaultData/. applications/data/
+	cp -a applications/app-storage/defaultData/. applications/data/
 
 serve-analysis:
-	$(MAKE) serve APP=:applications:analysis
+	$(MAKE) serve APP=:applications:app-analysis
 
 serve-runtime-docker:
-	KRAKEN_DATA=$(PWD)/applications/app-runtime-data
 	$(MAKE) serve APP=:applications:app-runtime-docker
 
 serve-storage:
-	$(MAKE) serve APP=:applications:storage
+	$(MAKE) serve APP=:applications:app-storage
 
 serve-static:
 	docker run --rm --name kraken-static-dev -v $(KRAKEN_HOST_DATA):/usr/share/nginx/html:ro -p 8088:80 octoperf/kraken-static
