@@ -13,7 +13,7 @@ class StorageClientConfiguration {
 
   @Autowired
   @Bean
-  StorageClientProperties storageClientProperties(@Value("${kraken.storage.url}") final String storageUrl) {
+  StorageClientProperties storageClientProperties(@Value("${kraken.storage.url:#{environment.KRAKEN_STORAGE_URL}}") final String storageUrl) {
     log.info("Storage URL is set to " + storageUrl);
 
     return StorageClientProperties.builder()

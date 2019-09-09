@@ -16,10 +16,10 @@ class GrafanaClientConfiguration {
 
   @Autowired
   @Bean
-  GrafanaClientProperties grafanaClientProperties(@Value("${kraken.grafana.url}") final String grafanaUrl,
-                                             @Value("${kraken.grafana.dashboard}") final String grafanaDashboard,
-                                             @Value("${kraken.grafana.user}") final String grafanaUser,
-                                             @Value("${kraken.grafana.password}") final String grafanaPassword) {
+  GrafanaClientProperties grafanaClientProperties(@Value("${kraken.grafana.url:#{environment.KRAKEN_GRAFANA_URL}}") final String grafanaUrl,
+                                             @Value("${kraken.grafana.dashboard:#{environment.KRAKEN_GRAFANA_DASHBOARD}}") final String grafanaDashboard,
+                                             @Value("${kraken.grafana.user:#{environment.KRAKEN_GRAFANA_USER}}") final String grafanaUser,
+                                             @Value("${kraken.grafana.password:#{environment.KRAKEN_GRAFANA_PASSWORD}}") final String grafanaPassword) {
     log.info("Grafana URL is set to " + grafanaUrl);
     log.info("Grafana dashboard path is set to " + grafanaDashboard);
     log.info("Grafana user path is set to " + grafanaUser);
