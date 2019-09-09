@@ -38,7 +38,7 @@ final class SpringResultUpdater implements ResultUpdater {
   public void start() {
     taskService.watch()
         .onErrorResume(e -> Mono.empty())
-        .subscribe(this::updateResults);
+        .subscribe(tasks -> tasks.forEach(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())).block()));
   }
 
   @Override
@@ -57,14 +57,6 @@ final class SpringResultUpdater implements ResultUpdater {
   @Override
   public Mono<String> taskCanceled(final String taskId) {
     return analysisClient.setStatus(taskId, ResultStatus.CANCELED).map(storageNode -> taskId);
-  }
-
-  private void updateResults(final List<Task> tasks) {
-    Flux.fromIterable(tasks)
-        .flatMap(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())))
-        .onErrorResume(e -> Mono.empty())
-        .subscribeOn(Schedulers.elastic())
-        .subscribe();
   }
 
 }

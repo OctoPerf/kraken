@@ -14,7 +14,7 @@ final class TaskTypeToResultType implements Function<TaskType, ResultType> {
   private static final Map<TaskType, ResultType> MAP = ImmutableMap.of(
       TaskType.RUN, ResultType.RUN,
       TaskType.DEBUG, ResultType.DEBUG,
-      TaskType.RECORD, ResultType.DEBUG
+      TaskType.RECORD, ResultType.HAR
   );
 
   @Override
