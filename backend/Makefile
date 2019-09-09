@@ -1,7 +1,6 @@
 .EXPORT_ALL_VARIABLES:
 
 kraken.version := $(shell cat ../version.txt)
-kraken.data := $(PWD)/applications/data
 
 clean-all:
 	./gradlew clean
@@ -21,7 +20,7 @@ test:
 	./gradlew $(APP):test --continuous
 
 # Runs a Spring boot application (add --info in case of error)
-# Example: make serve APP=:applications:analysis
+# Example: make serve APP=:applications:app-analysis
 serve:
 	./gradlew $(APP):bootRun
 
@@ -32,11 +31,9 @@ copy-data:
 serve-analysis:
 	$(MAKE) serve APP=:applications:analysis
 
-serve-command:
-	$(MAKE) serve APP=:applications:command
-
-serve-docker:
-	$(MAKE) serve APP=:applications:docker
+serve-runtime-docker:
+	KRAKEN_DATA="test"
+	$(MAKE) serve APP=:applications:app-runtime-docker
 
 serve-storage:
 	$(MAKE) serve APP=:applications:storage
