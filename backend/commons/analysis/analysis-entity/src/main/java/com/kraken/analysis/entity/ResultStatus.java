@@ -3,6 +3,7 @@ package com.kraken.analysis.entity;
 public enum ResultStatus {
   STARTING(false),
   RUNNING(false),
+  STOPPING(false),
   COMPLETED(true),
   CANCELED(true),
 //  TODO a supprimer ?

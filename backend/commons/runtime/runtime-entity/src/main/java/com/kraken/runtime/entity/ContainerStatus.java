@@ -5,5 +5,6 @@ public enum ContainerStatus {
   STARTING,
   READY,
   RUNNING,
+  STOPPING,
   DONE;
 }

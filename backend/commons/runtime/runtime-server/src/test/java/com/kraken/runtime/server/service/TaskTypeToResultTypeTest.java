@@ -4,6 +4,8 @@ import com.kraken.analysis.entity.ResultType;
 import com.kraken.runtime.entity.TaskType;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TaskTypeToResultTypeTest {
@@ -17,4 +19,10 @@ public class TaskTypeToResultTypeTest {
     assertThat(converter.apply(TaskType.RECORD)).isEqualTo(ResultType.HAR);
   }
 
+  @Test
+  public void shouldConvertAll() {
+    Arrays.asList(TaskType.values()).forEach(type -> {
+      assertThat(converter.apply(type)).isNotNull();
+    });
+  }
 }

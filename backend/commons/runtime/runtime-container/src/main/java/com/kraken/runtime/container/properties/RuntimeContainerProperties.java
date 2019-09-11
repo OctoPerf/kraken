@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder
-class RuntimeContainerProperties {
+public class RuntimeContainerProperties {
 
   @NonNull String taskId;
   @NonNull String containerId;
