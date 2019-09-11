@@ -1,0 +1,6 @@
+kraken:
+  runtime:
+    container:
+      id: containerId
+    task:
+      id: taskId

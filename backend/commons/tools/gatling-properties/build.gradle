@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(':commons:tools:configuration')
-
-    testCompile project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
-}

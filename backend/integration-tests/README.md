@@ -1,4 +1,6 @@
 
+Run all from the `backend` folder!
+
 # Backend Manual Tests Using CURL
 
 ## Setup
@@ -9,7 +11,7 @@ Install [JQ](https://stedolan.github.io/jq/)
 sudo apt install jq
 ```
 
-Launch backends (in the `backend` folder)
+Launch backends
 
 ```bash
 make copy-data
@@ -96,7 +98,7 @@ curl -X POST http://localhost:8081/result/status/RUNNING?resultId=resultId | jq 
 ## Add Debug Entry
 
 ```bash
-curl -d @debug-entry.json -H "Content-Type: application/json" -X POST http://localhost:8081/result/debug | jq '.'
+curl -d @integration-tests/debug-entry.json -H "Content-Type: application/json" -X POST http://localhost:8081/result/debug | jq '.'
 ```
 
 ```json
@@ -201,4 +203,16 @@ curl -X DELETE http://localhost:8081/result?resultId=resultId
 
 ```
 resultId
+```
+
+# Java Applications Manual Tests (ran as docker containers in production)
+
+## Synchronizer
+
+Run the storage synchronizer
+
+```bash
+export KRAKEN_STORAGE_URL=http://localhost:8080 \
+&& export KRAKEN_DATA=$(pwd)/integration-tests/testDir/ \
+&& make serve APP=:application:data-synchronizer
 ```

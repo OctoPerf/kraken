@@ -1,3 +1,0 @@
-kraken:
-  docker:
-    url: http://localhost:8080
