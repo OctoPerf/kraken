@@ -1,76 +1,67 @@
 rootProject.name = 'backend'
 
-include ':test-utils'
+include 'test-utils'
+findProject(':test-utils')?.name = 'test-utils'
 
 include ':commons:analysis:analysis-entity'
+findProject(':commons:analysis:analysis-entity')?.name = 'analysis-entity'
 include ':commons:analysis:grafana-client'
+findProject(':commons:analysis:grafana-client')?.name = 'grafana-client'
 include ':commons:analysis:influxdb-client'
+findProject(':commons:analysis:influxdb-client')?.name = 'influxdb-client'
 include ':commons:analysis:analysis-server'
+findProject(':commons:analysis:analysis-server')?.name = 'analysis-server'
 include ':commons:analysis:analysis-client'
+findProject(':commons:analysis:analysis-client')?.name = 'analysis-client'
 
-//include ':commons:runtime:kubernetes:kubernetes-java'
 include ':commons:runtime:runtime-server'
+findProject(':commons:runtime:runtime-server')?.name = 'runtime-server'
 include ':commons:runtime:runtime-entity'
+findProject(':commons:runtime:runtime-entity')?.name = 'runtime-entity'
 include ':commons:runtime:runtime-api'
+findProject(':commons:runtime:runtime-api')?.name = 'runtime-api'
 include ':commons:runtime:runtime-docker'
+findProject(':commons:runtime:runtime-docker')?.name = 'runtime-docker'
 include ':commons:runtime:runtime-client'
+findProject(':commons:runtime:runtime-client')?.name = 'runtime-client'
 include ':commons:runtime:runtime-logs'
+findProject(':commons:runtime:runtime-logs')?.name = 'runtime-logs'
 include ':commons:runtime:runtime-command'
+findProject(':commons:runtime:runtime-command')?.name = 'runtime-command'
 
 include ':commons:storage:storage-entity'
+findProject(':commons:storage:storage-entity')?.name = 'storage-entity'
 include ':commons:storage:storage-file'
+findProject(':commons:storage:storage-file')?.name = 'storage-file'
 include ':commons:storage:storage-client'
+findProject(':commons:storage:storage-client')?.name = 'storage-client'
 include ':commons:storage:storage-server'
+findProject(':commons:storage:storage-server')?.name = 'storage-server'
 
 include ':commons:tools:configuration'
-//include ':commons:tools:gatling-properties'
+findProject(':commons:tools:configuration')?.name = 'configuration'
 include ':commons:tools:sse'
+findProject(':commons:tools:sse')?.name = 'sse'
 
 include ':commons:ee:har-parser'
+findProject(':commons:ee:har-parser')?.name = 'har-parser'
 include ':commons:ee:gatling-log-parser'
+findProject(':commons:ee:gatling-log-parser')?.name = 'gatling-log-parser'
 include ':commons:ee:debug-entry-writer'
+findProject(':commons:ee:debug-entry-writer')?.name = 'debug-entry-writer'
 include ':commons:ee:license'
+findProject(':commons:ee:license')?.name = 'license'
 
-include ':applications:app-storage'
-include ':applications:app-runtime-docker'
-include ':applications:app-analysis'
-//include ':applications:ee:gatling-log-parser'
-//include ':applications:ee:har-parser'
+include ':applications:storage'
+findProject(':applications:storage')?.name = 'app-storage'
+include ':applications:analysis'
+findProject(':applications:analysis')?.name = 'app-analysis'
+include ':applications:runtime-docker'
+findProject(':applications:runtime-docker')?.name = 'app-runtime'
+include 'applications:storage-synchronizer'
+findProject(':applications:storage-synchronizer')?.name = 'storage-synchronizer'
 
-project(':test-utils').projectDir = file('test-utils')
+include ':test-utils'
+findProject(':test-utils')?.name = 'test-utils'
 
-project(':commons:analysis:analysis-entity').projectDir = file('commons/analysis/analysis-entity')
-project(':commons:analysis:grafana-client').projectDir = file('commons/analysis/grafana-client')
-project(':commons:analysis:influxdb-client').projectDir = file('commons/analysis/influxdb-client')
-project(':commons:analysis:analysis-server').projectDir = file('commons/analysis/analysis-server')
-project(':commons:analysis:analysis-client').projectDir = file('commons/analysis/analysis-client')
-
-//project(':commons:runtime:kubernetes:kubernetes-java').projectDir = file('commons/runtime/kubernetes/kubernetes-java')
-project(':commons:runtime:runtime-server').projectDir = file('commons/runtime/runtime-server')
-project(':commons:runtime:runtime-entity').projectDir = file('commons/runtime/runtime-entity')
-project(':commons:runtime:runtime-api').projectDir = file('commons/runtime/runtime-api')
-project(':commons:runtime:runtime-docker').projectDir = file('commons/runtime/runtime-docker')
-project(':commons:runtime:runtime-client').projectDir = file('commons/runtime/runtime-client')
-project(':commons:runtime:runtime-logs').projectDir = file('commons/runtime/runtime-logs')
-project(':commons:runtime:runtime-command').projectDir = file('commons/runtime/runtime-command')
-
-project(':commons:storage:storage-entity').projectDir = file('commons/storage/storage-entity')
-project(':commons:storage:storage-file').projectDir = file('commons/storage/storage-file')
-project(':commons:storage:storage-client').projectDir = file('commons/storage/storage-client')
-project(':commons:storage:storage-server').projectDir = file('commons/storage/storage-server')
-
-//project(':commons:tools:gatling-properties').projectDir = file('commons/tools/gatling-properties')
-project(':commons:tools:configuration').projectDir = file('commons/tools/configuration')
-project(':commons:tools:sse').projectDir = file('commons/tools/sse')
-
-project(':commons:ee:har-parser').projectDir = file('commons/ee/har-parser')
-project(':commons:ee:gatling-log-parser').projectDir = file('commons/ee/gatling-log-parser')
-project(':commons:ee:debug-entry-writer').projectDir = file('commons/ee/debug-entry-writer')
-project(':commons:ee:license').projectDir = file('commons/ee/license')
-
-project(':applications:app-storage').projectDir = file('applications/app-storage')
-project(':applications:app-runtime-docker').projectDir = file('applications/app-runtime-docker')
-project(':applications:app-analysis').projectDir = file('applications/app-analysis')
-//project(':applications:ee:gatling-log-parser').projectDir = file('applications/ee/gatling-log-parser')
-//project(':applications:ee:har-parser').projectDir = file('applications/ee/har-parser')
 
