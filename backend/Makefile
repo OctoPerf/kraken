@@ -1,7 +1,7 @@
 .EXPORT_ALL_VARIABLES:
 
 VERSION := $(shell cat ../version.txt)
-# KRAKEN_DATA := $(PWD)/applications/data
+KRAKEN_DATA := $(PWD)/applications/data
 KRAKEN_VERSION := $(VERSION)
 
 clean-all:

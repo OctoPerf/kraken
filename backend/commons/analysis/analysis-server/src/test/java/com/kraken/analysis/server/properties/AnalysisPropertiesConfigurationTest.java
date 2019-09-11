@@ -1,6 +1,5 @@
 package com.kraken.analysis.server.properties;
 
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {AnalysisPropertiesConfiguration.class, ApplicationPropertiesTestConfiguration.class},
+    classes = {AnalysisPropertiesConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class AnalysisPropertiesConfigurationTest {
 
@@ -23,7 +22,7 @@ public class AnalysisPropertiesConfigurationTest {
 
   @Test
   public void shouldCreateProperties() {
-    assertThat(properties.getResultPath("testId")).isEqualTo(Paths.get("testDir", "data", "testId"));
+    assertThat(properties.getResultPath("testId")).isEqualTo(Paths.get( "data", "testId"));
   }
 
 }

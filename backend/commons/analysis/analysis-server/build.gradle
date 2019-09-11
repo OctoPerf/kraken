@@ -13,5 +13,4 @@ dependencies {
     testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
     testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
 }
