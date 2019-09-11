@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.function.Function;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
     classes = {HeadersToExtension.class})
@@ -23,16 +25,16 @@ public class HeadersToExtensionTest {
 
   @Test
   public void shouldReturnTxtNoContentType() {
-    Assertions.assertThat(headersToExtension.apply(ImmutableList.of())).isEqualTo(".txt");
+    assertThat(headersToExtension.apply(ImmutableList.of())).isEqualTo(".txt");
   }
 
   @Test
   public void shouldReturnTxtUnknownContentType() {
-    Assertions.assertThat(headersToExtension.apply(ImmutableList.of(HttpHeader.builder().key("Content-Type").value("Ca-va-fail").build()))).isEqualTo(".txt");
+    assertThat(headersToExtension.apply(ImmutableList.of(HttpHeader.builder().key("Content-Type").value("Ca-va-fail").build()))).isEqualTo(".txt");
   }
 
   @Test
   public void shouldReturnJsonNoContentType() {
-    Assertions.assertThat(headersToExtension.apply(ImmutableList.of(HttpHeader.builder().key("Content-Type").value("application/json;charset=UTF-8").build()))).isEqualTo(".json");
+    assertThat(headersToExtension.apply(ImmutableList.of(HttpHeader.builder().key("Content-Type").value("application/json;charset=UTF-8").build()))).isEqualTo(".json");
   }
 }

@@ -11,6 +11,8 @@ import com.kraken.grafana.client.GrafanaClientProperties;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -27,43 +29,21 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Component
 class SpringAnalysisService implements AnalysisService {
 
   private static final String RESULT_JSON = "result.json";
 
-  AnalysisProperties properties;
-  GrafanaClientProperties grafanaClientProperties;
+  @NonNull AnalysisProperties properties;
+  @NonNull GrafanaClientProperties grafanaClientProperties;
 
-  StorageClient storageClient;
-  GrafanaClient grafanaClient;
-  InfluxDBClient influxdbClient;
+  @NonNull StorageClient storageClient;
+  @NonNull GrafanaClient grafanaClient;
+  @NonNull InfluxDBClient influxdbClient;
 
-  Function<List<HttpHeader>, String> headersToExtension;
-
-  Map<ResultStatus, Supplier<Long>> statusToEndDate;
-
-
-  SpringAnalysisService(final AnalysisProperties properties,
-                        final GrafanaClientProperties grafanaClientProperties,
-                        final StorageClient storageClient,
-                        final GrafanaClient grafanaClient,
-                        final InfluxDBClient influxdbClient,
-                        final Function<List<HttpHeader>, String> headersToExtension) {
-    super();
-    this.properties = requireNonNull(properties);
-    this.grafanaClientProperties = requireNonNull(grafanaClientProperties);
-    this.storageClient = requireNonNull(storageClient);
-    this.grafanaClient = requireNonNull(grafanaClient);
-    this.influxdbClient = requireNonNull(influxdbClient);
-    this.headersToExtension = requireNonNull(headersToExtension);
-
-    final Supplier<Long> endDateNow = () -> new Date().getTime();
-    this.statusToEndDate = ImmutableMap.of(ResultStatus.RUNNING, () -> 0L,
-        ResultStatus.COMPLETED, endDateNow,
-        ResultStatus.CANCELED, endDateNow,
-        ResultStatus.FAILED, endDateNow);
-  }
+  @NonNull Function<List<HttpHeader>, String> headersToExtension;
+  @NonNull Function<ResultStatus, Long> statusToEndDate;
 
   @Override
   public Mono<StorageNode> create(final Result result) {
@@ -92,7 +72,7 @@ class SpringAnalysisService implements AnalysisService {
 
   @Override
   public Mono<StorageNode> setStatus(final String resultId, final ResultStatus status) {
-    final var endDate = this.statusToEndDate.get(status).get();
+    final var endDate = this.statusToEndDate.apply(status);
     final var resultPath = properties.getResultPath(resultId).resolve(RESULT_JSON).toString();
 
     return storageClient.getJsonContent(resultPath, Result.class)

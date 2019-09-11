@@ -1,5 +1,8 @@
 kraken:
-  data: data/
+  storage:
+    url: "htpp://localhost:8080"
+  analysis:
+    url: "htpp://localhost:8081"
 
 spring:
   servlet:
@@ -18,13 +21,10 @@ logging:
     kraken: INFO
 
 server:
-  port: 8080
+  port: 8082
   error:
     include-stacktrace: always
 
 ---
 spring:
   profiles: prod
-
-kraken:
-#  data: must be given using env variable KRAKEN_DATA

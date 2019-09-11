@@ -1,5 +1,7 @@
 dependencies {
     implementation project(':commons:storage:storage-entity')
     implementation project(':commons:storage:storage-client')
+    implementation project(':commons:runtime:runtime-client')
+    implementation project(':commons:runtime:runtime-container')
     implementation project(':commons:tools:configuration')
 }

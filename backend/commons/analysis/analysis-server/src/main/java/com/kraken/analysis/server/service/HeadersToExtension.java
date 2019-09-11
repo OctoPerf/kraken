@@ -19,7 +19,7 @@ public class HeadersToExtension implements Function<List<HttpHeader>, String> {
   private static final String CONTENT_TYPE = "Content-Type";
 
   @Override
-  public String apply(List<HttpHeader> headers) {
+  public String apply(final List<HttpHeader> headers) {
     final var contentType = headers.stream().filter(httpHeader -> CONTENT_TYPE.equalsIgnoreCase(httpHeader.getKey())).findFirst();
     return contentType.map(httpHeader -> {
       try {

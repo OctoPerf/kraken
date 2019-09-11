@@ -25,14 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class MockTaskService implements TaskService, ContainerService {
 
-  AtomicReference<Task> task = new AtomicReference<>(Task.builder()
-      .id("taskId")
-      .startDate(0L)
-      .status(ContainerStatus.CREATING)
-      .type(TaskType.DEBUG)
-      .containers(ImmutableList.of())
-      .description("description")
-      .build());
+  AtomicReference<Task> task = new AtomicReference<>();
 
   @Override
   public Mono<String> execute(String applicationId, TaskType taskType, String description, Map<String, String> environment) {
@@ -63,7 +56,7 @@ public class MockTaskService implements TaskService, ContainerService {
   public Flux<List<Task>> watch() {
     return Flux.interval(Duration.ofSeconds(3))
         .map(aLong -> this.asList())
-        .subscribeOn(Schedulers.elastic());
+        .subscribeOn(Schedulers.single());
   }
 
   @Override

@@ -26,8 +26,8 @@ serve:
 	./gradlew $(APP):bootRun
 
 copy-data:
-	rm -rf applications/data
-	cp -a applications/app-storage/defaultData/. applications/data/
+	rm -rf applications/storage/data
+	cp -a applications/storage/defaultData/. applications/data/
 
 serve-analysis:
 	$(MAKE) serve APP=:applications:app-analysis

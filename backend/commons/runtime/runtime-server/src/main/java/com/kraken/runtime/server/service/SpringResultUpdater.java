@@ -38,7 +38,7 @@ final class SpringResultUpdater implements ResultUpdater {
   public void start() {
     taskService.watch()
         .onErrorResume(e -> Mono.empty())
-        .subscribe(tasks -> tasks.forEach(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())).block()));
+        .subscribe(tasks -> tasks.forEach(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())).subscribe()));
   }
 
   @Override

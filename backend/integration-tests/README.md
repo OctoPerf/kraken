@@ -17,7 +17,7 @@ Launch backends
 make copy-data
 make serve-storage
 make serve-analysis
-make serve-runtime
+make serve-runtime-mock
 ```
 
 ## List Files
@@ -203,6 +203,12 @@ curl -X DELETE http://localhost:8081/result?resultId=resultId
 
 ```
 resultId
+```
+
+## Start a Task
+
+```bash
+curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG?description=description | jq '.'
 ```
 
 # Java Applications Manual Tests (ran as docker containers in production)

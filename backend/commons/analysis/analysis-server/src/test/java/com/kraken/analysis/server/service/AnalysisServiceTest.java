@@ -39,18 +39,22 @@ public class AnalysisServiceTest {
   private InfluxDBClient influxdbClient;
   @Mock
   Function<List<HttpHeader>, String> headersToExtension;
+  @Mock
+  Function<ResultStatus, Long> statusToEndDate;
 
   private AnalysisService service;
 
   @Before
   public void before() {
     when(headersToExtension.apply(anyList())).thenReturn(".txt");
+    when(statusToEndDate.apply(any(ResultStatus.class))).thenReturn(0L);
     service = new SpringAnalysisService(AnalysisPropertiesTest.ANALYSIS_PROPERTIES,
         GRAFANA_CLIENT_PROPERTIES,
         storageClient,
         grafanaClient,
         influxdbClient,
-        headersToExtension);
+        headersToExtension,
+        statusToEndDate);
   }
 
   @Test
