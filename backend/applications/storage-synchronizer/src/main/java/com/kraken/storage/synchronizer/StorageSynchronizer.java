@@ -9,9 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -21,18 +22,25 @@ final class StorageSynchronizer {
   @NonNull StorageClient storageClient;
   @NonNull RuntimeClient runtimeClient;
   @NonNull RuntimeContainerProperties containerProperties;
+  @NonNull SynchronizerProperties synchronizerProperties;
 
   @PostConstruct
-  public void init() throws Exception {
-//    TODO Choper les listes de folder/files a dl ul
-//    TODO Appeller le storageClient
-
+  public void init() {
     final var setStatusStarting = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STARTING);
-    final var downloadFiles = Mono.never();
-    final var downloadFolders = Mono.never();
+    final var downloadFiles = Flux.fromIterable(synchronizerProperties.getFileDownloads())
+        .flatMap(fileTransfer -> storageClient.downloadFile(fileTransfer.getLocalPath(), fileTransfer.getRemotePath()))
+        .collectList();
+    final var downloadFolders = Flux.fromIterable(synchronizerProperties.getFolderDownloads())
+        .flatMap(fileTransfer -> storageClient.downloadFolder(fileTransfer.getLocalPath(), Optional.of(fileTransfer.getRemotePath())))
+        .collectList();
     final var setStatusStopping = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
-    final var uploadFiles = Mono.never();
+    final var uploadFiles = Flux.fromIterable(synchronizerProperties.getFileUploads())
+        .flatMap(fileTransfer -> storageClient.uploadFile(fileTransfer.getLocalPath(), Optional.of(fileTransfer.getRemotePath())))
+        .collectList();
+    final var uploadFolders = Flux.fromIterable(synchronizerProperties.getFolderUploads())
+        .flatMap(fileTransfer -> storageClient.uploadFolder(fileTransfer.getLocalPath(), Optional.of(fileTransfer.getRemotePath())))
+        .collectList();
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusStarting.then(downloadFiles)
@@ -40,6 +48,7 @@ final class StorageSynchronizer {
         .then(setStatusStopping)
         .then(waitForStatusStopping)
         .then(uploadFiles)
+        .then(uploadFolders)
         .then(setStatusDone)
         .subscribe();
   }

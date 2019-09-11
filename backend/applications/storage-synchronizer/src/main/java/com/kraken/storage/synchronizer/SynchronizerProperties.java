@@ -13,6 +13,7 @@ class SynchronizerProperties {
   @NonNull List<FileTransfer> fileDownloads;
   @NonNull List<FileTransfer> folderDownloads;
   @NonNull List<FileTransfer> fileUploads;
+  @NonNull List<FileTransfer> folderUploads;
 
 }
 

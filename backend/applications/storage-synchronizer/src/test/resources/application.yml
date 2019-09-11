@@ -2,4 +2,5 @@ kraken:
   synchronizer:
     file-downloads: "local/test<->remote/test,local/test1<->remote/test1"
     folder-downloads: "local/test2<->remote/test2"
-    file-uploads: "foo<->bar"
+    file-uploads: "foo.txt<->bar"
+    folder-uploads: "foo<->bar"

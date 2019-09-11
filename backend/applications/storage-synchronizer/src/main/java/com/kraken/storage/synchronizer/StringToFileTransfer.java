@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
+// localPath<->remotePath
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Component
