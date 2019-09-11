@@ -27,7 +27,7 @@ serve:
 
 copy-data:
 	rm -rf applications/storage/data
-	cp -a applications/storage/defaultData/. applications/data/
+	cp -a applications/storage/defaultData/. applications/storage/data/
 
 serve-analysis:
 	$(MAKE) serve APP=:applications:app-analysis

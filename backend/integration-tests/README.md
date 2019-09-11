@@ -208,7 +208,47 @@ resultId
 ## Start a Task
 
 ```bash
-curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG?description=description | jq '.'
+curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG?description=description
+```
+
+```
+e4aff6e2-a3ff-483a-9e47-55febe2fd51d
+```
+
+### List tasks
+
+```bash
+curl http://localhost:8082/task/list | jq '.'
+```
+
+```json
+[
+  {
+    "id": "e4aff6e2-a3ff-483a-9e47-55febe2fd51d",
+    "startDate": 0,
+    "status": "CREATING",
+    "type": "DEBUG",
+    "containers": [],
+    "description": "description"
+  }
+]
+```
+
+Get associated result (resultId == taskId)
+
+```bask
+curl http://localhost:8080/files/get/json?path=gatling/results/e4aff6e2-a3ff-483a-9e47-55febe2fd51d/result.json | jq '.'
+```
+
+```json
+{
+  "id": "e4aff6e2-a3ff-483a-9e47-55febe2fd51d",
+  "startDate": 1568211558322,
+  "endDate": 0,
+  "status": "STARTING",
+  "description": "description",
+  "type": "DEBUG"
+}
 ```
 
 # Java Applications Manual Tests (ran as docker containers in production)
@@ -220,5 +260,5 @@ Run the storage synchronizer
 ```bash
 export KRAKEN_STORAGE_URL=http://localhost:8080 \
 && export KRAKEN_DATA=$(pwd)/integration-tests/testDir/ \
-&& make serve APP=:application:data-synchronizer
+&& make serve APP=:application:storage-synchronizer
 ```
