@@ -13,8 +13,8 @@ class RuntimeContainerConfiguration {
   @Autowired
   @Bean
   RuntimeContainerProperties runtimeContainerProperties(
-      @Value("${kraken.runtime.task.id:#{environment.KRAKEN_RUNTIME_TASK_ID}}") final String taskId,
-      @Value("${kraken.runtime.container.id:#{environment.KRAKEN_RUNTIME_CONTAINER_ID}}") final String containerId) {
+      @Value("${kraken.runtime.task.id:#{environment.KRAKEN_TASK_ID}}") final String taskId,
+      @Value("${kraken.runtime.container.id:#{environment.KRAKEN_CONTAINER_ID}}") final String containerId) {
 
     log.info("Task ID is set to " + taskId);
     log.info("Container ID is set to " + containerId);
