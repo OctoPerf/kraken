@@ -7,4 +7,7 @@ dependencies {
     implementation project(':commons:tools:configuration')
 
     testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }

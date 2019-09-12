@@ -259,6 +259,8 @@ Run the storage synchronizer
 
 ```bash
 export KRAKEN_STORAGE_URL=http://localhost:8080 \
+&& export KRAKEN_RUNTIME_URL=http://localhost:8082 \
 && export KRAKEN_DATA=$(pwd)/integration-tests/testDir/ \
+&& export KRAKEN_FILE_DOWNLOADS=".<->gatling/README.md" \
 && make serve APP=:application:storage-synchronizer
 ```
