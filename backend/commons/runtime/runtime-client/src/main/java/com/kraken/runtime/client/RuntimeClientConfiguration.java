@@ -14,7 +14,7 @@ class RuntimeClientConfiguration {
   @Autowired
   @Bean
   RuntimeClientProperties runtimeClientProperties(@Value("${kraken.runtime.url:#{environment.KRAKEN_RUNTIME_URL}}") final String runtimeUrl) {
-    log.info("Storage URL is set to " + runtimeUrl);
+    log.info("Runtime URL is set to " + runtimeUrl);
 
     return RuntimeClientProperties.builder()
         .runtimeUrl(runtimeUrl)

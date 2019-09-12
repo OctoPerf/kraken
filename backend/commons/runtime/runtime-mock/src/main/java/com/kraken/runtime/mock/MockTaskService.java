@@ -29,7 +29,7 @@ public class MockTaskService implements TaskService, ContainerService {
 
   @Override
   public Mono<String> execute(String applicationId, TaskType taskType, String description, Map<String, String> environment) {
-    final var id = UUID.randomUUID().toString();
+    final var id = "taskId";
     task.set(Task.builder()
         .id(id)
         .startDate(0L)
@@ -56,6 +56,7 @@ public class MockTaskService implements TaskService, ContainerService {
   public Flux<List<Task>> watch() {
     return Flux.interval(Duration.ofSeconds(3))
         .map(aLong -> this.asList())
+        .distinctUntilChanged()
         .subscribeOn(Schedulers.single());
   }
 
@@ -85,7 +86,7 @@ public class MockTaskService implements TaskService, ContainerService {
         .build();
 
     this.task.set(Task.builder()
-        .id(containerId)
+        .id(task.getId())
         .startDate(0L)
         .status(status)
         .type(TaskType.DEBUG)

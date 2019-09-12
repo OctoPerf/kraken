@@ -39,6 +39,7 @@ public class TaskController {
                           @PathVariable("type") final TaskType type,
                           @RequestParam("description") final String description,
                           @RequestBody() final Map<String, String> environment) {
+    log.info(String.format("Run task %s", type));
     final var env = ImmutableMap.<String, String>builder()
         .putAll(environment)
         .put("KRAKEN_ANALYSIS_URL", analysisClientProperties.getAnalysisUrl())
@@ -50,11 +51,13 @@ public class TaskController {
   @PostMapping("/cancel")
   public Mono<String> cancel(@RequestHeader("ApplicationId") final String applicationId,
                            @RequestBody() final Task task) {
+    log.info(String.format("Cancel task %s", task.getId()));
     return service.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
   }
 
   @GetMapping(value = "/watch")
   public Flux<ServerSentEvent<List<Task>>> watch() {
+    log.info("Watch tasks lists");
     return sse.keepAlive(service.watch());
   }
 

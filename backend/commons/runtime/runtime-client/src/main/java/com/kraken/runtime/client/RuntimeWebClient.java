@@ -41,11 +41,12 @@ class RuntimeWebClient implements RuntimeClient {
         .bodyToFlux(new ParameterizedTypeReference<List<Task>>() {
         });
 
-    return flux
+    final var result = flux
         .map(tasks -> tasks.stream().filter(task -> taskId.equals(task.getId()) && status.equals(task.getStatus())).findAny())
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .next();
+        .blockFirst();
+    return Optional.ofNullable(result).map(Mono::just).orElse(Mono.error(new IllegalStateException(String.format("Wait for status %s for task %s did not return any value!", status.toString(), taskId))));
   }
 
   @Override

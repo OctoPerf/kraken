@@ -33,6 +33,7 @@ public class ContainerController {
 
   @PostMapping("/status/{status}")
   public Mono<Container> setStatus(@RequestParam("containerId") final String containerId, @PathVariable("status") final ContainerStatus status) {
+    log.info(String.format("Set container %s status to %s", containerId, status));
     return service.setStatus(containerId, status);
   }
 }

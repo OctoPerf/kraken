@@ -8,6 +8,7 @@ import com.kraken.tools.sse.SSEService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
+@Slf4j
 @RestController()
 @RequestMapping("/files")
 @AllArgsConstructor(access = PACKAGE)
@@ -67,6 +69,7 @@ class StorageController {
   @PostMapping("/set/directory")
   public Mono<StorageNode> setDirectory(
       @RequestParam("path") final String path) {
+    log.info(String.format("Set directory %s", path));
     return service.setDirectory(path);
   }
 
@@ -74,6 +77,7 @@ class StorageController {
   public Mono<StorageNode> setZip(
       @RequestParam(value = "path", required = false) final String path,
       @RequestPart("file") final Mono<FilePart> file) {
+    log.info(String.format("Set zip %s", path));
     return service.setZip(nullToEmpty(path), file);
   }
 
@@ -81,6 +85,7 @@ class StorageController {
   public Mono<StorageNode> setFile(
       @RequestParam(value = "path", required = false) final String path,
       @RequestPart("file") final Mono<FilePart> file) {
+    log.info(String.format("Set file %s", path));
     return service.setFile(nullToEmpty(path), file);
   }
 
@@ -93,6 +98,7 @@ class StorageController {
   @GetMapping("/get/file")
   public Mono<ResponseEntity<InputStreamResource>> getFile(
       @RequestParam(value = "path", required = false) final String path) {
+    log.info(String.format("Get file %s", path));
     final var optionalPath = nullToEmpty(path);
     return service.getFile(optionalPath).map(is -> ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=\"%s\"", service.getFileName(optionalPath)))

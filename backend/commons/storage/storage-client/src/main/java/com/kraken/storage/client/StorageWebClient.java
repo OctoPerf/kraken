@@ -97,17 +97,20 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
+    log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath));
     final Flux<DataBuffer> flux = this.getFile(Optional.of(remotePath));
     try {
       return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile()).getChannel())
           .map(DataBufferUtils::release).then();
     } catch (IOException e) {
+      log.error("Failed to download file", e);
       return error(e);
     }
   }
 
   @Override
   public Mono<Void> downloadFolder(final Path localParentFolderPath, final Optional<String> path) {
+    log.info(String.format("Downloading local: %s - remote: %s", localParentFolderPath, path));
     final var zipName = UUID.randomUUID().toString() + ".zip";
     final var zipPath = localParentFolderPath.resolve(zipName);
 
@@ -125,12 +128,14 @@ class StorageWebClient implements StorageClient {
             return null;
           }));
     } catch (FileNotFoundException e) {
+      log.error("Failed to download folder", e);
       return error(e);
     }
   }
 
   @Override
   public Mono<StorageNode> uploadFile(final Path localFilePath, final Optional<String> remotePath) {
+    log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath));
     return this.zipLocalFile(localFilePath)
         .flatMap(path -> this.setZip(path, remotePath));
   }
@@ -144,6 +149,7 @@ class StorageWebClient implements StorageClient {
           .retrieve()
           .bodyToMono(StorageNode.class);
     } catch (MalformedURLException e) {
+      log.error("Failed to upload file", e);
       return error(e);
     }
   }
