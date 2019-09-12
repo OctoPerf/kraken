@@ -32,6 +32,7 @@ class RuntimeWebClient implements RuntimeClient {
 
   @Override
   public Mono<Task> waitForStatus(final String taskId, final ContainerStatus status) {
+    log.info(String.format("Wait for status %s for task %s", status.toString(), taskId));
     final Flux<List<Task>> flux = webClient
         .get()
         .uri("/task/watch")
@@ -49,6 +50,7 @@ class RuntimeWebClient implements RuntimeClient {
 
   @Override
   public Mono<Container> setStatus(final String containerId, final ContainerStatus status) {
+    log.info(String.format("Set status %s for container %s", status.toString(), containerId));
     return webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path("/container/status").pathSegment(status.toString()).queryParam("containerId", containerId).build())

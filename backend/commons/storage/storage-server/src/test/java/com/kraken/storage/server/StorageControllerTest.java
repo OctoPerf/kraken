@@ -138,6 +138,24 @@ public class StorageControllerTest {
   }
 
   @Test
+  public void shouldSetZip() throws IOException {
+    final var path = "toto";
+    given(service.setZip(any(), any()))
+        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/files/set/zip")
+            .queryParam("path", path)
+            .build())
+        .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/kraken.zip")))
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectBody(StorageNode.class)
+        .isEqualTo(StorageNodeTest.STORAGE_NODE);
+  }
+
+  @Test
   public void shouldSetDirectory() {
     final var path = "someDir";
     given(service.setDirectory(path))

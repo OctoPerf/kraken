@@ -38,9 +38,6 @@ final class StorageSynchronizer {
     final var uploadFiles = Flux.fromIterable(synchronizerProperties.getFileUploads())
         .flatMap(fileTransfer -> storageClient.uploadFile(fileTransfer.getLocalPath(), Optional.of(fileTransfer.getRemotePath())))
         .collectList();
-    final var uploadFolders = Flux.fromIterable(synchronizerProperties.getFolderUploads())
-        .flatMap(fileTransfer -> storageClient.uploadFolder(fileTransfer.getLocalPath(), Optional.of(fileTransfer.getRemotePath())))
-        .collectList();
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusStarting.then(downloadFiles)
@@ -48,7 +45,6 @@ final class StorageSynchronizer {
         .then(setStatusStopping)
         .then(waitForStatusStopping)
         .then(uploadFiles)
-        .then(uploadFolders)
         .then(setStatusDone)
         .subscribe();
   }

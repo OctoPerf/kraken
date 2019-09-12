@@ -1,10 +1,10 @@
 package com.kraken.storage.server;
 
-import com.kraken.tools.sse.SSEService;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
 import com.kraken.storage.file.StorageWatcherService;
+import com.kraken.tools.sse.SSEService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -70,10 +70,11 @@ class StorageController {
     return service.setDirectory(path);
   }
 
-  @GetMapping("/extract/zip")
-  public Mono<StorageNode> extractZip(
-      @RequestParam("path") final String path) {
-    return service.extractZip(path);
+  @PostMapping(value = "/set/zip", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public Mono<StorageNode> setZip(
+      @RequestParam(value = "path", required = false) final String path,
+      @RequestPart("file") final Mono<FilePart> file) {
+    return service.setZip(nullToEmpty(path), file);
   }
 
   @PostMapping(value = "/set/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -81,6 +82,12 @@ class StorageController {
       @RequestParam(value = "path", required = false) final String path,
       @RequestPart("file") final Mono<FilePart> file) {
     return service.setFile(nullToEmpty(path), file);
+  }
+
+  @GetMapping("/extract/zip")
+  public Mono<StorageNode> extractZip(
+      @RequestParam("path") final String path) {
+    return service.extractZip(path);
   }
 
   @GetMapping("/get/file")

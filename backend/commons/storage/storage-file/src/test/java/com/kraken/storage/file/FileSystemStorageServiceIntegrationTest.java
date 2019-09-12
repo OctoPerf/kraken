@@ -1,9 +1,9 @@
 package com.kraken.storage.file;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import com.kraken.storage.TestConfiguration;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +13,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.FileSystemUtils;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Charsets.UTF_8;
@@ -142,6 +145,26 @@ public class FileSystemStorageServiceIntegrationTest {
         .expectNext(true)
         .expectComplete()
         .verify();
+  }
+
+  @Test
+  public void shouldSetZip() throws IOException{
+    final var filename = "kraken.zip";
+    final var destPath = "zipDir/dest";
+    given(part.filename()).willReturn(filename);
+    given(part.transferTo(any(Path.class))).will(invocation -> {
+      Files.copy(Path.of("testDir/zipDir/kraken.zip"), (Path) invocation.getArgument(0));
+      return empty();
+    });
+    create(service.setZip(destPath, Mono.just(part)))
+        .expectNextMatches(next -> next.getPath().equals(destPath))
+        .expectComplete()
+        .verify();
+
+    final var files = service.find(destPath, 1, ".*").map(StorageNode::getPath).collect(Collectors.toList()).block();
+    assertThat(files).isNotNull();
+    assertThat(files.size()).isEqualTo(4);
+    service.delete(Collections.singletonList(destPath)).blockLast();
   }
 
   @Test

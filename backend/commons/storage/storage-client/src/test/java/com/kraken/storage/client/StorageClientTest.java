@@ -258,12 +258,12 @@ public class StorageClientTest {
     );
 
     final var response = client.uploadFile(testFile, Optional.empty()).block();
-
     assertThat(response).isEqualTo(STORAGE_NODE);
 
     final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
-    assertThat(recordedRequest.getPath()).startsWith("/files/set/file?path=");
-    assertThat(recordedRequest.getBodySize()).isGreaterThan(testFile.toFile().length());
+    assertThat(recordedRequest.getPath()).startsWith("/files/set/zip?path=");
+    // Must be compressed !
+    assertThat(recordedRequest.getBodySize()).isLessThan(testFile.toFile().length());
   }
 
   @Test
@@ -277,32 +277,10 @@ public class StorageClientTest {
             .setBody(mapper.writeValueAsString(STORAGE_NODE))
     );
 
-    storageMockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(STORAGE_NODE))
-    );
-
-    storageMockWebServer.enqueue(
-        new MockResponse()
-            .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody("[true]")
-    );
-
-    final var response = client.uploadFolder(testFile, Optional.empty()).block();
-
-    assertThat(response).isTrue();
+    final var response = client.uploadFile(testFile, Optional.of("path")).block();
+    assertThat(response).isEqualTo(STORAGE_NODE);
 
     final RecordedRequest setRequest = storageMockWebServer.takeRequest();
-    assertThat(setRequest.getPath()).isEqualTo("/files/set/file?path=");
-
-    final RecordedRequest extractRequest = storageMockWebServer.takeRequest();
-    assertThat(extractRequest.getPath()).isEqualTo("/files/extract/zip?path="+ STORAGE_NODE.getPath());
-
-    final RecordedRequest deleteRequest = storageMockWebServer.takeRequest();
-    assertThat(deleteRequest.getPath()).isEqualTo("/files/delete");
-    assertThat(deleteRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(String.format("[\"%s\"]", STORAGE_NODE.getPath()));
+    assertThat(setRequest.getPath()).isEqualTo("/files/set/zip?path=path");
   }
 }

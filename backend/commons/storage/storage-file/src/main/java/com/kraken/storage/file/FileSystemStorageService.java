@@ -31,6 +31,7 @@ import java.util.zip.ZipOutputStream;
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
+import static org.zeroturnaround.zip.ZipUtil.unpack;
 import static reactor.core.publisher.Flux.error;
 import static reactor.core.publisher.Flux.fromStream;
 import static reactor.core.publisher.Mono.fromCallable;
@@ -85,15 +86,38 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Mono<StorageNode> setFile(final String path, final Mono<FilePart> file) {
-    return this.setDirectory(path).flatMap(directoryNode -> file.map((part) -> {
-      final var currentPath = this.stringToPath(path);
-      final var filename = part.filename();
-      checkArgument(!filename.contains(".."), "Cannot store file with relative path outside current directory "
-          + filename);
-      final var filePath = currentPath.resolve(filename);
-      part.transferTo(filePath).block();
-      return toStorageNode.apply(filePath);
-    }));
+    return this.setDirectory(path)
+        .then(file.map((part) -> {
+          final var filename = part.filename();
+          checkArgument(!filename.contains(".."), "Cannot store file with relative path outside current directory "
+              + filename);
+          final var currentPath = this.stringToPath(path);
+          final var filePath = currentPath.resolve(filename);
+          part.transferTo(filePath).block();
+          return toStorageNode.apply(filePath);
+        }));
+  }
+
+  @Override
+  public Mono<StorageNode> setZip(final String path, final Mono<FilePart> file) {
+    return this.setDirectory(path)
+        .then(file.flatMap((part) -> {
+          try {
+            final var filename = part.filename();
+            checkArgument(!filename.contains(".."), "Cannot store file with relative path outside current directory "
+                + filename);
+            final var currentPath = this.stringToPath(path);
+            final var filePath = currentPath.resolve(filename);
+            final var tmp = Files.createTempDirectory(UUID.randomUUID().toString());
+            final var zipPath = tmp.resolve(filename);
+            part.transferTo(zipPath).block();
+            unpack(zipPath.toFile(), currentPath.toFile());
+            deleteRecursively(tmp);
+            return Mono.just(toStorageNode.apply(currentPath));
+          } catch (IOException e) {
+            return Mono.error(e);
+          }
+        }));
   }
 
   @Override
@@ -165,7 +189,7 @@ final class FileSystemStorageService implements StorageService {
   public Mono<StorageNode> extractZip(String path) {
     final var zipPath = this.stringToPath(path);
     return Mono.fromCallable(() -> {
-      ZipUtil.unpack(zipPath.toFile(), zipPath.getParent().toFile());
+      unpack(zipPath.toFile(), zipPath.getParent().toFile());
       return toStorageNode.apply(zipPath);
     });
   }

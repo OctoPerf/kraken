@@ -26,7 +26,4 @@ public interface StorageClient {
 
   Mono<StorageNode> uploadFile(Path localFilePath, Optional<String> remotePath);
 
-  Mono<Boolean> uploadFolder(Path localFolderPath, Optional<String> remotePath);
-
-
 }

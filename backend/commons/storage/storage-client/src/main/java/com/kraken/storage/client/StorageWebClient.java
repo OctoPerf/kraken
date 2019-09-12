@@ -131,23 +131,16 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public Mono<StorageNode> uploadFile(final Path localFilePath, final Optional<String> remotePath) {
-    return this.setFile(localFilePath, remotePath);
+    return this.zipLocalFile(localFilePath)
+        .flatMap(path -> this.setZip(path, remotePath));
   }
 
-  @Override
-  public Mono<Boolean> uploadFolder(final Path localFolderPath, final Optional<String> remotePath) {
-    return this.zipLocalFolder(localFolderPath)
-        .flatMap(path -> this.setFile(path, remotePath))
-        .flatMap(storageNode -> this.extractZip(storageNode.getPath()))
-        .flatMap(storageNode -> this.delete(storageNode.getPath()));
-  }
-
-  private Mono<StorageNode> setFile(final Path localFilePath, final Optional<String> path) {
+  private Mono<StorageNode> setZip(final Path localZipFile, final Optional<String> path) {
     try {
       return webClient.post()
-          .uri(uriBuilder -> uriBuilder.path("/files/set/file")
+          .uri(uriBuilder -> uriBuilder.path("/files/set/zip")
               .queryParam("path", path.orElse("")).build())
-          .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localFilePath.toString())))
+          .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localZipFile.toString())))
           .retrieve()
           .bodyToMono(StorageNode.class);
     } catch (MalformedURLException e) {
@@ -171,11 +164,16 @@ class StorageWebClient implements StorageClient {
         .bodyToMono(StorageNode.class);
   }
 
-  private Mono<Path> zipLocalFolder(final Path path) {
+  private Mono<Path> zipLocalFile(final Path path) {
     return Mono.fromCallable(() -> {
-      final var tmp = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
+      final var tmp = File.createTempFile(UUID.randomUUID().toString(), ".zip");
       tmp.deleteOnExit();
-      ZipUtil.pack(path.toFile(), tmp);
+      final var file = path.toFile();
+      if (file.isDirectory()) {
+        ZipUtil.pack(file, tmp);
+      } else {
+        ZipUtil.packEntry(file, tmp);
+      }
       return tmp.toPath();
     });
   }

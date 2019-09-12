@@ -22,6 +22,8 @@ public interface StorageService {
 
   Mono<StorageNode> setFile(String path, Mono<FilePart> file);
 
+  Mono<StorageNode> setZip(String path, Mono<FilePart> file);
+
   Mono<InputStream> getFile(String path);
 
   String getFileName(String path);
