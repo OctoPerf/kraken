@@ -46,16 +46,19 @@ class StorageController {
 
   @GetMapping("/list")
   public Flux<StorageNode> list() {
+    log.info("List all nodes");
     return this.service.list();
   }
 
   @GetMapping("/get")
   public Mono<StorageNode> get(@RequestParam(value = "path") final String path) {
+    log.info(String.format("Get file %s", path));
     return this.service.get(path);
   }
 
   @PostMapping("/delete")
   public Flux<Boolean> delete(@RequestBody() final List<String> paths) {
+    log.info(String.format("Delete files %s", String.join(", ", paths)));
     return service.delete(paths);
   }
 
@@ -63,6 +66,7 @@ class StorageController {
   public Mono<StorageNode> rename(@RequestParam(value = "directoryPath", required = false) final String directoryPath,
                                   @RequestParam("oldName") final String oldName,
                                   @RequestParam("newName") final String newName) {
+    log.info(String.format("Rename in folder %s from %s to %s", directoryPath, oldName, newName));
     return service.rename(nullToEmpty(directoryPath), oldName, newName);
   }
 
@@ -92,6 +96,7 @@ class StorageController {
   @GetMapping("/extract/zip")
   public Mono<StorageNode> extractZip(
       @RequestParam("path") final String path) {
+    log.info(String.format("Extract zip at %s", path));
     return service.extractZip(path);
   }
 
@@ -110,6 +115,7 @@ class StorageController {
   public Flux<StorageNode> find(@RequestParam(value = "rootPath", required = false) final String rootPath,
                                 @RequestParam(value = "maxDepth", required = false) final Integer maxDepth,
                                 @RequestParam(value = "matcher", required = false) final String matcher) {
+    log.info(String.format("Find rootPath %s, maxDepth %d, matcher %s", rootPath, maxDepth, matcher));
     final var optionalPath = nullToEmpty(rootPath);
     final var optionalMaxDepth = Optional.ofNullable(maxDepth).orElse(Integer.MAX_VALUE);
     final var optionalMatcher = Optional.ofNullable(matcher).orElse(".*");
@@ -120,27 +126,32 @@ class StorageController {
   public Mono<StorageNode> setContent(
       @RequestParam("path") final String path,
       @RequestBody(required = false) final String content) {
+    log.debug(String.format("Set content for %s :\n%s", path, content));
     return service.setContent(path, nullToEmpty(content));
   }
 
   @GetMapping(value = "/get/content", produces = TEXT_PLAIN_VALUE)
   public Mono<String> getContent(@RequestParam(value = "path") final String path) {
+    log.debug(String.format("Get content of %s", path));
     return this.service.getContent(path);
   }
 
   @GetMapping(value = "/get/json", produces = APPLICATION_JSON_VALUE)
   public Mono<String> getJSON(@RequestParam(value = "path") final String path) {
+    log.info(String.format("Get JSON for %s", path));
     return this.service.getContent(path);
   }
 
   @PostMapping(value = "/list/json", produces = APPLICATION_JSON_VALUE)
   public Mono<String> listJSON(@RequestBody() final List<String> paths) {
+    log.info(String.format("List JSON for %s", String.join(", ", paths)));
     final var list = this.service.getContent(paths).collectList().map(strings -> String.join(", ", strings));
     return Flux.concat(Flux.just("["), Flux.from(list), Flux.just("]")).reduce((s, s2) -> s + s2);
   }
 
   @GetMapping(value = "/watch")
   public Flux<ServerSentEvent<StorageWatcherEvent>> watch() {
+    log.info("Watch storage events");
     return this.sse.keepAlive(this.watcher.watch());
   }
 
@@ -148,6 +159,7 @@ class StorageController {
   public Flux<StorageNode> copy(
       @RequestBody() final List<String> paths,
       @RequestParam("destination") final String destination) {
+    log.info(String.format("Copy %s to %s", String.join(", ", paths), destination));
     return service.copy(paths, destination);
   }
 
@@ -155,12 +167,14 @@ class StorageController {
   public Flux<StorageNode> move(
       @RequestBody() final List<String> paths,
       @RequestParam("destination") final String destination) {
+    log.info(String.format("Move %s to %s", String.join(", ", paths), destination));
     return service.move(paths, destination);
   }
 
   @PostMapping("/filter/existing")
   public Flux<StorageNode> filterExisting(
       @RequestBody() final List<StorageNode> nodes) {
+    log.info(String.format("Filter %d existing nodes", nodes.size()));
     return service.filterExisting(nodes);
   }
 }
