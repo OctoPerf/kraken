@@ -8,20 +8,23 @@ import org.springframework.boot.test.context.ConfigFileApplicationContextInitial
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.nio.file.Paths;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {GatlingConfiguration.class, RuntimeContainerTestConfiguration.class},
+    classes = {GatlingRunnerConfiguration.class, RuntimeContainerTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class GatlingConfigurationTest {
+public class GatlingRunnerConfigurationTest {
 
   @Autowired
-  GatlingProperties properties;
+  GatlingRunnerProperties properties;
 
   @Test
   public void shouldCreateProperties() {
-    assertThat(properties.getGatlingHome()).isNotNull();
+    assertThat(properties.getGatlingHome()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling"));
+    assertThat(properties.getGatlingBin()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling/bin"));
   }
 }
 

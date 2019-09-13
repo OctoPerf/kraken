@@ -6,13 +6,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class GatlingTestConfiguration {
+public class GatlingRunnerTestConfiguration {
 
   @Bean
-  GatlingProperties gatlingProperties() {
-    return GatlingPropertiesTest.GATLING_PROPERTIES;
+  GatlingRunnerProperties gatlingProperties() {
+    return GatlingRunnerPropertiesTest.GATLING_PROPERTIES;
   }
-
 
 }
 

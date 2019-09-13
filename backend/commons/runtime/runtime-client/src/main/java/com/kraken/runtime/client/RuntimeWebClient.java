@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,6 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -32,7 +32,7 @@ class RuntimeWebClient implements RuntimeClient {
   }
 
   @Override
-  public Mono<Task> waitForStatus(final String taskId, final ContainerStatus status) {
+  public Mono<Task> waitForPredicate(final Predicate<Task> predicate) {
     final Flux<List<Task>> flux = webClient
         .get()
         .uri("/task/watch")
@@ -42,10 +42,15 @@ class RuntimeWebClient implements RuntimeClient {
         });
 
     return flux
-        .map(tasks -> tasks.stream().filter(task -> taskId.equals(task.getId()) && status.equals(task.getStatus())).findAny())
+        .map(tasks -> tasks.stream().filter(predicate).findAny())
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .next()
+        .next();
+  }
+
+  @Override
+  public Mono<Task> waitForStatus(final String taskId, final ContainerStatus status) {
+    return this.waitForPredicate(task -> taskId.equals(task.getId()) && task.getStatus().ordinal() >= status.ordinal())
         .doOnSubscribe(subscription -> log.info(String.format("Wait for status %s for task %s", status.toString(), taskId)));
   }
 

@@ -3,15 +3,15 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
             <onMatch>DENY</onMatch>
         </filter>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
-            <onMatch>DENY</onMatch>
-        </filter>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>TRACE</level>
             <onMatch>DENY</onMatch>
         </filter>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -28,9 +28,41 @@
         <immediateFlush>false</immediateFlush>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/kraken/gatling/results/${KRAKEN_TEST_ID}/gatling.log</file>
+    <appender name="FILE_INFO" class="ch.qos.logback.core.FileAppender">
+        <file>${KRAKEN_GATLING_RESULT_INFO_LOG}</file>
         <append>false</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_DEBUG" class="ch.qos.logback.core.FileAppender">
+        <file>${KRAKEN_GATLING_RESULT_DEBUG_LOG}</file>
+        <append>false</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+        </filter>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
             <onMatch>ACCEPT</onMatch>
@@ -38,10 +70,6 @@
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>DENY</onMatch>
-        </filter>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>TRACE</level>
-            <onMatch>ACCEPT</onMatch>
         </filter>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>WARN</level>
@@ -62,6 +90,7 @@
     </logger>
     <root level="WARN">
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_DEBUG"/>
     </root>
 </configuration>

@@ -30,7 +30,7 @@ copy-data:
 	cp -a applications/storage/defaultData/. applications/storage/data/
 
 serve-gatling-runner:
-	$(MAKE) serve APP=:applications:gatling-runner
+	$(MAKE) serve APP=:applications:app-gatling-runner
 
 serve-analysis:
 	$(MAKE) serve APP=:applications:app-analysis

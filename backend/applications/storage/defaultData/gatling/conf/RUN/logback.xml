@@ -9,7 +9,7 @@
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>${KRAKEN_GATLING_CONSOLE_LOG}</file>
+		<file>${KRAKEN_GATLING_RESULT_INFO_LOG}</file>
 		<append>false</append>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>

@@ -10,13 +10,15 @@ import java.util.Optional;
 
 @Value
 @Builder
-public class GatlingProperties {
+public class GatlingRunnerProperties {
 
   @NonNull Path gatlingHome;
   @NonNull Path gatlingBin;
   @NonNull Path localUserFiles;
   @NonNull Path localConf;
   @NonNull Path localResult;
+  @NonNull Path infoLog;
+  @NonNull Path debugLog;
   @NonNull Optional<String> remoteUserFiles;
   @NonNull Optional<String> remoteConf;
   @NonNull Optional<String> remoteResult;

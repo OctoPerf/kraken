@@ -1,15 +1,14 @@
 package com.kraken.gatling.runner;
 
-import com.kraken.gatling.runner.GatlingProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class GatlingPropertiesTest {
+public class GatlingRunnerPropertiesTest {
 
-  public static final GatlingProperties GATLING_PROPERTIES = GatlingProperties.builder()
+  public static final GatlingRunnerProperties GATLING_PROPERTIES = GatlingRunnerProperties.builder()
       .gatlingHome(Path.of("gatlingHome"))
       .gatlingBin(Path.of("gatlingBin"))
       .localUserFiles(Path.of("localUserFiles"))
@@ -18,6 +17,8 @@ public class GatlingPropertiesTest {
       .remoteUserFiles(Optional.of("remoteUserFiles"))
       .remoteConf(Optional.of("remoteConf"))
       .remoteResult(Optional.of("remoteResult"))
+      .infoLog(Path.of("infoLog"))
+      .debugLog(Path.of("debugLog"))
       .build();
 
   @Test

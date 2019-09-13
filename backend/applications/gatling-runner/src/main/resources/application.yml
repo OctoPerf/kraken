@@ -1,16 +1,19 @@
 kraken:
   gatling:
     home: /kraken/gatling
-    bin: bin
+    bin: ${kraken.gatling.home}/bin
     conf:
-      local: conf
+      local: ${kraken.gatling.home}/conf
       remote: gatling/conf
     user-files:
-      local: user-files
+      local: ${kraken.gatling.home}/user-files
       remote: gatling/user-files
     result:
-      local: results
+      local: ${kraken.gatling.home}/results
       remote: gatling/results
+      log:
+        info: ${kraken.gatling.result.local}/info.log
+        debug: ${kraken.gatling.result.local}/debug.log
 
 logging:
   level:
@@ -27,7 +30,6 @@ spring:
   profiles: dev
 
 kraken:
-  data: testDir
   runtime:
     url: http://localhost:8082
     task:
