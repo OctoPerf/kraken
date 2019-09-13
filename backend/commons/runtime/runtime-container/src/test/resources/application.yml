@@ -4,3 +4,4 @@ kraken:
       id: containerId
     task:
       id: taskId
+      type: DEBUG

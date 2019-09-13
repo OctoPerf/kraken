@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(
     classes = {RuntimeContainerConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class RuntimeContainerPropertiesConfigurationTest {
+public class RuntimeContainerConfigurationTest {
 
   @Autowired
   RuntimeContainerProperties  properties;
