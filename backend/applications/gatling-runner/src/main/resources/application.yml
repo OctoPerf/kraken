@@ -1,0 +1,26 @@
+kraken:
+  data: testDir
+  runtime:
+    url: http://localhost:8082
+    task:
+      id: taskId
+      type: RUN
+    container:
+      id: containerId
+  storage:
+    url: http://localhost:8080
+  gatling:
+    home: /home/ubuntu/softs/gatling
+    conf:
+      local: conf
+      remote: gatling/conf
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE

@@ -56,6 +56,9 @@ findProject(':commons:ee:debug-entry-writer')?.name = 'debug-entry-writer'
 include ':commons:ee:license'
 findProject(':commons:ee:license')?.name = 'license'
 
+include ':test-utils'
+findProject(':test-utils')?.name = 'test-utils'
+
 include ':applications:storage'
 findProject(':applications:storage')?.name = 'app-storage'
 include ':applications:analysis'
@@ -66,8 +69,6 @@ include 'applications:runtime-mock'
 findProject(':applications:runtime-mock')?.name = 'app-runtime-mock'
 include 'applications:storage-synchronizer'
 findProject(':applications:storage-synchronizer')?.name = 'storage-synchronizer'
-
-include ':test-utils'
-findProject(':test-utils')?.name = 'test-utils'
-
+include 'applications:gatling-runner'
+findProject(':applications:gatling-runner')?.name = 'gatling-runner'
 
