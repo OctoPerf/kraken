@@ -9,6 +9,7 @@ import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
 public class MockTaskService implements TaskService, ContainerService {
@@ -57,6 +59,10 @@ public class MockTaskService implements TaskService, ContainerService {
     return Flux.interval(Duration.ofSeconds(3))
         .map(aLong -> this.asList())
         .distinctUntilChanged()
+        .map(tasks -> {
+          log.info(String.format("List tasks %s", this.task.get()));
+          return tasks;
+        })
         .subscribeOn(Schedulers.single());
   }
 
@@ -93,7 +99,7 @@ public class MockTaskService implements TaskService, ContainerService {
         .containers(ImmutableList.of(container))
         .description("description")
         .build());
-
+    log.info(String.format("Set task %s", this.task.get()));
     return Mono.just(container);
   }
 

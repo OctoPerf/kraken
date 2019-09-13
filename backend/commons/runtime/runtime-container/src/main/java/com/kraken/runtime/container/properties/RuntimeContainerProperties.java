@@ -1,5 +1,6 @@
 package com.kraken.runtime.container.properties;
 
+import com.kraken.runtime.entity.TaskType;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -9,6 +10,7 @@ import lombok.Value;
 public class RuntimeContainerProperties {
 
   @NonNull String taskId;
+  @NonNull TaskType taskType;
   @NonNull String containerId;
 
 }

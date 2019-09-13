@@ -208,7 +208,7 @@ resultId
 ## Start a Task
 
 ```bash
-curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG?description=description
+curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN?description=description
 ```
 
 ```

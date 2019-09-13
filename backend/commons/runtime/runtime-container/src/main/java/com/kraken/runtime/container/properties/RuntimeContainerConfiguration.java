@@ -1,5 +1,6 @@
 package com.kraken.runtime.container.properties;
 
+import com.kraken.runtime.entity.TaskType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ class RuntimeContainerConfiguration {
   @Bean
   RuntimeContainerProperties runtimeContainerProperties(
       @Value("${kraken.runtime.task.id:#{environment.KRAKEN_TASK_ID}}") final String taskId,
+      @Value("${kraken.runtime.task.type:#{environment.KRAKEN_TASK_TYPE}}") final String taskType,
       @Value("${kraken.runtime.container.id:#{environment.KRAKEN_CONTAINER_ID}}") final String containerId) {
 
     log.info("Task ID is set to " + taskId);
@@ -21,6 +23,7 @@ class RuntimeContainerConfiguration {
 
     return RuntimeContainerProperties.builder()
         .taskId(taskId)
+        .taskType(TaskType.valueOf(taskType.toUpperCase()))
         .containerId(containerId)
         .build();
   }

@@ -23,11 +23,14 @@ test:
 # Runs a Spring boot application (add --info in case of error)
 # Example: make serve APP=:applications:app-analysis
 serve:
-	./gradlew $(APP):bootRun
+	./gradlew $(APP):bootRun --args='--spring.profiles.active=dev'
 
 copy-data:
 	rm -rf applications/storage/data
 	cp -a applications/storage/defaultData/. applications/storage/data/
+
+serve-gatling-runner:
+	$(MAKE) serve APP=:applications:gatling-runner
 
 serve-analysis:
 	$(MAKE) serve APP=:applications:app-analysis

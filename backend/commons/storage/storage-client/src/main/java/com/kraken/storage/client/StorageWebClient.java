@@ -97,11 +97,12 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
-    log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath));
     final Flux<DataBuffer> flux = this.getFile(Optional.of(remotePath));
     try {
       return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile()).getChannel())
-          .map(DataBufferUtils::release).then();
+          .map(DataBufferUtils::release)
+          .then()
+          .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath)));
     } catch (IOException e) {
       log.error("Failed to download file", e);
       return error(e);
@@ -110,14 +111,15 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public Mono<Void> downloadFolder(final Path localParentFolderPath, final Optional<String> path) {
-    log.info(String.format("Downloading local: %s - remote: %s", localParentFolderPath, path));
     final var zipName = UUID.randomUUID().toString() + ".zip";
     final var zipPath = localParentFolderPath.resolve(zipName);
 
     final Flux<DataBuffer> flux = this.getFile(path);
     try {
       return DataBufferUtils.write(flux, new FileOutputStream(zipPath.toFile()).getChannel())
-          .map(DataBufferUtils::release).then(Mono.fromCallable(() -> {
+          .map(DataBufferUtils::release)
+          .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localParentFolderPath, path)))
+          .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
             try {
               Files.delete(zipPath);
@@ -135,9 +137,9 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public Mono<StorageNode> uploadFile(final Path localFilePath, final Optional<String> remotePath) {
-    log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath));
     return this.zipLocalFile(localFilePath)
-        .flatMap(path -> this.setZip(path, remotePath));
+        .flatMap(path -> this.setZip(path, remotePath))
+        .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath)));
   }
 
   private Mono<StorageNode> setZip(final Path localZipFile, final Optional<String> path) {

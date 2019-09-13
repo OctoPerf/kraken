@@ -8,6 +8,7 @@ import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.storage.entity.StorageNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -38,7 +40,8 @@ final class SpringResultUpdater implements ResultUpdater {
   public void start() {
     taskService.watch()
         .onErrorResume(e -> Mono.empty())
-        .subscribe(tasks -> tasks.forEach(task -> analysisClient.setStatus(task.getId(), taskStatusToResultStatus.apply(task.getStatus())).subscribe()));
+        .flatMap(this::setResultsStatuses)
+        .subscribe();
   }
 
   @Override
@@ -59,4 +62,15 @@ final class SpringResultUpdater implements ResultUpdater {
     return analysisClient.setStatus(taskId, ResultStatus.CANCELED).map(storageNode -> taskId);
   }
 
+  private Flux<StorageNode> setResultsStatuses(final List<Task> tasks) {
+    log.info(String.format("Tasks list changed %s", tasks));
+    return Flux.concat(tasks.stream().map(this::setResultStatus).collect(Collectors.toList()));
+  }
+
+  private Mono<StorageNode> setResultStatus(final Task task) {
+    final var resultId = task.getId();
+    final var status = taskStatusToResultStatus.apply(task.getStatus());
+    log.info(String.format("Set status %s for result %s", status.toString(), resultId));
+    return analysisClient.setStatus(resultId, status);
+  }
 }

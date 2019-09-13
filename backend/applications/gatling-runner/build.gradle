@@ -5,9 +5,9 @@ dependencies {
     implementation project(':commons:runtime:runtime-client')
     implementation project(':commons:runtime:runtime-container')
     implementation project(':commons:runtime:runtime-command')
-    implementation project(':commons:tools:configuration')
+//    implementation project(':commons:tools:configuration')
 
-    testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+//    testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')

@@ -1,4 +1,32 @@
 kraken:
+  gatling:
+    home: /kraken/gatling
+    bin: bin
+    conf:
+      local: conf
+      remote: gatling/conf
+    user-files:
+      local: user-files
+      remote: gatling/user-files
+    result:
+      local: results
+      remote: gatling/results
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
   data: testDir
   runtime:
     url: http://localhost:8082
@@ -11,16 +39,11 @@ kraken:
     url: http://localhost:8080
   gatling:
     home: /home/ubuntu/softs/gatling
-    conf:
-      local: conf
-      remote: gatling/conf
+    simulation: computerdatabase.BasicSimulation
+    description: Dev test
 
 logging:
   level:
     root: INFO
   com:
     kraken: INFO
-
-spring:
-  main:
-    web-application-type: NONE
