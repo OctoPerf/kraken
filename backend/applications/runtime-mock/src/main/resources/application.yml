@@ -1,9 +1,3 @@
-kraken:
-  storage:
-    url: "htpp://localhost:8080"
-  analysis:
-    url: "htpp://localhost:8081"
-
 spring:
   servlet:
     multipart:
@@ -27,4 +21,10 @@ server:
 
 ---
 spring:
-  profiles: prod
+  profiles: dev
+
+kraken:
+  storage:
+    url: http://localhost:8080
+  analysis:
+    url: http://localhost:8081

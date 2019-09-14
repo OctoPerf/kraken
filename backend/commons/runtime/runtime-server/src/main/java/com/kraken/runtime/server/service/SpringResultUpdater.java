@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -39,7 +40,8 @@ final class SpringResultUpdater implements ResultUpdater {
   @PostConstruct
   public void start() {
     taskService.watch()
-        .onErrorResume(e -> Mono.empty())
+//        .onErrorResume(e -> Mono.empty())
+        .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
         .flatMap(this::setResultsStatuses)
         .subscribe();
   }

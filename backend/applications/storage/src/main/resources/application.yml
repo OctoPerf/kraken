@@ -1,6 +1,3 @@
-kraken:
-  data: data/
-
 spring:
   servlet:
     multipart:
@@ -24,7 +21,14 @@ server:
 
 ---
 spring:
-  profiles: prod
+  profiles: dev
 
 kraken:
-#  data: must be given using env variable KRAKEN_DATA
+  data: data/
+
+---
+spring:
+  profiles: docker
+
+kraken:
+  data: /home/kraken/data

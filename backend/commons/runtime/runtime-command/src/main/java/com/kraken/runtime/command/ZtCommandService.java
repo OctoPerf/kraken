@@ -31,7 +31,6 @@ final class ZtCommandService implements CommandService {
 
   @Override
   public Flux<String> execute(final Command command) {
-    final var startedProcessRef = new AtomicReference<StartedProcess>();
     return Flux.<String>create(emitter -> {
       log.info(String.format("Executing command %s in path %s", String.join(" ", command.getCommand()), command.getPath()));
       final var file = Paths.get(command.getPath()).toFile();
@@ -46,16 +45,13 @@ final class ZtCommandService implements CommandService {
             }
           });
       try {
-        final var startedProcess = process.start();
-        startedProcessRef.set(startedProcess);
-        startedProcess.getFuture().get();
-      } catch (InterruptedException | ExecutionException | IOException e) {
+        process.execute();
+      } catch (InterruptedException | TimeoutException | IOException e) {
         log.error("Command execution failed", e);
         emitter.error(e);
       }
       emitter.complete();
     })
-        .doOnCancel(() -> startedProcessRef.get().getProcess().destroyForcibly())
         .map(stringCleaner);
   }
 

@@ -1,9 +1,4 @@
 kraken:
-  data: defaultData/
-  storage:
-    url: "htpp://localhost:8080"
-  analysis:
-    url: "htpp://localhost:8081"
   docker:
     watch-tasks-delay: 2000
     containers-count:
@@ -34,4 +29,22 @@ server:
 
 ---
 spring:
-  profiles: prod
+  profiles: dev
+
+kraken:
+  data: defaultData/
+  storage:
+    url: http://localhost:8080
+  analysis:
+    url: http://localhost:8081
+
+---
+spring:
+  profiles: docker
+
+kraken:
+  data: /home/kraken/data
+  storage:
+    url: http://kraken-storage:8080
+  analysis:
+    url: http://kraken-analysis:8081

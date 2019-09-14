@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {StringCleaner.class, ZtCommandService.class})
 public class ZtCommandServiceTest {
 
-  static final int SLEEP = 3000;
+  static final int SLEEP = 2000;
 
   @Autowired
   Function<String, String> stringCleaner;
@@ -49,7 +49,9 @@ public class ZtCommandServiceTest {
         .environment(ImmutableMap.of())
         .build();
     final var logs = new ArrayList<String>();
-    final var subscription = service.execute(command).subscribe(logs::add);
+    final var subscription = service.execute(command)
+        .subscribeOn(Schedulers.elastic()) // Prevents the .subscribe() from blocking the test execution
+        .subscribe(logs::add);
     Thread.sleep(SLEEP);
     subscription.dispose();
     System.out.println(logs);
