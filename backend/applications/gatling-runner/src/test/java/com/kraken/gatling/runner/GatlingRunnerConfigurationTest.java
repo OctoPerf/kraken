@@ -1,6 +1,7 @@
 package com.kraken.gatling.runner;
 
 import com.kraken.runtime.container.properties.RuntimeContainerTestConfiguration;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressFBWarnings(value = {"DMI_HARDCODED_ABSOLUTE_FILENAME"}, justification = "It's just test values")
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
     classes = {GatlingRunnerConfiguration.class, RuntimeContainerTestConfiguration.class},

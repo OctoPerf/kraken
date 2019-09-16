@@ -10,6 +10,7 @@ public class RuntimeContainerPropertiesTest {
       .taskId("taskId")
       .taskType(TaskType.RUN)
       .containerId("containerId")
+      .groupId("groupId")
       .build();
 
   @Test

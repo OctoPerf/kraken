@@ -5,3 +5,5 @@ kraken:
     task:
       id: taskId
       type: DEBUG
+    group:
+      id: groupId

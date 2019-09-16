@@ -18,6 +18,7 @@ public class ContainersToTaskTest {
     final var container = Container.builder()
         .id("id")
         .containerId("containerId")
+        .groupId("groupId")
         .taskId("taskId")
         .taskType(TaskType.RUN)
         .name("name")

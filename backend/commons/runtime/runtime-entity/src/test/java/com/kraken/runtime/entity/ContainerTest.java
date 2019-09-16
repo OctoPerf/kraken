@@ -10,6 +10,7 @@ public class ContainerTest {
   public static final Container CONTAINER = Container.builder()
       .id("id")
       .containerId("containerId")
+      .groupId("groupId")
       .taskId("taskId")
       .startDate(42L)
       .status(ContainerStatus.STARTING)

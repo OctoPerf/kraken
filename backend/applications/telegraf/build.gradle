@@ -1,0 +1,12 @@
+dependencies {
+    implementation project(':commons:analysis:influxdb-client')
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-client')
+    implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-command')
+
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-command', configuration: 'testArtifacts')
+}

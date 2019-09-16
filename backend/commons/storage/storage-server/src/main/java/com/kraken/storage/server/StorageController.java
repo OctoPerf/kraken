@@ -126,7 +126,7 @@ class StorageController {
   public Mono<StorageNode> setContent(
       @RequestParam("path") final String path,
       @RequestBody(required = false) final String content) {
-    log.debug(String.format("Set content for %s :\n%s", path, content));
+    log.debug(String.format("Set content for %s :%n%s", path, content));
     return service.setContent(path, nullToEmpty(content));
   }
 

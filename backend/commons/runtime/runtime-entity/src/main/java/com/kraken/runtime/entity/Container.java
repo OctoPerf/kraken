@@ -13,11 +13,11 @@ import static java.util.Objects.requireNonNull;
 public class Container {
   String id;
   String containerId;
+  String groupId;
   String taskId;
   TaskType taskType;
   String name;
   String description;
-// TODO add String hostname;
   Long startDate;
   @Wither
   ContainerStatus status;
@@ -26,6 +26,7 @@ public class Container {
   Container(
       @JsonProperty("id") final String id,
       @JsonProperty("containerId") final String containerId,
+      @JsonProperty("groupId") final String groupId,
       @JsonProperty("taskId") final String taskId,
       @JsonProperty("taskType") final TaskType taskType,
       @JsonProperty("name") final String name,
@@ -35,6 +36,7 @@ public class Container {
     super();
     this.id = requireNonNull(id);
     this.containerId = requireNonNull(containerId);
+    this.groupId = requireNonNull(groupId);
     this.taskId = requireNonNull(taskId);
     this.taskType = requireNonNull(taskType);
     this.startDate = requireNonNull(startDate);
