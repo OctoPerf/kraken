@@ -1,4 +1,4 @@
-package com.kraken.gatling.runner;
+package com.kraken.gatling.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -8,19 +8,15 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 final class CommandSupplier implements Supplier<Command> {
+
 
   @NonNull GatlingExecutionProperties gatlingExecutionProperties;
 
@@ -34,9 +30,12 @@ final class CommandSupplier implements Supplier<Command> {
         )
         .command(ImmutableList.of(
             "./gatling.sh",
-            "-s", gatlingExecutionProperties.getSimulation(),
-            "-rd", gatlingExecutionProperties.getDescription(),
-            "-rf", gatlingExecutionProperties.getLocalResult().toString()))
+            "--headless", "true",
+            "--mode", "Har",
+            "--har-file", gatlingExecutionProperties.getLocalHarPath().toString(),
+            "--package", gatlingExecutionProperties.getSimulationPackage(),
+            "--class-name", gatlingExecutionProperties.getSimulationClass()
+        ))
         .build();
   }
 }

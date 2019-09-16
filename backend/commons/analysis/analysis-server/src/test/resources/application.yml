@@ -49,4 +49,3 @@ kraken:
     url: http://kraken-grafana:3000
   influxdb:
     url: http://kraken-influxdb:8086
-    docker-url: http://kraken-influxdb:8086

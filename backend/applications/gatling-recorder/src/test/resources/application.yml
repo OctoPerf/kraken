@@ -1,0 +1,40 @@
+kraken:
+  runtime:
+    url: http://localhost:8082
+    task:
+      id: taskId
+      type: RUN
+    container:
+      id: containerId
+  storage:
+    url: http://localhost:8080
+  gatling:
+    home: /home/ubuntu/softs/gatling
+    bin: ${kraken.gatling.home}/bin
+    simulation-class: HarImport
+    simulation-package: com.test
+    har-path:
+      remote: hars/my-app.har
+      local: ${kraken.gatling.home}/import.har
+    conf:
+      local: ${kraken.gatling.home}/conf
+      remote: gatling/conf
+    user-files:
+      local: ${kraken.gatling.home}/user-files
+      remote: gatling/user-files
+    result:
+      local: ${kraken.gatling.home}/results
+      remote: gatling/results
+      log:
+        info: ${kraken.gatling.result.local}/info.log
+        debug: ${kraken.gatling.result.local}/debug.log
+
+logging:
+  level:
+    root: DEBUG
+  com:
+    kraken: DEBUG
+
+spring:
+  main:
+    web-application-type: NONE

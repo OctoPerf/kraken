@@ -1,4 +1,4 @@
-package com.kraken.gatling.runner;
+package com.kraken.runtime.gatling;
 
 import lombok.Builder;
 import lombok.NonNull;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Value
 @Builder
-public class GatlingRunnerProperties {
+public class GatlingExecutionProperties {
 
   @NonNull Path gatlingHome;
   @NonNull Path gatlingBin;
@@ -23,5 +23,11 @@ public class GatlingRunnerProperties {
   @NonNull Optional<String> remoteConf;
   @NonNull Optional<String> remoteResult;
 
+  @NonNull Path localHarPath;
+  @NonNull String remoteHarPath;
+  @NonNull String simulationPackage;
+  @NonNull String simulationClass;
+  @NonNull String simulation;
+  @NonNull String description;
 }
 

@@ -1,4 +1,4 @@
-package com.kraken.gatling.runner;
+package com.kraken.gatling.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
-final class GatlingRunner {
+final class GatlingRecorder {
 
   @NonNull StorageClient storageClient;
   @NonNull RuntimeClient runtimeClient;
@@ -36,7 +36,7 @@ final class GatlingRunner {
   public void init() {
     final var setStatusStarting = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STARTING);
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
-    final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
+    final var downloadHAR = storageClient.downloadFile(gatlingExecutionProperties.getLocalHarPath(), gatlingExecutionProperties.getRemoteHarPath());
     final var setStatusReady = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
     final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     final var listFiles = commandService.execute(Command.builder()
@@ -48,12 +48,12 @@ final class GatlingRunner {
     final var startGatling = commandService.execute(commandSupplier.get());
     final var setStatusStopping = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
-    final var uploadResult = storageClient.uploadFile(gatlingExecutionProperties.getLocalResult(), gatlingExecutionProperties.getRemoteResult());
+    final var uploadSimulation = storageClient.uploadFile(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusStarting.map(Object::toString).subscribe(log::info);
     downloadConfiguration.subscribe();
-    downloadUserFiles.subscribe();
+    downloadHAR.subscribe();
     setStatusReady.map(Object::toString).subscribe(log::info);
     waitForStatusReady.map(Object::toString).subscribe(log::info);
     listFiles.subscribe(log::debug);
@@ -61,7 +61,7 @@ final class GatlingRunner {
     startGatling.subscribe(log::info);
     setStatusStopping.map(Object::toString).subscribe(log::info);
     waitForStatusStopping.map(Object::toString).subscribe(log::info);
-    uploadResult.subscribe();
+    uploadSimulation.subscribe();
     setStatusDone.map(Object::toString).subscribe(log::info);
   }
 

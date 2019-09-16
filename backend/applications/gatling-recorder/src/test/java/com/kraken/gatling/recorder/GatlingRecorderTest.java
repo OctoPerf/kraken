@@ -1,9 +1,8 @@
-package com.kraken.gatling.runner;
+package com.kraken.gatling.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.gatling.runner.GatlingRunner;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -32,11 +31,10 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GatlingRunnerTest {
+public class GatlingRecorderTest {
 
   @Mock
   StorageClient storageClient;
@@ -49,14 +47,14 @@ public class GatlingRunnerTest {
   RuntimeContainerProperties containerProperties;
   GatlingExecutionProperties gatlingExecutionProperties;
 
-  GatlingRunner runner;
+  GatlingRecorder recorder;
 
   @Before
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
     gatlingExecutionProperties = GatlingExecutionPropertiesTest.GATLING_PROPERTIES;
-    runner = new GatlingRunner(storageClient,
+    recorder = new GatlingRecorder(storageClient,
         runtimeClient,
         commandService,
         containerProperties,
@@ -69,9 +67,10 @@ public class GatlingRunnerTest {
     given(runtimeClient.setStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
     given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
+    given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
-    runner.init();
+    recorder.init();
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.STARTING);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
@@ -79,7 +78,8 @@ public class GatlingRunnerTest {
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
-    verify(storageClient, times(2)).downloadFolder(any(Path.class), any());
+    verify(storageClient).downloadFolder(any(Path.class), any());
+    verify(storageClient).downloadFile(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
         .path(gatlingExecutionProperties.getGatlingHome().toString())
@@ -95,6 +95,6 @@ public class GatlingRunnerTest {
     new NullPointerTester()
         .setDefault(RuntimeContainerProperties.class, containerProperties)
         .setDefault(GatlingExecutionProperties.class, gatlingExecutionProperties)
-        .testConstructors(GatlingRunner.class, PACKAGE);
+        .testConstructors(GatlingRecorder.class, PACKAGE);
   }
 }

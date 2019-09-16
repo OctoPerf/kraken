@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-container')
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+}

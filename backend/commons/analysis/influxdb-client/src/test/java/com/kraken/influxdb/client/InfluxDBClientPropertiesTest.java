@@ -10,13 +10,11 @@ public class InfluxDBClientPropertiesTest {
       .influxdbUser("influxdbUser")
       .influxdbPassword("influxdbPassword")
       .influxdbDatabase("influxdbDatabase")
-      .influxdbDockerUrl("influxdbDockerUrl")
       .build();
 
   @Test
   public void shouldPassTestUtils() {
     TestUtils.shouldPassAll(INFLUX_DB_CLIENT_PROPERTIES);
   }
-
 
 }

@@ -1,0 +1,32 @@
+kraken:
+  runtime:
+    url: http://localhost:8082
+    task:
+      id: taskId
+      type: RUN
+    container:
+      id: containerId
+  storage:
+    url: http://localhost:8080
+  gatling:
+    home: /home/ubuntu/softs/gatling
+    simulation: computerdatabase.BasicSimulation
+    simulation-class: BasicSimulation
+    simulation-package: computerdatabase
+    description: Dev test
+    bin: ${kraken.gatling.home}/bin
+    har-path:
+      local: ${kraken.gatling.home}/import.har
+      remote: /path/to/har
+    conf:
+      local: ${kraken.gatling.home}/conf
+      remote: gatling/conf
+    user-files:
+      local: ${kraken.gatling.home}/user-files
+      remote: gatling/user-files
+    result:
+      local: ${kraken.gatling.home}/results
+      remote: gatling/results
+      log:
+        info: ${kraken.gatling.result.local}/info.log
+        debug: ${kraken.gatling.result.local}/debug.log
