@@ -77,4 +77,6 @@ include 'applications:telegraf'
 findProject(':applications:telegraf')?.name = 'app-telegraf'
 include 'applications:gatling-recorder'
 findProject(':applications:gatling-recorder')?.name = 'app-gatling-recorder'
+include 'applications:ee:har-parser'
+findProject(':applications:ee:har-parser')?.name = 'app-har-parser'
 

@@ -38,11 +38,11 @@ server:
 
 ---
 spring:
-  profiles: prod
+  profiles: docker
 
 kraken:
   analysis:
-    url: http://kraken-analysis:8083
+    url: http://kraken-analysis:8081
   storage:
     url: http://kraken-storage:8080
   grafana:
