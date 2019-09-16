@@ -41,7 +41,7 @@ public class TaskPredicateTest {
             Container.builder()
                 .id("id")
                 .containerId(containerProperties.getContainerId())
-                .groupId("groupId")
+                .groupId(containerProperties.getGroupId())
                 .name("name")
                 .description("description")
                 .startDate(0L)
@@ -52,7 +52,7 @@ public class TaskPredicateTest {
             Container.builder()
                 .id("id")
                 .containerId("otherId")
-                .groupId("groupId")
+                .groupId(containerProperties.getGroupId())
                 .name("name")
                 .description("description")
                 .startDate(0L)
@@ -62,6 +62,18 @@ public class TaskPredicateTest {
                 .build()
         ))
         .build())).isTrue();
+  }
+
+  @Test
+  public void shouldTestOtherTask() {
+    assertThat(taskPredicate.test(Task.builder()
+        .id("otherTaskId")
+        .description("description")
+        .startDate(0L)
+        .status(ContainerStatus.STARTING)
+        .type(TaskType.RUN)
+        .containers(ImmutableList.of())
+        .build())).isFalse();
   }
 
   @Test
@@ -76,7 +88,7 @@ public class TaskPredicateTest {
             Container.builder()
                 .id("id")
                 .containerId(containerProperties.getContainerId())
-                .groupId("groupId")
+                .groupId(containerProperties.getGroupId())
                 .name("name")
                 .description("description")
                 .startDate(0L)
@@ -87,11 +99,22 @@ public class TaskPredicateTest {
             Container.builder()
                 .id("id")
                 .containerId("otherId")
-                .groupId("groupId")
+                .groupId(containerProperties.getGroupId())
                 .name("name")
                 .description("description")
                 .startDate(0L)
                 .status(ContainerStatus.RUNNING)
+                .taskId(containerProperties.getTaskId())
+                .taskType(TaskType.RUN)
+                .build(),
+            Container.builder()
+                .id("id")
+                .containerId("otherId")
+                .groupId("otherGroupId")
+                .name("name")
+                .description("description")
+                .startDate(0L)
+                .status(ContainerStatus.STOPPING)
                 .taskId(containerProperties.getTaskId())
                 .taskType(TaskType.RUN)
                 .build()

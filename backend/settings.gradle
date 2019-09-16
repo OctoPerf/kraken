@@ -71,6 +71,6 @@ include 'applications:gatling-runner'
 findProject(':applications:gatling-runner')?.name = 'app-gatling-runner'
 include 'applications:ee:gatling-log-parser'
 findProject(':applications:ee:gatling-log-parser')?.name = 'app-gatling-log-parser'
-//include 'applications:telegraf'
-//findProject(':applications:telegraf')?.name = 'app-telegraf'
+include 'applications:telegraf'
+findProject(':applications:telegraf')?.name = 'app-telegraf'
 

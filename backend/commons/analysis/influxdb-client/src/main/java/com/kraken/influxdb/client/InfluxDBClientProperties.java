@@ -16,7 +16,5 @@ public class InfluxDBClientProperties {
   String influxdbPassword;
   @NonNull
   String influxdbDatabase;
-  @NonNull
-  String influxdbDockerUrl;
 
 }

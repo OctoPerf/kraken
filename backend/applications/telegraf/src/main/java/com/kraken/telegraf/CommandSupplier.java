@@ -2,8 +2,11 @@ package com.kraken.telegraf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.kraken.influxdb.client.InfluxDBClientProperties;
 import com.kraken.runtime.command.Command;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,37 +18,24 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @Component
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class CommandSupplier implements Supplier<Command> {
 
-  String simulation;
-  String description;
-  GatlingRunnerProperties gatlingRunnerProperties;
-
-  @Autowired
-  public CommandSupplier(
-      final GatlingRunnerProperties gatlingRunnerProperties,
-      @Nullable @Value("${kraken.gatling.simulation:#{environment.KRAKEN_GATLING_SIMULATION}}") final String simulation,
-      @Nullable @Value("${kraken.gatling.description:#{environment.KRAKEN_GATLING_DESCRIPTION}}") final String description
-  ) {
-    this.gatlingRunnerProperties = Objects.requireNonNull(gatlingRunnerProperties);
-    this.simulation = Optional.ofNullable(simulation).orElse("");
-    this.description = Optional.ofNullable(description).orElse("");
-  }
+  @NonNull InfluxDBClientProperties influxDBProperties;
 
   @Override
   public Command get() {
     return Command.builder()
-        .path(gatlingRunnerProperties.getGatlingBin().toString())
+        .path(".")
         .environment(ImmutableMap.of(
-            "KRAKEN_GATLING_RESULT_INFO_LOG", gatlingRunnerProperties.getInfoLog().toString(),
-            "KRAKEN_GATLING_RESULT_DEBUG_LOG", gatlingRunnerProperties.getDebugLog().toString())
+            "INFLUXDB_URL", influxDBProperties.getInfluxdbUrl(),
+            "INFLUXDB_DB", influxDBProperties.getInfluxdbDatabase(),
+            "INFLUXDB_USER", influxDBProperties.getInfluxdbUser(),
+            "INFLUXDB_USER_PASSWORD", influxDBProperties.getInfluxdbPassword()
+            )
         )
-        .command(ImmutableList.of(
-            "./gatling.sh",
-            "-s", simulation,
-            "-rd", description,
-            "-rf", gatlingRunnerProperties.getLocalResult().toString()))
+        .command(ImmutableList.of("telegraf"))
         .build();
   }
 }

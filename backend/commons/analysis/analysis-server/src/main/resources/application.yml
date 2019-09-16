@@ -5,16 +5,15 @@ kraken:
   storage:
     url: http://localhost:8080
   grafana:
-    url: http://localhost:3000
+    url: http://kraken-grafana-dev:3000
     dashboard: grafana/grafana-gatling-dashboard.json
     user: admin
     password: kraken
   influxdb:
-    url: http://localhost:8086
+    url: http://kraken-influxdb-dev:8086
     user: admin
     password: kraken
     database: gatling
-    docker-url: http://kraken-influxdb-dev:8086 # InfluxDb URL from docker containers (localhost won't work here so we must use the container name)
 
 spring:
   servlet:
@@ -48,4 +47,3 @@ kraken:
     url: http://kraken-grafana:3000
   influxdb:
     url: http://kraken-influxdb:8086
-    docker-url: http://kraken-influxdb:8086

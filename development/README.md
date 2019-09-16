@@ -1,3 +1,12 @@
+# Config
+
+Add the following lines to `/etc/hosts` before launching the `up.sh` script:
+
+```bash
+kraken-grafana-dev	localhost
+kraken-influxdb-dev	localhost
+```
+
 # InfluxDB
 
 [Docker image documentation](https://docs.docker.com/samples/library/influxdb/#configuration)

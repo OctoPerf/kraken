@@ -19,10 +19,8 @@ class InfluxDBClientConfiguration {
   InfluxDBClientProperties influxDBClientProperties(@Value("${kraken.influxdb.url:#{environment.KRAKEN_INFLUXDB_URL}}") final String influxdbUrl,
                                               @Value("${kraken.influxdb.user:#{environment.KRAKEN_INFLUXDB_USER}}") final String influxdbUser,
                                               @Value("${kraken.influxdb.password:#{environment.KRAKEN_INFLUXDB_PASSWORD}}") final String influxdbPassword,
-                                              @Value("${kraken.influxdb.database:#{environment.KRAKEN_INFLUXDB_DATABASE}}") final String influxdbDatabase,
-                                              @Value("${kraken.influxdb.docker-url:#{environment.KRAKEN_INFLUXDB_DOCKER_URL}}") final String influxdbDockerUrl) {
+                                              @Value("${kraken.influxdb.database:#{environment.KRAKEN_INFLUXDB_DATABASE}}") final String influxdbDatabase) {
     log.info("InfluxDB URL is set to " + influxdbUrl);
-    log.info("InfluxDB docker URL is set to " + influxdbDockerUrl);
     log.info("InfluxDB Database is set to " + influxdbDatabase);
     log.info("InfluxDB user path is set to " + influxdbUser);
 
@@ -31,7 +29,6 @@ class InfluxDBClientConfiguration {
         .influxdbUser(influxdbUser)
         .influxdbPassword(influxdbPassword)
         .influxdbDatabase(influxdbDatabase)
-        .influxdbDockerUrl(influxdbDockerUrl)
         .build();
   }
 

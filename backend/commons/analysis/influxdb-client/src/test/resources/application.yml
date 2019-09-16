@@ -1,7 +1,6 @@
 kraken:
   influxdb:
-    url: http://localhost:8086
+    url: http://kraken-influxdb-dev:8086
     user: admin
     password: kraken
     database: gatling
-    docker-url: http://kraken-influxdb-dev:8086 # InfluxDb URL from docker containers (localhost won't work here so we must use the container name)
