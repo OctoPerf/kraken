@@ -36,14 +36,14 @@ final class TelegrafRunner {
     final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     final var setStatusRunning = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
     final var startTelegraf = commandService.execute(commandSupplier.get());
-    final var waitForGatlingStopping = runtimeClient.waitForPredicate(taskPredicate).delayElement(Duration.ofSeconds(10));
+    final var waitForGatlingStopping = runtimeClient.waitForPredicate(taskPredicate).delayElement(Duration.ofSeconds(5));
     final var sendMetricsUntilTestDone = startTelegraf.takeUntilOther(waitForGatlingStopping);
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusReady.map(Object::toString).subscribe(log::info);
     waitForStatusReady.map(Object::toString).subscribe(log::info);
     setStatusRunning.map(Object::toString).subscribe(log::info);
-    sendMetricsUntilTestDone.subscribe(log::info);
+    sendMetricsUntilTestDone.doOnNext(log::info).blockLast();
     setStatusDone.map(Object::toString).subscribe(log::info);
   }
 

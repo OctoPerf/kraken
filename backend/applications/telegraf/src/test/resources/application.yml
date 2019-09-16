@@ -1,0 +1,31 @@
+kraken:
+  influxdb:
+    user: admin
+    password: kraken
+    database: gatling
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  influxdb:
+    url: http://kraken-influxdb-dev:8086
+
+---
+spring:
+  profiles: docker
+
+kraken:
+  influxdb:
+    url: http://kraken-influxdb:8086
