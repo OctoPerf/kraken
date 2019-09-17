@@ -38,6 +38,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .subscribe(logs::add);
 
     final var taskId = taskService.execute(appId, TaskType.RECORD, ImmutableMap.of("KRAKEN_IMAGE", "nginx",
+        "KRAKEN_GATLING_HAR_PATH_REMOTE", "hars/import.har",
         "KRAKEN_GATLING_SIMULATION_CLASS", "MyClazz",
         "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test",
         "KRAKEN_DESCRIPTION", "description")).block();

@@ -208,7 +208,7 @@ resultId
 ## Start a Task
 
 ```bash
-curl -d '{}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN?description=description
+curl -d '{"description": "description"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
 ```
 
 ```
@@ -249,22 +249,4 @@ curl http://localhost:8080/files/get/json?path=gatling/results/e4aff6e2-a3ff-483
   "description": "description",
   "type": "DEBUG"
 }
-```
-
-# Java Applications Manual Tests (ran as docker containers in production)
-
-## Synchronizer
-
-Run the storage synchronizer (must have started storage, analysis, runtime backends + [executed a task](#start-a-task))
-
-```bash
-export KRAKEN_STORAGE_URL=http://localhost:8080 \
-&& export KRAKEN_RUNTIME_URL=http://localhost:8082 \
-&& export KRAKEN_DATA=$(pwd)/integration-tests/testDir/ \
-&& export KRAKEN_TASK_ID="taskId" \
-&& export KRAKEN_CONTAINER_ID="containerId" \
-&& export KRAKEN_FILE_DOWNLOADS="README.md<->gatling/README.md" \
-&& export KRAKEN_FOLDER_DOWNLOADS="<->gatling/conf" \
-&& export KRAKEN_FILE_UPLOADS="run<->gatling" \
-&& make serve APP=:application:storage-synchronizer
 ```

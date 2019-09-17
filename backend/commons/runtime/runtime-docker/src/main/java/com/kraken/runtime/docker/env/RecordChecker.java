@@ -15,6 +15,7 @@ class RecordChecker implements EnvironmentChecker {
     requireNonNull(environment.get("KRAKEN_VERSION"));
     requireNonNull(environment.get("KRAKEN_GATLING_SIMULATION_CLASS"));
     requireNonNull(environment.get("KRAKEN_GATLING_SIMULATION_PACKAGE"));
+    requireNonNull(environment.get("KRAKEN_GATLING_HAR_PATH_REMOTE"));
     requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
     requireNonNull(environment.get("KRAKEN_TASK_ID"));
     requireNonNull(environment.get("KRAKEN_ANALYSIS_URL"));

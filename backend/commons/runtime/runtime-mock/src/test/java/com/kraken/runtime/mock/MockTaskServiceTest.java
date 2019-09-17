@@ -33,7 +33,7 @@ public class MockTaskServiceTest {
 
   @Test
   public void shouldExecute() {
-    taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of());
+    taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of("KRAKEN_DESCRIPTION", "description"));
     final var task = taskService.list().blockFirst();
     assertThat(task).isNotNull();
     assertThat(task.getType()).isEqualTo(TaskType.RUN);
@@ -49,6 +49,7 @@ public class MockTaskServiceTest {
 
   @Test
   public void shouldWatch() {
+    taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of("KRAKEN_DESCRIPTION", "description"));
     final var list = taskService.watch().take(1).blockFirst();
     assertThat(list).isNotNull();
     assertThat(list.size()).isEqualTo(1);
@@ -66,6 +67,7 @@ public class MockTaskServiceTest {
 
   @Test
   public void shouldSetStatus() {
+    taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of("KRAKEN_DESCRIPTION", "description"));
     containerService.setStatus("containerId", ContainerStatus.READY).block();
     final var task = taskService.list().blockFirst();
     assertThat(task).isNotNull();

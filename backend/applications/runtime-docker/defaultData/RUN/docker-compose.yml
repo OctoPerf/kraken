@@ -12,15 +12,15 @@ services:
       - kraken
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: "RUN"
+      com.kraken.taskType: RUN
       com.kraken.containerId: ${KRAKEN_TASK_ID}-telegraf
-      com.kraken.groupId: "local"
+      com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
-      KRAKEN_TASK_TYPE: "RUN"
+      KRAKEN_TASK_TYPE: RUN
       KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
-      KRAKEN_GROUP_ID: "local"
+      KRAKEN_GROUP_ID: local
       KRAKEN_INFLUXDB_URL: ${KRAKEN_INFLUXDB_URL}
       KRAKEN_INFLUXDB_DATABASE: ${KRAKEN_INFLUXDB_DATABASE}
       KRAKEN_INFLUXDB_USER: ${KRAKEN_INFLUXDB_USER}
@@ -35,15 +35,15 @@ services:
       - kraken
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: "RUN"
+      com.kraken.taskType: RUN
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling
-      com.kraken.groupId: "local"
+      com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
-      KRAKEN_TASK_TYPE: "RUN"
+      KRAKEN_TASK_TYPE: RUN
       KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
-      KRAKEN_GROUP_ID: "local"
+      KRAKEN_GROUP_ID: local
       KRAKEN_GATLING_SIMULATION: ${KRAKEN_GATLING_SIMULATION}
       KRAKEN_GATLING_DESCRIPTION: ${KRAKEN_DESCRIPTION}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}

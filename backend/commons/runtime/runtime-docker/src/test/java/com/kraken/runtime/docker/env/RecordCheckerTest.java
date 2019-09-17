@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +38,8 @@ public class RecordCheckerTest {
         .put("KRAKEN_VERSION", "value")
         .put("KRAKEN_GATLING_SIMULATION_CLASS", "value")
         .put("KRAKEN_GATLING_SIMULATION_PACKAGE", "value")
+        .put("KRAKEN_GATLING_HAR_PATH_LOCAL", "value")
+        .put("KRAKEN_GATLING_HAR_PATH_REMOTE", "value")
         .put("KRAKEN_DESCRIPTION", "value")
         .put("KRAKEN_TASK_ID", "value")
         .put("KRAKEN_ANALYSIS_URL", "value")
