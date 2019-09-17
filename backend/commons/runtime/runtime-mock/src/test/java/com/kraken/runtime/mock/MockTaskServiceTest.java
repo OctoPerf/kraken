@@ -33,7 +33,7 @@ public class MockTaskServiceTest {
 
   @Test
   public void shouldExecute() {
-    taskService.execute("applicationId", TaskType.RUN, "description", ImmutableMap.of());
+    taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of());
     final var task = taskService.list().blockFirst();
     assertThat(task).isNotNull();
     assertThat(task.getType()).isEqualTo(TaskType.RUN);

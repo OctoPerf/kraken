@@ -1,6 +1,7 @@
 package com.kraken.runtime.server.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
@@ -46,13 +47,13 @@ public class ResultUpdaterTest {
 
   @Test
   public void shouldHandleTaskExecuted() {
-    final var taskId= "taskId";
+    final var taskId = "taskId";
     final var taskType = TaskType.RECORD;
-    final var description = "description";
+    final var env = ImmutableMap.of("KRAKEN_DESCRIPTION", "description");
 
     given(analysisClient.create(any(Result.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
 
-    assertThat(updater.taskExecuted(taskId, taskType, description).block()).isEqualTo(taskId);
+    assertThat(updater.taskExecuted(taskId, taskType, env).block()).isEqualTo(taskId);
 
     final ArgumentCaptor<Result> resultCaptor = ArgumentCaptor.forClass(Result.class);
     verify(analysisClient).create(resultCaptor.capture());
@@ -67,7 +68,7 @@ public class ResultUpdaterTest {
 
   @Test
   public void shouldHandleTaskCancelled() {
-    final var taskId= "taskId";
+    final var taskId = "taskId";
     given(analysisClient.setStatus(taskId, ResultStatus.CANCELED)).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
     assertThat(updater.taskCanceled(taskId).block()).isEqualTo(taskId);
     verify(analysisClient).setStatus(taskId, ResultStatus.CANCELED);
@@ -75,7 +76,7 @@ public class ResultUpdaterTest {
 
   @Test
   public void shouldUpdateResults() {
-    final var taskId= "taskId";
+    final var taskId = "taskId";
 
     final var task0 = TaskTest.TASK;
     final var task10 = Task.builder()

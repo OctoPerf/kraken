@@ -4,21 +4,17 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.analysis.client.AnalysisClientProperties;
-import com.kraken.analysis.client.AnalysisClientPropertiesTest;
-import com.kraken.analysis.client.AnalysisClientPropertiesTestConfiguration;
-import com.kraken.runtime.api.ContainerService;
+import com.kraken.analysis.client.properties.AnalysisClientProperties;
+import com.kraken.analysis.client.properties.AnalysisClientPropertiesTest;
+import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.server.service.ResultUpdater;
 import com.kraken.storage.client.StorageClientProperties;
 import com.kraken.storage.client.StorageClientPropertiesTest;
 import com.kraken.storage.client.StorageClientPropertiesTestConfiguration;
-import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.tools.sse.SSEWrapperTest;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +26,6 @@ import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -42,7 +34,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -76,17 +67,12 @@ public class TaskControllerTest {
   @Test
   public void shouldRun() {
     final var applicationId = "applicationId";
-    final var env = ImmutableMap.<String, String>of();
-    final var envUpdated = ImmutableMap.<String, String>builder()
-        .putAll(env)
-        .put("KRAKEN_ANALYSIS_URL", AnalysisClientPropertiesTest.ANALYSIS_CLIENT_PROPERTIES.getAnalysisUrl())
-        .put("KRAKEN_STORAGE_URL", StorageClientPropertiesTest.STORAGE_PROPERTIES.getStorageUrl())
-        .build();
+    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
     final var description = "Foo";
-    given(service.execute(applicationId, TaskType.RUN, description, envUpdated))
+    given(service.execute(applicationId, TaskType.RUN, env))
         .willReturn(Mono.just(taskId));
-    given(updater.taskExecuted(taskId, TaskType.RUN, description)).willReturn(Mono.just(taskId));
+    given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")

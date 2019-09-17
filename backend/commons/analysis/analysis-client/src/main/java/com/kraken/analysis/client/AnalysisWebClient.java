@@ -1,5 +1,6 @@
 package com.kraken.analysis.client;
 
+import com.kraken.analysis.client.properties.AnalysisClientProperties;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;

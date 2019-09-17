@@ -19,10 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -31,36 +28,44 @@ import java.util.function.Function;
 final class DockerTaskService implements TaskService {
 
   @NonNull CommandService commandService;
-
   @NonNull DockerProperties dockerProperties;
-
   @NonNull LogsService logsService;
-
   @NonNull Function<String, Container> stringToContainer;
-
   @NonNull Function<GroupedFlux<String, Container>, Mono<Task>> containersToTask;
-
   @NonNull Function<TaskType, String> taskTypeToPath;
 
   @Override
   public Mono<String> execute(final String applicationId,
                               final TaskType taskType,
-                              final String description,
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
-    final var env = ImmutableMap.<String, String>builder()
-        .putAll(environment)
-        .put("KRAKEN_TASK_ID", taskId)
-        .put("KRAKEN_DESCRIPTION", description)
-        .build();
+    Objects.requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
+
+//    Objects.requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
+
+//    final String description,
+//    final var env = ImmutableMap.<String, String>builder()
+//        .putAll(environment)
+//        .put("KRAKEN_TASK_ID", taskId)
+//        .put("KRAKEN_DESCRIPTION", description)
+//        .build();
+//
+//    @NonNull StorageClientProperties storageClientProperties;
+//    @NonNull AnalysisClientProperties analysisClientProperties;
+//    final var env = ImmutableMap.<String, String>builder()
+//        .putAll(environment)
+//        .put("KRAKEN_ANALYSIS_URL", analysisClientProperties.getAnalysisUrl())
+//        .put("KRAKEN_STORAGE_URL", storageClientProperties.getStorageUrl())
+//        .build();
+
 
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
             "up",
             "-d"))
-        .environment(env)
+        .environment(environment)
         .build();
 
     return Mono.fromCallable(() -> {

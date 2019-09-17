@@ -1,13 +1,12 @@
 package com.kraken.analysis.server.service;
 
-import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.HttpHeader;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.server.properties.AnalysisProperties;
 import com.kraken.grafana.client.GrafanaClient;
-import com.kraken.grafana.client.GrafanaClientProperties;
+import com.kraken.grafana.client.properties.GrafanaClientProperties;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;
@@ -18,13 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j

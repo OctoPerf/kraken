@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:analysis:influxdb-client-properties')
+    testImplementation project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')
+}

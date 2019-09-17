@@ -23,6 +23,7 @@ import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,13 +47,13 @@ final class SpringResultUpdater implements ResultUpdater {
   }
 
   @Override
-  public Mono<String> taskExecuted(final String taskId, final TaskType taskType, final String description) {
+  public Mono<String> taskExecuted(final String taskId, final TaskType taskType, final Map<String, String> environment) {
     final var result = Result.builder()
         .id(taskId)
         .startDate(new Date().getTime())
         .endDate(0L)
         .status(ResultStatus.STARTING)
-        .description(description)
+        .description(environment.get("KRAKEN_DESCRIPTION"))
         .type(taskTypeToResultType.apply(taskType))
         .build();
     return analysisClient.create(result).map(storageNode -> taskId);

@@ -1,4 +1,4 @@
-package com.kraken.grafana.client;
+package com.kraken.grafana.client.properties;
 
 import lombok.Builder;
 import lombok.NonNull;

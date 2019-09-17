@@ -1,4 +1,4 @@
-package com.kraken.grafana.client;
+package com.kraken.grafana.client.properties;
 
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;

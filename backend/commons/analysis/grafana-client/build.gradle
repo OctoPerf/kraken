@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:analysis:grafana-client-properties')
+    testImplementation project(path: ':commons:analysis:grafana-client-properties', configuration: 'testArtifacts')
+}

@@ -1,5 +1,6 @@
 package com.kraken.grafana.client;
 
+import com.kraken.grafana.client.properties.GrafanaClientPropertiesTestConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,21 +13,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {GrafanaClientConfiguration.class},
+    classes = {GrafanaClientConfiguration.class, GrafanaClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class GrafanaClientPropertiesConfigurationTest {
-
-  @Autowired
-  GrafanaClientProperties grafanaClientProperties;
+public class GrafanaClientConfigurationTest {
 
   @Qualifier("webClientGrafana")
   @Autowired
   WebClient grafanaWebClient;
-
-  @Test
-  public void shouldCreateProperties() {
-    Assertions.assertThat(grafanaClientProperties.getGrafanaUrl()).isNotNull();
-  }
 
   @Test
   public void shouldCreateWebClients() {

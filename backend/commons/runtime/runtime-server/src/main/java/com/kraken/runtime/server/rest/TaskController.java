@@ -1,12 +1,9 @@
 package com.kraken.runtime.server.rest;
 
-import com.google.common.collect.ImmutableMap;
-import com.kraken.analysis.client.AnalysisClientProperties;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
-import com.kraken.storage.client.StorageClientProperties;
 import com.kraken.tools.sse.SSEService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,8 +25,6 @@ import java.util.Map;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class TaskController {
 
-  @NonNull StorageClientProperties storageClientProperties;
-  @NonNull AnalysisClientProperties analysisClientProperties;
   @NonNull ResultUpdater resultUpdater;
   @NonNull TaskService service;
   @NonNull SSEService sse;
@@ -37,15 +32,9 @@ public class TaskController {
   @PostMapping("/{type}")
   public Mono<String> run(@RequestHeader("ApplicationId") final String applicationId,
                           @PathVariable("type") final TaskType type,
-                          @RequestParam("description") final String description,
                           @RequestBody() final Map<String, String> environment) {
     log.info(String.format("Run task %s", type));
-    final var env = ImmutableMap.<String, String>builder()
-        .putAll(environment)
-        .put("KRAKEN_ANALYSIS_URL", analysisClientProperties.getAnalysisUrl())
-        .put("KRAKEN_STORAGE_URL", storageClientProperties.getStorageUrl())
-        .build();
-    return service.execute(applicationId, type, description, env).flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, description));
+    return service.execute(applicationId, type, environment).flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
   }
 
   @PostMapping("/cancel")

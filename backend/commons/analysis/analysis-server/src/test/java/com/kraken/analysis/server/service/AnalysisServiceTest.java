@@ -19,7 +19,7 @@ import reactor.test.StepVerifier;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.kraken.grafana.client.GrafanaClientPropertiesTest.GRAFANA_CLIENT_PROPERTIES;
+import static com.kraken.grafana.client.properties.GrafanaClientPropertiesTest.GRAFANA_CLIENT_PROPERTIES;
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;

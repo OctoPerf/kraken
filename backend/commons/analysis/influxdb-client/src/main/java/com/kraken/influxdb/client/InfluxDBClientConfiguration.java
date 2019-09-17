@@ -14,24 +14,6 @@ import java.util.Base64;
 @Configuration
 class InfluxDBClientConfiguration {
 
-  @Autowired
-  @Bean
-  InfluxDBClientProperties influxDBClientProperties(@Value("${kraken.influxdb.url:#{environment.KRAKEN_INFLUXDB_URL}}") final String influxdbUrl,
-                                              @Value("${kraken.influxdb.user:#{environment.KRAKEN_INFLUXDB_USER}}") final String influxdbUser,
-                                              @Value("${kraken.influxdb.password:#{environment.KRAKEN_INFLUXDB_PASSWORD}}") final String influxdbPassword,
-                                              @Value("${kraken.influxdb.database:#{environment.KRAKEN_INFLUXDB_DATABASE}}") final String influxdbDatabase) {
-    log.info("InfluxDB URL is set to " + influxdbUrl);
-    log.info("InfluxDB Database is set to " + influxdbDatabase);
-    log.info("InfluxDB user path is set to " + influxdbUser);
-
-    return InfluxDBClientProperties.builder()
-        .influxdbUrl(influxdbUrl)
-        .influxdbUser(influxdbUser)
-        .influxdbPassword(influxdbPassword)
-        .influxdbDatabase(influxdbDatabase)
-        .build();
-  }
-
   @Bean("webClientInfluxdb")
   @Autowired
   WebClient influxdbWebClient(final InfluxDBClientProperties properties) {

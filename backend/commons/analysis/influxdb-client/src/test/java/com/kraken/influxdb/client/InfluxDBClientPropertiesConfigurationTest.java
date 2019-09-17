@@ -12,21 +12,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {InfluxDBClientConfiguration.class},
+    classes = {InfluxDBClientConfiguration.class, InfluxDBClientTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class InfluxDBClientPropertiesConfigurationTest {
-
-  @Autowired
-  InfluxDBClientProperties influxDBClientProperties;
 
   @Qualifier("webClientInfluxdb")
   @Autowired
   WebClient influxdbWebClient;
-
-  @Test
-  public void shouldCreateProperties() {
-    Assertions.assertThat(influxDBClientProperties.getInfluxdbUrl()).isNotNull();
-  }
 
   @Test
   public void shouldCreateWebClients() {

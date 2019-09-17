@@ -1,4 +1,4 @@
-package com.kraken.analysis.client;
+package com.kraken.analysis.client.properties;
 
 import lombok.Builder;
 import lombok.NonNull;

@@ -12,7 +12,6 @@ public interface TaskService {
 
   Mono<String> execute(String applicationId,
                        TaskType taskType,
-                       String description,
                        Map<String, String> environment);
 
   Mono<String> cancel(String applicationId,

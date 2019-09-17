@@ -30,7 +30,7 @@ public class MockTaskService implements TaskService, ContainerService {
   AtomicReference<Task> task = new AtomicReference<>();
 
   @Override
-  public Mono<String> execute(String applicationId, TaskType taskType, String description, Map<String, String> environment) {
+  public Mono<String> execute(String applicationId, TaskType taskType, Map<String, String> environment) {
     final var id = "taskId";
     task.set(Task.builder()
         .id(id)
@@ -38,7 +38,7 @@ public class MockTaskService implements TaskService, ContainerService {
         .status(ContainerStatus.CREATING)
         .type(taskType)
         .containers(ImmutableList.of())
-        .description(description)
+        .description(environment.get("KRAKEN_DESCRIPTION"))
         .build());
     return Mono.just(id);
   }

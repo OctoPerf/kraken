@@ -1,5 +1,6 @@
 package com.kraken.analysis.client;
 
+import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,21 +13,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {AnalysisClientConfiguration.class},
+    classes = {AnalysisClientConfiguration.class, AnalysisClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class AnalysisClientPropertiesConfigurationTest {
+public class AnalysisClientConfigurationTest {
 
-  @Autowired
-  AnalysisClientProperties analysisClientProperties;
 
   @Qualifier("webClientAnalysis")
   @Autowired
   WebClient analysisWebClient;
-
-  @Test
-  public void shouldCreateProperties() {
-    Assertions.assertThat(analysisClientProperties.getAnalysisUrl()).isNotNull();
-  }
 
   @Test
   public void shouldCreateWebClients() {

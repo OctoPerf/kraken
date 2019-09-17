@@ -1,0 +1,3 @@
+kraken:
+  analysis:
+    url: http://localhost:8081

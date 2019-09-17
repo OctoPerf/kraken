@@ -1,4 +1,4 @@
-package com.kraken.analysis.client;
+package com.kraken.analysis.client.properties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
