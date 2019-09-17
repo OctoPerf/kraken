@@ -5,6 +5,10 @@ kraken:
       run: 1
       debug: 2
       record: 2
+  influxdb:
+    user: admin
+    password: kraken
+    database: gatling
 
 spring:
   servlet:
@@ -37,6 +41,10 @@ kraken:
     url: http://localhost:8080
   analysis:
     url: http://localhost:8081
+  runtime:
+    url: http://localhost:8082
+  influxdb:
+    url: http://kraken-influxdb-dev:8086
 
 ---
 spring:
@@ -48,3 +56,7 @@ kraken:
     url: http://kraken-storage:8080
   analysis:
     url: http://kraken-analysis:8081
+  runtime:
+    url: http://kraken-runtime:8082
+  influxdb:
+    url: http://kraken-influxdb:8086
