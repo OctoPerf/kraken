@@ -1,4 +1,4 @@
-package com.kraken.storage.client;
+package com.kraken.storage.client.properties;
 
 import lombok.Builder;
 import lombok.NonNull;

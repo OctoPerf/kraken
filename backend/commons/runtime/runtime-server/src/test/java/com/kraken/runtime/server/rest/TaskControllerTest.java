@@ -3,16 +3,12 @@ package com.kraken.runtime.server.rest;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.testing.NullPointerTester;
-import com.kraken.analysis.client.properties.AnalysisClientProperties;
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTest;
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
 import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.Task;
+import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
-import com.kraken.storage.client.StorageClientProperties;
-import com.kraken.storage.client.StorageClientPropertiesTest;
-import com.kraken.storage.client.StorageClientPropertiesTestConfiguration;
+import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.sse.SSEService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -33,13 +29,12 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {TaskController.class, AnalysisClientPropertiesTestConfiguration.class, StorageClientPropertiesTestConfiguration.class})
+    classes = {TaskController.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
 public class TaskControllerTest {
@@ -58,10 +53,7 @@ public class TaskControllerTest {
 
   @Test
   public void shouldPassTestUtils() {
-    new NullPointerTester()
-        .setDefault(AnalysisClientProperties.class, AnalysisClientPropertiesTest.ANALYSIS_CLIENT_PROPERTIES)
-        .setDefault(StorageClientProperties.class, StorageClientPropertiesTest.STORAGE_PROPERTIES)
-        .testConstructors(TaskController.class, PACKAGE);
+    TestUtils.shouldPassNPE(TaskController.class);
   }
 
   @Test

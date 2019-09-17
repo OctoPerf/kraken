@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class InfluxDBClientTestConfiguration {
+public class InfluxDBClientPropertiesTestConfiguration {
 
   @Bean
   InfluxDBClientProperties properties() {

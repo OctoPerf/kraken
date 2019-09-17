@@ -1,4 +1,4 @@
-package com.kraken.runtime.client;
+package com.kraken.runtime.client.properties;
 
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;

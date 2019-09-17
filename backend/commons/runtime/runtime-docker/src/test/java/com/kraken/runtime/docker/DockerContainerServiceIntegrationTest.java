@@ -1,7 +1,6 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.TestConfiguration;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.entity.ContainerStatus;

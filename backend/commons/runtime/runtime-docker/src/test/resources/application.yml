@@ -1,7 +1,20 @@
 kraken:
+  data: testDir
+  version: 1.0.0
   docker:
     watch-tasks-delay: 2000
     containers-count:
       run: 1
       debug: 2
       record: 2
+  runtime:
+    url: runtimeUrl
+  analysis:
+    url: analysisUrl
+  storage:
+    url: storageUrl
+  influxdb:
+    url: influxdbUrl
+    user: influxdbUser
+    password: influxdbPassword
+    database: influxdbDatabase

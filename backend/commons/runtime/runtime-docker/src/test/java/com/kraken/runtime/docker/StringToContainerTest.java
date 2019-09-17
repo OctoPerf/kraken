@@ -11,11 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringToContainerTest {
 
-
-//"d0c2a340867e;container-three_STARTING;2019-09-03 12:16:17 +0200 CEST;taskIdBis;RUN;containerThreeId;Container Three"
-//    "ef9bb6717a41;container-two_DONE;2019-09-03 12:16:17 +0200 CEST;taskId;DEBUG;containerTwoId;Container Two"
-//    "2f049b821362;container-one_READY;2019-09-03 12:16:17 +0200 CEST;taskId;DEBUG;containerOneId;Container One"
-
   private final StringToContainer stringToContainer = new StringToContainer();
 
   @Test

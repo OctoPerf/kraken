@@ -1,5 +1,7 @@
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-client-properties')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
 }

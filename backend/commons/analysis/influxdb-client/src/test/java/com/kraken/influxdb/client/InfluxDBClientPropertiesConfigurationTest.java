@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {InfluxDBClientConfiguration.class, InfluxDBClientTestConfiguration.class},
+    classes = {InfluxDBClientConfiguration.class, InfluxDBClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class InfluxDBClientPropertiesConfigurationTest {
 

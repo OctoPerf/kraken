@@ -1,4 +1,4 @@
-package com.kraken.runtime.client;
+package com.kraken.storage.client.properties;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -12,24 +12,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {RuntimeClientConfiguration.class},
+    classes = {StorageClientPropertiesConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class RuntimeClientPropertiesConfigurationTest {
+public class StorageClientPropertiesConfigurationTest {
 
   @Autowired
-  RuntimeClientProperties properties;
-
-  @Qualifier("webClientRuntime")
-  @Autowired
-  WebClient runtimeWebClient;
+  StorageClientProperties properties;
 
   @Test
   public void shouldCreateProperties() {
-    Assertions.assertThat(properties.getRuntimeUrl()).isNotNull();
+    Assertions.assertThat(properties.getStorageUrl()).isNotNull();
   }
 
-  @Test
-  public void shouldCreateWebClients() {
-    Assertions.assertThat(runtimeWebClient).isNotNull();
-  }
 }

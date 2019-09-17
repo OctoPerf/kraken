@@ -1,7 +1,6 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.TestConfiguration;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
@@ -16,6 +15,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -37,7 +37,10 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var taskId = taskService.execute(appId, TaskType.RECORD, ImmutableMap.of("KRAKEN_IMAGE", "nginx", "KRAKEN_DESCRIPTION", "description")).block();
+    final var taskId = taskService.execute(appId, TaskType.RECORD, ImmutableMap.of("KRAKEN_IMAGE", "nginx",
+        "KRAKEN_GATLING_SIMULATION_CLASS", "MyClazz",
+        "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test",
+        "KRAKEN_DESCRIPTION", "description")).block();
 
     taskService.watch().filter(tasks -> tasks.size() > 0 && tasks.get(0).getStatus() == ContainerStatus.STARTING).next().block();
 

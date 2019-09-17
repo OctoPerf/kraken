@@ -7,8 +7,17 @@ dependencies {
     implementation project(':commons:runtime:runtime-api')
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:runtime:runtime-logs')
+    implementation project(':commons:runtime:runtime-client-properties')
     implementation project(':commons:tools:configuration')
+    implementation project(':commons:analysis:analysis-client-properties')
+    implementation project(':commons:analysis:influxdb-client-properties')
+    implementation project(':commons:storage:storage-client-properties')
 
     testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+
+    testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:analysis-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-client-properties', configuration: 'testArtifacts')
 }

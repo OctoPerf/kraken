@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
+import com.kraken.runtime.docker.env.EnvironmentChecker;
+import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.docker.properties.DockerProperties;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.LogType;
@@ -33,6 +35,8 @@ final class DockerTaskService implements TaskService {
   @NonNull Function<String, Container> stringToContainer;
   @NonNull Function<GroupedFlux<String, Container>, Mono<Task>> containersToTask;
   @NonNull Function<TaskType, String> taskTypeToPath;
+  @NonNull List<EnvironmentChecker> envCheckers;
+  @NonNull List<EnvironmentPublisher> envPublishers;
 
   @Override
   public Mono<String> execute(final String applicationId,
@@ -40,32 +44,26 @@ final class DockerTaskService implements TaskService {
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
-    Objects.requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
+    // Update the env variable with all useful key/values
+    final var envBuilder = ImmutableMap.<String, String>builder();
+    envBuilder.putAll(environment);
+    envBuilder.put("KRAKEN_TASK_ID", taskId);
+    envPublishers.stream()
+        .filter(environmentPublisher -> environmentPublisher.test(taskType))
+        .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));
 
-//    Objects.requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
-
-//    final String description,
-//    final var env = ImmutableMap.<String, String>builder()
-//        .putAll(environment)
-//        .put("KRAKEN_TASK_ID", taskId)
-//        .put("KRAKEN_DESCRIPTION", description)
-//        .build();
-//
-//    @NonNull StorageClientProperties storageClientProperties;
-//    @NonNull AnalysisClientProperties analysisClientProperties;
-//    final var env = ImmutableMap.<String, String>builder()
-//        .putAll(environment)
-//        .put("KRAKEN_ANALYSIS_URL", analysisClientProperties.getAnalysisUrl())
-//        .put("KRAKEN_STORAGE_URL", storageClientProperties.getStorageUrl())
-//        .build();
-
+    // Check that the env is OK
+    final var env = envBuilder.build();
+    envCheckers.stream()
+        .filter(environmentChecker -> environmentChecker.test(taskType))
+        .forEach(environmentChecker -> environmentChecker.accept(env));
 
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
             "up",
             "-d"))
-        .environment(environment)
+        .environment(env)
         .build();
 
     return Mono.fromCallable(() -> {
@@ -78,7 +76,7 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<String> cancel(final String applicationId,
-                           final Task task) {
+                             final Task task) {
 
     final var taskId = task.getId();
 

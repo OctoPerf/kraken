@@ -2,7 +2,7 @@ package com.kraken.telegraf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.kraken.influxdb.client.InfluxDBClientTestConfiguration;
+import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
 import com.kraken.runtime.command.Command;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {CommandSupplier.class, InfluxDBClientTestConfiguration.class},
+    classes = {CommandSupplier.class, InfluxDBClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class CommandSupplierTest {
 

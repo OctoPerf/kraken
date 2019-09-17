@@ -1,12 +1,12 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.TestConfiguration;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.properties.DockerProperties;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestConfiguration.class, ApplicationPropertiesTestConfiguration.class}, initializers = {ConfigFileApplicationContextInitializer.class})
+@ContextConfiguration(classes = {TestConfiguration.class}, initializers = {ConfigFileApplicationContextInitializer.class})
 @EnableAutoConfiguration
 public class DockerTaskServiceIntegrationTest {
 

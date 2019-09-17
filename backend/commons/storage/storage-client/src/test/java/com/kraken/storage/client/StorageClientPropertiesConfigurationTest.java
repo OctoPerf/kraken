@@ -1,5 +1,6 @@
 package com.kraken.storage.client;
 
+import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,21 +13,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {StorageClientConfiguration.class},
+    classes = {StorageClientConfiguration.class, StorageClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class StorageClientPropertiesConfigurationTest {
-
-  @Autowired
-  StorageClientProperties properties;
 
   @Qualifier("webClientStorage")
   @Autowired
   WebClient storageWebClient;
-
-  @Test
-  public void shouldCreateProperties() {
-    Assertions.assertThat(properties.getStorageUrl()).isNotNull();
-  }
 
   @Test
   public void shouldCreateWebClients() {

@@ -1,6 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.client.properties.RuntimeClientProperties;
 import com.kraken.runtime.entity.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,16 +16,15 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class RuntimeUrlPublisher implements EnvironmentPublisher {
 
-  //  TODO FUUUUUUUUUUUUUUUUUUUUUUUUUuuuuuuuuuuuuuuuuuuuuuuuuu faut extraire les runtime-client-properties
-//  @NonNull RuntimeClientProperties properties;
+  @NonNull RuntimeClientProperties properties;
 
   @Override
-  public boolean test(TaskType taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 
   @Override
   public Map<String, String> get() {
-    return ImmutableMap.of("KRAKEN_RUNTIME_URL", "");
+    return ImmutableMap.of("KRAKEN_RUNTIME_URL", properties.getRuntimeUrl());
   }
 }

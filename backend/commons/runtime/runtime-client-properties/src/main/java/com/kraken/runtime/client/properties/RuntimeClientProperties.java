@@ -1,4 +1,4 @@
-package com.kraken.runtime.client;
+package com.kraken.runtime.client.properties;
 
 import lombok.Builder;
 import lombok.NonNull;
@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder
-class RuntimeClientProperties {
+public class RuntimeClientProperties {
 
   @NonNull
   String runtimeUrl;
