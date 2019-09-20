@@ -1,9 +1,8 @@
 kraken:
   docker:
-    watch-tasks-delay: 2000
+    watch-tasks-delay: 1000
     containers-count:
-#      run: 2
-      run: 1
+      run: 2
       debug: 2
       record: 2
   influxdb:
@@ -45,7 +44,7 @@ kraken:
   runtime:
     url: http://localhost:8082
   influxdb:
-    url: http://kraken-influxdb-dev:8086
+    url: http://localhost:8086
 
 ---
 spring:

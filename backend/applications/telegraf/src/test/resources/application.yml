@@ -20,7 +20,7 @@ spring:
 
 kraken:
   influxdb:
-    url: http://kraken-influxdb-dev:8086
+    url: http://localhost:8086
 
 ---
 spring:

@@ -25,10 +25,6 @@ test:
 serve:
 	./gradlew $(APP):bootRun --args='--spring.profiles.active=dev'
 
-copy-data:
-	rm -rf applications/storage/data
-	cp -a applications/storage/defaultData/. applications/storage/data/
-
 serve-gatling-runner:
 	$(MAKE) serve APP=:applications:app-gatling-runner
 
