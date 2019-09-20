@@ -1,12 +1,3 @@
-# Config
-
-Add the following lines to `/etc/hosts` before launching the `up.sh` script:
-
-```bash
-127.0.0.1 	kraken-grafana-dev
-127.0.0.1	kraken-influxdb-dev
-```
-
 # InfluxDB
 
 [Docker image documentation](https://docs.docker.com/samples/library/influxdb/#configuration)

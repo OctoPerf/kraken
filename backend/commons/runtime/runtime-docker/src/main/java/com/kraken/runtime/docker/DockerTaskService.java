@@ -104,6 +104,7 @@ final class DockerTaskService implements TaskService {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
+            "-a",
             "--filter", "label=com.kraken.taskId",
             "--format", StringToContainer.FORMAT))
         .environment(ImmutableMap.of())

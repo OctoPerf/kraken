@@ -1,16 +1,10 @@
 version: '3.5'
 
-networks:
-  kraken:
-    name: ${KRAKEN_DOCKER_NETWORK_NAME}
-    external: ${KRAKEN_DOCKER_NETWORK_EXTERNAL}
-
 services:
   kraken-har-parser:
     image: octoperf/kraken-ee-har-parser:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-kraken-har-parser_STARTING
-    networks:
-      - kraken
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD
@@ -30,8 +24,7 @@ services:
   kraken-gatling-recorder:
     image: octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-kraken-gatling-recorder_STARTING
-    networks:
-      - kraken
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD

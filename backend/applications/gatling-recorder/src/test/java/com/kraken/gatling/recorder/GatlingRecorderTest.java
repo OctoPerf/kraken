@@ -71,7 +71,7 @@ public class GatlingRecorderTest {
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     recorder.init();
-    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.STARTING);
+    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.PREPARING);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.STOPPING);

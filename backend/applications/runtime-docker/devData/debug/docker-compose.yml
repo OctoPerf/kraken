@@ -1,51 +1,42 @@
 version: '3.5'
 
-networks:
-  kraken:
-    name: ${KRAKEN_DOCKER_NETWORK_NAME}
-    external: ${KRAKEN_DOCKER_NETWORK_EXTERNAL}
-
 services:
-  kraken-gatling-telegraf:
-    image: octoperf/kraken-telegraf:${KRAKEN_VERSION}
-    container_name: ${KRAKEN_TASK_ID}-kraken-telegraf_STARTING
-    networks:
-      - kraken
+  kraken-gatling-log-parser:
+    image: octoperf/kraken-ee-gatling-log-parser:${KRAKEN_VERSION}
+    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-log-parser_STARTING
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RUN
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-telegraf
+      com.kraken.taskType: DEBUG
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-log-parser
       com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
-      KRAKEN_TASK_TYPE: RUN
+      KRAKEN_TASK_TYPE: DEBUG
       KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
       KRAKEN_GROUP_ID: local
-      KRAKEN_INFLUXDB_URL: ${KRAKEN_INFLUXDB_URL}
-      KRAKEN_INFLUXDB_DATABASE: ${KRAKEN_INFLUXDB_DATABASE}
-      KRAKEN_INFLUXDB_USER: ${KRAKEN_INFLUXDB_USER}
-      KRAKEN_INFLUXDB_PASSWORD: ${KRAKEN_INFLUXDB_PASSWORD}
+      KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
 
-  kraken-gatling-runner:
+  kraken-gatling-debugger:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
-    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-runner_STARTING
-    networks:
-      - kraken
+    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-debugger_STARTING
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RUN
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling
+      com.kraken.taskType: DEBUG
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-debugger
       com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
-      KRAKEN_TASK_TYPE: RUN
+      KRAKEN_TASK_TYPE: DEBUG
       KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
       KRAKEN_GROUP_ID: local
       KRAKEN_GATLING_SIMULATION: ${KRAKEN_GATLING_SIMULATION}
       KRAKEN_GATLING_DESCRIPTION: ${KRAKEN_DESCRIPTION}
+      KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}

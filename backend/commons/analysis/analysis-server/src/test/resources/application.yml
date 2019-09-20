@@ -5,12 +5,12 @@ kraken:
   storage:
     url: http://localhost:8080
   grafana:
-    url: http://kraken-grafana-dev:3000
+    url: http://localhost:3000
     dashboard: grafana/grafana-gatling-dashboard.json
     user: admin
     password: kraken
   influxdb:
-    url: http://kraken-influxdb-dev:8086
+    url: http://localhost:8086
     user: admin
     password: kraken
     database: gatling
@@ -35,17 +35,3 @@ server:
   port: 8083
   error:
     include-stacktrace: always
-
----
-spring:
-  profiles: docker
-
-kraken:
-  analysis:
-    url: http://kraken-analysis:8081
-  storage:
-    url: http://kraken-storage:8080
-  grafana:
-    url: http://kraken-grafana:3000
-  influxdb:
-    url: http://kraken-influxdb:8086

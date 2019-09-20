@@ -34,7 +34,7 @@ final class GatlingRecorder {
 
   @PostConstruct
   public void init() {
-    final var setStatusStarting = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STARTING);
+    final var setStatusPreparing = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.PREPARING);
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
     final var downloadHAR = storageClient.downloadFile(gatlingExecutionProperties.getLocalHarPath(), gatlingExecutionProperties.getRemoteHarPath());
     final var setStatusReady = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
@@ -51,7 +51,7 @@ final class GatlingRecorder {
     final var uploadSimulation = storageClient.uploadFile(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
-    setStatusStarting.map(Object::toString).subscribe(log::info);
+    setStatusPreparing.map(Object::toString).subscribe(log::info);
     downloadConfiguration.subscribe();
     downloadHAR.subscribe();
     setStatusReady.map(Object::toString).subscribe(log::info);

@@ -2,12 +2,13 @@ version: '3.5'
 
 networks:
   kraken:
-    name: "kraken"
+    name: ${KRAKEN_DOCKER_NETWORK_NAME}
+    external: ${KRAKEN_DOCKER_NETWORK_EXTERNAL}
 
 services:
   kraken-gatling-log-parser:
     image: octoperf/kraken-ee-gatling-log-parser:${KRAKEN_VERSION}
-    container_name: kraken-gatling-log-parser_STARTING
+    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-log-parser_STARTING
     networks:
       - kraken
     labels:
@@ -27,7 +28,7 @@ services:
 
   kraken-gatling-debugger:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
-    container_name: kraken-gatling-debugger_STARTING
+    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-debugger_STARTING
     networks:
       - kraken
     labels:

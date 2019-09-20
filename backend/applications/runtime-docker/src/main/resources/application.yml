@@ -2,7 +2,7 @@ kraken:
   docker:
     watch-tasks-delay: 2000
     containers-count:
-      run: 1
+      run: 2
       debug: 2
       record: 2
   influxdb:
@@ -36,7 +36,7 @@ spring:
   profiles: dev
 
 kraken:
-  data: defaultData/
+  data: devData/
   storage:
     url: http://localhost:8080
   analysis:

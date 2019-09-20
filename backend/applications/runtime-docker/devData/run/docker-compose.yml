@@ -1,16 +1,10 @@
 version: '3.5'
 
-networks:
-  kraken:
-    name: ${KRAKEN_DOCKER_NETWORK_NAME}
-    external: ${KRAKEN_DOCKER_NETWORK_EXTERNAL}
-
 services:
   kraken-gatling-telegraf:
     image: octoperf/kraken-telegraf:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-kraken-telegraf_STARTING
-    networks:
-      - kraken
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RUN
@@ -32,8 +26,7 @@ services:
   kraken-gatling-runner:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-kraken-gatling-runner_STARTING
-    networks:
-      - kraken
+    network_mode: host
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RUN

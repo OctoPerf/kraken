@@ -41,9 +41,9 @@ kraken:
   storage:
     url: http://localhost:8080
   grafana:
-    url: http://kraken-grafana-dev:3000
+    url: http://localhost:3000
   influxdb:
-    url: http://kraken-influxdb-dev:8086
+    url: http://localhost:8086
 
 ---
 spring:
