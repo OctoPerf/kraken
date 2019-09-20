@@ -20,6 +20,6 @@ final class TaskTypeToPath implements Function<TaskType, String> {
 
   @Override
   public String apply(TaskType taskType) {
-    return this.applicationProperties.getData().resolve(taskType.toString().toLowerCase()).toString();
+    return this.applicationProperties.getData().resolve(taskType.toString()).toString();
   }
 }
