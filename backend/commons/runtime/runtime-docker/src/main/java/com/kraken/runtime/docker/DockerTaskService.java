@@ -61,8 +61,10 @@ final class DockerTaskService implements TaskService {
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
+            "--no-ansi",
             "up",
-            "-d"))
+            "-d",
+            "--no-color"))
         .environment(env)
         .build();
 
@@ -83,6 +85,7 @@ final class DockerTaskService implements TaskService {
     final var command = Command.builder()
         .path(taskTypeToPath.apply(task.getType()))
         .command(Arrays.asList("docker-compose",
+            "--no-ansi",
             "down"))
         .environment(ImmutableMap.of())
         .build();

@@ -7,7 +7,7 @@ networks:
 services:
   kraken-har-parser:
     image: octoperf/kraken-ee-har-parser:${KRAKEN_VERSION}
-    container_name: kraken-har-parser
+    container_name: kraken-har-parser_STARTING
     networks:
       - kraken
     labels:
@@ -28,7 +28,7 @@ services:
 
   kraken-gatling-recorder:
     image: octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}
-    container_name: kraken-gatling-recorder
+    container_name: kraken-gatling-recorder_STARTING
     networks:
       - kraken
     labels:

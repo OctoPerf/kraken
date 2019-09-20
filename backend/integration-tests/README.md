@@ -210,7 +210,7 @@ resultId
 ### RUN Test
 
 ```bash
-curl -d '{"KRAKEN_DESCRIPTION": "description"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
+curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
 ```
 
 ```
@@ -252,3 +252,6 @@ curl http://localhost:8080/files/get/json?path=gatling/results/e4aff6e2-a3ff-483
   "type": "DEBUG"
 }
 ```
+### Watch logs
+
+Open [http://localhost:8082/runtime/watch/shell](http://localhost:8082/runtime/watch/shell) in a web browser.

@@ -3,8 +3,8 @@
 Add the following lines to `/etc/hosts` before launching the `up.sh` script:
 
 ```bash
-kraken-grafana-dev	localhost
-kraken-influxdb-dev	localhost
+127.0.0.1 	kraken-grafana-dev
+127.0.0.1	kraken-influxdb-dev
 ```
 
 # InfluxDB

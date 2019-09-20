@@ -54,5 +54,4 @@ final class ZtCommandService implements CommandService {
         .map(stringCleaner);
   }
 
-
 }
