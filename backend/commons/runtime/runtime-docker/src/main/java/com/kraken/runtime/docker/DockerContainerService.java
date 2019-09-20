@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -67,7 +69,10 @@ final class DockerContainerService implements ContainerService {
               containerStatusToName.apply(container.getName(), status)))
           .environment(ImmutableMap.of())
           .build();
-      return commandService.execute(command).collectList().map(list -> container.withStatus(status));
+      return logsService.concat(commandService.execute(command)).collectList().map(list -> {
+        log.info(String.join("\n", list));
+        return container.withStatus(status);
+      });
     });
   }
 

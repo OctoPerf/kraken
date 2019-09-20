@@ -8,13 +8,13 @@ services:
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-log-parser
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-har-parser
       com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD
-      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
+      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-har-parser
       KRAKEN_GROUP_ID: local
       KRAKEN_GATLING_HAR_PATH_REMOTE: ${KRAKEN_GATLING_HAR_PATH_REMOTE}
       KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
@@ -28,13 +28,13 @@ services:
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-log-parser
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-recorder
       com.kraken.groupId: local
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD
-      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-telegraf
+      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-gatling-recorder
       KRAKEN_GROUP_ID: local
       KRAKEN_GATLING_SIMULATION_CLASS: ${KRAKEN_GATLING_SIMULATION_CLASS}
       KRAKEN_GATLING_SIMULATION_PACKAGE: ${KRAKEN_GATLING_SIMULATION_PACKAGE}

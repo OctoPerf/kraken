@@ -2,7 +2,8 @@ kraken:
   docker:
     watch-tasks-delay: 2000
     containers-count:
-      run: 2
+#      run: 2
+      run: 1
       debug: 2
       record: 2
   influxdb:
