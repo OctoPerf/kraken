@@ -207,8 +207,10 @@ resultId
 
 ## Start a Task
 
+### RUN Test
+
 ```bash
-curl -d '{"description": "description"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
+curl -d '{"KRAKEN_DESCRIPTION": "description"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
 ```
 
 ```

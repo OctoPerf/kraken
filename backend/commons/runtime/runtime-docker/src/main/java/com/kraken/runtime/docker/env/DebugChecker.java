@@ -12,13 +12,13 @@ class DebugChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
-    requireNonNull(environment.get("KRAKEN_VERSION"));
-    requireNonNull(environment.get("KRAKEN_GATLING_SIMULATION"));
-    requireNonNull(environment.get("KRAKEN_DESCRIPTION"));
-    requireNonNull(environment.get("KRAKEN_TASK_ID"));
-    requireNonNull(environment.get("KRAKEN_ANALYSIS_URL"));
-    requireNonNull(environment.get("KRAKEN_RUNTIME_URL"));
-    requireNonNull(environment.get("KRAKEN_STORAGE_URL"));
+    requireEnv(environment, "KRAKEN_VERSION",
+        "KRAKEN_GATLING_SIMULATION",
+        "KRAKEN_DESCRIPTION",
+        "KRAKEN_TASK_ID",
+        "KRAKEN_ANALYSIS_URL",
+        "KRAKEN_RUNTIME_URL",
+        "KRAKEN_STORAGE_URL");
   }
 
   @Override
