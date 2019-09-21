@@ -14,7 +14,7 @@ public class TaskTypeToPathTest {
   @Test
   public void shouldConvert(){
     final var path = toPath.apply(TaskType.RUN);
-    assertThat(path).isEqualTo("testDir/run");
+    assertThat(path).isEqualTo("testDir/RUN");
   }
 }
 

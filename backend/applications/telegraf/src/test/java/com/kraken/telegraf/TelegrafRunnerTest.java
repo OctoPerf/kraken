@@ -61,17 +61,17 @@ public class TelegrafRunnerTest {
   @Test
   public void shouldInit() {
     given(runtimeClient.setStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
-    given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
+//    given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
     given(runtimeClient.waitForPredicate(taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
 
     runner.init();
 
-    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
+//    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.READY);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
-    verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
+//    verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
     verify(runtimeClient).waitForPredicate(taskPredicate);
     assertThat(entries.build().size()).isBetween(14, 15);

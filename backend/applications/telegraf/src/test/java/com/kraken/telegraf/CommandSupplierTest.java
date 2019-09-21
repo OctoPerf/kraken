@@ -2,8 +2,14 @@ package com.kraken.telegraf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.testing.NullPointerTester;
+import com.kraken.influxdb.client.InfluxDBClientProperties;
+import com.kraken.influxdb.client.InfluxDBClientPropertiesTest;
 import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
 import com.kraken.runtime.command.Command;
+import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
+import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +18,12 @@ import org.springframework.boot.test.context.ConfigFileApplicationContextInitial
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {CommandSupplier.class, InfluxDBClientPropertiesTestConfiguration.class},
+    classes = {CommandSupplier.class, InfluxDBClientPropertiesTestConfiguration.class, RuntimeContainerPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class CommandSupplierTest {
 
@@ -27,12 +34,13 @@ public class CommandSupplierTest {
   public void shouldConvert() {
     assertThat(commandSupplier.get()).isEqualTo(Command.builder()
         .path(".")
-        .environment(ImmutableMap.of(
-            "INFLUXDB_URL", "influxdbUrl",
-            "INFLUXDB_DB", "influxdbDatabase",
-            "INFLUXDB_USER", "influxdbUser",
-            "INFLUXDB_USER_PASSWORD", "influxdbPassword"
-            )
+        .environment(ImmutableMap.<String, String>builder()
+            .put("INFLUXDB_URL", "influxdbUrl")
+            .put("INFLUXDB_DB", "influxdbDatabase")
+            .put("INFLUXDB_USER", "influxdbUser")
+            .put("INFLUXDB_USER_PASSWORD", "influxdbPassword")
+            .put("KRAKEN_TEST_ID", "taskId")
+            .build()
         )
         .command(ImmutableList.of("telegraf"))
         .build());
@@ -40,6 +48,9 @@ public class CommandSupplierTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassNPE(CommandSupplier.class);
+    new NullPointerTester()
+        .setDefault(RuntimeContainerProperties.class, RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES)
+        .setDefault(InfluxDBClientProperties.class, InfluxDBClientPropertiesTest.INFLUX_DB_CLIENT_PROPERTIES)
+        .testConstructors(CommandSupplier.class, PACKAGE);
   }
 }
