@@ -5,7 +5,7 @@ datasources:
   orgId: 1
   type: influxdb
   access: proxy
-  url: http://kraken-influxdb-dev:8086
+  url: http://localhost:8086
   database: analysis-server
   isDefault: false
   version: 1
@@ -17,7 +17,7 @@ datasources:
   orgId: 1
   type: influxdb
   access: proxy
-  url: http://kraken-influxdb-dev:8086
+  url: http://localhost:8086
   database: gatling
   isDefault: true
   version: 1
