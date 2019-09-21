@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-class RuntimeContainerConfiguration {
+class RuntimeContainerPropertiesConfiguration {
 
   @Autowired
   @Bean

@@ -11,9 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {RuntimeContainerConfiguration.class},
+    classes = {RuntimeContainerPropertiesConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class RuntimeContainerConfigurationTest {
+public class RuntimeContainerPropertiesConfigurationTest {
 
   @Autowired
   RuntimeContainerProperties  properties;

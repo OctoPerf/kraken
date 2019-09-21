@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {TaskPredicate.class, RuntimeContainerTestConfiguration.class},
+    classes = {TaskPredicate.class, RuntimeContainerPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class TaskPredicateTest {
 

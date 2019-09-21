@@ -1,6 +1,6 @@
 package com.kraken.runtime.gatling;
 
-import com.kraken.runtime.container.properties.RuntimeContainerTestConfiguration;
+import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressFBWarnings(value = {"DMI_HARDCODED_ABSOLUTE_FILENAME"}, justification = "It's just test values")
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {GatlingExecutionConfiguration.class, RuntimeContainerTestConfiguration.class},
+    classes = {GatlingExecutionConfiguration.class, RuntimeContainerPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class GatlingExecutionConfigurationTest {
 
