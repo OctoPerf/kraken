@@ -1,17 +1,25 @@
 package com.kraken.runtime.command;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
 
+import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -128,5 +136,45 @@ public class ZtCommandServiceTest {
     System.out.println(downResult);
     assertThat(downString).contains("Stopping");
 
+  }
+
+  @Test
+  public void shouldAwait() throws InterruptedException {
+    final var path = Paths.get("testDir/echo").toAbsolutePath().toString();
+    final var up = Command.builder()
+        .path(path)
+        .command(Arrays.asList("docker-compose", "up"))
+        .environment(ImmutableMap.of())
+        .build();
+    final var down = Command.builder()
+        .path(path)
+        .command(Arrays.asList("docker-compose", "down"))
+        .environment(ImmutableMap.of())
+        .build();
+
+    final var blocker = new CountDownLatch(1);
+    final var logsBuilder = ImmutableList.<String>builder();
+
+    final var upResult = service.execute(up)
+        .subscribeOn(Schedulers.elastic());
+
+    final var waiter = Mono.just("Done !")
+        .delayElement(Duration.ofSeconds(3))
+        .doFinally(signalType -> blocker.countDown());
+
+    upResult.takeUntilOther(waiter).subscribe(logsBuilder::add);
+
+    blocker.await();
+
+    service.execute(down).subscribe(logsBuilder::add);
+
+    final var logs = String.join("\n", logsBuilder.build());
+
+    System.out.println(logs);
+
+    assertThat(logs).contains("Creating the-dolphin");
+    assertThat(logs).contains("the-dolphin    | Kraken echo!");
+    assertThat(logs).contains("Stopping the-dolphin ... done");
+    assertThat(logs).contains("Removing the-dolphin ... done");
   }
 }
