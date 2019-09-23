@@ -66,7 +66,7 @@ final class DockerContainerService implements ContainerService {
           .command(Arrays.asList("docker",
               "rename",
               container.getId(),
-              containerStatusToName.apply(container.getName(), status)))
+              containerStatusToName.apply(container.getContainerId(), status)))
           .environment(ImmutableMap.of())
           .build();
       return logsService.concat(commandService.execute(command)).collectList().map(list -> {

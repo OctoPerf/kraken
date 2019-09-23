@@ -82,12 +82,15 @@ final class DockerTaskService implements TaskService {
 
     final var taskId = task.getId();
 
+    final var envBuilder = ImmutableMap.<String, String>builder();
+    envBuilder.put("KRAKEN_TASK_ID", taskId);
+
     final var command = Command.builder()
         .path(taskTypeToPath.apply(task.getType()))
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "down"))
-        .environment(ImmutableMap.of())
+        .environment(envBuilder.build())
         .build();
 
     return Mono.fromCallable(() -> {

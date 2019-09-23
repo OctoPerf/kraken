@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.ConfigFileApplicationContextInitial
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +40,7 @@ public class DockerTaskServiceIntegrationTest {
   @Before
   public void before() {
     final var up = Command.builder()
-        .path("./testDir")
+        .path(Paths.get("testDir").toAbsolutePath().toString())
         .command(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
@@ -49,7 +50,7 @@ public class DockerTaskServiceIntegrationTest {
   @After
   public void after() {
     final var down = Command.builder()
-        .path("./testDir")
+        .path(Paths.get("testDir").toAbsolutePath().toString())
         .command(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
@@ -76,6 +77,8 @@ public class DockerTaskServiceIntegrationTest {
     final var tasks = taskService.watch().take(dockerProperties.getWatchTasksDelay().plus(dockerProperties.getWatchTasksDelay()).plusMillis(100)).collectList().block();
     assertThat(tasks).isNotNull();
     assertThat(tasks.size()).isEqualTo(1);
+    assertThat(tasks.get(0)).isNotNull();
+    assertThat(tasks.get(0).size()).isEqualTo(2);
   }
 
 }

@@ -45,6 +45,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
 
     taskService.watch().filter(tasks -> tasks.size() > 0 && tasks.get(0).getStatus() == ContainerStatus.STARTING).next().block();
 
+    Thread.sleep(5000);
     final var task = taskService.list().next().block();
 
     assertThat(task).isNotNull();
@@ -63,9 +64,10 @@ public class DockerTaskServiceExecutionIntegrationTest {
 
     System.out.println(logs);
 
-    assertThat(logsString).containsIgnoringCase("Creating container-two_STARTING ... done");
-    assertThat(logsString).containsIgnoringCase("Creating container-one_STARTING ... done");
-    assertThat(logsString).containsIgnoringCase("Removing container-two_STARTING ... done");
-    assertThat(logsString).containsIgnoringCase("Removing container-one_STARTING ... done");
+    assertThat(logsString).containsIgnoringCase("Creating");
+    assertThat(logsString).containsIgnoringCase("Stopping");
+    assertThat(logsString).containsIgnoringCase("Removing");
+    assertThat(logsString).containsIgnoringCase("container-two_STARTING ... done");
+    assertThat(logsString).containsIgnoringCase("container-one_STARTING ... done");
   }
 }

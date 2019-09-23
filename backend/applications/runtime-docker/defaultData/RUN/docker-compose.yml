@@ -8,19 +8,20 @@ networks:
 services:
   kraken-gatling-telegraf:
     image: octoperf/kraken-telegraf:${KRAKEN_VERSION}
-    container_name: ${KRAKEN_TASK_ID}-kraken-telegraf_STARTING
+    container_name: ${KRAKEN_TASK_ID}-gatling-telegraf_STARTING
     networks:
       - kraken
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RUN
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-galing-telegraf
+      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-telegraf
       com.kraken.groupId: local
+      com.kraken.name: Telegraf
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN
-      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-galing-telegraf
+      KRAKEN_CONTAINER_ID: ${KRAKEN_TASK_ID}-gatling-telegraf
       KRAKEN_GROUP_ID: local
       KRAKEN_INFLUXDB_URL: ${KRAKEN_INFLUXDB_URL}
       KRAKEN_INFLUXDB_DATABASE: ${KRAKEN_INFLUXDB_DATABASE}
@@ -31,7 +32,7 @@ services:
 
   kraken-gatling-runner:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
-    container_name: ${KRAKEN_TASK_ID}-kraken-gatling-runner_STARTING
+    container_name: ${KRAKEN_TASK_ID}-gatling-runner_STARTING
     networks:
       - kraken
     labels:
@@ -39,6 +40,7 @@ services:
       com.kraken.taskType: RUN
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-runner
       com.kraken.groupId: local
+      com.kraken.name: Gatling Runner
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}

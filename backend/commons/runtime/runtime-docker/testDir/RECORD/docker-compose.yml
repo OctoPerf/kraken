@@ -8,11 +8,12 @@ services:
   kraken-container-one:
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: "RECORD"
+      com.kraken.taskType: RECORD
       com.kraken.containerId: ${KRAKEN_TASK_ID}-container-one
-      com.kraken.groupId: "groupId"
+      com.kraken.groupId: groupId
+      com.kraken.name: Container One
       com.kraken.description: ${KRAKEN_DESCRIPTION}
-    container_name: "container-one_STARTING"
+    container_name: ${KRAKEN_TASK_ID}-container-one_STARTING
     image: ${KRAKEN_IMAGE}
     networks:
       - kraken
@@ -20,11 +21,12 @@ services:
   kraken-container-two:
     labels:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: "RECORD"
+      com.kraken.taskType: RECORD
       com.kraken.containerId: ${KRAKEN_TASK_ID}-container-two
-      com.kraken.groupId: "groupId"
+      com.kraken.groupId: groupId
+      com.kraken.name: Container Two
       com.kraken.description: ${KRAKEN_DESCRIPTION}
-    container_name: "container-two_STARTING"
+    container_name: ${KRAKEN_TASK_ID}-container-two_STARTING
     image: ${KRAKEN_IMAGE}
     networks:
       - kraken

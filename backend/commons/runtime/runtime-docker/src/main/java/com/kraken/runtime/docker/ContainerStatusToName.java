@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 @Component
 final class ContainerStatusToName implements BiFunction<String, ContainerStatus, String> {
   @Override
-  public String apply(final String name, final ContainerStatus containerStatus) {
-    return String.format("%s_%s", name.replaceAll("_", "-"), containerStatus);
+  public String apply(final String id, final ContainerStatus containerStatus) {
+    return String.format("%s_%s", id, containerStatus);
   }
 }

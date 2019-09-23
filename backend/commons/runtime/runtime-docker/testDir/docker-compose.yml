@@ -7,36 +7,39 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken.taskId: "taskId"
-      com.kraken.taskType: "DEBUG"
-      com.kraken.containerId: "containerOneId"
-      com.kraken.groupId: "groupId"
-      com.kraken.description: "Debug Task"
-    container_name: "container-one_READY"
+      com.kraken.taskId: taskId
+      com.kraken.taskType: DEBUG
+      com.kraken.containerId: containerOneId
+      com.kraken.groupId: groupId
+      com.kraken.name: Container One
+      com.kraken.description: Debug Task
+    container_name: containerOneId_READY
     image: nginx
     networks:
       - kraken
 
   kraken-container-two:
     labels:
-      com.kraken.taskId: "taskId"
-      com.kraken.taskType: "DEBUG"
-      com.kraken.containerId: "containerTwoId"
-      com.kraken.groupId: "groupId"
-      com.kraken.description: "Debug Task"
-    container_name: "container-two_DONE"
+      com.kraken.taskId: taskId
+      com.kraken.taskType: DEBUG
+      com.kraken.containerId: containerTwoId
+      com.kraken.groupId: groupId
+      com.kraken.name: Container Two
+      com.kraken.description: Debug Task
+    container_name: containerTwoId_DONE
     image: nginx
     networks:
       - kraken
 
   kraken-container-three:
     labels:
-      com.kraken.taskId: "taskIdBis"
-      com.kraken.taskType: "RUN"
-      com.kraken.containerId: "containerThreeId"
-      com.kraken.groupId: "groupId"
-      com.kraken.description: "Run Task"
-    container_name: "container-three_STARTING"
-    image: "octoperf/kraken-echo:latest"
+      com.kraken.taskId: taskIdBis
+      com.kraken.taskType: RUN
+      com.kraken.containerId: containerThreeId
+      com.kraken.groupId: groupId
+      com.kraken.name: Container Three
+      com.kraken.description: Run Task
+    container_name: containerThreeId_STARTING
+    image: octoperf/kraken-echo:latest
     networks:
       - kraken
