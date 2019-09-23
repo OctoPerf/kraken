@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
-import com.kraken.tools.configuration.properties.ApplicationProperties;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.tools.configuration.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
-import org.zeroturnaround.zip.ZipUtil;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,7 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageNode> list() {
     try {
-      return fromStream(Files.walk(applicationProperties.getData()).map(toStorageNode::apply)).filter(StorageNode::notRoot);
+      return fromStream(Files.walk(applicationProperties.getData()).map(toStorageNode)).filter(StorageNode::notRoot);
     } catch (Exception e) {
       return error(e);
     }
@@ -107,7 +108,6 @@ final class FileSystemStorageService implements StorageService {
             checkArgument(!filename.contains(".."), "Cannot store file with relative path outside current directory "
                 + filename);
             final var currentPath = this.stringToPath(path);
-            final var filePath = currentPath.resolve(filename);
             final var tmp = Files.createTempDirectory(UUID.randomUUID().toString());
             final var zipPath = tmp.resolve(filename);
             part.transferTo(zipPath).block();
@@ -140,6 +140,10 @@ final class FileSystemStorageService implements StorageService {
   public Mono<StorageNode> setContent(final String path, final String content) {
     return fromCallable(() -> {
       final var completePath = this.stringToPath(path);
+      final var parent = completePath.getParent().toFile();
+      if (!parent.exists() && !parent.mkdirs()) {
+        throw new IOException("Failed to create directory " + path);
+      }
       Files.write(completePath, content.getBytes(UTF_8));
       return this.toStorageNode.apply(completePath);
     });
@@ -171,7 +175,7 @@ final class FileSystemStorageService implements StorageService {
           maxDepth,
           (path, basicFileAttributes) -> path.toFile().getName().matches(matcher)
       );
-      return Flux.fromStream(stream.filter(path -> !path.equals(completePath))).map(this.toStorageNode::apply);
+      return Flux.fromStream(stream.filter(path -> !path.equals(completePath))).map(this.toStorageNode);
     } catch (IOException e) {
       return Flux.error(e);
     }
@@ -250,7 +254,7 @@ final class FileSystemStorageService implements StorageService {
               return operation.apply(path, destPath.resolve(name));
             })
             .map(Mono::block))
-        .map(toStorageNode::apply);
+        .map(toStorageNode);
   }
 
   private InputStream downloadFolderZip(final Path path) throws IOException {
