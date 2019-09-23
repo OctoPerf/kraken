@@ -2,6 +2,7 @@ package com.kraken.runtime.command;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.kraken.tools.reactor.utils.ReactorUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
+import static com.kraken.tools.reactor.utils.ReactorUtils.waitFor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -152,19 +154,9 @@ public class ZtCommandServiceTest {
         .environment(ImmutableMap.of())
         .build();
 
-    final var blocker = new CountDownLatch(1);
     final var logsBuilder = ImmutableList.<String>builder();
 
-    final var upResult = service.execute(up)
-        .subscribeOn(Schedulers.elastic());
-
-    final var waiter = Mono.just("Done !")
-        .delayElement(Duration.ofSeconds(3))
-        .doFinally(signalType -> blocker.countDown());
-
-    upResult.takeUntilOther(waiter).subscribe(logsBuilder::add);
-
-    blocker.await();
+    waitFor(service.execute(up).doOnNext(logsBuilder::add), Mono.just("Done !"), Duration.ofSeconds(3));
 
     service.execute(down).subscribe(logsBuilder::add);
 

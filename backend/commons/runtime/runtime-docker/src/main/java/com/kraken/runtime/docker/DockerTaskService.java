@@ -44,6 +44,12 @@ final class DockerTaskService implements TaskService {
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
+
+    final var env = this.updateEnvironment(environment, taskId, taskType);
+    envCheckers.stream()
+        .filter(environmentChecker -> environmentChecker.test(taskType))
+        .forEach(environmentChecker -> environmentChecker.accept(env));
+
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
@@ -51,7 +57,7 @@ final class DockerTaskService implements TaskService {
             "up",
             "-d",
             "--no-color"))
-        .environment(this.updateEnvironment(environment, taskId, taskType))
+        .environment(env)
         .build();
 
     return Mono.fromCallable(() -> {
@@ -119,13 +125,7 @@ final class DockerTaskService implements TaskService {
         .filter(environmentPublisher -> environmentPublisher.test(taskType))
         .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));
 
-    // Check that the env is OK
-    final var env = envBuilder.build();
-    envCheckers.stream()
-        .filter(environmentChecker -> environmentChecker.test(taskType))
-        .forEach(environmentChecker -> environmentChecker.accept(env));
-
-    return env;
+    return envBuilder.build();
   }
 
 }

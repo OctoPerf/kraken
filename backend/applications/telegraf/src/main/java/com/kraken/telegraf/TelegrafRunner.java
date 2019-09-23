@@ -6,6 +6,7 @@ import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.Task;
+import com.kraken.tools.reactor.utils.ReactorUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -17,6 +18,8 @@ import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import static com.kraken.tools.reactor.utils.ReactorUtils.waitFor;
 
 @Slf4j
 @Component
@@ -31,15 +34,13 @@ final class TelegrafRunner {
   @NonNull Predicate<Task> taskPredicate;
 
   @PostConstruct
-  public void init() {
+  public void init() throws InterruptedException {
     final var setStatusRunning = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
     final var startTelegraf = commandService.execute(commandSupplier.get()).doOnNext(log::info);
-    final var waitForGatlingStopping = runtimeClient.waitForPredicate(taskPredicate).delayElement(Duration.ofSeconds(5));
-    final var sendMetricsUntilTestDone = startTelegraf.takeUntilOther(waitForGatlingStopping);
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusRunning.map(Object::toString).subscribe(log::info);
-    sendMetricsUntilTestDone.blockLast();
+    waitFor(startTelegraf, runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(5));
     setStatusDone.map(Object::toString).subscribe(log::info);
   }
 
