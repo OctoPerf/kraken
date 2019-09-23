@@ -42,9 +42,14 @@ class RuntimeWebClient implements RuntimeClient {
         });
 
     return flux
-        .map(tasks -> tasks.stream().filter(predicate).findAny())
+        .doOnSubscribe(subscription -> log.info("Wait for predicate"))
+        .map((List<Task> tasks) -> {
+          log.info(String.format("Tasks found: %s", tasks.toString()));
+          return tasks.stream().filter(predicate).findAny();
+        })
         .filter(Optional::isPresent)
         .map(Optional::get)
+        .doOnNext(task -> log.info(String.format("Matching task found: %s", task)))
         .next();
   }
 

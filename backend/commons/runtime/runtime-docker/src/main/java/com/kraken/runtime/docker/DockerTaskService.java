@@ -44,20 +44,6 @@ final class DockerTaskService implements TaskService {
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
-    // Update the env variable with all useful key/values
-    final var envBuilder = ImmutableMap.<String, String>builder();
-    envBuilder.putAll(environment);
-    envBuilder.put("KRAKEN_TASK_ID", taskId);
-    envPublishers.stream()
-        .filter(environmentPublisher -> environmentPublisher.test(taskType))
-        .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));
-
-    // Check that the env is OK
-    final var env = envBuilder.build();
-    envCheckers.stream()
-        .filter(environmentChecker -> environmentChecker.test(taskType))
-        .forEach(environmentChecker -> environmentChecker.accept(env));
-
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
@@ -65,7 +51,7 @@ final class DockerTaskService implements TaskService {
             "up",
             "-d",
             "--no-color"))
-        .environment(env)
+        .environment(this.updateEnvironment(environment, taskId, taskType))
         .build();
 
     return Mono.fromCallable(() -> {
@@ -81,16 +67,14 @@ final class DockerTaskService implements TaskService {
                              final Task task) {
 
     final var taskId = task.getId();
-
-    final var envBuilder = ImmutableMap.<String, String>builder();
-    envBuilder.put("KRAKEN_TASK_ID", taskId);
+    final var taskType = task.getType();
 
     final var command = Command.builder()
-        .path(taskTypeToPath.apply(task.getType()))
+        .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "down"))
-        .environment(envBuilder.build())
+        .environment(this.updateEnvironment(ImmutableMap.of(), taskId, taskType))
         .build();
 
     return Mono.fromCallable(() -> {
@@ -124,6 +108,24 @@ final class DockerTaskService implements TaskService {
     return Flux.interval(dockerProperties.getWatchTasksDelay())
         .flatMap(aLong -> this.list().collectList())
         .distinctUntilChanged();
+  }
+
+  private Map<String, String> updateEnvironment(final Map<String, String> environment, final String taskId, final TaskType taskType) {
+    // Update the env variable with all useful key/values
+    final var envBuilder = ImmutableMap.<String, String>builder();
+    envBuilder.putAll(environment);
+    envBuilder.put("KRAKEN_TASK_ID", taskId);
+    envPublishers.stream()
+        .filter(environmentPublisher -> environmentPublisher.test(taskType))
+        .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));
+
+    // Check that the env is OK
+    final var env = envBuilder.build();
+    envCheckers.stream()
+        .filter(environmentChecker -> environmentChecker.test(taskType))
+        .forEach(environmentChecker -> environmentChecker.accept(env));
+
+    return env;
   }
 
 }
