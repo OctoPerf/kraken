@@ -29,7 +29,7 @@ services:
       KRAKEN_INFLUXDB_PASSWORD: ${KRAKEN_INFLUXDB_PASSWORD}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
-      JAVA_OPTS: -Dspring.profiles.active=docker
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
 
   kraken-gatling-runner:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}

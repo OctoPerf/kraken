@@ -21,6 +21,10 @@ services:
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
       JAVA_OPTS: "-Dspring.profiles.active=docker"
+    volumes:
+      - gatling-volume: /kraken/gatling
+    depends_on:
+      - kraken-gatling-debugger
 
   kraken-gatling-debugger:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
@@ -44,3 +48,8 @@ services:
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
       JAVA_OPTS: "-Dspring.profiles.active=docker"
+    volumes:
+      - gatling-volume: /kraken/gatling
+
+volumes:
+  gatling-volume:
