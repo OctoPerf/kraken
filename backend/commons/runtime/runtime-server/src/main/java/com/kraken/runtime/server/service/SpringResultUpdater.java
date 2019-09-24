@@ -40,8 +40,9 @@ final class SpringResultUpdater implements ResultUpdater {
   @PostConstruct
   public void start() {
     taskService.watch()
-        .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
         .flatMap(this::setResultsStatuses)
+        .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
+        .onErrorResume(throwable -> Mono.empty())
         .subscribe();
   }
 
