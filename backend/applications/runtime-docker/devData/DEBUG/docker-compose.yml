@@ -20,6 +20,7 @@ services:
       KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: -Dspring.profiles.active=dev
 
   kraken-gatling-debugger:
     image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
@@ -42,3 +43,4 @@ services:
       KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: "-Dspring.profiles.active=dev"

@@ -217,6 +217,12 @@ curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION": "com
 e4aff6e2-a3ff-483a-9e47-55febe2fd51d
 ```
 
+### DEBUG Test
+
+```bash
+curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG
+```
+
 ### List tasks
 
 ```bash

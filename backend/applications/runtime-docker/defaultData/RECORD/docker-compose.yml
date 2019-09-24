@@ -27,6 +27,7 @@ services:
       KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: -Dspring.profiles.active=docker
 
   kraken-gatling-recorder:
     image: octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}
@@ -51,3 +52,4 @@ services:
       KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
       KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
