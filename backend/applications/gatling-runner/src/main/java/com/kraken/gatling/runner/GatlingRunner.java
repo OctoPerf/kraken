@@ -17,8 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -61,7 +62,7 @@ final class GatlingRunner {
     downloadUserFiles.subscribe();
     setStatusReady.map(Object::toString).subscribe(log::info);
     waitForStatusReady.map(Object::toString).subscribe(log::info);
-    listFiles.subscribe(log::debug);
+    Optional.ofNullable(listFiles.collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
     setStatusRunning.map(Object::toString).subscribe(log::info);
     startGatling.subscribe(log::info);
     setStatusStopping.map(Object::toString).subscribe(log::info);

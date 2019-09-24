@@ -19,6 +19,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -69,7 +70,7 @@ public class ZtCommandServiceTest {
   }
 
   @Test
-  public void shouldCommandFail() throws InterruptedException {
+  public void shouldCommandFail() {
     final var command = Command.builder()
         .path(".")
         .command(Collections.singletonList("ca va fail !"))
@@ -81,7 +82,7 @@ public class ZtCommandServiceTest {
   }
 
   @Test
-  public void shouldRunDockerCommands() throws InterruptedException {
+  public void shouldRunDockerCommands() {
     final var up = Command.builder()
         .path("./testDir")
         .command(Arrays.asList("docker-compose", "up", "-d"))
@@ -168,5 +169,21 @@ public class ZtCommandServiceTest {
     assertThat(logs).contains("the-dolphin    | Kraken echo!");
     assertThat(logs).contains("Stopping the-dolphin ... done");
     assertThat(logs).contains("Removing the-dolphin ... done");
+  }
+
+  @Test
+  public void shouldCat() {
+    final var path = Paths.get("testDir/echo").toAbsolutePath().toString();
+    final var cat = Command.builder()
+        .path(path)
+        .command(Arrays.asList("cat", "docker-compose.yml"))
+        .environment(ImmutableMap.of())
+        .build();
+
+    final var logs = String.join("\n", Optional.ofNullable(service.execute(cat).collectList().block()).orElse(Collections.emptyList()));
+
+    System.out.println(logs);
+
+    assertThat(logs).contains("kraken");
   }
 }
