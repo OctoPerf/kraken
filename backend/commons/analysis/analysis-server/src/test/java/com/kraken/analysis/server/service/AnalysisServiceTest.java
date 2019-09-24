@@ -187,28 +187,28 @@ public class AnalysisServiceTest {
   public void shouldAddDebug() {
     final var debug = DebugEntryTest.DEBUG_ENTRY;
     final var debugEntry = debug.withRequestBodyFile("id-request.txt").withResponseBodyFile("id-response.txt");
-    given(storageClient.setContent("resultsRoot/resultId/id-request.txt", debug.getRequestBodyFile())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
-    given(storageClient.setContent("resultsRoot/resultId/id-response.txt", debug.getResponseBodyFile())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
-    given(storageClient.setJsonContent("resultsRoot/resultId/id.debug", debugEntry)).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+    given(storageClient.setContent("resultsRoot/resultId/debug/id-request.txt", debug.getRequestBodyFile())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+    given(storageClient.setContent("resultsRoot/resultId/debug/id-response.txt", debug.getResponseBodyFile())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+    given(storageClient.setJsonContent("resultsRoot/resultId/debug/id.debug", debugEntry)).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
 
     final var response = service.addDebug(debug).block();
     assertThat(response).isEqualTo(debugEntry);
 
-    verify(storageClient).setContent("resultsRoot/resultId/id-request.txt", debug.getRequestBodyFile());
-    verify(storageClient).setContent("resultsRoot/resultId/id-response.txt", debug.getResponseBodyFile());
-    verify(storageClient).setJsonContent("resultsRoot/resultId/id.debug", debugEntry);
+    verify(storageClient).setContent("resultsRoot/resultId/debug/id-request.txt", debug.getRequestBodyFile());
+    verify(storageClient).setContent("resultsRoot/resultId/debug/id-response.txt", debug.getResponseBodyFile());
+    verify(storageClient).setJsonContent("resultsRoot/resultId/debug/id.debug", debugEntry);
   }
 
   @Test
   public void shouldAddDebugNoFiles() {
     final var debug = DebugEntryTest.DEBUG_ENTRY.withRequestBodyFile("").withResponseBodyFile("");
-    given(storageClient.setJsonContent("resultsRoot/resultId/id.debug", debug)).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+    given(storageClient.setJsonContent("resultsRoot/resultId/debug/id.debug", debug)).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
 
     final var response = service.addDebug(debug).block();
     assertThat(response).isEqualTo(debug);
 
     verify(storageClient, never()).setContent(anyString(), anyString());
-    verify(storageClient).setJsonContent("resultsRoot/resultId/id.debug", debug);
+    verify(storageClient).setJsonContent("resultsRoot/resultId/debug/id.debug", debug);
   }
 
   @Test

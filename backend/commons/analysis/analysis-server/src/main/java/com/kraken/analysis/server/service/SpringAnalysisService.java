@@ -89,7 +89,7 @@ class SpringAnalysisService implements AnalysisService {
 
   @Override
   public Mono<DebugEntry> addDebug(final DebugEntry debug) {
-    final var outputFolder = properties.getResultPath(debug.getResultId());
+    final var outputFolder = properties.getResultPath(debug.getResultId()).resolve("debug");
 
     return Mono.just(debug)
         .flatMap(debugEntry -> {

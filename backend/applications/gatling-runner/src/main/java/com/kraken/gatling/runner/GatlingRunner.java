@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -48,7 +50,10 @@ final class GatlingRunner {
     final var startGatling = commandService.execute(commandSupplier.get());
     final var setStatusStopping = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
-    final var uploadResult = storageClient.uploadFile(gatlingExecutionProperties.getLocalResult(), gatlingExecutionProperties.getRemoteResult());
+    final var uploadResult = storageClient.uploadFile(
+        gatlingExecutionProperties.getLocalResult(),
+        gatlingExecutionProperties.getRemoteResult().map(s -> Paths.get(s).resolve("groups").resolve(containerProperties.getGroupId()).toString())
+    );
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusPreparing.map(Object::toString).subscribe(log::info);
