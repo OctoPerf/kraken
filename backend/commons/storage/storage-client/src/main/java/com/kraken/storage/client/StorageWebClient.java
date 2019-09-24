@@ -99,7 +99,7 @@ class StorageWebClient implements StorageClient {
   public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
     final Flux<DataBuffer> flux = this.getFile(Optional.of(remotePath));
     try {
-      return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile()).getChannel())
+      return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile(), false).getChannel())
           .map(DataBufferUtils::release)
           .then()
           .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath)));
