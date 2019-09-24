@@ -2199,7 +2199,7 @@
       },
       "id": 49,
       "panels": [],
-      "title": "Injector",
+      "title": "Injector: $injector",
       "type": "row"
     },
     {
@@ -2283,6 +2283,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -2435,6 +2441,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -2597,6 +2609,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -2729,6 +2747,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -2827,6 +2851,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -2971,6 +3001,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -3115,6 +3151,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -3259,6 +3301,12 @@
               "key": "test",
               "operator": "=~",
               "value": "/^$test$/"
+            },
+            {
+              "condition": "AND",
+              "key": "injector",
+              "operator": "=~",
+              "value": "/^$injector$/"
             }
           ]
         }
@@ -3315,9 +3363,7 @@
         "allValue": "",
         "current": {
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
         "datasource": "Gatling",
         "definition": "SHOW TAG VALUES ON \"gatling\" WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
@@ -3340,8 +3386,9 @@
       },
       {
         "current": {
-          "text": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
-          "value": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c"
+          "selected": true,
+          "text": "44fe487f-215e-46d1-a921-1370fd20ef8e",
+          "value": "44fe487f-215e-46d1-a921-1370fd20ef8e"
         },
         "hide": 2,
         "label": null,
@@ -3349,22 +3396,47 @@
         "options": [
           {
             "selected": true,
-            "text": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
-            "value": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c"
+            "text": "44fe487f-215e-46d1-a921-1370fd20ef8e",
+            "value": "44fe487f-215e-46d1-a921-1370fd20ef8e"
           }
         ],
-        "query": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
+        "query": "44fe487f-215e-46d1-a921-1370fd20ef8e",
         "skipUrlSync": false,
         "type": "constant"
+      },
+      {
+        "allValue": "",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Gatling",
+        "definition": "SHOW TAG VALUES ON \"gatling\" WITH KEY = \"injector\" WHERE  \"test\" =~ /^$test$/",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "injector",
+        "options": [],
+        "query": "SHOW TAG VALUES ON \"gatling\" WITH KEY = \"injector\" WHERE  \"test\" =~ /^$test$/",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
   "time": {
-    "from": "2019-03-22T10:01:00.000Z",
-    "to": "2019-03-22T10:02:49.486Z"
+    "from": "2019-09-24T09:01:35.099Z",
+    "to": "2019-09-24T09:02:25.169Z"
   },
   "timepicker": {
-    "hidden": false,
+    "hidden": true,
     "now": true,
     "refresh_intervals": [
       "1s",

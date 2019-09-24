@@ -4,6 +4,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-client')
     implementation project(':commons:runtime:runtime-container')
     implementation project(':commons:runtime:runtime-command')
+    implementation project(':commons:storage:storage-client')
     implementation project(':commons:tools:reactor-utils')
 
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')

@@ -12,6 +12,7 @@ import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.ContainerTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
+import com.kraken.storage.client.StorageClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -29,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,11 +42,15 @@ public class TelegrafRunnerTest {
   @Mock
   CommandService commandService;
   @Mock
+  StorageClient storageClient;
+  @Mock
   Supplier<Command> commandSupplier;
   @Mock
   Predicate<Task> taskPredicate;
-  ;
+
   RuntimeContainerProperties containerProperties;
+
+  TelegrafProperties telegrafProperties;
 
   TelegrafRunner runner;
 
@@ -51,10 +58,13 @@ public class TelegrafRunnerTest {
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+    telegrafProperties = TelegrafPropertiesTest.TELEGRAF_PROPERTIES;
     runner = new TelegrafRunner(
         runtimeClient,
         commandService,
+        storageClient,
         containerProperties,
+        telegrafProperties,
         commandSupplier,
         taskPredicate);
   }
@@ -65,9 +75,12 @@ public class TelegrafRunnerTest {
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
     given(runtimeClient.waitForPredicate(taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
+    given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
 
     runner.init();
 
+    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(storageClient).downloadFile(any(Path.class), any());
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
     verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
@@ -79,6 +92,7 @@ public class TelegrafRunnerTest {
   public void shouldPassTestUtils() {
     new NullPointerTester()
         .setDefault(RuntimeContainerProperties.class, containerProperties)
+        .setDefault(TelegrafProperties.class, telegrafProperties)
         .testConstructors(TelegrafRunner.class, PACKAGE);
   }
 }
