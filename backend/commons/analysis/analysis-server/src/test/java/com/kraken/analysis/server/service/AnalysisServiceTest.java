@@ -179,8 +179,10 @@ public class AnalysisServiceTest {
 
     given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
 
+    // No error thrown if Result status is already terminal
     StepVerifier.create(service.setStatus(resultId, ResultStatus.RUNNING))
-        .expectError();
+        .expectComplete()
+        .verify();
   }
 
   @Test

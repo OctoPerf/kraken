@@ -71,10 +71,8 @@ class SpringAnalysisService implements AnalysisService {
     final var resultPath = properties.getResultPath(resultId).resolve(RESULT_JSON).toString();
 
     return storageClient.getJsonContent(resultPath, Result.class)
+        .filter(result -> !result.getStatus().isTerminal())
         .flatMap(result -> {
-          if (result.getStatus().isTerminal()) {
-            return Mono.error(new IllegalArgumentException(String.format("Result %s is already in state %s and thus cannot be changed.", resultId, result.getStatus().toString())));
-          }
           if (result.getType().isDebug()) {
             return Mono.just(result);
           }
