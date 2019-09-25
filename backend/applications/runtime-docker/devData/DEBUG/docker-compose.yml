@@ -22,7 +22,12 @@ services:
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
       JAVA_OPTS: "-Dspring.profiles.active=docker"
     volumes:
-      - gatling-volume: /kraken/gatling
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
+        read_only: true
+        volume:
+          nocopy: true
     depends_on:
       - kraken-gatling-debugger
 
@@ -49,7 +54,10 @@ services:
       KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
       JAVA_OPTS: "-Dspring.profiles.active=docker"
     volumes:
-      - gatling-volume: /kraken/gatling
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
 
 volumes:
   gatling-volume:
+    name: ${KRAKEN_TASK_ID}-gatling-volume
