@@ -73,7 +73,8 @@ public class TelegrafRunnerTest {
   public void shouldInit() throws InterruptedException {
     given(runtimeClient.setStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
     final var entries = ImmutableList.builder();
-    given(commandService.execute(any(Command.class))).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
+    given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));
+    given(commandService.execute(CommandTest.SHELL_COMMAND)).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
     given(runtimeClient.waitForPredicate(taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
 
