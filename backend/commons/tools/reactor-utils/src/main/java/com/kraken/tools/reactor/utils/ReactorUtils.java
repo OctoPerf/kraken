@@ -17,7 +17,7 @@ public class ReactorUtils {
         .takeUntilOther(mono
             .delayElement(delay)
             .doFinally(signalType -> blocker.countDown()))
-        .subscribe();
+        .blockLast();
 
     blocker.await();
   }

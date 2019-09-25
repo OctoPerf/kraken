@@ -51,18 +51,18 @@ final class GatlingRecorder {
     final var uploadSimulation = storageClient.uploadFile(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString).subscribe(log::info);
-    downloadConfiguration.subscribe();
-    downloadHAR.subscribe();
-    setStatusReady.map(Object::toString).subscribe(log::info);
-    waitForStatusReady.map(Object::toString).subscribe(log::info);
-    listFiles.subscribe(log::debug);
-    setStatusRunning.map(Object::toString).subscribe(log::info);
-    startGatling.subscribe(log::info);
-    setStatusStopping.map(Object::toString).subscribe(log::info);
-    waitForStatusStopping.map(Object::toString).subscribe(log::info);
-    uploadSimulation.subscribe();
-    setStatusDone.map(Object::toString).subscribe(log::info);
+    setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
+    downloadConfiguration.block();
+    downloadHAR.block();
+    setStatusReady.map(Object::toString).doOnNext(log::info).block();
+    waitForStatusReady.map(Object::toString).doOnNext(log::info).block();
+    listFiles.doOnNext(log::debug).blockLast();
+    setStatusRunning.map(Object::toString).doOnNext(log::info).block();
+    startGatling.doOnNext(log::info).blockLast();
+    setStatusStopping.map(Object::toString).doOnNext(log::info).block();
+    waitForStatusStopping.map(Object::toString).doOnNext(log::info).block();
+    uploadSimulation.block();
+    setStatusDone.map(Object::toString).doOnNext(log::info).block();
   }
 
 }

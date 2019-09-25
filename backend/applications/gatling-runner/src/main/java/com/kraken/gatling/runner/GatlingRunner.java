@@ -57,18 +57,18 @@ final class GatlingRunner {
     );
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString).subscribe(log::info);
-    downloadConfiguration.subscribe();
-    downloadUserFiles.subscribe();
-    setStatusReady.map(Object::toString).subscribe(log::info);
-    waitForStatusReady.map(Object::toString).subscribe(log::info);
+    setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
+    downloadConfiguration.block();
+    downloadUserFiles.block();
+    setStatusReady.map(Object::toString).doOnNext(log::info).block();
+    waitForStatusReady.map(Object::toString).doOnNext(log::info).block();
     Optional.ofNullable(listFiles.collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    setStatusRunning.map(Object::toString).subscribe(log::info);
-    startGatling.subscribe(log::info);
-    setStatusStopping.map(Object::toString).subscribe(log::info);
-    waitForStatusStopping.map(Object::toString).subscribe(log::info);
-    uploadResult.subscribe();
-    setStatusDone.map(Object::toString).subscribe(log::info);
+    setStatusRunning.map(Object::toString).doOnNext(log::info).block();
+    startGatling.doOnNext(log::info).blockLast();
+    setStatusStopping.map(Object::toString).doOnNext(log::info).block();
+    waitForStatusStopping.map(Object::toString).doOnNext(log::info).block();
+    uploadResult.block();
+    setStatusDone.map(Object::toString).doOnNext(log::info).block();
   }
 
 }

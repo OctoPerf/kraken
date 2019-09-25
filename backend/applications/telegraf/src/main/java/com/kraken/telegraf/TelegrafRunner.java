@@ -54,13 +54,13 @@ final class TelegrafRunner {
     final var startTelegraf = commandService.execute(commandSupplier.get()).doOnNext(log::info);
     final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString).subscribe(log::info);
-    downloadConfFile.subscribe();
+    setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
+    downloadConfFile.block();
     // Mandatory or the file is empty
     Optional.ofNullable(displayTelegrafConf.collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    setStatusRunning.map(Object::toString).subscribe(log::info);
+    setStatusRunning.map(Object::toString).doOnNext(log::info).block();
     waitFor(startTelegraf, runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(5));
-    setStatusDone.map(Object::toString).subscribe(log::info);
+    setStatusDone.map(Object::toString).doOnNext(log::info).block();
   }
 
 }
