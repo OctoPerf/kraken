@@ -1,4 +1,4 @@
-package com.kraken.runtime.docker.properties;
+package com.kraken.runtime.kubernetes.properties;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -10,15 +10,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {DockerPropertiesConfiguration.class},
+    classes = {KubernetesPropertiesConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class DockerPropertiesConfigurationTest {
+public class KubernetesPropertiesConfigurationTest {
 
   @Autowired
-  DockerProperties dockerProperties;
+  KubernetesProperties k8sProperties;
 
   @Test
   public void shouldCreateProperties() {
-    Assertions.assertThat(dockerProperties.getWatchTasksDelay()).isNotNull();
+    Assertions.assertThat(k8sProperties.getNamespace()).isNotNull();
   }
 }

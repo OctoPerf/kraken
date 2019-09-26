@@ -2,6 +2,7 @@ package com.kraken.runtime.kubernetes;
 
 import io.kubernetes.client.ApiClient;
 import io.kubernetes.client.apis.CoreV1Api;
+import io.kubernetes.client.apis.ExtensionsV1beta1Api;
 import io.kubernetes.client.util.ClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,14 @@ public class K8SClientConfiguration {
 
   @Autowired
   @Bean
-  CoreV1Api api(final ApiClient client) throws IOException {
+  CoreV1Api coreApi(final ApiClient client) throws IOException {
     return new CoreV1Api(client);
   }
+
+  @Autowired
+  @Bean
+  ExtensionsV1beta1Api extApi(final ApiClient client) throws IOException {
+    return new ExtensionsV1beta1Api(client);
+  }
+
 }

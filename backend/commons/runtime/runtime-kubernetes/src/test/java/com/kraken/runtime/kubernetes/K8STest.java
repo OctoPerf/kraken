@@ -5,6 +5,7 @@ import io.kubernetes.client.ApiClient;
 import io.kubernetes.client.ApiException;
 import io.kubernetes.client.Configuration;
 import io.kubernetes.client.apis.CoreV1Api;
+import io.kubernetes.client.apis.ExtensionsV1beta1Api;
 import io.kubernetes.client.models.V1Namespace;
 import io.kubernetes.client.models.V1Pod;
 import io.kubernetes.client.models.V1PodList;
@@ -34,6 +35,9 @@ public class K8STest {
 
   @Autowired
   ApiClient client;
+
+  @Autowired
+  ExtensionsV1beta1Api extApi;
 
   @Test
   public void shouldListPods() throws ApiException {

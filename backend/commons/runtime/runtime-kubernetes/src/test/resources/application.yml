@@ -1,0 +1,3 @@
+kraken:
+  k8s:
+    namespace: kraken
