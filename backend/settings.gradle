@@ -91,4 +91,6 @@ include 'applications:gatling-recorder'
 findProject(':applications:gatling-recorder')?.name = 'app-gatling-recorder'
 include 'applications:ee:har-parser'
 findProject(':applications:ee:har-parser')?.name = 'app-har-parser'
+include 'commons:runtime:runtime-kubernetes'
+findProject(':commons:runtime:runtime-kubernetes')?.name = 'runtime-kubernetes'
 

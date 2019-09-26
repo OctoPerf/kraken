@@ -1,4 +1,4 @@
-package com.kraken.commons.kubernetes.java;
+package com.kraken.runtime.kubernetes;
 
 import io.kubernetes.client.ApiClient;
 import io.kubernetes.client.apis.CoreV1Api;

@@ -1,4 +1,4 @@
-package com.kraken.commons.kubernetes.java;
+package com.kraken.runtime.kubernetes;
 
 import com.google.gson.reflect.TypeToken;
 import io.kubernetes.client.ApiClient;
