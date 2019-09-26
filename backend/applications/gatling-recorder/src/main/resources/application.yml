@@ -14,6 +14,8 @@ kraken:
       log:
         info: ${kraken.gatling.result.local}/info.log
         debug: ${kraken.gatling.result.local}/debug.log
+    har-path:
+      local: ${kraken.gatling.home}/import.har
 
 logging:
   level:

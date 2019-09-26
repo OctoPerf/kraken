@@ -29,7 +29,7 @@ final class CommandSupplier implements Supplier<Command> {
             "KRAKEN_GATLING_RESULT_DEBUG_LOG", gatlingExecutionProperties.getDebugLog().toString())
         )
         .command(ImmutableList.of(
-            "./gatling.sh",
+            "./recorder.sh",
             "--headless", "true",
             "--mode", "Har",
             "--har-file", gatlingExecutionProperties.getLocalHarPath().toString(),

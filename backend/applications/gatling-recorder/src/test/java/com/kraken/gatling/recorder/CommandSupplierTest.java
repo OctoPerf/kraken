@@ -30,7 +30,7 @@ public class CommandSupplierTest {
         .environment(ImmutableMap.of("KRAKEN_GATLING_RESULT_INFO_LOG", "infoLog",
             "KRAKEN_GATLING_RESULT_DEBUG_LOG", "debugLog"))
         .command(of(
-            "./gatling.sh",
+            "./recorder.sh",
             "--headless", "true",
             "--mode", "Har",
             "--har-file", "localHarPath",

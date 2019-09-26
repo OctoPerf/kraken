@@ -223,6 +223,12 @@ e4aff6e2-a3ff-483a-9e47-55febe2fd51d
 curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/DEBUG
 ```
 
+### RECORD HAR
+
+```bash
+curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION_PACKAGE": "com.test", "KRAKEN_GATLING_SIMULATION_CLASS": "TestHar", "KRAKEN_GATLING_HAR_PATH_REMOTE": "hars/app.octoperf.com.har"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RECORD
+```
+
 ### List tasks
 
 ```bash
