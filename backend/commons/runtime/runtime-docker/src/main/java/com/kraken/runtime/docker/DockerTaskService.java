@@ -44,7 +44,6 @@ final class DockerTaskService implements TaskService {
                               final Map<String, String> environment) {
     final var taskId = UUID.randomUUID().toString();
 
-
     final var env = this.updateEnvironment(environment, taskId, taskType);
     envCheckers.stream()
         .filter(environmentChecker -> environmentChecker.test(taskType))
