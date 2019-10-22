@@ -15,6 +15,8 @@ public interface LogsService {
 
   Disposable push(String applicationId, String id, LogType type, Flux<String> logs);
 
+  Disposable push(Flux<Log> logFlux);
+
   void clear();
 
 }
