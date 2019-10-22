@@ -12,6 +12,7 @@ import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.tools.unique.id.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -37,12 +38,13 @@ final class DockerTaskService implements TaskService {
   @NonNull Function<TaskType, String> taskTypeToPath;
   @NonNull List<EnvironmentChecker> envCheckers;
   @NonNull List<EnvironmentPublisher> envPublishers;
+  @NonNull IdGenerator idGenerator;
 
   @Override
   public Mono<String> execute(final String applicationId,
                               final TaskType taskType,
                               final Map<String, String> environment) {
-    final var taskId = UUID.randomUUID().toString();
+    final var taskId = idGenerator.generate();
 
     final var env = this.updateEnvironment(environment, taskId, taskType);
     envCheckers.stream()
