@@ -8,20 +8,24 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import javax.validation.constraints.Pattern;
 
 @Slf4j
 @RestController()
 @RequestMapping("/container")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Validated
 public class ContainerController {
 
   @NonNull ContainerService service;
 
   @PostMapping("/logs/attach")
-  public Mono<Void> attachLogs(@RequestHeader("ApplicationId") final String applicationId,
+  public Mono<Void> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                @RequestBody() final Container container) {
     return service.attachLogs(applicationId, container);
   }

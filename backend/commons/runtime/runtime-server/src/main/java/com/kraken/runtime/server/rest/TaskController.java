@@ -11,10 +11,12 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import java.util.Map;
 @RequestMapping("/task")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Validated
 public class TaskController {
 
   @NonNull ResultUpdater resultUpdater;
@@ -30,7 +33,7 @@ public class TaskController {
   @NonNull SSEService sse;
 
   @PostMapping("/{type}")
-  public Mono<String> run(@RequestHeader("ApplicationId") final String applicationId,
+  public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @PathVariable("type") final TaskType type,
                           @RequestBody() final Map<String, String> environment) {
     log.info(String.format("Run task %s", type));
@@ -38,8 +41,8 @@ public class TaskController {
   }
 
   @PostMapping("/cancel")
-  public Mono<String> cancel(@RequestHeader("ApplicationId") final String applicationId,
-                           @RequestBody() final Task task) {
+  public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                             @RequestBody() final Task task) {
     log.info(String.format("Cancel task %s", task.getId()));
     return service.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
   }

@@ -25,6 +25,6 @@ public class IdGeneratorTest {
     final var id = idGenerator.generate();
     assertThat(id).isNotNull();
     assertThat(id.length()).isEqualTo(10);
-    assertThat(id).matches("\\p{Alnum}*");
+    assertThat(id).matches("[a-z0-9]*");
   }
 }

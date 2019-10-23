@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,8 @@ public class RuntimeControllerTest {
   }
 
   @Test
-  public void shouldAttachLogs() {
-    final var applicationId = "applicationId";
+  public void shouldWatch() {
+    final var applicationId = "test";
     final var logFlux = Flux.just(LogTest.LOG);
     final Flux<SSEWrapper> wrapperFlux = Flux.just(SSEWrapperTest.WRAPPER_STRING, SSEWrapperTest.WRAPPER_INT);
     final var eventsFlux = Flux.just(ServerSentEvent.builder(SSEWrapperTest.WRAPPER_STRING).build(), ServerSentEvent.builder(SSEWrapperTest.WRAPPER_INT).build());
@@ -80,6 +81,17 @@ public class RuntimeControllerTest {
         "\n" +
         "data:{\"type\":\"Integer\",\"value\":42}\n" +
         "\n");
+  }
+
+
+  @Test
+  public void shouldFailToWatch() {
+    final var applicationId = "applicationId"; // Should match [a-z0-9]*
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/runtime/watch").pathSegment(applicationId).build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .exchange()
+        .expectStatus().is5xxServerError();
   }
 
 }

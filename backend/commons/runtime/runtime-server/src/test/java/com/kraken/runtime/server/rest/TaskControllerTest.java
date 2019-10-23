@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
+import com.kraken.runtime.entity.ContainerTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
@@ -58,7 +59,7 @@ public class TaskControllerTest {
 
   @Test
   public void shouldRun() {
-    final var applicationId = "applicationId";
+    final var applicationId = "test";
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
     final var description = "Foo";
@@ -80,8 +81,23 @@ public class TaskControllerTest {
   }
 
   @Test
+  public void shouldFailToRun() {
+    final var applicationId = "applicationId"; // Should match [a-z0-9]*
+    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/task")
+            .pathSegment(TaskType.RUN.toString())
+            .queryParam("description", "description")
+            .build())
+        .header("ApplicationId", applicationId)
+        .body(BodyInserters.fromObject(env))
+        .exchange()
+        .expectStatus().is5xxServerError();
+  }
+
+  @Test
   public void shouldCancel() {
-    final var applicationId = "applicationId";
+    final var applicationId = "test";
     final var task = TaskTest.TASK;
     given(service.cancel(applicationId, task))
         .willReturn(Mono.just(task.getId()));
@@ -97,6 +113,18 @@ public class TaskControllerTest {
 
     verify(service).cancel(applicationId, task);
     verify(updater).taskCanceled(task.getId());
+  }
+
+  @Test
+  public void shouldFailToCancel() {
+    final var applicationId = "applicationId"; // Should match [a-z0-9]*
+    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    webTestClient.post()
+        .uri("/task/cancel")
+        .header("ApplicationId", applicationId)
+        .body(BodyInserters.fromObject(TaskTest.TASK))
+        .exchange()
+        .expectStatus().is5xxServerError();
   }
 
   @Test

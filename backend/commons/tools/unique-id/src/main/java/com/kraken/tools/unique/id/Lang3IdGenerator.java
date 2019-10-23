@@ -15,7 +15,7 @@ final class Lang3IdGenerator implements IdGenerator {
 
   @Override
   public String generate() {
-    return RandomStringUtils.randomAlphanumeric(this.length());
+    return RandomStringUtils.randomAlphanumeric(this.length()).toLowerCase();
   }
 
 }

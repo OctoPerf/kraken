@@ -43,8 +43,8 @@ final class DockerContainerService implements ContainerService {
             "-f", container.getId()))
         .environment(ImmutableMap.of())
         .build();
-    final var logs = logsService.concat(commandService.execute(command));
     return Mono.fromCallable(() -> {
+      final var logs = logsService.concat(commandService.execute(command));
       logsService.push(applicationId, container.getContainerId(), LogType.CONTAINER, logs);
       return null;
     });

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -39,7 +40,7 @@ public class ContainerControllerTest {
 
   @Test
   public void shouldAttachLogs() {
-    final var applicationId = "applicationId";
+    final var applicationId = "test";
     given(service.attachLogs(applicationId, ContainerTest.CONTAINER))
         .willReturn(Mono.fromCallable(() -> null));
 
@@ -51,6 +52,17 @@ public class ContainerControllerTest {
         .expectStatus().isOk();
 
     verify(service).attachLogs(applicationId, ContainerTest.CONTAINER);
+  }
+
+  @Test
+  public void shouldFailToAttachLogs() {
+    final var applicationId = "applicationId"; // Should match [a-z0-9]*
+    webTestClient.post()
+        .uri("/container/logs/attach")
+        .header("ApplicationId", applicationId)
+        .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
+        .exchange()
+        .expectStatus().is5xxServerError();
   }
 
   @Test

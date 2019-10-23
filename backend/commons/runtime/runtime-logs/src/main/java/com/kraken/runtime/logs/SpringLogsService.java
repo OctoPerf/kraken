@@ -80,12 +80,6 @@ final class SpringLogsService implements LogsService {
   }
 
   @Override
-  public Disposable push(final Flux<Log> logFlux) {
-//    TODO
-    return null;
-  }
-
-  @Override
   public void clear() {
     logs.clear();
     listeners.clear();
