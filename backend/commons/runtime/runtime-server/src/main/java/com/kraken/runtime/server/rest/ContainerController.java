@@ -36,8 +36,8 @@ public class ContainerController {
   }
 
   @PostMapping("/status/{status}")
-  public Mono<Container> setStatus(@RequestParam("containerId") final String containerId, @PathVariable("status") final ContainerStatus status) {
-    log.info(String.format("Set status %s for container %s", status, containerId));
-    return service.setStatus(containerId, status);
+  public Mono<Container> setStatus(@RequestParam("taskId") final String taskId, @RequestParam("containerId") final String containerId, @PathVariable("status") final ContainerStatus status) {
+    log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
+    return service.setStatus(taskId, containerId, status);
   }
 }

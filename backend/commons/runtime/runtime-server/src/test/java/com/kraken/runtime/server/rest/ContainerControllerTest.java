@@ -82,12 +82,13 @@ public class ContainerControllerTest {
   @Test
   public void shouldSetStatus() {
     final var container = ContainerTest.CONTAINER;
-    given(service.setStatus(container.getContainerId(), container.getStatus()))
+    given(service.setStatus(container.getTaskId(), container.getContainerId(), container.getStatus()))
         .willReturn(Mono.just(container));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
             .pathSegment(container.getStatus().toString())
+            .queryParam("taskId", container.getTaskId())
             .queryParam("containerId", container.getContainerId())
             .build())
         .exchange()
@@ -95,7 +96,7 @@ public class ContainerControllerTest {
         .expectBody(Container.class)
         .isEqualTo(container);
 
-    verify(service).setStatus(container.getContainerId(), container.getStatus());
+    verify(service).setStatus(container.getTaskId(), container.getContainerId(), container.getStatus());
   }
 
 }

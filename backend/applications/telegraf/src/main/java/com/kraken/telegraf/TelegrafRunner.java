@@ -43,16 +43,16 @@ final class TelegrafRunner {
 
   @PostConstruct
   public void init() throws InterruptedException {
-    final var setStatusPreparing = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    final var setStatusPreparing = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
     final var downloadConfFile = storageClient.downloadFile(telegrafProperties.getLocalConf(), telegrafProperties.getRemoteConf());
     final var displayTelegrafConf = commandService.execute(Command.builder()
         .path("/etc/telegraf")
         .environment(ImmutableMap.of())
         .command(ImmutableList.of("cat", "telegraf.conf"))
         .build());
-    final var setStatusRunning = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    final var setStatusRunning = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
     final var startTelegraf = commandService.execute(commandSupplier.get()).doOnNext(log::info);
-    final var setStatusDone = runtimeClient.setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
+    final var setStatusDone = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
     downloadConfFile.block();

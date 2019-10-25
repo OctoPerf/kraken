@@ -71,7 +71,7 @@ public class TelegrafRunnerTest {
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.setStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
+    given(runtimeClient.setStatus(anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));
     given(commandService.execute(CommandTest.SHELL_COMMAND)).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
@@ -80,10 +80,10 @@ public class TelegrafRunnerTest {
 
     runner.init();
 
-    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
     verify(storageClient).downloadFile(any(Path.class), any());
-    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(containerProperties.getContainerId(), ContainerStatus.DONE);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
     verify(runtimeClient).waitForPredicate(taskPredicate);
     assertThat(entries.build().size()).isBetween(14, 15);

@@ -9,6 +9,6 @@ public interface ContainerService {
 
   Mono<Void> detachLogs(Container container);
 
-  Mono<Container> setStatus(String containerId, ContainerStatus status);
+  Mono<Container> setStatus(String taskId, String containerId, ContainerStatus status);
 
 }

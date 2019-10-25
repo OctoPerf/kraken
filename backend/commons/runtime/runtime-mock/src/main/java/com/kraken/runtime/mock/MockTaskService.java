@@ -77,7 +77,7 @@ public class MockTaskService implements TaskService, ContainerService {
   }
 
   @Override
-  public Mono<Container> setStatus(String containerId, ContainerStatus status) {
+  public Mono<Container> setStatus(String taskId, String containerId, ContainerStatus status) {
     final var task = this.task.get();
 
     final var container = Container.builder()

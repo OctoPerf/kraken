@@ -43,7 +43,7 @@ public class DockerContainerServiceIntegrationTest {
   CommandService commandService;
 
   @Before
-  public void before(){
+  public void before() {
     final var up = Command.builder()
         .path("./testDir")
         .command(Arrays.asList("docker-compose", "up", "-d"))
@@ -53,7 +53,7 @@ public class DockerContainerServiceIntegrationTest {
   }
 
   @After
-  public void after(){
+  public void after() {
     final var down = Command.builder()
         .path("./testDir")
         .command(Arrays.asList("docker-compose", "down"))
@@ -91,7 +91,7 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldSetStatus() {
     final var containerId = "containerOneId";
-    final var container = containerService.setStatus(containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
+    final var container = containerService.setStatus("taskId", containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
 
     System.out.println(container);
     assertThat(container).isNotNull();

@@ -59,7 +59,7 @@ final class DockerContainerService implements ContainerService {
   }
 
   @Override
-  public Mono<Container> setStatus(final String containerId, final ContainerStatus status) {
+  public Mono<Container> setStatus(final String taskId, final String containerId, final ContainerStatus status) {
     return this.find(containerId).flatMap(container -> {
       final var command = Command.builder()
           .path(".")

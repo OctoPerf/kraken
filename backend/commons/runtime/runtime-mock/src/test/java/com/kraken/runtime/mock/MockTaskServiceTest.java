@@ -68,7 +68,7 @@ public class MockTaskServiceTest {
   @Test
   public void shouldSetStatus() {
     taskService.execute("applicationId", TaskType.RUN, ImmutableMap.of("KRAKEN_DESCRIPTION", "description"));
-    containerService.setStatus("containerId", ContainerStatus.READY).block();
+    containerService.setStatus("taskId", "containerId", ContainerStatus.READY).block();
     final var task = taskService.list().blockFirst();
     assertThat(task).isNotNull();
     assertThat(task.getStatus()).isEqualTo(ContainerStatus.READY);
