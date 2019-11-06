@@ -1,7 +1,9 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.Log;
+import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Test;
@@ -15,7 +17,6 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
