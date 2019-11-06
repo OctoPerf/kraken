@@ -67,6 +67,11 @@ public class MockTaskService implements TaskService, ContainerService {
   }
 
   @Override
+  public Mono<Integer> hostsCount() {
+    return Mono.just(1);
+  }
+
+  @Override
   public Mono<Void> attachLogs(String applicationId, Container container) {
     return Mono.fromCallable(() -> null);
   }

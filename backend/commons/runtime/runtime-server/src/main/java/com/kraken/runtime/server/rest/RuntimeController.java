@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 
 @Slf4j
@@ -35,6 +35,11 @@ public class RuntimeController {
 
   @NonNull
   SSEService sse;
+
+  @GetMapping(value = "/hosts/count")
+  public Mono<Integer> hostsCount() {
+    return taskService.hostsCount();
+  }
 
   @GetMapping(value = "/watch/{applicationId}")
   public Flux<ServerSentEvent<SSEWrapper>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {

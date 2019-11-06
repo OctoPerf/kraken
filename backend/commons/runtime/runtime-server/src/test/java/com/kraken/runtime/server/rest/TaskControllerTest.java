@@ -62,15 +62,16 @@ public class TaskControllerTest {
     final var applicationId = "test";
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
-    final var description = "Foo";
-    given(service.execute(applicationId, TaskType.RUN, env))
+    given(service.hostsCount())
+        .willReturn(Mono.just(42));
+    given(service.execute(applicationId, TaskType.RUN, 1, env))
         .willReturn(Mono.just(taskId));
     given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
             .pathSegment(TaskType.RUN.toString())
-            .queryParam("description", description)
+            .pathSegment("1")
             .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(env))
@@ -84,15 +85,42 @@ public class TaskControllerTest {
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    given(service.hostsCount())
+        .willReturn(Mono.just(42));
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
             .pathSegment(TaskType.RUN.toString())
+            .pathSegment("1")
             .queryParam("description", "description")
             .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(env))
         .exchange()
         .expectStatus().is5xxServerError();
+  }
+
+  @Test
+  public void shouldFailToRunCapacity() {
+    final var applicationId = "test";
+    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    final var taskId = "taskId";
+    given(service.hostsCount())
+        .willReturn(Mono.just(2));
+    given(service.execute(applicationId, TaskType.RUN, 3, env))
+        .willReturn(Mono.just(taskId));
+    given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
+
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/task")
+            .pathSegment(TaskType.RUN.toString())
+            .pathSegment("3")
+            .build())
+        .header("ApplicationId", applicationId)
+        .body(BodyInserters.fromObject(env))
+        .exchange()
+        .expectStatus().is5xxServerError()
+        .expectBody(String.class)
+        .value(s -> s.contains("Insufficient capacity (2) to run 3 replicas!"));
   }
 
   @Test
@@ -118,7 +146,6 @@ public class TaskControllerTest {
   @Test
   public void shouldFailToCancel() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     webTestClient.post()
         .uri("/task/cancel")
         .header("ApplicationId", applicationId)

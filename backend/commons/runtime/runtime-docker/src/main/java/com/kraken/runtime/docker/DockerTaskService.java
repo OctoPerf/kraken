@@ -117,6 +117,11 @@ final class DockerTaskService implements TaskService {
         .distinctUntilChanged();
   }
 
+  @Override
+  public Mono<Integer> hostsCount() {
+    return Mono.just(1);
+  }
+
   private Map<String, String> updateEnvironment(final Map<String, String> environment, final String taskId, final TaskType taskType) {
     // Update the env variable with all useful key/values
     final var envBuilder = ImmutableMap.<String, String>builder();

@@ -1,5 +1,6 @@
 package com.kraken.runtime.server.rest;
 
+import com.google.common.base.Preconditions;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Mono;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RestController()
@@ -32,12 +34,19 @@ public class TaskController {
   @NonNull TaskService service;
   @NonNull SSEService sse;
 
-  @PostMapping("/{type}")
+  @PostMapping("/{type}/{replicas}")
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @PathVariable("type") final TaskType type,
+                          @PathVariable("replicas") final Integer replicas,
                           @RequestBody() final Map<String, String> environment) {
     log.info(String.format("Run task %s", type));
-    return service.execute(applicationId, type, environment).flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
+    return service.hostsCount()
+        .map(hostsCount -> {
+          Preconditions.checkArgument(hostsCount >= replicas, String.format("Insufficient capacity (%d) to run %d replicas!", hostsCount, replicas));
+          return hostsCount;
+        })
+        .then(service.execute(applicationId, type, replicas, environment))
+        .flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
   }
 
   @PostMapping("/cancel")

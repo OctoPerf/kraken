@@ -12,6 +12,7 @@ public interface TaskService {
 
   Mono<String> execute(String applicationId,
                        TaskType taskType,
+                       Integer replicas,
                        Map<String, String> environment);
 
   Mono<String> cancel(String applicationId,
@@ -20,5 +21,7 @@ public interface TaskService {
   Flux<Task> list();
 
   Flux<List<Task>> watch();
+
+  Mono<Integer> hostsCount();
 
 }
