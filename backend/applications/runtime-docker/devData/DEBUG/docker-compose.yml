@@ -9,7 +9,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: DEBUG
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-log-parser
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: Gatling Logs Parser
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
@@ -39,7 +39,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: DEBUG
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-debugger
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: Gatling Runner
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:

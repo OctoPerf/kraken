@@ -15,7 +15,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD
       com.kraken.containerId: ${KRAKEN_TASK_ID}-har-parser
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: HAR Parser
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
@@ -38,7 +38,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RECORD
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-recorder
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: Gatling Recorder
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:

@@ -10,7 +10,7 @@ services:
       com.kraken.taskId: taskId
       com.kraken.taskType: DEBUG
       com.kraken.containerId: containerOneId
-      com.kraken.groupId: groupId
+      com.kraken.hostId: hostId
       com.kraken.name: Container One
       com.kraken.description: Debug Task
     container_name: containerOneId_READY
@@ -23,7 +23,7 @@ services:
       com.kraken.taskId: taskId
       com.kraken.taskType: DEBUG
       com.kraken.containerId: containerTwoId
-      com.kraken.groupId: groupId
+      com.kraken.hostId: hostId
       com.kraken.name: Container Two
       com.kraken.description: Debug Task
     container_name: containerTwoId_DONE
@@ -36,7 +36,7 @@ services:
       com.kraken.taskId: taskIdBis
       com.kraken.taskType: RUN
       com.kraken.containerId: containerThreeId
-      com.kraken.groupId: groupId
+      com.kraken.hostId: hostId
       com.kraken.name: Container Three
       com.kraken.description: Run Task
     container_name: containerThreeId_STARTING

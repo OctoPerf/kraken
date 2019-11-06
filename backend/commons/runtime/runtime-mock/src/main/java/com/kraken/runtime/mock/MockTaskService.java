@@ -83,7 +83,7 @@ public class MockTaskService implements TaskService, ContainerService {
     final var container = Container.builder()
         .id("id")
         .containerId(containerId)
-        .groupId("groupId")
+        .hostId("hostId")
         .taskId(task.getId())
         .taskType(task.getType())
         .name("name")

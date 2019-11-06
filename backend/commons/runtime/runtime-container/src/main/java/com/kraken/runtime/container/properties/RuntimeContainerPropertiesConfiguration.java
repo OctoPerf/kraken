@@ -17,7 +17,7 @@ class RuntimeContainerPropertiesConfiguration {
       @Value("${kraken.runtime.task.id:#{environment.KRAKEN_TASK_ID}}") final String taskId,
       @Value("${kraken.runtime.task.type:#{environment.KRAKEN_TASK_TYPE}}") final String taskType,
       @Value("${kraken.runtime.container.id:#{environment.KRAKEN_CONTAINER_ID}}") final String containerId,
-      @Value("${kraken.runtime.group.id:#{environment.KRAKEN_GROUP_ID}}") final String groupId) {
+      @Value("${kraken.runtime.host.id:#{environment.KRAKEN_HOST_ID}}") final String hostId) {
 
     log.info("Task ID is set to " + taskId);
     log.info("Container ID is set to " + containerId);
@@ -26,7 +26,7 @@ class RuntimeContainerPropertiesConfiguration {
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType.toUpperCase()))
         .containerId(containerId)
-        .groupId(groupId)
+        .hostId(hostId)
         .build();
   }
 

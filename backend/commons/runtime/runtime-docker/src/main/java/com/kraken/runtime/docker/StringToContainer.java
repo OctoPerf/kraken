@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Slf4j
 final class StringToContainer implements Function<String, Container> {
 
-  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.groupId\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.description\"}}";
+  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.hostId\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.description\"}}";
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
@@ -28,7 +28,7 @@ final class StringToContainer implements Function<String, Container> {
     final var taskId = split[3];
     final var taskType = split[4];
     final var containerId = split[5];
-    final var groupId = split[6];
+    final var hostId = split[6];
     final var name = split[7];
     final var description = split[8];
 
@@ -42,7 +42,7 @@ final class StringToContainer implements Function<String, Container> {
     return Container.builder()
         .id(id)
         .containerId(containerId)
-        .groupId(groupId)
+        .hostId(hostId)
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType))
         .name(name)

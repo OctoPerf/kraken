@@ -9,7 +9,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RUN
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-telegraf
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: Telegraf
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:
@@ -33,7 +33,7 @@ services:
       com.kraken.taskId: ${KRAKEN_TASK_ID}
       com.kraken.taskType: RUN
       com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-runner
-      com.kraken.groupId: local
+      com.kraken.hostId: local
       com.kraken.name: Gatling Runner
       com.kraken.description: ${KRAKEN_DESCRIPTION}
     environment:

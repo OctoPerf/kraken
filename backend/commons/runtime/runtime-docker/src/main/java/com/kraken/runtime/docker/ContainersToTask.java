@@ -37,7 +37,7 @@ final class ContainersToTask implements Function<GroupedFlux<String, Container>,
             .id("")
             .containerId("")
             .taskId(containersFlux.key())
-            .groupId("groupId")
+            .hostId("hostId")
             .taskType(taskType)
             .name("creating")
             .description(description)

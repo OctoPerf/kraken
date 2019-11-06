@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import lombok.experimental.Wither;
+import lombok.With;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 public class DebugEntry {
 
   String id;
-  @Wither
+  @With
   String resultId;
   Long date;
   String requestName;
@@ -24,11 +24,11 @@ public class DebugEntry {
   String requestUrl;
   List<HttpHeader> requestHeaders;
   List<String> requestCookies;
-  @Wither
+  @With
   String requestBodyFile;
   String responseStatus;
   List<HttpHeader> responseHeaders;
-  @Wither
+  @With
   String responseBodyFile;
 
   @JsonCreator

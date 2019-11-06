@@ -18,7 +18,7 @@ public class ContainersToTaskTest {
     final var container = Container.builder()
         .id("id")
         .containerId("containerId")
-        .groupId("groupId")
+        .hostId("hostId")
         .taskId("taskId")
         .taskType(TaskType.RUN)
         .name("name")

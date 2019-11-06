@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import lombok.experimental.Wither;
-
-import java.util.Optional;
+import lombok.With;
 
 import static java.util.Objects.requireNonNull;
 
@@ -15,9 +13,9 @@ import static java.util.Objects.requireNonNull;
 public class Result {
   String id;
   Long startDate;
-  @Wither
+  @With
   Long endDate;
-  @Wither
+  @With
   ResultStatus status;
   String description;
   ResultType type;
