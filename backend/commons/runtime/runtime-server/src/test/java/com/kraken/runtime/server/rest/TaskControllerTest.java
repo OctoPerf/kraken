@@ -30,6 +30,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -120,7 +121,7 @@ public class TaskControllerTest {
         .exchange()
         .expectStatus().is5xxServerError()
         .expectBody(String.class)
-        .value(s -> s.contains("Insufficient capacity (2) to run 3 replicas!"));
+        .value(s -> assertThat(s).contains("Insufficient capacity (2) to run 3 replicas!"));
   }
 
   @Test
@@ -185,7 +186,7 @@ public class TaskControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    Assertions.assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"}]\n" +
+    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"}]\n" +
         "\n" +
         "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"description\":\"description\"}]\n" +
         "\n");

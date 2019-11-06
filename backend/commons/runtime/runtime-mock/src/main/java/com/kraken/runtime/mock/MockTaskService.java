@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
@@ -30,7 +29,10 @@ public class MockTaskService implements TaskService, ContainerService {
   AtomicReference<Task> task = new AtomicReference<>();
 
   @Override
-  public Mono<String> execute(String applicationId, TaskType taskType, Map<String, String> environment) {
+  public Mono<String> execute(final String applicationId,
+                              final TaskType taskType,
+                              final Integer replicas,
+                              final Map<String, String> environment) {
     final var id = "taskId";
     task.set(Task.builder()
         .id(id)
@@ -109,7 +111,7 @@ public class MockTaskService implements TaskService, ContainerService {
     return Mono.just(container);
   }
 
-  private List<Task> asList(){
+  private List<Task> asList() {
     return Optional.ofNullable(task.get()).map(ImmutableList::of).orElse(ImmutableList.of());
   }
 }

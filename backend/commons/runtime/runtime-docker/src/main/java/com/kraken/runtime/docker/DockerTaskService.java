@@ -43,6 +43,7 @@ final class DockerTaskService implements TaskService {
   @Override
   public Mono<String> execute(final String applicationId,
                               final TaskType taskType,
+                              final Integer replicas,
                               final Map<String, String> environment) {
     final var taskId = idGenerator.generate();
 
