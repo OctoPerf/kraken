@@ -47,7 +47,7 @@ public class RuntimeClientTest {
             .setBody(mapper.writeValueAsString(container))
     );
 
-    final var response = client.setStatus(container.getTaskId(), container.getContainerId(), ContainerStatus.READY).block();
+    final var response = client.setStatus("taskId", "containerId", ContainerStatus.READY).block();
     assertThat(response).isEqualTo(container);
 
     final var request = runtimeMockWebServer.takeRequest();

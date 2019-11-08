@@ -55,7 +55,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
     assertThat(task.getDescription()).isEqualTo("description");
     assertThat(task.getId()).isEqualTo(taskId);
     assertThat(task.getContainers().size()).isEqualTo(2);
-    assertThat(task.getContainers().get(0).getContainerId()).startsWith(taskId);
+    assertThat(task.getContainers().get(0).getId()).startsWith(taskId);
     assertThat(task.getContainers().get(0).getStatus()).isEqualTo(ContainerStatus.STARTING);
 
     taskService.cancel(appId, task).block();

@@ -1,12 +1,12 @@
 package com.kraken.runtime.docker;
 
+import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.TaskType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,13 +14,13 @@ import java.util.function.Function;
 
 @Component
 @Slf4j
-final class StringToContainer implements Function<String, Container> {
+final class StringToDockerContainer implements Function<String, DockerContainer> {
 
   public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.hostId\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.description\"}}";
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
-  public Container apply(final String str) {
+  public DockerContainer apply(final String str) {
     final var split = str.split("[;]", 9);
     final var id = split[0];
     final var status = split[1];
@@ -39,7 +39,7 @@ final class StringToContainer implements Function<String, Container> {
       log.error("Failed to parse container date", e);
     }
 
-    return Container.builder()
+    return DockerContainer.builder()
         .id(id)
         .containerId(containerId)
         .hostId(hostId)

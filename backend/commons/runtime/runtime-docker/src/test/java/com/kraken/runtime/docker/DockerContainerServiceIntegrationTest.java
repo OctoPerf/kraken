@@ -65,20 +65,16 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "appId";
+    final var taskId = "taskId";
     final var containerId = "containerThreeId";
     final var logs = new ArrayList<Log>();
     final var disposable = logsService.listen(appId)
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var container = containerService.find(containerId).block();
-    System.out.println(container);
-    assertThat(container).isNotNull();
-    assertThat(container.getContainerId()).isEqualTo(containerId);
-
-    containerService.attachLogs(appId, container).block();
+    containerService.attachLogs(appId, taskId, containerId).block();
     Thread.sleep(5000);
-    containerService.detachLogs(container).block();
+    containerService.detachLogs(taskId, containerId).block();
     disposable.dispose();
 
     System.out.println(logs);
@@ -90,12 +86,13 @@ public class DockerContainerServiceIntegrationTest {
 
   @Test
   public void shouldSetStatus() {
+    final var taskId = "taskId";
     final var containerId = "containerOneId";
-    final var container = containerService.setStatus("taskId", containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
+    final var container = containerService.setStatus(taskId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
 
     System.out.println(container);
     assertThat(container).isNotNull();
-    assertThat(container.getContainerId()).isEqualTo(containerId);
+    assertThat(container.getId()).isEqualTo(containerId);
 
     final var tasks = taskService.list().collectList().block();
     assertThat(tasks).isNotNull();

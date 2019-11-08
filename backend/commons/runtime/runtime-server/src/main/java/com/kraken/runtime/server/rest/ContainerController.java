@@ -26,13 +26,14 @@ public class ContainerController {
 
   @PostMapping("/logs/attach")
   public Mono<Void> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                               @RequestBody() final Container container) {
-    return service.attachLogs(applicationId, container);
+                               @RequestParam("taskId") final String taskId,
+                               @RequestParam("containerId") final String containerId) {
+    return service.attachLogs(applicationId, taskId, containerId);
   }
 
-  @PostMapping("/logs/detach")
-  public Mono<Void> detachLogs(@RequestBody() final Container container) {
-    return service.detachLogs(container);
+  @DeleteMapping("/logs/detach")
+  public Mono<Void> detachLogs(@RequestParam("taskId") final String taskId, @RequestParam("containerId") final String containerId) {
+    return service.detachLogs(taskId, containerId);
   }
 
   @PostMapping("/status/{status}")

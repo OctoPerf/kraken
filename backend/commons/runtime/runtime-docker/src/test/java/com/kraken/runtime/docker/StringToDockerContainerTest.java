@@ -1,6 +1,6 @@
 package com.kraken.runtime.docker;
 
-import com.kraken.runtime.entity.Container;
+import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.TaskType;
 import org.junit.Test;
@@ -9,14 +9,14 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StringToContainerTest {
+public class StringToDockerContainerTest {
 
-  private final StringToContainer stringToContainer = new StringToContainer();
+  private final StringToDockerContainer stringToDockerContainer = new StringToDockerContainer();
 
   @Test
   public void shouldConvert(){
-    final var container = stringToContainer.apply("6ea1e79088d9;container_one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;hostId;Container One;Some description; test!");
-    assertThat(container).isEqualTo(Container.builder()
+    final var container = stringToDockerContainer.apply("6ea1e79088d9;container_one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;hostId;Container One;Some description; test!");
+    assertThat(container).isEqualTo(DockerContainer.builder()
         .id("6ea1e79088d9")
         .containerId("containerOneId")
         .hostId("hostId")
@@ -33,7 +33,7 @@ public class StringToContainerTest {
   public void shouldConvertDateFail(){
     final var currentDate = new Date().getTime();
 
-    final var container = stringToContainer.apply("fd6c4a0fb80d;container_three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;hostId;name;description");
+    final var container = stringToDockerContainer.apply("fd6c4a0fb80d;container_three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;hostId;name;description");
     assertThat(container.getId()).isEqualTo("fd6c4a0fb80d");
     assertThat(container.getContainerId()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");

@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
+import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.docker.properties.DockerProperties;
-import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
@@ -22,7 +22,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 @Component
@@ -33,8 +35,8 @@ final class DockerTaskService implements TaskService {
   @NonNull CommandService commandService;
   @NonNull DockerProperties dockerProperties;
   @NonNull LogsService logsService;
-  @NonNull Function<String, Container> stringToContainer;
-  @NonNull Function<GroupedFlux<String, Container>, Mono<Task>> containersToTask;
+  @NonNull Function<String, DockerContainer> stringToDockerContainer;
+  @NonNull Function<GroupedFlux<String, DockerContainer>, Mono<Task>> dockerContainersToTask;
   @NonNull Function<TaskType, String> taskTypeToPath;
   @NonNull List<EnvironmentChecker> envCheckers;
   @NonNull List<EnvironmentPublisher> envPublishers;
@@ -101,14 +103,14 @@ final class DockerTaskService implements TaskService {
             "ps",
             "-a",
             "--filter", "label=com.kraken.taskId",
-            "--format", StringToContainer.FORMAT))
+            "--format", StringToDockerContainer.FORMAT))
         .environment(ImmutableMap.of())
         .build();
 
     return commandService.execute(command)
-        .map(stringToContainer)
-        .groupBy(Container::getTaskId)
-        .flatMap(containersToTask);
+        .map(stringToDockerContainer)
+        .groupBy(DockerContainer::getTaskId)
+        .flatMap(dockerContainersToTask);
   }
 
   @Override

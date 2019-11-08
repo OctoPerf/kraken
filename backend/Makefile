@@ -34,9 +34,6 @@ serve-analysis:
 serve-runtime-docker:
 	$(MAKE) serve APP=:applications:app-runtime-docker
 
-serve-runtime-mock:
-	$(MAKE) serve APP=:applications:app-runtime-mock
-
 serve-storage:
 	$(MAKE) serve APP=:applications:app-storage
 

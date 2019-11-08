@@ -1,9 +1,10 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.api.ContainerService;
+import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.LogType;
@@ -27,33 +28,31 @@ import java.util.function.Function;
 final class DockerContainerService implements ContainerService {
 
   @NonNull CommandService commandService;
-
   @NonNull LogsService logsService;
-
-  @NonNull Function<String, Container> stringToContainer;
-
+  @NonNull Function<String, DockerContainer> stringToDockerContainer;
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
+  @NonNull Function<DockerContainer, Container> dockerContainerToContainer;
 
   @Override
-  public Mono<Void> attachLogs(final String applicationId, final Container container) {
-    final var command = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "logs",
-            "-f", container.getId()))
-        .environment(ImmutableMap.of())
-        .build();
-    return Mono.fromCallable(() -> {
+  public Mono<Void> attachLogs(final String applicationId, final String taskId, final String containerId) {
+    return this.find(containerId).flatMap(container -> {
+      final var command = Command.builder()
+          .path(".")
+          .command(Arrays.asList("docker",
+              "logs",
+              "-f", container.getId()))
+          .environment(ImmutableMap.of())
+          .build();
       final var logs = logsService.concat(commandService.execute(command));
-      logsService.push(applicationId, container.getContainerId(), LogType.CONTAINER, logs);
+      logsService.push(applicationId, containerId, LogType.CONTAINER, logs);
       return null;
     });
   }
 
   @Override
-  public Mono<Void> detachLogs(final Container container) {
+  public Mono<Void> detachLogs(final String taskId, final String containerId) {
     return Mono.fromCallable(() -> {
-      logsService.cancel(container.getContainerId());
+      logsService.cancel(containerId);
       return null;
     });
   }
@@ -72,23 +71,23 @@ final class DockerContainerService implements ContainerService {
       return logsService.concat(commandService.execute(command)).collectList().map(list -> {
         log.info(String.join("\n", list));
         return container.withStatus(status);
-      });
+      }).map(dockerContainerToContainer);
     });
   }
 
-  public Mono<Container> find(final String containerId) {
+  private Mono<DockerContainer> find(final String containerId) {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.kraken.containerId=" + containerId,
-            "--format", StringToContainer.FORMAT,
+            "--format", StringToDockerContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();
 
     return commandService.execute(command)
-        .map(stringToContainer)
+        .map(stringToDockerContainer)
         .next();
   }
 }

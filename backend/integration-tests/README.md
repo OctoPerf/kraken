@@ -17,7 +17,7 @@ Launch backends
 make copy-data
 make serve-storage
 make serve-analysis
-make serve-runtime-mock
+make serve-runtime-docker
 ```
 
 ## List Files
