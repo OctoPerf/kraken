@@ -113,11 +113,9 @@ public class DockerContainerServiceTest {
             "-f", container.getId()))
         .environment(ImmutableMap.of())
         .build();
-    given(containerStatusToName.apply(dockerContainer.getContainerId(), status)).willReturn(containerName);
     final var logs = Flux.just("logs");
     given(commandService.execute(logsCommand)).willReturn(logs);
     given(logsService.concat(logs)).willReturn(logs);
-    given(dockerContainerToContainer.apply(dockerContainer.withStatus(status))).willReturn(container);
 
     service.attachLogs(applicationId, dockerContainer.getTaskId(), dockerContainer.getContainerId()).block();
 
