@@ -35,7 +35,7 @@ final class DockerContainerService implements ContainerService {
 
   @Override
   public Mono<Void> attachLogs(final String applicationId, final String taskId, final String containerId) {
-    return this.find(containerId).flatMap(container -> {
+    return this.find(containerId).map(container -> {
       final var command = Command.builder()
           .path(".")
           .command(Arrays.asList("docker",
@@ -45,8 +45,8 @@ final class DockerContainerService implements ContainerService {
           .build();
       final var logs = logsService.concat(commandService.execute(command));
       logsService.push(applicationId, containerId, LogType.CONTAINER, logs);
-      return null;
-    });
+      return container;
+    }).then();
   }
 
   @Override

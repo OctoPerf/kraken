@@ -11,11 +11,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringToDockerContainerTest {
 
+  public final static String CONTAINER_STRING = "6ea1e79088d9;container_one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;hostId;Container One;Some description; test!";
   private final StringToDockerContainer stringToDockerContainer = new StringToDockerContainer();
 
   @Test
   public void shouldConvert(){
-    final var container = stringToDockerContainer.apply("6ea1e79088d9;container_one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;hostId;Container One;Some description; test!");
+    final var container = stringToDockerContainer.apply(CONTAINER_STRING);
     assertThat(container).isEqualTo(DockerContainer.builder()
         .id("6ea1e79088d9")
         .containerId("containerOneId")
