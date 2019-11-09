@@ -41,12 +41,15 @@ public class ContainerControllerTest {
   public void shouldAttachLogs() {
     final var applicationId = "test";
     final var containerId = "containerId";
-    final var taskId = "containerId";
+    final var taskId = "taskId";
     given(service.attachLogs(applicationId, taskId, containerId))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
-        .uri("/container/logs/attach")
+        .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
+            .queryParam("taskId", taskId)
+            .queryParam("containerId", containerId)
+            .build())
         .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk();
@@ -58,7 +61,10 @@ public class ContainerControllerTest {
   public void shouldFailToAttachLogs() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     webTestClient.post()
-        .uri("/container/logs/attach")
+        .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
+            .queryParam("taskId", "taskId")
+            .queryParam("containerId", "containerId")
+            .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
         .exchange()
@@ -68,13 +74,15 @@ public class ContainerControllerTest {
   @Test
   public void shouldDetachLogs() {
     final var containerId = "containerId";
-    final var taskId = "containerId";
+    final var taskId = "taskId";
     given(service.detachLogs(taskId, containerId))
         .willReturn(Mono.fromCallable(() -> null));
 
-    webTestClient.post()
-        .uri("/container/logs/detach")
-        .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
+    webTestClient.delete()
+        .uri(uriBuilder -> uriBuilder.path("/container/logs/detach")
+            .queryParam("taskId", "taskId")
+            .queryParam("containerId", "containerId")
+            .build())
         .exchange()
         .expectStatus().isOk();
 
@@ -84,7 +92,7 @@ public class ContainerControllerTest {
   @Test
   public void shouldSetStatus() {
     final var containerId = "containerId";
-    final var taskId = "containerId";
+    final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
     given(service.setStatus(taskId, containerId, container.getStatus()))
         .willReturn(Mono.just(container));
