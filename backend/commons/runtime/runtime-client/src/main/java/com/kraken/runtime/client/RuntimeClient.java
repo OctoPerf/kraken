@@ -13,6 +13,6 @@ public interface RuntimeClient {
 
   Mono<Task> waitForStatus(String taskId, ContainerStatus status);
 
-  Mono<Container> setStatus(String taskId, String containerId, ContainerStatus status);
+  Mono<Container> setStatus(String taskId, String hostId, String containerId, ContainerStatus status);
 
 }

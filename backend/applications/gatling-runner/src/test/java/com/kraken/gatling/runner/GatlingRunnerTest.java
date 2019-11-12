@@ -3,7 +3,6 @@ package com.kraken.gatling.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.gatling.runner.GatlingRunner;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -66,17 +65,17 @@ public class GatlingRunnerTest {
 
   @Test
   public void shouldInit() {
-    given(runtimeClient.setStatus(anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
+    given(runtimeClient.setStatus(anyString(), anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
     given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     runner.init();
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.READY);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getContainerId(), ContainerStatus.DONE);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.READY);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
     verify(storageClient, times(2)).downloadFolder(any(Path.class), any());

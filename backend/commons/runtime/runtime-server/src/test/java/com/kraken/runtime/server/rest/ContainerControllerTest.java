@@ -41,20 +41,22 @@ public class ContainerControllerTest {
   public void shouldAttachLogs() {
     final var applicationId = "test";
     final var containerId = "containerId";
+    final var hostId = "hostId";
     final var taskId = "taskId";
-    given(service.attachLogs(applicationId, taskId, containerId))
+    given(service.attachLogs(applicationId, taskId, hostId, containerId))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", taskId)
+            .queryParam("hostId", hostId)
             .queryParam("containerId", containerId)
             .build())
         .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).attachLogs(applicationId, taskId, containerId);
+    verify(service).attachLogs(applicationId, taskId, hostId, containerId);
   }
 
   @Test
@@ -63,6 +65,7 @@ public class ContainerControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", "taskId")
+            .queryParam("hostId", "hostId")
             .queryParam("containerId", "containerId")
             .build())
         .header("ApplicationId", applicationId)
@@ -74,33 +77,37 @@ public class ContainerControllerTest {
   @Test
   public void shouldDetachLogs() {
     final var containerId = "containerId";
+    final var hostId = "hostId";
     final var taskId = "taskId";
-    given(service.detachLogs(taskId, containerId))
+    given(service.detachLogs(taskId, hostId, containerId))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/detach")
             .queryParam("taskId", "taskId")
+            .queryParam("hostId", hostId)
             .queryParam("containerId", "containerId")
             .build())
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).detachLogs(taskId, containerId);
+    verify(service).detachLogs(taskId, hostId, containerId);
   }
 
   @Test
   public void shouldSetStatus() {
     final var containerId = "containerId";
+    final var hostId = "hostId";
     final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
-    given(service.setStatus(taskId, containerId, container.getStatus()))
+    given(service.setStatus(taskId, hostId, containerId, container.getStatus()))
         .willReturn(Mono.just(container));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
             .pathSegment(container.getStatus().toString())
             .queryParam("taskId", taskId)
+            .queryParam("hostId", hostId)
             .queryParam("containerId", containerId)
             .build())
         .exchange()
@@ -108,7 +115,7 @@ public class ContainerControllerTest {
         .expectBody(Container.class)
         .isEqualTo(container);
 
-    verify(service).setStatus(taskId, containerId, container.getStatus());
+    verify(service).setStatus(taskId, hostId, containerId, container.getStatus());
   }
 
 }

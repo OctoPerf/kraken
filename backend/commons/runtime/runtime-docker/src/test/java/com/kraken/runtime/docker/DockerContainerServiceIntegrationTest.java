@@ -66,15 +66,16 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "appId";
     final var taskId = "taskId";
+    final var hostId = "local";
     final var containerId = "containerThreeId";
     final var logs = new ArrayList<Log>();
     final var disposable = logsService.listen(appId)
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    containerService.attachLogs(appId, taskId, containerId).block();
+    containerService.attachLogs(appId, taskId, hostId, containerId).block();
     Thread.sleep(5000);
-    containerService.detachLogs(taskId, containerId).block();
+    containerService.detachLogs(taskId, hostId, containerId).block();
     disposable.dispose();
 
     System.out.println(logs);
@@ -87,8 +88,9 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldSetStatus() {
     final var taskId = "taskId";
+    final var hostId = "local";
     final var containerId = "containerOneId";
-    final var container = containerService.setStatus(taskId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
+    final var container = containerService.setStatus(taskId, hostId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
 
     System.out.println(container);
     assertThat(container).isNotNull();

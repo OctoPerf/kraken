@@ -27,18 +27,24 @@ public class ContainerController {
   @PostMapping("/logs/attach")
   public Mono<Void> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                @RequestParam("taskId") final String taskId,
+                               @RequestParam("hostId") final String hostId,
                                @RequestParam("containerId") final String containerId) {
-    return service.attachLogs(applicationId, taskId, containerId);
+    return service.attachLogs(applicationId, taskId, hostId, containerId);
   }
 
   @DeleteMapping("/logs/detach")
-  public Mono<Void> detachLogs(@RequestParam("taskId") final String taskId, @RequestParam("containerId") final String containerId) {
-    return service.detachLogs(taskId, containerId);
+  public Mono<Void> detachLogs(@RequestParam("taskId") final String taskId,
+                               @RequestParam("hostId") final String hostId,
+                               @RequestParam("containerId") final String containerId) {
+    return service.detachLogs(taskId, hostId, containerId);
   }
 
   @PostMapping("/status/{status}")
-  public Mono<Container> setStatus(@RequestParam("taskId") final String taskId, @RequestParam("containerId") final String containerId, @PathVariable("status") final ContainerStatus status) {
+  public Mono<Container> setStatus(@RequestParam("taskId") final String taskId,
+                                   @RequestParam("hostId") final String hostId,
+                                   @RequestParam("containerId") final String containerId,
+                                   @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
-    return service.setStatus(taskId, containerId, status);
+    return service.setStatus(taskId, hostId, containerId, status);
   }
 }

@@ -34,7 +34,7 @@ final class DockerContainerService implements ContainerService {
   @NonNull Function<DockerContainer, Container> dockerContainerToContainer;
 
   @Override
-  public Mono<Void> attachLogs(final String applicationId, final String taskId, final String containerId) {
+  public Mono<Void> attachLogs(final String applicationId, final String taskId, final String hostId, final String containerId) {
     return this.find(containerId).map(container -> {
       final var command = Command.builder()
           .path(".")
@@ -44,21 +44,21 @@ final class DockerContainerService implements ContainerService {
           .environment(ImmutableMap.of())
           .build();
       final var logs = logsService.concat(commandService.execute(command));
-      logsService.push(applicationId, containerId, LogType.CONTAINER, logs);
+      logsService.push(applicationId, this.logsId(taskId, hostId, containerId), LogType.CONTAINER, logs);
       return container;
     }).then();
   }
 
   @Override
-  public Mono<Void> detachLogs(final String taskId, final String containerId) {
+  public Mono<Void> detachLogs(final String taskId, final String hostId, final String containerId) {
     return Mono.fromCallable(() -> {
-      logsService.cancel(containerId);
+      logsService.cancel(this.logsId(taskId, hostId, containerId));
       return null;
     });
   }
 
   @Override
-  public Mono<Container> setStatus(final String taskId, final String containerId, final ContainerStatus status) {
+  public Mono<Container> setStatus(final String taskId, final String hostId, final String containerId, final ContainerStatus status) {
     return this.find(containerId).flatMap(container -> {
       final var command = Command.builder()
           .path(".")

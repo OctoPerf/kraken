@@ -81,7 +81,7 @@ public class DockerContainerServiceTest {
     given(logsService.concat(renamed)).willReturn(renamed);
     given(dockerContainerToContainer.apply(dockerContainer.withStatus(status))).willReturn(container);
 
-    assertThat(service.setStatus(dockerContainer.getTaskId(), dockerContainer.getContainerId(), status).block()).isEqualTo(container);
+    assertThat(service.setStatus(dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId(), status).block()).isEqualTo(container);
   }
 
   @Test
@@ -89,7 +89,6 @@ public class DockerContainerServiceTest {
     final var applicationId = "applicationId";
     final var container = ContainerTest.CONTAINER;
     final var dockerContainer = DockerContainerTest.CONTAINER;
-    final var status = ContainerStatus.RUNNING;
 
     // Find
     final var findCommand = Command.builder()
@@ -105,7 +104,6 @@ public class DockerContainerServiceTest {
     given(stringToDockerContainer.apply("found")).willReturn(dockerContainer);
 
     // Logs
-    final var containerName = "containerName";
     final var logsCommand = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
@@ -117,15 +115,22 @@ public class DockerContainerServiceTest {
     given(commandService.execute(logsCommand)).willReturn(logs);
     given(logsService.concat(logs)).willReturn(logs);
 
-    service.attachLogs(applicationId, dockerContainer.getTaskId(), dockerContainer.getContainerId()).block();
+    service.attachLogs(applicationId, dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId()).block();
 
-    verify(logsService).push(applicationId, dockerContainer.getContainerId(), LogType.CONTAINER, logs);
+    verify(logsService).push(applicationId, service.logsId(dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId()), LogType.CONTAINER, logs);
   }
 
   @Test
   public void shouldDetachLogs() {
-    final var dockerContainer = DockerContainerTest.CONTAINER;
-    service.detachLogs(dockerContainer.getTaskId(), dockerContainer.getContainerId()).block();
-    verify(logsService).cancel(dockerContainer.getContainerId());
+    final var taskId = "taskId";
+    final var hostId = "hostId";
+    final var containerId = "containerId";
+    service.detachLogs(taskId, hostId, containerId).block();
+    verify(logsService).cancel("taskId-hostId-containerId");
+  }
+
+  @Test
+  public void shouldLogsId() {
+    assertThat(service.logsId("task", "host", "container")).isEqualTo("task-host-container");
   }
 }

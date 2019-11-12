@@ -47,11 +47,11 @@ public class RuntimeClientTest {
             .setBody(mapper.writeValueAsString(container))
     );
 
-    final var response = client.setStatus("taskId", "containerId", ContainerStatus.READY).block();
+    final var response = client.setStatus("taskId", "hostId", "containerId", ContainerStatus.READY).block();
     assertThat(response).isEqualTo(container);
 
     final var request = runtimeMockWebServer.takeRequest();
-    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&containerId=containerId");
+    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&hostId=hostId&containerId=containerId");
   }
 
   @Test

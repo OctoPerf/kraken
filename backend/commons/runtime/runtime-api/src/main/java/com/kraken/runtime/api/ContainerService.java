@@ -5,10 +5,14 @@ import reactor.core.publisher.Mono;
 
 public interface ContainerService {
 
-  Mono<Void> attachLogs(String applicationId, String taskId, String containerId);
+  default String logsId(final String taskId, final String hostId, final String containerId) {
+    return String.format("%s-%s-%s", taskId,hostId, containerId);
+  }
 
-  Mono<Void> detachLogs(String taskId, String containerId);
+  Mono<Void> attachLogs(String applicationId, String taskId, String hostId, String containerId);
 
-  Mono<Container> setStatus(String taskId, String containerId, ContainerStatus status);
+  Mono<Void> detachLogs(String taskId, String hostId, String containerId);
+
+  Mono<Container> setStatus(String taskId, String hostId, String containerId, ContainerStatus status);
 
 }
