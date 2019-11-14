@@ -2,7 +2,6 @@ kraken:
   data: testDir
   version: 1.0.0
   docker:
-    watch-tasks-delay: 2000
     containers-count:
       run: 1
       debug: 2

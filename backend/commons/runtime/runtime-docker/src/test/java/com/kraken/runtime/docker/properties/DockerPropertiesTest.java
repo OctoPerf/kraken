@@ -12,7 +12,6 @@ import java.time.Duration;
 public class DockerPropertiesTest {
 
   public static final DockerProperties DOCKER_PROPERTIES = DockerProperties.builder()
-      .watchTasksDelay(Duration.ofSeconds(1))
       .containersCount(ImmutableMap.of(TaskType.RUN, 2, TaskType.DEBUG, 2, TaskType.RECORD, 2))
       .build();
 

@@ -1,23 +1,21 @@
-package com.kraken.runtime.docker;
+package com.kraken.runtime.server.service;
 
-import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.entity.Container;
+import com.kraken.runtime.entity.FlatContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
-
 @Component
 @Slf4j
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-final class DockerContainerToContainer implements Function<DockerContainer, Container> {
+final class SpringFlatContainerToContainer implements FlatContainerToContainer {
 
   @Override
-  public Container apply(final DockerContainer container) {
+  public Container apply(final FlatContainer container) {
     return Container.builder()
         .id(container.getContainerId())
         .status(container.getStatus())

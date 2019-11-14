@@ -3,7 +3,6 @@ package com.kraken.runtime.docker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.docker.entity.DockerContainerTest;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
@@ -19,7 +18,6 @@ import reactor.core.publisher.Flux;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -58,7 +56,7 @@ public class DockerContainerServiceTest {
         .command(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.kraken.containerId=" + dockerContainer.getContainerId(),
-            "--format", StringToDockerContainer.FORMAT,
+            "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();
@@ -96,7 +94,7 @@ public class DockerContainerServiceTest {
         .command(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.kraken.containerId=" + dockerContainer.getContainerId(),
-            "--format", StringToDockerContainer.FORMAT,
+            "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();

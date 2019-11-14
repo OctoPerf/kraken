@@ -4,7 +4,6 @@ import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
@@ -32,14 +31,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 final class SpringResultUpdater implements ResultUpdater {
 
-  @NonNull TaskService taskService;
+  @NonNull TaskListService taskListService;
   @NonNull AnalysisClient analysisClient;
   @NonNull Function<TaskType, ResultType> taskTypeToResultType;
   @NonNull Function<ContainerStatus, ResultStatus> taskStatusToResultStatus;
 
   @PostConstruct
   public void start() {
-    taskService.watch()
+    taskListService.watch()
         .flatMap(this::setResultsStatuses)
         .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
         .onErrorResume(throwable -> Mono.empty())

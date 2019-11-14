@@ -18,6 +18,7 @@ class RecordChecker implements EnvironmentChecker {
         "KRAKEN_GATLING_HAR_PATH_REMOTE",
         "KRAKEN_DESCRIPTION",
         "KRAKEN_TASK_ID",
+        "KRAKEN_EXPECTED_COUNT",
         "KRAKEN_ANALYSIS_URL",
         "KRAKEN_RUNTIME_URL",
         "KRAKEN_STORAGE_URL");

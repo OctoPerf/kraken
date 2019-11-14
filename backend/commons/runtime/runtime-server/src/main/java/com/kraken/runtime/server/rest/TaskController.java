@@ -5,6 +5,7 @@ import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
+import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ import reactor.core.publisher.Mono;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @RestController()
@@ -31,7 +31,8 @@ import java.util.Objects;
 public class TaskController {
 
   @NonNull ResultUpdater resultUpdater;
-  @NonNull TaskService service;
+  @NonNull TaskService taskService;
+  @NonNull TaskListService taskListService;
   @NonNull SSEService sse;
 
   @PostMapping("/{type}/{replicas}")
@@ -40,12 +41,12 @@ public class TaskController {
                           @PathVariable("replicas") final Integer replicas,
                           @RequestBody() final Map<String, String> environment) {
     log.info(String.format("Run task %s", type));
-    return service.hostsCount()
+    return taskService.hostsCount()
         .map(hostsCount -> {
           Preconditions.checkArgument(hostsCount >= replicas, String.format("Insufficient capacity (%d) to run %d replicas!", hostsCount, replicas));
           return hostsCount;
         })
-        .then(service.execute(applicationId, type, replicas, environment))
+        .then(taskService.execute(applicationId, type, replicas, environment))
         .flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
   }
 
@@ -53,17 +54,17 @@ public class TaskController {
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestBody() final Task task) {
     log.info(String.format("Cancel task %s", task.getId()));
-    return service.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
+    return taskService.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
   }
 
   @GetMapping(value = "/watch")
   public Flux<ServerSentEvent<List<Task>>> watch() {
     log.info("Watch tasks lists");
-    return sse.keepAlive(service.watch());
+    return sse.keepAlive(taskListService.watch());
   }
 
   @GetMapping(value = "/list")
   public Flux<Task> list() {
-    return service.list();
+    return taskListService.list();
   }
 }

@@ -9,14 +9,14 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StringToDockerContainerTest {
+public class StringToFlatContainerTest {
 
   public final static String CONTAINER_STRING = "6ea1e79088d9;container_one_READY;2019-09-03 11:11:11 +0200 CEST;taskId;RUN;containerOneId;hostId;Container One;Some description; test!";
-  private final StringToDockerContainer stringToDockerContainer = new StringToDockerContainer();
+  private final StringToFlatContainer stringToFlatContainer = new StringToFlatContainer();
 
   @Test
   public void shouldConvert(){
-    final var container = stringToDockerContainer.apply(CONTAINER_STRING);
+    final var container = stringToFlatContainer.apply(CONTAINER_STRING);
     assertThat(container).isEqualTo(DockerContainer.builder()
         .id("6ea1e79088d9")
         .containerId("containerOneId")
@@ -34,7 +34,7 @@ public class StringToDockerContainerTest {
   public void shouldConvertDateFail(){
     final var currentDate = new Date().getTime();
 
-    final var container = stringToDockerContainer.apply("fd6c4a0fb80d;container_three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;hostId;name;description");
+    final var container = stringToFlatContainer.apply("fd6c4a0fb80d;container_three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;hostId;name;description");
     assertThat(container.getId()).isEqualTo("fd6c4a0fb80d");
     assertThat(container.getContainerId()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");

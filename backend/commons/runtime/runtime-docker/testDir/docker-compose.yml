@@ -13,6 +13,7 @@ services:
       com.kraken.hostId: hostId
       com.kraken.name: Container One
       com.kraken.description: Debug Task
+      com.kraken.expectedCount: 2
     container_name: containerOneId_READY
     image: nginx
     networks:
@@ -26,6 +27,7 @@ services:
       com.kraken.hostId: hostId
       com.kraken.name: Container Two
       com.kraken.description: Debug Task
+      com.kraken.expectedCount: 2
     container_name: containerTwoId_DONE
     image: nginx
     networks:
@@ -39,6 +41,7 @@ services:
       com.kraken.hostId: hostId
       com.kraken.name: Container Three
       com.kraken.description: Run Task
+      com.kraken.expectedCount: 1
     container_name: containerThreeId_STARTING
     image: octoperf/kraken-echo:latest
     networks:

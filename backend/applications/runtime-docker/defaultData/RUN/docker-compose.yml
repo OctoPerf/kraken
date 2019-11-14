@@ -18,6 +18,7 @@ services:
       com.kraken.hostId: local
       com.kraken.name: Telegraf
       com.kraken.description: ${KRAKEN_DESCRIPTION}
+      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN
@@ -43,6 +44,7 @@ services:
       com.kraken.hostId: local
       com.kraken.name: Gatling Runner
       com.kraken.description: ${KRAKEN_DESCRIPTION}
+      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN

@@ -13,9 +13,6 @@ import java.util.Map;
 public class DockerProperties {
 
   @NonNull
-  Duration watchTasksDelay;
-
-  @NonNull
   Map<TaskType, Integer> containersCount;
 
 }

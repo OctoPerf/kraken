@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.logs.LogsService;
 import lombok.AccessLevel;
@@ -29,9 +29,8 @@ final class DockerContainerService implements ContainerService {
 
   @NonNull CommandService commandService;
   @NonNull LogsService logsService;
-  @NonNull Function<String, DockerContainer> stringToDockerContainer;
+  @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
-  @NonNull Function<DockerContainer, Container> dockerContainerToContainer;
 
   @Override
   public Mono<Void> attachLogs(final String applicationId, final String taskId, final String hostId, final String containerId) {
@@ -58,7 +57,7 @@ final class DockerContainerService implements ContainerService {
   }
 
   @Override
-  public Mono<Container> setStatus(final String taskId, final String hostId, final String containerId, final ContainerStatus status) {
+  public Mono<Void> setStatus(final String taskId, final String hostId, final String containerId, final ContainerStatus status) {
     return this.find(containerId).flatMap(container -> {
       final var command = Command.builder()
           .path(".")
@@ -70,24 +69,24 @@ final class DockerContainerService implements ContainerService {
           .build();
       return logsService.concat(commandService.execute(command)).collectList().map(list -> {
         log.info(String.join("\n", list));
-        return container.withStatus(status);
-      }).map(dockerContainerToContainer);
+        return null;
+      });
     });
   }
 
-  private Mono<DockerContainer> find(final String containerId) {
+  private Mono<FlatContainer> find(final String containerId) {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.kraken.containerId=" + containerId,
-            "--format", StringToDockerContainer.FORMAT,
+            "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();
 
     return commandService.execute(command)
-        .map(stringToDockerContainer)
+        .map(stringToFlatContainer)
         .next();
   }
 }

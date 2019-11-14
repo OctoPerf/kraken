@@ -2,6 +2,7 @@ package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
 import lombok.AccessLevel;
@@ -28,10 +29,9 @@ import javax.validation.constraints.Pattern;
 @Validated
 public class RuntimeController {
 
-  @NonNull
-  LogsService logsService;
-
+  @NonNull LogsService logsService;
   @NonNull TaskService taskService;
+  @NonNull TaskListService taskListService;
 
   @NonNull
   SSEService sse;
@@ -43,6 +43,6 @@ public class RuntimeController {
 
   @GetMapping(value = "/watch/{applicationId}")
   public Flux<ServerSentEvent<SSEWrapper>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return sse.keepAlive(sse.merge("LOG", logsService.listen(applicationId), "TASKS", taskService.watch()));
+    return sse.keepAlive(sse.merge("LOG", logsService.listen(applicationId), "TASKS", taskListService.watch()));
   }
 }

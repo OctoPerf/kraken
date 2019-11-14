@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.entity.DockerContainer;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.docker.properties.DockerProperties;
+import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
@@ -19,7 +19,6 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -35,8 +34,7 @@ final class DockerTaskService implements TaskService {
   @NonNull CommandService commandService;
   @NonNull DockerProperties dockerProperties;
   @NonNull LogsService logsService;
-  @NonNull Function<String, DockerContainer> stringToDockerContainer;
-  @NonNull Function<GroupedFlux<String, DockerContainer>, Mono<Task>> dockerContainersToTask;
+  @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull Function<TaskType, String> taskTypeToPath;
   @NonNull List<EnvironmentChecker> envCheckers;
   @NonNull List<EnvironmentPublisher> envPublishers;
@@ -96,28 +94,19 @@ final class DockerTaskService implements TaskService {
   }
 
   @Override
-  public Flux<Task> list() {
+  public Flux<FlatContainer> list() {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
             "-a",
             "--filter", "label=com.kraken.taskId",
-            "--format", StringToDockerContainer.FORMAT))
+            "--format", StringToFlatContainer.FORMAT))
         .environment(ImmutableMap.of())
         .build();
 
     return commandService.execute(command)
-        .map(stringToDockerContainer)
-        .groupBy(DockerContainer::getTaskId)
-        .flatMap(dockerContainersToTask);
-  }
-
-  @Override
-  public Flux<List<Task>> watch() {
-    return Flux.interval(dockerProperties.getWatchTasksDelay())
-        .flatMap(aLong -> this.list().collectList())
-        .distinctUntilChanged();
+        .map(stringToFlatContainer);
   }
 
   @Override
@@ -130,6 +119,7 @@ final class DockerTaskService implements TaskService {
     final var envBuilder = ImmutableMap.<String, String>builder();
     envBuilder.putAll(environment);
     envBuilder.put("KRAKEN_TASK_ID", taskId);
+    envBuilder.put("KRAKEN_EXPECTED_COUNT", dockerProperties.getContainersCount().get(taskType).toString());
     envPublishers.stream()
         .filter(environmentPublisher -> environmentPublisher.test(taskType))
         .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));

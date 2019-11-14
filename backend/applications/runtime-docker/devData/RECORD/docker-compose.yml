@@ -12,6 +12,7 @@ services:
       com.kraken.hostId: local
       com.kraken.name: HAR Parser
       com.kraken.description: ${KRAKEN_DESCRIPTION}
+      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD
@@ -34,6 +35,7 @@ services:
       com.kraken.hostId: local
       com.kraken.name: Gatling Recorder
       com.kraken.description: ${KRAKEN_DESCRIPTION}
+      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD

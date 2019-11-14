@@ -1,6 +1,8 @@
-package com.kraken.runtime.container.properties;
+package com.kraken.runtime.container.predicate;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
 import com.kraken.runtime.entity.*;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
@@ -14,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {TaskPredicate.class, RuntimeContainerPropertiesTestConfiguration.class},
+    classes = {OtherContainersStoppingPredicate.class, RuntimeContainerPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
-public class TaskPredicateTest {
+public class OtherContainersStoppingPredicateTest {
 
   @Autowired
-  TaskPredicate taskPredicate;
+  OtherContainersStoppingPredicate taskPredicate;
 
   @Autowired
   RuntimeContainerProperties containerProperties;
@@ -104,6 +106,6 @@ public class TaskPredicateTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassNPE(TaskPredicate.class);
+    TestUtils.shouldPassNPE(OtherContainersStoppingPredicate.class);
   }
 }

@@ -15,19 +15,15 @@ import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.unique.id.IdGenerator;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.GroupedFlux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.function.Function;
 
@@ -158,7 +154,7 @@ public class DockerTaskServiceTest {
             "ps",
             "-a",
             "--filter", "label=com.kraken.taskId",
-            "--format", StringToDockerContainer.FORMAT))
+            "--format", StringToFlatContainer.FORMAT))
         .environment(ImmutableMap.of())
         .build();
 

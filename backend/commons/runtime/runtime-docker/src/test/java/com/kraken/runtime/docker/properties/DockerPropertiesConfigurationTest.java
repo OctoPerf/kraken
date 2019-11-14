@@ -19,6 +19,6 @@ public class DockerPropertiesConfigurationTest {
 
   @Test
   public void shouldCreateProperties() {
-    Assertions.assertThat(dockerProperties.getWatchTasksDelay()).isNotNull();
+    Assertions.assertThat(dockerProperties.getContainersCount()).isNotNull();
   }
 }

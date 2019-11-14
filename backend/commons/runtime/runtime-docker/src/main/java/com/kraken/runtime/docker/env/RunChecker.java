@@ -17,6 +17,7 @@ class RunChecker implements EnvironmentChecker {
         "KRAKEN_GATLING_SIMULATION",
         "KRAKEN_DESCRIPTION",
         "KRAKEN_TASK_ID",
+        "KRAKEN_EXPECTED_COUNT",
         "KRAKEN_INFLUXDB_URL",
         "KRAKEN_INFLUXDB_DATABASE",
         "KRAKEN_INFLUXDB_USER",

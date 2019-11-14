@@ -1,8 +1,8 @@
 package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.ContainerService;
-import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -40,10 +40,10 @@ public class ContainerController {
   }
 
   @PostMapping("/status/{status}")
-  public Mono<Container> setStatus(@RequestParam("taskId") final String taskId,
-                                   @RequestParam("hostId") final String hostId,
-                                   @RequestParam("containerId") final String containerId,
-                                   @PathVariable("status") final ContainerStatus status) {
+  public Mono<FlatContainer> setStatus(@RequestParam("taskId") final String taskId,
+                                       @RequestParam("hostId") final String hostId,
+                                       @RequestParam("containerId") final String containerId,
+                                       @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
     return service.setStatus(taskId, hostId, containerId, status);
   }

@@ -1,19 +1,19 @@
-package com.kraken.runtime.docker;
+package com.kraken.runtime.server.service;
 
-import com.kraken.runtime.docker.entity.DockerContainerTest;
 import com.kraken.runtime.entity.Container;
+import com.kraken.runtime.entity.FlatContainerTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DockerContainerToContainerTest {
+public class SpringFlatContainerToContainerTest {
 
-  private final DockerContainerToContainer dockerContainerToContainer = new DockerContainerToContainer();
+  private final SpringFlatContainerToContainer flatContainerToContainer = new SpringFlatContainerToContainer();
 
   @Test
   public void shouldConvert(){
-    final var dockerContainer = DockerContainerTest.CONTAINER;
-    final var container = dockerContainerToContainer.apply(dockerContainer);
+    final var dockerContainer = FlatContainerTest.CONTAINER;
+    final var container = flatContainerToContainer.apply(dockerContainer);
     assertThat(container).isEqualTo(Container.builder()
         .id(dockerContainer.getContainerId())
         .hostId(dockerContainer.getHostId())

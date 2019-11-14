@@ -6,6 +6,7 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.command.CommandTest;
+import com.kraken.runtime.container.predicate.TaskPredicate;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
 import com.kraken.runtime.entity.ContainerStatus;
@@ -45,7 +46,7 @@ public class TelegrafRunnerTest {
   @Mock
   Supplier<Command> commandSupplier;
   @Mock
-  Predicate<Task> taskPredicate;
+  TaskPredicate taskPredicate;
 
   RuntimeContainerProperties containerProperties;
 
