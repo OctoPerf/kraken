@@ -2,11 +2,11 @@ package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
-import com.kraken.runtime.docker.properties.DockerPropertiesTest;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.unique.id.IdGenerator;
@@ -48,7 +48,7 @@ public class DockerTaskServiceTest {
   public void before() {
     service = new DockerTaskService(
         commandService,
-        DockerPropertiesTest.DOCKER_PROPERTIES,
+        RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES,
         logsService,
         stringToFlatContainer,
         taskTypeToPath,
@@ -87,7 +87,7 @@ public class DockerTaskServiceTest {
             "--no-color"))
         .environment(ImmutableMap.<String, String>builder().putAll(env)
             .put("KRAKEN_TASK_ID", taskId)
-            .put("KRAKEN_EXPECTED_COUNT", DockerPropertiesTest.DOCKER_PROPERTIES.getContainersCount().get(taskType).toString())
+            .put("KRAKEN_EXPECTED_COUNT", RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();
@@ -120,7 +120,7 @@ public class DockerTaskServiceTest {
             "down"))
         .environment(ImmutableMap.<String, String>builder()
             .put("KRAKEN_TASK_ID", taskId)
-            .put("KRAKEN_EXPECTED_COUNT", DockerPropertiesTest.DOCKER_PROPERTIES.getContainersCount().get(taskType).toString())
+            .put("KRAKEN_EXPECTED_COUNT", RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();

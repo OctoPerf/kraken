@@ -1,6 +1,5 @@
 kraken:
-  docker:
-    watch-tasks-delay: 1000
+  runtime:
     containers-count:
       run: 2
       debug: 2

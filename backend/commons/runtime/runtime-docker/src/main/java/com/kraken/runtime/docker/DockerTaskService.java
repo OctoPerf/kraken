@@ -6,12 +6,11 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
-import com.kraken.runtime.docker.properties.DockerProperties;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.LogType;
-import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.tools.unique.id.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,7 @@ import java.util.function.Function;
 final class DockerTaskService implements TaskService {
 
   @NonNull CommandService commandService;
-  @NonNull DockerProperties dockerProperties;
+  @NonNull RuntimeServerProperties serverProperties;
   @NonNull LogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull Function<TaskType, String> taskTypeToPath;
@@ -114,7 +113,7 @@ final class DockerTaskService implements TaskService {
     final var envBuilder = ImmutableMap.<String, String>builder();
     envBuilder.putAll(environment);
     envBuilder.put("KRAKEN_TASK_ID", taskId);
-    envBuilder.put("KRAKEN_EXPECTED_COUNT", dockerProperties.getContainersCount().get(taskType).toString());
+    envBuilder.put("KRAKEN_EXPECTED_COUNT", serverProperties.getContainersCount().get(taskType).toString());
     envPublishers.stream()
         .filter(environmentPublisher -> environmentPublisher.test(taskType))
         .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));

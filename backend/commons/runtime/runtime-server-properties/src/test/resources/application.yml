@@ -1,0 +1,6 @@
+kraken:
+  runtime:
+    containers-count:
+      run: 1
+      debug: 2
+      record: 2

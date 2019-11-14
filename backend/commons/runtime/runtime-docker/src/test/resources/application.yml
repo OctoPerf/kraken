@@ -1,12 +1,11 @@
 kraken:
   data: testDir
   version: 1.0.0
-  docker:
+  runtime:
     containers-count:
       run: 1
       debug: 2
       record: 2
-  runtime:
     url: runtimeUrl
   analysis:
     url: analysisUrl

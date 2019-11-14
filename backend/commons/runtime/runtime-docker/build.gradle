@@ -4,6 +4,7 @@ ext {
 
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-server-properties')
     implementation project(':commons:runtime:runtime-api')
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:runtime:runtime-logs')
@@ -17,6 +18,7 @@ dependencies {
     testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 
+    testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-client-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')

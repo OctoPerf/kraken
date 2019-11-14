@@ -1,16 +1,15 @@
-package com.kraken.runtime.docker.properties;
+package com.kraken.runtime.server.properties;
 
 import com.kraken.runtime.entity.TaskType;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import java.time.Duration;
 import java.util.Map;
 
 @Value
 @Builder
-public class DockerProperties {
+public class RuntimeServerProperties {
 
   @NonNull
   Map<TaskType, Integer> containersCount;
