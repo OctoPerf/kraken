@@ -71,12 +71,7 @@ final class DockerTaskService implements TaskService {
   }
 
   @Override
-  public Mono<String> cancel(final String applicationId,
-                             final Task task) {
-
-    final var taskId = task.getId();
-    final var taskType = task.getType();
-
+  public Mono<String> cancel(final String applicationId, final String taskId, final TaskType taskType) {
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",

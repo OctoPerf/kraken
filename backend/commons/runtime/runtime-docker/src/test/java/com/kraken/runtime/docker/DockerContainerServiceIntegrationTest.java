@@ -3,10 +3,7 @@ package com.kraken.runtime.docker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.Log;
-import com.kraken.runtime.entity.TaskTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.After;
@@ -80,7 +77,7 @@ public class DockerContainerServiceIntegrationTest {
 
     System.out.println(logs);
     final var first = logs.get(0);
-    assertThat(first.getId()).isEqualTo(containerId);
+    assertThat(first.getId()).isEqualTo("taskId-local-containerThreeId");
     assertThat(first.getApplicationId()).isEqualTo(appId);
     assertThat(first.getText()).contains("Kraken echo!");
   }
@@ -90,17 +87,14 @@ public class DockerContainerServiceIntegrationTest {
     final var taskId = "taskId";
     final var hostId = "local";
     final var containerId = "containerOneId";
-    final var container = containerService.setStatus(taskId, hostId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).block();
+    containerService.setStatus(taskId, hostId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).then().block();
 
-    System.out.println(container);
-    assertThat(container).isNotNull();
-    assertThat(container.getId()).isEqualTo(containerId);
-
-    final var tasks = taskService.list().collectList().block();
-    assertThat(tasks).isNotNull();
-    System.out.println(tasks);
-    assertThat(tasks.size()).isEqualTo(2);
-    final var debugTask = tasks.stream().filter(task -> task.getType() == TaskType.DEBUG).findFirst().orElse(TaskTest.TASK);
-    assertThat(debugTask.getStatus()).isEqualTo(ContainerStatus.RUNNING);
+    final var flatContainers = taskService.list().collectList().block();
+    assertThat(flatContainers).isNotNull();
+    System.out.println(flatContainers);
+    assertThat(flatContainers.size()).isEqualTo(3);
+    final var debugFlatContainer = flatContainers.stream().filter(flatContainer -> flatContainer.getContainerId().equals(containerId)).findFirst();
+    assertThat(debugFlatContainer.isPresent()).isTrue();
+    assertThat(debugFlatContainer.get().getStatus()).isEqualTo(ContainerStatus.RUNNING);
   }
 }

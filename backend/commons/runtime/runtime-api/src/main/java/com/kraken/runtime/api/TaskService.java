@@ -16,8 +16,7 @@ public interface TaskService {
                        Integer replicas,
                        Map<String, String> environment);
 
-  Mono<String> cancel(String applicationId,
-                    Task task);
+  Mono<String> cancel(String applicationId, String taskId, TaskType taskType);
 
   Flux<FlatContainer> list();
 

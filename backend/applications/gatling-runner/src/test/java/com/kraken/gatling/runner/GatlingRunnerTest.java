@@ -65,7 +65,7 @@ public class GatlingRunnerTest {
 
   @Test
   public void shouldInit() {
-    given(runtimeClient.setStatus(anyString(), anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.just(ContainerTest.CONTAINER));
+    given(runtimeClient.setStatus(anyString(), anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));

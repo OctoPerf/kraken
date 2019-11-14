@@ -8,6 +8,7 @@ import com.kraken.runtime.entity.LogTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
 import com.kraken.tools.sse.SSEWrapperTest;
@@ -52,6 +53,9 @@ public class RuntimeControllerTest {
   TaskService taskService;
 
   @MockBean
+  TaskListService taskListService;
+
+  @MockBean
   SSEService sse;
 
   @Test
@@ -80,7 +84,7 @@ public class RuntimeControllerTest {
     final Flux<List<Task>> tasksFlux = Flux.just(ImmutableList.of(TaskTest.TASK));
     given(logsService.listen(applicationId))
         .willReturn(logFlux);
-    given(taskService.watch()).willReturn(tasksFlux);
+    given(taskListService.watch()).willReturn(tasksFlux);
     given(sse.merge("LOG", logFlux, "TASKS", tasksFlux)).willReturn(wrapperFlux);
     given(sse.keepAlive(wrapperFlux)).willReturn(eventsFlux);
 

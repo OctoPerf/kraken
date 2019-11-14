@@ -3,11 +3,7 @@ package com.kraken.runtime.docker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.entity.DockerContainerTest;
-import com.kraken.runtime.entity.Container;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.ContainerTest;
-import com.kraken.runtime.entity.LogType;
+import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +14,7 @@ import reactor.core.publisher.Flux;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -31,23 +28,20 @@ public class DockerContainerServiceTest {
   @Mock
   LogsService logsService;
   @Mock
-  Function<String, DockerContainer> stringToDockerContainer;
+  Function<String, FlatContainer> stringToFlatContainer;
   @Mock
   BiFunction<String, ContainerStatus, String> containerStatusToName;
-  @Mock
-  Function<DockerContainer, Container> dockerContainerToContainer;
 
   DockerContainerService service;
 
   @Before
   public void before() {
-    this.service = new DockerContainerService(commandService, logsService, stringToDockerContainer, containerStatusToName, dockerContainerToContainer);
+    this.service = new DockerContainerService(commandService, logsService, stringToFlatContainer, containerStatusToName);
   }
 
   @Test
   public void shouldSetStatus() {
-    final var container = ContainerTest.CONTAINER;
-    final var dockerContainer = DockerContainerTest.CONTAINER;
+    final var flatContainer = FlatContainerTest.CONTAINER;
     final var status = ContainerStatus.RUNNING;
 
     // Find
@@ -55,13 +49,13 @@ public class DockerContainerServiceTest {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.containerId=" + dockerContainer.getContainerId(),
+            "--filter", "label=com.kraken.containerId=" + flatContainer.getContainerId(),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();
     given(commandService.execute(findCommand)).willReturn(Flux.just("found"));
-    given(stringToDockerContainer.apply("found")).willReturn(dockerContainer);
+    given(stringToFlatContainer.apply("found")).willReturn(flatContainer);
 
     // Rename
     final var containerName = "containerName";
@@ -69,37 +63,39 @@ public class DockerContainerServiceTest {
         .path(".")
         .command(Arrays.asList("docker",
             "rename",
-            dockerContainer.getId(),
+            flatContainer.getId(),
             containerName))
         .environment(ImmutableMap.of())
         .build();
-    given(containerStatusToName.apply(dockerContainer.getContainerId(), status)).willReturn(containerName);
+    given(containerStatusToName.apply(flatContainer.getContainerId(), status)).willReturn(containerName);
     final var renamed = Flux.just("renamed");
     given(commandService.execute(renameCommand)).willReturn(renamed);
     given(logsService.concat(renamed)).willReturn(renamed);
-    given(dockerContainerToContainer.apply(dockerContainer.withStatus(status))).willReturn(container);
 
-    assertThat(service.setStatus(dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId(), status).block()).isEqualTo(container);
+    service.setStatus(flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId(), status).block();
+
+    verify(commandService).execute(renameCommand);
+    verify(logsService).concat(renamed);
   }
 
   @Test
   public void shouldAttachLogs() {
     final var applicationId = "applicationId";
     final var container = ContainerTest.CONTAINER;
-    final var dockerContainer = DockerContainerTest.CONTAINER;
+    final var flatContainer = FlatContainerTest.CONTAINER;
 
     // Find
     final var findCommand = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.containerId=" + dockerContainer.getContainerId(),
+            "--filter", "label=com.kraken.containerId=" + flatContainer.getContainerId(),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
         .build();
     given(commandService.execute(findCommand)).willReturn(Flux.just("found"));
-    given(stringToDockerContainer.apply("found")).willReturn(dockerContainer);
+    given(stringToFlatContainer.apply("found")).willReturn(flatContainer);
 
     // Logs
     final var logsCommand = Command.builder()
@@ -113,9 +109,9 @@ public class DockerContainerServiceTest {
     given(commandService.execute(logsCommand)).willReturn(logs);
     given(logsService.concat(logs)).willReturn(logs);
 
-    service.attachLogs(applicationId, dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId()).block();
+    service.attachLogs(applicationId, flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId()).block();
 
-    verify(logsService).push(applicationId, service.logsId(dockerContainer.getTaskId(), dockerContainer.getHostId(), dockerContainer.getContainerId()), LogType.CONTAINER, logs);
+    verify(logsService).push(applicationId, service.logsId(flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId()), LogType.CONTAINER, logs);
   }
 
   @Test

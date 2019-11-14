@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 public class ResultUpdaterTest {
 
   @Mock
-  TaskService taskService;
+  TaskListService taskListService;
 
   @Mock
   AnalysisClient analysisClient;
@@ -42,7 +42,7 @@ public class ResultUpdaterTest {
 
   @Before
   public void before() {
-    this.updater = new SpringResultUpdater(taskService, analysisClient, new TaskTypeToResultType(), new TaskStatusToResultStatus());
+    this.updater = new SpringResultUpdater(taskListService, analysisClient, new TaskTypeToResultType(), new TaskStatusToResultStatus());
   }
 
   @Test
@@ -104,7 +104,7 @@ public class ResultUpdaterTest {
         .description("description")
         .build();
 
-    given(taskService.watch()).willReturn(Flux.just(ImmutableList.of(task0, task10), ImmutableList.of(task0, task11), ImmutableList.of(task0, task12)));
+    given(taskListService.watch()).willReturn(Flux.just(ImmutableList.of(task0, task10), ImmutableList.of(task0, task11), ImmutableList.of(task0, task12)));
     given(analysisClient.setStatus(anyString(), any(ResultStatus.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
 
     updater.start();

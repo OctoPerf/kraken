@@ -101,7 +101,7 @@ public class ContainerControllerTest {
     final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
     given(service.setStatus(taskId, hostId, containerId, container.getStatus()))
-        .willReturn(Mono.just(container));
+        .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
@@ -111,9 +111,7 @@ public class ContainerControllerTest {
             .queryParam("containerId", containerId)
             .build())
         .exchange()
-        .expectStatus().isOk()
-        .expectBody(Container.class)
-        .isEqualTo(container);
+        .expectStatus().isOk();
 
     verify(service).setStatus(taskId, hostId, containerId, container.getStatus());
   }

@@ -68,9 +68,10 @@ final class DockerContainerService implements ContainerService {
           .environment(ImmutableMap.of())
           .build();
       return logsService.concat(commandService.execute(command)).collectList().map(list -> {
-        log.info(String.join("\n", list));
-        return null;
-      });
+        final var logs = String.join("\n", list);
+        log.info(logs);
+        return logs;
+      }).then();
     });
   }
 

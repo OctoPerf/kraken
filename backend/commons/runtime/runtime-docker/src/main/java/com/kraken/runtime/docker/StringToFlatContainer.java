@@ -15,12 +15,12 @@ import java.util.function.Function;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.hostId\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.expectedCount\"}};{{.Label \"com.kraken.description\"}}";
+  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.hostId\"}};{{.Label \"com.kraken.expectedCount\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.description\"}}";
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
   public FlatContainer apply(final String str) {
-    final var split = str.split("[;]", 9);
+    final var split = str.split("[;]", 10);
     final var id = split[0];
     final var status = split[1];
     final var dateStr = split[2];
@@ -28,8 +28,8 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
     final var taskType = split[4];
     final var containerId = split[5];
     final var hostId = split[6];
-    final var name = split[7];
-    final var expectedCount = split[8];
+    final var expectedCount = split[7];
+    final var name = split[8];
     final var description = split[9];
 
     var date = new Date().getTime();

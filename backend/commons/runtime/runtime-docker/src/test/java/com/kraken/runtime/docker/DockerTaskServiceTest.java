@@ -4,15 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.entity.DockerContainer;
-import com.kraken.runtime.docker.entity.DockerContainerTest;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.docker.properties.DockerPropertiesTest;
-import com.kraken.runtime.entity.LogType;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.unique.id.IdGenerator;
 import org.junit.Before;
@@ -21,16 +16,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.GroupedFlux;
-import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DockerTaskServiceTest {
@@ -40,9 +32,7 @@ public class DockerTaskServiceTest {
   @Mock
   LogsService logsService;
   @Mock
-  Function<String, DockerContainer> stringToDockerContainer;
-  @Mock
-  Function<GroupedFlux<String, DockerContainer>, Mono<Task>> dockerContainersToTask;
+  Function<String, FlatContainer> stringToFlatContainer;
   @Mock
   Function<TaskType, String> taskTypeToPath;
   @Mock
@@ -60,8 +50,7 @@ public class DockerTaskServiceTest {
         commandService,
         DockerPropertiesTest.DOCKER_PROPERTIES,
         logsService,
-        stringToDockerContainer,
-        dockerContainersToTask,
+        stringToFlatContainer,
         taskTypeToPath,
         ImmutableList.of(envChecker),
         ImmutableList.of(envPublisher),
@@ -98,6 +87,7 @@ public class DockerTaskServiceTest {
             "--no-color"))
         .environment(ImmutableMap.<String, String>builder().putAll(env)
             .put("KRAKEN_TASK_ID", taskId)
+            .put("KRAKEN_EXPECTED_COUNT", DockerPropertiesTest.DOCKER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();
@@ -130,6 +120,7 @@ public class DockerTaskServiceTest {
             "down"))
         .environment(ImmutableMap.<String, String>builder()
             .put("KRAKEN_TASK_ID", taskId)
+            .put("KRAKEN_EXPECTED_COUNT", DockerPropertiesTest.DOCKER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();
@@ -138,7 +129,7 @@ public class DockerTaskServiceTest {
     given(commandService.execute(cancelCmd)).willReturn(logs);
     given(logsService.concat(logs)).willReturn(logs);
 
-    assertThat(service.cancel(applicationId, TaskTest.TASK).block()).isEqualTo(taskId);
+    assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
 
     verify(commandService).execute(cancelCmd);
     verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
@@ -146,8 +137,6 @@ public class DockerTaskServiceTest {
 
   @Test
   public void shouldList() {
-    final var task = TaskTest.TASK;
-
     final var listCommand = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
@@ -160,10 +149,9 @@ public class DockerTaskServiceTest {
 
     final var taskAsString = "taskAsString";
     given(commandService.execute(listCommand)).willReturn(Flux.just(taskAsString));
-    given(stringToDockerContainer.apply(taskAsString)).willReturn(DockerContainerTest.CONTAINER);
-    given(dockerContainersToTask.apply(any())).willReturn(Mono.just(task));
+    given(stringToFlatContainer.apply(taskAsString)).willReturn(FlatContainerTest.CONTAINER);
 
-    assertThat(service.list().blockLast()).isEqualTo(task);
+    assertThat(service.list().blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
 
     verify(commandService).execute(listCommand);
   }

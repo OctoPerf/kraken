@@ -44,21 +44,21 @@ public class DockerTaskServiceExecutionIntegrationTest {
         "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test",
         "KRAKEN_DESCRIPTION", "description")).block();
 
-    taskService.watch().filter(tasks -> tasks.size() > 0 && tasks.get(0).getStatus() == ContainerStatus.STARTING).next().block();
-
     Thread.sleep(5000);
-    final var task = taskService.list().next().block();
+    final var flatContainers = taskService.list().collectList().block();
+    assertThat(flatContainers).isNotNull();
+    assertThat(flatContainers.size()).isEqualTo(2);
 
-    assertThat(task).isNotNull();
-    assertThat(task.getType()).isEqualTo(TaskType.RECORD);
-    assertThat(task.getStatus()).isEqualTo(ContainerStatus.STARTING);
-    assertThat(task.getDescription()).isEqualTo("description");
-    assertThat(task.getId()).isEqualTo(taskId);
-    assertThat(task.getContainers().size()).isEqualTo(2);
-    assertThat(task.getContainers().get(0).getId()).startsWith(taskId);
-    assertThat(task.getContainers().get(0).getStatus()).isEqualTo(ContainerStatus.STARTING);
+    final var flatContainer = flatContainers.get(0);
 
-    taskService.cancel(appId, task).block();
+    assertThat(flatContainer).isNotNull();
+    assertThat(flatContainer.getTaskType()).isEqualTo(TaskType.RECORD);
+    assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
+    assertThat(flatContainer.getDescription()).isEqualTo("description");
+    assertThat(flatContainer.getTaskId()).isEqualTo(taskId);
+    assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
+
+    taskService.cancel(appId, flatContainer.getTaskId(), flatContainer.getTaskType()).block();
     Thread.sleep(10000);
     disposable.dispose();
     final var logsString = logs.stream().map(Log::getText).reduce((s, s2) -> s + s2).orElse("");

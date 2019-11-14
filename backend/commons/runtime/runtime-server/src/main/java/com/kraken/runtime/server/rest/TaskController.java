@@ -50,11 +50,12 @@ public class TaskController {
         .flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
   }
 
-  @PostMapping("/cancel")
+  @PostMapping("/cancel/{type}")
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                             @RequestBody() final Task task) {
-    log.info(String.format("Cancel task %s", task.getId()));
-    return taskService.cancel(applicationId, task).flatMap(aVoid -> resultUpdater.taskCanceled(task.getId()));
+                             @RequestParam("taskId") final String taskId,
+                             @PathVariable("type") final TaskType type) {
+    log.info(String.format("Cancel task %s", taskId));
+    return taskService.cancel(applicationId, taskId, type).flatMap(aVoid -> resultUpdater.taskCanceled(taskId));
   }
 
   @GetMapping(value = "/watch")

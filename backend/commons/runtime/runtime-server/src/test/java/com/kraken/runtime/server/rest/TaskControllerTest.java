@@ -4,14 +4,13 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.ContainerTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
+import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.sse.SSEService;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,10 @@ public class TaskControllerTest {
   WebTestClient webTestClient;
 
   @MockBean
-  TaskService service;
+  TaskService taskService;
+
+  @MockBean
+  TaskListService taskListService;
 
   @MockBean
   ResultUpdater updater;
@@ -63,9 +65,9 @@ public class TaskControllerTest {
     final var applicationId = "test";
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
-    given(service.hostsCount())
+    given(taskService.hostsCount())
         .willReturn(Mono.just(42));
-    given(service.execute(applicationId, TaskType.RUN, 1, env))
+    given(taskService.execute(applicationId, TaskType.RUN, 1, env))
         .willReturn(Mono.just(taskId));
     given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
 
@@ -86,7 +88,7 @@ public class TaskControllerTest {
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
-    given(service.hostsCount())
+    given(taskService.hostsCount())
         .willReturn(Mono.just(42));
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
@@ -105,9 +107,9 @@ public class TaskControllerTest {
     final var applicationId = "test";
     final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
-    given(service.hostsCount())
+    given(taskService.hostsCount())
         .willReturn(Mono.just(2));
-    given(service.execute(applicationId, TaskType.RUN, 3, env))
+    given(taskService.execute(applicationId, TaskType.RUN, 3, env))
         .willReturn(Mono.just(taskId));
     given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
 
@@ -127,28 +129,34 @@ public class TaskControllerTest {
   @Test
   public void shouldCancel() {
     final var applicationId = "test";
-    final var task = TaskTest.TASK;
-    given(service.cancel(applicationId, task))
-        .willReturn(Mono.just(task.getId()));
-    given(updater.taskCanceled(task.getId()))
-        .willReturn(Mono.just(task.getId()));
+    final var taskId = "taskId";
+    final var taskType = TaskType.RUN;
+    given(taskService.cancel(applicationId, taskId, taskType))
+        .willReturn(Mono.just(taskId));
+    given(updater.taskCanceled(taskId))
+        .willReturn(Mono.just(taskId));
 
     webTestClient.post()
-        .uri("/task/cancel")
+        .uri(uriBuilder -> uriBuilder.path("/task/cancel")
+            .pathSegment(taskType.toString())
+            .queryParam("taskId", taskId)
+            .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(task))
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).cancel(applicationId, task);
-    verify(updater).taskCanceled(task.getId());
+    verify(taskService).cancel(applicationId, taskId, taskType);
+    verify(updater).taskCanceled(taskId);
   }
 
   @Test
   public void shouldFailToCancel() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     webTestClient.post()
-        .uri("/task/cancel")
+        .uri(uriBuilder -> uriBuilder.path("/task/cancel")
+            .pathSegment("RUN")
+            .queryParam("taskId", "taskId")
+            .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(TaskTest.TASK))
         .exchange()
@@ -158,7 +166,7 @@ public class TaskControllerTest {
   @Test
   public void shouldList() {
     final var tasksFlux = Flux.just(TaskTest.TASK);
-    given(service.list())
+    given(taskListService.list())
         .willReturn(tasksFlux);
 
     webTestClient.get()
@@ -174,7 +182,7 @@ public class TaskControllerTest {
     final List<Task> list = ImmutableList.of(TaskTest.TASK, TaskTest.TASK);
     final Flux<List<Task>> tasksFlux = Flux.just(list, list);
     final Flux<ServerSentEvent<List<Task>>> eventsFlux = Flux.just(ServerSentEvent.builder(list).build(), ServerSentEvent.builder(list).build());
-    given(service.watch()).willReturn(tasksFlux);
+    given(taskListService.watch()).willReturn(tasksFlux);
     given(sse.keepAlive(tasksFlux)).willReturn(eventsFlux);
 
     final var result = webTestClient.get()

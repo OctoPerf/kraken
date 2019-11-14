@@ -36,19 +36,14 @@ public class RuntimeClientTest {
   }
 
   @Test
-  public void shouldSetStatus() throws InterruptedException, IOException {
-
-    final var container = ContainerTest.CONTAINER;
-
+  public void shouldSetStatus() throws InterruptedException {
     runtimeMockWebServer.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(container))
     );
 
-    final var response = client.setStatus("taskId", "hostId", "containerId", ContainerStatus.READY).block();
-    assertThat(response).isEqualTo(container);
+    client.setStatus("taskId", "hostId", "containerId", ContainerStatus.READY).block();
 
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&hostId=hostId&containerId=containerId");

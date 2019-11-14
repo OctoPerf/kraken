@@ -125,7 +125,9 @@ subprojects {
 
     check.dependsOn jacocoTestReport
 
+
     spotbugsMain {
+        excludeFilter = file("$rootProject.projectDir/spotbugs-exclude.xml")
         reports {
             xml.enabled = false
             html.enabled = true

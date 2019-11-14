@@ -40,7 +40,7 @@ public class ContainerController {
   }
 
   @PostMapping("/status/{status}")
-  public Mono<FlatContainer> setStatus(@RequestParam("taskId") final String taskId,
+  public Mono<Void> setStatus(@RequestParam("taskId") final String taskId,
                                        @RequestParam("hostId") final String hostId,
                                        @RequestParam("containerId") final String containerId,
                                        @PathVariable("status") final ContainerStatus status) {
