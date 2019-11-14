@@ -13,6 +13,7 @@ public class TaskTest {
       .status(ContainerStatus.STARTING)
       .type(TaskType.RUN)
       .containers(ImmutableList.of())
+      .expectedCount(2)
       .description("description")
       .build();
 

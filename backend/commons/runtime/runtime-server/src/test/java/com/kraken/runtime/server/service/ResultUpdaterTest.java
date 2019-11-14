@@ -86,6 +86,7 @@ public class ResultUpdaterTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .description("description")
+        .expectedCount(2)
         .build();
     final var task11 = Task.builder()
         .id(taskId)
@@ -94,6 +95,7 @@ public class ResultUpdaterTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .description("description")
+        .expectedCount(2)
         .build();
     final var task12 = Task.builder()
         .id(taskId)
@@ -102,6 +104,7 @@ public class ResultUpdaterTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .description("description")
+        .expectedCount(2)
         .build();
 
     given(taskListService.watch()).willReturn(Flux.just(ImmutableList.of(task0, task10), ImmutableList.of(task0, task11), ImmutableList.of(task0, task12)));

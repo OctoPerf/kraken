@@ -39,6 +39,7 @@ public class OtherContainersStoppingPredicateTest {
         .startDate(0L)
         .status(ContainerStatus.STARTING)
         .type(TaskType.RUN)
+        .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
                 .id(containerProperties.getContainerId())
@@ -67,6 +68,7 @@ public class OtherContainersStoppingPredicateTest {
         .status(ContainerStatus.STARTING)
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
+        .expectedCount(2)
         .build())).isFalse();
   }
 
@@ -78,6 +80,7 @@ public class OtherContainersStoppingPredicateTest {
         .startDate(0L)
         .status(ContainerStatus.STARTING)
         .type(TaskType.RUN)
+        .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
                 .id(containerProperties.getContainerId())

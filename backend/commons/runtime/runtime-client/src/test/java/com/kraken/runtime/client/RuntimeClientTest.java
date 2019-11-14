@@ -61,6 +61,7 @@ public class RuntimeClientTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .description("description")
+        .expectedCount(2)
         .build();
 
     final var empty = ImmutableList.<Task>of();
@@ -72,6 +73,7 @@ public class RuntimeClientTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .description("description")
+        .expectedCount(2)
         .build());
     final var ready = ImmutableList.of(TaskTest.TASK, task);
 

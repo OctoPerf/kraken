@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SpringTaskListService implements TaskListService {
 
-  private final static Duration WATCH_TASKS_DELAY = Duration.ofSeconds(2);
+  final static Duration WATCH_TASKS_DELAY = Duration.ofSeconds(2);
 
   @NonNull FlatContainersToTask toTask;
   @NonNull TaskService taskService;

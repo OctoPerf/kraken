@@ -30,28 +30,16 @@ final class SpringFlatContainersToTask implements FlatContainersToTask {
       final var first = containers.get(0);
       final var taskType = first.getTaskType();
       final var description = first.getDescription();
-      while (containers.size() < first.getExpectedCount()) {
-        containers.add(FlatContainer.builder()
-            .id("")
-            .containerId("")
-            .taskId(containersFlux.key())
-            .hostId(first.getHostId())
-            .taskType(taskType)
-            .name("creating")
-            .description(description)
-            .startDate(0L)
-            .status(ContainerStatus.CREATING)
-            .expectedCount(first.getExpectedCount())
-            .build());
-      }
+      final var expectedCount = first.getExpectedCount();
       final var minStatusOrdinal = containers.stream().map(FlatContainer::getStatus).map(Enum::ordinal).min(Integer::compareTo).orElse(0);
-      final var containerStatus = ContainerStatus.values()[minStatusOrdinal];
+      final var taskStatus = containers.size() < expectedCount ? ContainerStatus.CREATING : ContainerStatus.values()[minStatusOrdinal];
       return Task.builder()
           .id(containersFlux.key())
           .startDate(containers.stream().map(FlatContainer::getStartDate).min(Long::compareTo).orElse(0L))
-          .status(containerStatus)
+          .status(taskStatus)
           .type(taskType)
           .containers(containers.stream().map(dockerContainerToContainer).collect(Collectors.toList()))
+          .expectedCount(first.getExpectedCount())
           .description(description)
           .build();
     });
