@@ -52,11 +52,10 @@ public class DockerTaskServiceExecutionIntegrationTest {
     final var flatContainer = flatContainers.get(0);
 
     assertThat(flatContainer).isNotNull();
+    assertThat(flatContainer.getTaskId()).isEqualTo(taskId);
     assertThat(flatContainer.getTaskType()).isEqualTo(TaskType.RECORD);
     assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
     assertThat(flatContainer.getDescription()).isEqualTo("description");
-    assertThat(flatContainer.getTaskId()).isEqualTo(taskId);
-    assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
 
     taskService.cancel(appId, flatContainer.getTaskId(), flatContainer.getTaskType()).block();
     Thread.sleep(10000);
