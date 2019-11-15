@@ -67,18 +67,16 @@ public class SpringLogsServiceTest {
 
     final var app0Logs = zip.getT1();
     assertThat(app0Logs).isNotNull();
-    assertThat(app0Logs.size()).isGreaterThan(40);
+    assertThat(app0Logs.size()).isEqualTo(2);
 
     final var app1Logs = zip.getT2();
     assertThat(app1Logs).isNotNull();
-    assertThat(app1Logs.size()).isGreaterThan(11);
-    assertThat(app1Logs.get(0)).isEqualTo(Log.builder().applicationId(applicationId1).id(log1).type(LogType.CONTAINER).text("log1 at 100").build());
-    assertThat(app1Logs.get(12)).isEqualTo(Log.builder().applicationId(applicationId1).id(log3).type(LogType.CONTAINER).text("log3 at 1100").build());
+    assertThat(app1Logs.size()).isEqualTo(2);
 
     final var app2Logs = zip.getT2();
     assertThat(app2Logs).isNotNull();
-    System.out.println(app1Logs);
-    assertThat(app2Logs.size()).isGreaterThan(5);
+    System.out.println(app2Logs);
+    assertThat(app2Logs.size()).isEqualTo(2);
   }
 
   @Test
