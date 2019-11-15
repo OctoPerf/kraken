@@ -70,12 +70,10 @@ public class DockerContainerServiceTest {
     given(containerStatusToName.apply(flatContainer.getContainerId(), status)).willReturn(containerName);
     final var renamed = Flux.just("renamed");
     given(commandService.execute(renameCommand)).willReturn(renamed);
-    given(logsService.concat(renamed)).willReturn(renamed);
 
     service.setStatus(flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId(), status).block();
 
     verify(commandService).execute(renameCommand);
-    verify(logsService).concat(renamed);
   }
 
   @Test
@@ -107,7 +105,6 @@ public class DockerContainerServiceTest {
         .build();
     final var logs = Flux.just("logs");
     given(commandService.execute(logsCommand)).willReturn(logs);
-    given(logsService.concat(logs)).willReturn(logs);
 
     service.attachLogs(applicationId, flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId()).block();
 
@@ -116,11 +113,8 @@ public class DockerContainerServiceTest {
 
   @Test
   public void shouldDetachLogs() {
-    final var taskId = "taskId";
-    final var hostId = "hostId";
-    final var containerId = "containerId";
-    service.detachLogs(taskId, hostId, containerId).block();
-    verify(logsService).cancel("taskId-hostId-containerId");
+    service.detachLogs("id").block();
+    verify(logsService).cancel("id");
   }
 
   @Test

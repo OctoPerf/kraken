@@ -25,25 +25,23 @@ public class ContainerController {
   @NonNull ContainerService service;
 
   @PostMapping("/logs/attach")
-  public Mono<Void> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                               @RequestParam("taskId") final String taskId,
-                               @RequestParam("hostId") final String hostId,
-                               @RequestParam("containerId") final String containerId) {
+  public Mono<String> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                 @RequestParam("taskId") final String taskId,
+                                 @RequestParam("hostId") final String hostId,
+                                 @RequestParam("containerId") final String containerId) {
     return service.attachLogs(applicationId, taskId, hostId, containerId);
   }
 
   @DeleteMapping("/logs/detach")
-  public Mono<Void> detachLogs(@RequestParam("taskId") final String taskId,
-                               @RequestParam("hostId") final String hostId,
-                               @RequestParam("containerId") final String containerId) {
-    return service.detachLogs(taskId, hostId, containerId);
+  public Mono<Void> detachLogs(@RequestParam("id") final String id) {
+    return service.detachLogs(id);
   }
 
   @PostMapping("/status/{status}")
   public Mono<Void> setStatus(@RequestParam("taskId") final String taskId,
-                                       @RequestParam("hostId") final String hostId,
-                                       @RequestParam("containerId") final String containerId,
-                                       @PathVariable("status") final ContainerStatus status) {
+                              @RequestParam("hostId") final String hostId,
+                              @RequestParam("containerId") final String containerId,
+                              @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
     return service.setStatus(taskId, hostId, containerId, status);
   }

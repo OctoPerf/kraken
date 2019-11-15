@@ -76,22 +76,18 @@ public class ContainerControllerTest {
 
   @Test
   public void shouldDetachLogs() {
-    final var containerId = "containerId";
-    final var hostId = "hostId";
-    final var taskId = "taskId";
-    given(service.detachLogs(taskId, hostId, containerId))
+    final var id = "id";
+    given(service.detachLogs(id))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/detach")
-            .queryParam("taskId", "taskId")
-            .queryParam("hostId", hostId)
-            .queryParam("containerId", "containerId")
+            .queryParam("id", "id")
             .build())
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).detachLogs(taskId, hostId, containerId);
+    verify(service).detachLogs(id);
   }
 
   @Test

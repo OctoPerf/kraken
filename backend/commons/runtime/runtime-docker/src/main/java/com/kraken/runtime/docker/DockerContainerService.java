@@ -33,7 +33,7 @@ final class DockerContainerService implements ContainerService {
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
 
   @Override
-  public Mono<Void> attachLogs(final String applicationId, final String taskId, final String hostId, final String containerId) {
+  public Mono<String> attachLogs(final String applicationId, final String taskId, final String hostId, final String containerId) {
     return this.find(containerId).map(container -> {
       final var command = Command.builder()
           .path(".")
@@ -42,16 +42,17 @@ final class DockerContainerService implements ContainerService {
               "-f", container.getId()))
           .environment(ImmutableMap.of())
           .build();
-      final var logs = logsService.concat(commandService.execute(command));
-      logsService.push(applicationId, this.logsId(taskId, hostId, containerId), LogType.CONTAINER, logs);
-      return container;
-    }).then();
+      final var logs = commandService.execute(command);
+      final var id = this.logsId(taskId, hostId, containerId);
+      logsService.push(applicationId, id, LogType.CONTAINER, logs);
+      return id;
+    });
   }
 
   @Override
-  public Mono<Void> detachLogs(final String taskId, final String hostId, final String containerId) {
+  public Mono<Void> detachLogs(final String id) {
     return Mono.fromCallable(() -> {
-      logsService.cancel(this.logsId(taskId, hostId, containerId));
+      logsService.cancel(id);
       return null;
     });
   }
@@ -67,7 +68,7 @@ final class DockerContainerService implements ContainerService {
               containerStatusToName.apply(container.getContainerId(), status)))
           .environment(ImmutableMap.of())
           .build();
-      return logsService.concat(commandService.execute(command)).collectList().map(list -> {
+      return commandService.execute(command).collectList().map(list -> {
         final var logs = String.join("\n", list);
         log.info(logs);
         return logs;

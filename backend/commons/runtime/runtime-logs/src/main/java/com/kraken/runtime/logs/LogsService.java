@@ -7,8 +7,6 @@ import reactor.core.publisher.Flux;
 
 public interface LogsService {
 
-  Flux<String> concat(Flux<String> logs);
-
   Flux<Log> listen(String applicationId);
 
   boolean cancel(String id);

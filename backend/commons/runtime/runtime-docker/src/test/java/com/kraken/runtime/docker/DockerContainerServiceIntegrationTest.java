@@ -70,9 +70,9 @@ public class DockerContainerServiceIntegrationTest {
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    containerService.attachLogs(appId, taskId, hostId, containerId).block();
+    final var id = containerService.attachLogs(appId, taskId, hostId, containerId).block();
     Thread.sleep(5000);
-    containerService.detachLogs(taskId, hostId, containerId).block();
+    containerService.detachLogs(id).block();
     disposable.dispose();
 
     System.out.println(logs);

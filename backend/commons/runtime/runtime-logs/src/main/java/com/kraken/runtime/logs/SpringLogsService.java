@@ -67,7 +67,10 @@ final class SpringLogsService implements LogsService {
 
   @Override
   public Disposable push(final String applicationId, final String id, final LogType type, final Flux<String> stringFlux) {
-    final var subscription = stringFlux.map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).build())
+    final var subscription = stringFlux
+        .windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
+        .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
+        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).build())
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(log -> {
@@ -87,9 +90,4 @@ final class SpringLogsService implements LogsService {
     subscriptions.clear();
   }
 
-  @Override
-  public Flux<String> concat(final Flux<String> logs) {
-    return logs.windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
-        .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2));
-  }
 }

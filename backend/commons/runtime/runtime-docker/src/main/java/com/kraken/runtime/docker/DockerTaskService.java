@@ -63,7 +63,7 @@ final class DockerTaskService implements TaskService {
 
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
-      final var logs = logsService.concat(commandService.execute(command));
+      final var logs = commandService.execute(command);
       logsService.push(applicationId, taskId, LogType.TASK, logs);
       return taskId;
     });
@@ -81,7 +81,7 @@ final class DockerTaskService implements TaskService {
 
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
-      final var logs = logsService.concat(commandService.execute(command));
+      final var logs = commandService.execute(command);
       logsService.push(applicationId, taskId, LogType.TASK, logs);
       return taskId;
     });

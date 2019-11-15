@@ -94,7 +94,6 @@ public class DockerTaskServiceTest {
 
     final var logs = Flux.just("logs");
     given(commandService.execute(executeCmd)).willReturn(logs);
-    given(logsService.concat(logs)).willReturn(logs);
 
     assertThat(service.execute(applicationId, taskType, replicas, env).block()).isEqualTo(taskId);
 
@@ -127,7 +126,6 @@ public class DockerTaskServiceTest {
 
     final var logs = Flux.just("logs");
     given(commandService.execute(cancelCmd)).willReturn(logs);
-    given(logsService.concat(logs)).willReturn(logs);
 
     assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
 
