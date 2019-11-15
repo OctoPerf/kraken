@@ -93,4 +93,6 @@ include 'applications:ee:har-parser'
 findProject(':applications:ee:har-parser')?.name = 'app-har-parser'
 include 'commons:runtime:runtime-server-properties'
 findProject(':commons:runtime:runtime-server-properties')?.name = 'runtime-server-properties'
+include 'applications:ee:runtime-kubernetes'
+findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
 

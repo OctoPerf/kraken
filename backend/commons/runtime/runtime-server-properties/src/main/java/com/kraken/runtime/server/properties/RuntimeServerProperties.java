@@ -14,4 +14,6 @@ public class RuntimeServerProperties {
   @NonNull
   Map<TaskType, Integer> containersCount;
 
+  @NonNull
+  String version;
 }

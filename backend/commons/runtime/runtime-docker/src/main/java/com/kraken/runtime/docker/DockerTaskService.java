@@ -1,5 +1,6 @@
 package com.kraken.runtime.docker;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -44,6 +47,8 @@ final class DockerTaskService implements TaskService {
                               final TaskType taskType,
                               final Integer replicas,
                               final Map<String, String> environment) {
+    checkArgument(replicas == 1, "The Docker runtime server can only run tasks on one host!");
+
     final var taskId = idGenerator.generate();
 
     final var env = this.updateEnvironment(environment, taskId, taskType);

@@ -10,6 +10,7 @@ public class RuntimeServerPropertiesTest {
 
   public static final RuntimeServerProperties RUNTIME_SERVER_PROPERTIES = RuntimeServerProperties.builder()
       .containersCount(ImmutableMap.of(TaskType.RUN, 2, TaskType.DEBUG, 2, TaskType.RECORD, 2))
+      .version("1.3.0")
       .build();
 
   @Test

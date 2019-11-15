@@ -101,6 +101,11 @@ public class DockerTaskServiceTest {
     verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldExecuteFail() {
+    service.execute("applicationId", TaskType.RUN, 2, ImmutableMap.of()).block();
+  }
+
   @Test
   public void shouldCancel() {
     final var applicationId = "applicationId";

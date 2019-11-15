@@ -1,4 +1,5 @@
 kraken:
+  version: 1.3.0
   runtime:
     containers-count:
       run: 1
