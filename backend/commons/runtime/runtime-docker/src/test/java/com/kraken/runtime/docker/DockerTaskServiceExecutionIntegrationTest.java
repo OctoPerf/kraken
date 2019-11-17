@@ -51,7 +51,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .hosts(ImmutableMap.of())
         .build();
 
-    final var taskId = taskService.execute(context).block();
+    taskService.execute(context).block();
 
     Thread.sleep(5000);
     final var flatContainers = taskService.list().collectList().block();
@@ -61,7 +61,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
     final var flatContainer = flatContainers.get(0);
 
     assertThat(flatContainer).isNotNull();
-    assertThat(flatContainer.getTaskId()).isEqualTo(taskId);
+    assertThat(flatContainer.getTaskId()).isEqualTo(context.getTaskId());
     assertThat(flatContainer.getTaskType()).isEqualTo(TaskType.RECORD);
     assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
     assertThat(flatContainer.getDescription()).isEqualTo("description");

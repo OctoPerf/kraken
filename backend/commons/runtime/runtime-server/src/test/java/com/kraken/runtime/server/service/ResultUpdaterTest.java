@@ -58,7 +58,7 @@ public class ResultUpdaterTest {
     assertThat(result.getStartDate()).isLessThanOrEqualTo(new Date().getTime());
     assertThat(result.getEndDate()).isEqualTo(0L);
     assertThat(result.getStatus()).isEqualTo(ResultStatus.STARTING);
-    assertThat(result.getType()).isEqualTo(ResultType.HAR);
+    assertThat(result.getType()).isEqualTo(ResultType.RUN);
   }
 
   @Test
