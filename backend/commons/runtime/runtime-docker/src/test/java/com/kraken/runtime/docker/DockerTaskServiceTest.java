@@ -54,11 +54,6 @@ public class DockerTaskServiceTest {
   }
 
   @Test
-  public void shouldCountHosts() {
-    assertThat(service.hostsCount().block()).isEqualTo(1);
-  }
-
-  @Test
   public void shouldExecute() {
     final var applicationId = "applicationId";
     final var taskId = "taskId";

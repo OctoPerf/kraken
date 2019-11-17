@@ -64,18 +64,6 @@ public class RuntimeControllerTest {
   }
 
   @Test
-  public void shouldReturnHostsCount() {
-    given(taskService.hostsCount())
-        .willReturn(Mono.just(42));
-
-    webTestClient.get()
-        .uri("/runtime/hosts/count")
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody(Integer.class).isEqualTo(42);
-  }
-
-  @Test
   public void shouldWatch() {
     final var applicationId = "test";
     final var logFlux = Flux.just(LogTest.LOG);

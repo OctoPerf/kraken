@@ -14,6 +14,4 @@ public interface TaskService {
 
   Flux<FlatContainer> list();
 
-  Mono<Integer> hostsCount();
-
 }

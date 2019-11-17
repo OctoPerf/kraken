@@ -1,6 +1,5 @@
 package com.kraken.runtime.server.rest;
 
-import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
 
@@ -30,16 +28,10 @@ import javax.validation.constraints.Pattern;
 public class RuntimeController {
 
   @NonNull LogsService logsService;
-  @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
 
   @NonNull
   SSEService sse;
-
-  @GetMapping(value = "/hosts/count")
-  public Mono<Integer> hostsCount() {
-    return taskService.hostsCount();
-  }
 
   @GetMapping(value = "/watch/{applicationId}")
   public Flux<ServerSentEvent<SSEWrapper>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {

@@ -90,24 +90,6 @@ public class TaskControllerTest {
   }
 
   @Test
-  public void shouldFailToRun() {
-    final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
-    given(taskService.hostsCount())
-        .willReturn(Mono.just(42));
-    webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/task")
-            .pathSegment(TaskType.RUN.toString())
-            .pathSegment("1")
-            .queryParam("description", "description")
-            .build())
-        .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(env))
-        .exchange()
-        .expectStatus().is5xxServerError();
-  }
-
-  @Test
   public void shouldCancel() {
     final var applicationId = "test";
     final var taskId = "taskId";

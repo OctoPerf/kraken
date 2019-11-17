@@ -40,7 +40,6 @@ public class TaskController {
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @RequestBody() final ExecutionContext context) {
     log.info(String.format("Run task %s", context.getTaskType()));
-
     return taskService.execute(context.withApplicationId(applicationId).withTaskId(idGenerator.generate()))
         .flatMap(resultUpdater::taskExecuted);
   }
