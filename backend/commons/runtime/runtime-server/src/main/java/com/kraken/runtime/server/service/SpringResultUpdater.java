@@ -5,6 +5,7 @@ import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.storage.entity.StorageNode;
@@ -46,16 +47,16 @@ final class SpringResultUpdater implements ResultUpdater {
   }
 
   @Override
-  public Mono<String> taskExecuted(final String taskId, final TaskType taskType, final Map<String, String> environment) {
+  public Mono<String> taskExecuted(final ExecutionContext context) {
     final var result = Result.builder()
-        .id(taskId)
+        .id(context.getTaskId())
         .startDate(new Date().getTime())
         .endDate(0L)
         .status(ResultStatus.STARTING)
-        .description(environment.get("KRAKEN_DESCRIPTION"))
-        .type(taskTypeToResultType.apply(taskType))
+        .description(context.getDescription())
+        .type(taskTypeToResultType.apply(context.getTaskType()))
         .build();
-    return analysisClient.create(result).map(storageNode -> taskId);
+    return analysisClient.create(result).map(storageNode -> context.getTaskId());
   }
 
   @Override

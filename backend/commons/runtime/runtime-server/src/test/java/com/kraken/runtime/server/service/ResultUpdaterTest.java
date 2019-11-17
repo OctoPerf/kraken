@@ -7,10 +7,7 @@ import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
 import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.*;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,19 +44,17 @@ public class ResultUpdaterTest {
 
   @Test
   public void shouldHandleTaskExecuted() {
-    final var taskId = "taskId";
-    final var taskType = TaskType.RECORD;
-    final var env = ImmutableMap.of("KRAKEN_DESCRIPTION", "description");
+    final var context = ExecutionContextTest.EXECUTION_CONTEXT;
 
     given(analysisClient.create(any(Result.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
 
-    assertThat(updater.taskExecuted(taskId, taskType, env).block()).isEqualTo(taskId);
+    assertThat(updater.taskExecuted(context).block()).isEqualTo(context.getTaskId());
 
     final ArgumentCaptor<Result> resultCaptor = ArgumentCaptor.forClass(Result.class);
     verify(analysisClient).create(resultCaptor.capture());
 
     final var result = resultCaptor.getValue();
-    assertThat(result.getId()).isEqualTo(taskId);
+    assertThat(result.getId()).isEqualTo(context.getTaskId());
     assertThat(result.getStartDate()).isLessThanOrEqualTo(new Date().getTime());
     assertThat(result.getEndDate()).isEqualTo(0L);
     assertThat(result.getStatus()).isEqualTo(ResultStatus.STARTING);

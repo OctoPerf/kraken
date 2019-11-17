@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
+import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
@@ -11,6 +12,7 @@ import com.kraken.runtime.server.service.ResultUpdater;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.sse.SSEService;
+import com.kraken.tools.unique.id.IdGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,9 @@ public class TaskControllerTest {
   @MockBean
   SSEService sse;
 
+  @MockBean
+  IdGenerator idGenerator;
+
   @Test
   public void shouldPassTestUtils() {
     TestUtils.shouldPassNPE(TaskController.class);
@@ -63,13 +68,13 @@ public class TaskControllerTest {
   @Test
   public void shouldRun() {
     final var applicationId = "test";
-    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
     final var taskId = "taskId";
-    given(taskService.hostsCount())
-        .willReturn(Mono.just(42));
-    given(taskService.execute(applicationId, TaskType.RUN, 1, env))
-        .willReturn(Mono.just(taskId));
-    given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
+    final var context = ExecutionContextTest.EXECUTION_CONTEXT;
+    final var updated = context.withApplicationId(applicationId).withTaskId(taskId);
+    given(idGenerator.generate()).willReturn(taskId);
+    given(taskService.execute(updated))
+        .willReturn(Mono.just(updated));
+    given(updater.taskExecuted(updated)).willReturn(Mono.just(taskId));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
@@ -77,7 +82,7 @@ public class TaskControllerTest {
             .pathSegment("1")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(env))
+        .body(BodyInserters.fromObject(context))
         .exchange()
         .expectStatus().isOk()
         .expectBody(String.class)
@@ -100,30 +105,6 @@ public class TaskControllerTest {
         .body(BodyInserters.fromObject(env))
         .exchange()
         .expectStatus().is5xxServerError();
-  }
-
-  @Test
-  public void shouldFailToRunCapacity() {
-    final var applicationId = "test";
-    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
-    final var taskId = "taskId";
-    given(taskService.hostsCount())
-        .willReturn(Mono.just(2));
-    given(taskService.execute(applicationId, TaskType.RUN, 3, env))
-        .willReturn(Mono.just(taskId));
-    given(updater.taskExecuted(taskId, TaskType.RUN, env)).willReturn(Mono.just(taskId));
-
-    webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/task")
-            .pathSegment(TaskType.RUN.toString())
-            .pathSegment("3")
-            .build())
-        .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(env))
-        .exchange()
-        .expectStatus().is5xxServerError()
-        .expectBody(String.class)
-        .value(s -> assertThat(s).contains("Insufficient capacity (2) to run 3 replicas!"));
   }
 
   @Test

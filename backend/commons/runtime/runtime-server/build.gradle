@@ -3,6 +3,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-api')
     implementation project(':commons:runtime:runtime-logs')
     implementation project(':commons:tools:sse')
+    implementation project(':commons:tools:unique-id')
     implementation project(':commons:analysis:analysis-client')
     implementation project(':commons:analysis:analysis-client-properties')
     implementation project(':commons:analysis:analysis-entity')

@@ -9,7 +9,6 @@ import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.tools.unique.id.IdGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,8 +38,6 @@ public class DockerTaskServiceTest {
   EnvironmentChecker envChecker;
   @Mock
   EnvironmentPublisher envPublisher;
-  @Mock
-  IdGenerator idGenerator;
 
   DockerTaskService service;
 
@@ -53,10 +50,8 @@ public class DockerTaskServiceTest {
         stringToFlatContainer,
         taskTypeToPath,
         ImmutableList.of(envChecker),
-        ImmutableList.of(envPublisher),
-        idGenerator);
+        ImmutableList.of(envPublisher));
   }
-
 
   @Test
   public void shouldCountHosts() {
@@ -68,11 +63,17 @@ public class DockerTaskServiceTest {
     final var applicationId = "applicationId";
     final var taskId = "taskId";
     final var taskType = TaskType.RUN;
-    final var replicas = 1;
     final var path = "path";
-    final var env = ImmutableMap.of("KRAKEN_DESCRIPTION", "description");
 
-    given(idGenerator.generate()).willReturn(taskId);
+    final var context = ExecutionContext.builder()
+        .taskType(TaskType.RUN)
+        .taskId(taskId)
+        .applicationId(applicationId)
+        .description("description")
+        .environment(ImmutableMap.of("foo", "bar"))
+        .hosts(ImmutableMap.of())
+        .build();
+
     given(envChecker.test(taskType)).willReturn(true);
     given(envPublisher.test(taskType)).willReturn(true);
     given(envPublisher.get()).willReturn(ImmutableMap.of("FOO", "BAR"));
@@ -85,7 +86,7 @@ public class DockerTaskServiceTest {
             "up",
             "-d",
             "--no-color"))
-        .environment(ImmutableMap.<String, String>builder().putAll(env)
+        .environment(ImmutableMap.<String, String>builder().putAll(context.getEnvironment())
             .put("KRAKEN_TASK_ID", taskId)
             .put("KRAKEN_EXPECTED_COUNT", RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
@@ -95,7 +96,7 @@ public class DockerTaskServiceTest {
     final var logs = Flux.just("logs");
     given(commandService.execute(executeCmd)).willReturn(logs);
 
-    assertThat(service.execute(applicationId, taskType, replicas, env).block()).isEqualTo(taskId);
+    assertThat(service.execute(context).block()).isEqualTo(context);
 
     verify(commandService).execute(executeCmd);
     verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
@@ -103,7 +104,15 @@ public class DockerTaskServiceTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldExecuteFail() {
-    service.execute("applicationId", TaskType.RUN, 2, ImmutableMap.of()).block();
+    final var context = ExecutionContext.builder()
+        .taskType(TaskType.RUN)
+        .taskId("taskId")
+        .applicationId("applicationId")
+        .description("description")
+        .environment(ImmutableMap.of("foo", "bar"))
+        .hosts(ImmutableMap.of("host1", ImmutableMap.of()))
+        .build();
+    service.execute(context).block();
   }
 
   @Test

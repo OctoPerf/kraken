@@ -1,12 +1,13 @@
 package com.kraken.runtime.server.rest;
 
-import com.google.common.base.Preconditions;
 import com.kraken.runtime.api.TaskService;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
+import com.kraken.tools.unique.id.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -20,7 +21,6 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController()
@@ -34,20 +34,15 @@ public class TaskController {
   @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
   @NonNull SSEService sse;
+  @NonNull IdGenerator idGenerator;
 
   @PostMapping("/{type}/{replicas}")
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                          @PathVariable("type") final TaskType type,
-                          @PathVariable("replicas") final Integer replicas,
-                          @RequestBody() final Map<String, String> environment) {
-    log.info(String.format("Run task %s", type));
-    return taskService.hostsCount()
-        .map(hostsCount -> {
-          Preconditions.checkArgument(hostsCount >= replicas, String.format("Insufficient capacity (%d) to run %d replicas!", hostsCount, replicas));
-          return hostsCount;
-        })
-        .then(taskService.execute(applicationId, type, replicas, environment))
-        .flatMap(taskId -> resultUpdater.taskExecuted(taskId, type, environment));
+                          @RequestBody() final ExecutionContext context) {
+    log.info(String.format("Run task %s", context.getTaskType()));
+
+    return taskService.execute(context.withApplicationId(applicationId).withTaskId(idGenerator.generate()))
+        .flatMap(resultUpdater::taskExecuted);
   }
 
   @PostMapping("/cancel/{type}")

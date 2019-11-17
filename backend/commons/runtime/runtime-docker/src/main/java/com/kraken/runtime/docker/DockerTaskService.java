@@ -1,18 +1,17 @@
 package com.kraken.runtime.docker;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
-import com.kraken.tools.unique.id.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -40,24 +39,18 @@ final class DockerTaskService implements TaskService {
   @NonNull Function<TaskType, String> taskTypeToPath;
   @NonNull List<EnvironmentChecker> envCheckers;
   @NonNull List<EnvironmentPublisher> envPublishers;
-  @NonNull IdGenerator idGenerator;
 
   @Override
-  public Mono<String> execute(final String applicationId,
-                              final TaskType taskType,
-                              final Integer replicas,
-                              final Map<String, String> environment) {
-    checkArgument(replicas == 1, "The Docker runtime server can only run tasks on one host!");
+  public Mono<ExecutionContext> execute(final ExecutionContext context) {
+    checkArgument(context.getHosts().isEmpty(), "The Docker runtime server can only run tasks on one host!");
 
-    final var taskId = idGenerator.generate();
-
-    final var env = this.updateEnvironment(environment, taskId, taskType);
+    final var env = this.updateEnvironment(context.getEnvironment(), context.getTaskId(), context.getTaskType());
     envCheckers.stream()
-        .filter(environmentChecker -> environmentChecker.test(taskType))
+        .filter(environmentChecker -> environmentChecker.test(context.getTaskType()))
         .forEach(environmentChecker -> environmentChecker.accept(env));
 
     final var command = Command.builder()
-        .path(taskTypeToPath.apply(taskType))
+        .path(taskTypeToPath.apply(context.getTaskType()))
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "up",
@@ -69,8 +62,8 @@ final class DockerTaskService implements TaskService {
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
       final var logs = commandService.execute(command);
-      logsService.push(applicationId, taskId, LogType.TASK, logs);
-      return taskId;
+      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
+      return context;
     });
   }
 

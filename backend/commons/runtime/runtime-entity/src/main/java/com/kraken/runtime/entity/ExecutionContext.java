@@ -2,9 +2,7 @@ package com.kraken.runtime.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
-import lombok.With;
+import lombok.*;
 
 import java.util.Map;
 
@@ -12,16 +10,17 @@ import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder
+@AllArgsConstructor
 public class ExecutionContext {
   @With
-  String applicationId;
+  @NonNull String applicationId;
   @With
-  String taskId;
-  TaskType taskType;
-  String description;
-  Map<String, String> environment;
+  @NonNull String taskId;
+  @NonNull TaskType taskType;
+  @NonNull String description;
+  @NonNull Map<String, String> environment;
   //  Key: hostId, Value; env specific to this host
-  Map<String, Map<String, String>> hosts;
+  @NonNull Map<String, Map<String, String>> hosts;
 
   @JsonCreator
   ExecutionContext(

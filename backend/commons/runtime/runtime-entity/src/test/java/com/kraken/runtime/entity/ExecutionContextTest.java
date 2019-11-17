@@ -1,33 +1,32 @@
 package com.kraken.runtime.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import lombok.NonNull;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.util.Map;
-
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExecutionContextTest {
 
-//  @NonNull String applicationId;
-//  @NonNull TaskType taskType;
-//  @NonNull Map<String, String> environment;
-//  //  Key: hostId, Value; env specific to this host
-//  @NonNull Map<String, Map<String, String>> hosts;
-
   public static final ExecutionContext EXECUTION_CONTEXT = ExecutionContext.builder()
-      .id("hostId")
-      .name("hostName")
-      .capacity(ImmutableMap.of())
-      .addresses(ImmutableList.of())
+      .applicationId("applicationId")
+      .taskId("taskId")
+      .taskType(TaskType.RUN)
+      .description("description")
+      .environment(ImmutableMap.of("foo", "bar"))
+      .hosts(ImmutableMap.of("hostId", ImmutableMap.of("key", "value")))
       .build();
 
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassAll(HOST);
+    shouldPassAll(EXECUTION_CONTEXT);
   }
 
+  @Test
+  public void shouldWither() {
+    assertThat(EXECUTION_CONTEXT.withApplicationId("other").getApplicationId()).isEqualTo("other");
+    assertThat(EXECUTION_CONTEXT.withTaskId("other").getTaskId()).isEqualTo("other");
+  }
 }

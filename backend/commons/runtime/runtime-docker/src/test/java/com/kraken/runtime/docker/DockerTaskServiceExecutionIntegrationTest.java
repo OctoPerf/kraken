@@ -2,6 +2,7 @@ package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
@@ -38,11 +39,19 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var taskId = taskService.execute(appId, TaskType.RECORD, 1, ImmutableMap.of("KRAKEN_IMAGE", "nginx",
-        "KRAKEN_GATLING_HAR_PATH_REMOTE", "hars/import.har",
-        "KRAKEN_GATLING_SIMULATION_CLASS", "MyClazz",
-        "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test",
-        "KRAKEN_DESCRIPTION", "description")).block();
+    final var context = ExecutionContext.builder()
+        .taskType(TaskType.RECORD)
+        .taskId("execution-integration-test")
+        .applicationId(appId)
+        .description("description")
+        .environment( ImmutableMap.of("KRAKEN_IMAGE", "nginx",
+            "KRAKEN_GATLING_HAR_PATH_REMOTE", "hars/import.har",
+            "KRAKEN_GATLING_SIMULATION_CLASS", "MyClazz",
+            "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test"))
+        .hosts(ImmutableMap.of())
+        .build();
+
+    final var taskId = taskService.execute(context).block();
 
     Thread.sleep(5000);
     final var flatContainers = taskService.list().collectList().block();
