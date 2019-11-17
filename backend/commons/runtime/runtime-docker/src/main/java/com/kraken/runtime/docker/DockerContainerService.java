@@ -81,7 +81,7 @@ final class DockerContainerService implements ContainerService {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.containerId=" + containerId,
+            "--filter", "label=com.kraken/containerId=" + containerId,
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())

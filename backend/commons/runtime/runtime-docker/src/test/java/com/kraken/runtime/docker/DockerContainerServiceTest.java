@@ -49,7 +49,7 @@ public class DockerContainerServiceTest {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.containerId=" + flatContainer.getContainerId(),
+            "--filter", "label=com.kraken/containerId=" + flatContainer.getContainerId(),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())
@@ -87,7 +87,7 @@ public class DockerContainerServiceTest {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.containerId=" + flatContainer.getContainerId(),
+            "--filter", "label=com.kraken/containerId=" + flatContainer.getContainerId(),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())

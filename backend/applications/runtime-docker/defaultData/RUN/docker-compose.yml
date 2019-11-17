@@ -12,13 +12,13 @@ services:
     networks:
       - kraken
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RUN
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-telegraf
-      com.kraken.hostId: local
-      com.kraken.name: Telegraf
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: RUN
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-gatling-telegraf
+      com.kraken/hostId: local
+      com.kraken/name: Telegraf
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN
@@ -38,13 +38,13 @@ services:
     networks:
       - kraken
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RUN
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-runner
-      com.kraken.hostId: local
-      com.kraken.name: Gatling Runner
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: RUN
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-gatling-runner
+      com.kraken/hostId: local
+      com.kraken/name: Gatling Runner
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN

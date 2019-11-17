@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken.taskId\"}};{{.Label \"com.kraken.taskType\"}};{{.Label \"com.kraken.containerId\"}};{{.Label \"com.kraken.hostId\"}};{{.Label \"com.kraken.expectedCount\"}};{{.Label \"com.kraken.name\"}};{{.Label \"com.kraken.description\"}}";
+  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken/taskId\"}};{{.Label \"com.kraken/taskType\"}};{{.Label \"com.kraken/containerId\"}};{{.Label \"com.kraken/hostId\"}};{{.Label \"com.kraken/expectedCount\"}};{{.Label \"com.kraken/name\"}};{{.Label \"com.kraken/description\"}}";
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override

@@ -6,13 +6,13 @@ services:
     container_name: ${KRAKEN_TASK_ID}-gatling-log-parser_STARTING
     network_mode: host
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: DEBUG
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-log-parser
-      com.kraken.hostId: local
-      com.kraken.name: Gatling Logs Parser
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: DEBUG
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-gatling-log-parser
+      com.kraken/hostId: local
+      com.kraken/name: Gatling Logs Parser
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: DEBUG
@@ -37,13 +37,13 @@ services:
     container_name: ${KRAKEN_TASK_ID}-gatling-debugger_STARTING
     network_mode: host
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: DEBUG
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-gatling-debugger
-      com.kraken.hostId: local
-      com.kraken.name: Gatling Runner
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: DEBUG
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-gatling-debugger
+      com.kraken/hostId: local
+      com.kraken/name: Gatling Runner
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: DEBUG

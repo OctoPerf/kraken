@@ -7,13 +7,13 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RECORD
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-container-one
-      com.kraken.hostId: hostId
-      com.kraken.name: Container One
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: RECORD
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-container-one
+      com.kraken/hostId: hostId
+      com.kraken/name: Container One
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     container_name: ${KRAKEN_TASK_ID}-container-one_STARTING
     image: ${KRAKEN_IMAGE}
     networks:
@@ -21,13 +21,13 @@ services:
 
   kraken-container-two:
     labels:
-      com.kraken.taskId: ${KRAKEN_TASK_ID}
-      com.kraken.taskType: RECORD
-      com.kraken.containerId: ${KRAKEN_TASK_ID}-container-two
-      com.kraken.hostId: hostId
-      com.kraken.name: Container Two
-      com.kraken.description: ${KRAKEN_DESCRIPTION}
-      com.kraken.expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: RECORD
+      com.kraken/containerId: ${KRAKEN_TASK_ID}-container-two
+      com.kraken/hostId: hostId
+      com.kraken/name: Container Two
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
     container_name: ${KRAKEN_TASK_ID}-container-two_STARTING
     image: ${KRAKEN_IMAGE}
     networks:

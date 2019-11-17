@@ -7,13 +7,13 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken.taskId: taskId
-      com.kraken.taskType: DEBUG
-      com.kraken.containerId: containerOneId
-      com.kraken.hostId: hostId
-      com.kraken.name: Container One
-      com.kraken.description: Debug Task
-      com.kraken.expectedCount: 2
+      com.kraken/taskId: taskId
+      com.kraken/taskType: DEBUG
+      com.kraken/containerId: containerOneId
+      com.kraken/hostId: hostId
+      com.kraken/name: Container One
+      com.kraken/description: Debug Task
+      com.kraken/expectedCount: 2
     container_name: containerOneId_READY
     image: nginx
     networks:
@@ -21,13 +21,13 @@ services:
 
   kraken-container-two:
     labels:
-      com.kraken.taskId: taskId
-      com.kraken.taskType: DEBUG
-      com.kraken.containerId: containerTwoId
-      com.kraken.hostId: hostId
-      com.kraken.name: Container Two
-      com.kraken.description: Debug Task
-      com.kraken.expectedCount: 2
+      com.kraken/taskId: taskId
+      com.kraken/taskType: DEBUG
+      com.kraken/containerId: containerTwoId
+      com.kraken/hostId: hostId
+      com.kraken/name: Container Two
+      com.kraken/description: Debug Task
+      com.kraken/expectedCount: 2
     container_name: containerTwoId_DONE
     image: nginx
     networks:
@@ -35,13 +35,13 @@ services:
 
   kraken-container-three:
     labels:
-      com.kraken.taskId: taskIdBis
-      com.kraken.taskType: RUN
-      com.kraken.containerId: containerThreeId
-      com.kraken.hostId: hostId
-      com.kraken.name: Container Three
-      com.kraken.description: Run Task
-      com.kraken.expectedCount: 1
+      com.kraken/taskId: taskIdBis
+      com.kraken/taskType: RUN
+      com.kraken/containerId: containerThreeId
+      com.kraken/hostId: hostId
+      com.kraken/name: Container Three
+      com.kraken/description: Run Task
+      com.kraken/expectedCount: 1
     container_name: containerThreeId_STARTING
     image: octoperf/kraken-echo:latest
     networks:

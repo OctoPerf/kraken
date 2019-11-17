@@ -92,9 +92,9 @@ public class ZtCommandServiceTest {
         .path("./testDir")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken.id",
+            "--filter", "label=com.kraken/id",
             "--filter", "status=running",
-            "--format", "\"{{.ID}};{{.Names}};{{.Label \"com.kraken.id\"}}\""))
+            "--format", "\"{{.ID}};{{.Names}};{{.Label \"com.kraken/id\"}}\""))
         .environment(ImmutableMap.of())
         .build();
     final var rename = Command.builder()
@@ -114,7 +114,6 @@ public class ZtCommandServiceTest {
     assertThat(upResult).isNotNull();
     final var upString = String.join("", upResult);
     System.out.println(upString);
-    assertThat(upString).contains("Creating network \"commons-test\"");
     assertThat(upString).contains("Creating test-nginx-STARTING");
 
     final var psResult = service.execute(ps).collectList().block();
