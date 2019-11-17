@@ -13,7 +13,7 @@ public class SpringFlatContainersToTaskTest {
   private final FlatContainersToTask dockerContainersToTask = new SpringFlatContainersToTask(new SpringFlatContainerToContainer());
 
   @Test
-  public void shouldAddCreatingContainer() {
+  public void shouldSetCreatingStatus() {
     final var container = FlatContainer.builder()
         .id("id")
         .containerId("containerId")
@@ -31,6 +31,30 @@ public class SpringFlatContainersToTaskTest {
     final var task = dockerContainersToTask.apply(flux).block();
     assertThat(task).isNotNull();
     assertThat(task.getStatus()).isEqualTo(ContainerStatus.CREATING);
+    assertThat(task.getDescription()).isEqualTo("description");
+    assertThat(task.getContainers().size()).isEqualTo(1);
+    assertThat(task.getExpectedCount()).isEqualTo(2);
+  }
+
+  @Test
+  public void shouldKeepRunningStatus() {
+    final var container = FlatContainer.builder()
+        .id("id")
+        .containerId("containerId")
+        .hostId("hostId")
+        .taskId("taskId")
+        .taskType(TaskType.RUN)
+        .name("name")
+        .description("description")
+        .startDate(42L)
+        .status(ContainerStatus.RUNNING)
+        .expectedCount(2)
+        .build();
+    final var flux = Flux.just(container).groupBy(FlatContainer::getTaskId).next().block();
+    assertThat(flux).isNotNull();
+    final var task = dockerContainersToTask.apply(flux).block();
+    assertThat(task).isNotNull();
+    assertThat(task.getStatus()).isEqualTo(ContainerStatus.RUNNING);
     assertThat(task.getDescription()).isEqualTo("description");
     assertThat(task.getContainers().size()).isEqualTo(1);
     assertThat(task.getExpectedCount()).isEqualTo(2);
