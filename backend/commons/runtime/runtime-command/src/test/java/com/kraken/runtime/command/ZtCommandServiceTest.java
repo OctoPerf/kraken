@@ -53,6 +53,19 @@ public class ZtCommandServiceTest {
   }
 
   @Test
+  public void shouldPrintEnv() {
+    final var command = Command.builder()
+        .path(".")
+        .command(Arrays.asList("/bin/sh", "-c", "printenv"))
+        .environment(ImmutableMap.of("FOO", "BAR"))
+        .build();
+    final var result = service.execute(command).collectList().block();
+    assertThat(result).isNotNull();
+    assertThat(result.size()).isGreaterThan(1);
+    System.out.println(String.join("\n", result));
+  }
+
+  @Test
   public void shouldCancelSleepSimple() throws InterruptedException {
     final var command = Command.builder()
         .path(".")
