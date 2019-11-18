@@ -80,10 +80,10 @@ public class TelegrafRunnerTest {
 
     runner.init();
 
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
     verify(storageClient).downloadFile(any(Path.class), any());
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.DONE);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
     verify(runtimeClient).waitForPredicate(taskPredicate);
     assertThat(entries.build().size()).isBetween(14, 15);

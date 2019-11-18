@@ -60,12 +60,12 @@ class RuntimeWebClient implements RuntimeClient {
   }
 
   @Override
-  public Mono<Void> setStatus(final String taskId, final String hostId, final String containerId, final ContainerStatus status) {
+  public Mono<Void> setStatus(final String taskId, final String hostname, final String containerId, final ContainerStatus status) {
     return webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path("/container/status").pathSegment(status.toString())
             .queryParam("taskId", taskId)
-            .queryParam("hostId", hostId)
+            .queryParam("hostname", hostname)
             .queryParam("containerId", containerId).build())
         .retrieve()
         .bodyToMono(Void.class)

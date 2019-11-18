@@ -43,10 +43,10 @@ public class RuntimeClientTest {
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
     );
 
-    client.setStatus("taskId", "hostId", "containerId", ContainerStatus.READY).block();
+    client.setStatus("taskId", "hostname", "containerId", ContainerStatus.READY).block();
 
     final var request = runtimeMockWebServer.takeRequest();
-    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&hostId=hostId&containerId=containerId");
+    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&hostname=hostname&containerId=containerId");
   }
 
   @Test

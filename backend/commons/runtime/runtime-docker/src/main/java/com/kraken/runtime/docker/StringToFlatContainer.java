@@ -45,6 +45,7 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
         .hostId(hostId)
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType))
+        .hostname(id)
         .name(name)
         .description(description)
         .startDate(date)

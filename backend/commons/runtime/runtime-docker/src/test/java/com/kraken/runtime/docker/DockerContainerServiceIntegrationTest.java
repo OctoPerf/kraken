@@ -62,22 +62,23 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "appId";
-    final var taskId = "taskId";
-    final var hostId = "local";
+    final var taskId = "taskIdBis";
     final var containerId = "containerThreeId";
     final var logs = new ArrayList<Log>();
     final var disposable = logsService.listen(appId)
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var id = containerService.attachLogs(appId, taskId, hostId, containerId).block();
+    final var container = this.getContainer(taskId, containerId);
+
+    final var id = containerService.attachLogs(appId, taskId, container.getHostname(), containerId).block();
     Thread.sleep(5000);
     containerService.detachLogs(id).block();
     disposable.dispose();
 
     System.out.println(logs);
     final var first = logs.get(0);
-    assertThat(first.getId()).isEqualTo("taskId-local-containerThreeId");
+    assertThat(first.getId()).isEqualTo("taskId-" + container.getHostname() + "-containerThreeId");
     assertThat(first.getApplicationId()).isEqualTo(appId);
     assertThat(first.getText()).contains("Kraken echo!");
   }
@@ -85,16 +86,23 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldSetStatus() {
     final var taskId = "taskId";
-    final var hostId = "local";
     final var containerId = "containerOneId";
-    containerService.setStatus(taskId, hostId, containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).then().block();
 
-    final var flatContainers = taskService.list().collectList().block();
-    assertThat(flatContainers).isNotNull();
-    System.out.println(flatContainers);
-    assertThat(flatContainers.size()).isEqualTo(3);
-    final var debugFlatContainer = flatContainers.stream().filter(flatContainer -> flatContainer.getContainerId().equals(containerId)).findFirst();
-    assertThat(debugFlatContainer.isPresent()).isTrue();
-    assertThat(debugFlatContainer.get().getStatus()).isEqualTo(ContainerStatus.RUNNING);
+    final var container = this.getContainer(taskId, containerId);
+
+    containerService.setStatus(taskId, container.getHostname(), containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).then().block();
+
+    final var debugFlatContainer = this.getContainer(taskId, containerId);
+
+    assertThat(debugFlatContainer.getStatus()).isEqualTo(ContainerStatus.RUNNING);
+  }
+
+  private FlatContainer getContainer(final String taskId, final String containerId) {
+    final var containers = taskService.list().collectList().block();
+    assertThat(containers).isNotNull();
+    assertThat(containers.size()).isGreaterThan(0);
+    final var container = containers.stream().filter(flatContainer -> flatContainer.getContainerId().equals(containerId) && flatContainer.getTaskId().equals(taskId)).findFirst();
+    assertThat(container).isPresent();
+    return container.get();
   }
 }

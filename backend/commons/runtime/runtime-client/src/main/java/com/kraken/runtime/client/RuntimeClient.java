@@ -12,6 +12,6 @@ public interface RuntimeClient {
 
   Mono<Task> waitForStatus(String taskId, ContainerStatus status);
 
-  Mono<Void> setStatus(String taskId, String hostId, String containerId, ContainerStatus status);
+  Mono<Void> setStatus(String taskId, String hostname, String containerId, ContainerStatus status);
 
 }

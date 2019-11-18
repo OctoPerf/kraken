@@ -11,6 +11,7 @@ public class RuntimeContainerPropertiesTest {
       .taskType(TaskType.RUN)
       .containerId("containerId")
       .hostId("hostId")
+      .hostname("hostname")
       .build();
 
   @Test

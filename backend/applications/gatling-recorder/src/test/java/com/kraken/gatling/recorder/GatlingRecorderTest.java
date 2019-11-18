@@ -71,11 +71,11 @@ public class GatlingRecorderTest {
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     recorder.init();
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.READY);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.DONE);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.READY);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
+    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.DONE);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
     verify(storageClient).downloadFolder(any(Path.class), any());

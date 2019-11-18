@@ -7,3 +7,4 @@ kraken:
       type: DEBUG
     host:
       id: hostId
+      name: hostname

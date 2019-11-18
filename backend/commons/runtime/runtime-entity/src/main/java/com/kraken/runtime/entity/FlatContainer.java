@@ -16,6 +16,7 @@ public class FlatContainer {
   String hostId;
   String taskId;
   TaskType taskType;
+  String hostname;
   String name;
   String description;
   Long startDate;
@@ -30,6 +31,7 @@ public class FlatContainer {
       @JsonProperty("hostId") final String hostId,
       @JsonProperty("taskId") final String taskId,
       @JsonProperty("taskType") final TaskType taskType,
+      @JsonProperty("hostname") final String hostname,
       @JsonProperty("name") final String name,
       @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,
@@ -43,6 +45,7 @@ public class FlatContainer {
     this.taskType = requireNonNull(taskType);
     this.startDate = requireNonNull(startDate);
     this.status = requireNonNull(status);
+    this.hostname = requireNonNull(hostname);
     this.name = requireNonNull(name);
     this.description = requireNonNull(description);
     this.expectedCount = requireNonNull(expectedCount);

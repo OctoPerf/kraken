@@ -27,9 +27,9 @@ public class ContainerController {
   @PostMapping("/logs/attach")
   public Mono<String> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                  @RequestParam("taskId") final String taskId,
-                                 @RequestParam("hostId") final String hostId,
+                                 @RequestParam("hostname") final String hostname,
                                  @RequestParam("containerId") final String containerId) {
-    return service.attachLogs(applicationId, taskId, hostId, containerId);
+    return service.attachLogs(applicationId, taskId, hostname, containerId);
   }
 
   @DeleteMapping("/logs/detach")
@@ -39,10 +39,10 @@ public class ContainerController {
 
   @PostMapping("/status/{status}")
   public Mono<Void> setStatus(@RequestParam("taskId") final String taskId,
-                              @RequestParam("hostId") final String hostId,
+                              @RequestParam("hostname") final String hostname,
                               @RequestParam("containerId") final String containerId,
                               @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
-    return service.setStatus(taskId, hostId, containerId, status);
+    return service.setStatus(taskId, hostname, containerId, status);
   }
 }

@@ -22,6 +22,7 @@ public class StringToFlatContainerTest {
         .containerId("containerOneId")
         .hostId("hostId")
         .taskId("taskId")
+        .hostname("6ea1e79088d9")
         .name("Container One")
         .description("Some description; test!")
         .startDate(1567501871000L)
@@ -40,6 +41,7 @@ public class StringToFlatContainerTest {
     assertThat(container.getContainerId()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");
     assertThat(container.getHostId()).isEqualTo("hostId");
+    assertThat(container.getHostname()).isEqualTo("fd6c4a0fb80d");
     assertThat(container.getName()).isEqualTo("name");
     assertThat(container.getExpectedCount()).isEqualTo(42);
     assertThat(container.getStatus()).isEqualTo(ContainerStatus.STARTING);

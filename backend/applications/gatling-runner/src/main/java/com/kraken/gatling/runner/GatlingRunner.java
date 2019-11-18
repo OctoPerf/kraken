@@ -37,25 +37,25 @@ final class GatlingRunner {
 
   @PostConstruct
   public void init() {
-    final var setStatusPreparing = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    final var setStatusPreparing = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
     final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
-    final var setStatusReady = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.READY);
+    final var setStatusReady = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.READY);
     final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
     final var listFiles = commandService.execute(Command.builder()
         .path(gatlingExecutionProperties.getGatlingHome().toString())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
-    final var setStatusRunning = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
+    final var setStatusRunning = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
     final var startGatling = commandService.execute(commandSupplier.get());
-    final var setStatusStopping = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
+    final var setStatusStopping = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
     final var uploadResult = storageClient.uploadFile(
         gatlingExecutionProperties.getLocalResult(),
-        gatlingExecutionProperties.getRemoteResult().map(s -> Paths.get(s).resolve("groups").resolve(containerProperties.getHostId()).toString())
+        gatlingExecutionProperties.getRemoteResult().map(s -> Paths.get(s).resolve("groups").resolve(containerProperties.getHostname()).toString())
     );
-    final var setStatusDone = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostId(), containerProperties.getContainerId(), ContainerStatus.DONE);
+    final var setStatusDone = runtimeClient.setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.DONE);
 
     setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
     downloadConfiguration.block();

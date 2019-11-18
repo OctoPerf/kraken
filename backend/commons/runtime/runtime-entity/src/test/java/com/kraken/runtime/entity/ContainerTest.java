@@ -12,6 +12,7 @@ public class ContainerTest {
       .hostId("hostId")
       .startDate(42L)
       .status(ContainerStatus.STARTING)
+      .hostname("hostname")
       .name("name")
       .build();
 

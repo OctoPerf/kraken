@@ -14,6 +14,7 @@ public class FlatContainerTest {
       .taskId("taskId")
       .startDate(42L)
       .status(ContainerStatus.STARTING)
+      .hostname("hostname")
       .name("name")
       .taskType(TaskType.RUN)
       .description("description")

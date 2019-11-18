@@ -41,22 +41,22 @@ public class ContainerControllerTest {
   public void shouldAttachLogs() {
     final var applicationId = "test";
     final var containerId = "containerId";
-    final var hostId = "hostId";
+    final var hostname = "hostname";
     final var taskId = "taskId";
-    given(service.attachLogs(applicationId, taskId, hostId, containerId))
+    given(service.attachLogs(applicationId, taskId, hostname, containerId))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", taskId)
-            .queryParam("hostId", hostId)
+            .queryParam("hostname", hostname)
             .queryParam("containerId", containerId)
             .build())
         .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).attachLogs(applicationId, taskId, hostId, containerId);
+    verify(service).attachLogs(applicationId, taskId, hostname, containerId);
   }
 
   @Test
@@ -65,7 +65,7 @@ public class ContainerControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", "taskId")
-            .queryParam("hostId", "hostId")
+            .queryParam("hostname", "hostname")
             .queryParam("containerId", "containerId")
             .build())
         .header("ApplicationId", applicationId)
@@ -93,23 +93,23 @@ public class ContainerControllerTest {
   @Test
   public void shouldSetStatus() {
     final var containerId = "containerId";
-    final var hostId = "hostId";
+    final var hostname = "hostname";
     final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
-    given(service.setStatus(taskId, hostId, containerId, container.getStatus()))
+    given(service.setStatus(taskId, hostname, containerId, container.getStatus()))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
             .pathSegment(container.getStatus().toString())
             .queryParam("taskId", taskId)
-            .queryParam("hostId", hostId)
+            .queryParam("hostname", hostname)
             .queryParam("containerId", containerId)
             .build())
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).setStatus(taskId, hostId, containerId, container.getStatus());
+    verify(service).setStatus(taskId, hostname, containerId, container.getStatus());
   }
 
 }

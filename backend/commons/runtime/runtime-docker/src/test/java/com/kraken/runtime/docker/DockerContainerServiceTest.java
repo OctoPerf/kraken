@@ -28,50 +28,37 @@ public class DockerContainerServiceTest {
   @Mock
   LogsService logsService;
   @Mock
-  Function<String, FlatContainer> stringToFlatContainer;
-  @Mock
   BiFunction<String, ContainerStatus, String> containerStatusToName;
 
   DockerContainerService service;
 
   @Before
   public void before() {
-    this.service = new DockerContainerService(commandService, logsService, stringToFlatContainer, containerStatusToName);
+    this.service = new DockerContainerService(commandService, logsService, containerStatusToName);
   }
 
   @Test
   public void shouldSetStatus() {
-    final var flatContainer = FlatContainerTest.CONTAINER;
+    final var containerId = "containerId";
+    final var hostname = "hostname";
+    final var taskId = "taskId";
     final var status = ContainerStatus.RUNNING;
-
-    // Find
-    final var findCommand = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "ps",
-            "--filter", "label=com.kraken/containerId=" + flatContainer.getContainerId(),
-            "--format", StringToFlatContainer.FORMAT,
-            "--latest"))
-        .environment(ImmutableMap.of())
-        .build();
-    given(commandService.execute(findCommand)).willReturn(Flux.just("found"));
-    given(stringToFlatContainer.apply("found")).willReturn(flatContainer);
+    final var containerName = "containerName";
 
     // Rename
-    final var containerName = "containerName";
     final var renameCommand = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "rename",
-            flatContainer.getId(),
+            hostname,
             containerName))
         .environment(ImmutableMap.of())
         .build();
-    given(containerStatusToName.apply(flatContainer.getContainerId(), status)).willReturn(containerName);
+    given(containerStatusToName.apply(containerId, status)).willReturn(containerName);
     final var renamed = Flux.just("renamed");
     given(commandService.execute(renameCommand)).willReturn(renamed);
 
-    service.setStatus(flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId(), status).block();
+    service.setStatus(taskId, hostname, containerId, status).block();
 
     verify(commandService).execute(renameCommand);
   }
@@ -79,36 +66,24 @@ public class DockerContainerServiceTest {
   @Test
   public void shouldAttachLogs() {
     final var applicationId = "applicationId";
-    final var container = ContainerTest.CONTAINER;
-    final var flatContainer = FlatContainerTest.CONTAINER;
-
-    // Find
-    final var findCommand = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "ps",
-            "--filter", "label=com.kraken/containerId=" + flatContainer.getContainerId(),
-            "--format", StringToFlatContainer.FORMAT,
-            "--latest"))
-        .environment(ImmutableMap.of())
-        .build();
-    given(commandService.execute(findCommand)).willReturn(Flux.just("found"));
-    given(stringToFlatContainer.apply("found")).willReturn(flatContainer);
+    final var hostname = "hostname";
+    final var taskId = "taskId";
+    final var containerId = "containerId";
 
     // Logs
     final var logsCommand = Command.builder()
         .path(".")
         .command(Arrays.asList("docker",
             "logs",
-            "-f", container.getId()))
+            "-f", hostname))
         .environment(ImmutableMap.of())
         .build();
     final var logs = Flux.just("logs");
     given(commandService.execute(logsCommand)).willReturn(logs);
 
-    service.attachLogs(applicationId, flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId()).block();
+    service.attachLogs(applicationId, taskId, hostname, containerId).block();
 
-    verify(logsService).push(applicationId, service.logsId(flatContainer.getTaskId(), flatContainer.getHostId(), flatContainer.getContainerId()), LogType.CONTAINER, logs);
+    verify(logsService).push(applicationId, service.logsId(taskId, hostname, containerId), LogType.CONTAINER, logs);
   }
 
   @Test

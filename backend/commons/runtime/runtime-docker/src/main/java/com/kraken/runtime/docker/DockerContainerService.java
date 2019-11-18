@@ -29,21 +29,20 @@ final class DockerContainerService implements ContainerService {
 
   @NonNull CommandService commandService;
   @NonNull LogsService logsService;
-  @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
 
   @Override
-  public Mono<String> attachLogs(final String applicationId, final String taskId, final String hostId, final String containerId) {
-    return this.find(containerId).map(container -> {
+  public Mono<String> attachLogs(final String applicationId, final String taskId, final String hostname, final String containerId) {
+    return Mono.fromCallable(() -> {
       final var command = Command.builder()
           .path(".")
           .command(Arrays.asList("docker",
               "logs",
-              "-f", container.getId()))
+              "-f", hostname))
           .environment(ImmutableMap.of())
           .build();
       final var logs = commandService.execute(command);
-      final var id = this.logsId(taskId, hostId, containerId);
+      final var id = this.logsId(taskId, hostname, containerId);
       logsService.push(applicationId, id, LogType.CONTAINER, logs);
       return id;
     });
@@ -58,37 +57,21 @@ final class DockerContainerService implements ContainerService {
   }
 
   @Override
-  public Mono<Void> setStatus(final String taskId, final String hostId, final String containerId, final ContainerStatus status) {
-    return this.find(containerId).flatMap(container -> {
+  public Mono<Void> setStatus(final String taskId, final String hostname, final String containerId, final ContainerStatus status) {
+    return Mono.fromCallable(() -> {
       final var command = Command.builder()
           .path(".")
           .command(Arrays.asList("docker",
               "rename",
-              container.getId(),
-              containerStatusToName.apply(container.getContainerId(), status)))
+              hostname,
+              containerStatusToName.apply(containerId, status)))
           .environment(ImmutableMap.of())
           .build();
-      return commandService.execute(command).collectList().map(list -> {
-        final var logs = String.join("\n", list);
-        log.info(logs);
-        return logs;
-      }).then();
+
+      final var logs = commandService.execute(command).collectList().block();
+      log.info(String.join("\n", logs));
+      return null;
     });
   }
 
-  private Mono<FlatContainer> find(final String containerId) {
-    final var command = Command.builder()
-        .path(".")
-        .command(Arrays.asList("docker",
-            "ps",
-            "--filter", "label=com.kraken/containerId=" + containerId,
-            "--format", StringToFlatContainer.FORMAT,
-            "--latest"))
-        .environment(ImmutableMap.of())
-        .build();
-
-    return commandService.execute(command)
-        .map(stringToFlatContainer)
-        .next();
-  }
 }

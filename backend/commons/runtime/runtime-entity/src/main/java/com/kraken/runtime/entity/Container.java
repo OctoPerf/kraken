@@ -13,6 +13,7 @@ import static java.util.Objects.requireNonNull;
 public class Container {
   String id;
   String hostId;
+  String hostname;
   String name;
   Long startDate;
   @With
@@ -22,6 +23,7 @@ public class Container {
   Container(
       @JsonProperty("id") final String id,
       @JsonProperty("hostId") final String hostId,
+      @JsonProperty("hostname") final String hostname,
       @JsonProperty("name") final String name,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status) {
@@ -30,6 +32,7 @@ public class Container {
     this.hostId = requireNonNull(hostId);
     this.startDate = requireNonNull(startDate);
     this.status = requireNonNull(status);
+    this.hostname = requireNonNull(hostname);
     this.name = requireNonNull(name);
   }
 }
