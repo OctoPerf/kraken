@@ -20,6 +20,7 @@ final class SpringFlatContainerToContainer implements FlatContainerToContainer {
         .id(container.getContainerId())
         .status(container.getStatus())
         .startDate(container.getStartDate())
+        .hostname(container.getHostname())
         .name(container.getName())
         .hostId(container.getHostId())
         .build();

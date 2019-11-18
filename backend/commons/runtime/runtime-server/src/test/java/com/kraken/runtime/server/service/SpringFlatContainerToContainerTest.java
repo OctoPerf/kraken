@@ -17,6 +17,7 @@ public class SpringFlatContainerToContainerTest {
     assertThat(container).isEqualTo(Container.builder()
         .id(dockerContainer.getContainerId())
         .hostId(dockerContainer.getHostId())
+        .hostname(dockerContainer.getHostname())
         .name(dockerContainer.getName())
         .startDate(dockerContainer.getStartDate())
         .status(dockerContainer.getStatus())

@@ -78,7 +78,7 @@ public class DockerContainerServiceIntegrationTest {
 
     System.out.println(logs);
     final var first = logs.get(0);
-    assertThat(first.getId()).isEqualTo("taskId-" + container.getHostname() + "-containerThreeId");
+    assertThat(first.getId()).isEqualTo("taskIdBis-" + container.getHostname() + "-containerThreeId");
     assertThat(first.getApplicationId()).isEqualTo(appId);
     assertThat(first.getText()).contains("Kraken echo!");
   }
