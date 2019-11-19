@@ -77,7 +77,7 @@ class RuntimeWebClient implements RuntimeClient {
   @Override
   public Mono<FlatContainer> find(final String taskId, final String containerName) {
     return webClient
-        .post()
+        .get()
         .uri(uriBuilder -> uriBuilder.path("/container/find")
             .queryParam("taskId", taskId)
             .queryParam("containerName", containerName)

@@ -121,6 +121,7 @@ public class RuntimeWebClientTest {
     final var result = client.find("taskId", "containerName").block();
 
     final var request = runtimeMockWebServer.takeRequest();
+    assertThat(request.getMethod()).isEqualTo("GET");
     assertThat(request.getPath()).isEqualTo("/container/find?taskId=taskId&containerName=containerName");
     assertThat(result).isEqualTo(container);
   }
