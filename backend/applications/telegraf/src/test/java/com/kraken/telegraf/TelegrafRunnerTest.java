@@ -9,10 +9,7 @@ import com.kraken.runtime.command.CommandTest;
 import com.kraken.runtime.container.predicate.TaskPredicate;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.ContainerTest;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.*;
 import com.kraken.storage.client.StorageClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +68,8 @@ public class TelegrafRunnerTest {
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.setStatus(anyString(), anyString(), anyString(), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
+    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));
     given(commandService.execute(CommandTest.SHELL_COMMAND)).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
@@ -80,10 +78,10 @@ public class TelegrafRunnerTest {
 
     runner.init();
 
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.PREPARING);
+    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.PREPARING);
     verify(storageClient).downloadFile(any(Path.class), any());
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(containerProperties.getTaskId(), containerProperties.getHostname(), containerProperties.getContainerId(), ContainerStatus.DONE);
+    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
     verify(runtimeClient).waitForPredicate(taskPredicate);
     assertThat(entries.build().size()).isBetween(14, 15);

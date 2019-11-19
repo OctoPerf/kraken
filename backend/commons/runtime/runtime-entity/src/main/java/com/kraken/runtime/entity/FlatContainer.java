@@ -12,12 +12,11 @@ import static java.util.Objects.requireNonNull;
 @Builder
 public class FlatContainer {
   String id;
-  String containerId;
+  String name;
   String hostId;
   String taskId;
   TaskType taskType;
-  String hostname;
-  String name;
+  String label;
   String description;
   Long startDate;
   @With
@@ -27,26 +26,24 @@ public class FlatContainer {
   @JsonCreator
   FlatContainer(
       @JsonProperty("id") final String id,
-      @JsonProperty("containerId") final String containerId,
+      @JsonProperty("name") final String name,
       @JsonProperty("hostId") final String hostId,
       @JsonProperty("taskId") final String taskId,
       @JsonProperty("taskType") final TaskType taskType,
-      @JsonProperty("hostname") final String hostname,
-      @JsonProperty("name") final String name,
+      @JsonProperty("label") final String label,
       @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status,
       @JsonProperty("expectedCount") final Integer expectedCount) {
     super();
     this.id = requireNonNull(id);
-    this.containerId = requireNonNull(containerId);
+    this.name = requireNonNull(name);
     this.hostId = requireNonNull(hostId);
     this.taskId = requireNonNull(taskId);
     this.taskType = requireNonNull(taskType);
     this.startDate = requireNonNull(startDate);
     this.status = requireNonNull(status);
-    this.hostname = requireNonNull(hostname);
-    this.name = requireNonNull(name);
+    this.label = requireNonNull(label);
     this.description = requireNonNull(description);
     this.expectedCount = requireNonNull(expectedCount);
   }

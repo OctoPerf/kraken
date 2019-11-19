@@ -9,11 +9,11 @@ public class ContainerTest {
 
   public static final Container CONTAINER = Container.builder()
       .id("id")
+      .name("name")
       .hostId("hostId")
       .startDate(42L)
       .status(ContainerStatus.STARTING)
-      .hostname("hostname")
-      .name("name")
+      .label("label")
       .build();
 
 

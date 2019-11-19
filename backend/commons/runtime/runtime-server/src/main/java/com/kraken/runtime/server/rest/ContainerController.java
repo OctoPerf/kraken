@@ -27,9 +27,9 @@ public class ContainerController {
   @PostMapping("/logs/attach")
   public Mono<String> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                  @RequestParam("taskId") final String taskId,
-                                 @RequestParam("hostname") final String hostname,
-                                 @RequestParam("containerId") final String containerId) {
-    return service.attachLogs(applicationId, taskId, hostname, containerId);
+                                 @RequestParam("containerId") final String containerId,
+                                 @RequestParam("containerName") final String containerName) {
+    return service.attachLogs(applicationId, taskId, containerId, containerName);
   }
 
   @DeleteMapping("/logs/detach")
@@ -39,10 +39,16 @@ public class ContainerController {
 
   @PostMapping("/status/{status}")
   public Mono<Void> setStatus(@RequestParam("taskId") final String taskId,
-                              @RequestParam("hostname") final String hostname,
                               @RequestParam("containerId") final String containerId,
+                              @RequestParam("containerName") final String containerName,
                               @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
-    return service.setStatus(taskId, hostname, containerId, status);
+    return service.setStatus(taskId, containerId, containerName, status);
+  }
+
+  @GetMapping(value = "/find")
+  public Mono<FlatContainer> find(@RequestParam("taskId") final String taskId,
+                                  @RequestParam("containerName") final String containerName) {
+    return service.find(taskId, containerName);
   }
 }

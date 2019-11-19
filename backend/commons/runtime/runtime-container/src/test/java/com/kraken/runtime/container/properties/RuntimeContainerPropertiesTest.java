@@ -9,9 +9,8 @@ public class RuntimeContainerPropertiesTest {
   public static final RuntimeContainerProperties RUNTIME_PROPERTIES = RuntimeContainerProperties.builder()
       .taskId("taskId")
       .taskType(TaskType.RUN)
-      .containerId("containerId")
+      .containerName("containerName")
       .hostId("hostId")
-      .hostname("hostname")
       .build();
 
   @Test

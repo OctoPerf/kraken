@@ -16,22 +16,20 @@ class RuntimeContainerPropertiesConfiguration {
   RuntimeContainerProperties runtimeContainerProperties(
       @Value("${kraken.runtime.task.id:#{environment.KRAKEN_TASK_ID}}") final String taskId,
       @Value("${kraken.runtime.task.type:#{environment.KRAKEN_TASK_TYPE}}") final String taskType,
-      @Value("${kraken.runtime.container.id:#{environment.KRAKEN_CONTAINER_ID}}") final String containerId,
-      @Value("${kraken.runtime.host.id:#{environment.KRAKEN_HOST_ID}}") final String hostId,
-      @Value("${kraken.runtime.host.name:#{environment.HOSTNAME}}") final String hostname) {
-
-    // HOSTNAME is the docker container id when run on docker and the pod name when run on kubernetes
+      @Value("${kraken.runtime.container.name:#{environment.KRAKEN_CONTAINER_NAME}}") final String containerName,
+      @Value("${kraken.runtime.host.id:#{environment.KRAKEN_HOST_ID}}") final String hostId) {
 
     log.info("Task ID is set to " + taskId);
-    log.info("Container ID is set to " + containerId);
+    log.info("Container Name is set to " + containerName);
+    log.info("Host ID is set to " + hostId);
 
     return RuntimeContainerProperties.builder()
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType.toUpperCase()))
-        .containerId(containerId)
+        .containerName(containerName)
         .hostId(hostId)
-        .hostname(hostname)
         .build();
   }
 
 }
+

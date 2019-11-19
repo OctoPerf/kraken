@@ -2,6 +2,7 @@ package com.kraken.runtime.client;
 
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.Task;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -60,15 +61,29 @@ class RuntimeWebClient implements RuntimeClient {
   }
 
   @Override
-  public Mono<Void> setStatus(final String taskId, final String hostname, final String containerId, final ContainerStatus status) {
+  public Mono<Void> setStatus(final FlatContainer container, final ContainerStatus status) {
     return webClient
         .post()
-        .uri(uriBuilder -> uriBuilder.path("/container/status").pathSegment(status.toString())
-            .queryParam("taskId", taskId)
-            .queryParam("hostname", hostname)
-            .queryParam("containerId", containerId).build())
+        .uri(uriBuilder -> uriBuilder.path("/container/status")
+            .pathSegment(status.toString())
+            .queryParam("taskId", container.getTaskId())
+            .queryParam("containerId", container.getId())
+            .queryParam("containerName", container.getName()).build())
         .retrieve()
         .bodyToMono(Void.class)
-        .doOnSubscribe(subscription -> log.info(String.format("Set status %s for container %s", status.toString(), containerId)));
+        .doOnSubscribe(subscription -> log.info(String.format("Set status %s for container %s", status.toString(), container.getName())));
+  }
+
+  @Override
+  public Mono<FlatContainer> find(final String taskId, final String containerName) {
+    return webClient
+        .post()
+        .uri(uriBuilder -> uriBuilder.path("/container/find")
+            .queryParam("taskId", taskId)
+            .queryParam("containerName", containerName)
+            .build())
+        .retrieve()
+        .bodyToMono(FlatContainer.class)
+        .doOnSubscribe(subscription -> log.info(String.format("Find container %s", containerName)));
   }
 }

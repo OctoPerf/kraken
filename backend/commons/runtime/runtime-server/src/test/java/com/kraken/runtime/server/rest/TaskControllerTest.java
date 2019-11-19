@@ -78,8 +78,6 @@ public class TaskControllerTest {
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
-            .pathSegment(TaskType.RUN.toString())
-            .pathSegment("1")
             .build())
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(context))
@@ -87,6 +85,19 @@ public class TaskControllerTest {
         .expectStatus().isOk()
         .expectBody(String.class)
         .isEqualTo(taskId);
+  }
+
+  @Test
+  public void shouldFailToRun() {
+    final var applicationId = "applicationId"; // Should match [a-z0-9]*
+    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/task")
+            .build())
+        .header("ApplicationId", applicationId)
+        .body(BodyInserters.fromObject(env))
+        .exchange()
+        .expectStatus().is5xxServerError();
   }
 
   @Test

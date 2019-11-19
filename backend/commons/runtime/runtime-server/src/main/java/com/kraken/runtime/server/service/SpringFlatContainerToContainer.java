@@ -17,10 +17,10 @@ final class SpringFlatContainerToContainer implements FlatContainerToContainer {
   @Override
   public Container apply(final FlatContainer container) {
     return Container.builder()
-        .id(container.getContainerId())
+        .id(container.getId())
         .status(container.getStatus())
         .startDate(container.getStartDate())
-        .hostname(container.getHostname())
+        .label(container.getLabel())
         .name(container.getName())
         .hostId(container.getHostId())
         .build();

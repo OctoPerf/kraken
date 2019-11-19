@@ -9,9 +9,9 @@ services:
     labels:
       com.kraken/taskId: taskId
       com.kraken/taskType: DEBUG
-      com.kraken/containerId: containerOneId
+      com.kraken/containerName: containerOneId
       com.kraken/hostId: hostId
-      com.kraken/name: Container One
+      com.kraken/label: Container One
       com.kraken/description: Debug Task
       com.kraken/expectedCount: 2
     container_name: containerOneId_READY
@@ -23,9 +23,9 @@ services:
     labels:
       com.kraken/taskId: taskId
       com.kraken/taskType: DEBUG
-      com.kraken/containerId: containerTwoId
+      com.kraken/containerName: containerTwoId
       com.kraken/hostId: hostId
-      com.kraken/name: Container Two
+      com.kraken/label: Container Two
       com.kraken/description: Debug Task
       com.kraken/expectedCount: 2
     container_name: containerTwoId_DONE
@@ -37,9 +37,9 @@ services:
     labels:
       com.kraken/taskId: taskIdBis
       com.kraken/taskType: RUN
-      com.kraken/containerId: containerThreeId
+      com.kraken/containerName: containerThreeId
       com.kraken/hostId: hostId
-      com.kraken/name: Container Three
+      com.kraken/label: Container Three
       com.kraken/description: Run Task
       com.kraken/expectedCount: 1
     container_name: containerThreeId_STARTING

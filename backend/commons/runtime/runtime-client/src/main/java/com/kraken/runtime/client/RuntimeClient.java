@@ -1,6 +1,7 @@
 package com.kraken.runtime.client;
 
 import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.Task;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +13,8 @@ public interface RuntimeClient {
 
   Mono<Task> waitForStatus(String taskId, ContainerStatus status);
 
-  Mono<Void> setStatus(String taskId, String hostname, String containerId, ContainerStatus status);
+  Mono<Void> setStatus(FlatContainer container, ContainerStatus status);
+
+  Mono<FlatContainer> find(String taskId, String containerName);
 
 }

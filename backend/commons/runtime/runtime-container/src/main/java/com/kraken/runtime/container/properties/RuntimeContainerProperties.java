@@ -11,8 +11,7 @@ public class RuntimeContainerProperties {
 
   @NonNull String taskId;
   @NonNull TaskType taskType;
-  @NonNull String containerId;
+  @NonNull String containerName;
   @NonNull String hostId;
-  @NonNull String hostname;
 
 }

@@ -40,7 +40,7 @@ public class CommandSupplierTest {
             .put("INFLUXDB_USER", "influxdbUser")
             .put("INFLUXDB_USER_PASSWORD", "influxdbPassword")
             .put("KRAKEN_TEST_ID", "taskId")
-            .put("KRAKEN_INJECTOR", "hostname")
+            .put("KRAKEN_INJECTOR", "hostId")
             .build()
         )
         .command(ImmutableList.of("telegraf"))

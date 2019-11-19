@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken/taskId\"}};{{.Label \"com.kraken/taskType\"}};{{.Label \"com.kraken/containerId\"}};{{.Label \"com.kraken/hostId\"}};{{.Label \"com.kraken/expectedCount\"}};{{.Label \"com.kraken/name\"}};{{.Label \"com.kraken/description\"}}";
+  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken/taskId\"}};{{.Label \"com.kraken/taskType\"}};{{.Label \"com.kraken/containerName\"}};{{.Label \"com.kraken/hostId\"}};{{.Label \"com.kraken/expectedCount\"}};{{.Label \"com.kraken/label\"}};{{.Label \"com.kraken/description\"}}";
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
@@ -26,10 +26,10 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
     final var dateStr = split[2];
     final var taskId = split[3];
     final var taskType = split[4];
-    final var containerId = split[5];
+    final var name = split[5];
     final var hostId = split[6];
     final var expectedCount = split[7];
-    final var name = split[8];
+    final var label = split[8];
     final var description = split[9];
 
     var date = new Date().getTime();
@@ -41,11 +41,10 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
 
     return FlatContainer.builder()
         .id(id)
-        .containerId(containerId)
         .hostId(hostId)
         .taskId(taskId)
         .taskType(TaskType.valueOf(taskType))
-        .hostname(id)
+        .label(label)
         .name(name)
         .description(description)
         .startDate(date)

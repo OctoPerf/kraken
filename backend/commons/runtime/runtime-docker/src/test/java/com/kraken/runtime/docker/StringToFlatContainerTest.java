@@ -19,11 +19,10 @@ public class StringToFlatContainerTest {
     final var container = stringToFlatContainer.apply(CONTAINER_STRING);
     assertThat(container).isEqualTo(FlatContainer.builder()
         .id("6ea1e79088d9")
-        .containerId("containerOneId")
+        .name("containerOneId")
         .hostId("hostId")
         .taskId("taskId")
-        .hostname("6ea1e79088d9")
-        .name("Container One")
+        .label("Container One")
         .description("Some description; test!")
         .startDate(1567501871000L)
         .status(ContainerStatus.READY)
@@ -38,11 +37,10 @@ public class StringToFlatContainerTest {
 
     final var container = stringToFlatContainer.apply("fd6c4a0fb80d;container_three_STARTING;Ca va fail!!!;taskIdBis;RUN;containerThreeId;hostId;42;name;description");
     assertThat(container.getId()).isEqualTo("fd6c4a0fb80d");
-    assertThat(container.getContainerId()).isEqualTo("containerThreeId");
+    assertThat(container.getName()).isEqualTo("containerThreeId");
     assertThat(container.getTaskId()).isEqualTo("taskIdBis");
     assertThat(container.getHostId()).isEqualTo("hostId");
-    assertThat(container.getHostname()).isEqualTo("fd6c4a0fb80d");
-    assertThat(container.getName()).isEqualTo("name");
+    assertThat(container.getLabel()).isEqualTo("name");
     assertThat(container.getExpectedCount()).isEqualTo(42);
     assertThat(container.getStatus()).isEqualTo(ContainerStatus.STARTING);
     assertThat(container.getStartDate()).isGreaterThanOrEqualTo(currentDate);

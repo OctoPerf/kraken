@@ -1,5 +1,6 @@
 package com.kraken.runtime.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.*;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RuntimeClientTest {
+public class RuntimeWebClientTest {
 
   private ObjectMapper mapper;
   private MockWebServer runtimeMockWebServer;
@@ -43,10 +44,10 @@ public class RuntimeClientTest {
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
     );
 
-    client.setStatus("taskId", "hostname", "containerId", ContainerStatus.READY).block();
+    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY).block();
 
     final var request = runtimeMockWebServer.takeRequest();
-    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&hostname=hostname&containerId=containerId");
+    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&containerId=id&containerName=name");
   }
 
   @Test
@@ -79,17 +80,17 @@ public class RuntimeClientTest {
 
     final var body = ":keep alive\n" +
         "\n" +
-        "data:"+ mapper.writeValueAsString(empty) +"\n" +
+        "data:" + mapper.writeValueAsString(empty) + "\n" +
         "\n" +
         ":keep alive\n" +
         "\n" +
-        "data:"+ mapper.writeValueAsString(other) +"\n" +
+        "data:" + mapper.writeValueAsString(other) + "\n" +
         "\n" +
         ":keep alive\n" +
         "\n" +
-        "data:"+ mapper.writeValueAsString(notReady) +"\n" +
+        "data:" + mapper.writeValueAsString(notReady) + "\n" +
         "\n" +
-        "data:"+ mapper.writeValueAsString(ready) +"\n" +
+        "data:" + mapper.writeValueAsString(ready) + "\n" +
         "\n";
 
     runtimeMockWebServer.enqueue(
@@ -104,6 +105,24 @@ public class RuntimeClientTest {
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
     assertThat(request.getPath()).isEqualTo("/task/watch");
+  }
+
+  @Test
+  public void shouldFind() throws InterruptedException, JsonProcessingException {
+    final var container = FlatContainerTest.CONTAINER;
+
+    runtimeMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody(mapper.writeValueAsString(container))
+    );
+
+    final var result = client.find("taskId", "containerName").block();
+
+    final var request = runtimeMockWebServer.takeRequest();
+    assertThat(request.getPath()).isEqualTo("/container/find?taskId=taskId&containerName=containerName");
+    assertThat(result).isEqualTo(container);
   }
 
 }

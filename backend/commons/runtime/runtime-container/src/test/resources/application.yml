@@ -1,10 +1,9 @@
 kraken:
   runtime:
     container:
-      id: containerId
+      name: containerName
     task:
       id: taskId
       type: DEBUG
     host:
       id: hostId
-      name: hostname

@@ -36,7 +36,7 @@ public class TaskController {
   @NonNull SSEService sse;
   @NonNull IdGenerator idGenerator;
 
-  @PostMapping("/{type}/{replicas}")
+  @PostMapping()
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @RequestBody() final ExecutionContext context) {
     log.info(String.format("Run task %s", context.getTaskType()));

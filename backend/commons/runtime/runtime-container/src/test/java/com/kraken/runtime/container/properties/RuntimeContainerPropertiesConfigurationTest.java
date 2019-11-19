@@ -21,8 +21,8 @@ public class RuntimeContainerPropertiesConfigurationTest {
   @Test
   public void shouldCreateProperties() {
     assertThat(properties.getTaskId()).isNotNull();
-    assertThat(properties.getContainerId()).isNotNull();
-    assertThat(properties.getHostname()).isNotNull();
+    assertThat(properties.getContainerName()).isNotNull();
+    assertThat(properties.getHostId()).isNotNull();
   }
 
 }

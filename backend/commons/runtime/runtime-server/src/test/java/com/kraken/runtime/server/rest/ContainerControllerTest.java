@@ -3,6 +3,8 @@ package com.kraken.runtime.server.rest;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerTest;
+import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.FlatContainerTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,22 +43,22 @@ public class ContainerControllerTest {
   public void shouldAttachLogs() {
     final var applicationId = "test";
     final var containerId = "containerId";
-    final var hostname = "hostname";
+    final var containerName = "containerName";
     final var taskId = "taskId";
-    given(service.attachLogs(applicationId, taskId, hostname, containerId))
+    given(service.attachLogs(applicationId, taskId, containerId, containerName))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", taskId)
-            .queryParam("hostname", hostname)
+            .queryParam("containerName", containerName)
             .queryParam("containerId", containerId)
             .build())
         .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).attachLogs(applicationId, taskId, hostname, containerId);
+    verify(service).attachLogs(applicationId, taskId, containerId, containerName);
   }
 
   @Test
@@ -65,7 +67,7 @@ public class ContainerControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/attach")
             .queryParam("taskId", "taskId")
-            .queryParam("hostname", "hostname")
+            .queryParam("containerName", "containerName")
             .queryParam("containerId", "containerId")
             .build())
         .header("ApplicationId", applicationId)
@@ -93,23 +95,43 @@ public class ContainerControllerTest {
   @Test
   public void shouldSetStatus() {
     final var containerId = "containerId";
-    final var hostname = "hostname";
+    final var containerName = "containerName";
     final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
-    given(service.setStatus(taskId, hostname, containerId, container.getStatus()))
+    given(service.setStatus(taskId, containerId, containerName, container.getStatus()))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
             .pathSegment(container.getStatus().toString())
             .queryParam("taskId", taskId)
-            .queryParam("hostname", hostname)
+            .queryParam("containerName", containerName)
             .queryParam("containerId", containerId)
             .build())
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).setStatus(taskId, hostname, containerId, container.getStatus());
+    verify(service).setStatus(taskId, containerId, containerName, container.getStatus());
   }
 
+  @Test
+  public void shouldFind() {
+    final var containerName = "containerName";
+    final var taskId = "taskId";
+    final var container = FlatContainerTest.CONTAINER;
+    given(service.find(taskId, containerName))
+        .willReturn(Mono.just(container));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/container/find")
+            .queryParam("taskId", taskId)
+            .queryParam("containerName", containerName)
+            .build())
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(FlatContainer.class)
+        .isEqualTo(container);
+
+    verify(service).find(taskId, containerName);
+  }
 }

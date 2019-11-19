@@ -21,8 +21,8 @@ final class OtherContainersStoppingPredicate implements TaskPredicate {
     return task.getId().equals(containerProperties.getTaskId())
         && task.getContainers()
         .stream()
-        .allMatch(container -> container.getHostname().equals(containerProperties.getHostname()) // Same group
-            && (container.getId().equals(containerProperties.getContainerId()) // Me
+        .allMatch(container -> container.getHostId().equals(containerProperties.getHostId()) // Same host
+            && (container.getName().equals(containerProperties.getContainerName()) // Me
             || container.getStatus().ordinal() > ContainerStatus.RUNNING.ordinal()) // Or finished running
         );
   }

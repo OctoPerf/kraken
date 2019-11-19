@@ -14,7 +14,6 @@ sudo apt install jq
 Launch backends
 
 ```bash
-make copy-data
 make serve-storage
 make serve-analysis
 make serve-runtime-docker
@@ -210,7 +209,7 @@ resultId
 ### RUN Test
 
 ```bash
-curl -d '{"KRAKEN_DESCRIPTION": "description", "KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task/RUN
+curl -d '{"description": "description", "taskType": "RUN", "hosts": {}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
 ```
 
 ```
@@ -250,7 +249,7 @@ curl http://localhost:8082/task/list | jq '.'
 
 Get associated result (resultId == taskId)
 
-```bask
+```bash
 curl http://localhost:8080/files/get/json?path=gatling/results/e4aff6e2-a3ff-483a-9e47-55febe2fd51d/result.json | jq '.'
 ```
 
@@ -267,3 +266,16 @@ curl http://localhost:8080/files/get/json?path=gatling/results/e4aff6e2-a3ff-483
 ### Watch logs
 
 Open [http://localhost:8082/runtime/watch/shell](http://localhost:8082/runtime/watch/shell) in a web browser.
+
+#### Attach container logs
+
+```bash
+curl -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST "http://localhost:8082/container/logs/attach?taskId=ncqyfq2fbh&hostname=2558bbde3f93&containerId=ncqyfq2fbh-gatling-runner"
+```
+
+### Cancel a task
+
+```bash
+curl -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST "http://localhost:8082/task/cancel/RUN?taskId=ncqyfq2fbh"
+```
+

@@ -3,7 +3,9 @@ package com.kraken.runtime.docker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.After;
@@ -29,9 +31,6 @@ public class DockerContainerServiceIntegrationTest {
 
   @Autowired
   DockerContainerService containerService;
-
-  @Autowired
-  DockerTaskService taskService;
 
   @Autowired
   LogsService logsService;
@@ -63,22 +62,22 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "appId";
     final var taskId = "taskIdBis";
-    final var containerId = "containerThreeId";
+    final var containerName = "containerThreeId";
     final var logs = new ArrayList<Log>();
     final var disposable = logsService.listen(appId)
         .subscribeOn(Schedulers.elastic())
         .subscribe(logs::add);
 
-    final var container = this.getContainer(taskId, containerId);
+    final var container = this.getContainer(taskId, containerName);
 
-    final var id = containerService.attachLogs(appId, taskId, container.getHostname(), containerId).block();
+    final var id = containerService.attachLogs(appId, taskId, container.getId(), containerName).block();
     Thread.sleep(5000);
     containerService.detachLogs(id).block();
     disposable.dispose();
 
     System.out.println(logs);
     final var first = logs.get(0);
-    assertThat(first.getId()).isEqualTo("taskIdBis-" + container.getHostname() + "-containerThreeId");
+    assertThat(first.getId()).isEqualTo("taskIdBis-" + container.getId() + "-containerThreeId");
     assertThat(first.getApplicationId()).isEqualTo(appId);
     assertThat(first.getText()).contains("Kraken echo!");
   }
@@ -86,23 +85,20 @@ public class DockerContainerServiceIntegrationTest {
   @Test
   public void shouldSetStatus() {
     final var taskId = "taskId";
-    final var containerId = "containerOneId";
+    final var containerName = "containerOneId";
 
-    final var container = this.getContainer(taskId, containerId);
+    final var container = this.getContainer(taskId, containerName);
 
-    containerService.setStatus(taskId, container.getHostname(), containerId, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).then().block();
+    containerService.setStatus(taskId, container.getId(), containerName, ContainerStatus.RUNNING).subscribeOn(Schedulers.elastic()).then().block();
 
-    final var debugFlatContainer = this.getContainer(taskId, containerId);
+    final var debugFlatContainer = this.getContainer(taskId, containerName);
 
     assertThat(debugFlatContainer.getStatus()).isEqualTo(ContainerStatus.RUNNING);
   }
 
-  private FlatContainer getContainer(final String taskId, final String containerId) {
-    final var containers = taskService.list().collectList().block();
-    assertThat(containers).isNotNull();
-    assertThat(containers.size()).isGreaterThan(0);
-    final var container = containers.stream().filter(flatContainer -> flatContainer.getContainerId().equals(containerId) && flatContainer.getTaskId().equals(taskId)).findFirst();
-    assertThat(container).isPresent();
-    return container.get();
+  private FlatContainer getContainer(final String taskId, final String containerName) {
+    final var container = containerService.find(taskId, containerName).block();
+    assertThat(container).isNotNull();
+    return container;
   }
 }

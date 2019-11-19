@@ -31,7 +31,7 @@ final class CommandSupplier implements Supplier<Command> {
             .put("INFLUXDB_USER", influxDBProperties.getInfluxdbUser())
             .put("INFLUXDB_USER_PASSWORD", influxDBProperties.getInfluxdbPassword())
             .put("KRAKEN_TEST_ID", containerProperties.getTaskId())
-            .put("KRAKEN_INJECTOR", containerProperties.getHostname())
+            .put("KRAKEN_INJECTOR", containerProperties.getHostId())
             .build()
         )
         .command(ImmutableList.of("telegraf"))
