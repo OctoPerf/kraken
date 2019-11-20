@@ -1,6 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import lombok.AccessLevel;
@@ -26,7 +27,7 @@ class KrakenVersionPublisher implements EnvironmentPublisher {
   }
 
   @Override
-  public Map<String, String> get() {
+  public Map<String, String> apply(final ExecutionContext context) {
     return ImmutableMap.of(KRAKEN_VERSION, runtimeServerProperties.getVersion());
   }
 }
