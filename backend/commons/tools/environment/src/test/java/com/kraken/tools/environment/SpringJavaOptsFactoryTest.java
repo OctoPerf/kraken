@@ -17,12 +17,12 @@ public class SpringJavaOptsFactoryTest {
 
   @Test
   public void shouldGenerateOpts1(){
-    assertThat(factory.apply(ImmutableMap.of("foo", "bar", "test", "some value"))).isEqualTo("-Dfoo=\"bar\" -Dtest=\"some value\"");
+    assertThat(factory.apply(ImmutableMap.of("foo", "bar", "test", "someValue"))).isEqualTo("-Dfoo=bar -Dtest=someValue");
   }
 
   @Test
   public void shouldGenerateOpts2(){
-    assertThat(factory.apply(ImmutableMap.of("KRAKEN_VERSION", "1.3.0", "MyValue", "some value"))).isEqualTo("-DKRAKEN_VERSION=\"1.3.0\" -DMyValue=\"some value\"");
+    assertThat(factory.apply(ImmutableMap.of("KRAKEN_VERSION", "1.3.0", "MyValue", "someValue"))).isEqualTo("-DKRAKEN_VERSION=1.3.0 -DMyValue=someValue");
   }
 
   @Test
@@ -43,5 +43,10 @@ public class SpringJavaOptsFactoryTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldFail3(){
     factory.apply(ImmutableMap.of("fo-o", "bar"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldFail4(){
+    factory.apply(ImmutableMap.of("foo", "joe bar"));
   }
 }
