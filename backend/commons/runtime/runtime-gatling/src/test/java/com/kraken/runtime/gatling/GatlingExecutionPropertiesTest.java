@@ -25,6 +25,7 @@ public class GatlingExecutionPropertiesTest {
       .remoteHarPath("remoteHarPath")
       .simulationClass("simulationClass")
       .simulationPackage("simulationPackage")
+      .javaOpts("-Dfoo=\"bar\"")
       .build();
 
   @Test

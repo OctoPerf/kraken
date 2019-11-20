@@ -36,6 +36,6 @@ class KrakenPublisher implements EnvironmentPublisher {
         KRAKEN_DESCRIPTION, context.getDescription(),
         KRAKEN_EXPECTED_COUNT, runtimeServerProperties.getContainersCount().get(context.getTaskType()).toString(),
         KRAKEN_VERSION, runtimeServerProperties.getVersion(),
-        KRAKEN_JAVA_OPTS, javaOptsFactory.apply(context.getEnvironment()));
+        KRAKEN_GATLING_JAVA_OPTS, javaOptsFactory.apply(context.getEnvironment()));
   }
 }

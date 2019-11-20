@@ -27,7 +27,6 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_TASK_TYPE = "${kraken.runtime.task.type:#{environment.KRAKEN_TASK_TYPE}}";
   String $KRAKEN_CONTAINER_NAME = "${kraken.runtime.container.name:#{environment.KRAKEN_CONTAINER_NAME}}";
   String $KRAKEN_HOST_ID = "${kraken.runtime.host.id:#{environment.KRAKEN_HOST_ID}}";
-  String $KRAKEN_JAVA_OPTS = "${kraken.runtime.java-opts:#{environment.KRAKEN_JAVA_OPTS}}";
 
   String $KRAKEN_GATLING_HOME = "${kraken.gatling.home:#{environment.KRAKEN_GATLING_HOME}}";
   String $KRAKEN_GATLING_BIN = "${kraken.gatling.bin:#{environment.KRAKEN_GATLING_BIN}}";
@@ -45,6 +44,7 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_GATLING_HAR_PATH_REMOTE = "${kraken.gatling.har-path.remote:#{environment.KRAKEN_GATLING_HAR_PATH_REMOTE}}";
   String $KRAKEN_GATLING_SIMULATION_PACKAGE = "${kraken.gatling.simulation-package:#{environment.KRAKEN_GATLING_SIMULATION_PACKAGE}}";
   String $KRAKEN_GATLING_SIMULATION_CLASS = "${kraken.gatling.simulation-class:#{environment.KRAKEN_GATLING_SIMULATION_CLASS}}";
+  String $KRAKEN_GATLING_JAVA_OPTS = "${kraken.gatling.java-opts:#{environment.KRAKEN_GATLING_JAVA_OPTS}}";
 
   String $KRAKEN_RUNTIME_URL = "${kraken.runtime.url:#{environment.KRAKEN_RUNTIME_URL}}";
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN = "${kraken.runtime.containers-count.run:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN}}";

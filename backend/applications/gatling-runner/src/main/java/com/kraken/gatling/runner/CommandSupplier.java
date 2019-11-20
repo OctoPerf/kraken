@@ -17,8 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_RESULT_DEBUG_LOG;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_RESULT_INFO_LOG;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -33,7 +32,8 @@ final class CommandSupplier implements Supplier<Command> {
         .path(gatlingExecutionProperties.getGatlingBin().toString())
         .environment(ImmutableMap.of(
             KRAKEN_GATLING_RESULT_INFO_LOG, gatlingExecutionProperties.getInfoLog().toString(),
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatlingExecutionProperties.getDebugLog().toString())
+            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatlingExecutionProperties.getDebugLog().toString(),
+            JAVA_OPTS, gatlingExecutionProperties.getJavaOpts())
         )
         .command(ImmutableList.of(
             "./gatling.sh",

@@ -15,6 +15,7 @@ kraken:
     simulation-package: computerdatabase
     description: Dev test
     bin: ${kraken.gatling.home}/bin
+    java-opts: -Dfoo="bar"
     har-path:
       local: ${kraken.gatling.home}/import.har
       remote: /path/to/har

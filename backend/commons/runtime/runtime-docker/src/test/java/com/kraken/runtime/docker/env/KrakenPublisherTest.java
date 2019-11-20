@@ -1,13 +1,9 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.testing.NullPointerTester;
-import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
-import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
-import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.JavaOptsFactory;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +47,7 @@ public class KrakenPublisherTest {
     assertThat(env.get(KRAKEN_TASK_ID)).isEqualTo(EXECUTION_CONTEXT.getTaskId());
     assertThat(env.get(KRAKEN_DESCRIPTION)).isEqualTo(EXECUTION_CONTEXT.getDescription());
     assertThat(env.get(KRAKEN_EXPECTED_COUNT)).isEqualTo(RUNTIME_SERVER_PROPERTIES.getContainersCount().get(EXECUTION_CONTEXT.getTaskType()).toString());
-    assertThat(env.get(KRAKEN_JAVA_OPTS)).isEqualTo("-Dfoo=\"bar\"");
+    assertThat(env.get(KRAKEN_GATLING_JAVA_OPTS)).isEqualTo("-Dfoo=\"bar\"");
   }
 
   @Test

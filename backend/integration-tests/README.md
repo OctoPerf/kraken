@@ -209,7 +209,7 @@ resultId
 ### RUN Test
 
 ```bash
-curl -d '{"description": "description", "taskType": "RUN", "hosts": {}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
+curl -d '{"description": "description", "taskType": "RUN", "hosts": {}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation", "FOO": "BAR"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
 ```
 
 ```

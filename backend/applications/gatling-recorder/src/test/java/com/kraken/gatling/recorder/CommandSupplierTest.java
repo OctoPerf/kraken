@@ -12,8 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.google.common.collect.ImmutableList.of;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_RESULT_DEBUG_LOG;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_RESULT_INFO_LOG;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +29,8 @@ public class CommandSupplierTest {
     assertThat(commandSupplier.get()).isEqualTo(Command.builder()
         .path("gatlingBin")
         .environment(ImmutableMap.of(KRAKEN_GATLING_RESULT_INFO_LOG, "infoLog",
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, "debugLog"))
+            KRAKEN_GATLING_RESULT_DEBUG_LOG, "debugLog",
+            JAVA_OPTS, "-Dfoo=\"bar\""))
         .command(of(
             "./recorder.sh",
             "--headless", "true",

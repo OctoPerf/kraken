@@ -29,5 +29,7 @@ public class GatlingExecutionProperties {
   @NonNull String simulationClass;
   @NonNull String simulation;
   @NonNull String description;
+
+  @NonNull String javaOpts;
 }
 

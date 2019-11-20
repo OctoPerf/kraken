@@ -32,7 +32,7 @@ class BasicSimulation extends Simulation {
 
   val headers_10 = Map("Content-Type" -> "application/x-www-form-urlencoded") // Note the headers specific to a given request
 
-  val foo = System.getProperty("KRAKEN_DESCRIPTION")
+  val foo = System.getProperty("FOO")
 
   val scn = scenario("Scenario Name") // A scenario is a chain of requests and pauses
     .exec(http("request_1")
@@ -62,6 +62,7 @@ class BasicSimulation extends Simulation {
     .exec(http("request_9")
       .get("/computers/new"))
     .pause(1)
+    .exec { session => println("FOO:"); session }
     .exec { session => println(foo); session }
     .exec(http("request_10") // Here's an example of a POST request
       .post("/computers")

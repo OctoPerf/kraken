@@ -38,7 +38,8 @@ class GatlingExecutionConfiguration {
       @Nullable @Value($KRAKEN_GATLING_HAR_PATH_LOCAL) final String localHarPath,
       @Nullable @Value($KRAKEN_GATLING_HAR_PATH_REMOTE) final String remoteHarPath,
       @Nullable @Value($KRAKEN_GATLING_SIMULATION_PACKAGE) final String simulationPackage,
-      @Nullable @Value($KRAKEN_GATLING_SIMULATION_CLASS) final String simulationClass
+      @Nullable @Value($KRAKEN_GATLING_SIMULATION_CLASS) final String simulationClass,
+      @Value($KRAKEN_GATLING_JAVA_OPTS) final String javaOpts
   ) {
 
     final var properties = GatlingExecutionProperties.builder()
@@ -58,6 +59,7 @@ class GatlingExecutionConfiguration {
         .remoteHarPath(ofNullable(remoteHarPath).orElse(""))
         .simulationPackage(ofNullable(simulationPackage).orElse(""))
         .simulationClass(ofNullable(simulationClass).orElse(""))
+        .javaOpts(javaOpts)
         .build();
 
     log.info(properties.toString());
