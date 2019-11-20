@@ -7,6 +7,7 @@ import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -45,9 +47,9 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .applicationId(appId)
         .description("description")
         .environment( ImmutableMap.of("KRAKEN_IMAGE", "nginx",
-            "KRAKEN_GATLING_HAR_PATH_REMOTE", "hars/import.har",
-            "KRAKEN_GATLING_SIMULATION_CLASS", "MyClazz",
-            "KRAKEN_GATLING_SIMULATION_PACKAGE", "com.test"))
+            KRAKEN_GATLING_HAR_PATH_REMOTE, "hars/import.har",
+            KRAKEN_GATLING_SIMULATION_CLASS, "MyClazz",
+            KRAKEN_GATLING_SIMULATION_PACKAGE, "com.test"))
         .hosts(ImmutableMap.of())
         .build();
 

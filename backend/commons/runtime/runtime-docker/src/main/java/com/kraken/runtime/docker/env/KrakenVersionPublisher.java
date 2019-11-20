@@ -7,11 +7,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Objects;
+
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 
 @Component
 @AllArgsConstructor
@@ -27,6 +27,6 @@ class KrakenVersionPublisher implements EnvironmentPublisher {
 
   @Override
   public Map<String, String> get() {
-    return ImmutableMap.of("KRAKEN_VERSION", runtimeServerProperties.getVersion());
+    return ImmutableMap.of(KRAKEN_VERSION, runtimeServerProperties.getVersion());
   }
 }

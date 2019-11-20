@@ -10,7 +10,6 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
-import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -35,12 +35,12 @@ public class CommandSupplierTest {
     assertThat(commandSupplier.get()).isEqualTo(Command.builder()
         .path(".")
         .environment(ImmutableMap.<String, String>builder()
-            .put("INFLUXDB_URL", "influxdbUrl")
-            .put("INFLUXDB_DB", "influxdbDatabase")
-            .put("INFLUXDB_USER", "influxdbUser")
-            .put("INFLUXDB_USER_PASSWORD", "influxdbPassword")
-            .put("KRAKEN_TEST_ID", "taskId")
-            .put("KRAKEN_INJECTOR", "hostId")
+            .put(KRAKEN_INFLUXDB_URL, "influxdbUrl")
+            .put(KRAKEN_INFLUXDB_DATABASE, "influxdbDatabase")
+            .put(KRAKEN_INFLUXDB_USER, "influxdbUser")
+            .put(KRAKEN_INFLUXDB_PASSWORD, "influxdbPassword")
+            .put(KRAKEN_TEST_ID, "taskId")
+            .put(KRAKEN_INJECTOR, "hostId")
             .build()
         )
         .command(ImmutableList.of("telegraf"))

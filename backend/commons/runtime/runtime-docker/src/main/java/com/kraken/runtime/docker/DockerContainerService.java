@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.entity.Container;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.LogType;
@@ -20,6 +19,9 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_CONTAINER_NAME;
+import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Slf4j
 @Component
@@ -81,8 +83,8 @@ final class DockerContainerService implements ContainerService {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken/taskId=" + taskId,
-            "--filter", "label=com.kraken/containerName=" + containerName,
+            "--filter", String.format("label=%s=%s", COM_KRAKEN_TASK_ID, taskId),
+            "--filter", String.format("label=%s=%s", COM_KRAKEN_CONTAINER_NAME, containerName),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())

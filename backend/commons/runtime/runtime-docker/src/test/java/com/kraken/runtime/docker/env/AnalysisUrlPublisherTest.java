@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_ANALYSIS_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +31,7 @@ public class AnalysisUrlPublisherTest {
   @Test
   public void shouldGet() {
     final var env = publisher.get();
-    assertThat(env.get("KRAKEN_ANALYSIS_URL")).isNotNull();
+    assertThat(env.get(KRAKEN_ANALYSIS_URL)).isNotNull();
   }
 
   @Test

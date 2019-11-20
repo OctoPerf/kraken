@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.nio.file.Paths;
 
+import static com.kraken.tools.environment.KrakenEnvironmentAtValues.$KRAKEN_TELEGRAF_CONF_LOCAL;
+import static com.kraken.tools.environment.KrakenEnvironmentAtValues.$KRAKEN_TELEGRAF_CONF_REMOTE;
+
 @Slf4j
 @Configuration
 class TelegrafConfiguration {
@@ -15,8 +18,8 @@ class TelegrafConfiguration {
   @Autowired
   @Bean
   TelegrafProperties properties(
-      @Value("${kraken.telegraf.conf.local:#{environment.KRAKEN_TELEGRAF_CONF_LOCAL}}") final String localConf,
-      @Value("${kraken.telegraf.conf.remote:#{environment.KRAKEN_TELEGRAF_CONF_REMOTE}}") final String remoteConf
+      @Value($KRAKEN_TELEGRAF_CONF_LOCAL) final String localConf,
+      @Value($KRAKEN_TELEGRAF_CONF_REMOTE) final String remoteConf
   ) {
 
     final var properties = TelegrafProperties.builder()

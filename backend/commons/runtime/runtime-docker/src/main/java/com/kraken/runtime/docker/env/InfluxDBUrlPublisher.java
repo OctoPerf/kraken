@@ -1,7 +1,6 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.analysis.client.properties.AnalysisClientProperties;
 import com.kraken.influxdb.client.InfluxDBClientProperties;
 import com.kraken.runtime.entity.TaskType;
 import lombok.AccessLevel;
@@ -11,7 +10,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Objects;
+
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
 @AllArgsConstructor
@@ -27,9 +27,9 @@ class InfluxDBUrlPublisher implements EnvironmentPublisher {
 
   @Override
   public Map<String, String> get() {
-    return ImmutableMap.of("KRAKEN_INFLUXDB_URL", properties.getInfluxdbUrl(),
-        "KRAKEN_INFLUXDB_DATABASE", properties.getInfluxdbDatabase(),
-        "KRAKEN_INFLUXDB_USER", properties.getInfluxdbUser(),
-        "KRAKEN_INFLUXDB_PASSWORD", properties.getInfluxdbPassword());
+    return ImmutableMap.of(KRAKEN_INFLUXDB_URL, properties.getInfluxdbUrl(),
+        KRAKEN_INFLUXDB_DATABASE, properties.getInfluxdbDatabase(),
+        KRAKEN_INFLUXDB_USER, properties.getInfluxdbUser(),
+        KRAKEN_INFLUXDB_PASSWORD, properties.getInfluxdbPassword());
   }
 }

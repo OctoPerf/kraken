@@ -62,6 +62,8 @@ include 'commons:tools:reactor-utils'
 findProject(':commons:tools:reactor-utils')?.name = 'reactor-utils'
 include 'commons:tools:unique-id'
 findProject(':commons:tools:unique-id')?.name = 'unique-id'
+include 'commons:tools:environment'
+findProject(':commons:tools:environment')?.name = 'environment'
 
 include ':commons:ee:har-parser'
 findProject(':commons:ee:har-parser')?.name = 'har-parser'
@@ -95,4 +97,3 @@ include 'applications:ee:har-parser'
 findProject(':applications:ee:har-parser')?.name = 'app-har-parser'
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
-

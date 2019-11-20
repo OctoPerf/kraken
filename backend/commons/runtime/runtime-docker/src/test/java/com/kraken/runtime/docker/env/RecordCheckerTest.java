@@ -3,6 +3,7 @@ package com.kraken.runtime.docker.env;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.test.utils.TestUtils;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,17 @@ public class RecordCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put("KRAKEN_VERSION", "value")
-        .put("KRAKEN_GATLING_SIMULATION_CLASS", "value")
-        .put("KRAKEN_GATLING_SIMULATION_PACKAGE", "value")
-        .put("KRAKEN_GATLING_HAR_PATH_LOCAL", "value")
-        .put("KRAKEN_GATLING_HAR_PATH_REMOTE", "value")
-        .put("KRAKEN_DESCRIPTION", "value")
-        .put("KRAKEN_TASK_ID", "value")
-        .put("KRAKEN_EXPECTED_COUNT", "value")
-        .put("KRAKEN_ANALYSIS_URL", "value")
-        .put("KRAKEN_RUNTIME_URL", "value")
-        .put("KRAKEN_STORAGE_URL", "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_VERSION, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_GATLING_SIMULATION_CLASS, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_GATLING_SIMULATION_PACKAGE, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_GATLING_HAR_PATH_LOCAL, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_GATLING_HAR_PATH_REMOTE, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_DESCRIPTION, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_TASK_ID, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_EXPECTED_COUNT, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_ANALYSIS_URL, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_RUNTIME_URL, "value")
+        .put(KrakenEnvironmentKeys.KRAKEN_STORAGE_URL, "value")
         .build();
     checker.accept(env);
   }

@@ -12,6 +12,7 @@ import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
+import com.kraken.tools.environment.KrakenEnvironmentLabels;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -26,6 +27,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
+import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Component
 @AllArgsConstructor
@@ -92,7 +95,7 @@ final class DockerTaskService implements TaskService {
         .command(Arrays.asList("docker",
             "ps",
             "-a",
-            "--filter", "label=com.kraken/taskId",
+            "--filter", String.format("label=%s", COM_KRAKEN_TASK_ID),
             "--format", StringToFlatContainer.FORMAT))
         .environment(ImmutableMap.of())
         .build();
@@ -105,9 +108,9 @@ final class DockerTaskService implements TaskService {
     // Update the env variable with all useful key/values
     final var envBuilder = ImmutableMap.<String, String>builder();
     envBuilder.putAll(environment);
-    envBuilder.put("KRAKEN_TASK_ID", taskId);
-    envBuilder.put("KRAKEN_DESCRIPTION", description);
-    envBuilder.put("KRAKEN_EXPECTED_COUNT", serverProperties.getContainersCount().get(taskType).toString());
+    envBuilder.put(KRAKEN_TASK_ID, taskId);
+    envBuilder.put(KRAKEN_DESCRIPTION, description);
+    envBuilder.put(KRAKEN_EXPECTED_COUNT, serverProperties.getContainersCount().get(taskType).toString());
     envPublishers.stream()
         .filter(environmentPublisher -> environmentPublisher.test(taskType))
         .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));

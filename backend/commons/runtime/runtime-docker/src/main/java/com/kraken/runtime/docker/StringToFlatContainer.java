@@ -3,6 +3,7 @@ package com.kraken.runtime.docker;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.tools.environment.KrakenEnvironmentLabels;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,14 @@ import java.util.function.Function;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = "{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"com.kraken/taskId\"}};{{.Label \"com.kraken/taskType\"}};{{.Label \"com.kraken/containerName\"}};{{.Label \"com.kraken/hostId\"}};{{.Label \"com.kraken/expectedCount\"}};{{.Label \"com.kraken/label\"}};{{.Label \"com.kraken/description\"}}";
+  public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",
+      KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID,
+      KrakenEnvironmentLabels.COM_KRAKEN_TASK_TYPE,
+      KrakenEnvironmentLabels.COM_KRAKEN_CONTAINER_NAME,
+      KrakenEnvironmentLabels.COM_KRAKEN_HOST_ID,
+      KrakenEnvironmentLabels.COM_KRAKEN_EXPECTED_COUNT,
+      KrakenEnvironmentLabels.COM_KRAKEN_LABEL,
+      KrakenEnvironmentLabels.COM_KRAKEN_DESCRIPTION);
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override

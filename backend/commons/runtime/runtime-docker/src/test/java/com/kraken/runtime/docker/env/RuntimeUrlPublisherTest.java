@@ -3,6 +3,7 @@ package com.kraken.runtime.docker.env;
 import com.kraken.runtime.client.properties.RuntimeClientPropertiesTestConfiguration;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.test.utils.TestUtils;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class RuntimeUrlPublisherTest {
   @Test
   public void shouldGet() {
     final var env = publisher.get();
-    assertThat(env.get("KRAKEN_RUNTIME_URL")).isNotNull();
+    assertThat(env.get(KrakenEnvironmentKeys.KRAKEN_RUNTIME_URL)).isNotNull();
   }
 
   @Test

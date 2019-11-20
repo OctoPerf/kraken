@@ -1,5 +1,6 @@
 package com.kraken.tools.configuration.properties;
 
+import com.kraken.tools.environment.KrakenEnvironmentAtValues;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ public class ApplicationPropertiesConfiguration {
 
   @Autowired
   @Bean
-  ApplicationProperties applicationProperties(@Value("${kraken.data:#{environment.KRAKEN_DATA}}") final String data) {
+  ApplicationProperties applicationProperties(@Value(KrakenEnvironmentAtValues.$KRAKEN_DATA) final String data) {
     final var dataPath = Path.of(data).toAbsolutePath();
     log.info("Data location is set to " + dataPath);
 

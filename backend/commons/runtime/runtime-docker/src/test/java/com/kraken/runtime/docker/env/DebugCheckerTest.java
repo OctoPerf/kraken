@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -34,14 +35,14 @@ public class DebugCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put("KRAKEN_VERSION", "value")
-        .put("KRAKEN_GATLING_SIMULATION", "value")
-        .put("KRAKEN_DESCRIPTION", "value")
-        .put("KRAKEN_TASK_ID", "value")
-        .put("KRAKEN_EXPECTED_COUNT", "value")
-        .put("KRAKEN_ANALYSIS_URL", "value")
-        .put("KRAKEN_RUNTIME_URL", "value")
-        .put("KRAKEN_STORAGE_URL", "value")
+        .put(KRAKEN_VERSION, "value")
+        .put(KRAKEN_GATLING_SIMULATION, "value")
+        .put(KRAKEN_DESCRIPTION, "value")
+        .put(KRAKEN_TASK_ID, "value")
+        .put(KRAKEN_EXPECTED_COUNT, "value")
+        .put(KRAKEN_ANALYSIS_URL, "value")
+        .put(KRAKEN_RUNTIME_URL, "value")
+        .put(KRAKEN_STORAGE_URL, "value")
         .build();
     checker.accept(env);
   }

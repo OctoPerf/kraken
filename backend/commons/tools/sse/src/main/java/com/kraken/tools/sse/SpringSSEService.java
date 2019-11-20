@@ -1,6 +1,7 @@
 package com.kraken.tools.sse;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.tools.environment.KrakenEnvironmentAtValues;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ final class SpringSSEService implements SSEService {
   long delay;
 
   @Autowired
-  SpringSSEService(@Value("${kraken.sse.keep-alive:#{environment.KRAKEN_SSE_KEEP_ALIVE_DELAY ?: 15}}") final Long delay) {
+  SpringSSEService(@Value(KrakenEnvironmentAtValues.$KRAKEN_SSE_KEEP_ALIVE_DELAY) final Long delay) {
     this.delay = delay;
   }
 

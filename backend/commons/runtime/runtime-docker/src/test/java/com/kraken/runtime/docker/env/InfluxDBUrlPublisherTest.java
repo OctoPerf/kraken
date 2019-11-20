@@ -1,6 +1,5 @@
 package com.kraken.runtime.docker.env;
 
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
 import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.test.utils.TestUtils;
@@ -11,6 +10,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -31,10 +31,10 @@ public class InfluxDBUrlPublisherTest {
   @Test
   public void shouldGet() {
     final var env = publisher.get();
-    assertThat(env.get("KRAKEN_INFLUXDB_URL")).isNotNull();
-    assertThat(env.get("KRAKEN_INFLUXDB_DATABASE")).isNotNull();
-    assertThat(env.get("KRAKEN_INFLUXDB_USER")).isNotNull();
-    assertThat(env.get("KRAKEN_INFLUXDB_PASSWORD")).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_URL)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_DATABASE)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_USER)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_PASSWORD)).isNotNull();
   }
 
   @Test

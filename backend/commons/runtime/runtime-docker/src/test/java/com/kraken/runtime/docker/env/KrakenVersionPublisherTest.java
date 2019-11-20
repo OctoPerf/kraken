@@ -3,6 +3,7 @@ package com.kraken.runtime.docker.env;
 import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.test.utils.TestUtils;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ public class KrakenVersionPublisherTest {
   @Test
   public void shouldGet() {
     final var env = publisher.get();
-    assertThat(env.get("KRAKEN_VERSION")).isNotNull();
+    assertThat(env.get(KrakenEnvironmentKeys.KRAKEN_VERSION)).isNotNull();
   }
 
   @Test

@@ -11,6 +11,7 @@ import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.server.service.ResultUpdater;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.unique.id.IdGenerator;
 import org.junit.Test;
@@ -90,7 +91,7 @@ public class TaskControllerTest {
   @Test
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    final var env = ImmutableMap.<String, String>of("KRAKEN_DESCRIPTION", "description");
+    final var env = ImmutableMap.<String, String>of(KrakenEnvironmentKeys.KRAKEN_DESCRIPTION, "description");
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
             .build())

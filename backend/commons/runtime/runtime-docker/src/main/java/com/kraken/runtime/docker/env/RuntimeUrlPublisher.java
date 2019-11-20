@@ -3,6 +3,7 @@ package com.kraken.runtime.docker.env;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.client.properties.RuntimeClientProperties;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -10,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_URL;
 
 @Component
 @AllArgsConstructor
@@ -25,6 +28,6 @@ class RuntimeUrlPublisher implements EnvironmentPublisher {
 
   @Override
   public Map<String, String> get() {
-    return ImmutableMap.of("KRAKEN_RUNTIME_URL", properties.getRuntimeUrl());
+    return ImmutableMap.of(KRAKEN_RUNTIME_URL, properties.getRuntimeUrl());
   }
 }
