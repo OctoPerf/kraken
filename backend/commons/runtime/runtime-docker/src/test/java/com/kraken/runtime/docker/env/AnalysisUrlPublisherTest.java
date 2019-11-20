@@ -1,6 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
+import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class AnalysisUrlPublisherTest {
 
   @Test
   public void shouldGet() {
-    final var env = publisher.get();
+    final var env = publisher.apply(ExecutionContextTest.EXECUTION_CONTEXT);
     assertThat(env.get(KRAKEN_ANALYSIS_URL)).isNotNull();
   }
 

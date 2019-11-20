@@ -12,7 +12,6 @@ import com.kraken.runtime.entity.LogType;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
-import com.kraken.tools.environment.KrakenEnvironmentLabels;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -27,7 +26,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Component
@@ -47,7 +45,7 @@ final class DockerTaskService implements TaskService {
   public Mono<ExecutionContext> execute(final ExecutionContext context) {
     checkArgument(context.getHosts().isEmpty(), "The Docker runtime server can only run tasks on one host!");
 
-    final var env = this.updateEnvironment(context.getEnvironment(), context.getTaskId(), context.getTaskType(), context.getDescription());
+    final var env = this.updateEnvironment(context);
     envCheckers.stream()
         .filter(environmentChecker -> environmentChecker.test(context.getTaskType()))
         .forEach(environmentChecker -> environmentChecker.accept(env));
@@ -72,12 +70,21 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<String> cancel(final String applicationId, final String taskId, final TaskType taskType) {
+    final var context = ExecutionContext.builder()
+        .hosts(ImmutableMap.of())
+        .taskId(taskId)
+        .taskType(taskType)
+        .applicationId(applicationId)
+        .environment(ImmutableMap.of())
+        .description("")
+        .build();
+
     final var command = Command.builder()
         .path(taskTypeToPath.apply(taskType))
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "down"))
-        .environment(this.updateEnvironment(ImmutableMap.of(), taskId, taskType, ""))
+        .environment(this.updateEnvironment(context))
         .build();
 
     return Mono.fromCallable(() -> {
@@ -104,17 +111,13 @@ final class DockerTaskService implements TaskService {
         .map(stringToFlatContainer);
   }
 
-  private Map<String, String> updateEnvironment(final Map<String, String> environment, final String taskId, final TaskType taskType, final String description) {
+  private Map<String, String> updateEnvironment(final ExecutionContext context) {
     // Update the env variable with all useful key/values
     final var envBuilder = ImmutableMap.<String, String>builder();
-    envBuilder.putAll(environment);
-    envBuilder.put(KRAKEN_TASK_ID, taskId);
-    envBuilder.put(KRAKEN_DESCRIPTION, description);
-    envBuilder.put(KRAKEN_EXPECTED_COUNT, serverProperties.getContainersCount().get(taskType).toString());
+    envBuilder.putAll(context.getEnvironment());
     envPublishers.stream()
-        .filter(environmentPublisher -> environmentPublisher.test(taskType))
-        .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.get()));
-
+        .filter(environmentPublisher -> environmentPublisher.test(context.getTaskType()))
+        .forEach(environmentPublisher -> envBuilder.putAll(environmentPublisher.apply(context)));
     return envBuilder.build();
   }
 

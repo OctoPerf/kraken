@@ -46,7 +46,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .taskId("execution-integration-test")
         .applicationId(appId)
         .description("description")
-        .environment( ImmutableMap.of("KRAKEN_IMAGE", "nginx",
+        .environment(ImmutableMap.of("KRAKEN_IMAGE", "nginx",
             KRAKEN_GATLING_HAR_PATH_REMOTE, "hars/import.har",
             KRAKEN_GATLING_SIMULATION_CLASS, "MyClazz",
             KRAKEN_GATLING_SIMULATION_PACKAGE, "com.test"))

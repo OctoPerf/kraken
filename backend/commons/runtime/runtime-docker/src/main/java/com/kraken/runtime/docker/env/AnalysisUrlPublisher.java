@@ -2,6 +2,7 @@ package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.client.properties.AnalysisClientProperties;
+import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ class AnalysisUrlPublisher implements EnvironmentPublisher {
   }
 
   @Override
-  public Map<String, String> get() {
+  public Map<String, String> apply(final ExecutionContext context) {
     return ImmutableMap.of(KRAKEN_ANALYSIS_URL, properties.getAnalysisUrl());
   }
 }

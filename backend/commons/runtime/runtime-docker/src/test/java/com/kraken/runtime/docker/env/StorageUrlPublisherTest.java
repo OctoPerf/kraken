@@ -1,5 +1,6 @@
 package com.kraken.runtime.docker.env;
 
+import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import com.kraken.test.utils.TestUtils;
@@ -29,8 +30,8 @@ public class StorageUrlPublisherTest {
   }
 
   @Test
-  public void shouldGet() {
-    final var env = publisher.get();
+  public void shouldApply() {
+    final var env = publisher.apply(ExecutionContextTest.EXECUTION_CONTEXT);
     assertThat(env.get(KrakenEnvironmentKeys.KRAKEN_STORAGE_URL)).isNotNull();
   }
 

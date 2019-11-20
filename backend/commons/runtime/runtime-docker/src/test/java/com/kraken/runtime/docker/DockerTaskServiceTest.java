@@ -21,6 +21,7 @@ import java.util.function.Function;
 import static com.kraken.runtie.server.properties.RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -72,7 +73,7 @@ public class DockerTaskServiceTest {
 
     given(envChecker.test(taskType)).willReturn(true);
     given(envPublisher.test(taskType)).willReturn(true);
-    given(envPublisher.get()).willReturn(ImmutableMap.of("FOO", "BAR"));
+    given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
     given(taskTypeToPath.apply(taskType)).willReturn(path);
 
     final var executeCmd = Command.builder()
@@ -83,9 +84,6 @@ public class DockerTaskServiceTest {
             "-d",
             "--no-color"))
         .environment(ImmutableMap.<String, String>builder().putAll(context.getEnvironment())
-            .put(KRAKEN_TASK_ID, taskId)
-            .put(KRAKEN_DESCRIPTION, "description")
-            .put(KRAKEN_EXPECTED_COUNT, RUNTIME_SERVER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();
@@ -120,7 +118,7 @@ public class DockerTaskServiceTest {
     final var path = "path";
 
     given(envPublisher.test(taskType)).willReturn(true);
-    given(envPublisher.get()).willReturn(ImmutableMap.of("FOO", "BAR"));
+    given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
     given(taskTypeToPath.apply(taskType)).willReturn(path);
 
     final var cancelCmd = Command.builder()
@@ -129,9 +127,6 @@ public class DockerTaskServiceTest {
             "--no-ansi",
             "down"))
         .environment(ImmutableMap.<String, String>builder()
-            .put(KRAKEN_TASK_ID, taskId)
-            .put(KRAKEN_DESCRIPTION, "")
-            .put(KRAKEN_EXPECTED_COUNT, RUNTIME_SERVER_PROPERTIES.getContainersCount().get(taskType).toString())
             .put("FOO", "BAR")
             .build())
         .build();
