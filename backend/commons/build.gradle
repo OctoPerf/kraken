@@ -1,6 +1,5 @@
 subprojects {
     dependencies {
-        implementation project(':commons:tools:environment')
         testCompile project(path: ':test-utils', configuration: 'testArtifacts')
     }
 }

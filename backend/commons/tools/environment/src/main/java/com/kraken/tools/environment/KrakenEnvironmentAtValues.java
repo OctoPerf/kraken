@@ -1,7 +1,5 @@
 package com.kraken.tools.environment;
 
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
-
 public interface KrakenEnvironmentAtValues {
   String $KRAKEN_TELEGRAF_CONF_LOCAL = "${kraken.telegraf.conf.local:#{environment.KRAKEN_TELEGRAF_CONF_LOCAL}}";
   String $KRAKEN_TELEGRAF_CONF_REMOTE = "${kraken.telegraf.conf.remote:#{environment.KRAKEN_TELEGRAF_CONF_REMOTE}}";
