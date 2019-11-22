@@ -212,8 +212,22 @@ resultId
 curl -d '{"description": "description", "taskType": "RUN", "hosts": {}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation", "FOO": "BAR"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
 ```
 
+#### K8S specifics
+
+Warning !!! On Kubernetes you need to specify at least one host !
+
+List hosts:
+```bash
+curl http://localhost:8082/host/list
 ```
-e4aff6e2-a3ff-483a-9e47-55febe2fd51d
+
+```json
+[{"id":"fcqgvtcpol","name":"kind-worker","capacity":{"cpu":"8","ephemeral-storage":"289613092Ki","hugepages-1Gi":"0","hugepages-2Mi":"0","memory":"16135292Ki","pods":"110"},"addresses":[{"address":"172.17.0.6","type":"InternalIP"},{"address":"kind-worker","type":"Hostname"}]},{"id":"s5tjfkwumw","name":"kind-worker2","capacity":{"cpu":"8","ephemeral-storage":"289613092Ki","hugepages-1Gi":"0","hugepages-2Mi":"0","memory":"16135292Ki","pods":"110"},"addresses":[{"address":"172.17.0.3","type":"InternalIP"},{"address":"kind-worker2","type":"Hostname"}]},{"id":"p8e3kvw0az","name":"kind-worker3","capacity":{"cpu":"8","ephemeral-storage":"289613092Ki","hugepages-1Gi":"0","hugepages-2Mi":"0","memory":"16135292Ki","pods":"110"},"addresses":[{"address":"172.17.0.4","type":"InternalIP"},{"address":"kind-worker3","type":"Hostname"}]}]
+```
+
+Start task:
+```bash
+curl -d '{"description": "description", "taskType": "RUN", "hosts": {"fcqgvtcpol" : {}, "s5tjfkwumw": {}}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation", "FOO": "BAR"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
 ```
 
 ### DEBUG Test
@@ -278,4 +292,3 @@ curl -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST "http
 ```bash
 curl -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST "http://localhost:8082/task/cancel/RUN?taskId=ncqyfq2fbh"
 ```
-
