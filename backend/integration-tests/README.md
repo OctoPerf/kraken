@@ -227,7 +227,7 @@ curl http://localhost:8082/host/list
 
 Start task:
 ```bash
-curl -d '{"description": "description", "taskType": "RUN", "hosts": {"fcqgvtcpol" : {}, "s5tjfkwumw": {}}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation", "FOO": "BAR"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
+curl -d '{"description": "description", "taskType": "RUN", "hosts": {"n0usmshdr0" : {}, "yrsqpw9d4h": {}}, "environment": {"KRAKEN_GATLING_SIMULATION": "computerdatabase.BasicSimulation", "FOO": "BAR"}}' -H "ApplicationId: shell" -H "Content-Type: application/json" -X POST http://localhost:8082/task
 ```
 
 ### DEBUG Test

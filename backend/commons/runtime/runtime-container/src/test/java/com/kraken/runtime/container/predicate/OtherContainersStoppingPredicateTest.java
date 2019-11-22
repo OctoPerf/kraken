@@ -113,6 +113,63 @@ public class OtherContainersStoppingPredicateTest {
   }
 
   @Test
+  public void shouldTestTaskRunStopping() {
+
+    final var containerProperties = RuntimeContainerProperties.builder()
+        .taskId("vzkziobanr")
+        .containerName("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf")
+        .hostId("n0usmshdr0")
+        .taskType(TaskType.RUN)
+        .build();
+
+    final var taskPredicate = new OtherContainersStoppingPredicate(containerProperties);
+
+    assertThat(taskPredicate.test(Task.builder()
+        .id("vzkziobanr")
+        .description("description")
+        .startDate(1574464436000L)
+        .status(ContainerStatus.RUNNING)
+        .type(TaskType.RUN)
+        .expectedCount(4)
+        .containers(ImmutableList.of(
+            Container.builder()
+                .id("shell-run-vzkziobanr-0joqmltfe5")
+                .hostId("n0usmshdr0")
+                .label("Gatling Runner")
+                .name("shell-run-vzkziobanr-n0usmshdr0-gatling-runner")
+                .startDate(1574464436000L)
+                .status(ContainerStatus.STOPPING)
+                .build(),
+            Container.builder()
+                .id("shell-run-vzkziobanr-0joqmltfe5")
+                .hostId("n0usmshdr0")
+                .label("Telegraf")
+                .name("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf")
+                .startDate(1574464436000L)
+                .status(ContainerStatus.RUNNING)
+                .build(),
+            Container.builder()
+                .id("shell-run-vzkziobanr-dy2qpu3czo")
+                .hostId("yrsqpw9d4h")
+                .label("Gatling Runner")
+                .name("shell-run-vzkziobanr-yrsqpw9d4h-gatling-runner")
+                .startDate(1574464436000L)
+                .status(ContainerStatus.STOPPING)
+                .build(),
+            Container.builder()
+                .id("shell-run-vzkziobanr-dy2qpu3czo")
+                .hostId("yrsqpw9d4h")
+                .label("Telegraf")
+                .name("shell-run-vzkziobanr-yrsqpw9d4h-gatling-telegraf")
+                .startDate(1574464436000L)
+                .status(ContainerStatus.RUNNING)
+                .build()
+        ))
+        .build())).isTrue();
+  }
+
+
+  @Test
   public void shouldPassTestUtils() {
     TestUtils.shouldPassNPE(OtherContainersStoppingPredicate.class);
   }
