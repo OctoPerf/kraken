@@ -34,6 +34,9 @@ serve-analysis:
 serve-runtime-docker:
 	$(MAKE) serve APP=:applications:app-runtime-docker
 
+serve-runtime-k8s:
+	$(MAKE) serve APP=:applications:ee:app-runtime-kubernetes
+
 serve-storage:
 	$(MAKE) serve APP=:applications:app-storage
 

@@ -1,11 +1,9 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.analysis.client.properties.AnalysisClientProperties;
 import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.storage.client.properties.StorageClientProperties;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
