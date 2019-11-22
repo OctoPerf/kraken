@@ -2,30 +2,26 @@ package com.kraken.runtime.logs;
 
 import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.entity.LogType;
-import org.assertj.core.api.Assertions;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
-import reactor.test.StepVerifier;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {SpringLogsService.class})
 public class SpringLogsServiceTest {
 
-  @Autowired
-  LogsService service;
+  SpringLogsService service;
+
+  @Before
+  public void before(){
+    service = new SpringLogsService();
+    service.init();
+  }
 
   @After
   public void after() throws InterruptedException {
