@@ -1,0 +1,430 @@
+{
+  "startedDateTime": "2019-04-26T11:56:10.678Z",
+  "time": 111.42800000015995,
+  "request": {
+    "method": "DELETE",
+    "url": "https://httpbin.org/delete",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+      {
+        "name": "Pragma",
+        "value": "no-cache"
+      },
+      {
+        "name": "Origin",
+        "value": "https://httpbin.org"
+      },
+      {
+        "name": "Accept-Encoding",
+        "value": "gzip, deflate, br"
+      },
+      {
+        "name": "Host",
+        "value": "httpbin.org"
+      },
+      {
+        "name": "Accept-Language",
+        "value": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6"
+      },
+      {
+        "name": "User-Agent",
+        "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
+      },
+      {
+        "name": "accept",
+        "value": "application/json"
+      },
+      {
+        "name": "Referer",
+        "value": "https://httpbin.org/"
+      },
+      {
+        "name": "Connection",
+        "value": "keep-alive"
+      },
+      {
+        "name": "Cache-Control",
+        "value": "no-cache"
+      }
+    ],
+    "queryString": [],
+    "cookies": [
+      "Cookie One"
+    ],
+    "headersSize": 415,
+    "bodySize": 0
+  },
+  "response": {
+    "status": 200,
+    "statusText": "OK",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+      {
+        "name": "Date",
+        "value": "Fri, 26 Apr 2019 11:56:10 GMT"
+      },
+      {
+        "name": "Content-Encoding",
+        "value": "gzip"
+      },
+      {
+        "name": "Referrer-Policy",
+        "value": "no-referrer-when-downgrade"
+      },
+      {
+        "name": "Server",
+        "value": "nginx"
+      },
+      {
+        "name": "X-Frame-Options",
+        "value": "DENY"
+      },
+      {
+        "name": "Content-Type",
+        "value": "application/json"
+      },
+      {
+        "name": "Access-Control-Allow-Origin",
+        "value": "https://httpbin.org"
+      },
+      {
+        "name": "Access-Control-Allow-Credentials",
+        "value": "true"
+      },
+      {
+        "name": "X-Content-Type-Options",
+        "value": "nosniff"
+      },
+      {
+        "name": "Connection",
+        "value": "keep-alive"
+      },
+      {
+        "name": "Content-Length",
+        "value": "369"
+      },
+      {
+        "name": "X-XSS-Protection",
+        "value": "1; mode=block"
+      }
+    ],
+    "cookies": [],
+    "content": {
+      "size": 631,
+      "mimeType": "application/json",
+      "compression": 262,
+      "text": "{\n  \"args\": {}, \n  \"data\": \"\", \n  \"files\": {}, \n  \"form\": {}, \n  \"headers\": {\n    \"Accept\": \"application/json\", \n    \"Accept-Encoding\": \"gzip, deflate, br\", \n    \"Accept-Language\": \"fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6\", \n    \"Cache-Control\": \"no-cache\", \n    \"Host\": \"httpbin.org\", \n    \"Origin\": \"https://httpbin.org\", \n    \"Pragma\": \"no-cache\", \n    \"Referer\": \"https://httpbin.org/\", \n    \"User-Agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36\"\n  }, \n  \"json\": null, \n  \"origin\": \"217.128.2.157, 217.128.2.157\", \n  \"url\": \"https://httpbin.org/delete\"\n}\n"
+    },
+    "redirectURL": "",
+    "headersSize": 396,
+    "bodySize": 369,
+    "_transferSize": 765
+  },
+  "cache": {},
+  "timings": {
+    "blocked": 1.7179999999061693,
+    "dns": -1,
+    "ssl": -1,
+    "connect": -1,
+    "send": 0.065,
+    "wait": 108.82400000062131,
+    "receive": 0.8209999996324768,
+    "_blocked_queueing": 1.3429999999061693
+  },
+  "serverIPAddress": "18.211.162.154",
+  "_initiator": {
+    "type": "script",
+    "stack": {
+      "callFrames": [
+        {
+          "functionName": "",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 71,
+          "columnNumber": 11647
+        },
+        {
+          "functionName": "x",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 96,
+          "columnNumber": 108910
+        },
+        {
+          "functionName": "",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 96,
+          "columnNumber": 108698
+        },
+        {
+          "functionName": "e.(anonymous function)",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 96,
+          "columnNumber": 109089
+        },
+        {
+          "functionName": "r",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 69,
+          "columnNumber": 94426
+        },
+        {
+          "functionName": "",
+          "scriptId": "21",
+          "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+          "lineNumber": 69,
+          "columnNumber": 94522
+        }
+      ],
+      "parent": {
+        "description": "Promise.then",
+        "callFrames": [
+          {
+            "functionName": "r",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 94505
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 94567
+          },
+          {
+            "functionName": "t",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 5,
+            "columnNumber": 5278
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 94361
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 71,
+            "columnNumber": 12298
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 71,
+            "columnNumber": 10855
+          },
+          {
+            "functionName": "t.execute",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 71,
+            "columnNumber": 42464
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 81326
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 0,
+            "columnNumber": 60961
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 96,
+            "columnNumber": 102016
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 88095
+          },
+          {
+            "functionName": "r",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 81,
+            "columnNumber": 139329
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 81,
+            "columnNumber": 142868
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 81937
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 0,
+            "columnNumber": 60961
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 96,
+            "columnNumber": 102016
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 39721
+          },
+          {
+            "functionName": "r",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 81,
+            "columnNumber": 139329
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 81,
+            "columnNumber": 142868
+          },
+          {
+            "functionName": "o.onClick",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 81,
+            "columnNumber": 44607
+          },
+          {
+            "functionName": "i",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 55,
+            "columnNumber": 14813
+          },
+          {
+            "functionName": "s",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 55,
+            "columnNumber": 10766
+          },
+          {
+            "functionName": "executeDispatchesInOrder",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 55,
+            "columnNumber": 11495
+          },
+          {
+            "functionName": "p",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 39888
+          },
+          {
+            "functionName": "h",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 40014
+          },
+          {
+            "functionName": "e.exports",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 69,
+            "columnNumber": 168808
+          },
+          {
+            "functionName": "processEventQueue",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 41406
+          },
+          {
+            "functionName": "",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 95,
+            "columnNumber": 63856
+          },
+          {
+            "functionName": "handleTopLevel",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 95,
+            "columnNumber": 63878
+          },
+          {
+            "functionName": "h",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 95,
+            "columnNumber": 64397
+          },
+          {
+            "functionName": "perform",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 12,
+            "columnNumber": 58341
+          },
+          {
+            "functionName": "batchedUpdates",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 95,
+            "columnNumber": 62601
+          },
+          {
+            "functionName": "batchedUpdates",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 5,
+            "columnNumber": 14919
+          },
+          {
+            "functionName": "dispatchEvent",
+            "scriptId": "21",
+            "url": "https://httpbin.org/flasgger_static/swagger-ui-bundle.js",
+            "lineNumber": 95,
+            "columnNumber": 65178
+          }
+        ]
+      }
+    }
+  },
+  "_priority": "High",
+  "_resourceType": "fetch",
+  "connection": "83016"
+}

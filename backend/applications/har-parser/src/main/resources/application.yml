@@ -1,0 +1,41 @@
+kraken:
+  data: /home/kraken
+  gatling:
+    har-path:
+      local: ${kraken.data}/import.har
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  runtime:
+    url: http://localhost:8082
+    task:
+      id: taskId
+      type: RUN
+    container:
+      id: containerId
+  analysis:
+    url: http://localhost:8081
+  storage:
+    url: http://localhost:8080
+  gatling:
+    har-path:
+      remote: hars/my-app.har
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO

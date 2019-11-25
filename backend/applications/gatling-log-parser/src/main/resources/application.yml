@@ -1,0 +1,45 @@
+kraken:
+#  TODO remove when license is removed
+  data: /home/kraken
+  gatling:
+    home: /kraken/gatling
+    result:
+      local: ${kraken.gatling.home}/results
+      log:
+        debug: ${kraken.gatling.result.local}/debug.log
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+  error:
+    include-stacktrace: always
+---
+spring:
+  profiles: dev
+
+kraken:
+  runtime:
+    url: http://localhost:8082
+    task:
+      id: taskId
+      type: RUN
+    container:
+      id: containerId
+  storage:
+    url: http://localhost:8080
+  gatling:
+    home: /home/ubuntu/softs/gatling
+    simulation: computerdatabase.BasicSimulation
+    description: Dev test
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO

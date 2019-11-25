@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(':commons:analysis:analysis-entity')
+    implementation project(':commons:analysis:analysis-client')
+    implementation project(':commons:runtime:runtime-container')
+
+    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+}

@@ -1,0 +1,19 @@
+dependencies {
+    implementation project(':commons:storage:storage-entity')
+    implementation project(':commons:storage:storage-client')
+    implementation project(':commons:analysis:analysis-entity')
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-client')
+    implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-command')
+    implementation project(':commons:tools:configuration')
+
+    implementation project(':commons:parser:har-parser')
+    implementation project(':commons:parser:debug-entry-writer')
+
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+}

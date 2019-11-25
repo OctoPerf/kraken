@@ -1,0 +1,15 @@
+dependencies {
+    implementation project(':commons:analysis:analysis-entity')
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-client')
+    implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:tools:reactor-utils')
+    implementation project(':commons:runtime:runtime-command')
+
+    implementation project(':commons:parser:gatling-log-parser')
+    implementation project(':commons:parser:debug-entry-writer')
+
+    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
+}

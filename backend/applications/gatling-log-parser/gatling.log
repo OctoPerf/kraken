@@ -1,0 +1,2858 @@
+11:52:04.651 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:04 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:04.702 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:04 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 7387
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>814 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/757">392f31c8-d3f5-4606-b3e9-dbcba9b6cef5</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/754">46852ce3-d564-49eb-b94c-3011caa6c0d4</a></td>
+                            <td>
+                                01 Mar 2019
+                            </td>
+                            <td>
+                                01 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/756">5abe2864-03ee-4ae7-937f-31079f0b6086</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/680">6ac225d2-aeb9-4109-b17a-c24816895553</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/755">908a00c4-6ea2-4505-8a42-8728cfacfaae</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/752">97602ffc-553d-48ad-8051-c9f835e56334</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/381">ACE</a></td>
+                            <td>
+                                21 Aug 1997
+                            </td>
+                            <td>
+                                23 Jul 2017
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/501">AN/FSQ-32</a></td>
+                            <td>
+                                01 Jan 1960
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/500">AN/FSQ-7</a></td>
+                            <td>
+                                01 Jan 1958
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/388">APEXC</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                
+                <li class="current">
+                    <a>Displaying 1 to 10 of 814</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:11.775 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_2: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?f=macbook),27,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?f=macbook
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:11 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7560
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>33 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="macbook" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2&amp;f=macbook">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3&amp;f=macbook">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4&amp;f=macbook">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5&amp;f=macbook">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/89">MacBook</a></td>
+                            <td>
+                                16 May 2006
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/517">MacBook 13-inch Core 2 Duo 2.13GHz (MC240LL/A) DDR2 Model</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/518">MacBook 13-inch Core 2 Duo 2.13GHz (MC240T/A) DDR2 Model</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/519">MacBook 13-inch Core 2 Duo 2.13GHz (MC240X/A) DDR2 Model</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/520">MacBook 13-inch Core 2 Duo 2.26GHz (Unibody MC207LL/A) DDR3 Model</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/273">MacBook Air</a></td>
+                            <td>
+                                15 Jan 2008
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/473">MacBook Family</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/516">MacBook Parts</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/6">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/1">MacBook Pro 15.4 inch</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 1 to 10 of 33</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=1&amp;f=macbook">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:13.809 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_3: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/6),29,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/6
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?f=macbook
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:13 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 5487
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>Edit computer</h1>
+
+
+
+<form action="/computers/6" method="POST" >
+
+
+        <fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="name">Computer name</label>
+    <div class="input">
+
+    <input type="text" id="name" name="name" value="MacBook Pro" >
+
+        <span class="help-inline">Required</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="introduced">Introduced date</label>
+    <div class="input">
+
+    <input type="text" id="introduced" name="introduced" value="2006-01-10" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="discontinued">Discontinued date</label>
+    <div class="input">
+
+    <input type="text" id="discontinued" name="discontinued" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="company">Company</label>
+    <div class="input">
+
+
+
+        <select id="company" name="company" >
+
+                <option class="blank" value="">-- Choose a company --</option>
+
+
+                <option value="1" selected>Apple Inc.</option>
+
+                <option value="2" >Thinking Machines</option>
+
+                <option value="3" >RCA</option>
+
+                <option value="4" >Netronics</option>
+
+                <option value="5" >Tandy Corporation</option>
+
+                <option value="6" >Commodore International</option>
+
+                <option value="7" >MOS Technology</option>
+
+                <option value="8" >Micro Instrumentation and Telemetry Systems</option>
+
+                <option value="9" >IMS Associates, Inc.</option>
+
+                <option value="10" >Digital Equipment Corporation</option>
+
+                <option value="11" >Lincoln Laboratory</option>
+
+                <option value="12" >Moore School of Electrical Engineering</option>
+
+                <option value="13" >IBM</option>
+
+                <option value="14" >Amiga Corporation</option>
+
+                <option value="15" >Canon</option>
+
+                <option value="16" >Nokia</option>
+
+                <option value="17" >Sony</option>
+
+                <option value="18" >OQO</option>
+
+                <option value="19" >NeXT</option>
+
+                <option value="20" >Atari</option>
+
+                <option value="22" >Acorn computer</option>
+
+                <option value="23" >Timex Sinclair</option>
+
+                <option value="24" >Nintendo</option>
+
+                <option value="25" >Sinclair Research Ltd</option>
+
+                <option value="26" >Xerox</option>
+
+                <option value="27" >Hewlett-Packard</option>
+
+                <option value="28" >Zemmix</option>
+
+                <option value="29" >ACVS</option>
+
+                <option value="30" >Sanyo</option>
+
+                <option value="31" >Cray</option>
+
+                <option value="32" >Evans &amp; Sutherland</option>
+
+                <option value="33" >E.S.R. Inc.</option>
+
+                <option value="34" >OMRON</option>
+
+                <option value="35" >BBN Technologies</option>
+
+                <option value="36" >Lenovo Group</option>
+
+                <option value="37" >ASUS</option>
+
+                <option value="38" >Amstrad</option>
+
+                <option value="39" >Sun Microsystems</option>
+
+                <option value="40" >Texas Instruments</option>
+
+                <option value="41" >HTC Corporation</option>
+
+                <option value="42" >Research In Motion</option>
+
+                <option value="43" >Samsung Electronics</option>
+
+        </select>
+
+
+        <span class="help-inline"></span>
+    </div>
+</div>
+
+
+
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Save this computer" class="btn primary"> or
+            <a href="/computers" class="btn">Cancel</a>
+        </div>
+
+
+</form>
+
+
+
+
+<form action="/computers/6/delete" method="POST" class="topRight">
+
+        <input type="submit" value="Delete this computer" class="btn danger">
+
+</form>
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:16.824 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/6),17,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:16 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:16.856 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4 Redirect 1: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers),17,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:16 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7387
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>814 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/757">392f31c8-d3f5-4606-b3e9-dbcba9b6cef5</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/754">46852ce3-d564-49eb-b94c-3011caa6c0d4</a></td>
+                            <td>
+                                01 Mar 2019
+                            </td>
+                            <td>
+                                01 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/756">5abe2864-03ee-4ae7-937f-31079f0b6086</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/680">6ac225d2-aeb9-4109-b17a-c24816895553</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/755">908a00c4-6ea2-4505-8a42-8728cfacfaae</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/752">97602ffc-553d-48ad-8051-c9f835e56334</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/381">ACE</a></td>
+                            <td>
+                                21 Aug 1997
+                            </td>
+                            <td>
+                                23 Jul 2017
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/501">AN/FSQ-32</a></td>
+                            <td>
+                                01 Jan 1960
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/500">AN/FSQ-7</a></td>
+                            <td>
+                                01 Jan 1958
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/388">APEXC</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 1 to 10 of 814</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:18.901 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_5: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=1),27,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=1
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:18 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7289
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>814 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/355">ARRA</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/385">ASCI Blue Mountain</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/313">ASCI Blue Pacific</a></td>
+                            <td>
+                                01 Jan 1998
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/384">ASCI Purple</a></td>
+                            <td>
+                                01 Jan 2005
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/382">ASCI Red</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/383">ASCI Thors Hammer</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/311">ASCI White</a></td>
+                            <td>
+                                01 Jan 2001
+                            </td>
+                            <td>
+                                01 Jan 2006
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/525">ASUS Eee PC 1005PE</a></td>
+                            <td>
+                                01 Jan 2010
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/302">ASUS Eee PC 701</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/439">ASUS Eee PC 900</a></td>
+                            <td>
+                                01 May 2008
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev">
+                        <a href="/computers">&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 11 to 20 of 814</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=2">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:19.588 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_6: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=2),13,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=2
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=1
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:19 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7361
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>814 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/301">ASUS Eee PC 901</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/330">Acer Extensa</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/331">Acer Extensa 5220</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/543">Acer Iconia</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/152">Acorn Archimedes</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Acorn computer
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/418">Acorn Electron</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/46">Acorn System 2</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/542">Alex eReader</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/57">Altair 8800</a></td>
+                            <td>
+                                19 Dec 1974
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Micro Instrumentation and Telemetry Systems
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/70">Amiga</a></td>
+                            <td>
+                                01 Jan 1985
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Amiga Corporation
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev">
+                        <a href="/computers?p=1">&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 21 to 30 of 814</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=3">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:20.258 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_7: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=3),21,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=3
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=2
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:20 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7392
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>814 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/71">Amiga 1000</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/129">Amiga 1200</a></td>
+                            <td>
+                                01 Oct 1992
+                            </td>
+                            <td>
+                                01 Jan 1996
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/448">Amiga 1500</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/74">Amiga 2000</a></td>
+                            <td>
+                                01 Jan 1986
+                            </td>
+                            <td>
+                                01 Jan 1990
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/348">Amiga 2000 Model A</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/349">Amiga 2000 Model B</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/350">Amiga 2000 Model C</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/123">Amiga 2500</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/124">Amiga 2500</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/75">Amiga 3000</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev">
+                        <a href="/computers?p=2">&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 31 to 40 of 814</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=4">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:21.027 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_8: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=4),26,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=4
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=3
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:21 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7369
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>814 computers found</h1>
+
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/127">Amiga 3000T</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/126">Amiga 3000UX</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/125">Amiga 4000</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/128">Amiga 4000T</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/72">Amiga 500</a></td>
+                            <td>
+                                01 Jan 1987
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/73">Amiga 500+</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/76">Amiga 600</a></td>
+                            <td>
+                                01 Mar 1992
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Commodore International
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/411">Amstrad CPC</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Amstrad
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/414">Amstrad CPC 464</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Amstrad
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/412">Amstrad CPC 6128</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                Amstrad
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev">
+                        <a href="/computers?p=3">&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 41 to 50 of 814</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=5">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:26.084 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_9: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/new),24,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/new
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=4
+accept-encoding: gzip, deflate
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:26 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 5277
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>Add a computer</h1>
+
+
+
+<form action="/computers" method="POST" >
+
+
+        <fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="name">Computer name</label>
+    <div class="input">
+
+    <input type="text" id="name" name="name" value="" >
+
+        <span class="help-inline">Required</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="introduced">Introduced date</label>
+    <div class="input">
+
+    <input type="text" id="introduced" name="introduced" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="discontinued">Discontinued date</label>
+    <div class="input">
+
+    <input type="text" id="discontinued" name="discontinued" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="company">Company</label>
+    <div class="input">
+
+
+
+        <select id="company" name="company" >
+
+                <option class="blank" value="">-- Choose a company --</option>
+
+
+                <option value="1" >Apple Inc.</option>
+
+                <option value="2" >Thinking Machines</option>
+
+                <option value="3" >RCA</option>
+
+                <option value="4" >Netronics</option>
+
+                <option value="5" >Tandy Corporation</option>
+
+                <option value="6" >Commodore International</option>
+
+                <option value="7" >MOS Technology</option>
+
+                <option value="8" >Micro Instrumentation and Telemetry Systems</option>
+
+                <option value="9" >IMS Associates, Inc.</option>
+
+                <option value="10" >Digital Equipment Corporation</option>
+
+                <option value="11" >Lincoln Laboratory</option>
+
+                <option value="12" >Moore School of Electrical Engineering</option>
+
+                <option value="13" >IBM</option>
+
+                <option value="14" >Amiga Corporation</option>
+
+                <option value="15" >Canon</option>
+
+                <option value="16" >Nokia</option>
+
+                <option value="17" >Sony</option>
+
+                <option value="18" >OQO</option>
+
+                <option value="19" >NeXT</option>
+
+                <option value="20" >Atari</option>
+
+                <option value="22" >Acorn computer</option>
+
+                <option value="23" >Timex Sinclair</option>
+
+                <option value="24" >Nintendo</option>
+
+                <option value="25" >Sinclair Research Ltd</option>
+
+                <option value="26" >Xerox</option>
+
+                <option value="27" >Hewlett-Packard</option>
+
+                <option value="28" >Zemmix</option>
+
+                <option value="29" >ACVS</option>
+
+                <option value="30" >Sanyo</option>
+
+                <option value="31" >Cray</option>
+
+                <option value="32" >Evans &amp; Sutherland</option>
+
+                <option value="33" >E.S.R. Inc.</option>
+
+                <option value="34" >OMRON</option>
+
+                <option value="35" >BBN Technologies</option>
+
+                <option value="36" >Lenovo Group</option>
+
+                <option value="37" >ASUS</option>
+
+                <option value="38" >Amstrad</option>
+
+                <option value="39" >Sun Microsystems</option>
+
+                <option value="40" >Texas Instruments</option>
+
+                <option value="41" >HTC Corporation</option>
+
+                <option value="42" >Research In Motion</option>
+
+                <option value="43" >Samsung Electronics</option>
+
+        </select>
+
+
+        <span class="help-inline"></span>
+    </div>
+</div>
+
+
+
+
+
+        </fieldset>
+
+        <div class="actions">
+            <input type="submit" value="Create this computer" class="btn primary"> or
+            <a href="/computers" class="btn">Cancel</a>
+        </div>
+
+
+</form>
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:27.123 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.referer -> http://computer-database.gatling.io/computers/new, gatling.http.cookies -> CookieJar(Map(CookieKey(play_flash,computer-database.gatling.io,/) -> StoredCookie(PLAY_FLASH=success=Computer+Beautiful+Computer+has+been+created, path=/, HTTPOnly,true,false,1554465147115)))),16,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+POST http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+accept-encoding: gzip, deflate
+cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"
+host: computer-database.gatling.io
+formBody=
+name: Beautiful Computer
+introduced: 2012-05-30
+discontinued:
+company: 37
+=========================
+HTTP response:
+status=
+303 See Other
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:27 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+Set-Cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"; Path=/; HTTPOnly
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+11:52:27.162 [TRACE] i.g.h.e.r.DefaultStatsProcessor -
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10 Redirect 1: OK
+=========================
+Session:
+Session(Scenario Name,1,1554465124552,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@5594dbb7, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@4a7a4616,None), gatling.http.referer -> http://computer-database.gatling.io/computers, gatling.http.cookies -> CookieJar(Map())),16,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$438/217470033@5b4b12a6)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+accept-encoding: gzip, deflate
+cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"
+host: computer-database.gatling.io
+cookies=
+PLAY_FLASH=success=Computer+Beautiful+Computer+has+been+created, path=/, HTTPOnly
+=========================
+HTTP response:
+status=
+200 OK
+headers=
+Server: nginx/1.12.2
+Date: Fri, 05 Apr 2019 11:52:27 GMT
+Content-Type: text/html
+Content-Length: 7531
+Connection: keep-alive
+Keep-Alive: timeout=5
+Set-Cookie: PLAY_FLASH=; Expires=Thu, 04 Apr 2019 11:52:28 GMT; Path=/; HTTPOnly
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+
+        <section id="main">
+
+
+    <h1>815 computers found</h1>
+
+
+        <div class="alert-message warning">
+            <strong>Done!</strong> Computer Beautiful Computer has been created
+        </div>
+
+
+    <div id="actions">
+
+
+
+<form action="/computers" method="GET" >
+
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+
+</form>
+
+
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+
+    </div>
+
+
+
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                        <tr>
+                            <td><a href="/computers/757">392f31c8-d3f5-4606-b3e9-dbcba9b6cef5</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/754">46852ce3-d564-49eb-b94c-3011caa6c0d4</a></td>
+                            <td>
+                                01 Mar 2019
+                            </td>
+                            <td>
+                                01 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/756">5abe2864-03ee-4ae7-937f-31079f0b6086</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/680">6ac225d2-aeb9-4109-b17a-c24816895553</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/755">908a00c4-6ea2-4505-8a42-8728cfacfaae</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/752">97602ffc-553d-48ad-8051-c9f835e56334</a></td>
+                            <td>
+                                31 Mar 2019
+                            </td>
+                            <td>
+                                31 Mar 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/381">ACE</a></td>
+                            <td>
+                                21 Aug 1997
+                            </td>
+                            <td>
+                                23 Jul 2017
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/501">AN/FSQ-32</a></td>
+                            <td>
+                                01 Jan 1960
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/500">AN/FSQ-7</a></td>
+                            <td>
+                                01 Jan 1958
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                IBM
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="/computers/388">APEXC</a></td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                            <td>
+                                 <em>-</em>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+
+                <li class="current">
+                    <a>Displaying 1 to 10 of 815</a>
+                </li>
+
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+        </section>
+
+    </body>
+</html>
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<

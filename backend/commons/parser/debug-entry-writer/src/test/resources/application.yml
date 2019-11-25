@@ -1,0 +1,16 @@
+kraken:
+  gatling:
+    results:
+      root: gatling/results
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  error:
+    include-stacktrace: always
+  main:
+    web-environment: false
