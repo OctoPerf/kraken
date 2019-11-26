@@ -1,0 +1,8 @@
+{
+  "name": "runtime",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.1.0",
+    "@angular/core": "^8.1.0"
+  }
+}
