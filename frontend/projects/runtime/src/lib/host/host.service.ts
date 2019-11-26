@@ -5,9 +5,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Host} from 'projects/runtime/src/lib/entities/host';
 import {tap} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HostService {
 
   public hostsSubject: BehaviorSubject<Host[]>;

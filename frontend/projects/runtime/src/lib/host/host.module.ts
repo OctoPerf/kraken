@@ -5,6 +5,7 @@ import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {CapacityToStringPipe} from './capacity-to-string.pipe';
 import {AddressesToStringPipe} from './addresses-to-string.pipe';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
+import {HostService} from 'projects/runtime/src/lib/host/host.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
   entryComponents: [
     HostsTableComponent,
   ],
+  providers: [
+    HostService,
+  ]
 })
 export class HostModule {
 }
