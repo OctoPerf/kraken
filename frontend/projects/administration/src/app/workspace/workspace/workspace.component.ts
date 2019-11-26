@@ -12,9 +12,7 @@ import {NotificationsTabHeaderComponent} from 'projects/notification/src/lib/not
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {transition, trigger, useAnimation} from '@angular/animations';
 import {fadeInAnimation} from 'projects/commons/src/lib/animations';
-import {ImagesTableComponent} from 'projects/docker/src/lib/docker-client/images-table/images-table.component';
 import {faArchive} from '@fortawesome/free-solid-svg-icons/faArchive';
-import {ContainersTableComponent} from 'projects/docker/src/lib/docker-client/containers-table/containers-table.component';
 import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
 import {
   STORAGE_CONTEXTUAL_MENU,
@@ -26,12 +24,8 @@ import {faFolderOpen} from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import {StorageEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-editor/storage-editor.component';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notifications-event';
-import {OpenCommandLogsEvent} from 'projects/command/src/lib/entities/open-command-logs-event';
-import {CommandTabsPanelComponent} from 'projects/command/src/lib/command-tabs-panel/command-tabs-panel.component';
-import {PLAY_ICON} from 'projects/icon/src/lib/icons';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
-import {AdministrationContextualMenuComponent} from 'projects/administration/src/app/contextual-menu/administration-contextual-menu/administration-contextual-menu.component';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 
 library.add(faFolder, faFolderOpen, faQuestionCircle, faBell, faDocker, faArchive);
@@ -72,7 +66,6 @@ export class WorkspaceComponent implements OnInit {
       null,
       new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
         [STORAGE_ROOT_NODE, treeRoot],
-        [STORAGE_CONTEXTUAL_MENU, AdministrationContextualMenuComponent]
       ])));
 
     this.left = new SideConfiguration(
@@ -105,27 +98,6 @@ export class WorkspaceComponent implements OnInit {
     this.bottom = new SideConfiguration(
       new TabsConfiguration(
         [
-          new Tab(
-            new ComponentPortal(ContainersTableComponent),
-            'Docker Containers',
-            new IconFa(faDocker),
-            'ADMIN_CONTAINERS',
-            false,
-            ['open-docker-client-containers']),
-          new Tab(
-            new ComponentPortal(ImagesTableComponent),
-            'Docker Images',
-            new IconFa(faArchive),
-            'ADMIN_IMAGES',
-            false,
-            ['open-docker-client-images']),
-          new Tab(
-            new ComponentPortal(CommandTabsPanelComponent),
-            'Command Executions',
-            PLAY_ICON,
-            'ADMIN_EXECUTIONS',
-            true,
-            [OpenCommandLogsEvent.CHANNEL]),
         ],
         0,
         50

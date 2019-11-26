@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RuntimeComponent } from './runtime.component';
-
-
+import {NgModule} from '@angular/core';
 
 @NgModule({
-  declarations: [RuntimeComponent],
-  imports: [
-  ],
-  exports: [RuntimeComponent]
+  declarations: [],
+  imports: [],
+  exports: []
 })
-export class RuntimeModule { }
+export class RuntimeModule {
+}

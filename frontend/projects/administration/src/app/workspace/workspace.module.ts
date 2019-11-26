@@ -12,10 +12,6 @@ import {StorageModule} from 'projects/storage/src/lib/storage.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {NotificationService} from 'projects/notification/src/lib/notification.service';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
-import {DockerModule} from 'projects/docker/src/lib/docker.module';
-import {DockerComposeEditorComponent} from 'projects/docker/src/lib/docker-compose/docker-compose-editor/docker-compose-editor.component';
-import {CommandModule} from 'projects/command/src/lib/command.module';
-import {ContextualMenuModule} from 'projects/administration/src/app/contextual-menu/contextual-menu.module';
 
 @NgModule({
   declarations: [
@@ -32,17 +28,8 @@ import {ContextualMenuModule} from 'projects/administration/src/app/contextual-m
     IconModule,
     StorageModule.forRoot(
       'administration-storage',
-      [{
-        regexp: 'docker-compose.yml',
-        editor: DockerComposeEditorComponent,
-        helpPageId: 'EDITOR_DOCKER_COMPOSE'
-      }]
+      []
     ),
-    DockerModule.forRoot(
-      'administration-docker'
-    ),
-    CommandModule,
-    ContextualMenuModule,
   ],
   providers: [
     NotificationService,

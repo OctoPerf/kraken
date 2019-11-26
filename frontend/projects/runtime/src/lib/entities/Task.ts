@@ -1,42 +1,13 @@
-package com.kraken.runtime.entity;
+import {ContainerStatus} from 'projects/runtime/src/lib/entities/ContainerStatus';
+import {TaskType} from 'projects/runtime/src/lib/entities/TaskType';
+import {Container} from 'projects/runtime/src/lib/entities/Container';
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
-
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-
-@Value
-@Builder
-public class Task {
-  String id;
-  Long startDate;
-  ContainerStatus status;
-  TaskType type;
-  List<Container> containers;
-  Integer expectedCount;
-  String description;
-
-  @JsonCreator
-  Task(
-      @JsonProperty("id") final String id,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final ContainerStatus status,
-      @JsonProperty("type") final TaskType type,
-      @JsonProperty("containers") final List<Container> containers,
-      @JsonProperty("expectedCount") final Integer expectedCount,
-      @JsonProperty("description") final String description
-  ) {
-    super();
-    this.id = requireNonNull(id);
-    this.startDate = requireNonNull(startDate);
-    this.status = requireNonNull(status);
-    this.type = requireNonNull(type);
-    this.containers = requireNonNull(containers);
-    this.expectedCount = requireNonNull(expectedCount);
-    this.description = requireNonNull(description);
-  }
+export interface Task {
+  readonly id: string;
+  readonly startDate: number;
+  readonly status: ContainerStatus;
+  readonly type: TaskType;
+  readonly containers: Container[];
+  readonly expectedCount: number;
+  readonly description: number;
 }

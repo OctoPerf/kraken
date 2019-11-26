@@ -9,8 +9,6 @@ import {environment} from 'projects/administration/src/environments/environment'
 import {AppRoutingModule} from 'projects/administration/src/app/app-routing.module';
 import {DialogModule} from 'projects/dialog/src/lib/dialog.module';
 import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
-import {DockerDialogsModule} from 'projects/docker/src/lib/docker-dialogs/docker-dialogs.module';
-import {CommandDialogsModule} from 'projects/command/src/lib/command-dialogs/command-dialogs.module';
 
 @NgModule({
   declarations: [
@@ -28,8 +26,6 @@ import {CommandDialogsModule} from 'projects/command/src/lib/command-dialogs/com
     StorageDialogsModule,
     DialogModule,
     HighlightModule,
-    DockerDialogsModule,
-    CommandDialogsModule,
   ],
   bootstrap: [AppComponent]
 })

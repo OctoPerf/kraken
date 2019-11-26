@@ -1,7 +1,1 @@
-package com.kraken.runtime.entity;
-
-public enum TaskType {
-  RUN,
-  DEBUG,
-  RECORD
-}
+export type TaskType = 'RUN' | 'DEBUG' | 'RECORD';

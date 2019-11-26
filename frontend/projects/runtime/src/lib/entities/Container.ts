@@ -1,38 +1,10 @@
-package com.kraken.runtime.entity;
+import {ContainerStatus} from 'projects/runtime/src/lib/entities/ContainerStatus';
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
-import lombok.With;
-
-import static java.util.Objects.requireNonNull;
-
-@Value
-@Builder
-public class Container {
-  String id;
-  String name;
-  String hostId;
-  String label;
-  Long startDate;
-  @With
-  ContainerStatus status;
-
-  @JsonCreator
-  Container(
-      @JsonProperty("id") final String id,
-      @JsonProperty("name") final String name,
-      @JsonProperty("hostId") final String hostId,
-      @JsonProperty("label") final String label,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final ContainerStatus status) {
-    super();
-    this.id = requireNonNull(id);
-    this.hostId = requireNonNull(hostId);
-    this.startDate = requireNonNull(startDate);
-    this.status = requireNonNull(status);
-    this.label = requireNonNull(label);
-    this.name = requireNonNull(name);
-  }
+export interface Container {
+  readonly id: string;
+  readonly name: string;
+  readonly hostId: string;
+  readonly label: string;
+  readonly startDate: number;
+  readonly status: ContainerStatus;
 }

@@ -1,6 +1,1 @@
-package com.kraken.runtime.entity;
-
-public enum LogType {
-  CONTAINER,
-  TASK
-}
+export type LogType = 'CONTAINER' | 'TASK';

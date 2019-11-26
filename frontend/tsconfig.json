@@ -150,6 +150,12 @@
       ],
       "analysis/*": [
         "dist/analysis/*"
+      ],
+      "runtime": [
+        "dist/runtime"
+      ],
+      "runtime/*": [
+        "dist/runtime/*"
       ]
     }
   }
