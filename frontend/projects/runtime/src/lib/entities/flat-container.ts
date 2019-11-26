@@ -1,5 +1,5 @@
-import {TaskType} from 'projects/runtime/src/lib/entities/TaskType';
-import {ContainerStatus} from 'projects/runtime/src/lib/entities/ContainerStatus';
+import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
+import {ContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
 
 export interface FlatContainer {
   readonly id: string;

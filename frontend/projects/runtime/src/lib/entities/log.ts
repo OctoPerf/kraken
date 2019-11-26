@@ -1,4 +1,4 @@
-import {LogType} from 'projects/runtime/src/lib/entities/LogType';
+import {LogType} from 'projects/runtime/src/lib/entities/log-type';
 
 export interface Log {
   applicationId: string;

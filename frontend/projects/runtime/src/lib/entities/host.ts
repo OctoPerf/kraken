@@ -1,4 +1,4 @@
-import {HostAddress} from 'projects/runtime/src/lib/entities/HostAddress';
+import {HostAddress} from 'projects/runtime/src/lib/entities/host-address';
 
 export interface Host {
   readonly id: string;

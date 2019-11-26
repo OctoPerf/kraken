@@ -1,6 +1,6 @@
-import {ContainerStatus} from 'projects/runtime/src/lib/entities/ContainerStatus';
-import {TaskType} from 'projects/runtime/src/lib/entities/TaskType';
-import {Container} from 'projects/runtime/src/lib/entities/Container';
+import {ContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
+import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
+import {Container} from 'projects/runtime/src/lib/entities/container';
 
 export interface Task {
   readonly id: string;

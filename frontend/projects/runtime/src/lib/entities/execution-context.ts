@@ -1,4 +1,4 @@
-import {TaskType} from 'projects/runtime/src/lib/entities/TaskType';
+import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
 
 export class ExecutionContext {
 

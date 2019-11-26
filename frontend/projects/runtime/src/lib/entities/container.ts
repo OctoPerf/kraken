@@ -1,4 +1,4 @@
-import {ContainerStatus} from 'projects/runtime/src/lib/entities/ContainerStatus';
+import {ContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
 
 export interface Container {
   readonly id: string;
