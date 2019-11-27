@@ -16,4 +16,12 @@ export class RuntimeConfigurationService {
   runtimeApiUrl(path: string = ''): string {
     return this.configuration.url('runtimeApiUrl', `/runtime${path}`);
   }
+
+  taskApiUrl(path: string = ''): string {
+    return this.configuration.url('runtimeApiUrl', `/task${path}`);
+  }
+
+  containerApiUrl(path: string = ''): string {
+    return this.configuration.url('runtimeApiUrl', `/container${path}`);
+  }
 }

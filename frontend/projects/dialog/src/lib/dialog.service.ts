@@ -10,6 +10,7 @@ import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialo
 import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
+import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,13 @@ export class DialogService {
       name,
       items,
       helpPageId,
+    });
+  }
+
+  public confirm(title: string, message: string): Observable<void> {
+    return this.open(ConfirmDialogComponent, DialogSize.SIZE_MD, {
+      title,
+      message,
     });
   }
 

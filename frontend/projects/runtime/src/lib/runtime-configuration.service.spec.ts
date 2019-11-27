@@ -11,9 +11,13 @@ export const runtimeConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeConfigurationService', [
     'hostApiUrl',
     'runtimeApiUrl',
+    'taskApiUrl',
+    'containerApiUrl',
   ]);
   spy.hostApiUrl.and.callFake((path = '') => `hostApiUrl/host${path}`);
   spy.runtimeApiUrl.and.callFake((path = '') => `runtimeApiUrl/runtime${path}`);
+  spy.taskApiUrl.and.callFake((path = '') => `taskApiUrl/task${path}`);
+  spy.containerApiUrl.and.callFake((path = '') => `containerApiUrl/container${path}`);
   return spy;
 };
 
@@ -62,5 +66,29 @@ describe('RuntimeConfigurationService', () => {
     configuration.url.and.returnValue('url');
     expect(service.runtimeApiUrl()).toBe('url');
     expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/runtime');
+  });
+
+  it('should return taskApiUrl', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.taskApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/task/path');
+  });
+
+  it('should return taskApiUrl no param', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.taskApiUrl()).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/task');
+  });
+
+  it('should return containerApiUrl', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.containerApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/container/path');
+  });
+
+  it('should return containerApiUrl no param', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.containerApiUrl()).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/container');
   });
 });

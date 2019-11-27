@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
+
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 @Slf4j
 @RestController()
@@ -36,7 +39,7 @@ public class TaskController {
   @NonNull SSEService sse;
   @NonNull IdGenerator idGenerator;
 
-  @PostMapping()
+  @PostMapping(produces = TEXT_PLAIN_VALUE)
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @RequestBody() final ExecutionContext context) {
     log.info(String.format("Execute %s task", context.getTaskType()));
@@ -44,7 +47,7 @@ public class TaskController {
         .flatMap(resultUpdater::taskExecuted);
   }
 
-  @PostMapping("/cancel/{type}")
+  @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {

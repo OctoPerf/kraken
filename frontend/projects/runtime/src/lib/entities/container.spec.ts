@@ -1,6 +1,4 @@
-import {Log} from 'projects/runtime/src/lib/entities/log';
 import {Container} from 'projects/runtime/src/lib/entities/container';
-import {ContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
 
 export const testContainer: () => Container = () => {
   return {

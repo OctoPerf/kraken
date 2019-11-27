@@ -1,0 +1,86 @@
+import {TestBed} from '@angular/core/testing';
+
+import {RuntimeTaskService} from './runtime-task.service';
+import {BehaviorSubject} from 'rxjs';
+import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-configuration.service';
+import {HttpTestingController} from '@angular/common/http/testing';
+import {EventBusService} from 'projects/event/src/lib/event-bus.service';
+import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
+import {runtimeConfigurationServiceSpy} from 'projects/runtime/src/lib/runtime-configuration.service.spec';
+import {testTasks} from 'projects/runtime/src/lib/entities/task.spec';
+import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
+import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
+import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
+
+export const runtimeTaskServiceSpy = () => {
+  const spy = jasmine.createSpyObj('RuntimeTaskService', [
+    'list',
+    'cancel',
+    'execute',
+  ]);
+  spy.tasksSubject = new BehaviorSubject([]);
+  return spy;
+};
+
+describe('RuntimeTaskService', () => {
+  let service: RuntimeTaskService;
+  let httpTestingController: HttpTestingController;
+  let eventBus: EventBusService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CoreTestModule],
+      providers: [
+        {provide: RuntimeConfigurationService, useValue: runtimeConfigurationServiceSpy()},
+        EventBusService,
+        RuntimeTaskService,
+      ]
+    });
+    eventBus = TestBed.get(EventBusService);
+    service = TestBed.get(RuntimeTaskService);
+    httpTestingController = TestBed.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+    service.ngOnDestroy();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should list', () => {
+    const tasks = testTasks();
+    service.list().subscribe(data => expect(data).toBe(tasks), () => fail('list failed'));
+    const request = httpTestingController.expectOne('taskApiUrl/task/list');
+    expect(request.request.method).toBe('GET');
+    request.flush(tasks);
+    expect(service.tasksSubject.value).toBe(tasks);
+  });
+
+  it('should cancel', () => {
+    const publish = spyOn(eventBus, 'publish');
+    const taskId = 'taskId';
+    const taskType = 'RUN';
+    service.cancel(taskId, taskType).subscribe(data => expect(data).toBe(taskId), () => fail('cancel failed'));
+    const request = httpTestingController.expectOne(req => req.url === 'taskApiUrl/task/cancel/RUN');
+    expect(request.request.method).toBe('DELETE');
+    expect(request.request.params.get('taskId')).toBe(taskId);
+    request.flush(taskId);
+    expect(publish).toHaveBeenCalledWith(new TaskCancelledEvent(taskId));
+  });
+
+  it('should execute', () => {
+    const publish = spyOn(eventBus, 'publish');
+    const taskId = 'taskId';
+    const context = testExecutionContext();
+    service.execute(context).subscribe(data => expect(data).toBe(taskId), () => fail('execute failed'));
+    const request = httpTestingController.expectOne('taskApiUrl/task');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toBe(context);
+    request.flush(taskId);
+    expect(publish).toHaveBeenCalledWith(new TaskExecutedEvent(taskId, context));
+  });
+
+});

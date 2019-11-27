@@ -10,12 +10,14 @@ import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dial
 import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
+import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
 
 export const dialogsServiceSpy = () => {
   const spy = jasmine.createSpyObj('DialogService', [
     'open',
     'inspect',
     'delete',
+    'confirm',
     'logs',
   ]);
   return spy;
@@ -100,6 +102,16 @@ describe('DialogService', () => {
         name: 'name',
         items: ['item'],
         helpPageId: 'TEST'
+      });
+  });
+
+  it('should confirm', () => {
+    const spy = spyOn(service, 'open');
+    service.confirm('title', 'message');
+    expect(spy).toHaveBeenCalledWith(
+      ConfirmDialogComponent, DialogSize.SIZE_MD, {
+        title: 'title',
+        message: 'message'
       });
   });
 

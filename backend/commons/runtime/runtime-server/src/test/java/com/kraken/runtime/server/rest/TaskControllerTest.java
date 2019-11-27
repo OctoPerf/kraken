@@ -111,7 +111,7 @@ public class TaskControllerTest {
     given(updater.taskCanceled(taskId))
         .willReturn(Mono.just(taskId));
 
-    webTestClient.post()
+    webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/task/cancel")
             .pathSegment(taskType.toString())
             .queryParam("taskId", taskId)
@@ -127,13 +127,12 @@ public class TaskControllerTest {
   @Test
   public void shouldFailToCancel() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    webTestClient.post()
+    webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/task/cancel")
             .pathSegment("RUN")
             .queryParam("taskId", "taskId")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(TaskTest.TASK))
         .exchange()
         .expectStatus().is5xxServerError();
   }
