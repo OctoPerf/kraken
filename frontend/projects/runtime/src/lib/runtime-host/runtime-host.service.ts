@@ -6,7 +6,7 @@ import {Host} from 'projects/runtime/src/lib/entities/host';
 import {tap} from 'rxjs/operators';
 
 @Injectable()
-export class HostService {
+export class RuntimeHostService {
 
   public hostsSubject: BehaviorSubject<Host[]>;
 

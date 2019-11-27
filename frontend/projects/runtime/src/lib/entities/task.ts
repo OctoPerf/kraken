@@ -9,5 +9,5 @@ export interface Task {
   readonly type: TaskType;
   readonly containers: Container[];
   readonly expectedCount: number;
-  readonly description: number;
+  readonly description: string;
 }

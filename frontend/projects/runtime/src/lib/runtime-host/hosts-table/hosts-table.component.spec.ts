@@ -1,30 +1,30 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HostsTableComponent} from './hosts-table.component';
-import {HostService} from 'projects/runtime/src/lib/host/host.service';
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {hostServiceSpy, testHosts} from 'projects/runtime/src/lib/host/host.service.spec';
+import {hostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
-import {DockerService} from 'projects/docker/src/lib/docker-client/docker.service';
+import {testHosts} from 'projects/runtime/src/lib/entities/host.spec';
 
 describe('HostsTableComponent', () => {
   let component: HostsTableComponent;
   let fixture: ComponentFixture<HostsTableComponent>;
-  let hostService: SpyObj<HostService>;
+  let hostService: SpyObj<RuntimeHostService>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [HostsTableComponent],
       providers: [
-        {provide: HostService, useValue: hostServiceSpy()},
+        {provide: RuntimeHostService, useValue: hostServiceSpy()},
       ]
     })
       .overrideTemplate(HostsTableComponent, '')
       .compileComponents();
 
-    hostService = TestBed.get(HostService);
+    hostService = TestBed.get(RuntimeHostService);
   }));
 
   beforeEach(() => {

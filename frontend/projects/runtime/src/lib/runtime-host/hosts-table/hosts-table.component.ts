@@ -4,7 +4,7 @@ import {Host} from 'projects/runtime/src/lib/entities/host';
 import {MatSort} from '@angular/material/sort';
 import {Subscription} from 'rxjs';
 import {REFRESH_ICON} from 'projects/icon/src/lib/icons';
-import {HostService} from 'projects/runtime/src/lib/host/host.service';
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 
 @Component({
   selector: 'lib-hosts-table',
@@ -22,7 +22,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private hostService: HostService) {
+  constructor(private hostService: RuntimeHostService) {
     this.dataSource = new MatTableDataSource([]);
     this.subscription = this.hostService.hostsSubject.subscribe((hosts) => this.hosts = hosts);
   }

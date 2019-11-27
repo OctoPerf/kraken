@@ -10,8 +10,10 @@ import SpyObj = jasmine.SpyObj;
 export const runtimeConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeConfigurationService', [
     'hostApiUrl',
+    'runtimeApiUrl',
   ]);
   spy.hostApiUrl.and.callFake((path = '') => `hostApiUrl/host${path}`);
+  spy.runtimeApiUrl.and.callFake((path = '') => `runtimeApiUrl/runtime${path}`);
   return spy;
 };
 
@@ -48,5 +50,17 @@ describe('RuntimeConfigurationService', () => {
     configuration.url.and.returnValue('url');
     expect(service.hostApiUrl()).toBe('url');
     expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/host');
+  });
+
+  it('should return runtimeApiUrl', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.runtimeApiUrl('/path')).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/runtime/path');
+  });
+
+  it('should return runtimeApiUrl no param', () => {
+    configuration.url.and.returnValue('url');
+    expect(service.runtimeApiUrl()).toBe('url');
+    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/runtime');
   });
 });
