@@ -1,0 +1,32 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-compact';
+@import 'app-table';
+@import 'app-font';
+@import 'app-background';
+
+:host {
+  @include block-filler();
+  @include compact-table();
+  @include scrollable();
+}
+
+table {
+  @include table-filler();
+}
+
+.mat-column-status, .mat-column-contextualMenu, .mat-column-grafanaReport {
+  @include column-action();
+}
+
+.mat-column-name, .mat-column-addresses, .mat-column-capacity {
+  @include column-text-ellipsis(100px);
+}
+
+.mat-row {
+  @include mat-selectable-row();
+}
+
+.mat-row-selected {
+  @include mat-row-selected();
+}

@@ -1,0 +1,36 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-compact';
+@import 'app-table';
+@import 'app-font';
+@import 'app-background';
+
+:host {
+  @include block-filler();
+  @include compact-table();
+  @include scrollable();
+}
+
+table {
+  @include table-filler();
+}
+
+.mat-column-containers {
+  @include column-action();
+}
+
+.mat-column-description {
+  @include column-text-ellipsis(100px);
+}
+
+.mat-column-startDate {
+  @include column-width(80px);
+}
+
+.mat-row {
+  @include mat-selectable-row();
+}
+
+.mat-row-selected {
+  @include mat-row-selected();
+}
