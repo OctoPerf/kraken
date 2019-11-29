@@ -47,6 +47,6 @@ export class DebugEditorComponent extends DefaultStorageNodeEditorComponent impl
   }
 
   public inspectSession() {
-    this.dialogs.inspect('Gatling Session', this.strings.replaceAll(this.debug.chunk.session, ',', ',\n\t'));
+    this.dialogs.inspect('Gatling Session', this.strings.replaceAll(this.debug.entry.session, ',', ',\n\t'));
   }
 }

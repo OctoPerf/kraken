@@ -11,16 +11,16 @@ import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-c
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
-import {testDebugChunk} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.service.spec';
 import {of, throwError} from 'rxjs';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
-import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
+import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import {DebugChunkToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-path.pipe';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
-import {resultsListServiceSpy} from 'projects/analysis/src/lib/results/results-list.service.spec';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import SpyObj = jasmine.SpyObj;
+import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
+import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
+import {resultsTableServiceSpy} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 
 export const debugEditorContentServiceSpy = () => {
   const spy = jasmine.createSpyObj('DebugEditorContentService', [
@@ -48,9 +48,9 @@ describe('DebugEditorContentService', () => {
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         {provide: WindowService, useValue: windowSpy()},
         {provide: StorageService, useValue: storageServiceSpy()},
-        {provide: ResultsListService, useValue: resultsListServiceSpy()},
+        {provide: ResultsTableService, useValue: resultsTableServiceSpy()},
         DebugEditorContentService,
-        DebugChunkToPathPipe,
+        DebugEntryToPathPipe,
       ]
     });
     service = TestBed.get(DebugEditorContentService);
@@ -65,8 +65,8 @@ describe('DebugEditorContentService', () => {
   });
 
   it('should openResponseBody', () => {
-    const chunk = testDebugChunk();
-    storage.getJSON.and.returnValue(of(chunk));
+    const entry = testDebugEntry();
+    storage.getJSON.and.returnValue(of(entry));
     storage.getContent.and.returnValue(of('content'));
     service.load(testStorageFileNode());
 
@@ -75,27 +75,27 @@ describe('DebugEditorContentService', () => {
     expect(window.open).toHaveBeenCalled();
   });
 
-  it('should not load chunk', () => {
+  it('should not load entry', () => {
     storage.getJSON.and.returnValue(throwError('fail'));
     service.load(testStorageFileNode());
     expect(service.state).toBe('error');
   });
 
   it('should not load content', () => {
-    const chunk = testDebugChunk();
-    storage.getJSON.and.returnValue(of(chunk));
+    const entry = testDebugEntry();
+    storage.getJSON.and.returnValue(of(entry));
     storage.getContent.and.returnValue(throwError('fail'));
     service.load(testStorageFileNode());
     expect(service.state).toBe('error');
   });
 
   it('should load', () => {
-    const chunk = testDebugChunk();
-    storage.getJSON.and.returnValue(of(chunk));
+    const entry = testDebugEntry();
+    storage.getJSON.and.returnValue(of(entry));
     storage.getContent.and.returnValue(of('content'));
     service.load(testStorageFileNode());
 
-    expect(service.chunk).toBe(chunk);
+    expect(service.entry).toBe(entry);
     expect(service.requestHeadersFlex).toBe('calc(35% - 72px)');
     expect(service.requestCookiesFlex).toBe('25%');
     expect(service.requestBodyFlex).toBe('calc(40% - 36px)');
@@ -115,7 +115,7 @@ describe('DebugEditorContentService', () => {
   });
 
   it('should load minimal', () => {
-    const chunk: DebugChunk = {
+    const entry: DebugEntry = {
       id: 'some-id',
       resultId: 'resultId',
       date: 42,
@@ -130,9 +130,9 @@ describe('DebugEditorContentService', () => {
       responseHeaders: [{key: 'key', value: 'value'}],
       responseBodyFile: '',
     };
-    storage.getJSON.and.returnValue(of(chunk));
+    storage.getJSON.and.returnValue(of(entry));
     service.load(testStorageFileNode());
-    expect(service.chunk).toBe(chunk);
+    expect(service.entry).toBe(entry);
     expect(service.requestHeadersFlex).toBe('calc(100% - 72px)');
     expect(service.requestCookiesFlex).toBeUndefined();
     expect(service.requestBodyFlex).toBeUndefined();
@@ -148,7 +148,7 @@ describe('DebugEditorContentService', () => {
   });
 
   it('should load no bodies', () => {
-    const chunk: DebugChunk = {
+    const entry: DebugEntry = {
       id: 'some-id',
       resultId: 'resultId',
       date: 42,
@@ -163,9 +163,9 @@ describe('DebugEditorContentService', () => {
       responseHeaders: [{key: 'key', value: 'value'}],
       responseBodyFile: '',
     };
-    storage.getJSON.and.returnValue(of(chunk));
+    storage.getJSON.and.returnValue(of(entry));
     service.load(testStorageFileNode());
-    expect(service.chunk).toBe(chunk);
+    expect(service.entry).toBe(entry);
     expect(service.requestHeadersFlex).toBe('calc(65% - 72px)');
     expect(service.requestCookiesFlex).toBe('35%');
     expect(service.requestBodyFlex).toBeUndefined();
@@ -181,7 +181,7 @@ describe('DebugEditorContentService', () => {
   });
 
   it('should load no cookies', () => {
-    const chunk: DebugChunk = {
+    const entry: DebugEntry = {
       id: 'some-id',
       resultId: 'resultId',
       date: 42,
@@ -196,10 +196,10 @@ describe('DebugEditorContentService', () => {
       responseHeaders: [{key: 'key', value: 'value'}],
       responseBodyFile: 'responseBodyFile',
     };
-    storage.getJSON.and.returnValue(of(chunk));
+    storage.getJSON.and.returnValue(of(entry));
     storage.getContent.and.returnValue(of('content'));
     service.load(testStorageFileNode());
-    expect(service.chunk).toBe(chunk);
+    expect(service.entry).toBe(entry);
     expect(service.requestHeadersFlex).toBe('calc(55% - 72px)');
     expect(service.requestCookiesFlex).toBeUndefined();
     expect(service.requestBodyFlex).toBe('calc(45% - 36px)');

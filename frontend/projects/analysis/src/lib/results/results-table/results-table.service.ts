@@ -12,15 +12,15 @@ import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service'
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {filter, map} from 'rxjs/operators';
-import {IsDebugChunkStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-chunk-storage-node.pipe';
+import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import * as _ from 'lodash';
 
 @Injectable()
-export class ResultsListService extends StorageJsonService<Result> implements OnDestroy {
+export class ResultsTableService extends StorageJsonService<Result> implements OnDestroy {
 
-  public static readonly ID = 'results-list-selection';
+  public static readonly ID = 'results-table-selection';
 
   private readonly _selection: SelectionModel<Result> = new SelectionModel(false);
   public readonly selectionChanged: EventEmitter<Result> = new EventEmitter();
@@ -30,7 +30,7 @@ export class ResultsListService extends StorageJsonService<Result> implements On
     storageList: StorageListService,
     toParentPath: StorageNodeToParentPathPipe,
     toName: StorageNodeToNamePipe,
-    private isDebug: IsDebugChunkStorageNodePipe,
+    private isDebug: IsDebugEntryStorageNodePipe,
     private toNode: NodeEventToNodePipe,
     private analysisConfiguration: AnalysisConfigurationService,
     private localStorage: LocalStorageService,
@@ -51,7 +51,7 @@ export class ResultsListService extends StorageJsonService<Result> implements On
     super.init(this.analysisConfiguration.analysisRootNode.path, 'result\\.json', 2);
 
     // Init _selection on component load
-    const defaultResult = this.localStorage.getItem(ResultsListService.ID);
+    const defaultResult = this.localStorage.getItem(ResultsTableService.ID);
     if (defaultResult) {
       this.selection = defaultResult;
     }
@@ -59,9 +59,9 @@ export class ResultsListService extends StorageJsonService<Result> implements On
     // Update local storage on _selection change
     this._subscriptions.push(this._selection.changed.subscribe(result => {
       if (result.added.length) {
-        this.localStorage.setItem(ResultsListService.ID, result.added[0]);
+        this.localStorage.setItem(ResultsTableService.ID, result.added[0]);
       } else {
-        this.localStorage.remove(ResultsListService.ID);
+        this.localStorage.remove(ResultsTableService.ID);
       }
       // Open debug if it's a debug result
       if (this._selection.hasValue() && this.selection.type !== 'RUN') {
@@ -85,7 +85,7 @@ export class ResultsListService extends StorageJsonService<Result> implements On
     this._subscriptions.push(this.eventBus.of<SelectNodeEvent>(SelectNodeEvent.CHANNEL)
       .pipe(map(this.toNode.transform), filter(this.isDebug.transform.bind(this.isDebug)))
       .subscribe((node: StorageNode) => {
-        const result = node.path.match(IsDebugChunkStorageNodePipe.PATH_REGEXP);
+        const result = node.path.match(IsDebugEntryStorageNodePipe.PATH_REGEXP);
         const resultId = result[1];
         this.selection = this.get(resultId);
       }));

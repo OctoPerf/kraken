@@ -8,7 +8,6 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {BaseNotification} from 'projects/notification/src/lib/base-notification';
-import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {NotificationLevel} from 'projects/notification/src/lib/notification-level';

@@ -33,11 +33,11 @@ import {faCode} from '@fortawesome/free-solid-svg-icons/faCode';
 import {faFile} from '@fortawesome/free-solid-svg-icons/faFile';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {SimulationContextualMenuComponent} from 'projects/gatling/src/app/simulations/simulation-contextual-menu/simulation-contextual-menu.component';
-import {ResultsListComponent} from 'projects/analysis/src/lib/results/results-list/results-list.component';
+import {ResultsTableComponent} from 'projects/analysis/src/lib/results/results-table/results-table.component';
 import {faPoll} from '@fortawesome/free-solid-svg-icons/faPoll';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
-import {DebugChunksListComponent} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.component';
+import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
 import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
 
@@ -117,7 +117,7 @@ export class WorkspaceComponent implements OnInit {
             null,
             false,
             [OpenHelpEvent.CHANNEL]),
-          new Tab(new ComponentPortal(ResultsListComponent), 'Results',
+          new Tab(new ComponentPortal(ResultsTableComponent), 'Results',
             new IconFa(faPoll),
             'GATLING_RESULT_LIST',
             false,
@@ -128,7 +128,7 @@ export class WorkspaceComponent implements OnInit {
       ),
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(DebugChunksListComponent), 'Debug', new IconFa(faBug, 'accent'),
+          new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', new IconFa(faBug, 'accent'),
             'GATLING_DEBUG_LIST',
             false,
             [OpenDebugEvent.CHANNEL]),

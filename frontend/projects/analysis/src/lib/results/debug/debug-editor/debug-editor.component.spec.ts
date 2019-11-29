@@ -9,7 +9,7 @@ import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-nod
 import SpyObj = jasmine.SpyObj;
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
-import {testDebugChunk} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.service.spec';
+import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
 
 describe('DebugEditorComponent', () => {
   let component: DebugEditorComponent;
@@ -47,7 +47,7 @@ describe('DebugEditorComponent', () => {
   });
 
   it('inspectSession create', () => {
-    component.debug = {chunk: testDebugChunk()} as any;
+    component.debug = {entry: testDebugEntry()} as any;
     component.inspectSession();
     expect(dialogs.inspect).toHaveBeenCalledWith('Gatling Session', 'session');
   });

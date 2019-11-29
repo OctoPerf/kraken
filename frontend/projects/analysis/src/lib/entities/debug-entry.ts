@@ -1,6 +1,6 @@
 import {HttpHeader} from 'projects/analysis/src/lib/entities/http-header';
 
-export interface DebugChunk {
+export interface DebugEntry {
   id: string;
   resultId: string;
   date: number;

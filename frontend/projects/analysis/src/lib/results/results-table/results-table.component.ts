@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {GatlingResultService} from 'projects/analysis/src/lib/results/results-list/gatling-result.service';
+import {GatlingResultService} from 'projects/analysis/src/lib/results/results-table/gatling-result.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,18 +14,18 @@ import {faSync} from '@fortawesome/free-solid-svg-icons/faSync';
 import {DEBUG_ICON, DELETE_ICON, MENU_ICON, PLAY_ICON} from 'projects/icon/src/lib/icons';
 import {faChartLine} from '@fortawesome/free-solid-svg-icons/faChartLine';
 import {faFileInvoice} from '@fortawesome/free-solid-svg-icons/faFileInvoice';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {faFileImport} from '@fortawesome/free-solid-svg-icons/faFileImport';
 
 library.add(faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
 @Component({
   selector: 'lib-results-list',
-  templateUrl: './results-list.component.html',
-  styleUrls: ['./results-list.component.scss'],
+  templateUrl: './results-table.component.html',
+  styleUrls: ['./results-table.component.scss'],
   providers: [GatlingResultService]
 })
-export class ResultsListComponent implements OnInit {
+export class ResultsTableComponent implements OnInit {
 
   readonly displayedColumns: string[] = ['status', 'runDescription', 'startDate', 'contextualMenu'];
   readonly chartIcon = new IconFa(faChartLine, 'primary');
@@ -55,7 +55,7 @@ export class ResultsListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public gatling: GatlingResultService,
-              public results: ResultsListService) {
+              public results: ResultsTableService) {
   }
 
   ngOnInit() {

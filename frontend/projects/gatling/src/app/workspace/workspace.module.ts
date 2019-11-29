@@ -18,7 +18,7 @@ import {SimulationsModule} from 'projects/gatling/src/app/simulations/simulation
 import {SimulationEditorComponent} from 'projects/gatling/src/app/simulations/simulation-editor/simulation-editor.component';
 import {ResultsModule} from 'projects/analysis/src/lib/results/results.module';
 import {DebugEditorComponent} from 'projects/analysis/src/lib/results/debug/debug-editor/debug-editor.component';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +59,7 @@ import {ResultsListService} from 'projects/analysis/src/lib/results/results-list
   ],
 })
 export class WorkspaceModule {
-  constructor(public tabsService: TabsService, results: ResultsListService) {
+  constructor(public tabsService: TabsService, results: ResultsTableService) {
     // inject services to force initialization
     results.init();
   }

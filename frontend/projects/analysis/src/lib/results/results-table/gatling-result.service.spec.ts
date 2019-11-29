@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {GatlingResultService} from 'projects/analysis/src/lib/results/results-list/gatling-result.service';
+import {GatlingResultService} from 'projects/analysis/src/lib/results/results-table/gatling-result.service';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
@@ -11,22 +11,20 @@ import {Result} from 'projects/analysis/src/lib/entities/result';
 import {of, throwError} from 'rxjs';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
-import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
-import {gatlingConfigurationServiceSpy} from 'projects/gatling/src/app/gatling-configuration.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {
-  testResult, testResultDebug,
+  testResult,
+  testResultDebug,
   testResultNode,
   testResultStatus
-} from 'projects/analysis/src/lib/results/results-list.service.spec';
+} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisServiceSpy} from 'projects/analysis/src/lib/analysis.service.spec';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {Test} from 'tslint';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 
 export const gatlingResultServiceSpy = () => {

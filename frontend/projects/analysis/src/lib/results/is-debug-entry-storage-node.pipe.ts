@@ -3,9 +3,9 @@ import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 
 @Pipe({
-  name: 'isDebugChunkStorageNode'
+  name: 'isDebugEntryStorageNode'
 })
-export class IsDebugChunkStorageNodePipe implements PipeTransform {
+export class IsDebugEntryStorageNodePipe implements PipeTransform {
 
   public static readonly PATH_REGEXP = /([0-9a-z\-]*)\/debug\/(.*?).debug$/;
 
@@ -17,7 +17,7 @@ export class IsDebugChunkStorageNodePipe implements PipeTransform {
     return node
       && node.depth === rootDepth
       && node.path.startsWith(this.analysisConfiguration.analysisRootNode.path)
-      && !!node.path.match(IsDebugChunkStorageNodePipe.PATH_REGEXP);
+      && !!node.path.match(IsDebugEntryStorageNodePipe.PATH_REGEXP);
   }
 
 }

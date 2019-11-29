@@ -5,12 +5,12 @@ import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {HttpClient} from '@angular/common/http';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
-import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
+import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {of, zip} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {DebugChunkToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-path.pipe';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
+import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 
 @Injectable()
 export class DebugEditorContentService extends StorageNodeEditorContentService {
@@ -18,7 +18,7 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
   private static readonly HEADER_HEIGHT = '36px';
   private static readonly HEADER_HEIGHT_2X = '72px';
 
-  public _chunk: DebugChunk;
+  public _entry: DebugEntry;
 
   public requestHeadersFlex: string;
   public requestCookiesFlex: string;
@@ -39,16 +39,16 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
               eventBus: EventBusService,
               private analysisConfiguration: AnalysisConfigurationService,
               private window: WindowService,
-              private toPath: DebugChunkToPathPipe) {
+              private toPath: DebugEntryToPathPipe) {
     super(configuration, storage, http, eventBus);
   }
 
   public load(node: StorageNode) {
     this._node = node;
-    this.storage.getJSON(node).subscribe((chunk: DebugChunk) => {
-      this._setChunk(chunk);
+    this.storage.getJSON(node).subscribe((entry: DebugEntry) => {
+      this._setEntry(entry);
       const getRequestBody = this.hasRequestBody ? this.storage.getContent({
-        path: `${this.toPath.transform(chunk)}/${this._chunk.requestBodyFile}`
+        path: `${this.toPath.transform(entry)}/${this._entry.requestBodyFile}`
       } as StorageNode).pipe(tap(requestBody => this.requestBody = requestBody)) : of('ok');
       const getResponseBody = this.hasResponseBody ? this.storage.getContent({
         path: this._responseBodyPath
@@ -57,11 +57,11 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
     }, () => this.state = 'error');
   }
 
-  private _setChunk(chunk: DebugChunk) {
-    this._chunk = chunk;
-    this.hasRequestCookies = !!chunk.requestCookies.length;
-    this.hasRequestBody = !!chunk.requestBodyFile.length;
-    this.hasResponseBody = !!chunk.responseBodyFile.length;
+  private _setEntry(entry: DebugEntry) {
+    this._entry = entry;
+    this.hasRequestCookies = !!entry.requestCookies.length;
+    this.hasRequestBody = !!entry.requestBodyFile.length;
+    this.hasResponseBody = !!entry.responseBodyFile.length;
 
     if (this.hasRequestBody) {
       if (this.hasRequestCookies) {
@@ -89,11 +89,11 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
   }
 
   private get _responseBodyPath(): string {
-    return `${this.toPath.transform(this._chunk)}/${this._chunk.responseBodyFile}`;
+    return `${this.toPath.transform(this._entry)}/${this._entry.responseBodyFile}`;
   }
 
-  public get chunk(): DebugChunk {
-    return this._chunk;
+  public get entry(): DebugEntry {
+    return this._entry;
   }
 
   public openResponseBody() {

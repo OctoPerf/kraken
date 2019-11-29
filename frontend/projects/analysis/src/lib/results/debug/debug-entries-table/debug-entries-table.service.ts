@@ -2,28 +2,28 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {NodeEventToNodePipe} from 'projects/storage/src/lib/storage-pipes/node-event-to-node.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
+import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {Subscription} from 'rxjs';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {map} from 'rxjs/operators';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
-import {DebugChunkToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-path.pipe';
-import {IsDebugChunkStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-chunk-storage-node.pipe';
+import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {CompareDialogComponent} from 'projects/analysis/src/lib/results/debug/compare/compare-dialog/compare-dialog.component';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
+import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 
 @Injectable()
-export class DebugChunksListService extends StorageJsonService<DebugChunk> implements OnDestroy {
+export class DebugEntriesTableService extends StorageJsonService<DebugEntry> implements OnDestroy {
 
-  public static readonly CHUNK_EXT = '.debug';
+  public static readonly ENTRY_EXT = '.debug';
 
-  private _selection: DebugChunk | null;
+  private _selection: DebugEntry | null;
   private _resultSelectionSubscription: Subscription;
   private _nodeSelectionSubscription: Subscription;
   private _result: Result;
@@ -35,12 +35,12 @@ export class DebugChunksListService extends StorageJsonService<DebugChunk> imple
     private toNode: NodeEventToNodePipe,
     private eventBus: EventBusService,
     private analysisConfiguration: AnalysisConfigurationService,
-    private resultsList: ResultsListService,
-    private toPath: DebugChunkToPathPipe,
+    private resultsList: ResultsTableService,
+    private toPath: DebugEntryToPathPipe,
     private dialogs: DialogService,
   ) {
     super(storage, storageList, node => {
-      const result = node.path.match(IsDebugChunkStorageNodePipe.PATH_REGEXP);
+      const result = node.path.match(IsDebugEntryStorageNodePipe.PATH_REGEXP);
       return result ? `${result[2]}_${result[1]}` : '';
     }, value => `${value.id}_${value.resultId}`);
 
@@ -73,10 +73,10 @@ export class DebugChunksListService extends StorageJsonService<DebugChunk> imple
       .subscribe(this._selectNode.bind(this)));
   }
 
-  public open(chunk: DebugChunk) {
-    const path = `${this.toPath.transform(chunk)}/${chunk.id}${DebugChunksListService.CHUNK_EXT}`;
+  public open(entry: DebugEntry) {
+    const path = `${this.toPath.transform(entry)}/${entry.id}${DebugEntriesTableService.ENTRY_EXT}`;
     this.storage.get(path).subscribe(node => this.storage.edit(node));
-    this._selection = chunk;
+    this._selection = entry;
   }
 
   public compare() {
@@ -87,20 +87,20 @@ export class DebugChunksListService extends StorageJsonService<DebugChunk> imple
     }).subscribe();
   }
 
-  public set selection(chunk: DebugChunk) {
-    this._selection = chunk;
+  public set selection(entry: DebugEntry) {
+    this._selection = entry;
   }
 
-  public get selection(): DebugChunk {
+  public get selection(): DebugEntry {
     return this._selection;
   }
 
-  public isSelected(chunk: DebugChunk): boolean {
-    return !!this._selection && this._selection === chunk;
+  public isSelected(entry: DebugEntry): boolean {
+    return !!this._selection && this._selection === entry;
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
-    this.storage.listJSON<DebugChunk>(nodes).subscribe((values: DebugChunk[]) => {
+    this.storage.listJSON<DebugEntry>(nodes).subscribe((values: DebugEntry[]) => {
       this.values = values;
       this._selectNode(this._lastSelectedNode);
     });
@@ -111,9 +111,9 @@ export class DebugChunksListService extends StorageJsonService<DebugChunk> imple
       this._selection = null;
       return;
     }
-    const chunk = this.find(node);
-    if (chunk) {
-      this._selection = chunk;
+    const entry = this.find(node);
+    if (entry) {
+      this._selection = entry;
     }
   }
 

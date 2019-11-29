@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DebugChunksListComponent} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.component';
 import {StorageModule} from 'projects/storage/src/lib/storage.module';
 import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage-pipes.module';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
@@ -16,21 +15,22 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {TreeModule} from 'projects/tree/src/lib/tree.module';
 import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/compare.module';
 import {DebugPipesModule} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-pipes.module';
+import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
 
 @NgModule({
   declarations: [
-    DebugChunksListComponent,
+    DebugEntriesTableComponent,
     DebugEditorComponent,
     HeadersTableComponent,
     CookiesTableComponent,
   ],
   exports: [
-    DebugChunksListComponent,
+    DebugEntriesTableComponent,
     DebugEditorComponent,
     CompareModule,
   ],
   entryComponents: [
-    DebugChunksListComponent,
+    DebugEntriesTableComponent,
     DebugEditorComponent,
   ],
   imports: [

@@ -6,20 +6,20 @@
        matSortDirection="asc">
   <ng-container matColumnDef="requestName">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td mat-cell *matCellDef="let chunk" [title]="chunk.requestUrl">
-      {{chunk.requestName}}
+    <td mat-cell *matCellDef="let entry" [title]="entry.requestUrl">
+      {{entry.requestName}}
     </td>
   </ng-container>
   <ng-container matColumnDef="requestStatus">
     <th mat-header-cell *matHeaderCellDef>Status</th>
-    <td mat-cell *matCellDef="let chunk" [title]="'Request: ' + chunk.requestStatus + ' | Response: ' + chunk.responseStatus">
-      <lib-icon [icon]="statusIcon" [state]="chunk.requestStatus.startsWith('OK') ? 'OK' : 'KO'"></lib-icon>
+    <td mat-cell *matCellDef="let entry" [title]="'Request: ' + entry.requestStatus + ' | Response: ' + entry.responseStatus">
+      <lib-icon [icon]="statusIcon" [state]="entry.requestStatus.startsWith('OK') ? 'OK' : 'KO'"></lib-icon>
     </td>
   </ng-container>
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-    <td mat-cell *matCellDef="let chunk" [title]="chunk.date | dateTimeToStringMs">
-      {{chunk.date | timeToStringMs}}
+    <td mat-cell *matCellDef="let entry" [title]="entry.date | dateTimeToStringMs">
+      {{entry.date | timeToStringMs}}
     </td>
   </ng-container>
   <ng-container matColumnDef="contextualMenu">

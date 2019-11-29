@@ -7,12 +7,12 @@
         <div fxFlex="60px">
           <b>Request:</b>
         </div>
-        <div fxFlex class="text-ellipsis" [title]="debug.chunk.requestName">
-          {{debug.chunk.requestName}}
+        <div fxFlex class="text-ellipsis" [title]="debug.entry.requestName">
+          {{debug.entry.requestName}}
         </div>
         <div fxFlex="nogrow" class="compact-button">
-          <button mat-icon-button (click)="inspectSession()" [matTooltip]="debug.chunk.session">
-            <lib-icon [icon]="sessionIcon" [matTooltip]="debug.chunk.session"></lib-icon>
+          <button mat-icon-button (click)="inspectSession()" [matTooltip]="debug.entry.session">
+            <lib-icon [icon]="sessionIcon" [matTooltip]="debug.entry.session"></lib-icon>
           </button>
         </div>
         <div fxFlex="grow">
@@ -20,21 +20,21 @@
         <div fxFlex="60px">
           Status:
         </div>
-        <div fxFlex class="text-ellipsis" [ngClass]="{'text-error': !debug.chunk.requestStatus.startsWith('OK')}" [title]="debug.chunk.requestStatus">
-          {{debug.chunk.requestStatus}}
+        <div fxFlex class="text-ellipsis" [ngClass]="{'text-error': !debug.entry.requestStatus.startsWith('OK')}" [title]="debug.entry.requestStatus">
+          {{debug.entry.requestStatus}}
         </div>
         <div fxFlex="grow"></div>
         <div fxFlex="60px">
           URL:
         </div>
-        <div fxFlex class="text-ellipsis" [title]="debug.chunk.requestUrl">
-          {{debug.chunk.requestUrl}}
+        <div fxFlex class="text-ellipsis" [title]="debug.entry.requestUrl">
+          {{debug.entry.requestUrl}}
         </div>
         <div fxFlex="grow"></div>
       </div>
     </div>
-    <lib-headers-table [fxFlex]="debug.requestHeadersFlex" [headers]="debug.chunk.requestHeaders"></lib-headers-table>
-    <lib-cookies-table [fxFlex]="debug.requestCookiesFlex" [cookies]="debug.chunk.requestCookies"
+    <lib-headers-table [fxFlex]="debug.requestHeadersFlex" [headers]="debug.entry.requestHeaders"></lib-headers-table>
+    <lib-cookies-table [fxFlex]="debug.requestCookiesFlex" [cookies]="debug.entry.requestCookies"
                        *ngIf="debug.hasRequestCookies"></lib-cookies-table>
     <div fxFlex="none" class="panel-header-table-like" *ngIf="debug.hasRequestBody">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="block-filler">
@@ -44,7 +44,7 @@
       </div>
     </div>
     <lib-code-editor [fxFlex]="debug.requestBodyFlex" *ngIf="debug.hasRequestBody"
-                     [mode]="debug.chunk.requestBodyFile | pathToCodeEditorMode"
+                     [mode]="debug.entry.requestBodyFile | pathToCodeEditorMode"
                      [value]="debug.requestBody" [readonly]="true"></lib-code-editor>
   </div>
 </ng-template>
@@ -57,12 +57,12 @@
           <b>Response:</b>
         </div>
         <div fxFlex="grow">
-          {{debug.chunk.responseStatus}}
+          {{debug.entry.responseStatus}}
         </div>
       </div>
     </div>
     <lib-headers-table [fxFlex]="debug.responseHeadersFlex"
-                       [headers]="debug.chunk.responseHeaders"></lib-headers-table>
+                       [headers]="debug.entry.responseHeaders"></lib-headers-table>
     <div fxFlex="none" class="panel-header-table-like" *ngIf="debug.hasResponseBody">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="block-filler">
         <div fxFlex="none">
@@ -76,10 +76,10 @@
       </div>
     </div>
     <lib-code-editor [fxFlex]="debug.responseBodyFlex" *ngIf="debug.hasResponseBody"
-                     [mode]="debug.chunk.responseBodyFile | pathToCodeEditorMode"
+                     [mode]="debug.entry.responseBodyFile | pathToCodeEditorMode"
                      [value]="debug.responseBody" [readonly]="true"></lib-code-editor>
   </div>
 </ng-template>
 
-<lib-split-panes *ngIf="contentService.state === 'loaded'" [id]="'debug-' + debug.chunk.id" [panes]="splits"
+<lib-split-panes *ngIf="contentService.state === 'loaded'" [id]="'debug-' + debug.entry.id" [panes]="splits"
                  direction="horizontal"></lib-split-panes>

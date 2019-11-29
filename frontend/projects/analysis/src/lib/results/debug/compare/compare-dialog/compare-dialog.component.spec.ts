@@ -3,21 +3,21 @@ import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/t
 import {CompareDialogComponent, CompareDialogData} from './compare-dialog.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
-import {testDebugChunk} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.service.spec';
-import {testResult} from 'projects/analysis/src/lib/results/results-list.service.spec';
-import {DebugChunkToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-string.pipe';
-import {debugChunkToStringPipeSpy} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-string.pipe.spec';
+import {testResult} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
+import {DebugEntryToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe';
+import {debugEntryToStringPipeSpy} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe.spec';
+import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
 
 describe('CompareDialogComponent', () => {
   let component: CompareDialogComponent;
   let fixture: ComponentFixture<CompareDialogComponent>;
-  let toString: SpyObj<DebugChunkToStringPipe>;
+  let toString: SpyObj<DebugEntryToStringPipe>;
   let data: CompareDialogData;
   let storage: SpyObj<StorageService>;
 
@@ -28,19 +28,19 @@ describe('CompareDialogComponent', () => {
       results: [testResult()]
     };
 
-    toString = debugChunkToStringPipeSpy();
-    toString.transform.and.returnValue(of('chunk'));
+    toString = debugEntryToStringPipeSpy();
+    toString.transform.and.returnValue(of('entry'));
 
     storage = storageServiceSpy();
     storage.find.and.returnValue(of([]));
-    storage.listJSON.and.returnValue(of([testDebugChunk()]));
+    storage.listJSON.and.returnValue(of([testDebugEntry()]));
 
     TestBed.configureTestingModule({
       declarations: [CompareDialogComponent],
       providers: [
         {provide: MatDialogRef, useValue: dialogRefSpy()},
         {provide: MAT_DIALOG_DATA, useValue: {}},
-        {provide: DebugChunkToStringPipe, useValue: toString},
+        {provide: DebugEntryToStringPipe, useValue: toString},
         {provide: StorageService, useValue: storage},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
       ]
@@ -57,49 +57,49 @@ describe('CompareDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.debugChunks.length).toBe(1);
+    expect(component.debugEntries.length).toBe(1);
     expect(component.loading).toBeFalsy();
   });
 
   it('should select left', () => {
     spyOn(component, '_refresh');
-    const chunk = testDebugChunk();
-    component.selectLeft(chunk);
-    expect(component._leftDebugChunk).toBe(chunk);
+    const entry = testDebugEntry();
+    component.selectLeft(entry);
+    expect(component._leftDebugEntry).toBe(entry);
   });
 
   it('should select right', () => {
     spyOn(component, '_refresh');
-    const chunk = testDebugChunk();
-    component.selectRight(chunk);
-    expect(component._rightDebugChunk).toBe(chunk);
+    const entry = testDebugEntry();
+    component.selectRight(entry);
+    expect(component._rightDebugEntry).toBe(entry);
   });
 
   it('should refresh', () => {
-    const left = spyOn(component._leftDebugChunkEmitter, 'emit');
-    const right = spyOn(component._rightDebugChunkEmitter, 'emit');
-    component._leftDebugChunk = null;
-    component._rightDebugChunk = null;
+    const left = spyOn(component._leftDebugEntryEmitter, 'emit');
+    const right = spyOn(component._rightDebugEntryEmitter, 'emit');
+    component._leftDebugEntry = null;
+    component._rightDebugEntry = null;
     component.loadingDiff = false;
     component._refresh();
     expect(component.loadingDiff).toBeTruthy();
     expect(left).not.toHaveBeenCalled();
-    component._leftDebugChunk = testDebugChunk();
+    component._leftDebugEntry = testDebugEntry();
     component._refresh();
     expect(left).not.toHaveBeenCalled();
-    component._rightDebugChunk = testDebugChunk();
+    component._rightDebugEntry = testDebugEntry();
     component._refresh();
-    expect(left).toHaveBeenCalledWith(component._leftDebugChunk);
-    expect(right).toHaveBeenCalledWith(component._rightDebugChunk);
+    expect(left).toHaveBeenCalledWith(component._leftDebugEntry);
+    expect(right).toHaveBeenCalledWith(component._rightDebugEntry);
   });
 
   it('should update left & right', fakeAsync(() => {
     component.loadingDiff = true;
-    component._leftDebugChunkEmitter.emit(testDebugChunk());
-    component._rightDebugChunkEmitter.emit(testDebugChunk());
+    component._leftDebugEntryEmitter.emit(testDebugEntry());
+    component._rightDebugEntryEmitter.emit(testDebugEntry());
     tick(1000);
-    expect(component.left).toBe('chunk');
-    expect(component.right).toBe('chunk');
+    expect(component.left).toBe('entry');
+    expect(component.right).toBe('entry');
     expect(component.loadingDiff).toBeFalsy();
   }));
 

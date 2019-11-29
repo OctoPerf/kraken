@@ -1,19 +1,18 @@
 import {Component, EventEmitter, Inject, OnDestroy} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
+import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {Result} from 'projects/analysis/src/lib/entities/result';
-import {DebugChunkToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-string.pipe';
 import {Observable, Subscription, zip} from 'rxjs';
 import {debounceTime, flatMap} from 'rxjs/operators';
 import * as _ from 'lodash';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {DebugEntryToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe';
 
 export interface CompareDialogData {
-  left: DebugChunk;
-  right: DebugChunk;
+  left: DebugEntry;
+  right: DebugEntry;
   results: Result[];
 }
 
@@ -28,28 +27,28 @@ export class CompareDialogComponent implements OnDestroy {
   public loadingDiff = true;
   public left: string;
   public right: string;
-  public debugChunks: DebugChunk[];
+  public debugEntries: DebugEntry[];
 
   private _subscriptions: Subscription[] = [];
-  _leftDebugChunk: DebugChunk;
-  _leftDebugChunkEmitter: EventEmitter<DebugChunk> = new EventEmitter<DebugChunk>();
-  _rightDebugChunk: DebugChunk;
-  _rightDebugChunkEmitter: EventEmitter<DebugChunk> = new EventEmitter<DebugChunk>();
+  _leftDebugEntry: DebugEntry;
+  _leftDebugEntryEmitter: EventEmitter<DebugEntry> = new EventEmitter<DebugEntry>();
+  _rightDebugEntry: DebugEntry;
+  _rightDebugEntryEmitter: EventEmitter<DebugEntry> = new EventEmitter<DebugEntry>();
 
   constructor(public dialogRef: MatDialogRef<CompareDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: CompareDialogData,
-              private toString: DebugChunkToStringPipe,
+              private toString: DebugEntryToStringPipe,
               storage: StorageService,
               analysisConfiguration: AnalysisConfigurationService) {
     storage.find(analysisConfiguration.analysisRootNode.path, `.*\.debug`, 3)
       .pipe(flatMap((nodes: StorageNode[]) => storage.listJSON(nodes)))
-      .subscribe((chunks: DebugChunk[]) => {
-        this.debugChunks = chunks;
+      .subscribe((entries: DebugEntry[]) => {
+        this.debugEntries = entries;
         this.loading = false;
       });
 
-    this._subscriptions.push(zip(this._leftDebugChunkEmitter.pipe(flatMap(this.toString.transform.bind(this.toString))) as Observable<string>,
-      this._rightDebugChunkEmitter.pipe(flatMap(this.toString.transform.bind(this.toString)))).pipe(debounceTime(500))
+    this._subscriptions.push(zip(this._leftDebugEntryEmitter.pipe(flatMap(this.toString.transform.bind(this.toString))) as Observable<string>,
+      this._rightDebugEntryEmitter.pipe(flatMap(this.toString.transform.bind(this.toString)))).pipe(debounceTime(500))
       .subscribe((values: [string, string]) => {
         this.left = values[0];
         this.right = values[1];
@@ -61,21 +60,21 @@ export class CompareDialogComponent implements OnDestroy {
     _.invokeMap(this._subscriptions, 'unsubscribe');
   }
 
-  selectLeft(chunk: DebugChunk) {
-    this._leftDebugChunk = chunk;
+  selectLeft(entry: DebugEntry) {
+    this._leftDebugEntry = entry;
     this._refresh();
   }
 
-  selectRight(chunk: DebugChunk) {
-    this._rightDebugChunk = chunk;
+  selectRight(entry: DebugEntry) {
+    this._rightDebugEntry = entry;
     this._refresh();
   }
 
   _refresh() {
     this.loadingDiff = true;
-    if (this._leftDebugChunk && this._rightDebugChunk) {
-      this._leftDebugChunkEmitter.emit(this._leftDebugChunk);
-      this._rightDebugChunkEmitter.emit(this._rightDebugChunk);
+    if (this._leftDebugEntry && this._rightDebugEntry) {
+      this._leftDebugEntryEmitter.emit(this._leftDebugEntry);
+      this._rightDebugEntryEmitter.emit(this._rightDebugEntry);
     }
   }
 }

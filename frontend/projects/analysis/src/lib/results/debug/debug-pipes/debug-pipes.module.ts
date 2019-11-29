@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {DebugChunkToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-path.pipe';
-import {DebugChunkToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-string.pipe';
 import {StorageModule} from 'projects/storage/src/lib/storage.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
+import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
+import {DebugEntryToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe';
 
 @NgModule({
   declarations: [
-    DebugChunkToPathPipe,
-    DebugChunkToStringPipe,
+    DebugEntryToPathPipe,
+    DebugEntryToStringPipe,
   ],
   imports: [
     CommonModule,
@@ -16,8 +16,8 @@ import {DateModule} from 'projects/date/src/lib/date.module';
     DateModule,
   ],
   providers: [
-    DebugChunkToPathPipe,
-    DebugChunkToStringPipe,
+    DebugEntryToPathPipe,
+    DebugEntryToStringPipe,
   ]
 })
 export class DebugPipesModule { }

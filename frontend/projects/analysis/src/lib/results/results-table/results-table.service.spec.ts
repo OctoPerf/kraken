@@ -1,17 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageNodeToNamePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-name.pipe';
 import {StorageNodeToParentPathPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-parent-path.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {
-  testStorageDirectoryNode,
-  testStorageFileNode,
-  testStorageRootNode
-} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {Result, ResultStatus} from 'projects/analysis/src/lib/entities/result';
 import {of, ReplaySubject} from 'rxjs';
 import {NodeEventToNodePipe} from 'projects/storage/src/lib/storage-pipes/node-event-to-node.pipe';
@@ -19,14 +15,13 @@ import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-c
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {EventEmitter} from '@angular/core';
-import {IsDebugChunkStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-chunk-storage-node.pipe';
+import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
-import SpyObj = jasmine.SpyObj;
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
-import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 export const testResultStatus: (status: ResultStatus) => Result = (status: ResultStatus) => {
   return {
@@ -64,8 +59,8 @@ export const testResultNode: () => StorageNode = () => {
   };
 };
 
-export const resultsListServiceSpy: () => SpyObj<ResultsListService> = () => {
-  const spy = jasmine.createSpyObj('ResultsListService', [
+export const resultsTableServiceSpy: () => SpyObj<ResultsTableService> = () => {
+  const spy = jasmine.createSpyObj('ResultsTableService', [
     'ngOnDestroy',
     'init',
     'select',
@@ -79,7 +74,7 @@ export const resultsListServiceSpy: () => SpyObj<ResultsListService> = () => {
 };
 
 describe('ResultsListService', () => {
-  let service: ResultsListService;
+  let service: ResultsTableService;
   let storage: SpyObj<StorageService>;
   let storageList: SpyObj<StorageListService>;
   let events: SpyObj<EventBusService>;
@@ -107,11 +102,11 @@ describe('ResultsListService', () => {
         StorageNodeToNamePipe,
         StorageNodeToParentPathPipe,
         NodeEventToNodePipe,
-        ResultsListService,
-        IsDebugChunkStorageNodePipe,
+        ResultsTableService,
+        IsDebugEntryStorageNodePipe,
       ]
     });
-    service = TestBed.get(ResultsListService);
+    service = TestBed.get(ResultsTableService);
     events = TestBed.get(EventBusService);
     localStorage = TestBed.get(LocalStorageService);
   });
@@ -186,21 +181,21 @@ describe('ResultsListService', () => {
     it('should handle selection change', () => {
       spyOn(events, 'publish');
       service.selection = result;
-      expect(localStorage.getItem(ResultsListService.ID)).toEqual(result);
+      expect(localStorage.getItem(ResultsTableService.ID)).toEqual(result);
       expect(events.publish).not.toHaveBeenCalledWith(new OpenDebugEvent());
     });
 
     it('should handle selection change debug', () => {
       spyOn(events, 'publish');
       service.selection = debugResult;
-      expect(localStorage.getItem(ResultsListService.ID)).toEqual(debugResult);
+      expect(localStorage.getItem(ResultsTableService.ID)).toEqual(debugResult);
       expect(events.publish).toHaveBeenCalledWith(new OpenDebugEvent());
     });
 
     it('should handle selection clear', () => {
       service.selection = debugResult;
       (service as any)._selection.clear();
-      expect(localStorage.getItem(ResultsListService.ID)).toBeUndefined();
+      expect(localStorage.getItem(ResultsTableService.ID)).toBeUndefined();
     });
 
     it('should update selection on list change', () => {

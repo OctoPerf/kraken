@@ -7,13 +7,10 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageNodeToNamePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-name.pipe';
 import {NodeEventToNodePipe} from 'projects/storage/src/lib/storage-pipes/node-event-to-node.pipe';
-import {DebugChunk} from 'projects/analysis/src/lib/entities/debug-chunk';
-import {DebugChunksListService} from 'projects/analysis/src/lib/results/debug/debug-chunks-list/debug-chunks-list.service';
+import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import {DebugChunkToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-chunk-to-path.pipe';
-import {ResultsListService} from 'projects/analysis/src/lib/results/results-list.service';
-import {resultsListServiceSpy, testResult} from 'projects/analysis/src/lib/results/results-list.service.spec';
+import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import * as _ from 'lodash';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
@@ -21,8 +18,14 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
+import {DebugEntriesTableService} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service';
+import {
+  resultsTableServiceSpy,
+  testResult
+} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
+import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 
-export const testDebugChunk: () => DebugChunk = () => {
+export const testDebugEntry: () => DebugEntry = () => {
   return {
     id: 'some-id',
     resultId: 'debug-uuid',
@@ -50,32 +53,32 @@ export const testDebugResultNode: () => StorageNode = () => {
   };
 };
 
-export const debugResultListServiceSpy: () => SpyObj<DebugChunksListService> = () => {
-  const spy = jasmine.createSpyObj('DebugChunksListService', [
+export const debugEntriesTableServiceSpy: () => SpyObj<DebugEntriesTableService> = () => {
+  const spy = jasmine.createSpyObj('DebugEntriesTableService', [
     'ngOnDestroy',
     'init',
     'open',
     'compare',
     'isSelected',
   ]);
-  spy.valuesSubject = new ReplaySubject<DebugChunk[]>(1);
+  spy.valuesSubject = new ReplaySubject<DebugEntry[]>(1);
   return spy;
 };
 
-describe('DebugChunksListService', () => {
-  let service: DebugChunksListService;
+describe('DebugEntriesTableService', () => {
+  let service: DebugEntriesTableService;
   let storage: SpyObj<StorageService>;
   let storageList: SpyObj<StorageListService>;
   let eventBus: SpyObj<EventBusService>;
   let dialogs: SpyObj<DialogService>;
-  let results: SpyObj<ResultsListService>;
+  let results: SpyObj<ResultsTableService>;
 
-  let debugChunkNode: StorageNode;
-  let debugChunk: DebugChunk;
+  let debugEntryNode: StorageNode;
+  let debugEntry: DebugEntry;
 
   beforeEach(() => {
-    debugChunkNode = testDebugResultNode();
-    debugChunk = testDebugChunk();
+    debugEntryNode = testDebugResultNode();
+    debugEntry = testDebugEntry();
     storage = storageServiceSpy();
     storage.listJSON.and.returnValue(of([]));
     storageList = storageListServiceSpy();
@@ -85,16 +88,16 @@ describe('DebugChunksListService', () => {
         {provide: StorageService, useValue: storage},
         {provide: StorageListService, useValue: storageList},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
-        {provide: ResultsListService, useValue: resultsListServiceSpy()},
+        {provide: ResultsTableService, useValue: resultsTableServiceSpy()},
         {provide: DialogService, useValue: dialogsServiceSpy()},
-        DebugChunkToPathPipe,
+        DebugEntryToPathPipe,
         StorageNodeToNamePipe,
         NodeEventToNodePipe,
-        DebugChunksListService,
+        DebugEntriesTableService,
       ]
     });
-    service = TestBed.get(DebugChunksListService);
-    results = TestBed.get(ResultsListService);
+    service = TestBed.get(DebugEntriesTableService);
+    results = TestBed.get(ResultsTableService);
     eventBus = TestBed.get(EventBusService);
     dialogs = TestBed.get(DialogService);
   });
@@ -108,8 +111,8 @@ describe('DebugChunksListService', () => {
   });
 
   it('should find', () => {
-    service.values = [debugChunk];
-    expect(service.find(debugChunkNode)).toBe(debugChunk);
+    service.values = [debugEntry];
+    expect(service.find(debugEntryNode)).toBe(debugEntry);
   });
 
   it('should compare', () => {
@@ -119,17 +122,17 @@ describe('DebugChunksListService', () => {
   });
 
   it('should open', () => {
-    storage.get.and.returnValue(of(debugChunkNode));
-    service.open(debugChunk);
-    expect(storage.get).toHaveBeenCalledWith(debugChunkNode.path);
-    expect(storage.edit).toHaveBeenCalledWith(debugChunkNode);
+    storage.get.and.returnValue(of(debugEntryNode));
+    service.open(debugEntry);
+    expect(storage.get).toHaveBeenCalledWith(debugEntryNode.path);
+    expect(storage.edit).toHaveBeenCalledWith(debugEntryNode);
   });
 
   it('should isSelected', () => {
-    expect(service.isSelected(debugChunk)).toBeFalsy();
-    service.selection = debugChunk;
-    expect(service.isSelected(debugChunk)).toBeTruthy();
-    expect(service.isSelected(_.cloneDeep(debugChunk))).toBeFalsy();
+    expect(service.isSelected(debugEntry)).toBeFalsy();
+    service.selection = debugEntry;
+    expect(service.isSelected(debugEntry)).toBeTruthy();
+    expect(service.isSelected(_.cloneDeep(debugEntry))).toBeFalsy();
   });
 
   it('should not init', () => {
@@ -148,20 +151,20 @@ describe('DebugChunksListService', () => {
     });
 
     it('should unselect node', () => {
-      service.selection = debugChunk;
+      service.selection = debugEntry;
       eventBus.publish(new SelectNodeEvent(null));
       expect(service.selection).toBeNull();
     });
 
     it('should select do not find node', () => {
-      eventBus.publish(new SelectNodeEvent(debugChunkNode));
+      eventBus.publish(new SelectNodeEvent(debugEntryNode));
       expect(service.selection).toBeNull();
     });
 
     it('should select', () => {
-      spyOn(service, 'find').and.returnValue(debugChunk);
-      eventBus.publish(new SelectNodeEvent(debugChunkNode));
-      expect(service.selection).toEqual(debugChunk);
+      spyOn(service, 'find').and.returnValue(debugEntry);
+      eventBus.publish(new SelectNodeEvent(debugEntryNode));
+      expect(service.selection).toEqual(debugEntry);
     });
   });
 });

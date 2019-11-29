@@ -5,19 +5,19 @@
   <div *ngIf="!loading">
     <div fxLayout="row" fxLayoutGap="40px">
       <div fxFlex="50">
-        <lib-debug-chunk-selector [results]="data.results"
-                                  [debugChunks]="debugChunks"
-                                  [debugChunkId]="data.left.id"
+        <lib-debug-entry-selector [results]="data.results"
+                                  [debugEntries]="debugEntries"
+                                  [debugEntryId]="data.left.id"
                                   [resultId]="data.left.resultId"
-                                  (debugSelected)="selectLeft($event)"></lib-debug-chunk-selector>
+                                  (debugSelected)="selectLeft($event)"></lib-debug-entry-selector>
 
       </div>
       <div fxFlex="50">
-        <lib-debug-chunk-selector [results]="data.results"
-                                  [debugChunks]="debugChunks"
-                                  [debugChunkId]="data.right.id"
+        <lib-debug-entry-selector [results]="data.results"
+                                  [debugEntries]="debugEntries"
+                                  [debugEntryId]="data.right.id"
                                   [resultId]="data.right.resultId"
-                                  (debugSelected)="selectRight($event)"></lib-debug-chunk-selector>
+                                  (debugSelected)="selectRight($event)"></lib-debug-entry-selector>
       </div>
     </div>
     <div class="diff">
