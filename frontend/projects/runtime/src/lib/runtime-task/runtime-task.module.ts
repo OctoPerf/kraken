@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
-import {TaskTableComponent} from './task-table/task-table.component';
+import {TasksTableComponent} from 'projects/runtime/src/lib/runtime-task/tasks-table/tasks-table.component';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
@@ -11,7 +11,7 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 
 @NgModule({
   declarations: [
-    TaskTableComponent
+    TasksTableComponent
   ],
   imports: [
     ComponentsModule,
@@ -21,7 +21,7 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
     ToolsModule,
   ],
   exports: [
-    TaskTableComponent,
+    TasksTableComponent,
   ],
   providers: [
     RuntimeContainerService,

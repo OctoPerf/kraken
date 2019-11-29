@@ -13,14 +13,14 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'lib-task-table',
-  templateUrl: './task-table.component.html',
-  styleUrls: ['./task-table.component.scss']
+  selector: 'lib-tasks-table',
+  templateUrl: './tasks-table.component.html',
+  styleUrls: ['./tasks-table.component.scss']
 })
-export class TaskTableComponent implements OnInit, OnDestroy {
+export class TasksTableComponent implements OnInit, OnDestroy {
 
-  private readonly _selection: SelectionModel<Task> = new SelectionModel(false);
-  private readonly _subscriptions: Subscription[] = [];
+  readonly _selection: SelectionModel<Task> = new SelectionModel(false);
+  private _subscriptions: Subscription[] = [];
   readonly refreshIcon = REFRESH_ICON;
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'status', 'type', 'containers', 'descriptions'];
   loading = true;
@@ -30,7 +30,7 @@ export class TaskTableComponent implements OnInit, OnDestroy {
 
   constructor(private taskService: RuntimeTaskService,
               private eventBus: EventBusService) {
-    this._subscriptions.push( eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
+    this._subscriptions.push(eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
       .pipe(map(event => event.tasks)).subscribe(tasks => this.tasks = tasks));
     this._subscriptions.push(this._selection.changed.subscribe(value => {
       this.eventBus.publish(new TaskSelectedEvent(this._selection.selected[0]));

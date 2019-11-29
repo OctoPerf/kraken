@@ -1190,7 +1190,12 @@
           "options": {
             "main": "projects/runtime/src/test.ts",
             "tsConfig": "projects/runtime/tsconfig.spec.json",
-            "karmaConfig": "projects/runtime/karma.conf.js"
+            "karmaConfig": "projects/runtime/karma.conf.js",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "styles"
+              ]
+            }
           }
         },
         "lint": {
