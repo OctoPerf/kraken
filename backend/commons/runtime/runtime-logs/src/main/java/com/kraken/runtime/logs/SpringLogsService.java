@@ -1,6 +1,7 @@
 package com.kraken.runtime.logs;
 
 import com.kraken.runtime.entity.Log;
+import com.kraken.runtime.entity.LogStatus;
 import com.kraken.runtime.entity.LogType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -58,6 +59,10 @@ final class SpringLogsService implements LogsService {
   @Override
   public boolean cancel(String id) {
     if (this.subscriptions.containsKey(id)) {
+      final var log = Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CANCELLING).build();
+      if (!this.listeners.isEmpty()) {
+        this.logs.add(log);
+      }
       final var subscription = this.subscriptions.get(id);
       subscription.dispose();
       return true;
@@ -70,7 +75,8 @@ final class SpringLogsService implements LogsService {
     final var subscription = stringFlux
         .windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
         .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
-        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).build())
+        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
+        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(log -> {

@@ -14,17 +14,20 @@ public class Log {
   String id;
   LogType type;
   String text;
+  LogStatus status;
 
   @JsonCreator
   Log(
       @JsonProperty("applicationId") final String applicationId,
       @JsonProperty("id") final String id,
       @JsonProperty("type") final LogType type,
-      @JsonProperty("text") final String text) {
+      @JsonProperty("text") final String text,
+      @JsonProperty("status") final LogStatus status) {
     super();
     this.id = requireNonNull(id);
     this.applicationId = requireNonNull(applicationId);
     this.type = requireNonNull(type);
     this.text = requireNonNull(text);
+    this.status = requireNonNull(status);
   }
 }

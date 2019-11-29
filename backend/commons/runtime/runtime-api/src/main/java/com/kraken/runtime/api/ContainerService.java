@@ -12,7 +12,7 @@ public interface ContainerService {
 
   Mono<String> attachLogs(String applicationId, String taskId, String containerId, String containerName);
 
-  Mono<Void> detachLogs(String id);
+  Mono<Void> detachLogs(String applicationId, String id);
 
   Mono<Void> setStatus(String taskId, String containerId, String containerName, ContainerStatus status);
 

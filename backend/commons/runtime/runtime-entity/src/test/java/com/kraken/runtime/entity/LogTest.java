@@ -11,6 +11,7 @@ public class LogTest {
       .id("id")
       .type(LogType.CONTAINER)
       .text("text")
+      .status(LogStatus.RUNNING)
       .build();
 
 

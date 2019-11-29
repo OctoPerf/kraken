@@ -33,8 +33,9 @@ public class ContainerController {
   }
 
   @DeleteMapping("/logs/detach")
-  public Mono<Void> detachLogs(@RequestParam("id") final String id) {
-    return service.detachLogs(id);
+  public Mono<Void> detachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                               @RequestParam("id") final String id) {
+    return service.detachLogs(applicationId, id);
   }
 
   @PostMapping("/status/{status}")
