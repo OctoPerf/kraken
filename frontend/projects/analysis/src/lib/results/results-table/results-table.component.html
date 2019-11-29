@@ -6,11 +6,11 @@
       <lib-icon [icon]="statusIcon" [state]="result.status"></lib-icon>
     </td>
   </ng-container>
-  <ng-container matColumnDef="runDescription">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Run Description</th>
-    <td mat-cell *matCellDef="let result" [title]="result.type + ' - ' + result.runDescription">
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+    <td mat-cell *matCellDef="let result" [title]="result.type + ' - ' + result.description">
       <lib-icon [icon]="typeIcon" [state]="result.type" class="m-r-sm"></lib-icon>
-      {{result.runDescription}}
+      {{result.description}}
     </td>
   </ng-container>
   <ng-container matColumnDef="startDate">

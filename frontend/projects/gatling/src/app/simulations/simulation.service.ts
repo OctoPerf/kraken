@@ -44,7 +44,7 @@ export class SimulationService {
   }
 
   private _start(node: StorageNode,
-                 endpoint: (runDescription: string, environment: { [key in string]: string }) => Observable<string>,
+                 endpoint: (description: string, environment: { [key in string]: string }) => Observable<string>,
                  debug: boolean) {
     const packageRegexp = /^\s*package\s+(\S+)\s*\n/gm;
     const classRegexp = /^\s*class\s+(\S+)\s+extends\s+Simulation/gm;
@@ -61,13 +61,13 @@ export class SimulationService {
       }))
       .subscribe((data: ExecuteSimulationDialogData) => {
         this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_MD, data).subscribe(
-          (result: { simulationName: string, runDescription: string, javaOpts: string }) => {
-            endpoint(result.runDescription, {
+          (result: { simulationName: string, description: string, javaOpts: string }) => {
+            endpoint(result.description, {
               GATLING_SIMULATION: result.simulationName,
-              GATLING_RUN_DESCRIPTION: result.runDescription,
+              GATLING_RUN_DESCRIPTION: result.description,
               JAVA_OPTS: result.javaOpts,
             }).subscribe((commandId: string) => {
-              this.commands.setCommandLabel(commandId, result.runDescription,
+              this.commands.setCommandLabel(commandId, result.description,
                 result.simulationName + ' at ' + this.dateToString.transform(new Date()));
               this.eventBus.publish(new OpenResultsEvent());
             });

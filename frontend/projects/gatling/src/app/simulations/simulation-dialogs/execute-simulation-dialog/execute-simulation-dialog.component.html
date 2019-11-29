@@ -14,12 +14,12 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="block-filler-x">
-      <input matInput placeholder="Run Description" formControlName="runDescription"
+      <input matInput placeholder="Run Description" formControlName="description"
              required>
-      <mat-error *ngIf="runDescription.hasError('required')">
+      <mat-error *ngIf="description.hasError('required')">
         Run description is required.
       </mat-error>
-      <mat-error *ngIf="runDescription.hasError('pattern')">
+      <mat-error *ngIf="description.hasError('pattern')">
         Invalid run description.
       </mat-error>
     </mat-form-field>

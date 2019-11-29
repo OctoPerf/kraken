@@ -23,23 +23,26 @@ export class AnalysisService {
     });
   }
 
-  runTest(runDescription: string, environment: { [key in string]: string }): Observable<string> {
-    return this._startTest(runDescription, environment, '/run');
+  // TODO Remove this
+  runTest(description: string, environment: { [key in string]: string }): Observable<string> {
+    return this._startTest(description, environment, '/run');
   }
 
-  debugTest(runDescription: string, environment: { [key in string]: string }): Observable<string> {
-    return this._startTest(runDescription, environment, '/debug');
+  // TODO Remove this
+  debugTest(description: string, environment: { [key in string]: string }): Observable<string> {
+    return this._startTest(description, environment, '/debug');
   }
 
-  private _startTest(runDescription: string, environment: { [key in string]: string }, endpoint: string): Observable<string> {
+  private _startTest(description: string, environment: { [key in string]: string }, endpoint: string): Observable<string> {
     return this.http.post(this.analysisConfiguration.analysisApiUrl(endpoint), environment, {
       responseType: 'text',
       params: {
-        runDescription,
+        description,
       }
     });
   }
 
+  // TODO Remove this
   record(environment: { [key in string]: string }): Observable<string> {
     return this.http.post(this.analysisConfiguration.analysisApiUrl('/record'), environment, {
       responseType: 'text'

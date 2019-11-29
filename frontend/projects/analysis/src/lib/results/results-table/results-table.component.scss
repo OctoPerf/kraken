@@ -19,7 +19,7 @@ table {
   @include column-action();
 }
 
-.mat-column-runDescription {
+.mat-column-description {
   @include column-text-ellipsis(100px);
 }
 

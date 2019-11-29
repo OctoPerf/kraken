@@ -91,7 +91,7 @@ object Search {
     `));
     dialogs.open.and.returnValue(of({
       simulationName: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      runDescription: 'AdvancedSimulationStep05',
+      description: 'AdvancedSimulationStep05',
       javaOpts: '',
     }));
     analysis.runTest.and.returnValue(of('commandId'));
@@ -129,7 +129,7 @@ object Search {
     `));
     dialogs.open.and.returnValue(of({
       simulationName: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      runDescription: 'AdvancedSimulationStep05',
+      description: 'AdvancedSimulationStep05',
       javaOpts: '-Xmx1G',
     }));
     analysis.debugTest.and.returnValue(of('commandId'));

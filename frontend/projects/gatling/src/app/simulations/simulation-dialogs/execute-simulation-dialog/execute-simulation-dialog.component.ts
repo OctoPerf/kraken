@@ -27,7 +27,7 @@ export class ExecuteSimulationDialogComponent {
         Validators.required,
         Validators.pattern(/^(\w+\.)*\w+$/),
       ]],
-      runDescription: [data.simulationClass, [
+      description: [data.simulationClass, [
         Validators.required,
         Validators.pattern(/^[\w\s]+$/)
       ]],
@@ -39,8 +39,8 @@ export class ExecuteSimulationDialogComponent {
     return this.simulationForm.get('simulationName');
   }
 
-  get runDescription() {
-    return this.simulationForm.get('runDescription');
+  get description() {
+    return this.simulationForm.get('description');
   }
 
   get javaOpts() {
@@ -52,7 +52,7 @@ export class ExecuteSimulationDialogComponent {
     this.localStorage.set('run-simulation-' + this.data.debug, javaOpts);
     this.dialogRef.close({
       simulationName: this.simulationName.value,
-      runDescription: this.runDescription.value,
+      description: this.description.value,
       javaOpts,
     });
   }

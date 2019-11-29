@@ -45,8 +45,8 @@ describe('ExecuteSimulationDialogComponent', () => {
     expect(component.simulationName.value).toBe('simulationPackage.simulationClass');
   });
 
-  it('should return runDescription', () => {
-    expect(component.runDescription.value).toBe('simulationClass');
+  it('should return description', () => {
+    expect(component.description.value).toBe('simulationClass');
   });
 
   it('should return javaOpts', () => {
@@ -57,7 +57,7 @@ describe('ExecuteSimulationDialogComponent', () => {
     component.run();
     expect(dialogRef.close).toHaveBeenCalledWith({
       simulationName: 'simulationPackage.simulationClass',
-      runDescription: 'simulationClass',
+      description: 'simulationClass',
       javaOpts: '',
     });
     expect(component.javaOpts).toBeDefined();

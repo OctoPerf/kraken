@@ -41,23 +41,23 @@ describe('AnalysisService', () => {
   });
 
   it('should run test', () => {
-    const runDescription = 'runDescription';
+    const description = 'description';
     const env = {};
-    service.runTest(runDescription, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
+    service.runTest(description, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
     const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/test/run');
     expect(req.request.method).toBe('POST');
-    expect(req.request.params.get('runDescription')).toEqual(runDescription);
+    expect(req.request.params.get('description')).toEqual(description);
     expect(req.request.body).toEqual(env);
     req.flush('cmdId');
   });
 
   it('should debug test', () => {
-    const runDescription = 'runDescription';
+    const description = 'description';
     const env = {};
-    service.debugTest(runDescription, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
+    service.debugTest(description, env).subscribe(value => expect(value).toBe('cmdId'), () => fail('start failed'));
     const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/test/debug');
     expect(req.request.method).toBe('POST');
-    expect(req.request.params.get('runDescription')).toEqual(runDescription);
+    expect(req.request.params.get('description')).toEqual(description);
     expect(req.request.body).toEqual(env);
     req.flush('cmdId');
   });

@@ -29,7 +29,7 @@ export const testResultStatus: (status: ResultStatus) => Result = (status: Resul
     startDate: 42,
     endDate: 1337,
     status: status,
-    runDescription: 'BasicSimulation',
+    description: 'BasicSimulation',
     type: 'RUN',
   };
 };
@@ -44,7 +44,7 @@ export const testResultDebug: () => Result = () => {
     startDate: 42,
     endDate: 1337,
     status: 'COMPLETED',
-    runDescription: 'BasicSimulation',
+    description: 'BasicSimulation',
     type: 'DEBUG',
   };
 };

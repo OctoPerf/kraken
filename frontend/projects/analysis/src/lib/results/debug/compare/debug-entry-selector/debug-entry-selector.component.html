@@ -2,11 +2,11 @@
   <mat-label>Debug</mat-label>
   <mat-select (selectionChange)="debugEntrySelected($event.value)" [value]="resultId + ':' + debugEntryId">
     <mat-optgroup *ngFor="let result of results"
-                  [label]="result.runDescription + ' - '+ (result.startDate | dateTimeFromNow)">
+                  [label]="result.description + ' - '+ (result.startDate | dateTimeFromNow)">
       <mat-option *ngFor="let debugEntry of filter(result.id)" [value]="debugEntry.resultId + ':' + debugEntry.id">
         {{debugEntry.requestName}} - {{debugEntry.date | timeToStringMs}}
       </mat-option>
     </mat-optgroup>
   </mat-select>
-  <mat-hint>{{result.runDescription}} - {{result.startDate | dateTimeFromNow}}</mat-hint>
+  <mat-hint>{{result.description}} - {{result.startDate | dateTimeFromNow}}</mat-hint>
 </mat-form-field>

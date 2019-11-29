@@ -30,7 +30,7 @@ export class GatlingResultService {
   }
 
   deleteResult(result: Result): Observable<string> {
-    return this.dialogs.delete('test result', [result.runDescription]).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
+    return this.dialogs.delete('test result', [result.description]).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
   }
 
   openGrafanaReport(result: Result) {

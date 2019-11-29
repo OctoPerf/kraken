@@ -27,7 +27,7 @@ library.add(faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircl
 })
 export class ResultsTableComponent implements OnInit {
 
-  readonly displayedColumns: string[] = ['status', 'runDescription', 'startDate', 'contextualMenu'];
+  readonly displayedColumns: string[] = ['status', 'description', 'startDate', 'contextualMenu'];
   readonly chartIcon = new IconFa(faChartLine, 'primary');
   readonly reportIcon = new IconFa(faFileInvoice);
   readonly deleteIcon = DELETE_ICON;
