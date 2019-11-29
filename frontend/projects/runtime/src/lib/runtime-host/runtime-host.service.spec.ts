@@ -10,9 +10,10 @@ import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-conf
 import {BehaviorSubject} from 'rxjs';
 import {testHosts} from 'projects/runtime/src/lib/entities/host.spec';
 
-export const hostServiceSpy = () => {
-  const spy = jasmine.createSpyObj('HostService', [
+export const runtimeHostServiceSpy = () => {
+  const spy = jasmine.createSpyObj('RuntimeHostService', [
     'hosts',
+    'host',
   ]);
   spy.hosts.and.returnValue(cold('---x|', {x: testHosts()}));
   spy.hostsSubject = new BehaviorSubject([]);
@@ -55,6 +56,7 @@ describe('HostService', () => {
     expect(request.request.method).toBe('GET');
     request.flush(hosts);
     expect(service.hostsSubject.value).toBe(hosts);
+    expect(service.host(hosts[0].id)).toBe(hosts[0]);
   });
 
 });

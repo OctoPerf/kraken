@@ -40,6 +40,7 @@ import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-conf
 import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
 import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
+import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
 
 library.add(faCode, faQuestionCircle, faBell, faFile, faPoll);
 
@@ -121,7 +122,7 @@ export class WorkspaceComponent implements OnInit {
             new IconFa(faPoll),
             'GATLING_RESULT_LIST',
             false,
-            ['open-gatling-results']),
+            [OpenResultsEvent.CHANNEL]),
         ],
         -1,
         50

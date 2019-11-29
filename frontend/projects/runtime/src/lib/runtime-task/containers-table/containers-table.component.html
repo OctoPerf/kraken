@@ -1,0 +1,70 @@
+<lib-table-overlay [loading]="false" [dataLength]="dataSource.data.length" [noDataLabel]="'No Containers.'"
+                   class="mat-table-body-bg">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="hostId" matSortDirection="desc">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.id}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.id}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Label</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.label}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.name}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+      <td mat-cell *matCellDef="let container"
+          [title]="container.startDate | dateTimeToString">
+        {{container.startDate | dateTimeFromNow}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.status | prettyString}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+      <td mat-cell *matCellDef="let container">
+        {{container.type | prettyString}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="containers">
+      <th mat-header-cell *matHeaderCellDef>
+
+      </th>
+      <td mat-cell *matCellDef="let container"
+          [title]="'Containers: ' + container.containers.length + '/' + container.expectedCount">
+        <button mat-icon-button (click)="logs(container)" matTooltip="Display container logs">
+          <lib-icon [icon]="logsIcon"></lib-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+</lib-table-overlay>

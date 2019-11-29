@@ -11,8 +11,9 @@ import {IconFaAddon} from 'projects/icon/src/lib/icon-fa-addon';
 import {faSquare} from '@fortawesome/free-regular-svg-icons/faSquare';
 import {faICursor} from '@fortawesome/free-solid-svg-icons/faICursor';
 import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
+import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
 
-library.add(faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug);
+library.add(faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt);
 
 export const LOADING_ICON = new IconFa(faSync, 'muted', '', true);
 
@@ -36,4 +37,6 @@ export const RENAME_ICON = new IconFaAddon(
   new IconFa(faSquare, 'foreground', 'shrink-3 down-2'),
   new IconFa(faICursor, 'accent', 'right-5 grow-2 down-2'),
 );
+
+export const LOGS_ICON = new IconFa(faFileAlt);
 

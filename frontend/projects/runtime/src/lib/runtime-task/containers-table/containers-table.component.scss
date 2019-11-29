@@ -1,0 +1,28 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-compact';
+@import 'app-table';
+@import 'app-font';
+@import 'app-background';
+
+:host {
+  @include block-filler();
+  @include compact-table();
+  @include scrollable();
+}
+
+table {
+  @include table-filler();
+}
+
+.mat-column-logs {
+  @include column-action();
+}
+
+.mat-column-label, .mat-column-name, .mat-column-hostId {
+  @include column-text-ellipsis(100px);
+}
+
+.mat-column-startDate {
+  @include column-width(80px);
+}

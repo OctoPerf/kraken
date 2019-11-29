@@ -19,6 +19,8 @@ import {SimulationEditorComponent} from 'projects/gatling/src/app/simulations/si
 import {ResultsModule} from 'projects/analysis/src/lib/results/results.module';
 import {DebugEditorComponent} from 'projects/analysis/src/lib/results/debug/debug-editor/debug-editor.component';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
+import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
     CommandModule,
     SimulationsModule,
     ResultsModule,
+    RuntimeHostModule,
   ],
   providers: [
     NotificationService,
@@ -59,8 +62,9 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
   ],
 })
 export class WorkspaceModule {
-  constructor(public tabsService: TabsService, results: ResultsTableService) {
+  constructor(public tabsService: TabsService, results: ResultsTableService, hostService: RuntimeHostService) {
     // inject services to force initialization
     results.init();
+    hostService.hosts().subscribe();
   }
 }

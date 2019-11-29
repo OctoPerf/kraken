@@ -1,6 +1,6 @@
 <lib-table-overlay [loading]="loading" [dataLength]="dataSource.data.length" [noDataLabel]="'No Tasks.'"
                    class="mat-table-body-bg">
-  <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="startDate" matSortDirection="desc">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
       <td mat-cell *matCellDef="let task">

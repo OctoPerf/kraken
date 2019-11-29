@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HostsTableComponent} from './hosts-table.component';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {hostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
+import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 import {testHosts} from 'projects/runtime/src/lib/entities/host.spec';
@@ -18,7 +18,7 @@ describe('HostsTableComponent', () => {
       imports: [CoreTestModule],
       declarations: [HostsTableComponent],
       providers: [
-        {provide: RuntimeHostService, useValue: hostServiceSpy()},
+        {provide: RuntimeHostService, useValue: runtimeHostServiceSpy()},
       ]
     })
       .overrideTemplate(HostsTableComponent, '')

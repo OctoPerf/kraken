@@ -7,11 +7,14 @@ import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
+import { ContainersTableComponent } from './containers-table/containers-table.component';
+import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
 
 
 @NgModule({
   declarations: [
-    TasksTableComponent
+    TasksTableComponent,
+    ContainersTableComponent
   ],
   imports: [
     ComponentsModule,
@@ -19,9 +22,11 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
     IconModule,
     DateModule,
     ToolsModule,
+    RuntimeHostModule,
   ],
   exports: [
     TasksTableComponent,
+    ContainersTableComponent
   ],
   providers: [
     RuntimeContainerService,

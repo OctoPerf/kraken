@@ -6,6 +6,8 @@ import {CapacityToStringPipe} from './capacity-to-string.pipe';
 import {AddressesToStringPipe} from './addresses-to-string.pipe';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
+import { HostIdToNamePipe } from './host-id-to-name.pipe';
+import { HostIdToDescriptionPipe } from './host-id-to-description.pipe';
 
 @NgModule({
   imports: [
@@ -17,15 +19,21 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
     HostsTableComponent,
     CapacityToStringPipe,
     AddressesToStringPipe,
+    HostIdToNamePipe,
+    HostIdToDescriptionPipe,
   ],
   exports: [
     HostsTableComponent,
+    HostIdToNamePipe,
+    HostIdToDescriptionPipe,
   ],
   entryComponents: [
     HostsTableComponent,
   ],
   providers: [
     RuntimeHostService,
+    HostIdToNamePipe,
+    HostIdToDescriptionPipe,
   ]
 })
 export class RuntimeHostModule {

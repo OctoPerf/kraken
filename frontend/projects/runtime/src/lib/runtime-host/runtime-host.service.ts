@@ -9,6 +9,7 @@ import {tap} from 'rxjs/operators';
 export class RuntimeHostService {
 
   public hostsSubject: BehaviorSubject<Host[]>;
+  private readonly hostsMap = new Map<string, Host>();
 
   constructor(
     private http: HttpClient,
@@ -17,7 +18,15 @@ export class RuntimeHostService {
     this.hostsSubject = new BehaviorSubject([]);
   }
 
-  hosts(): Observable<Host[]> {
-    return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/list')).pipe(tap(data => this.hostsSubject.next(data)));
+  public hosts(): Observable<Host[]> {
+    return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/list')).pipe(tap(data => {
+      this.hostsSubject.next(data);
+      this.hostsMap.clear();
+      data.forEach(host => this.hostsMap.set(host.id, host));
+    }));
+  }
+
+  public host(id: string): Host | undefined {
+    return this.hostsMap.get(id);
   }
 }

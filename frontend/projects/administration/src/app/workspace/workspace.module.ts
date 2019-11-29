@@ -12,6 +12,8 @@ import {StorageModule} from 'projects/storage/src/lib/storage.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {NotificationService} from 'projects/notification/src/lib/notification.service';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
+import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import {TabsService} from 'projects/tabs/src/lib/tabs.service';
       'administration-storage',
       []
     ),
+    RuntimeHostModule,
   ],
   providers: [
     NotificationService,
@@ -37,7 +40,8 @@ import {TabsService} from 'projects/tabs/src/lib/tabs.service';
   ],
 })
 export class WorkspaceModule {
-  constructor(public tabsService: TabsService) {
+  constructor(public tabsService: TabsService, public hostsService: RuntimeHostService) {
     // inject services to force initialization
+    hostsService.hosts().subscribe();
   }
 }
