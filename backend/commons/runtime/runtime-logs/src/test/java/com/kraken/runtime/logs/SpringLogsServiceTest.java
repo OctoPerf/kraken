@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class SpringLogsServiceTest {
   SpringLogsService service;
 
   @Before
-  public void before(){
+  public void before() {
     service = new SpringLogsService();
     service.init();
   }
@@ -88,7 +89,7 @@ public class SpringLogsServiceTest {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      service.cancel(log0);
+      service.cancel(applicationId0, log0, LogType.CONTAINER);
     }).start();
 
     final var app0Logs = service.listen(applicationId0).take(Duration.ofMillis(2000)).collectList().block();
@@ -125,34 +126,8 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldCancelNope() {
-    assertThat(service.cancel("nope")).isFalse();
+    assertThat(service.cancel("nope", "nope", LogType.CONTAINER)).isFalse();
   }
 
-//  TODO
-//  @Test
-//  public void shouldConcatLogsCount() {
-//    final var log0 = "log0";
-//    final var logsEmitter0 = Flux.interval(Duration.ofMillis(1))
-//        .map(aLong -> log0 + " at " + 100 * (aLong + 1))
-//        .take(1000)
-//        .subscribeOn(Schedulers.elastic());
-//    final var logs = service.concat(logsEmitter0).collectList().block();
-//
-//    assertThat(logs).isNotNull();
-//    assertThat(logs.size()).isEqualTo(2);
-//  }
-//
-//  @Test
-//  public void shouldConcatLogsDuration() {
-//    final var log0 = "log0";
-//    final var logsEmitter0 = Flux.interval(Duration.ofMillis(400))
-//        .map(aLong -> log0 + " at " + 100 * (aLong + 1))
-//        .take(4)
-//        .subscribeOn(Schedulers.elastic());
-//    final var logs = service.concat(logsEmitter0).collectList().block();
-//
-//    assertThat(logs).isNotNull();
-//    assertThat(logs.size()).isEqualTo(2);
-//  }
 }
 

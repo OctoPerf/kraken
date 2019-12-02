@@ -57,7 +57,7 @@ final class SpringLogsService implements LogsService {
   }
 
   @Override
-  public boolean cancel(String id) {
+  public boolean cancel(final String applicationId, final String id, final LogType type) {
     if (this.subscriptions.containsKey(id)) {
       final var log = Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CANCELLING).build();
       if (!this.listeners.isEmpty()) {
@@ -72,11 +72,16 @@ final class SpringLogsService implements LogsService {
 
   @Override
   public Disposable push(final String applicationId, final String id, final LogType type, final Flux<String> stringFlux) {
+    return this.push(applicationId, id, type, LogStatus.RUNNING, LogStatus.CLOSED, stringFlux);
+  }
+
+  @Override
+  public Disposable push(final String applicationId, final String id, final LogType type, final LogStatus status, final LogStatus terminal, final Flux<String> stringFlux) {
     final var subscription = stringFlux
         .windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
         .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
-        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
-        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
+        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(status).build())
+        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(terminal).build()))
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(log -> {

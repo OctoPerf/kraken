@@ -78,18 +78,20 @@ public class ContainerControllerTest {
 
   @Test
   public void shouldDetachLogs() {
+    final var appId = "appid";
     final var id = "id";
-    given(service.detachLogs(id))
+    given(service.detachLogs(appId, id))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/detach")
             .queryParam("id", "id")
             .build())
+        .header("ApplicationId", appId)
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).detachLogs(id);
+    verify(service).detachLogs(appId, id);
   }
 
   @Test

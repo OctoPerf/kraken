@@ -6,10 +6,7 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
-import com.kraken.runtime.entity.ExecutionContext;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.LogType;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import lombok.AccessLevel;
@@ -63,7 +60,7 @@ final class DockerTaskService implements TaskService {
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
       final var logs = commandService.execute(command);
-      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
+      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, LogStatus.RUNNING, LogStatus.RUNNING, logs);
       return context;
     });
   }
@@ -90,7 +87,7 @@ final class DockerTaskService implements TaskService {
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
       final var logs = commandService.execute(command);
-      logsService.push(applicationId, taskId, LogType.TASK, logs);
+      logsService.push(applicationId, taskId, LogType.TASK, LogStatus.CANCELLING, LogStatus.CLOSED, logs);
       return taskId;
     });
   }

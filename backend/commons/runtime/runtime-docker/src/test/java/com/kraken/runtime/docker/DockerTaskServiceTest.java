@@ -94,7 +94,7 @@ public class DockerTaskServiceTest {
     assertThat(service.execute(context).block()).isEqualTo(context);
 
     verify(commandService).execute(executeCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
+    verify(logsService).push(applicationId, taskId, LogType.TASK, LogStatus.RUNNING, LogStatus.RUNNING, logs);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -137,7 +137,7 @@ public class DockerTaskServiceTest {
     assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
 
     verify(commandService).execute(cancelCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
+    verify(logsService).push(applicationId, taskId, LogType.TASK, LogStatus.CANCELLING, LogStatus.CLOSED, logs);
   }
 
   @Test

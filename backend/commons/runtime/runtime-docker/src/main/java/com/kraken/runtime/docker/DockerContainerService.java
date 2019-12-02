@@ -52,9 +52,9 @@ final class DockerContainerService implements ContainerService {
   }
 
   @Override
-  public Mono<Void> detachLogs(final String id) {
+  public Mono<Void> detachLogs(final String applicationId, final String id) {
     return Mono.fromCallable(() -> {
-      logsService.cancel(id);
+      logsService.cancel(applicationId, id, LogType.CONTAINER);
       return null;
     });
   }

@@ -72,7 +72,7 @@ public class DockerContainerServiceIntegrationTest {
 
     final var id = containerService.attachLogs(appId, taskId, container.getId(), containerName).block();
     Thread.sleep(5000);
-    containerService.detachLogs(id).block();
+    containerService.detachLogs(appId, id).block();
     disposable.dispose();
 
     System.out.println(logs);
