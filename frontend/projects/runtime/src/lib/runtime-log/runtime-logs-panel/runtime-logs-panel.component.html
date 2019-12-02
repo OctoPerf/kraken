@@ -1,0 +1,26 @@
+<lib-message *ngIf="!tabs.length" centered="true" class="m-t" level="info">Logs for every task and container
+  appear here.
+</lib-message>
+
+<mat-tab-group *ngIf="tabs.length" class="scrollable-mat-tabs compact-tabs"
+               (animationDone)="windowService.resizeNow()"
+               [selectedIndex]="selectedIndex"
+               (selectedIndexChange)="selectedIndex = $event">
+
+  <mat-tab *ngFor="let tab of tabs; let index = index">
+    <ng-template mat-tab-label>
+      <lib-runtime-logs-header class="compact-button"
+                              [log]="tab.lastLog"
+                              [selected]="selectedIndex === index"
+                               (close)="close(index)"
+                               (stop)="stop(tab.lastLog)"
+                              (openContextualMenu)="selectedIndex = index; menu.open($event)"></lib-runtime-logs-header>
+    </ng-template>
+    <ng-template [cdkPortalOutlet]="tab.content"></ng-template>
+  </mat-tab>
+</mat-tab-group>
+<lib-contextual-menu #menu>
+  <button mat-menu-item (click)="closeFinishedTasks()">
+    Close Finished Tasks
+  </button>
+</lib-contextual-menu>

@@ -1,14 +1,10 @@
 import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-configuration.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import * as _ from 'lodash';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
-import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
-import {LogsDetachedEvent} from 'projects/runtime/src/lib/events/logs-detached-event';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {flatMap} from 'rxjs/operators';
@@ -42,28 +38,12 @@ export class RuntimeLogService implements OnDestroy {
     );
 
     this.subscriptions.push(
-      this.eventBus.of<TaskCancelledEvent>(TaskCancelledEvent.CHANNEL)
-        .subscribe(event => {
-          this.logLabels.delete(event.taskId);
-          this.logLabelsChanged.emit();
-        })
-    );
-
-    this.subscriptions.push(
       this.eventBus.of<LogsAttachedEvent>(LogsAttachedEvent.CHANNEL)
         .subscribe(event => {
           this.logLabels.set(event.logsId, {
             name: event.container.label,
             title: `${event.container.name} on ${event.container.hostId}`,
           });
-          this.logLabelsChanged.emit();
-        })
-    );
-
-    this.subscriptions.push(
-      this.eventBus.of<LogsDetachedEvent>(LogsDetachedEvent.CHANNEL)
-        .subscribe(event => {
-          this.logLabels.delete(event.logsId);
           this.logLabelsChanged.emit();
         })
     );
@@ -96,6 +76,10 @@ export class RuntimeLogService implements OnDestroy {
   }
 
   public label(id: string): { name: string, title: string } {
-    return this.logLabels.get(id);
+    return this.logLabels.has(id) ? this.logLabels.get(id) : {name: id, title: id};
+  }
+
+  public removeLabel(id: string) {
+    this.logLabels.delete(id);
   }
 }

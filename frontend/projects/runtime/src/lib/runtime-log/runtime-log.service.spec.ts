@@ -3,14 +3,10 @@ import {TestBed} from '@angular/core/testing';
 import {RuntimeLogService} from './runtime-log.service';
 import {EventEmitter} from '@angular/core';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
-import {HttpTestingController} from '@angular/common/http/testing';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-configuration.service';
-import {runtimeConfigurationServiceSpy} from 'projects/runtime/src/lib/runtime-configuration.service.spec';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import SpyObj = jasmine.SpyObj;
 import {runtimeContainerServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-container.service.spec';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
@@ -21,19 +17,18 @@ import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-e
 import {testContainer} from 'projects/runtime/src/lib/entities/container.spec';
 import {LogsDetachedEvent} from 'projects/runtime/src/lib/events/logs-detached-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
-import * as _ from 'lodash';
-import {flatMap} from 'rxjs/operators';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {BaseNotification} from 'projects/notification/src/lib/base-notification';
 import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
-import {testLog} from 'projects/runtime/src/lib/entities/log.spec';
 import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
 import {of} from 'rxjs';
+import SpyObj = jasmine.SpyObj;
 
 export const runtimeLogServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeLogService', [
     'cancel',
     'label',
+    'removeLabel',
   ]);
   spy.logLabelsChanged = new EventEmitter<void>();
   return spy;
@@ -79,9 +74,9 @@ describe('RuntimeLogService', () => {
     const context = testExecutionContext();
     eventBus.publish(new TaskExecutedEvent(taskId, context));
     expect(service.label(taskId)).toEqual({name: 'description', title: 'RUN task description'});
-    eventBus.publish(new TaskCancelledEvent(taskId));
-    expect(service.label(taskId)).toBeUndefined();
-    expect(count).toBe(2);
+    service.removeLabel(taskId);
+    expect(service.label(taskId)).toEqual({name: taskId, title: taskId});
+    expect(count).toBe(1);
   });
 
   it('should handle container events', () => {
@@ -91,20 +86,20 @@ describe('RuntimeLogService', () => {
     const container = testContainer();
     eventBus.publish(new LogsAttachedEvent(logsId, container));
     expect(service.label(logsId)).toEqual({name: 'label', title: 'name on hostId'});
-    eventBus.publish(new LogsDetachedEvent(logsId));
-    expect(service.label(logsId)).toBeUndefined();
-    expect(count).toBe(2);
+    service.removeLabel(logsId);
+    expect(service.label(logsId)).toEqual({name: logsId, title: logsId});
+    expect(count).toBe(1);
   });
 
   it('should cancel container log', () => {
-    const log: Log = {applicationId: 'applicationId', id: 'id', type: 'CONTAINER', text: 'text'};
+    const log: Log = {applicationId: 'applicationId', id: 'id', type: 'CONTAINER', text: 'text', status: 'RUNNING'};
     service.cancel(log);
     expect(runtimeContainerService.detachLogs).toHaveBeenCalledWith('id');
   });
 
   it('should cancel task log', () => {
     const task = testTask();
-    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text'};
+    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text', status: 'RUNNING'};
     runtimeTaskService.tasksSubject.next([task]);
     dialogs.confirm.and.returnValue(of(null));
     service.cancel(log);
@@ -114,7 +109,7 @@ describe('RuntimeLogService', () => {
   it('should cancel task log fail', () => {
     const publish = spyOn(eventBus, 'publish');
     const task = testTask();
-    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text'};
+    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text', status: 'RUNNING'};
     dialogs.confirm.and.returnValue(of(null));
     service.cancel(log);
     expect(publish).toHaveBeenCalledWith(new NotificationEvent(
@@ -122,5 +117,9 @@ describe('RuntimeLogService', () => {
         `Cannot find task with id ${log.id}.`,
         NotificationLevel.ERROR,
       )));
+  });
+
+  it('should return label', () => {
+    expect(service.label('unknown')).toEqual({name: 'unknown', title: 'unknown'});
   });
 });
