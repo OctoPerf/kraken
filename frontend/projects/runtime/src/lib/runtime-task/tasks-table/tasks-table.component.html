@@ -1,4 +1,4 @@
-<lib-table-overlay [loading]="loading" [dataLength]="dataSource.data.length" [noDataLabel]="'No Tasks.'"
+<lib-table-overlay [loading]="loading" [dataLength]="count" [noDataLabel]="'No Tasks.'"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="startDate" matSortDirection="desc">
     <ng-container matColumnDef="id">

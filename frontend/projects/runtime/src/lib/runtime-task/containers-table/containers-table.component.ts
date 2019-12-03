@@ -21,6 +21,7 @@ export class ContainersTableComponent implements OnDestroy {
   readonly displayedColumns: string[] = [/*'id',*/ 'label', 'name', 'hostId', 'startDate', 'status', 'logs'];
   readonly logsIcon = LOGS_ICON;
   dataSource: MatTableDataSource<Container>;
+  count = 0;
   private taskId: string;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -44,6 +45,7 @@ export class ContainersTableComponent implements OnDestroy {
   }
 
   set containers(containers: Container[]) {
+    this.count = containers.length;
     this.dataSource = new MatTableDataSource(containers);
     this.dataSource.sort = this.sort;
   }

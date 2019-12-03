@@ -13,7 +13,6 @@ import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pi
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {FileUploadDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload-dialog.component';
-import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
 import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
 import {Observable} from 'rxjs';
@@ -27,7 +26,7 @@ export class SimulationService {
   constructor(private toExt: StorageNodeToExtPipe,
               private storage: StorageService,
               private dialogs: DialogService,
-              private commands: CommandService,
+              // private commands: CommandService,
               private analysis: AnalysisService,
               private dateToString: DateTimeToStringPipe,
               private eventBus: EventBusService,
@@ -50,29 +49,29 @@ export class SimulationService {
     const classRegexp = /^\s*class\s+(\S+)\s+extends\s+Simulation/gm;
     const injectRegExp = /\.inject\(atOnceUsers\(1\)\)/gm;
 
-    this.storage.getContent(node)
-      .pipe(map((content) => {
-        const simulationPackageExec = packageRegexp.exec(content);
-        const simulationPackage = simulationPackageExec ? simulationPackageExec[1] : '';
-        const simulationClassExec = classRegexp.exec(content);
-        const simulationClass = simulationClassExec ? simulationClassExec[1] : '';
-        const atOnce = content.search(injectRegExp) > -1;
-        return {simulationPackage, simulationClass, debug, atOnce};
-      }))
-      .subscribe((data: ExecuteSimulationDialogData) => {
-        this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_MD, data).subscribe(
-          (result: { simulationName: string, description: string, javaOpts: string }) => {
-            endpoint(result.description, {
-              GATLING_SIMULATION: result.simulationName,
-              GATLING_RUN_DESCRIPTION: result.description,
-              JAVA_OPTS: result.javaOpts,
-            }).subscribe((commandId: string) => {
-              this.commands.setCommandLabel(commandId, result.description,
-                result.simulationName + ' at ' + this.dateToString.transform(new Date()));
-              this.eventBus.publish(new OpenResultsEvent());
-            });
-          });
-      });
+    // this.storage.getContent(node)
+    //   .pipe(map((content) => {
+    //     const simulationPackageExec = packageRegexp.exec(content);
+    //     const simulationPackage = simulationPackageExec ? simulationPackageExec[1] : '';
+    //     const simulationClassExec = classRegexp.exec(content);
+    //     const simulationClass = simulationClassExec ? simulationClassExec[1] : '';
+    //     const atOnce = content.search(injectRegExp) > -1;
+    //     return {simulationPackage, simulationClass, debug, atOnce};
+    //   }))
+    //   .subscribe((data: ExecuteSimulationDialogData) => {
+    //     this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_MD, data).subscribe(
+    //       (result: { simulationName: string, description: string, javaOpts: string }) => {
+    //         endpoint(result.description, {
+    //           GATLING_SIMULATION: result.simulationName,
+    //           GATLING_RUN_DESCRIPTION: result.description,
+    //           JAVA_OPTS: result.javaOpts,
+    //         }).subscribe((commandId: string) => {
+    //           this.commands.setCommandLabel(commandId, result.description,
+    //             result.simulationName + ' at ' + this.dateToString.transform(new Date()));
+    //           this.eventBus.publish(new OpenResultsEvent());
+    //         });
+    //       });
+    //   });
   }
 
   isSimulationNode(node: StorageNode) {
@@ -98,16 +97,16 @@ export class SimulationService {
   }
 
   importHar(node: StorageNode) {
-    this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD)
-      .subscribe((result: { simulationPackage: string, simulationClass: string }) => {
-        this.analysis.record({
-          GATLING_SIMULATION_PACKAGE: result.simulationPackage,
-          GATLING_SIMULATION_CLASS: result.simulationClass,
-          HAR_PATH: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', ''),
-        }).subscribe((commandId: string) => {
-          this.commands.setCommandLabel(commandId, 'Import HAR file', node.path);
-          this.eventBus.publish(new OpenResultsEvent());
-        });
-      });
+    // this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD)
+    //   .subscribe((result: { simulationPackage: string, simulationClass: string }) => {
+    //     this.analysis.record({
+    //       GATLING_SIMULATION_PACKAGE: result.simulationPackage,
+    //       GATLING_SIMULATION_CLASS: result.simulationClass,
+    //       HAR_PATH: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', ''),
+    //     }).subscribe((commandId: string) => {
+    //       this.commands.setCommandLabel(commandId, 'Import HAR file', node.path);
+    //       this.eventBus.publish(new OpenResultsEvent());
+    //     });
+    //   });
   }
 }

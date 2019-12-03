@@ -8,6 +8,8 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {RuntimeLogsPanelComponent} from './runtime-logs-panel/runtime-logs-panel.component';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {TreeModule} from 'projects/tree/src/lib/tree.module';
+import {CommonModule} from '@angular/common';
+import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-log.service';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import {TreeModule} from 'projects/tree/src/lib/tree.module';
     RuntimeLogsPanelComponent,
   ],
   imports: [
+    CommonModule,
     RuntimeTaskModule,
     EditorModule,
     VendorsModule,
@@ -24,7 +27,7 @@ import {TreeModule} from 'projects/tree/src/lib/tree.module';
     TreeModule,
   ],
   providers: [
-    RuntimeLogModule,
+    RuntimeLogService,
   ],
   exports: [
     RuntimeLogsPanelComponent,

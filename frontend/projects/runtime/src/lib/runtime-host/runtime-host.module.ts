@@ -32,6 +32,8 @@ import { HostIdToDescriptionPipe } from './host-id-to-description.pipe';
   ],
   providers: [
     RuntimeHostService,
+    CapacityToStringPipe,
+    AddressesToStringPipe,
     HostIdToNamePipe,
     HostIdToDescriptionPipe,
   ]

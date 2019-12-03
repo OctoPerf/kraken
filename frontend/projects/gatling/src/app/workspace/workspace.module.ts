@@ -12,15 +12,14 @@ import {StorageModule} from 'projects/storage/src/lib/storage.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {NotificationService} from 'projects/notification/src/lib/notification.service';
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
-import {DockerModule} from 'projects/docker/src/lib/docker.module';
-import {CommandModule} from 'projects/command/src/lib/command.module';
 import {SimulationsModule} from 'projects/gatling/src/app/simulations/simulations.module';
 import {SimulationEditorComponent} from 'projects/gatling/src/app/simulations/simulation-editor/simulation-editor.component';
 import {ResultsModule} from 'projects/analysis/src/lib/results/results.module';
 import {DebugEditorComponent} from 'projects/analysis/src/lib/results/debug/debug-editor/debug-editor.component';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
-import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
+import {RuntimeTaskModule} from 'projects/runtime/src/lib/runtime-task/runtime-task.module';
+import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log.module';
 
 @NgModule({
   declarations: [
@@ -48,13 +47,10 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
           helpPageId: 'EDITOR_DEBUG'
         }]
     ),
-    DockerModule.forRoot(
-      'gatling-docker'
-    ),
-    CommandModule,
     SimulationsModule,
     ResultsModule,
-    RuntimeHostModule,
+    RuntimeTaskModule,
+    RuntimeLogModule,
   ],
   providers: [
     NotificationService,

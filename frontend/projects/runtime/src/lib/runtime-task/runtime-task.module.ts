@@ -31,6 +31,10 @@ import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-h
   providers: [
     RuntimeContainerService,
     RuntimeTaskService,
+  ],
+  entryComponents: [
+    TasksTableComponent,
+    ContainersTableComponent
   ]
 })
 export class RuntimeTaskModule {

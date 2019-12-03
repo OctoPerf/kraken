@@ -23,9 +23,7 @@ import {
 } from 'projects/storage/src/lib/storage-editor/storage-editor/storage-editor.component';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notifications-event';
-import {OpenCommandLogsEvent} from 'projects/command/src/lib/entities/open-command-logs-event';
-import {CommandTabsPanelComponent} from 'projects/command/src/lib/command-tabs-panel/command-tabs-panel.component';
-import {PLAY_ICON} from 'projects/icon/src/lib/icons';
+import {DEBUG_ICON, LOGS_ICON, PLAY_ICON} from 'projects/icon/src/lib/icons';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {STORAGE_NODE_BUTTONS} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {SimulationNodeButtonsComponent} from 'projects/gatling/src/app/simulations/simulation-node-buttons/simulation-node-buttons.component';
@@ -38,11 +36,15 @@ import {faPoll} from '@fortawesome/free-solid-svg-icons/faPoll';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
 import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
-import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
 import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
+import {TasksTableComponent} from 'projects/runtime/src/lib/runtime-task/tasks-table/tasks-table.component';
+import {RuntimeLogsPanelComponent} from 'projects/runtime/src/lib/runtime-log/runtime-logs-panel/runtime-logs-panel.component';
+import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
+import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
+import {ContainersTableComponent} from 'projects/runtime/src/lib/runtime-task/containers-table/containers-table.component';
 
-library.add(faCode, faQuestionCircle, faBell, faFile, faPoll);
+library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker);
 
 @Component({
   selector: 'app-workspace',
@@ -129,7 +131,7 @@ export class WorkspaceComponent implements OnInit {
       ),
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', new IconFa(faBug, 'accent'),
+          new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', DEBUG_ICON,
             'GATLING_DEBUG_LIST',
             false,
             [OpenDebugEvent.CHANNEL]),
@@ -144,18 +146,32 @@ export class WorkspaceComponent implements OnInit {
       new TabsConfiguration(
         [
           new Tab(
-            new ComponentPortal(CommandTabsPanelComponent),
-            'Gatling Executions',
+            new ComponentPortal(TasksTableComponent),
+            'Tasks',
             PLAY_ICON,
-            'GATLING_EXECUTIONS',
+            null,
             true,
-            [OpenCommandLogsEvent.CHANNEL]),
+            []),
+          new Tab(
+            new ComponentPortal(RuntimeLogsPanelComponent),
+            'Logs',
+            LOGS_ICON,
+            null,
+            true,
+            [OpenLogsEvent.CHANNEL]),
         ],
-        -1,
+        0,
         60
       ),
       new TabsConfiguration(
         [
+          new Tab(
+            new ComponentPortal(ContainersTableComponent),
+            'Containers',
+            new IconFa(faDocker),
+            null,
+            true,
+            []),
           new Tab(new ComponentPortal(NotificationsTableComponent),
             'Notifications',
             new IconFa(faBell),
