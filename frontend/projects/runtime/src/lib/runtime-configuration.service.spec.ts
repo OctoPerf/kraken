@@ -1,7 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
 import {RuntimeConfigurationService} from './runtime-configuration.service';
-import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 import {configurationServiceSpy} from 'projects/commons/src/lib/config/configuration.service.spec';
 import {HttpClientTestingModule} from '@angular/common/http/testing';

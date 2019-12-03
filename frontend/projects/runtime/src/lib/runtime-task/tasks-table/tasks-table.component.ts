@@ -11,6 +11,7 @@ import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-e
 import {map} from 'rxjs/operators';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import * as _ from 'lodash';
+import {Result} from 'projects/analysis/src/lib/entities/result';
 
 @Component({
   selector: 'lib-tasks-table',
@@ -50,7 +51,30 @@ export class TasksTableComponent implements OnInit, OnDestroy {
     this.taskService.list().subscribe();
   }
 
+  public isSelected(task: Task): boolean {
+    return this.hasSelection && this.selection.id === task.id;
+  }
+
+  public get hasSelection(): boolean {
+    return this._selection.hasValue();
+  }
+
+  public set selection(task: Task) {
+    if (task) {
+      this._selection.select(task);
+    } else {
+      this._selection.clear();
+    }
+  }
+
+  public get selection(): Task | null {
+    return this.hasSelection ? this._selection.selected[0] : null;
+  }
+
   set tasks(tasks: Task[]) {
+    if (this.hasSelection) {
+      this.selection = _.find(tasks, {id: this.selection.id});
+    }
     this.dataSource = new MatTableDataSource(tasks);
     this.dataSource.sort = this.sort;
     this.loading = false;

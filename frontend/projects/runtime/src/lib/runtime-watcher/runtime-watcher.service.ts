@@ -19,8 +19,8 @@ import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-e
 export class RuntimeWatcherService  implements OnDestroy, Observer<SSEWrapper> {
 
   private sseUnwrappers = {
-    LOG: (sseWrapper: SSEWrapper) => new LogEvent(sseWrapper.object),
-    TASKS: (sseWrapper: SSEWrapper) => new TasksRefreshEvent(sseWrapper.object),
+    LOG: (sseWrapper: SSEWrapper) => new LogEvent(sseWrapper.value),
+    TASKS: (sseWrapper: SSEWrapper) => new TasksRefreshEvent(sseWrapper.value),
   };
   _eventSourceSubscription: Subscription;
   _retry: Retry;
@@ -56,6 +56,8 @@ export class RuntimeWatcherService  implements OnDestroy, Observer<SSEWrapper> {
 
   next(sseWrapper: SSEWrapper) {
     this._retry.reset();
+    console.log(sseWrapper);
+    console.log(this.sseUnwrappers[sseWrapper.type](sseWrapper));
     this.eventBus.publish(this.sseUnwrappers[sseWrapper.type](sseWrapper));
   }
 

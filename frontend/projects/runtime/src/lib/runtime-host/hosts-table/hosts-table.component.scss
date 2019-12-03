@@ -15,18 +15,6 @@ table {
   @include table-filler();
 }
 
-.mat-column-status, .mat-column-contextualMenu, .mat-column-grafanaReport {
-  @include column-action();
-}
-
 .mat-column-name, .mat-column-addresses, .mat-column-capacity {
   @include column-text-ellipsis(100px);
-}
-
-.mat-row {
-  @include mat-selectable-row();
-}
-
-.mat-row-selected {
-  @include mat-row-selected();
 }

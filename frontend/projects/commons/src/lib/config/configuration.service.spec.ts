@@ -85,6 +85,10 @@ describe('ConfigurationService', () => {
     expect(service.storageApiUrl).toBe('storageApiUrl');
   });
 
+  it('should return runtime API URL', () => {
+    expect(service.runtimeApiUrl).toBe('runtimeApiUrl');
+  });
+
   it('should return Doc URL', () => {
     expect(service.docUrl('/path')).toBe('docUrl/path');
   });

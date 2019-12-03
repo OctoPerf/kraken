@@ -90,14 +90,14 @@ describe('RuntimeWatcherService', () => {
 
   it('should send event on LOG message', () => {
     const log: Log = testLog();
-    service.next({type: 'LOG', object: log});
+    service.next({type: 'LOG', value: log});
     expect(service._retry.reset).toHaveBeenCalled();
     expect(eventBus.publish).toHaveBeenCalledWith(new LogEvent(log));
   });
 
   it('should send event on TASKS message', () => {
     const tasks: Task[] = testTasks();
-    service.next({type: 'TASKS', object: tasks});
+    service.next({type: 'TASKS', value: tasks});
     expect(service._retry.reset).toHaveBeenCalled();
     expect(eventBus.publish).toHaveBeenCalledWith(new TasksRefreshEvent(tasks));
   });

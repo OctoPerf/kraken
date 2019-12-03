@@ -48,6 +48,10 @@ export class ConfigurationService {
     return this.value('dockerApiUrl');
   }
 
+  get runtimeApiUrl(): string {
+    return this.value('runtimeApiUrl');
+  }
+
   get storageApiUrl(): string {
     return this.value('storageApiUrl');
   }

@@ -20,6 +20,8 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {RuntimeTaskModule} from 'projects/runtime/src/lib/runtime-task/runtime-task.module';
 import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log.module';
+import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
+import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log
     ResultsModule,
     RuntimeTaskModule,
     RuntimeLogModule,
+    RuntimeWatcherModule,
   ],
   providers: [
     NotificationService,
@@ -58,7 +61,10 @@ import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log
   ],
 })
 export class WorkspaceModule {
-  constructor(public tabsService: TabsService, results: ResultsTableService, hostService: RuntimeHostService) {
+  constructor(public tabsService: TabsService,
+              results: ResultsTableService,
+              hostService: RuntimeHostService,
+              watcher: RuntimeWatcherService) {
     // inject services to force initialization
     results.init();
     hostService.hosts().subscribe();

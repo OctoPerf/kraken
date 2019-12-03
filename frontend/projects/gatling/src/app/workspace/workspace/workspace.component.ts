@@ -43,6 +43,7 @@ import {RuntimeLogsPanelComponent} from 'projects/runtime/src/lib/runtime-log/ru
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
 import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
 import {ContainersTableComponent} from 'projects/runtime/src/lib/runtime-task/containers-table/containers-table.component';
+import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 
 library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker);
 
@@ -171,7 +172,7 @@ export class WorkspaceComponent implements OnInit {
             new IconFa(faDocker),
             null,
             true,
-            []),
+            [TaskSelectedEvent.CHANNEL]),
           new Tab(new ComponentPortal(NotificationsTableComponent),
             'Notifications',
             new IconFa(faBell),
