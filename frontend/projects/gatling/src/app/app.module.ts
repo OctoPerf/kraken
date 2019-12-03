@@ -9,8 +9,6 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {StorageDialogsModule} from 'projects/storage/src/lib/storage-dialogs/storage-dialogs.module';
 import {DialogModule} from 'projects/dialog/src/lib/dialog.module';
 import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
-import {DockerDialogsModule} from 'projects/docker/src/lib/docker-dialogs/docker-dialogs.module';
-import {CommandDialogsModule} from 'projects/command/src/lib/command-dialogs/command-dialogs.module';
 import {SimulationDialogsModule} from 'projects/gatling/src/app/simulations/simulation-dialogs/simulation-dialogs.module';
 import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/compare.module';
@@ -32,8 +30,6 @@ import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/com
     StorageDialogsModule,
     DialogModule,
     HighlightModule,
-    DockerDialogsModule,
-    CommandDialogsModule,
     SimulationDialogsModule,
     CompareModule,
   ],

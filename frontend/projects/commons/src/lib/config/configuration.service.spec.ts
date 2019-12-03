@@ -46,8 +46,7 @@ describe('ConfigurationService', () => {
     const testConf: Configuration = {
       version: 'version',
       applicationId: 'application',
-      commandApiUrl: 'commandApiUrl',
-      dockerApiUrl: 'dockerApiUrl',
+      runtimeApiUrl: 'runtimeApiUrl',
       storageApiUrl: 'storageApiUrl',
       docUrl: 'docUrl'
     };
@@ -69,12 +68,8 @@ describe('ConfigurationService', () => {
     expect(service.applicationId).toBe('application');
   });
 
-  it('should return command API URL', () => {
-    expect(service.commandApiUrl).toBe('commandApiUrl');
-  });
-
-  it('should return executor API URL', () => {
-    expect(service.dockerApiUrl).toBe('dockerApiUrl');
+  it('should return runtime API URL', () => {
+    expect(service.runtimeApiUrl).toBe('runtimeApiUrl');
   });
 
   it('should return value', () => {

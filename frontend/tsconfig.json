@@ -127,18 +127,6 @@
       "storage/*": [
         "dist/storage/*"
       ],
-      "docker": [
-        "dist/docker"
-      ],
-      "docker-client/*": [
-        "dist/docker/*"
-      ],
-      "command": [
-        "dist/command"
-      ],
-      "command/*": [
-        "dist/command/*"
-      ],
       "grafana": [
         "dist/grafana"
       ],

@@ -1,7 +1,6 @@
 export type HelpPageId = 'HOME'
   | 'TEST'
   | 'EDITOR_MARKDOWN'
-  | 'EDITOR_DOCKER_COMPOSE'
   | 'EDITOR_GATLING'
   | 'EDITOR_DEBUG'
   | 'ADMIN_FILE_EDITOR'

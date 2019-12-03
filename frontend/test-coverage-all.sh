@@ -6,11 +6,12 @@ rm -rf coverage
 rm -rf coverage-all
 
 for dir in projects/*; do
-  if [["$dir" != *-e2e]]
+  if [[("$dir" != *-e2e)]]
   then
     prefix="projects/";
     project=${dir#$prefix}; #Remove prefix
     echo "$project"
+    # Remove the trailing & character to execute tests sequentially
     ng test --watch=false --codeCoverage=true --sourceMap=true --project=$project &
   fi
 done

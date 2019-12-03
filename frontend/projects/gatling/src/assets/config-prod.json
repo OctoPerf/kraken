@@ -9,8 +9,7 @@
     "length": 0,
     "lastModified": 0
   },
-  "commandApiUrl": "/api/command",
-  "dockerApiUrl": "/api/docker",
+  "runtimeApiUrl": "/api/runtime",
   "docUrl": "https://kraken.octoperf.com",
   "staticApiUrl": "/api/static",
   "analysisApiUrl": "/api/analysis",
