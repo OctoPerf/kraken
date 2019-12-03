@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'lib-table-overlay',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class TableOverlayComponent implements OnInit {
 
   @Input() loading: boolean;
-  @Input() dataLength: number;
+  @Input() dataSource: MatTableDataSource<any>;
   @Input() noDataLabel: string;
 
   ngOnInit(): void {

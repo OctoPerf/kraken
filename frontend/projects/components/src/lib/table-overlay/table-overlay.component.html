@@ -5,8 +5,10 @@
   </div>
 
   <div class="no-data-shade"
-       *ngIf="!loading && dataLength === 0">
-    <em>{{noDataLabel}}</em>
+       *ngIf="!loading && (!dataSource || dataSource.data.length === 0)">
+    <lib-message level="info" centered="true">
+      {{noDataLabel}}
+    </lib-message>
   </div>
 
   <ng-content></ng-content>

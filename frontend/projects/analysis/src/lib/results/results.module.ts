@@ -12,6 +12,7 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {TreeModule} from 'projects/tree/src/lib/tree.module';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
+import {ComponentsModule} from 'projects/components/src/lib/components.module';
 
 @NgModule({
   declarations: [ResultsTableComponent, IsDebugEntryStorageNodePipe],
@@ -26,6 +27,7 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
     DialogModule,
     AnalysisModule,
     TreeModule,
+    ComponentsModule
   ],
   providers: [
     ResultsTableService,

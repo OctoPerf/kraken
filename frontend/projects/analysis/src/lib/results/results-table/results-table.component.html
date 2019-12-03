@@ -1,3 +1,5 @@
+<lib-table-overlay [loading]="false" [dataSource]="dataSource" [noDataLabel]="'No Results.'"
+                   class="mat-table-body-bg">
 <table mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="startDate"
        matSortDirection="desc">
   <ng-container matColumnDef="status">
@@ -53,3 +55,4 @@
     Delete Result
   </button>
 </lib-contextual-menu>
+</lib-table-overlay>

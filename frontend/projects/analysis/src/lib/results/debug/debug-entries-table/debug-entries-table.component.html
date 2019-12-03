@@ -2,6 +2,8 @@
   Please select a Debug result.
 </lib-message>
 
+
+
 <table *ngIf="resultsList.hasSelection && resultsList.selection.type !== 'RUN'" mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="date"
        matSortDirection="asc">
   <ng-container matColumnDef="requestName">

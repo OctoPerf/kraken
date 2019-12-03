@@ -1,4 +1,4 @@
-<lib-table-overlay [loading]="loading" [dataLength]="dataSource.data.length" [noDataLabel]="'No docker images.'"
+<lib-table-overlay [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No docker images.'"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="name">

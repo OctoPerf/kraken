@@ -24,7 +24,6 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   readonly refreshIcon = REFRESH_ICON;
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'status', 'type', 'description', 'containers'];
   loading = true;
-  count = 0;
   dataSource: MatTableDataSource<Task>;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -52,7 +51,6 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   }
 
   set tasks(tasks: Task[]) {
-    this.count = tasks.length;
     this.dataSource = new MatTableDataSource(tasks);
     this.dataSource.sort = this.sort;
     this.loading = false;

@@ -18,10 +18,9 @@ import {LOGS_ICON} from 'projects/icon/src/lib/icons';
 export class ContainersTableComponent implements OnDestroy {
 
   private _subscriptions: Subscription[] = [];
-  readonly displayedColumns: string[] = [/*'id',*/ 'label', 'name', 'hostId', 'startDate', 'status', 'logs'];
+  readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'hostId', 'status', 'label', 'name', 'logs'];
   readonly logsIcon = LOGS_ICON;
   dataSource: MatTableDataSource<Container>;
-  count = 0;
   private taskId: string;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -45,7 +44,6 @@ export class ContainersTableComponent implements OnDestroy {
   }
 
   set containers(containers: Container[]) {
-    this.count = containers.length;
     this.dataSource = new MatTableDataSource(containers);
     this.dataSource.sort = this.sort;
   }
