@@ -48,6 +48,7 @@ describe('TableOverlayComponent', () => {
     component.dataSource = new MatTableDataSource([]);
     component.noDataLabel = 'DATASS';
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('em').textContent).toBe('DATASS');
+    expect(fixture.nativeElement.querySelector('.loading-shade')).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('.no-data-shade')).toBeTruthy();
   });
 });

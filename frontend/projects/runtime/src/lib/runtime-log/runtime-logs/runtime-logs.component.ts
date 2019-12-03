@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, InjectionToken, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, InjectionToken, OnDestroy, ViewChild} from '@angular/core';
 import {CodeEditorComponent} from 'projects/editor/src/lib/code-editor/code-editor.component';
 import {ReplaySubject, Subscription} from 'rxjs';
 import {Log} from 'projects/runtime/src/lib/entities/log';

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HostsSelectorComponent } from './hosts-selector.component';
+import {HostsSelectorComponent} from './hosts-selector.component';
 
 describe('HostsSelectorComponent', () => {
   let component: HostsSelectorComponent;
@@ -8,9 +8,10 @@ describe('HostsSelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HostsSelectorComponent ]
+      declarations: [HostsSelectorComponent],
     })
-    .compileComponents();
+      .overrideTemplate(HostsSelectorComponent, '')
+      .compileComponents();
   }));
 
   beforeEach(() => {

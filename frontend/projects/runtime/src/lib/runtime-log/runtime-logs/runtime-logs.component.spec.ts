@@ -2,13 +2,12 @@ import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/t
 
 import {RUNTIME_LOGS, RuntimeLogsComponent} from './runtime-logs.component';
 import {ReplaySubject} from 'rxjs';
-import {CommandLog} from 'projects/command/src/lib/entities/command-log';
-import {Command} from 'projects/command/src/lib/entities/command';
+import {Log} from 'projects/runtime/src/lib/entities/log';
 
 describe('RuntimeLogsComponent', () => {
   let component: RuntimeLogsComponent;
   let fixture: ComponentFixture<RuntimeLogsComponent>;
-  let logs: ReplaySubject<CommandLog>;
+  let logs: ReplaySubject<Log>;
 
   beforeEach(async(() => {
     logs = new ReplaySubject();
@@ -36,21 +35,13 @@ describe('RuntimeLogsComponent', () => {
   });
 
   it('should append text', fakeAsync(() => {
-    logs.next({
-      command: new Command(['java', '--version']),
-      status: 'RUNNING',
-      text: 'text',
-    });
+    logs.next({applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'RUNNING', text: 'text'});
     tick(100);
     expect(component.codeEditor.appendText).toHaveBeenCalledWith('text');
   }));
 
   it('should append text CANCELLING', fakeAsync(() => {
-    logs.next({
-      command: new Command(['java', '--version']),
-      status: 'CANCELLING',
-      text: 'text',
-    });
+    logs.next({applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'CANCELLING', text: 'text'});
     tick(100);
     expect(component.codeEditor.appendText).toHaveBeenCalledWith('text');
   }));

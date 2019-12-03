@@ -4,7 +4,6 @@ import {RuntimeLogsPanelComponent} from './runtime-logs-panel.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-log.service';
 import {Log} from 'projects/runtime/src/lib/entities/log';
-import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
 import {runtimeLogServiceSpy} from 'projects/runtime/src/lib/runtime-log/runtime-log.service.spec';
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
 import SpyObj = jasmine.SpyObj;

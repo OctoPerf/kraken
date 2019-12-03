@@ -1,10 +1,9 @@
-import {Component, Injector, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injector, OnDestroy} from '@angular/core';
 import {ReplaySubject, Subscription} from 'rxjs';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {map} from 'rxjs/operators';
 import * as _ from 'lodash';
-import {CommandLog} from 'projects/command/src/lib/entities/command-log';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
 import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
