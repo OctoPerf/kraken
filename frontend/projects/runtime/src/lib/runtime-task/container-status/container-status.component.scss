@@ -1,0 +1,12 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+  height: 34px;
+  padding-right: 4px;
+}
+
+.container-status {
+  @include block-filler();
+  padding-right: 8px;
+}

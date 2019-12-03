@@ -9,12 +9,14 @@ import {DateModule} from 'projects/date/src/lib/date.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 import { ContainersTableComponent } from './containers-table/containers-table.component';
 import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
+import { ContainerStatusComponent } from './container-status/container-status.component';
 
 
 @NgModule({
   declarations: [
     TasksTableComponent,
-    ContainersTableComponent
+    ContainersTableComponent,
+    ContainerStatusComponent
   ],
   imports: [
     ComponentsModule,

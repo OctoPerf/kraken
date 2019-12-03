@@ -1,0 +1,5 @@
+<div fxLayout="column" class="container-status" fxLayoutAlign="space-around start">
+  <span fxFlex="10px"></span>
+  <span fxFlex>{{status | prettyString}}</span>
+  <mat-progress-bar fxFlex="2px" mode="determinate" [bufferValue]="60" [value]="value"></mat-progress-bar>
+</div>
