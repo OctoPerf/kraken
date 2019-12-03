@@ -2,21 +2,14 @@ import {Injectable} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageNodeToExtPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-ext.pipe';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {filter, map} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {
-  ExecuteSimulationDialogComponent,
-  ExecuteSimulationDialogData
-} from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
-import {CommandService} from 'projects/command/src/lib/command.service';
 import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {FileUploadDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload-dialog.component';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
-import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
 import {Observable} from 'rxjs';
-import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 
