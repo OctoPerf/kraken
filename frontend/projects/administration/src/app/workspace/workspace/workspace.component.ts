@@ -12,12 +12,7 @@ import {NotificationsTabHeaderComponent} from 'projects/notification/src/lib/not
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {transition, trigger, useAnimation} from '@angular/animations';
 import {fadeInAnimation} from 'projects/commons/src/lib/animations';
-import {faArchive} from '@fortawesome/free-solid-svg-icons/faArchive';
-import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
-import {
-  STORAGE_CONTEXTUAL_MENU,
-  StorageTreeComponent
-} from 'projects/storage/src/lib/storage-tree/storage-tree/storage-tree.component';
+import {StorageTreeComponent} from 'projects/storage/src/lib/storage-tree/storage-tree/storage-tree.component';
 import {IconDynamic} from 'projects/icon/src/lib/icon-dynamic';
 import {faFolder} from '@fortawesome/free-regular-svg-icons/faFolder';
 import {faFolderOpen} from '@fortawesome/free-regular-svg-icons/faFolderOpen';
@@ -27,8 +22,10 @@ import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notific
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
+import {HostsTableComponent} from 'projects/runtime/src/lib/runtime-host/hosts-table/hosts-table.component';
+import {faServer} from '@fortawesome/free-solid-svg-icons/faServer';
 
-library.add(faFolder, faFolderOpen, faQuestionCircle, faBell, faDocker, faArchive);
+library.add(faFolder, faFolderOpen, faQuestionCircle, faBell, faServer);
 
 @Component({
   selector: 'app-workspace',
@@ -98,6 +95,7 @@ export class WorkspaceComponent implements OnInit {
     this.bottom = new SideConfiguration(
       new TabsConfiguration(
         [
+          new Tab(new ComponentPortal(HostsTableComponent), 'Hosts', new IconFa(faServer), null, true, []),
         ],
         0,
         50

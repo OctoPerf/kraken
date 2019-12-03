@@ -48,6 +48,9 @@ serve-static:
 clean:
 	./gradlew $(APP):clean
 
+ip:
+	ip addr show | grep 192
+
 # Creates a Spring boot application jar
 # Example: make build APP=:applications:analysis
 bootJar:
