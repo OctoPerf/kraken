@@ -16,6 +16,7 @@
     <lib-description-input #descriptionInput [formGroup]="simulationForm"
                            [value]="(data.type | prettyString) + ' '+ data.simulationClass"></lib-description-input>
     <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"
+                        [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
                         [multiple]="data.type === 'RUN'"></lib-hosts-selector>
     <lib-environment-variables-list #envVarList [formGroup]="simulationForm"
                                     [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
@@ -30,7 +31,7 @@
     <button mat-button (click)="run()" cdkFocusInitial
             type="submit" color="accent"
             [disabled]="!simulationForm.valid">
-      Run
+      {{data.type | prettyString}}
     </button>
   </div>
 </form>

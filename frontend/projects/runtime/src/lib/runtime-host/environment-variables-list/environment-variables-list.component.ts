@@ -61,7 +61,7 @@ export class EnvironmentVariablesListComponent implements OnInit {
   focusOnVariable() {
     setTimeout(() => {
       this.envKeyChildren.last.nativeElement.focus();
-    }, 1);
+    }, 100);
   }
 
   removeVariable(i: number) {

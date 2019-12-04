@@ -57,8 +57,7 @@ export class SimulationService {
       }))
       .subscribe((data: ExecuteSimulationDialogData) => {
         this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data)
-          .pipe(map((context: ExecutionContext) => this.taskService.execute(context)))
-          .subscribe();
+          .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe());
       });
   }
 
@@ -85,21 +84,7 @@ export class SimulationService {
   }
 
   importHar(node: StorageNode) {
-
-    // this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD)
-    //   .subscribe((result: { simulationPackage: string, simulationClass: string }) => {
-    //     this.analysis.record({
-    //       GATLING_SIMULATION_PACKAGE: result.simulationPackage,
-    //       GATLING_SIMULATION_CLASS: result.simulationClass,
-    //       HAR_PATH: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', ''),
-    //     }).subscribe((commandId: string) => {
-    //       this.commands.setCommandLabel(commandId, 'Import HAR file', node.path);
-    //       this.eventBus.publish(new OpenResultsEvent());
-    //     });
-    //   });
-
     this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', '')})
-      .pipe(map((context: ExecutionContext) => this.taskService.execute(context)))
-      .subscribe();
+      .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe());
   }
 }

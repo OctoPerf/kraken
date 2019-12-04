@@ -24,9 +24,9 @@
         Invalid simulation class.
       </mat-error>
     </mat-form-field>
-    <lib-hosts-selector #hostsSelector [formGroup]="recordForm" [multiple]="false"></lib-hosts-selector>
-<!--    <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"-->
-<!--                        [multiple]="data.type === 'RUN'"></lib-hosts-selector>-->
+    <lib-hosts-selector #hostsSelector [formGroup]="recordForm"
+                        [storageId]="'har-import'"
+                        [multiple]="false"></lib-hosts-selector>
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>

@@ -3,6 +3,7 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Host} from 'projects/runtime/src/lib/entities/host';
 import * as _ from 'lodash';
+import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 
 @Component({
   selector: 'lib-hosts-selector',
@@ -11,13 +12,16 @@ import * as _ from 'lodash';
 })
 export class HostsSelectorComponent implements OnInit {
 
+  private static readonly ID_PREFIX = 'host-selector-';
+  @Input() storageId: string;
   @Input() formGroup: FormGroup;
   @Input() multiple: boolean;
 
   public hostsList: Host[] = [];
   public loading = true;
 
-  constructor(private hostService: RuntimeHostService) {
+  constructor(private hostService: RuntimeHostService,
+              private localStorage: LocalStorageService) {
   }
 
   ngOnInit() {
@@ -25,10 +29,11 @@ export class HostsSelectorComponent implements OnInit {
       this.loading = false;
       this.hostsList = hosts;
       const hostIds = _.map(this.hostsList, 'id');
-      const hostId = _.first(hostIds);
-      console.log(hostId);
-      // TODO load list from storage
-      this.formGroup.addControl('hosts', new FormControl(this.multiple ? hostIds : hostId, [Validators.required]));
+      const savedIds = this.localStorage.getItem<string[]>(HostsSelectorComponent.ID_PREFIX + this.storageId, []);
+      const intersect = _.intersection(hostIds, savedIds);
+      const selectedHostIds = intersect.length ? intersect : hostIds;
+      const selectedHostId = _.first(hostIds);
+      this.formGroup.addControl('hosts', new FormControl(this.multiple ? selectedHostIds : selectedHostId, [Validators.required]));
     });
   }
 
@@ -37,13 +42,15 @@ export class HostsSelectorComponent implements OnInit {
   }
 
   get hostIds(): string[] {
-    // TODO save list to storage
-    return this.hosts ? this.hosts.value : [];
+    const hostIds = this.hosts ? this.hosts.value : [];
+    this.localStorage.setItem(HostsSelectorComponent.ID_PREFIX + this.storageId, hostIds);
+    return hostIds;
   }
 
   get hostId(): string {
-    // TODO save id to storage
-    return this.hosts ? this.hosts.value : null;
+    const hostId = this.hosts ? this.hosts.value : null;
+    this.localStorage.setItem(HostsSelectorComponent.ID_PREFIX + this.storageId, [hostId]);
+    return hostId;
   }
 
 }
