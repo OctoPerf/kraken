@@ -12,10 +12,8 @@ import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runti
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
 import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
-import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
 import {testContainer} from 'projects/runtime/src/lib/entities/container.spec';
-import {LogsDetachedEvent} from 'projects/runtime/src/lib/events/logs-detached-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {BaseNotification} from 'projects/notification/src/lib/base-notification';

@@ -5,10 +5,10 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import SpyObj = jasmine.SpyObj;
+import {FormControl, FormGroup} from '@angular/forms';
 import {of} from 'rxjs';
 import {testHosts} from 'projects/runtime/src/lib/entities/host.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('HostsSelectorComponent', () => {
   let component: HostsSelectorComponent;
