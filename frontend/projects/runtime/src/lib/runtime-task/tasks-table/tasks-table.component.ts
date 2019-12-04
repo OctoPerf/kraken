@@ -11,7 +11,6 @@ import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-e
 import {map} from 'rxjs/operators';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import * as _ from 'lodash';
-import {Result} from 'projects/analysis/src/lib/entities/result';
 
 @Component({
   selector: 'lib-tasks-table',

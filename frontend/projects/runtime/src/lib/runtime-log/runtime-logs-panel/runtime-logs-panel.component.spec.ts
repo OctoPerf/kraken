@@ -7,6 +7,7 @@ import {Log} from 'projects/runtime/src/lib/entities/log';
 import {runtimeLogServiceSpy} from 'projects/runtime/src/lib/runtime-log/runtime-log.service.spec';
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
 import SpyObj = jasmine.SpyObj;
+import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
 
 describe('RuntimeLogsPanelComponent', () => {
   let component: RuntimeLogsPanelComponent;
@@ -66,7 +67,7 @@ describe('RuntimeLogsPanelComponent', () => {
 
   it('should _onLog add tab (unknown id)', () => {
     spyOn(component, '_addLogsTab');
-    component._onLog(runningLogs);
+    eventBus.publish(new LogEvent(runningLogs));
     expect(component._addLogsTab).toHaveBeenCalledWith(runningLogs);
   });
 

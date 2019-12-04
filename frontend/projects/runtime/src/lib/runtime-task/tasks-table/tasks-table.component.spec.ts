@@ -10,6 +10,7 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
+import * as _ from 'lodash';
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
@@ -18,18 +19,18 @@ describe('TaskTableComponent', () => {
   let eventBus: EventBusService;
 
   beforeEach(async(() => {
+    taskService = runtimeTaskServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [TasksTableComponent],
       providers: [
-        {provide: RuntimeTaskService, useValue: runtimeTaskServiceSpy()},
+        {provide: RuntimeTaskService, useValue: taskService},
         EventBusService,
       ]
     })
       .overrideTemplate(TasksTableComponent, '')
       .compileComponents();
 
-    taskService = TestBed.get(RuntimeTaskService);
     taskService.list.and.returnValue(of(testTasks()));
     eventBus = TestBed.get(EventBusService);
   }));
@@ -79,5 +80,24 @@ describe('TaskTableComponent', () => {
   it('should list tasks on refresh', () => {
     component.refresh();
     expect(taskService.list).toHaveBeenCalled();
+  });
+
+  it('should handle selection', () => {
+    const task = testTask();
+    expect(component.hasSelection).toBeFalsy();
+    component.selection = task;
+    expect(component.hasSelection).toBeTruthy();
+    expect(component.isSelected(task)).toBeTruthy();
+    component.selection = null;
+    expect(component.hasSelection).toBeFalsy();
+  });
+
+  it('should set tasks update selection', () => {
+    const tasks = testTasks();
+    const task = _.cloneDeep(tasks[0]);
+    component.selection = task;
+    component.tasks = tasks;
+    expect(component.selection).toBe(tasks[0]);
+    expect(component.selection).not.toBe(task);
   });
 });
