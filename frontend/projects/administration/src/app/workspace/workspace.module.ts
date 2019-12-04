@@ -37,12 +37,13 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
   providers: [
     NotificationService,
     TabsService,
+    RuntimeHostService,
   ],
 })
 export class WorkspaceModule {
   constructor(tabsService: TabsService,
-              hostsService: RuntimeHostService) {
+              hostService: RuntimeHostService) {
     // inject services to force initialization
-    hostsService.hosts().subscribe();
+    hostService.hosts().subscribe();
   }
 }

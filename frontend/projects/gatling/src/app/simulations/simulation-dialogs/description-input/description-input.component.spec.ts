@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExecutionDialogComponent } from './execution-dialog.component';
+import { DescriptionInputComponent } from './description-input.component';
 
-describe('ExecutionDialogComponent', () => {
-  let component: ExecutionDialogComponent;
-  let fixture: ComponentFixture<ExecutionDialogComponent>;
+describe('DescriptionInputComponent', () => {
+  let component: DescriptionInputComponent;
+  let fixture: ComponentFixture<DescriptionInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExecutionDialogComponent ]
+      declarations: [ DescriptionInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExecutionDialogComponent);
+    fixture = TestBed.createComponent(DescriptionInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

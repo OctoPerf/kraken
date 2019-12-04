@@ -12,8 +12,9 @@ import {faSquare} from '@fortawesome/free-regular-svg-icons/faSquare';
 import {faICursor} from '@fortawesome/free-solid-svg-icons/faICursor';
 import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
+import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
 
-library.add(faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt);
+library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt);
 
 export const LOADING_ICON = new IconFa(faSync, 'muted', '', true);
 
@@ -22,6 +23,8 @@ export const REFRESH_ICON = new IconDynamic(new IconFa(faSync, 'primary'), {
 });
 
 export const MENU_ICON = new IconFa(faEllipsisV, 'primary');
+
+export const ADD_ICON = new IconFa(faPlus, 'success');
 
 export const DELETE_ICON = new IconFa(faTrash, 'error');
 
@@ -39,4 +42,3 @@ export const RENAME_ICON = new IconFaAddon(
 );
 
 export const LOGS_ICON = new IconFa(faFileAlt);
-

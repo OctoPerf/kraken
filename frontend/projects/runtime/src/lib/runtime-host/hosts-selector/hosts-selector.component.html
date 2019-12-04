@@ -1,0 +1,10 @@
+<lib-message *ngIf="loading" centered="true" level="loading">Loading hosts...</lib-message>
+<mat-form-field *ngIf="!loading" [formGroup]="formGroup" class="block-filler-x">
+  <mat-label>Host(s)</mat-label>
+  <mat-select formControlName="hosts" [multiple]="multiple">
+    <mat-option *ngFor="let host of hostsList" [value]="host.id">{{host.name}}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="hosts.hasError('required')">
+    Please select a host.
+  </mat-error>
+</mat-form-field>

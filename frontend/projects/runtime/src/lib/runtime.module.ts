@@ -3,7 +3,6 @@ import {RuntimeTaskModule} from 'projects/runtime/src/lib/runtime-task/runtime-t
 import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log.module';
 import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.module';
 import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
-import {RuntimeDialogsModule} from 'projects/runtime/src/lib/runtime-dialogs/runtime-dialogs.module';
 
 @NgModule({
   imports: [
@@ -11,14 +10,12 @@ import {RuntimeDialogsModule} from 'projects/runtime/src/lib/runtime-dialogs/run
     RuntimeLogModule,
     RuntimeWatcherModule,
     RuntimeHostModule,
-    RuntimeDialogsModule,
   ],
   exports: [
     RuntimeTaskModule,
     RuntimeLogModule,
     RuntimeWatcherModule,
     RuntimeHostModule,
-    RuntimeDialogsModule,
   ],
 })
 export class RuntimeModule {

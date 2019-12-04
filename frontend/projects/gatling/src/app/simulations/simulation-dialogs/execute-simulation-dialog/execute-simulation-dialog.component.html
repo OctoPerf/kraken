@@ -1,7 +1,7 @@
 <form [formGroup]="simulationForm" autocomplete=off>
-  <h1 mat-dialog-title>{{data.debug ? 'Debug' : 'Run'}} Simulation</h1>
+  <h1 mat-dialog-title>{{data.type | prettyString}} Simulation</h1>
   <div mat-dialog-content>
-    <lib-help-anchor [pageId]="data.debug ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
+    <lib-help-anchor [pageId]="data.type === 'DEBUG' ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="package.Class" formControlName="simulationName"
              (keydown.enter)="simulationForm.valid ? run() : null"
@@ -13,23 +13,16 @@
         Invalid simulation name.
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="block-filler-x">
-      <input matInput placeholder="Run Description" formControlName="description"
-             required>
-      <mat-error *ngIf="description.hasError('required')">
-        Run description is required.
-      </mat-error>
-      <mat-error *ngIf="description.hasError('pattern')">
-        Invalid run description.
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="block-filler-x">
-      <input matInput placeholder="Java Opts" formControlName="javaOpts">
-      <mat-hint>-Xmx1G -Dfoo=bar</mat-hint>
-    </mat-form-field>
-    <lib-message level="error" centered="true" class="text-error" *ngIf="data.debug && !data.atOnce">Please configure
-      your script to run only one iteration
-      '.inject(atOnceUsers(1)'. You might generate a lot of debug files and crash the system otherwise!
+    <lib-description-input #descriptionInput [formGroup]="simulationForm"
+                           [value]="(data.type | prettyString) + ' '+ data.simulationClass"></lib-description-input>
+    <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"
+                        [multiple]="data.type === 'RUN'"></lib-hosts-selector>
+    <lib-environment-variables-list #envVarList [formGroup]="simulationForm"
+                                    [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
+                                    [hostIds]="hostsSelector.hostIds"></lib-environment-variables-list>
+    <lib-message level="error" centered="true" class="text-error" *ngIf="data.type === 'DEBUG' && !data.atOnce">
+      Please configure your script to run only one iteration '.inject(atOnceUsers(1)'.
+      You might generate a lot of debug files and crash the system otherwise!
     </lib-message>
   </div>
   <div mat-dialog-actions>

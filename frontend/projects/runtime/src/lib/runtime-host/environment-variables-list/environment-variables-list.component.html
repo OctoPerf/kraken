@@ -1,0 +1,52 @@
+<mat-accordion [formGroup]="formGroup">
+  <mat-expansion-panel [expanded]="envExpanded" (opened)="addVariableIfEmpty()" (afterExpand)="focusOnVariable()">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Environment Variables
+      </mat-panel-title>
+      <mat-panel-description>
+        {{variables.controls.length}} variable(s)
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div formArrayName="variables">
+      <div *ngFor="let variableForm of variables.controls; let i=index" [formGroupName]="i" fxLayout="row"
+           fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
+          <input matInput placeholder="Key" type="text" formControlName="key" #key
+                 required>
+          <mat-error *ngIf="getKey(i).hasError('required')">
+            The key is required.
+          </mat-error>
+          <mat-error *ngIf="getKey(i).hasError('pattern')">
+            The key must not contain any spaces and only use word characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <input matInput placeholder="Value" type="text" formControlName="value"
+                 required>
+          <mat-error *ngIf="getValue(i).hasError('required')">
+            The value is required.
+          </mat-error>
+          <mat-error *ngIf="getValue(i).hasError('pattern')">
+            The value must not contain any spaces and only use word characters.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Scope</mat-label>
+          <mat-select formControlName="scope">
+            <mat-option>Global</mat-option>
+            <mat-option *ngFor="let hostId of hostIds" [value]="hostId">{{hostId | hostIdToName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button matTooltip="Remove Variable" (click)="removeVariable(i)" fxFlex="none">
+          <lib-icon [icon]="removeVariableIcon"></lib-icon>
+        </button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button matTooltip="Add Variable" (click)="addVariable()">
+          <lib-icon [icon]="addVariableIcon"></lib-icon>
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

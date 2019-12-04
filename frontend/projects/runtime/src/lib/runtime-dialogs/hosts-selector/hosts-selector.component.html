@@ -1,6 +1,0 @@
-<mat-form-field [formGroup]="formGroup">
-  <mat-label>Host(s)</mat-label>
-  <mat-select formControlName="toppings" [multiple]="multiple">
-    <mat-option *ngFor="let host of hosts" [value]="host.id">{{host.name}}</mat-option>
-  </mat-select>
-</mat-form-field>

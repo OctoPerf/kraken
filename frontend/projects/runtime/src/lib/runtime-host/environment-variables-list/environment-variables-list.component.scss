@@ -1,0 +1,7 @@
+@import 'app-filler';
+@import 'app-margin';
+
+:host {
+  @include block-filler-x();
+  @include m-b-sm();
+}

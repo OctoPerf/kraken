@@ -9,14 +9,13 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {FileUploadDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload-dialog.component';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
-import {Observable} from 'rxjs';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
 import {
-  ExecutionDialogComponent,
-  ExecutionDialogData
-} from 'projects/runtime/src/lib/runtime-dialogs/execution-dialog/execution-dialog.component';
+  ExecuteSimulationDialogComponent,
+  ExecuteSimulationDialogData
+} from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
 
 @Injectable()
 export class SimulationService {
@@ -59,8 +58,8 @@ export class SimulationService {
         // description: string;
         // environment: { [key in string]: string };
       }))
-      .subscribe((data: ExecutionDialogData) => {
-        this.dialogs.open(ExecutionDialogComponent, DialogSize.SIZE_MD, data).subscribe(
+      .subscribe((data: ExecuteSimulationDialogData) => {
+        this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data).subscribe(
           (result: { simulationName: string, description: string, javaOpts: string }) => {
             // endpoint(result.description, {
             //   GATLING_SIMULATION: result.simulationName,

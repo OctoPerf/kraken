@@ -1,0 +1,10 @@
+<mat-form-field [formGroup]="formGroup" class="block-filler-x">
+  <input matInput placeholder="Description" formControlName="description"
+         required>
+  <mat-error *ngIf="description.hasError('required')">
+    Description is required.
+  </mat-error>
+  <mat-error *ngIf="description.hasError('pattern')">
+    Invalid description.
+  </mat-error>
+</mat-form-field>
