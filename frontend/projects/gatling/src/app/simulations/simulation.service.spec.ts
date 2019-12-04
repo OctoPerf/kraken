@@ -12,8 +12,6 @@ import {ExecuteSimulationDialogComponent} from 'projects/gatling/src/app/simulat
 import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
-import {analysisServiceSpy} from 'projects/analysis/src/lib/analysis.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
 import {gatlingConfigurationServiceSpy} from 'projects/gatling/src/app/gatling-configuration.service.spec';
@@ -23,11 +21,11 @@ import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-ev
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
 import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
+import SpyObj = jasmine.SpyObj;
 
 export const simulationServiceSpy = () => {
   const spy = jasmine.createSpyObj('SimulationService', [
