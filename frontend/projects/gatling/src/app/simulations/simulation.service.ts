@@ -16,6 +16,9 @@ import {
   ExecuteSimulationDialogComponent,
   ExecuteSimulationDialogData
 } from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
+import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
+import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
 
 @Injectable()
 export class SimulationService {
@@ -23,12 +26,10 @@ export class SimulationService {
   constructor(private toExt: StorageNodeToExtPipe,
               private storage: StorageService,
               private dialogs: DialogService,
-              // private commands: CommandService,
-              private analysis: AnalysisService,
-              private dateToString: DateTimeToStringPipe,
               private eventBus: EventBusService,
               private storageConfiguration: StorageConfigurationService,
-              private gatlingConfiguration: GatlingConfigurationService) {
+              private gatlingConfiguration: GatlingConfigurationService,
+              private taskService: RuntimeTaskService) {
   }
 
   run(node: StorageNode) {
@@ -53,24 +54,11 @@ export class SimulationService {
         const simulationClass = simulationClassExec ? simulationClassExec[1] : '';
         const atOnce = content.search(injectRegExp) > -1;
         return {type, simulationPackage, simulationClass, atOnce};
-
-        // type: TaskType;
-        // description: string;
-        // environment: { [key in string]: string };
       }))
       .subscribe((data: ExecuteSimulationDialogData) => {
-        this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data).subscribe(
-          (result: { simulationName: string, description: string, javaOpts: string }) => {
-            // endpoint(result.description, {
-            //   GATLING_SIMULATION: result.simulationName,
-            //   GATLING_RUN_DESCRIPTION: result.description,
-            //   JAVA_OPTS: result.javaOpts,
-            // }).subscribe((commandId: string) => {
-            //   this.commands.setCommandLabel(commandId, result.description,
-            //     result.simulationName + ' at ' + this.dateToString.transform(new Date()));
-            //   this.eventBus.publish(new OpenResultsEvent());
-            // });
-          });
+        this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data)
+          .pipe(map((context: ExecutionContext) => this.taskService.execute(context)))
+          .subscribe();
       });
   }
 
@@ -97,6 +85,7 @@ export class SimulationService {
   }
 
   importHar(node: StorageNode) {
+
     // this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD)
     //   .subscribe((result: { simulationPackage: string, simulationClass: string }) => {
     //     this.analysis.record({
@@ -108,5 +97,9 @@ export class SimulationService {
     //       this.eventBus.publish(new OpenResultsEvent());
     //     });
     //   });
+
+    this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', '')})
+      .pipe(map((context: ExecutionContext) => this.taskService.execute(context)))
+      .subscribe();
   }
 }

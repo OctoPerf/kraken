@@ -46,17 +46,14 @@ export class ExecuteSimulationDialogComponent {
   }
 
   run() {
+    const env = this.envVarList.environment;
+    env.KRAKEN_GATLING_SIMULATION = this.simulationName.value;
     const context = new ExecutionContext(
       this.data.type,
       this.descriptionInput.description.value,
-      this.envVarList.environment,
+      env,
       this.envVarList.hosts
     );
-    console.log(context);
-    // TODO new ExecutionContext
-    // this.dialogRef.close({
-    //   simulationName: this.simulationName.value,
-    //   // description: this.description.value,
-    // });
+    this.dialogRef.close(context);
   }
 }

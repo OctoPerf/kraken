@@ -105,7 +105,7 @@ public class DockerTaskServiceTest {
         .applicationId("applicationId")
         .description("description")
         .environment(ImmutableMap.of("foo", "bar"))
-        .hosts(ImmutableMap.of("host1", ImmutableMap.of()))
+        .hosts(ImmutableMap.of("host1", ImmutableMap.of(), "host2", ImmutableMap.of()))
         .build();
     service.execute(context).block();
   }

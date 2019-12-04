@@ -1,5 +1,5 @@
 <form [formGroup]="recordForm" autocomplete=off>
-  <h1 mat-dialog-title>Import HAR</h1>
+  <h1 mat-dialog-title>Import HAR <em>{{data.harPath}}</em></h1>
   <div mat-dialog-content>
     <lib-help-anchor pageId="GATLING_IMPORT_HAR"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
@@ -24,11 +24,14 @@
         Invalid simulation class.
       </mat-error>
     </mat-form-field>
+    <lib-hosts-selector #hostsSelector [formGroup]="recordForm" [multiple]="false"></lib-hosts-selector>
+<!--    <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"-->
+<!--                        [multiple]="data.type === 'RUN'"></lib-hosts-selector>-->
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
     <button mat-button
-            [mat-dialog-close]="{simulationPackage: simulationPackage.value, simulationClass: simulationClass.value}"
+            (click)="import()"
             type="submit" color="accent"
             [disabled]="!recordForm.valid">
       Import
