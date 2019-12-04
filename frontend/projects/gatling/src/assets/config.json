@@ -11,7 +11,7 @@
   },
   "runtimeApiUrl": "http://localhost:8082",
   "docUrl": "https://kraken.octoperf.com",
-  "staticApiUrl": "http://localhost:8088",
+  "staticApiUrl": "http://localhost:8085",
   "analysisApiUrl": "http://localhost:8081",
   "analysisRootNode": {
     "path": "gatling/results",

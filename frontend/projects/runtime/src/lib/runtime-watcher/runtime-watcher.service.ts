@@ -16,7 +16,7 @@ import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 
 @Injectable()
-export class RuntimeWatcherService  implements OnDestroy, Observer<SSEWrapper> {
+export class RuntimeWatcherService implements OnDestroy, Observer<SSEWrapper> {
 
   private sseUnwrappers = {
     LOG: (sseWrapper: SSEWrapper) => new LogEvent(sseWrapper.value),
@@ -56,8 +56,6 @@ export class RuntimeWatcherService  implements OnDestroy, Observer<SSEWrapper> {
 
   next(sseWrapper: SSEWrapper) {
     this._retry.reset();
-    console.log(sseWrapper);
-    console.log(this.sseUnwrappers[sseWrapper.type](sseWrapper));
     this.eventBus.publish(this.sseUnwrappers[sseWrapper.type](sseWrapper));
   }
 
@@ -66,13 +64,7 @@ export class RuntimeWatcherService  implements OnDestroy, Observer<SSEWrapper> {
     this.eventBus.publish(new NotificationEvent(
       new BaseNotification(
         `An error occurred while listening for runtime events. Will reconnect in ${this.durationToString.transform(delay)}.`,
-        NotificationLevel.ERROR,
-        // null,
-        // {
-        //   selector: 'lib-command-tabs-panel',
-        //   busEvent: new OpenCommandLogsEvent()
-        // }
-        )));
+        NotificationLevel.ERROR)));
     if (!this.closed) {
       setTimeout(this.watch.bind(this), delay);
     }

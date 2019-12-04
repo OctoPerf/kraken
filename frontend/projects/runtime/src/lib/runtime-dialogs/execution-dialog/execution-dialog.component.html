@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Execute Task</h1>
+<div mat-dialog-content>
+  <!--  <lib-help-anchor pageId="ADMIN_RUN_COMMAND"></lib-help-anchor>-->
+
+  <form [formGroup]="executionForm" fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Description" type="text" formControlName="description">
+      <mat-error *ngIf="description.hasError('required')">
+        Description is required.
+      </mat-error>
+    </mat-form-field>
+    <div fxFlex>
+      <lib-hosts-selector [formGroup]="executionForm" [multiple]="data.type === 'RUN'"></lib-hosts-selector>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+  <!--  <button mat-button (click)="execute()" type="submit" color="primary" cdkFocusInitial-->
+  <!--          [disabled]="!isValid()">Execute-->
+  <!--  </button>-->
+</div>

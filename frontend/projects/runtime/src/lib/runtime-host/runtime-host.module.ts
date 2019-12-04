@@ -6,8 +6,9 @@ import {CapacityToStringPipe} from './capacity-to-string.pipe';
 import {AddressesToStringPipe} from './addresses-to-string.pipe';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
-import { HostIdToNamePipe } from './host-id-to-name.pipe';
-import { HostIdToDescriptionPipe } from './host-id-to-description.pipe';
+import {HostIdToNamePipe} from './host-id-to-name.pipe';
+import {HostIdToDescriptionPipe} from './host-id-to-description.pipe';
+import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 
 @NgModule({
   imports: [

@@ -12,6 +12,7 @@ import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module'
 import {SimulationDialogsModule} from 'projects/gatling/src/app/simulations/simulation-dialogs/simulation-dialogs.module';
 import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/compare.module';
+import {RuntimeDialogsModule} from 'projects/runtime/src/lib/runtime-dialogs/runtime-dialogs.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/com
     ConfigurationModule.forRoot(environment),
     AppRoutingModule,
     ComponentsModule,
-    // /!\ Might be a bug in angular-material because with lazy loaded modules,
+    // /!\ Might be a bug in angular-material because of lazy loaded modules,
     // the dialog do not work (error in console that tells us to add the components to entryComponents)
     // That's why me must import the dialog module here (not lazy).
     // Thanks to https://stackoverflow.com/questions/41519481/angular2-material-dialog-has-issues-did-you-add-it-to-ngmodule-entrycomponent
@@ -31,6 +32,7 @@ import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/com
     DialogModule,
     HighlightModule,
     SimulationDialogsModule,
+    RuntimeDialogsModule,
     CompareModule,
   ],
   bootstrap: [AppComponent]

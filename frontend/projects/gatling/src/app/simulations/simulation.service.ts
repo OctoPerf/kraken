@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageNodeToExtPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-ext.pipe';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {filter} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -12,6 +12,11 @@ import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-conf
 import {Observable} from 'rxjs';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
+import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
+import {
+  ExecutionDialogComponent,
+  ExecutionDialogData
+} from 'projects/runtime/src/lib/runtime-dialogs/execution-dialog/execution-dialog.component';
 
 @Injectable()
 export class SimulationService {
@@ -28,43 +33,46 @@ export class SimulationService {
   }
 
   run(node: StorageNode) {
-    this._start(node, this.analysis.runTest.bind(this.analysis), false);
+    this._start(node, 'RUN');
   }
 
   debug(node: StorageNode) {
-    this._start(node, this.analysis.debugTest.bind(this.analysis), true);
+    this._start(node, 'DEBUG');
   }
 
   private _start(node: StorageNode,
-                 endpoint: (description: string, environment: { [key in string]: string }) => Observable<string>,
-                 debug: boolean) {
+                 type: TaskType) {
     const packageRegexp = /^\s*package\s+(\S+)\s*\n/gm;
     const classRegexp = /^\s*class\s+(\S+)\s+extends\s+Simulation/gm;
     const injectRegExp = /\.inject\(atOnceUsers\(1\)\)/gm;
 
-    // this.storage.getContent(node)
-    //   .pipe(map((content) => {
-    //     const simulationPackageExec = packageRegexp.exec(content);
-    //     const simulationPackage = simulationPackageExec ? simulationPackageExec[1] : '';
-    //     const simulationClassExec = classRegexp.exec(content);
-    //     const simulationClass = simulationClassExec ? simulationClassExec[1] : '';
-    //     const atOnce = content.search(injectRegExp) > -1;
-    //     return {simulationPackage, simulationClass, debug, atOnce};
-    //   }))
-    //   .subscribe((data: ExecuteSimulationDialogData) => {
-    //     this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_MD, data).subscribe(
-    //       (result: { simulationName: string, description: string, javaOpts: string }) => {
-    //         endpoint(result.description, {
-    //           GATLING_SIMULATION: result.simulationName,
-    //           GATLING_RUN_DESCRIPTION: result.description,
-    //           JAVA_OPTS: result.javaOpts,
-    //         }).subscribe((commandId: string) => {
-    //           this.commands.setCommandLabel(commandId, result.description,
-    //             result.simulationName + ' at ' + this.dateToString.transform(new Date()));
-    //           this.eventBus.publish(new OpenResultsEvent());
-    //         });
-    //       });
-    //   });
+    this.storage.getContent(node)
+      .pipe(map((content) => {
+        const simulationPackageExec = packageRegexp.exec(content);
+        const simulationPackage = simulationPackageExec ? simulationPackageExec[1] : '';
+        const simulationClassExec = classRegexp.exec(content);
+        const simulationClass = simulationClassExec ? simulationClassExec[1] : '';
+        const atOnce = content.search(injectRegExp) > -1;
+        return {type, simulationPackage, simulationClass, atOnce};
+
+        // type: TaskType;
+        // description: string;
+        // environment: { [key in string]: string };
+      }))
+      .subscribe((data: ExecutionDialogData) => {
+        this.dialogs.open(ExecutionDialogComponent, DialogSize.SIZE_MD, data).subscribe(
+          (result: { simulationName: string, description: string, javaOpts: string }) => {
+            // endpoint(result.description, {
+            //   GATLING_SIMULATION: result.simulationName,
+            //   GATLING_RUN_DESCRIPTION: result.description,
+            //   JAVA_OPTS: result.javaOpts,
+            // }).subscribe((commandId: string) => {
+            //   this.commands.setCommandLabel(commandId, result.description,
+            //     result.simulationName + ' at ' + this.dateToString.transform(new Date()));
+            //   this.eventBus.publish(new OpenResultsEvent());
+            // });
+          });
+      });
   }
 
   isSimulationNode(node: StorageNode) {

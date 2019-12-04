@@ -1,13 +1,25 @@
 import {NgModule} from '@angular/core';
-import { HostsTableComponent } from './runtime-host/hosts-table/hosts-table.component';
-import {CommandService} from 'projects/command/src/lib/command.service';
-import {RuntimeService} from 'projects/runtime/src/lib/runtime.service';
+import {RuntimeTaskModule} from 'projects/runtime/src/lib/runtime-task/runtime-task.module';
+import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log.module';
+import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.module';
+import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
+import {RuntimeDialogsModule} from 'projects/runtime/src/lib/runtime-dialogs/runtime-dialogs.module';
 
 @NgModule({
-  declarations: [],
-  imports: [],
-  exports: [],
-  providers: []
+  imports: [
+    RuntimeTaskModule,
+    RuntimeLogModule,
+    RuntimeWatcherModule,
+    RuntimeHostModule,
+    RuntimeDialogsModule,
+  ],
+  exports: [
+    RuntimeTaskModule,
+    RuntimeLogModule,
+    RuntimeWatcherModule,
+    RuntimeHostModule,
+    RuntimeDialogsModule,
+  ],
 })
 export class RuntimeModule {
 }

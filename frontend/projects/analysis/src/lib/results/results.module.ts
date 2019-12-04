@@ -36,4 +36,7 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
   ]
 })
 export class ResultsModule {
+  constructor(results: ResultsTableService) {
+    results.init();
+  }
 }

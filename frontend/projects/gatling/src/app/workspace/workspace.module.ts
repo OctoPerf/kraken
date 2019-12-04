@@ -22,6 +22,8 @@ import {RuntimeTaskModule} from 'projects/runtime/src/lib/runtime-task/runtime-t
 import {RuntimeLogModule} from 'projects/runtime/src/lib/runtime-log/runtime-log.module';
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.module';
+import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
+import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 
 @NgModule({
   declarations: [
@@ -51,9 +53,7 @@ import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/run
     ),
     SimulationsModule,
     ResultsModule,
-    RuntimeTaskModule,
-    RuntimeLogModule,
-    RuntimeWatcherModule,
+    RuntimeModule,
   ],
   providers: [
     NotificationService,
@@ -61,7 +61,7 @@ import {RuntimeWatcherModule} from 'projects/runtime/src/lib/runtime-watcher/run
   ],
 })
 export class WorkspaceModule {
-  constructor(public tabsService: TabsService,
+  constructor(tabsService: TabsService,
               results: ResultsTableService,
               hostService: RuntimeHostService,
               watcher: RuntimeWatcherService) {
