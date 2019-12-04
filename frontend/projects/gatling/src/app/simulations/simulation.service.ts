@@ -19,6 +19,8 @@ import {
 import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
+import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
+import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 
 @Injectable()
 export class SimulationService {
@@ -57,7 +59,10 @@ export class SimulationService {
       }))
       .subscribe((data: ExecuteSimulationDialogData) => {
         this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data)
-          .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe());
+          .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe(taskId => {
+            this.eventBus.publish(new OpenResultsEvent());
+            this.eventBus.publish(new OpenTasksEvent());
+          }));
       });
   }
 

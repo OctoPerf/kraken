@@ -5,30 +5,29 @@ import {StorageNodeToExtPipe} from 'projects/storage/src/lib/storage-pipes/stora
 import {testStorageDirectoryNode, testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {CommandService} from 'projects/command/src/lib/command.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
-import {commandServiceSpy} from 'projects/command/src/lib/command.service.spec';
 import {of} from 'rxjs';
 import {ExecuteSimulationDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
 import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pipe';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import {BusEvent} from 'projects/event/src/lib/bus-event';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {analysisServiceSpy} from 'projects/analysis/src/lib/analysis.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
-import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
 import {GatlingConfigurationService} from 'projects/gatling/src/app/gatling-configuration.service';
 import {gatlingConfigurationServiceSpy} from 'projects/gatling/src/app/gatling-configuration.service.spec';
 import {FileUploadDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload-dialog.component';
 import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
 import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import SpyObj = jasmine.SpyObj;
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
+import SpyObj = jasmine.SpyObj;
+import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
+import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
+import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
+import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 
 export const simulationServiceSpy = () => {
   const spy = jasmine.createSpyObj('SimulationService', [
@@ -44,9 +43,8 @@ describe('SimulationService', () => {
   let service: SimulationService;
   let storage: SpyObj<StorageService>;
   let dialogs: SpyObj<DialogService>;
-  let commands: SpyObj<CommandService>;
   let eventBus: SpyObj<EventBusService>;
-  let analysis: SpyObj<AnalysisService>;
+  let tasks: SpyObj<RuntimeTaskService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,8 +52,7 @@ describe('SimulationService', () => {
       providers: [
         {provide: StorageService, useValue: storageServiceSpy()},
         {provide: DialogService, useValue: dialogsServiceSpy()},
-        {provide: CommandService, useValue: commandServiceSpy()},
-        {provide: AnalysisService, useValue: analysisServiceSpy()},
+        {provide: RuntimeTaskService, useValue: runtimeTaskServiceSpy()},
         {provide: EventBusService, useValue: eventBusSpy()},
         {provide: StorageConfigurationService, useValue: storageConfigurationServiceSpy()},
         {provide: GatlingConfigurationService, useValue: gatlingConfigurationServiceSpy()},
@@ -65,11 +62,10 @@ describe('SimulationService', () => {
       ]
     });
     service = TestBed.get(SimulationService);
-    analysis = TestBed.get(AnalysisService);
+    tasks = TestBed.get(RuntimeTaskService);
     storage = TestBed.get(StorageService);
     dialogs = TestBed.get(DialogService);
     eventBus = TestBed.get(EventBusService);
-    commands = TestBed.get(CommandService);
   });
 
   it('should be created', () => {
@@ -89,27 +85,20 @@ class AdvancedSimulationStep05 extends Simulation {
 
 object Search {
     `));
-    dialogs.open.and.returnValue(of({
-      simulationName: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      description: 'AdvancedSimulationStep05',
-      javaOpts: '',
-    }));
-    analysis.runTest.and.returnValue(of('commandId'));
+    const context = testExecutionContext();
+    dialogs.open.and.returnValue(of(context));
+    tasks.execute.and.returnValue(of('taskId'));
     service.run(testStorageFileNode());
     expect(dialogs.open).toHaveBeenCalledWith(ExecuteSimulationDialogComponent,
-      DialogSize.SIZE_MD, {
+      DialogSize.SIZE_LG, {
         simulationPackage: 'computerdatabase.advanced',
         simulationClass: 'AdvancedSimulationStep05',
-        debug: false,
+        type: 'RUN',
         atOnce: false,
       });
-    expect(analysis.runTest).toHaveBeenCalledWith('AdvancedSimulationStep05', {
-      GATLING_SIMULATION: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      GATLING_RUN_DESCRIPTION: 'AdvancedSimulationStep05',
-      JAVA_OPTS: '',
-    });
-    expect(commands.setCommandLabel).toHaveBeenCalledWith('commandId', 'AdvancedSimulationStep05', jasmine.any(String) as any);
+    expect(tasks.execute).toHaveBeenCalledWith(context);
     expect(eventBus.publish).toHaveBeenCalledWith(new OpenResultsEvent());
+    expect(eventBus.publish).toHaveBeenCalledWith(new OpenTasksEvent());
   });
 
   it('should debug', () => {
@@ -127,27 +116,20 @@ setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
 
 object Search {
     `));
-    dialogs.open.and.returnValue(of({
-      simulationName: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      description: 'AdvancedSimulationStep05',
-      javaOpts: '-Xmx1G',
-    }));
-    analysis.debugTest.and.returnValue(of('commandId'));
+    const context = testExecutionContext();
+    dialogs.open.and.returnValue(of(context));
+    tasks.execute.and.returnValue(of('taskId'));
     service.debug(testStorageFileNode());
     expect(dialogs.open).toHaveBeenCalledWith(ExecuteSimulationDialogComponent,
-      DialogSize.SIZE_MD, {
+      DialogSize.SIZE_LG, {
         simulationPackage: 'computerdatabase.advanced',
         simulationClass: 'AdvancedSimulationStep05',
-        debug: true,
+        type: 'DEBUG',
         atOnce: true,
       });
-    expect(analysis.debugTest).toHaveBeenCalledWith('AdvancedSimulationStep05', {
-      GATLING_SIMULATION: 'computerdatabase.advanced.AdvancedSimulationStep05',
-      GATLING_RUN_DESCRIPTION: 'AdvancedSimulationStep05',
-      JAVA_OPTS: '-Xmx1G',
-    });
-    expect(commands.setCommandLabel).toHaveBeenCalledWith('commandId', 'AdvancedSimulationStep05', jasmine.any(String) as any);
+    expect(tasks.execute).toHaveBeenCalledWith(context);
     expect(eventBus.publish).toHaveBeenCalledWith(new OpenResultsEvent());
+    expect(eventBus.publish).toHaveBeenCalledWith(new OpenTasksEvent());
   });
 
   it('should return isSimulationNode', () => {
@@ -176,7 +158,6 @@ object Search {
     })).toBeTruthy();
   });
 
-
   it('should uploadHar', () => {
     const importHar = spyOn(service, 'importHar');
     dialogs.open.and.returnValue(of(['test.har']));
@@ -192,16 +173,12 @@ object Search {
   });
 
   it('should importHar', () => {
-    dialogs.open.and.returnValue(of({simulationPackage: 'simulationPackage', simulationClass: 'simulationClass'}));
-    analysis.record.and.returnValue(of('cmdId'));
+    const context = testExecutionContext();
+    dialogs.open.and.returnValue(of(context));
+    tasks.execute.and.returnValue(of('taskId'));
     service.importHar({path: 'gatling/user-files/simulations/test.har'} as any);
-    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_MD);
-    expect(analysis.record).toHaveBeenCalledWith({
-      GATLING_SIMULATION_PACKAGE: 'simulationPackage',
-      GATLING_SIMULATION_CLASS: 'simulationClass',
-      HAR_PATH: 'test.har'
-    });
-    expect(commands.setCommandLabel).toHaveBeenCalledWith('cmdId', 'Import HAR file', 'gatling/user-files/simulations/test.har');
+    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: 'test.har'});
+    expect(tasks.execute).toHaveBeenCalledWith(context);
   });
 
 });

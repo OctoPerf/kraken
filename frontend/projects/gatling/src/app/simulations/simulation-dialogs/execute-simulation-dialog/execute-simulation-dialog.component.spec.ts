@@ -2,11 +2,10 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ExecuteSimulationDialogComponent} from './execute-simulation-dialog.component';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
+import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
 import SpyObj = jasmine.SpyObj;
-import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
-import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
 
 describe('ExecuteSimulationDialogComponent', () => {
   let component: ExecuteSimulationDialogComponent;
@@ -21,10 +20,14 @@ describe('ExecuteSimulationDialogComponent', () => {
       providers: [
         {
           provide: MAT_DIALOG_DATA,
-          useValue: {simulationPackage: 'simulationPackage', simulationClass: 'simulationClass'}
+          useValue: {
+            simulationPackage: 'simulationPackage',
+            simulationClass: 'simulationClass',
+            type: 'RUN',
+            atOnce: true,
+          }
         },
         {provide: MatDialogRef, useValue: dialogRef},
-        {provide: LocalStorageService, useValue: localStorageServiceSpy()},
       ]
     })
       .overrideTemplate(ExecuteSimulationDialogComponent, '')
@@ -45,21 +48,27 @@ describe('ExecuteSimulationDialogComponent', () => {
     expect(component.simulationName.value).toBe('simulationPackage.simulationClass');
   });
 
-  it('should return description', () => {
-    expect(component.description.value).toBe('simulationClass');
-  });
-
-  it('should return javaOpts', () => {
-    expect(component.javaOpts).toBeDefined();
-  });
 
   it('should run', () => {
+    component.descriptionInput = {
+      description: {
+        value: 'description'
+      }
+    } as any;
+    component.envVarList = {
+      environment: {FOO: 'BAR'},
+      hosts: {
+        'local': {}
+      }
+    } as any;
     component.run();
-    expect(dialogRef.close).toHaveBeenCalledWith({
-      simulationName: 'simulationPackage.simulationClass',
-      description: 'simulationClass',
-      javaOpts: '',
-    });
-    expect(component.javaOpts).toBeDefined();
+    expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionContext(
+      'RUN',
+      'description',
+      {FOO: 'BAR', KRAKEN_GATLING_SIMULATION: 'simulationPackage.simulationClass'},
+      {
+        'local': {}
+      }
+    ));
   });
 });

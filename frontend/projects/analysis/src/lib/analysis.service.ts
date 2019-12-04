@@ -22,31 +22,4 @@ export class AnalysisService {
       }
     });
   }
-
-  // TODO Remove this
-  runTest(description: string, environment: { [key in string]: string }): Observable<string> {
-    return this._startTest(description, environment, '/run');
-  }
-
-  // TODO Remove this
-  debugTest(description: string, environment: { [key in string]: string }): Observable<string> {
-    return this._startTest(description, environment, '/debug');
-  }
-
-  private _startTest(description: string, environment: { [key in string]: string }, endpoint: string): Observable<string> {
-    return this.http.post(this.analysisConfiguration.analysisApiUrl(endpoint), environment, {
-      responseType: 'text',
-      params: {
-        description,
-      }
-    });
-  }
-
-  // TODO Remove this
-  record(environment: { [key in string]: string }): Observable<string> {
-    return this.http.post(this.analysisConfiguration.analysisApiUrl('/record'), environment, {
-      responseType: 'text'
-    });
-  }
-
 }
