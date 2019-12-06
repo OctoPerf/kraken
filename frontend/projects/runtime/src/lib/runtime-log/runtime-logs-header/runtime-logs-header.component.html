@@ -3,15 +3,11 @@
     {{name}}
   </span>
   <div fxFlex="none">
-    <button mat-icon-button *ngIf="log.status === 'INITIALIZED' || log.status === 'CANCELLING'" class="runtime-logs-button"
-            matTooltip="Please wait...">
-      <lib-icon [icon]="loadingIcon"></lib-icon>
-    </button>
     <button mat-icon-button *ngIf="log.status === 'CLOSED'" class="command-button" (click)="close.emit()"
             matTooltip="Close Tab">
       <lib-icon [icon]="closeIcon" [state]="selected ? 'selected' : ''"></lib-icon>
     </button>
-    <button mat-icon-button *ngIf="log.status === 'RUNNING'" class="command-button" (click)="stop.emit()"
+    <button mat-icon-button *ngIf="log.type === 'CONTAINER' && log.status === 'RUNNING'" class="command-button" (click)="stop.emit()"
             matTooltip="Stop Command">
       <lib-icon [icon]="stopIcon" [state]="selected ? 'selected' : ''"></lib-icon>
     </button>

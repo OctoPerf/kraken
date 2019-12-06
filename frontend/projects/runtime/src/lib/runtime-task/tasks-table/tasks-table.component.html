@@ -39,13 +39,24 @@
 
     <ng-container matColumnDef="containers">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh hosts table">
-          <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
-        </button>
+        Containers
       </th>
       <td mat-cell *matCellDef="let task"
           [title]="'Containers: ' + task.containers.length + '/' + task.expectedCount">
         {{task.containers.length}}/{{task.expectedCount}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh hosts table">
+          <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let task">
+        <button mat-icon-button *ngIf="task.status !== 'DONE'" (click)="cancel(task)" matTooltip="Cancel task">
+          <lib-icon [icon]="stopIcon"></lib-icon>
+        </button>
       </td>
     </ng-container>
 

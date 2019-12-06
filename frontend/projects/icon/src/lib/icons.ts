@@ -13,8 +13,9 @@ import {faICursor} from '@fortawesome/free-solid-svg-icons/faICursor';
 import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
 import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
+import {faStop} from '@fortawesome/free-solid-svg-icons/faStop';
 
-library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt);
+library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt, faStop);
 
 export const LOADING_ICON = new IconFa(faSync, 'muted', '', true);
 
@@ -33,6 +34,8 @@ export const INSPECT_ICON = new IconFa(faSearch);
 export const CLOSE_ICON = new IconDynamic(new IconFa(faTimesCircle), {'selected': new IconFa(faTimesCircle, 'error')});
 
 export const PLAY_ICON = new IconFa(faPlay, 'success');
+
+export const STOP_ICON = new IconFa(faStop, 'error')
 
 export const DEBUG_ICON = new IconFa(faBug, 'primary');
 

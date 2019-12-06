@@ -14,7 +14,6 @@ import {Log} from 'projects/runtime/src/lib/entities/log';
 })
 export class RuntimeLogsHeaderComponent implements OnInit, OnDestroy {
 
-  readonly loadingIcon = LOADING_ICON;
   readonly closeIcon = CLOSE_ICON;
   readonly stopIcon = new IconDynamic(new IconFa(faStop), {'selected': new IconFa(faStop, 'error')});
 

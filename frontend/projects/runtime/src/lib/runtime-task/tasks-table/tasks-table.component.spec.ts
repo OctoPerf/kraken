@@ -9,22 +9,27 @@ import {testTask, testTasks} from 'projects/runtime/src/lib/entities/task.spec';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 import {of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
 import * as _ from 'lodash';
+import SpyObj = jasmine.SpyObj;
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
   let fixture: ComponentFixture<TasksTableComponent>;
   let taskService: SpyObj<RuntimeTaskService>;
   let eventBus: EventBusService;
+  let dialogs: SpyObj<DialogService>;
 
   beforeEach(async(() => {
     taskService = runtimeTaskServiceSpy();
+    dialogs = dialogsServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [TasksTableComponent],
       providers: [
         {provide: RuntimeTaskService, useValue: taskService},
+        {provide: DialogService, useValue: dialogs},
         EventBusService,
       ]
     })
@@ -99,5 +104,13 @@ describe('TaskTableComponent', () => {
     component.tasks = tasks;
     expect(component.selection).toBe(tasks[0]);
     expect(component.selection).not.toBe(task);
+  });
+
+  it('should cancel task', () => {
+    dialogs.confirm.and.returnValue(of());
+    taskService.cancel.and.returnValue(of('taskId'));
+    const task = testTask();
+    component.cancel(task);
+    expect(taskService.cancel).toHaveBeenCalledWith(task.id, task.type);
   });
 });

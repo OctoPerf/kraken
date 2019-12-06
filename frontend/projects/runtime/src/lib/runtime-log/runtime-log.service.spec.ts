@@ -6,10 +6,8 @@ import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {runtimeContainerServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-container.service.spec';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
 import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
@@ -37,7 +35,6 @@ describe('RuntimeLogService', () => {
   let eventBus: EventBusService;
   let runtimeContainerService: SpyObj<RuntimeContainerService>;
   let runtimeTaskService: SpyObj<RuntimeTaskService>;
-  let dialogs: SpyObj<DialogService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,7 +42,6 @@ describe('RuntimeLogService', () => {
       providers: [
         {provide: RuntimeContainerService, useValue: runtimeContainerServiceSpy()},
         {provide: RuntimeTaskService, useValue: runtimeTaskServiceSpy()},
-        {provide: DialogService, useValue: dialogsServiceSpy()},
         EventBusService,
         RuntimeLogService,
       ]
@@ -54,7 +50,6 @@ describe('RuntimeLogService', () => {
     service = TestBed.get(RuntimeLogService);
     runtimeContainerService = TestBed.get(RuntimeContainerService);
     runtimeTaskService = TestBed.get(RuntimeTaskService);
-    dialogs = TestBed.get(DialogService);
   });
 
   afterEach(() => {
@@ -93,28 +88,6 @@ describe('RuntimeLogService', () => {
     const log: Log = {applicationId: 'applicationId', id: 'id', type: 'CONTAINER', text: 'text', status: 'RUNNING'};
     service.cancel(log);
     expect(runtimeContainerService.detachLogs).toHaveBeenCalledWith('id');
-  });
-
-  it('should cancel task log', () => {
-    const task = testTask();
-    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text', status: 'RUNNING'};
-    runtimeTaskService.tasksSubject.next([task]);
-    dialogs.confirm.and.returnValue(of(null));
-    service.cancel(log);
-    expect(runtimeTaskService.cancel).toHaveBeenCalledWith(task.id, task.type);
-  });
-
-  it('should cancel task log fail', () => {
-    const publish = spyOn(eventBus, 'publish');
-    const task = testTask();
-    const log: Log = {applicationId: 'applicationId', id: task.id, type: 'TASK', text: 'text', status: 'RUNNING'};
-    dialogs.confirm.and.returnValue(of(null));
-    service.cancel(log);
-    expect(publish).toHaveBeenCalledWith(new NotificationEvent(
-      new BaseNotification(
-        `Cannot find task with id ${log.id}.`,
-        NotificationLevel.ERROR,
-      )));
   });
 
   it('should return label', () => {
