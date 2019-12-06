@@ -110,8 +110,8 @@ describe('DebugEditorContentService', () => {
     expect(service.responseBody).toBe('content');
 
     expect(storage.getJSON).toHaveBeenCalledWith(testStorageFileNode());
-    expect(storage.getContent).toHaveBeenCalledWith({path: 'gatling/results/debug-uuid/debug/requestBodyFile'});
-    expect(storage.getContent).toHaveBeenCalledWith({path: 'gatling/results/debug-uuid/debug/responseBodyFile'});
+    expect(storage.getContent).toHaveBeenCalledWith({path: 'gatling/results/debug-uuid/debug/requestBodyFile'} as any);
+    expect(storage.getContent).toHaveBeenCalledWith({path: 'gatling/results/debug-uuid/debug/responseBodyFile'} as any);
   });
 
   it('should load minimal', () => {

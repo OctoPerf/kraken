@@ -167,7 +167,7 @@ object Search {
         accept: '.har',
         title: 'Upload HAR File'
       });
-    expect(importHar).toHaveBeenCalledWith({path: 'gatling/user-files/simulations/test.har'});
+    expect(importHar).toHaveBeenCalledWith({path: 'gatling/user-files/simulations/test.har'} as any);
   });
 
   it('should importHar', () => {
