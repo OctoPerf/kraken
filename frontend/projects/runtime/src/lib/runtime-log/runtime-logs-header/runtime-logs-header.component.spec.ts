@@ -28,10 +28,32 @@ describe('RuntimeLogsHeaderComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should use logs command', () => {
+  it('should update label', () => {
     service.label.and.returnValue({name: 'commandName', title: 'commandTitle'});
     component.log = {applicationId: 'test', status: 'RUNNING', id: 'id', text: '', type: 'TASK'};
     fixture.detectChanges();
+    expect(component.name).toBe('commandName');
+    expect(component.title).toBe('commandTitle');
+  });
+
+  it('should update label with id', () => {
+    service.label.and.returnValue(undefined);
+    component.log = {applicationId: 'test', status: 'RUNNING', id: 'id', text: '', type: 'TASK'};
+    fixture.detectChanges();
+    expect(component.name).toBe('id');
+    expect(component.title).toBe('id');
+  });
+
+  it('should update label only once', () => {
+    component.log = {applicationId: 'test', status: 'RUNNING', id: 'id', text: '', type: 'TASK'};
+    service.label.and.returnValue({name: 'commandName', title: 'commandTitle'});
+    fixture.detectChanges();
+    expect(component.name).toBe('commandName');
+    expect(component.title).toBe('commandTitle');
+
+    // Labels should only be updated once
+    service.label.and.returnValue(undefined);
+    service.logLabelsChanged.emit();
     expect(component.name).toBe('commandName');
     expect(component.title).toBe('commandTitle');
   });

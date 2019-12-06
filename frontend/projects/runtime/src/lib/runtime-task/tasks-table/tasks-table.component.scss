@@ -15,8 +15,11 @@ table {
   @include table-filler();
 }
 
-.mat-column-containers {
+.mat-column-buttons {
   @include column-action();
+}
+.mat-column-containers {
+  @include column-width(60px);
 }
 
 .mat-column-description {

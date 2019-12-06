@@ -59,18 +59,42 @@ final class GatlingRunner {
     );
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString).doOnNext(log::info).block();
-    downloadConfiguration.block();
-    downloadUserFiles.block();
-    setStatusReady.map(Object::toString).doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString).doOnNext(log::info).block();
-    Optional.ofNullable(listFiles.collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    setStatusRunning.map(Object::toString).doOnNext(log::info).block();
-    startGatling.doOnNext(log::info).blockLast();
-    setStatusStopping.map(Object::toString).doOnNext(log::info).block();
-    waitForStatusStopping.map(Object::toString).doOnNext(log::info).block();
-    uploadResult.block();
-    setStatusDone.map(Object::toString).doOnNext(log::info).block();
+    setStatusPreparing.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status PREPARING", t))
+        .doOnNext(log::info).block();
+    downloadConfiguration
+        .doOnError(t -> log.error("Failed to download configuration", t))
+        .block();
+    downloadUserFiles
+        .doOnError(t -> log.error("Failed to download user files", t))
+        .block();
+    setStatusReady.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status READY", t))
+        .doOnNext(log::info).block();
+    waitForStatusReady.map(Object::toString)
+        .doOnError(t -> log.error("Failed to wait for status READY", t))
+        .doOnNext(log::info).block();
+    Optional.ofNullable(listFiles
+        .doOnError(t -> log.error("Failed to list files", t))
+        .collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
+    setStatusRunning.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status RUNNING", t))
+        .doOnNext(log::info).block();
+    startGatling
+        .doOnError(t -> log.error("Failed to start gatling", t))
+        .doOnNext(log::info).blockLast();
+    setStatusStopping.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status STOPPING", t))
+        .doOnNext(log::info).block();
+    waitForStatusStopping.map(Object::toString)
+        .doOnError(t -> log.error("Failed to wait for status STOPPING", t))
+        .doOnNext(log::info).block();
+    uploadResult
+        .doOnError(t -> log.error("Failed to upload result", t))
+        .block();
+    setStatusDone.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status DONE", t))
+        .doOnNext(log::info).block();
   }
 
 }

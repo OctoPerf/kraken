@@ -38,12 +38,12 @@ describe('AnalysisService', () => {
   });
 
   it('should delete test', () => {
-    const testId = 'testId';
-    service.deleteTest(testId).subscribe(value => expect(value).toBe(testId), () => fail('delete failed'));
-    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/test/delete');
+    const resultId = 'resultId';
+    service.deleteTest(resultId).subscribe(value => expect(value).toBe(resultId), () => fail('delete failed'));
+    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/result');
     expect(req.request.method).toBe('DELETE');
-    expect(req.request.params.get('testId')).toEqual('testId');
-    req.flush(testId);
+    expect(req.request.params.get('resultId')).toEqual('resultId');
+    req.flush(resultId);
   });
 
 });

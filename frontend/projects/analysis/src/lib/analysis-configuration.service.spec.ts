@@ -14,7 +14,7 @@ export const analysisConfigurationServiceSpy = () => {
     'staticApiUrl',
   ]);
   spy.staticApiUrl.and.callFake((path) => 'staticApiUrl' + path);
-  spy.analysisApiUrl.and.callFake((path = '') => `analysisApiUrl/test${path}`);
+  spy.analysisApiUrl.and.callFake((path = '') => `analysisApiUrl/result${path}`);
   spy.grafanaUrl.and.callFake((path) => 'grafanaUrl' + path);
   spy.analysisRootNode = {
     'path': 'gatling/results',

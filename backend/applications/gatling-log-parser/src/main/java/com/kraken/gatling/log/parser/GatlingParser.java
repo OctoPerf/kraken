@@ -57,12 +57,25 @@ class GatlingParser {
     final var parse = writer.write(parser.parse(gatlingProperties.getDebugLog()));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusReady.map(Object::toString).doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString).doOnNext(log::info).block();
-    setStatusRunning.map(Object::toString).doOnNext(log::info).block();
-    Optional.ofNullable(listFiles.collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    waitFor(parse.map(DebugEntry::getRequestName).doOnNext(log::info).onErrorResume(throwable -> Mono.empty()), runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(15));
-    setStatusDone.map(Object::toString).doOnNext(log::info).block();
+    setStatusReady.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status READY", t))
+        .doOnNext(log::info).block();
+    waitForStatusReady.map(Object::toString)
+        .doOnError(t -> log.error("Failed to wait for status READY", t))
+        .doOnNext(log::info).block();
+    setStatusRunning.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status RUNNING", t))
+        .doOnNext(log::info).block();
+    Optional.ofNullable(listFiles
+        .doOnError(t -> log.error("Failed to list files", t))
+        .collectList()
+        .block()).orElse(Collections.emptyList()).forEach(log::info);
+    waitFor(parse.map(DebugEntry::getRequestName)
+        .doOnError(t -> log.error("Failed to wait for task completion", t))
+        .doOnNext(log::info).onErrorResume(throwable -> Mono.empty()), runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(15));
+    setStatusDone.map(Object::toString)
+        .doOnError(t -> log.error("Failed to set status DONE", t))
+        .doOnNext(log::info).block();
   }
 
 }

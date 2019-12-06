@@ -15,7 +15,7 @@ export class AnalysisConfigurationService {
   }
 
   analysisApiUrl(path: string = ''): string {
-    return this.configuration.url('analysisApiUrl', `/test${path}`);
+    return this.configuration.url('analysisApiUrl', `/result${path}`);
   }
 
   grafanaUrl(path: string): string {

@@ -28,7 +28,7 @@ logging:
     kraken: INFO
 
 server:
-  port: 8083
+  port: 8081
   error:
     include-stacktrace: always
 

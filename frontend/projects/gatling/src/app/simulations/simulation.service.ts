@@ -89,7 +89,7 @@ export class SimulationService {
   }
 
   importHar(node: StorageNode) {
-    this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: node.path.replace(this.gatlingConfiguration.simulationsRootNode.path + '/', '')})
+    this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: node.path})
       .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe());
   }
 }

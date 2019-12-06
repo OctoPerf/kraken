@@ -68,7 +68,7 @@ describe('RuntimeLogService', () => {
     eventBus.publish(new TaskExecutedEvent(taskId, context));
     expect(service.label(taskId)).toEqual({name: 'description', title: 'RUN task description'});
     service.removeLabel(taskId);
-    expect(service.label(taskId)).toEqual({name: taskId, title: taskId});
+    expect(service.label(taskId)).toBeUndefined();
     expect(count).toBe(1);
   });
 
@@ -80,7 +80,7 @@ describe('RuntimeLogService', () => {
     eventBus.publish(new LogsAttachedEvent(logsId, container));
     expect(service.label(logsId)).toEqual({name: 'label', title: 'name on hostId'});
     service.removeLabel(logsId);
-    expect(service.label(logsId)).toEqual({name: logsId, title: logsId});
+    expect(service.label(logsId)).toBeUndefined();
     expect(count).toBe(1);
   });
 
@@ -90,7 +90,4 @@ describe('RuntimeLogService', () => {
     expect(runtimeContainerService.detachLogs).toHaveBeenCalledWith('id');
   });
 
-  it('should return label', () => {
-    expect(service.label('unknown')).toEqual({name: 'unknown', title: 'unknown'});
-  });
 });

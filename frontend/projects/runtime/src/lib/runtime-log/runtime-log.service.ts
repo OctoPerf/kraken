@@ -49,8 +49,8 @@ export class RuntimeLogService implements OnDestroy {
     this.runtimeContainerService.detachLogs(log.id);
   }
 
-  public label(id: string): { name: string, title: string } {
-    return this.logLabels.has(id) ? this.logLabels.get(id) : {name: id, title: id};
+  public label(id: string): { name: string, title: string } | undefined {
+    return this.logLabels.get(id);
   }
 
   public removeLabel(id: string) {

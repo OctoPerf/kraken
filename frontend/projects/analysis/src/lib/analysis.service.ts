@@ -14,11 +14,11 @@ export class AnalysisService {
   ) {
   }
 
-  deleteTest(testId: string): Observable<string> {
-    return this.http.delete(this.analysisConfiguration.analysisApiUrl('/delete'), {
+  deleteTest(resultId: string): Observable<string> {
+    return this.http.delete(this.analysisConfiguration.analysisApiUrl(), {
       responseType: 'text',
       params: {
-        testId
+        resultId
       }
     });
   }
