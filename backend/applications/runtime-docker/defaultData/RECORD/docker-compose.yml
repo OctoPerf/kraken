@@ -7,7 +7,7 @@ networks:
 
 services:
   kraken-har-parser:
-    image: octoperf/kraken-ee-har-parser:${KRAKEN_VERSION}
+    image: octoperf/kraken-har-parser:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-har-parser_STARTING
     networks:
       - kraken

@@ -7,7 +7,7 @@ networks:
 
 services:
   kraken-gatling-log-parser:
-    image: octoperf/kraken-ee-gatling-log-parser:${KRAKEN_VERSION}
+    image: octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}
     container_name: ${KRAKEN_TASK_ID}-gatling-log-parser_STARTING
     networks:
       - kraken
