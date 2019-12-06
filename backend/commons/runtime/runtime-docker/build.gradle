@@ -9,13 +9,13 @@ dependencies {
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:runtime:runtime-logs')
     implementation project(':commons:runtime:runtime-client-properties')
-    implementation project(':commons:tools:configuration')
+    implementation project(':commons:tools:properties')
     implementation project(':commons:tools:unique-id')
     implementation project(':commons:analysis:analysis-client-properties')
     implementation project(':commons:analysis:influxdb-client-properties')
     implementation project(':commons:storage:storage-client-properties')
 
-    testImplementation project(path: ':commons:tools:configuration', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 
     testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')

@@ -1,7 +1,7 @@
 package com.kraken.runtime.docker;
 
 import com.kraken.runtime.entity.TaskType;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTest;
+import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

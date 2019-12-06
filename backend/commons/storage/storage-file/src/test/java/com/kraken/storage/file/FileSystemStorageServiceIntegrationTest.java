@@ -3,7 +3,7 @@ package com.kraken.storage.file;
 import com.google.common.collect.ImmutableList;
 import com.kraken.storage.TestConfiguration;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
+import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;

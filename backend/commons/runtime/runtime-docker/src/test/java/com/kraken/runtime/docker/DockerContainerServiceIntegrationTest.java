@@ -7,7 +7,7 @@ import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
+import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

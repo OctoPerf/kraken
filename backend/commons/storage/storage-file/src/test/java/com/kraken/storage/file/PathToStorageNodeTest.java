@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
-import com.kraken.tools.configuration.properties.ApplicationProperties;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTestConfiguration;
+import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
 import com.kraken.storage.TestConfiguration;
 import com.kraken.storage.entity.StorageNode;
 import lombok.AccessLevel;

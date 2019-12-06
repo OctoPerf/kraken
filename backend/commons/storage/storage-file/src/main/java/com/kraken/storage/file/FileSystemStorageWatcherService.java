@@ -1,8 +1,8 @@
 package com.kraken.storage.file;
 
-import com.kraken.tools.configuration.properties.ApplicationProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
+import com.kraken.tools.properties.ApplicationProperties;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryChangeListener;
 import io.methvin.watcher.DirectoryWatcher;

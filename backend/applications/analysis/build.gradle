@@ -1,3 +1,4 @@
 dependencies {
     implementation project(':commons:analysis:analysis-server')
+    implementation project(':commons:tools:configuration')
 }

@@ -1,4 +1,4 @@
-package com.kraken.tools.configuration.properties;
+package com.kraken.tools.properties;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

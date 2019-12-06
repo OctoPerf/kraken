@@ -1,8 +1,8 @@
 package com.kraken.storage.file;
 
-import com.kraken.tools.configuration.properties.ApplicationProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeType;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

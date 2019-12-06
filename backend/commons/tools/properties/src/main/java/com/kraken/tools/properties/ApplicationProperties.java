@@ -1,4 +1,4 @@
-package com.kraken.tools.configuration.properties;
+package com.kraken.tools.properties;
 
 import lombok.Builder;
 import lombok.NonNull;

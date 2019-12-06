@@ -1,4 +1,4 @@
-package com.kraken.tools.configuration.properties;
+package com.kraken.tools.properties;
 
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;

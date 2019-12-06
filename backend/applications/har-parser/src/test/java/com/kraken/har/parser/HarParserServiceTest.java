@@ -1,6 +1,5 @@
 package com.kraken.har.parser;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.kraken.analysis.entity.DebugEntryTest;
 import com.kraken.debug.entry.writer.DebugEntryWriter;
@@ -9,10 +8,13 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.FlatContainerTest;
+import com.kraken.runtime.entity.TaskTest;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.configuration.properties.ApplicationProperties;
-import com.kraken.tools.configuration.properties.ApplicationPropertiesTest;
+import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.ApplicationPropertiesTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,11 +25,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
-import java.time.Duration;
-import java.util.function.Predicate;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;

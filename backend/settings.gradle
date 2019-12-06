@@ -64,6 +64,8 @@ include 'commons:tools:unique-id'
 findProject(':commons:tools:unique-id')?.name = 'unique-id'
 include 'commons:tools:environment'
 findProject(':commons:tools:environment')?.name = 'environment'
+include 'commons:tools:properties'
+findProject(':commons:tools:properties')?.name = 'properties'
 
 include ':commons:parser:har-parser'
 findProject(':commons:parser:har-parser')?.name = 'har-parser'
