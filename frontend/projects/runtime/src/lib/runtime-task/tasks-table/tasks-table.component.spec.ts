@@ -107,7 +107,7 @@ describe('TaskTableComponent', () => {
   });
 
   it('should cancel task', () => {
-    dialogs.confirm.and.returnValue(of());
+    dialogs.confirm.and.returnValue(of(null));
     taskService.cancel.and.returnValue(of('taskId'));
     const task = testTask();
     component.cancel(task);
