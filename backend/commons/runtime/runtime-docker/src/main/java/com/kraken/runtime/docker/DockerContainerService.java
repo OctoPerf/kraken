@@ -4,9 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.ContainerService;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.LogType;
+import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,7 +52,7 @@ final class DockerContainerService implements ContainerService {
   @Override
   public Mono<Void> detachLogs(final String applicationId, final String id) {
     return Mono.fromCallable(() -> {
-      logsService.cancel(applicationId, id, LogType.CONTAINER);
+      logsService.dispose(id);
       return null;
     });
   }

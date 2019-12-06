@@ -1,13 +1,13 @@
 package com.kraken.runtime.logs;
 
 import com.kraken.runtime.entity.Log;
+import com.kraken.runtime.entity.LogStatus;
 import com.kraken.runtime.entity.LogType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class SpringLogsServiceTest {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      service.cancel(applicationId0, log0, LogType.CONTAINER);
+      service.dispose(log0);
     }).start();
 
     final var app0Logs = service.listen(applicationId0).take(Duration.ofMillis(2000)).collectList().block();
@@ -126,8 +126,36 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldCancelNope() {
-    assertThat(service.cancel("nope", "nope", LogType.CONTAINER)).isFalse();
+    assertThat(service.dispose("nope")).isFalse();
   }
 
+
+  @Test
+  public void shouldAdd() {
+    final var appId = "appId";
+    final var id = "id";
+    final var log = Log.builder().applicationId(appId).id(id).text("text").type(LogType.TASK).status(LogStatus.RUNNING).build();
+    new Thread(() -> {
+      try {
+        Thread.sleep(100);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      service.add(log);
+    }).start();
+    final var result = service.listen(appId).take(1).blockFirst();
+    assertThat(result).isSameAs(log);
+  }
+
+  @Test
+  public void shouldNotAdd() {
+    final var appId = "appId";
+    final var id = "id";
+    final var log = Log.builder().applicationId(appId).id(id).text("text").status(LogStatus.RUNNING).type(LogType.TASK).build();
+    // Won't do anything
+    service.add(log);
+    final var result = service.listen(appId).take(Duration.ofMillis(100)).blockFirst();
+    assertThat(result).isNull();
+  }
 }
 

@@ -31,7 +31,6 @@ import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TA
 final class DockerTaskService implements TaskService {
 
   @NonNull CommandService commandService;
-  @NonNull RuntimeServerProperties serverProperties;
   @NonNull LogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull Function<TaskType, String> taskTypeToPath;
@@ -40,7 +39,7 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<ExecutionContext> execute(final ExecutionContext context) {
-    checkArgument(context.getHosts().size() > 0, "The Docker runtime server can only run tasks on one host!");
+    checkArgument(context.getHosts().size() <= 1, "The Docker runtime server can only run tasks on one host!");
 
     final var env = this.updateEnvironment(context);
     envCheckers.stream()
@@ -60,7 +59,7 @@ final class DockerTaskService implements TaskService {
     return Mono.fromCallable(() -> {
       // Automatically display logs stream
       final var logs = commandService.execute(command);
-      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, LogStatus.RUNNING, LogStatus.RUNNING, logs);
+      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
       return context;
     });
   }
@@ -85,9 +84,8 @@ final class DockerTaskService implements TaskService {
         .build();
 
     return Mono.fromCallable(() -> {
-      // Automatically display logs stream
       final var logs = commandService.execute(command);
-      logsService.push(applicationId, taskId, LogType.TASK, LogStatus.CANCELLING, LogStatus.CLOSED, logs);
+      logsService.push(applicationId, taskId, LogType.TASK, logs);
       return taskId;
     });
   }

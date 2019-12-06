@@ -18,8 +18,6 @@ import reactor.core.publisher.Flux;
 import java.util.Arrays;
 import java.util.function.Function;
 
-import static com.kraken.runtie.server.properties.RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -47,7 +45,6 @@ public class DockerTaskServiceTest {
   public void before() {
     service = new DockerTaskService(
         commandService,
-        RUNTIME_SERVER_PROPERTIES,
         logsService,
         stringToFlatContainer,
         taskTypeToPath,
@@ -94,7 +91,7 @@ public class DockerTaskServiceTest {
     assertThat(service.execute(context).block()).isEqualTo(context);
 
     verify(commandService).execute(executeCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, LogStatus.RUNNING, LogStatus.RUNNING, logs);
+    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -137,7 +134,7 @@ public class DockerTaskServiceTest {
     assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
 
     verify(commandService).execute(cancelCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, LogStatus.CANCELLING, LogStatus.CLOSED, logs);
+    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
   }
 
   @Test
