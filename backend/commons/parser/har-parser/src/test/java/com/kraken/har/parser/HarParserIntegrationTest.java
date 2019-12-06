@@ -32,4 +32,10 @@ public class HarParserIntegrationTest {
     assertThat(first.getRequestUrl()).isEqualTo("POST https://m.stripe.com/4");
   }
 
+  @Test
+  public void shouldHandleHttpBinHarFile() {
+    final var list = parser.parse(Paths.get("testDir/httpbin.har")).collectList().block();
+    assertThat(list).isNotNull();
+    assertThat(list.size()).isEqualTo(5);
+  }
 }

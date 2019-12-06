@@ -1,4 +1,4 @@
-<mat-accordion [formGroup]="formGroup">
+<mat-accordion [formGroup]="formGroup" *ngIf="hostIds">
   <mat-expansion-panel [expanded]="envExpanded" (opened)="addVariableIfEmpty()" (afterExpand)="focusOnVariable()">
     <mat-expansion-panel-header>
       <mat-panel-title>
