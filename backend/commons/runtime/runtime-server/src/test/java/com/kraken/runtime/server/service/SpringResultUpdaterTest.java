@@ -18,6 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ResultUpdaterTest {
+public class SpringResultUpdaterTest {
 
   @Mock
   TaskListService taskListService;
@@ -111,5 +112,37 @@ public class ResultUpdaterTest {
     verify(analysisClient).setStatus(taskId, ResultStatus.STARTING);
     verify(analysisClient).setStatus(taskId, ResultStatus.RUNNING);
     verify(analysisClient).setStatus(taskId, ResultStatus.COMPLETED);
+  }
+
+
+  @Test
+  public void shouldUpdateResultsWithError() {
+    final var task0 = Task.builder()
+        .id("task0")
+        .startDate(42L)
+        .status(ContainerStatus.CREATING)
+        .type(TaskType.RUN)
+        .containers(ImmutableList.of())
+        .description("description")
+        .expectedCount(2)
+        .build();
+    final var task1 = Task.builder()
+        .id("task1")
+        .startDate(42L)
+        .status(ContainerStatus.RUNNING)
+        .type(TaskType.RUN)
+        .containers(ImmutableList.of())
+        .description("description")
+        .expectedCount(2)
+        .build();
+
+    given(taskListService.watch()).willReturn(Flux.just(ImmutableList.of(task0, task1)));
+    given(analysisClient.setStatus(eq("task0"), any(ResultStatus.class))).willReturn(Mono.error(new IOException("fail!")));
+    given(analysisClient.setStatus(eq("task1"), any(ResultStatus.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+
+    updater.start();
+
+    verify(analysisClient).setStatus("task0", ResultStatus.STARTING);
+    verify(analysisClient).setStatus("task1", ResultStatus.RUNNING);
   }
 }

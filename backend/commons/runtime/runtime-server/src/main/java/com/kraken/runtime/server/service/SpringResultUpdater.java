@@ -73,6 +73,6 @@ final class SpringResultUpdater implements ResultUpdater {
     final var resultId = task.getId();
     final var status = taskStatusToResultStatus.apply(task.getStatus());
     log.info(String.format("Set status %s for result %s", status.toString(), resultId));
-    return analysisClient.setStatus(resultId, status);
+    return analysisClient.setStatus(resultId, status).onErrorResume(throwable -> Mono.empty());
   }
 }

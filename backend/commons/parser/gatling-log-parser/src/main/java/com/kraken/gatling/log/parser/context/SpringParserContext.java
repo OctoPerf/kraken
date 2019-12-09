@@ -58,7 +58,7 @@ final class SpringParserContext implements ParserContext {
     this.chunkBuilder.responseHeaders(this.responseHeadersBuilder.build());
     this.chunkBuilder.responseBodyFile(this.responseBody);
 
-    log.info("Creating debug entry " + this.id);
+    log.debug("Creating debug entry " + this.id);
     try {
       final var entry = this.chunkBuilder.build();
       return Optional.of(entry);
@@ -74,7 +74,7 @@ final class SpringParserContext implements ParserContext {
     this.split(line).ifPresent(split -> {
       this.date = new Date().getTime();
       this.id = String.format("%d-%s", this.counter.incrementAndGet(), split[0].replaceAll(" ", "_"));
-      log.info("Starting to parse debug entry " + this.id);
+      log.debug("Starting to parse debug entry " + this.id);
       chunkBuilder.requestName(split[0]);
       chunkBuilder.requestStatus(split[1]);
     });
@@ -103,6 +103,7 @@ final class SpringParserContext implements ParserContext {
   }
 
   public void reset() {
+    log.debug("Reset");
     this.state = LogParserState.VOID;
     this.subState = LogParserSubState.NONE;
 

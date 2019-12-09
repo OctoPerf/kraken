@@ -10,7 +10,7 @@
   </ng-container>
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-    <td mat-cell *matCellDef="let result" [title]="result.type + ' - ' + result.description">
+    <td mat-cell *matCellDef="let result" [title]="result.id">
       <lib-icon [icon]="typeIcon" [state]="result.type" class="m-r-sm"></lib-icon>
       {{result.description}}
     </td>
