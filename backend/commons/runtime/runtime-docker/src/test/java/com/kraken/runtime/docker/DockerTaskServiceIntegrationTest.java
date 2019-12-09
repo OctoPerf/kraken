@@ -40,6 +40,13 @@ public class DockerTaskServiceIntegrationTest {
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
+
+    final var clean = Command.builder()
+        .path(Paths.get("testDir").toAbsolutePath().toString())
+        .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .environment(ImmutableMap.of())
+        .build();
+    commandService.execute(clean).blockLast();
   }
 
   @After

@@ -37,6 +37,19 @@ public class DockerTaskServiceExecutionIntegrationTest {
   @Autowired
   LogsService logsService;
 
+  @Autowired
+  CommandService commandService;
+
+  @Before
+  public void before() {
+    final var clean = Command.builder()
+        .path(Paths.get("testDir").toAbsolutePath().toString())
+        .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .environment(ImmutableMap.of())
+        .build();
+    commandService.execute(clean).blockLast();
+  }
+
   @Test
   public void shouldExecuteAndCancelStatus() throws InterruptedException {
     final var appId = "appId";

@@ -14,15 +14,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -43,7 +46,7 @@ public class DockerTaskServiceTest {
   DockerTaskService service;
 
   @Before
-  public void before() {
+  public void before() throws IOException {
     service = new DockerTaskService(
         commandService,
         logsService,
@@ -51,6 +54,9 @@ public class DockerTaskServiceTest {
         ApplicationPropertiesTest.APPLICATION_PROPERTIES,
         ImmutableList.of(envChecker),
         ImmutableList.of(envPublisher));
+
+    FileSystemUtils.deleteRecursively(Paths.get("testDir/taskId"));
+    FileSystemUtils.deleteRecursively(Paths.get("testDir/id"));
   }
 
   @Test
@@ -90,7 +96,7 @@ public class DockerTaskServiceTest {
     assertThat(service.execute(context).block()).isEqualTo(context);
 
     verify(commandService).execute(executeCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
+    verify(logsService).push(eq(applicationId), eq(taskId), eq(LogType.TASK), any());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -131,7 +137,7 @@ public class DockerTaskServiceTest {
     assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
 
     verify(commandService).execute(cancelCmd);
-    verify(logsService).push(applicationId, taskId, LogType.TASK, logs);
+    verify(logsService).push(eq(applicationId), eq(taskId), eq(LogType.TASK), any());
   }
 
   @Test
