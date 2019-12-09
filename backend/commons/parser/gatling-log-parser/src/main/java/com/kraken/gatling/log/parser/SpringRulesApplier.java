@@ -24,10 +24,10 @@ class SpringRulesApplier implements RulesApplier {
 
   @Override
   public Optional<DebugEntry> apply(String line) {
-    log.info(line);
+    log.debug(line);
     for (ParserRule rule : rules) {
       if (rule.test(line)) {
-        log.info("Rule found: " + rule.getClass().getSimpleName());
+        log.debug("Rule found: " + rule.getClass().getSimpleName());
         return rule.apply(line);
       }
     }

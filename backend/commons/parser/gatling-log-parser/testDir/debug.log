@@ -1,0 +1,2858 @@
+14:11:49.113 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:11:49 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:11:49.165 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:11:49 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7216
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72431">A</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/525">ASUS Eee PC 1005PE</a></td>
+                            <td>
+                                01 Jan 2010
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72410">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72411">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72415">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72682">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72749">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72790">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72848">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72889">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                
+                <li class="current">
+                    <a>Displaying 1 to 10 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:11:56.239 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_2: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?f=macbook),21,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?f=macbook
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:11:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7571
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>2,782 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="macbook" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2&amp;f=macbook">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3&amp;f=macbook">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4&amp;f=macbook">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5&amp;f=macbook">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/518">MacBook 13-inch Core 2 Duo 2.13GHz (MC240T/A) DDR2 Model</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/519">MacBook 13-inch Core 2 Duo 2.13GHz (MC240X/A) DDR2 Model</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/473">MacBook Family</a></td>
+                            <td>
+                                13 Nov 2019
+                            </td>
+                            <td>
+                                14 Nov 2020
+                            </td>
+                            <td>
+                                Thinking Machines
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/6739">MacBook New</a></td>
+                            <td>
+                                08 Sep 1950
+                            </td>
+                            <td>
+                                08 Sep 1950
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/516">MacBook Parts</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/6">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/58839">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                12 Dec 2019
+                            </td>
+                            <td>
+                                IMS Associates, Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/58841">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                12 Dec 2019
+                            </td>
+                            <td>
+                                Micro Instrumentation and Telemetry Systems
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/58842">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                12 Dec 2019
+                            </td>
+                            <td>
+                                Micro Instrumentation and Telemetry Systems
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/58843">MacBook Pro</a></td>
+                            <td>
+                                10 Jan 2006
+                            </td>
+                            <td>
+                                12 Dec 2019
+                            </td>
+                            <td>
+                                Micro Instrumentation and Telemetry Systems
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                
+                <li class="current">
+                    <a>Displaying 1 to 10 of 2782</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=1&amp;f=macbook">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:11:58.257 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_3: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/6),13,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/6
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?f=macbook
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:11:58 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 5487
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>Edit computer</h1>
+    
+     
+
+<form action="/computers/6" method="POST" >
+    
+        
+        <fieldset>
+        
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="name">Computer name</label>
+    <div class="input">
+        
+    <input type="text" id="name" name="name" value="MacBook Pro" >
+
+        <span class="help-inline">Required</span> 
+    </div>
+</div>
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="introduced">Introduced date</label>
+    <div class="input">
+        
+    <input type="text" id="introduced" name="introduced" value="2006-01-10" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span> 
+    </div>
+</div>
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="discontinued">Discontinued date</label>
+    <div class="input">
+        
+    <input type="text" id="discontinued" name="discontinued" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span> 
+    </div>
+</div>
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="company">Company</label>
+    <div class="input">
+        
+    
+    
+        <select id="company" name="company" >
+            
+                <option class="blank" value="">-- Choose a company --</option>
+            
+            
+                <option value="1" selected>Apple Inc.</option>
+            
+                <option value="2" >Thinking Machines</option>
+            
+                <option value="3" >RCA</option>
+            
+                <option value="4" >Netronics</option>
+            
+                <option value="5" >Tandy Corporation</option>
+            
+                <option value="6" >Commodore International</option>
+            
+                <option value="7" >MOS Technology</option>
+            
+                <option value="8" >Micro Instrumentation and Telemetry Systems</option>
+            
+                <option value="9" >IMS Associates, Inc.</option>
+            
+                <option value="10" >Digital Equipment Corporation</option>
+            
+                <option value="11" >Lincoln Laboratory</option>
+            
+                <option value="12" >Moore School of Electrical Engineering</option>
+            
+                <option value="13" >IBM</option>
+            
+                <option value="14" >Amiga Corporation</option>
+            
+                <option value="15" >Canon</option>
+            
+                <option value="16" >Nokia</option>
+            
+                <option value="17" >Sony</option>
+            
+                <option value="18" >OQO</option>
+            
+                <option value="19" >NeXT</option>
+            
+                <option value="20" >Atari</option>
+            
+                <option value="22" >Acorn computer</option>
+            
+                <option value="23" >Timex Sinclair</option>
+            
+                <option value="24" >Nintendo</option>
+            
+                <option value="25" >Sinclair Research Ltd</option>
+            
+                <option value="26" >Xerox</option>
+            
+                <option value="27" >Hewlett-Packard</option>
+            
+                <option value="28" >Zemmix</option>
+            
+                <option value="29" >ACVS</option>
+            
+                <option value="30" >Sanyo</option>
+            
+                <option value="31" >Cray</option>
+            
+                <option value="32" >Evans &amp; Sutherland</option>
+            
+                <option value="33" >E.S.R. Inc.</option>
+            
+                <option value="34" >OMRON</option>
+            
+                <option value="35" >BBN Technologies</option>
+            
+                <option value="36" >Lenovo Group</option>
+            
+                <option value="37" >ASUS</option>
+            
+                <option value="38" >Amstrad</option>
+            
+                <option value="39" >Sun Microsystems</option>
+            
+                <option value="40" >Texas Instruments</option>
+            
+                <option value="41" >HTC Corporation</option>
+            
+                <option value="42" >Research In Motion</option>
+            
+                <option value="43" >Samsung Electronics</option>
+            
+        </select>
+    
+
+        <span class="help-inline"></span> 
+    </div>
+</div>
+
+
+
+        
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Save this computer" class="btn primary"> or 
+            <a href="/computers" class="btn">Cancel</a> 
+        </div>
+        
+    
+</form>
+
+    
+     
+
+<form action="/computers/6/delete" method="POST" class="topRight">
+    
+        <input type="submit" value="Delete this computer" class="btn danger">
+    
+</form>
+
+    
+
+        </section>
+        
+    </body>
+</html>
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:01.285 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/6),17,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:01 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:01.326 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers),17,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:01 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7216
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72431">A</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/525">ASUS Eee PC 1005PE</a></td>
+                            <td>
+                                01 Jan 2010
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72410">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72411">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72415">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72682">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72749">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72790">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72848">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72889">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                
+                <li class="current">
+                    <a>Displaying 1 to 10 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:03.357 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_5: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=1),20,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=1
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:03 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7220
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72647">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72689">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72750">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72791">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72849">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72891">Aag</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72648">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72693">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72751">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72792">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev">
+                        <a href="/computers">&larr; Previous</a>
+                    </li> 
+                
+                <li class="current">
+                    <a>Displaying 11 to 20 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=2">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:04.057 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_6: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=2),16,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=2
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=1
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:04 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7224
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72850">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72890">Aah</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72649">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72690">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72752">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72793">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72851">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72892">Aai</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72652">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72684">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev">
+                        <a href="/computers?p=1">&larr; Previous</a>
+                    </li> 
+                
+                <li class="current">
+                    <a>Displaying 21 to 30 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=3">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:04.729 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_7: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=3),22,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=3
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=2
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:04 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7224
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72753">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72794">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72852">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72894">Aaj</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72650">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72705">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72754">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72795">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72853">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72895">Aak</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev">
+                        <a href="/computers?p=2">&larr; Previous</a>
+                    </li> 
+                
+                <li class="current">
+                    <a>Displaying 31 to 40 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=4">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:05.487 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_8: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers?p=4),16,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=4
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=3
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:05 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7224
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,584 computers found</h1>
+
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72651">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72685">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72755">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72796">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72854">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72893">Aal</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72653">Aam</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72686">Aam</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72756">Aam</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72797">Aam</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev">
+                        <a href="/computers?p=3">&larr; Previous</a>
+                    </li> 
+                
+                <li class="current">
+                    <a>Displaying 41 to 50 of 69584</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=5">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:10.542 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_9: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.referer -> http://computer-database.gatling.io/computers/new),22,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/new
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=4
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:10 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 5277
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+body=
+
+
+
+ 
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>Add a computer</h1>
+    
+     
+
+<form action="/computers" method="POST" >
+    
+        
+        <fieldset>
+        
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="name">Computer name</label>
+    <div class="input">
+        
+    <input type="text" id="name" name="name" value="" >
+
+        <span class="help-inline">Required</span> 
+    </div>
+</div>
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="introduced">Introduced date</label>
+    <div class="input">
+        
+    <input type="text" id="introduced" name="introduced" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span> 
+    </div>
+</div>
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="discontinued">Discontinued date</label>
+    <div class="input">
+        
+    <input type="text" id="discontinued" name="discontinued" value="" >
+
+        <span class="help-inline">Date (&#x27;yyyy-MM-dd&#x27;)</span> 
+    </div>
+</div>
+
+
+
+
+            
+
+
+
+
+
+
+
+
+<div class="clearfix ">
+    <label for="company">Company</label>
+    <div class="input">
+        
+    
+    
+        <select id="company" name="company" >
+            
+                <option class="blank" value="">-- Choose a company --</option>
+            
+            
+                <option value="1" >Apple Inc.</option>
+            
+                <option value="2" >Thinking Machines</option>
+            
+                <option value="3" >RCA</option>
+            
+                <option value="4" >Netronics</option>
+            
+                <option value="5" >Tandy Corporation</option>
+            
+                <option value="6" >Commodore International</option>
+            
+                <option value="7" >MOS Technology</option>
+            
+                <option value="8" >Micro Instrumentation and Telemetry Systems</option>
+            
+                <option value="9" >IMS Associates, Inc.</option>
+            
+                <option value="10" >Digital Equipment Corporation</option>
+            
+                <option value="11" >Lincoln Laboratory</option>
+            
+                <option value="12" >Moore School of Electrical Engineering</option>
+            
+                <option value="13" >IBM</option>
+            
+                <option value="14" >Amiga Corporation</option>
+            
+                <option value="15" >Canon</option>
+            
+                <option value="16" >Nokia</option>
+            
+                <option value="17" >Sony</option>
+            
+                <option value="18" >OQO</option>
+            
+                <option value="19" >NeXT</option>
+            
+                <option value="20" >Atari</option>
+            
+                <option value="22" >Acorn computer</option>
+            
+                <option value="23" >Timex Sinclair</option>
+            
+                <option value="24" >Nintendo</option>
+            
+                <option value="25" >Sinclair Research Ltd</option>
+            
+                <option value="26" >Xerox</option>
+            
+                <option value="27" >Hewlett-Packard</option>
+            
+                <option value="28" >Zemmix</option>
+            
+                <option value="29" >ACVS</option>
+            
+                <option value="30" >Sanyo</option>
+            
+                <option value="31" >Cray</option>
+            
+                <option value="32" >Evans &amp; Sutherland</option>
+            
+                <option value="33" >E.S.R. Inc.</option>
+            
+                <option value="34" >OMRON</option>
+            
+                <option value="35" >BBN Technologies</option>
+            
+                <option value="36" >Lenovo Group</option>
+            
+                <option value="37" >ASUS</option>
+            
+                <option value="38" >Amstrad</option>
+            
+                <option value="39" >Sun Microsystems</option>
+            
+                <option value="40" >Texas Instruments</option>
+            
+                <option value="41" >HTC Corporation</option>
+            
+                <option value="42" >Research In Motion</option>
+            
+                <option value="43" >Samsung Electronics</option>
+            
+        </select>
+    
+
+        <span class="help-inline"></span> 
+    </div>
+</div>
+
+
+
+            
+
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="Create this computer" class="btn primary"> or 
+            <a href="/computers" class="btn">Cancel</a> 
+        </div>
+        
+    
+</form>
+
+    
+
+        </section>
+        
+    </body>
+</html>
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:11.610 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.referer -> http://computer-database.gatling.io/computers/new, gatling.http.cookies -> CookieJar(Map(CookieKey(play_flash,computer-database.gatling.io,/) -> StoredCookie(PLAY_FLASH=success=Computer+Beautiful+Computer+has+been+created, path=/, HTTPOnly,true,false,1575900731601)))),22,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+POST http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"
+host: computer-database.gatling.io
+formBody=
+name: Beautiful Computer
+introduced: 2012-05-30
+discontinued: 
+company: 37
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:11 GMT
+Content-Length: 0
+Connection: keep-alive
+Keep-Alive: timeout=5
+Location: /computers
+Set-Cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"; Path=/; HTTPOnly
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+14:12:11.643 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1575900708996,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@203caf6a, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.OpenSslClientContext@727621e1,None), gatling.http.referer -> http://computer-database.gatling.io/computers, gatling.http.cookies -> CookieJar(Map())),22,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$502/0x000000084051b840@ae51dba)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+cookie: PLAY_FLASH="success=Computer+Beautiful+Computer+has+been+created"
+host: computer-database.gatling.io
+cookies=
+PLAY_FLASH=success=Computer+Beautiful+Computer+has+been+created, path=/, HTTPOnly
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Server: nginx/1.14.2
+Date: Mon, 09 Dec 2019 14:12:11 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 7360
+Connection: keep-alive
+Keep-Alive: timeout=5
+Set-Cookie: PLAY_FLASH=; Expires=Sun, 08 Dec 2019 14:12:12 GMT; Path=/; HTTPOnly
+
+body=
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computers database</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="/assets/stylesheets/main.css"> 
+    </head>
+    <body>
+        
+        <header class="topbar">
+            <h1 class="fill">
+                <a href="/">
+                    Play sample application &mdash; Computer database
+                </a>
+            </h1>
+        </header>
+        
+        <section id="main">
+            
+    
+    <h1>69,585 computers found</h1>
+
+    
+        <div class="alert-message warning">
+            <strong>Done!</strong> Computer Beautiful Computer has been created
+        </div>
+    
+
+    <div id="actions">
+        
+         
+
+<form action="/computers" method="GET" >
+    
+            <input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name...">
+            <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary">
+        
+</form>
+
+        
+        <a class="btn success" id="add" href="/computers/new">Add a new computer</a>
+        
+    </div>
+    
+    
+        
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    
+    <th class="col2 header headerSortUp">
+        <a href="/computers?s=-2">Computer name</a>
+    </th>
+
+                    
+    <th class="col3 header ">
+        <a href="/computers?s=3">Introduced</a>
+    </th>
+
+                    
+    <th class="col4 header ">
+        <a href="/computers?s=4">Discontinued</a>
+    </th>
+
+                    
+    <th class="col5 header ">
+        <a href="/computers?s=5">Company</a>
+    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                        <tr>
+                            <td><a href="/computers/72431">A</a></td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/525">ASUS Eee PC 1005PE</a></td>
+                            <td>
+                                01 Jan 2010
+                            </td>
+                            <td>
+                                 <em>-</em> 
+                            </td>
+                            <td>
+                                ASUS
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72410">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72411">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72415">Aa</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72682">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72749">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72790">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72848">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><a href="/computers/72889">Aaf</a></td>
+                            <td>
+                                11 Nov 2019
+                            </td>
+                            <td>
+                                19 Nov 2020
+                            </td>
+                            <td>
+                                Apple Inc.
+                            </td>
+                        </tr>
+                    
+
+            </tbody>
+        </table>
+
+        <div id="pagination" class="pagination">
+            <ul>
+                
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                
+                <li class="current">
+                    <a>Displaying 1 to 10 of 69585</a>
+                </li>
+                
+                    <li class="next">
+                        <a href="/computers?p=1">Next &rarr;</a>
+                    </li> 
+                
+            </ul>
+        </div>
+        
+    
+
+        
+
+        </section>
+        
+    </body>
+</html>
+
+
+            
+<<<<<<<<<<<<<<<<<<<<<<<<<

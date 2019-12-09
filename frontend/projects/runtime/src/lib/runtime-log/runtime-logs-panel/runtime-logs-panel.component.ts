@@ -55,7 +55,7 @@ export class RuntimeLogsPanelComponent implements OnDestroy {
     this.service.cancel(log);
   }
 
-  closeFinishedTasks() {
+  closeTerminatedLogs() {
     _.remove(this.tabs, (tab: LogTab) => {
       return tab.lastLog.status === 'CLOSED';
     });

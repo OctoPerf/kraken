@@ -1,12 +1,15 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.command.Command;
+import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Log;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.scheduler.Schedulers;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;

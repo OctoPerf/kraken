@@ -92,7 +92,7 @@ describe('RuntimeLogsPanelComponent', () => {
     expect(publish).toHaveBeenCalledWith(new OpenLogsEvent());
   });
 
-  it('should close finished tasks', () => {
+  it('should close terminated logs', () => {
     component.tabs.push(
       {
         content: null,
@@ -115,7 +115,7 @@ describe('RuntimeLogsPanelComponent', () => {
       }
     );
     component.selectedIndex = 2;
-    component.closeFinishedTasks();
+    component.closeTerminatedLogs();
     expect(component.tabs.length).toBe(2);
     expect(component.selectedIndex).toBe(1);
   });

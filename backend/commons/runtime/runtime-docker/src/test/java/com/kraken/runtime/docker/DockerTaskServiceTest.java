@@ -8,6 +8,7 @@ import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
 import com.kraken.runtime.entity.*;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.function.Function;
 
@@ -33,8 +36,6 @@ public class DockerTaskServiceTest {
   @Mock
   Function<String, FlatContainer> stringToFlatContainer;
   @Mock
-  Function<TaskType, String> taskTypeToPath;
-  @Mock
   EnvironmentChecker envChecker;
   @Mock
   EnvironmentPublisher envPublisher;
@@ -47,7 +48,7 @@ public class DockerTaskServiceTest {
         commandService,
         logsService,
         stringToFlatContainer,
-        taskTypeToPath,
+        ApplicationPropertiesTest.APPLICATION_PROPERTIES,
         ImmutableList.of(envChecker),
         ImmutableList.of(envPublisher));
   }
@@ -57,7 +58,6 @@ public class DockerTaskServiceTest {
     final var applicationId = "applicationId";
     final var taskId = "taskId";
     final var taskType = TaskType.RUN;
-    final var path = "path";
 
     final var context = ExecutionContext.builder()
         .taskType(TaskType.RUN)
@@ -71,10 +71,9 @@ public class DockerTaskServiceTest {
     given(envChecker.test(taskType)).willReturn(true);
     given(envPublisher.test(taskType)).willReturn(true);
     given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
-    given(taskTypeToPath.apply(taskType)).willReturn(path);
 
     final var executeCmd = Command.builder()
-        .path(path)
+        .path("testDir/taskId")
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "up",
@@ -112,14 +111,12 @@ public class DockerTaskServiceTest {
     final var applicationId = "applicationId";
     final var taskId = TaskTest.TASK.getId();
     final var taskType = TaskType.RUN;
-    final var path = "path";
 
     given(envPublisher.test(taskType)).willReturn(true);
     given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
-    given(taskTypeToPath.apply(taskType)).willReturn(path);
 
     final var cancelCmd = Command.builder()
-        .path(taskTypeToPath.apply(taskType))
+        .path("testDir/id")
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "down"))

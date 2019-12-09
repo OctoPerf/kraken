@@ -37,12 +37,12 @@ describe('RuntimeLogsComponent', () => {
   it('should append text', fakeAsync(() => {
     logs.next({applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'RUNNING', text: 'text'});
     tick(100);
-    expect(component.codeEditor.appendText).toHaveBeenCalledWith('\n\rtext');
+    expect(component.codeEditor.appendText).toHaveBeenCalledWith('text\n');
   }));
 
   it('should append text CANCELLING', fakeAsync(() => {
     logs.next({applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'CANCELLING', text: 'text'});
     tick(100);
-    expect(component.codeEditor.appendText).toHaveBeenCalledWith('\n\rtext');
+    expect(component.codeEditor.appendText).toHaveBeenCalledWith('text\n');
   }));
 });

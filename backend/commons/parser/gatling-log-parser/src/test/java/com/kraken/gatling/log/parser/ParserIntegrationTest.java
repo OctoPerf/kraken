@@ -27,4 +27,12 @@ public class ParserIntegrationTest {
     assertThat(entries).isNotNull();
     assertThat(entries.size()).isEqualTo(13);
   }
+
+  @Test
+  public void shouldHandleGatlingFile2() {
+    final var path = Paths.get("testDir/debug.log");
+    final var entries = parser.parse(path).take(Duration.ofSeconds(3)).collectList().block();
+    assertThat(entries).isNotNull();
+    assertThat(entries.size()).isEqualTo(13);
+  }
 }

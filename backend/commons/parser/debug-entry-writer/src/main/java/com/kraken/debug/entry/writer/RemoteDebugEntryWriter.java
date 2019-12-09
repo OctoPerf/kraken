@@ -27,6 +27,10 @@ class RemoteDebugEntryWriter implements DebugEntryWriter {
   @Override
   public Flux<DebugEntry> write(final Flux<DebugEntry> entries) {
     return entries.map(entry -> entry.withResultId(this.containerProperties.getTaskId()))
-        .flatMap(client::debug);
+        .flatMap(client::debug)
+        .map(debugEntry -> {
+          log.info("Send debug entry " + debugEntry.getRequestName());
+          return debugEntry;
+        });
   }
 }
