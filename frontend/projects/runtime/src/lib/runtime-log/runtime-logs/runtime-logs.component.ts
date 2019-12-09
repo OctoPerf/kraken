@@ -24,7 +24,7 @@ export class RuntimeLogsComponent implements OnDestroy, AfterViewInit {
     this.subscription = this.logs
       .pipe(filter((_logs: Log) => _logs.status === 'RUNNING' || _logs.status === 'CANCELLING'),
         delay(1)) // Gives time to the code editor for a refresh
-      .subscribe(logs => this.codeEditor.appendText(logs.text));
+      .subscribe(logs => this.codeEditor.appendText('\n\r' + logs.text));
   }
 
   ngOnDestroy() {
