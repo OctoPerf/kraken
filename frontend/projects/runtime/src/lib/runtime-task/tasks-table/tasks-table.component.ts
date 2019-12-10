@@ -80,9 +80,11 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   }
 
   set tasks(tasks: Task[]) {
-    if (this.hasSelection) {
-      this.selection = _.find(tasks, {id: this.selection.id});
-    }
+    const taskId = this.hasSelection ? this.selection.id : null;
+    const first = _.first(_.filter(tasks, (task: Task) => task.status !== 'DONE'));
+    const currentNotDone = _.find(tasks, (task: Task) => task.id === taskId && task.status !== 'DONE');
+    const current = _.find(tasks, {id: taskId});
+    this.selection = currentNotDone || first || current;
     this.dataSource = new MatTableDataSource(tasks);
     this.dataSource.sort = this.sort;
     this.loading = false;

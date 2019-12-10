@@ -40,6 +40,10 @@ class PathToLines implements Function<Path, Flux<String>> {
             br.close();
           }
           Thread.sleep(1000);
+        } catch (InterruptedException i) {
+          log.info("Log file reading interrupted");
+          running = false;
+          sink.complete();
         } catch (Exception e) {
           log.error("Error while reading log file", e);
           running = false;

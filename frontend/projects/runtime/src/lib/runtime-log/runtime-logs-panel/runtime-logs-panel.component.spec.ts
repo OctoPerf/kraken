@@ -8,6 +8,7 @@ import {runtimeLogServiceSpy} from 'projects/runtime/src/lib/runtime-log/runtime
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
 import SpyObj = jasmine.SpyObj;
 import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
+import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 
 describe('RuntimeLogsPanelComponent', () => {
   let component: RuntimeLogsPanelComponent;
@@ -53,11 +54,13 @@ describe('RuntimeLogsPanelComponent', () => {
   });
 
   it('should close and update selectedIndex', () => {
+    const publish = spyOn(eventBus, 'publish');
     component.tabs.push({} as any);
     component.selectedIndex = 0;
     component.close(0);
     expect(component.tabs.length).toBe(0);
     expect(component.selectedIndex).toBe(-1);
+    expect(publish).toHaveBeenCalledWith(new OpenTasksEvent());
   });
 
   it('should stop logs', () => {

@@ -13,6 +13,7 @@ import {
 } from 'projects/runtime/src/lib/runtime-log/runtime-logs/runtime-logs.component';
 import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-log.service';
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
+import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 
 export interface LogTab {
   content: ComponentPortal<RuntimeLogsComponent>;
@@ -64,6 +65,9 @@ export class RuntimeLogsPanelComponent implements OnDestroy {
 
   _updateSelectedIndex(index: number) {
     this.selectedIndex = Math.min(Math.max(index, 0), this.tabs.length - 1);
+    if (!this.tabs.length) {
+      this.eventBus.publish(new OpenTasksEvent());
+    }
   }
 
   _onLog(log: Log) {

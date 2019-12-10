@@ -13,6 +13,8 @@ import * as _ from 'lodash';
 import SpyObj = jasmine.SpyObj;
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
+import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
+import {Task} from 'projects/runtime/src/lib/entities/task';
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
@@ -104,6 +106,67 @@ describe('TaskTableComponent', () => {
     component.tasks = tasks;
     expect(component.selection).toBe(tasks[0]);
     expect(component.selection).not.toBe(task);
+  });
+
+  it('should set tasks unselect', () => {
+    const tasks = [];
+    component.selection = testTask();
+    component.tasks = tasks;
+    expect(component.hasSelection).toBeFalse();
+  });
+
+  it('should set tasks update selection first not done', () => {
+    const tasks: Task[] = [
+      {
+        id: 'id1',
+        startDate: 0,
+        status: 'DONE',
+        type: 'RUN',
+        containers: testContainers(),
+        expectedCount: 2,
+        description: 'description1'
+      },
+      {
+        id: 'id2',
+        startDate: 0,
+        status: 'READY',
+        type: 'RUN',
+        containers: testContainers(),
+        expectedCount: 2,
+        description: 'description2'
+      }
+    ];
+    const task = _.cloneDeep(tasks[0]);
+    component.selection = task;
+    component.tasks = tasks;
+    expect(component.selection).toBe(tasks[1]);
+  });
+
+  it('should set tasks update selection current done', () => {
+    const tasks: Task[] = [
+      {
+        id: 'id1',
+        startDate: 0,
+        status: 'DONE',
+        type: 'RUN',
+        containers: testContainers(),
+        expectedCount: 2,
+        description: 'description1'
+      },
+      {
+        id: 'id2',
+        startDate: 0,
+        status: 'DONE',
+        type: 'RUN',
+        containers: testContainers(),
+        expectedCount: 2,
+        description: 'description2'
+      }
+    ];
+    const task = _.cloneDeep(tasks[0]);
+    component.selection = task;
+    component.tasks = tasks;
+    expect(component.selection).toBe(tasks[0]);
   });
 
   it('should cancel task', () => {

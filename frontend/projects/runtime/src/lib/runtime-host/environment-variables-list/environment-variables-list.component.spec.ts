@@ -65,4 +65,18 @@ describe('EnvironmentVariablesListComponent', () => {
     expect(component.envKeyChildren.last.nativeElement.focus).toHaveBeenCalled();
   }));
 
+
+  it('should remove variable', () => {
+    component.envKeyChildren = {
+      last: {
+        nativeElement: {
+          focus: jasmine.createSpy('focus')
+        }
+      }
+    } as any;
+    component.addVariable();
+    expect(component.variables.length).toBe(1);
+    component.removeVariable(0);
+    expect(component.variables.length).toBe(0);
+  });
 });
