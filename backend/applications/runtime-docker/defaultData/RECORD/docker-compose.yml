@@ -2,8 +2,8 @@ version: '3.5'
 
 networks:
   kraken:
-    name: ${KRAKEN_DOCKER_NETWORK_NAME}
-    external: ${KRAKEN_DOCKER_NETWORK_EXTERNAL}
+    name: kraken
+    external: true
 
 services:
   kraken-har-parser:
