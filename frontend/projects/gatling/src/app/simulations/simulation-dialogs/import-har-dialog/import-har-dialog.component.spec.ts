@@ -57,7 +57,7 @@ describe('ImportHarDialogComponent', () => {
     component.import();
     expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionContext(
       'RECORD',
-      'Import har harPath',
+      'Import har .',
       {
         KRAKEN_GATLING_SIMULATION_CLASS: '',
         KRAKEN_GATLING_SIMULATION_PACKAGE: '',

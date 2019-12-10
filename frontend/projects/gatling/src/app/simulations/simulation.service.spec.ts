@@ -175,7 +175,7 @@ object Search {
     dialogs.open.and.returnValue(of(context));
     tasks.execute.and.returnValue(of('taskId'));
     service.importHar({path: 'gatling/user-files/simulations/test.har'} as any);
-    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: 'test.har'});
+    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: 'gatling/user-files/simulations/test.har'});
     expect(tasks.execute).toHaveBeenCalledWith(context);
   });
 

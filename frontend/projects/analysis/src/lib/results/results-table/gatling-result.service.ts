@@ -56,7 +56,7 @@ export class GatlingResultService {
   }
 
   canOpenGrafanaReport(result: Result) {
-    return result && (result.type === 'RUN' && result.status !== 'FAILED');
+    return result && (result.type === 'RUN');
   }
 
   canOpenGatlingReport(result: Result) {
@@ -64,6 +64,6 @@ export class GatlingResultService {
   }
 
   canDeleteResult(result: Result) {
-    return result && (result.status === 'COMPLETED' || result.status === 'CANCELED' || result.status === 'FAILED');
+    return result && (result.status === 'COMPLETED' || result.status === 'CANCELED');
   }
 }

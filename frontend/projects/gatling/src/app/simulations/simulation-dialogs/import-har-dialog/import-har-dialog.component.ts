@@ -48,7 +48,7 @@ export class ImportHarDialogComponent {
     hosts[hostId] = {};
     const context = new ExecutionContext(
       'RECORD',
-      `Import har ${this.simulationClass.value}.${this.simulationPackage.value}`,
+      `Import har ${this.simulationPackage.value}.${this.simulationClass.value}`,
       {
         KRAKEN_GATLING_SIMULATION_CLASS: this.simulationClass.value,
         KRAKEN_GATLING_SIMULATION_PACKAGE: this.simulationPackage.value,

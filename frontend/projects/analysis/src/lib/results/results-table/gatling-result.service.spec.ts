@@ -118,13 +118,11 @@ describe('GatlingResultService', () => {
   });
 
   it('should canOpenGrafanaReport', () => {
-    expect(service.canOpenGrafanaReport(testResultStatus('FAILED'))).toBeFalsy();
     expect(service.canOpenGrafanaReport(testResultStatus('RUNNING'))).toBeTruthy();
     expect(service.canOpenGrafanaReport(testResultDebug())).toBeFalsy();
   });
 
   it('should canOpenGatlingReport', () => {
-    expect(service.canOpenGatlingReport(testResultStatus('FAILED'))).toBeFalsy();
     expect(service.canOpenGatlingReport(testResultStatus('COMPLETED'))).toBeTruthy();
     expect(service.canOpenGatlingReport(testResultStatus('CANCELED'))).toBeTruthy();
   });
@@ -133,7 +131,6 @@ describe('GatlingResultService', () => {
     expect(service.canDeleteResult(testResultStatus('RUNNING'))).toBeFalsy();
     expect(service.canDeleteResult(testResultStatus('COMPLETED'))).toBeTruthy();
     expect(service.canDeleteResult(testResultStatus('CANCELED'))).toBeTruthy();
-    expect(service.canDeleteResult(testResultStatus('FAILED'))).toBeTruthy();
   });
 });
 

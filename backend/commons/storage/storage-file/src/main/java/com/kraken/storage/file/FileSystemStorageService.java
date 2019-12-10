@@ -142,7 +142,7 @@ final class FileSystemStorageService implements StorageService {
       final var completePath = this.stringToPath(path);
       final var parent = completePath.getParent().toFile();
       if (!parent.exists() && !parent.mkdirs()) {
-        throw new IOException("Failed to create directory " + path);
+        throw new IOException("Failed to create directory " + parent.getPath());
       }
       Files.write(completePath, content.getBytes(UTF_8));
       return this.toStorageNode.apply(completePath);
