@@ -37,9 +37,9 @@ export class ResultsTableComponent implements OnInit {
     {
       STARTING: new IconFa(faCircleNotch, 'muted', '', true),
       RUNNING: new IconFa(faCircleNotch, 'primary', '', true),
+      STOPPING: new IconFa(faCircleNotch, 'success', '', true),
       COMPLETED: new IconFa(faCheckSquare, 'success'),
       CANCELED: new IconFa(faExclamationTriangle, 'warn'),
-      FAILED: new IconFa(faExclamationCircle, 'error'),
     }
   );
   readonly typeIcon = new IconDynamic(
@@ -52,7 +52,7 @@ export class ResultsTableComponent implements OnInit {
   );
 
   dataSource: MatTableDataSource<Result>;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(public gatling: GatlingResultService,
               public results: ResultsTableService) {

@@ -5,9 +5,7 @@ public enum ResultStatus {
   RUNNING(false),
   STOPPING(false),
   COMPLETED(true),
-  CANCELED(true),
-//  TODO a supprimer ?
-  FAILED(true);
+  CANCELED(true);
 
   ResultStatus(boolean terminal) {
     this.terminal = terminal;
