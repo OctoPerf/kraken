@@ -5,7 +5,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from './error-interceptor.service';
 import {EventModule} from 'projects/event/src/lib/event.module';
 import {ENVIRONMENT} from 'projects/commons/src/lib/config/configuration-environment';
-import {ExecutorApplicationIdService} from 'projects/commons/src/lib/config/executor-application-id.service';
+import {RuntimeApplicationIdService} from 'projects/commons/src/lib/config/runtime-application-id.service';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import {ExecutorApplicationIdService} from 'projects/commons/src/lib/config/exec
   providers: [
     {provide: APP_INITIALIZER, useFactory: loadConfiguration, deps: [ConfigurationService], multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ExecutorApplicationIdService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: RuntimeApplicationIdService, multi: true},
   ]
 })
 export class ConfigurationModule {

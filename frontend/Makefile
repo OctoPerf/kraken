@@ -3,9 +3,10 @@
 # Node.js and Docker are required to run this Makefile
 
 setup:
-	sudo npm install -g @angular/cli
+	sudo npm i -g @angular/cli
 	sudo npm i -g npm-check-updates
 	sudo npm i -g http-server
+	sudo npm i -g webpack-bundle-analyzer
 	npm install
 
 clean:
@@ -48,3 +49,9 @@ build-prod: clean
 build-test: clean
 	npm run ng-high-memory -- build $(APP) --prod --sourceMap=true
 	http-server ./dist/$(APP) -o -p 8181
+
+size-check:
+	npm run ng-high-memory -- build $(APP) --stats-json
+	webpack-bundle-analyzer ./dist/$(APP)/stats-es2015.json
+
+

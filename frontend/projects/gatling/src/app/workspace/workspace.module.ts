@@ -20,6 +20,7 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 
 @NgModule({
   declarations: [

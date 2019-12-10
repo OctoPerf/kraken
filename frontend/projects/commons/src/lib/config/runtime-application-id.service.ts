@@ -3,7 +3,7 @@ import {ConfigurationService} from 'projects/commons/src/lib/config/configuratio
 import {ApplicationIdHeaderInterceptor} from 'projects/commons/src/lib/config/application-id-header-interceptor.service';
 
 @Injectable()
-export class ExecutorApplicationIdService extends ApplicationIdHeaderInterceptor {
+export class RuntimeApplicationIdService extends ApplicationIdHeaderInterceptor {
 
   constructor(configuration: ConfigurationService) {
     super(configuration, () => [configuration.runtimeApiUrl]);

@@ -2,9 +2,9 @@ import {HttpHandler, HttpRequest} from '@angular/common/http';
 import {ApplicationIdHeaderInterceptor} from 'projects/commons/src/lib/config/application-id-header-interceptor.service';
 import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
-import {ExecutorApplicationIdService} from 'projects/commons/src/lib/config/executor-application-id.service';
+import {RuntimeApplicationIdService} from 'projects/commons/src/lib/config/runtime-application-id.service';
 
-describe('ExecutorApplicationIdService', () => {
+describe('RuntimeApplicationIdService', () => {
 
   let interceptor: ApplicationIdHeaderInterceptor;
   let next: HttpHandler;
@@ -12,7 +12,7 @@ describe('ExecutorApplicationIdService', () => {
 
   beforeEach(() => {
     configuration = configurationServiceMock();
-    interceptor = new ExecutorApplicationIdService(configuration);
+    interceptor = new RuntimeApplicationIdService(configuration);
     next = jasmine.createSpyObj('next', ['handle']);
   });
 

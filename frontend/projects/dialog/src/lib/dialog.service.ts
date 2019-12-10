@@ -12,9 +12,7 @@ import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DialogService {
 
   constructor(public dialog: MatDialog) {

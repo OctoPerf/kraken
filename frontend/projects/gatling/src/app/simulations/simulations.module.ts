@@ -18,6 +18,7 @@ import {UploadHarMenuItemComponent} from './upload-har-menu-item/upload-har-menu
 import {ImportHarMenuItemComponent} from './import-har-menu-item/import-har-menu-item.component';
 import {DebugSimulationMenuItemComponent} from 'projects/gatling/src/app/simulations/debug-simulation-menu-item/debug-simulation-menu-item.component';
 import {DebugSimulationNodeButtonComponent} from 'projects/gatling/src/app/simulations/debug-simulation-node-button/debug-simulation-node-button.component';
+import {SimulationDialogsModule} from 'projects/gatling/src/app/simulations/simulation-dialogs/simulation-dialogs.module';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import {DebugSimulationNodeButtonComponent} from 'projects/gatling/src/app/simul
     SimulationNodeButtonsComponent,
     SimulationContextualMenuComponent,
     SimulationEditorComponent,
+    SimulationDialogsModule,
   ],
   entryComponents: [
     SimulationNodeButtonsComponent,
