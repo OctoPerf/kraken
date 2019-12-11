@@ -6,6 +6,7 @@ import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-e
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
+import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 
 @Injectable()
 export class RuntimeLogService implements OnDestroy {
@@ -30,6 +31,17 @@ export class RuntimeLogService implements OnDestroy {
     );
 
     this.subscriptions.push(
+      this.eventBus.of<TaskCancelledEvent>(TaskCancelledEvent.CHANNEL)
+        .subscribe(event => {
+          this.logLabels.set(event.task.id, {
+            name: event.task.description,
+            title: `${event.task.type} task ${event.task.description}`,
+          });
+          this.logLabelsChanged.emit();
+        })
+    );
+
+    this.subscriptions.push(
       this.eventBus.of<LogsAttachedEvent>(LogsAttachedEvent.CHANNEL)
         .subscribe(event => {
           this.logLabels.set(event.logsId, {
@@ -46,7 +58,7 @@ export class RuntimeLogService implements OnDestroy {
   }
 
   public cancel(log: Log): void {
-    this.runtimeContainerService.detachLogs(log.id);
+    this.runtimeContainerService.detachLogs(log.id).subscribe();
   }
 
   public label(id: string): { name: string, title: string } | undefined {

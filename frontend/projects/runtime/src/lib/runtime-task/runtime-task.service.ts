@@ -40,12 +40,12 @@ export class RuntimeTaskService implements OnDestroy {
       .pipe(tap(data => this.eventBus.publish(new TasksRefreshEvent(data))));
   }
 
-  cancel(taskId: string, taskType: TaskType): Observable<string> {
-    return this.http.delete(this.runtimeConfiguration.taskApiUrl(`/cancel/${taskType}`),
+  cancel(task: Task): Observable<string> {
+    return this.http.delete(this.runtimeConfiguration.taskApiUrl(`/cancel/${task.type}`),
       {
         responseType: 'text',
-        params: {taskId}
-      }).pipe(tap(id => this.eventBus.publish(new TaskCancelledEvent(id))));
+        params: {taskId: task.id}
+      }).pipe(tap(id => this.eventBus.publish(new TaskCancelledEvent(task))));
   }
 
   execute(context: ExecutionContext): Observable<string> {

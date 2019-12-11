@@ -13,12 +13,10 @@ import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
 import {testContainer} from 'projects/runtime/src/lib/entities/container.spec';
 import {Log} from 'projects/runtime/src/lib/entities/log';
-import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
-import {BaseNotification} from 'projects/notification/src/lib/base-notification';
-import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
-import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
-import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
+import {of} from 'rxjs';
+import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
+import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 
 export const runtimeLogServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeLogService', [
@@ -60,7 +58,7 @@ describe('RuntimeLogService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should handle task events', () => {
+  it('should handle task executed event', () => {
     let count = 0;
     service.logLabelsChanged.subscribe(() => count++);
     const taskId = 'taskId';
@@ -69,6 +67,17 @@ describe('RuntimeLogService', () => {
     expect(service.label(taskId)).toEqual({name: 'description', title: 'RUN task description'});
     service.removeLabel(taskId);
     expect(service.label(taskId)).toBeUndefined();
+    expect(count).toBe(1);
+  });
+
+  it('should handle task cancel event', () => {
+    let count = 0;
+    service.logLabelsChanged.subscribe(() => count++);
+    const task = testTask();
+    eventBus.publish(new TaskCancelledEvent(task));
+    expect(service.label(task.id)).toEqual({name: 'description', title: 'RUN task description'});
+    service.removeLabel(task.id);
+    expect(service.label(task.id)).toBeUndefined();
     expect(count).toBe(1);
   });
 
@@ -85,6 +94,7 @@ describe('RuntimeLogService', () => {
   });
 
   it('should cancel container log', () => {
+    runtimeContainerService.detachLogs.and.returnValue(of('true'));
     const log: Log = {applicationId: 'applicationId', id: 'id', type: 'CONTAINER', text: 'text', status: 'RUNNING'};
     service.cancel(log);
     expect(runtimeContainerService.detachLogs).toHaveBeenCalledWith('id');

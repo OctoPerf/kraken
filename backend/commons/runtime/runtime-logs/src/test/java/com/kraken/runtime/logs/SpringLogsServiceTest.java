@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -77,25 +78,20 @@ public class SpringLogsServiceTest {
   }
 
   @Test
-  public void shouldCancelLogs() {
+  public void shouldCancelLogs() throws InterruptedException {
     final var applicationId0 = "applicationId0";
     final var log0 = "log0";
     final var logsEmitter0 = Flux.interval(Duration.ofMillis(100)).map(aLong -> log0 + " at " + 100 * (aLong + 1));
     service.push(applicationId0, log0, LogType.CONTAINER, logsEmitter0);
-
-    new Thread(() -> {
-      try {
-        Thread.sleep(1000);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      service.dispose(log0);
-    }).start();
-
-    final var app0Logs = service.listen(applicationId0).take(Duration.ofMillis(2000)).collectList().block();
+    final var app0Logs = new ArrayList<Log>();
+    final var disposable = service.listen(applicationId0).subscribeOn(Schedulers.elastic()).subscribe(app0Logs::add);
+    Thread.sleep(3000);
+    service.dispose(applicationId0, log0, LogType.CONTAINER);
+    Thread.sleep(1000);
+    disposable.dispose();
     assertThat(app0Logs).isNotNull();
-    // 1000 ms / 100 => 10 logs max then cancel
-    assertThat(app0Logs.size()).isLessThan(11);
+    assertThat(app0Logs.size()).isEqualTo(3);
+    assertThat(app0Logs.get(app0Logs.size() - 1).getStatus()).isEqualTo(LogStatus.CLOSED);
   }
 
   @Test
@@ -126,7 +122,7 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldCancelNope() {
-    assertThat(service.dispose("nope")).isFalse();
+    assertThat(service.dispose("nope","nope", LogType.CONTAINER)).isFalse();
   }
 
 

@@ -9,7 +9,7 @@ public interface LogsService {
 
   Flux<Log> listen(String applicationId);
 
-  boolean dispose(String id);
+  boolean dispose(String applicationId, String id, LogType type);
 
   Disposable push(String applicationId, String id, LogType type, Flux<String> logs);
 
