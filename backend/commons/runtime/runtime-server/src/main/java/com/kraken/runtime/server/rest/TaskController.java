@@ -4,7 +4,7 @@ import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
-import com.kraken.runtime.server.service.ResultUpdater;
+import com.kraken.runtime.server.service.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.unique.id.IdGenerator;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 @Validated
 public class TaskController {
 
-  @NonNull ResultUpdater resultUpdater;
+  @NonNull TaskUpdateHandler taskUpdateHandler;
   @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
   @NonNull SSEService sse;
@@ -44,7 +43,7 @@ public class TaskController {
                           @RequestBody() final ExecutionContext context) {
     log.info(String.format("Execute %s task", context.getTaskType()));
     return taskService.execute(context.withApplicationId(applicationId).withTaskId(idGenerator.generate()))
-        .flatMap(resultUpdater::taskExecuted);
+        .flatMap(taskUpdateHandler::taskExecuted);
   }
 
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
@@ -52,7 +51,7 @@ public class TaskController {
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
-    return taskService.cancel(applicationId, taskId, type).flatMap(aVoid -> resultUpdater.taskCanceled(taskId));
+    return taskService.cancel(applicationId, taskId, type).flatMap(aVoid -> taskUpdateHandler.taskCanceled(taskId));
   }
 
   @GetMapping(value = "/watch")

@@ -81,6 +81,8 @@ final class SpringLogsService implements LogsService {
         .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
         .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
         .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
+        // TODO A tester dans un cas simple les doOn et les Concat
+        .doAfterTerminate(() -> this.add(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(this::add);

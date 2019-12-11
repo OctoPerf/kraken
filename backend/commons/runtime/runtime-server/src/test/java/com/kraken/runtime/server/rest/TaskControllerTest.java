@@ -8,7 +8,7 @@ import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
-import com.kraken.runtime.server.service.ResultUpdater;
+import com.kraken.runtime.server.service.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
@@ -53,7 +53,7 @@ public class TaskControllerTest {
   TaskListService taskListService;
 
   @MockBean
-  ResultUpdater updater;
+  TaskUpdateHandler updater;
 
   @MockBean
   SSEService sse;

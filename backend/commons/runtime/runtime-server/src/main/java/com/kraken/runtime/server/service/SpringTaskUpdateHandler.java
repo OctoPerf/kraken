@@ -8,6 +8,7 @@ import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.logs.LogsService;
 import com.kraken.storage.entity.StorageNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,6 @@ import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -30,12 +30,13 @@ import java.util.stream.Collectors;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
-final class SpringResultUpdater implements ResultUpdater {
+final class SpringTaskUpdateHandler implements TaskUpdateHandler {
 
   @NonNull TaskListService taskListService;
   @NonNull AnalysisClient analysisClient;
   @NonNull Function<TaskType, ResultType> taskTypeToResultType;
   @NonNull Function<ContainerStatus, ResultStatus> taskStatusToResultStatus;
+  @NonNull LogsService logsService;
 
   @PostConstruct
   public void start() {
@@ -62,6 +63,47 @@ final class SpringResultUpdater implements ResultUpdater {
   @Override
   public Mono<String> taskCanceled(final String taskId) {
     return analysisClient.setStatus(taskId, ResultStatus.CANCELED).map(storageNode -> taskId);
+  }
+
+  @Override
+  public Flux<List<Task>> scanForUpdates() {
+    return taskListService.watch()
+        .scan((previousTasks, currentTasks) -> {
+          final var previousMap = previousTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));
+          final var currentMap = currentTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));
+          previousTasks.stream().filter(task -> !currentMap.containsKey(task.getId())).forEach(task -> this.taskRemoved(task).subscribe());
+          currentTasks.stream().filter(task -> !previousMap.containsKey(task.getId())).forEach(task -> this.taskCreated(task).subscribe());
+          currentTasks.stream().filter(task -> previousMap.containsKey(task.getId()))
+              .filter(task -> previousMap.get(task.getId()).getStatus() != task.getStatus())
+              .forEach(task -> this.taskStatusUpdated(task).subscribe());
+          return currentTasks;
+        });
+  }
+
+  @Override
+  public Mono<Void> taskCreated(Task task) {
+    if (task.getStatus() != ContainerStatus.DONE) {
+      return setResultStatus(task).then();
+    }
+    return Mono.empty();
+  }
+
+  @Override
+  public Mono<Void> taskStatusUpdated(Task task) {
+    if (task.getStatus() == ContainerStatus.DONE) {
+      //logsService.dispose();
+    }
+    return setResultStatus(task).then();
+  }
+
+  @Override
+  public Mono<Void> taskRemoved(Task task) {
+    return Mono.fromCallable(() -> {
+//      TODO ajouter l'applicationId sur les taches et containers ... FUUUU
+//      TODO ou se demerder pour que le logService envoie bien un log de fin dans tous les cas
+//      logsService.dispose(task.)
+      return null;
+    });
   }
 
   private Flux<StorageNode> setResultsStatuses(final List<Task> tasks) {

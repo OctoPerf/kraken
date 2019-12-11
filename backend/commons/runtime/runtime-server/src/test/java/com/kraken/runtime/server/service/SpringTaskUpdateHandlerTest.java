@@ -1,12 +1,10 @@
 package com.kraken.runtime.server.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.*;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
@@ -28,7 +26,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SpringResultUpdaterTest {
+public class SpringTaskUpdateHandlerTest {
 
   @Mock
   TaskListService taskListService;
@@ -36,11 +34,11 @@ public class SpringResultUpdaterTest {
   @Mock
   AnalysisClient analysisClient;
 
-  SpringResultUpdater updater;
+  SpringTaskUpdateHandler updater;
 
   @Before
   public void before() {
-    this.updater = new SpringResultUpdater(taskListService, analysisClient, new TaskTypeToResultType(), new TaskStatusToResultStatus());
+    this.updater = new SpringTaskUpdateHandler(taskListService, analysisClient, new TaskTypeToResultType(), new TaskStatusToResultStatus());
   }
 
   @Test
