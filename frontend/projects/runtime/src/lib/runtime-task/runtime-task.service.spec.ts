@@ -7,7 +7,7 @@ import {HttpTestingController} from '@angular/common/http/testing';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {runtimeConfigurationServiceSpy} from 'projects/runtime/src/lib/runtime-configuration.service.spec';
-import {testTasks} from 'projects/runtime/src/lib/entities/task.spec';
+import {testTask, testTasks} from 'projects/runtime/src/lib/entities/task.spec';
 import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
 import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
@@ -61,14 +61,13 @@ describe('RuntimeTaskService', () => {
 
   it('should cancel', () => {
     const publish = spyOn(eventBus, 'publish');
-    const taskId = 'taskId';
-    const taskType = 'RUN';
-    service.cancel(taskId, taskType).subscribe(data => expect(data).toBe(taskId), () => fail('cancel failed'));
-    const request = httpTestingController.expectOne(req => req.url === 'taskApiUrl/task/cancel/RUN');
+    const task = testTask();
+    service.cancel(task).subscribe(data => expect(data).toBe(task.id), () => fail('cancel failed'));
+    const request = httpTestingController.expectOne(req => req.url === 'taskApiUrl/task/cancel/' + task.type);
     expect(request.request.method).toBe('DELETE');
-    expect(request.request.params.get('taskId')).toBe(taskId);
-    request.flush(taskId);
-    expect(publish).toHaveBeenCalledWith(new TaskCancelledEvent(taskId));
+    expect(request.request.params.get('taskId')).toBe(task.id);
+    request.flush(task.id);
+    expect(publish).toHaveBeenCalledWith(new TaskCancelledEvent(task));
   });
 
   it('should execute', () => {

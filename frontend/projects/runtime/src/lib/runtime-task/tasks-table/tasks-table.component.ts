@@ -76,7 +76,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   public cancel(task: Task) {
     this.dialogs.confirm('Cancel Task', 'Are you sure you want to cancel this task execution?')
-      .subscribe(() => this.taskService.cancel(task.id, task.type).subscribe());
+      .subscribe(() => this.taskService.cancel(task).subscribe());
   }
 
   set tasks(tasks: Task[]) {

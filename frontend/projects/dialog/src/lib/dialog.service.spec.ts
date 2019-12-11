@@ -39,6 +39,7 @@ describe('DialogService', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: MatDialog, useValue: jasmine.createSpyObj('MatDialog', ['open'])},
+        DialogService
       ]
     });
     service = TestBed.get(DialogService);

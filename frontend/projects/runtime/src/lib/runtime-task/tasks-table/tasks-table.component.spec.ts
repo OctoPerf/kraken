@@ -174,6 +174,6 @@ describe('TaskTableComponent', () => {
     taskService.cancel.and.returnValue(of('taskId'));
     const task = testTask();
     component.cancel(task);
-    expect(taskService.cancel).toHaveBeenCalledWith(task.id, task.type);
+    expect(taskService.cancel).toHaveBeenCalledWith(task);
   });
 });
