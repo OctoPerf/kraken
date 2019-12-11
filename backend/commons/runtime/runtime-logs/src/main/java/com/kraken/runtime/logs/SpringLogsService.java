@@ -79,8 +79,11 @@ final class SpringLogsService implements LogsService {
         .windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
         .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
         .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
-        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
-        .doOnTerminate(() -> subscriptions.remove(id))
+//        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
+        .doOnTerminate(() -> {
+          this.add(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build());
+          subscriptions.remove(id);
+        })
         .subscribeOn(Schedulers.elastic())
         .subscribe(this::add);
     this.subscriptions.put(id, subscription);

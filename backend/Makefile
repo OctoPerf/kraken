@@ -49,7 +49,7 @@ clean:
 	./gradlew $(APP):clean
 
 ip:
-	ip addr show | grep 192
+	hostname -I
 
 # Creates a Spring boot application jar
 # Example: make build APP=:applications:analysis
