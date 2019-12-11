@@ -90,7 +90,7 @@ public class DockerContainerServiceTest {
   @Test
   public void shouldDetachLogs() {
     service.detachLogs("appId", "id").block();
-    verify(logsService).dispose("id");
+    verify(logsService).dispose("appId", "id", LogType.CONTAINER);
   }
 
   @Test
