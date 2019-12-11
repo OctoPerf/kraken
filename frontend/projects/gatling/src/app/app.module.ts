@@ -8,6 +8,7 @@ import {AppRoutingModule} from 'projects/gatling/src/app/app-routing.module';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
+import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
     ConfigurationModule.forRoot(environment),
     AppRoutingModule,
     ComponentsModule,
+    HighlightModule,
   ],
   bootstrap: [AppComponent],
   providers: [

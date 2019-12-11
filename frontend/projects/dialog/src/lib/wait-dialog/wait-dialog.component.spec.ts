@@ -1,9 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {WaitDialogComponent} from './wait-dialog.component';
-import {DeleteDialogComponent} from 'projects/dialog/src/lib/delete-dialog/delete-dialog.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
+import {MAT_DIALOG_DATA} from '@angular/material';
 import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
 
 describe('WaitDialogComponent', () => {

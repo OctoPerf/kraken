@@ -6,6 +6,7 @@ import {ConfigurationModule} from 'projects/commons/src/lib/config/configuration
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {environment} from 'projects/administration/src/environments/environment';
 import {AppRoutingModule} from 'projects/administration/src/app/app-routing.module';
+import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {AppRoutingModule} from 'projects/administration/src/app/app-routing.modu
     ConfigurationModule.forRoot(environment),
     AppRoutingModule,
     ComponentsModule,
+    HighlightModule,
   ],
   bootstrap: [AppComponent]
 })
