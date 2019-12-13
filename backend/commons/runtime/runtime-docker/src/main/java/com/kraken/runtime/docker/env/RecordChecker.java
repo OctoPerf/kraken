@@ -19,6 +19,7 @@ class RecordChecker implements EnvironmentChecker {
         KRAKEN_DESCRIPTION,
         KRAKEN_TASK_ID,
         KRAKEN_EXPECTED_COUNT,
+        KRAKEN_APPLICATION_ID,
         KRAKEN_ANALYSIS_URL,
         KRAKEN_RUNTIME_URL,
         KRAKEN_STORAGE_URL);

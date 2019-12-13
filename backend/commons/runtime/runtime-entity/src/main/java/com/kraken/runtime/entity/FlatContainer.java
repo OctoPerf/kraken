@@ -22,6 +22,7 @@ public class FlatContainer {
   @With
   ContainerStatus status;
   Integer expectedCount;
+  String applicationId;
 
   @JsonCreator
   FlatContainer(
@@ -34,7 +35,8 @@ public class FlatContainer {
       @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,
       @JsonProperty("status") final ContainerStatus status,
-      @JsonProperty("expectedCount") final Integer expectedCount) {
+      @JsonProperty("expectedCount") final Integer expectedCount,
+      @JsonProperty("applicationId") final String applicationId) {
     super();
     this.id = requireNonNull(id);
     this.name = requireNonNull(name);
@@ -46,5 +48,6 @@ public class FlatContainer {
     this.label = requireNonNull(label);
     this.description = requireNonNull(description);
     this.expectedCount = requireNonNull(expectedCount);
+    this.applicationId = requireNonNull(applicationId);
   }
 }

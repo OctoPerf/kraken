@@ -40,6 +40,7 @@ public class RunCheckerTest {
         .put(KRAKEN_DESCRIPTION, "value")
         .put(KRAKEN_TASK_ID, "value")
         .put(KRAKEN_EXPECTED_COUNT, "value")
+        .put(KRAKEN_APPLICATION_ID, "value")
         .put(KRAKEN_INFLUXDB_URL, "value")
         .put(KRAKEN_INFLUXDB_DATABASE, "value")
         .put(KRAKEN_INFLUXDB_USER, "value")

@@ -16,13 +16,14 @@ import java.util.function.Function;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",
+  public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",
       KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID,
       KrakenEnvironmentLabels.COM_KRAKEN_TASK_TYPE,
       KrakenEnvironmentLabels.COM_KRAKEN_CONTAINER_NAME,
       KrakenEnvironmentLabels.COM_KRAKEN_HOST_ID,
       KrakenEnvironmentLabels.COM_KRAKEN_EXPECTED_COUNT,
       KrakenEnvironmentLabels.COM_KRAKEN_LABEL,
+      KrakenEnvironmentLabels.COM_KRAKEN_APPLICATION_ID,
       KrakenEnvironmentLabels.COM_KRAKEN_DESCRIPTION);
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
@@ -38,7 +39,8 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
     final var hostId = split[6];
     final var expectedCount = split[7];
     final var label = split[8];
-    final var description = split[9];
+    final var applicationId = split[9];
+    final var description = split[10];
 
     var date = new Date().getTime();
     try {
@@ -58,6 +60,7 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
         .startDate(date)
         .status(ContainerStatus.parse(status))
         .expectedCount(Integer.valueOf(expectedCount))
+        .applicationId(applicationId)
         .build();
   }
 }

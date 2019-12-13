@@ -13,6 +13,7 @@ services:
       com.kraken/label: Telegraf
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN
@@ -38,6 +39,7 @@ services:
       com.kraken/label: Gatling Runner
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RUN

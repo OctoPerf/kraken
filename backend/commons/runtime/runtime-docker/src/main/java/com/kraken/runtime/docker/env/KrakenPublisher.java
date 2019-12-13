@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_EXPECTED_COUNT;
 
 @Component
 @AllArgsConstructor
@@ -31,11 +30,13 @@ class KrakenPublisher implements EnvironmentPublisher {
 
   @Override
   public Map<String, String> apply(final ExecutionContext context) {
-    return ImmutableMap.of(
-        KRAKEN_TASK_ID, context.getTaskId(),
-        KRAKEN_DESCRIPTION, context.getDescription(),
-        KRAKEN_EXPECTED_COUNT, runtimeServerProperties.getContainersCount().get(context.getTaskType()).toString(),
-        KRAKEN_VERSION, runtimeServerProperties.getVersion(),
-        KRAKEN_GATLING_JAVA_OPTS, javaOptsFactory.apply(context.getEnvironment()));
+    final var mapBuilder = ImmutableMap.<String, String>builder();
+    mapBuilder.put(KRAKEN_TASK_ID, context.getTaskId());
+    mapBuilder.put(KRAKEN_DESCRIPTION, context.getDescription());
+    mapBuilder.put(KRAKEN_EXPECTED_COUNT, runtimeServerProperties.getContainersCount().get(context.getTaskType()).toString());
+    mapBuilder.put(KRAKEN_APPLICATION_ID, context.getApplicationId());
+    mapBuilder.put(KRAKEN_VERSION, runtimeServerProperties.getVersion());
+    mapBuilder.put(KRAKEN_GATLING_JAVA_OPTS, javaOptsFactory.apply(context.getEnvironment()));
+    return mapBuilder.build();
   }
 }

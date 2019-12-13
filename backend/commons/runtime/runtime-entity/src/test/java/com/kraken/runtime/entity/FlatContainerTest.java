@@ -18,6 +18,7 @@ public class FlatContainerTest {
       .taskType(TaskType.RUN)
       .description("description")
       .expectedCount(2)
+      .applicationId("app")
       .build();
 
 

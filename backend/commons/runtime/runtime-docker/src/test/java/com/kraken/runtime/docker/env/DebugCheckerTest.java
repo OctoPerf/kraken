@@ -40,6 +40,7 @@ public class DebugCheckerTest {
         .put(KRAKEN_DESCRIPTION, "value")
         .put(KRAKEN_TASK_ID, "value")
         .put(KRAKEN_EXPECTED_COUNT, "value")
+        .put(KRAKEN_APPLICATION_ID, "value")
         .put(KRAKEN_ANALYSIS_URL, "value")
         .put(KRAKEN_RUNTIME_URL, "value")
         .put(KRAKEN_STORAGE_URL, "value")

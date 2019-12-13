@@ -15,6 +15,7 @@ public class TaskTest {
       .containers(ImmutableList.of())
       .expectedCount(2)
       .description("description")
+      .applicationId("app")
       .build();
 
 

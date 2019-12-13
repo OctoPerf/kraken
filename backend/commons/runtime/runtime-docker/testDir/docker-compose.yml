@@ -14,6 +14,7 @@ services:
       com.kraken/label: Container One
       com.kraken/description: Debug Task
       com.kraken/expectedCount: 2
+      com.kraken/applicationId: app
     container_name: containerOneId_READY
     image: nginx
     networks:
@@ -28,6 +29,7 @@ services:
       com.kraken/label: Container Two
       com.kraken/description: Debug Task
       com.kraken/expectedCount: 2
+      com.kraken/applicationId: app
     container_name: containerTwoId_DONE
     image: nginx
     networks:
@@ -42,6 +44,7 @@ services:
       com.kraken/label: Container Three
       com.kraken/description: Run Task
       com.kraken/expectedCount: 1
+      com.kraken/applicationId: app
     container_name: containerThreeId_STARTING
     image: octoperf/kraken-echo:latest
     networks:

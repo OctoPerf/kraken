@@ -19,6 +19,7 @@ services:
       com.kraken/label: HAR Parser
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD
@@ -43,6 +44,7 @@ services:
       com.kraken/label: Gatling Recorder
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
     environment:
       KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
       KRAKEN_TASK_TYPE: RECORD

@@ -31,6 +31,7 @@ final class SpringFlatContainersToTask implements FlatContainersToTask {
       final var taskType = first.getTaskType();
       final var description = first.getDescription();
       final var expectedCount = first.getExpectedCount();
+      final var applicationId = first.getApplicationId();
       final var minStatusOrdinal = containers.stream().map(FlatContainer::getStatus).map(Enum::ordinal).min(Integer::compareTo).orElse(0);
 
       final var taskStatus = containers.size() < expectedCount && minStatusOrdinal < ContainerStatus.RUNNING.ordinal() ? ContainerStatus.CREATING : ContainerStatus.values()[minStatusOrdinal];
@@ -43,6 +44,7 @@ final class SpringFlatContainersToTask implements FlatContainersToTask {
           .containers(containers.stream().map(dockerContainerToContainer).collect(Collectors.toList()))
           .expectedCount(first.getExpectedCount())
           .description(description)
+          .applicationId(applicationId)
           .build();
     });
   }
