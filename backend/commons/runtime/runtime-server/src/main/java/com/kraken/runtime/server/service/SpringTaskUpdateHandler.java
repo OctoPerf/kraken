@@ -44,6 +44,7 @@ final class SpringTaskUpdateHandler implements TaskUpdateHandler {
         .flatMap(this::setResultsStatuses)
         .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
         .onErrorResume(throwable -> Mono.empty())
+//        .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable))
         .subscribe();
   }
 

@@ -71,8 +71,10 @@ class GatlingParser {
         .collectList()
         .block()).orElse(Collections.emptyList()).forEach(log::info);
     waitFor(parse.map(DebugEntry::getRequestName)
-        .doOnError(t -> log.error("Failed to wait for task completion", t))
-        .doOnNext(log::info).onErrorResume(throwable -> Mono.empty()), runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(15));
+            .doOnError(t -> log.error("Failed to wait for task completion", t))
+            .doOnNext(log::info)
+            .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable)),
+        runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(15));
     setStatusDone.map(Object::toString)
         .doOnError(t -> log.error("Failed to set status DONE", t))
         .doOnNext(log::info).block();
