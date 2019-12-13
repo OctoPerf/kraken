@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -138,6 +139,26 @@ public class DockerTaskServiceTest {
 
     verify(commandService).execute(cancelCmd);
     verify(logsService).push(eq(applicationId), eq(taskId), eq(LogType.TASK), any());
+  }
+
+  @Test
+  public void shouldRemove() {
+    final var applicationId = "applicationId";
+    final var taskId = TaskTest.TASK.getId();
+    final var taskType = TaskType.RUN;
+
+    final var removeCmd = Command.builder()
+        .path("testDir")
+        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, taskId)))
+        .environment(ImmutableMap.of())
+        .build();
+
+    final var logs = Flux.just("logs");
+    given(commandService.execute(removeCmd)).willReturn(logs);
+
+    assertThat(service.remove(applicationId, taskId, taskType).block()).isEqualTo(taskId);
+
+    verify(commandService).execute(removeCmd);
   }
 
   @Test

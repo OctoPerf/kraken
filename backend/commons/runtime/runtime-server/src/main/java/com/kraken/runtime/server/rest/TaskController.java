@@ -59,6 +59,14 @@ public class TaskController {
         .doOnNext(s -> eventBus.publish(TaskCancelledEvent.builder().applicationId(applicationId).taskId(taskId).type(type).build()));
   }
 
+  @DeleteMapping(value = "/remove/{type}", produces = TEXT_PLAIN_VALUE)
+  public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                             @RequestParam("taskId") final String taskId,
+                             @PathVariable("type") final TaskType type) {
+    log.info(String.format("Cancel task %s", taskId));
+    return taskService.remove(applicationId, taskId, type);
+  }
+
   @GetMapping(value = "/watch")
   public Flux<ServerSentEvent<List<Task>>> watch() {
     log.info("Watch tasks lists");

@@ -6,16 +6,17 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.docker.env.EnvironmentChecker;
 import com.kraken.runtime.docker.env.EnvironmentPublisher;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.ExecutionContext;
+import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.LogType;
+import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Flux;
@@ -23,7 +24,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +95,19 @@ final class DockerTaskService implements TaskService {
           .build();
       final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(context));
       logsService.push(applicationId, taskId, LogType.TASK, logs);
+      return taskId;
+    });
+  }
+
+  @Override
+  public Mono<String> remove(final String applicationId, final String taskId, final TaskType taskType) {
+    return Mono.fromCallable(() -> {
+      final var command = Command.builder()
+          .path(this.applicationProperties.getData().toString())
+          .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, taskId)))
+          .environment(ImmutableMap.of())
+          .build();
+      commandService.execute(command);
       return taskId;
     });
   }

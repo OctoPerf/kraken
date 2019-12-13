@@ -38,7 +38,7 @@ public class ReactorEventBusTest {
     }
   }
 
-  class TestFailEventListener extends EventBusListener<TestFailEvent> {
+  static class TestFailEventListener extends EventBusListener<TestFailEvent> {
     TestFailEventListener(final EventBus eventBus) {
       super(eventBus, TestFailEvent.class);
     }

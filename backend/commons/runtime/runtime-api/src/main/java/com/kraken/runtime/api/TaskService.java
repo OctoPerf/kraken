@@ -12,6 +12,8 @@ public interface TaskService {
 
   Mono<String> cancel(String applicationId, String taskId, TaskType taskType);
 
+  Mono<String> remove(String applicationId, String taskId, TaskType taskType);
+
   Flux<FlatContainer> list();
 
 }
