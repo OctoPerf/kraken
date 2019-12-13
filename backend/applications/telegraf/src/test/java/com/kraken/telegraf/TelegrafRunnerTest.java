@@ -73,7 +73,7 @@ public class TelegrafRunnerTest {
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));
     given(commandService.execute(CommandTest.SHELL_COMMAND)).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
-    given(runtimeClient.waitForPredicate(taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
+    given(runtimeClient.waitForPredicate(FlatContainerTest.CONTAINER, taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
 
     runner.init();
@@ -83,7 +83,7 @@ public class TelegrafRunnerTest {
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING);
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
-    verify(runtimeClient).waitForPredicate(taskPredicate);
+    verify(runtimeClient).waitForPredicate(FlatContainerTest.CONTAINER, taskPredicate);
     assertThat(entries.build().size()).isBetween(14, 15);
   }
 

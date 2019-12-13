@@ -71,7 +71,7 @@ public class HarParserServiceTest {
   public void shouldInit() {
     given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
-    given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
+    given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(harParser.parse(any())).willReturn(Flux.empty());
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(writer.write(any())).willReturn(Flux.just(DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY));
@@ -81,7 +81,7 @@ public class HarParserServiceTest {
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY);
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING);
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
-    verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
+    verify(runtimeClient).waitForStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY);
     verify(harParser).parse(any(Path.class));
     verify(writer).write(any());
     verify(storageClient).downloadFile(Path.of("localHarPath"), "remoteHarPath");

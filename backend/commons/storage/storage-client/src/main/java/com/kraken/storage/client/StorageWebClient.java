@@ -52,7 +52,9 @@ class StorageWebClient implements StorageClient {
         .uri(uriBuilder -> uriBuilder.path("/files/set/directory").queryParam("path", path).build())
         .retrieve()
         .bodyToMono(StorageNode.class)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to create folder " + path, t))
+        .doOnSubscribe(subscription -> log.info("Creating folder " + path));
   }
 
   @Override
@@ -64,7 +66,9 @@ class StorageWebClient implements StorageClient {
         .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() {
         })
         .map(list -> list.get(0))
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to delete file " + path, t))
+        .doOnSubscribe(subscription -> log.info("Deleting file " + path));
   }
 
   @Override
@@ -79,7 +83,9 @@ class StorageWebClient implements StorageClient {
             .queryParam("path", path).build())
         .retrieve()
         .bodyToMono(clazz)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to get json file content " + path, t))
+        .doOnSubscribe(subscription -> log.info("Getting json file content " + path));
   }
 
   @Override
@@ -91,7 +97,9 @@ class StorageWebClient implements StorageClient {
         .body(BodyInserters.fromObject(content))
         .retrieve()
         .bodyToMono(StorageNode.class)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to set file content " + path, t))
+        .doOnSubscribe(subscription -> log.info("Setting file content " + path));
   }
 
   @Override
@@ -101,7 +109,9 @@ class StorageWebClient implements StorageClient {
             .queryParam("path", path).build())
         .retrieve()
         .bodyToMono(String.class)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to get file content " + path, t))
+        .doOnSubscribe(subscription -> log.info("Getting file content " + path));
   }
 
   @Override
@@ -111,6 +121,7 @@ class StorageWebClient implements StorageClient {
       return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile(), false).getChannel())
           .map(DataBufferUtils::release)
           .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+          .doOnError(t -> log.error("Failed to download file " + remotePath, t))
           .then()
           .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath)));
     } catch (IOException e) {
@@ -129,6 +140,7 @@ class StorageWebClient implements StorageClient {
       return DataBufferUtils.write(flux, new FileOutputStream(zipPath.toFile()).getChannel())
           .map(DataBufferUtils::release)
           .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+          .doOnError(t -> log.error("Failed to download folder " + path, t))
           .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localParentFolderPath, path)))
           .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
@@ -151,6 +163,7 @@ class StorageWebClient implements StorageClient {
     return this.zipLocalFile(localFilePath)
         .flatMap(path -> this.setZip(path, remotePath))
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to upload file " + localFilePath, t))
         .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath)));
   }
 
@@ -162,7 +175,9 @@ class StorageWebClient implements StorageClient {
           .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localZipFile.toString())))
           .retrieve()
           .bodyToMono(StorageNode.class)
-          .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
+          .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+          .doOnError(t -> log.error("Failed to upload zip " + localZipFile, t))
+          .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localZipFile, path)));
     } catch (MalformedURLException e) {
       log.error("Failed to upload file", e);
       return error(e);

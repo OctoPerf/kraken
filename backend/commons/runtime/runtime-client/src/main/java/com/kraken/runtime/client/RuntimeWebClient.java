@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskType;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,11 +79,7 @@ class RuntimeWebClient implements RuntimeClient {
 
   @Override
   public Mono<Void> setStatus(final FlatContainer container, final ContainerStatus status) {
-    if (lastStatus.get().isTerminal()) {
-      return Mono.empty();
-    }
     return this._setStatus(container, status)
-        .doOnSuccess(aVoid -> this.lastStatus.set(status))
         .onErrorResume(throwable -> this.setFailedStatus(container));
   }
 
@@ -95,6 +90,10 @@ class RuntimeWebClient implements RuntimeClient {
   }
 
   private Mono<Void> _setStatus(final FlatContainer container, final ContainerStatus status) {
+    if (lastStatus.get().isTerminal()) {
+      return Mono.empty();
+    }
+
     return webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
@@ -107,6 +106,7 @@ class RuntimeWebClient implements RuntimeClient {
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnError(t -> log.error("Failed to set status " + status, t))
         .doOnSuccess(aVoid -> log.info("Set status to " + status))
+        .doOnSuccess(aVoid -> this.lastStatus.set(status))
         .doOnSubscribe(subscription -> log.info(String.format("Set status %s for container %s", status.toString(), container.getName())));
   }
 
@@ -123,4 +123,5 @@ class RuntimeWebClient implements RuntimeClient {
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnSubscribe(subscription -> log.info(String.format("Find container %s", containerName)));
   }
+
 }

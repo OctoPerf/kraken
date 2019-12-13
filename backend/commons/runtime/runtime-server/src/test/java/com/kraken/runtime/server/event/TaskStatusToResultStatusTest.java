@@ -21,6 +21,7 @@ public class TaskStatusToResultStatusTest {
     assertThat(converter.apply(ContainerStatus.RUNNING)).isEqualTo(ResultStatus.RUNNING);
     assertThat(converter.apply(ContainerStatus.STOPPING)).isEqualTo(ResultStatus.STOPPING);
     assertThat(converter.apply(ContainerStatus.DONE)).isEqualTo(ResultStatus.COMPLETED);
+    assertThat(converter.apply(ContainerStatus.FAILED)).isEqualTo(ResultStatus.FAILED);
   }
 
   @Test

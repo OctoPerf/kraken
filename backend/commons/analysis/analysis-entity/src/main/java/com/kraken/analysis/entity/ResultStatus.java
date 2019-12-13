@@ -5,6 +5,7 @@ public enum ResultStatus {
   RUNNING(false),
   STOPPING(false),
   COMPLETED(true),
+  FAILED(true),
   CANCELED(true);
 
   ResultStatus(boolean terminal) {

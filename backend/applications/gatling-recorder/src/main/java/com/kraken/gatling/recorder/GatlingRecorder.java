@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -56,39 +58,27 @@ final class GatlingRecorder {
     final var uploadSimulation = storageClient.uploadFile(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString)
-        .doOnNext(log::info).block();
+    setStatusPreparing.block();
     downloadConfiguration
-        .doOnError(t -> log.error("Failed to download configuration", t))
         .onErrorResume(throwable -> setStatusFailed.then())
         .block();
     downloadHAR
-        .doOnError(t -> log.error("Failed to download HAR", t))
         .onErrorResume(throwable -> setStatusFailed.then())
         .block();
-    setStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status READY", t))
-        .doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status READY", t))
-        .doOnNext(log::info).block();
-    listFiles
+    setStatusReady.block();
+    waitForStatusReady.map(Object::toString).block();
+    Optional.ofNullable(listFiles
         .doOnError(t -> log.error("Failed to list files", t))
-        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to list files"))
-        .doOnNext(log::debug).blockLast();
-    setStatusRunning.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status RUNNING", t))
-        .doOnNext(log::info).block();
+        .collectList()
+        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
+        .block()).orElse(Collections.emptyList()).forEach(log::info);
+    setStatusRunning.block();
     startGatling
         .doOnError(t -> log.error("Failed to start gatling", t))
         .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to start gatling"))
         .doOnNext(log::info).blockLast();
-    setStatusStopping.map(Object::toString)
-
-        .doOnNext(log::info).block();
-    waitForStatusStopping.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status STOPPING", t))
-        .doOnNext(log::info).block();
+    setStatusStopping.block();
+    waitForStatusStopping.block();
     uploadSimulation
         .doOnError(t -> log.error("Failed to upload simulation", t))
         .onErrorResume(throwable -> setStatusFailed.map(s -> StorageNode.builder()

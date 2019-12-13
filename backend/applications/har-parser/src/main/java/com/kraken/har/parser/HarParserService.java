@@ -41,10 +41,11 @@ class HarParserService {
   public void init() {
     final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
     final var me = findMe.block();
+    final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
     final var downloadHAR = storageClient.downloadFile(parserProperties.getLocalHarPath(), parserProperties.getRemoteHarPath());
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
-    final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
+    final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
     final var listFiles = commandService.execute(Command.builder()
         .path(applicationProperties.getData().toString())
@@ -54,32 +55,22 @@ class HarParserService {
     final var parse = writer.write(parser.parse(parserProperties.getLocalHarPath()));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status PREPARING", t))
-        .doOnNext(log::info).block();
-    downloadHAR
-        .doOnError(t -> log.error("Failed to download HAR", t))
-        .block();
+    setStatusPreparing.block();
+    downloadHAR.block();
     Optional.ofNullable(listFiles
         .doOnError(t -> log.error("Failed list files", t))
-        .collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    setStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status READY", t))
-        .doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status READY", t))
-        .doOnNext(log::info).block();
-    setStatusRunning.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status RUNNING", t))
-        .doOnNext(log::info).block();
+        .collectList()
+        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
+        .block()).orElse(Collections.emptyList()).forEach(log::info);
+    setStatusReady.block();
+    waitForStatusReady.block();
+    setStatusRunning.block();
     log.info("Parsing START " + parserProperties.getLocalHarPath());
     parse.map(DebugEntry::getRequestName)
         .doOnError(t -> log.error("Failed to parse debug entry", t))
         .doOnNext(log::info).collectList().block();
     log.info("Parsing END");
-    setStatusDone.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status DONE", t))
-        .doOnNext(log::info).block();
+    setStatusDone.block();
   }
 
 }

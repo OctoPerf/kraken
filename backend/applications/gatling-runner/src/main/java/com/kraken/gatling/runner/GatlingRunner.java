@@ -44,7 +44,7 @@ final class GatlingRunner {
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
     final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
-    final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
+    final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commandService.execute(Command.builder()
         .path(gatlingExecutionProperties.getGatlingHome().toString())
         .command(ImmutableList.of("ls", "-lR"))
@@ -53,49 +53,33 @@ final class GatlingRunner {
     final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
     final var startGatling = commandService.execute(commandSupplier.get());
     final var setStatusStopping = runtimeClient.setStatus(me, ContainerStatus.STOPPING);
-    final var waitForStatusStopping = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.STOPPING);
+    final var waitForStatusStopping = runtimeClient.waitForStatus(me, ContainerStatus.STOPPING);
     final var uploadResult = storageClient.uploadFile(
         gatlingExecutionProperties.getLocalResult(),
         gatlingExecutionProperties.getRemoteResult().map(s -> Paths.get(s).resolve("groups").resolve(containerProperties.getHostId()).toString())
     );
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusPreparing.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status PREPARING", t))
-        .doOnNext(log::info).block();
-    downloadConfiguration
-        .doOnError(t -> log.error("Failed to download configuration", t))
-        .block();
-    downloadUserFiles
-        .doOnError(t -> log.error("Failed to download user files", t))
-        .block();
-    setStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status READY", t))
-        .doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status READY", t))
-        .doOnNext(log::info).block();
+    setStatusPreparing.block();
+    downloadConfiguration.block();
+    downloadUserFiles.block();
+    setStatusReady.block();
+    waitForStatusReady.map(Object::toString).block();
     Optional.ofNullable(listFiles
         .doOnError(t -> log.error("Failed to list files", t))
-        .collectList().block()).orElse(Collections.emptyList()).forEach(log::info);
-    setStatusRunning.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status RUNNING", t))
-        .doOnNext(log::info).block();
+        .collectList()
+        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
+        .block()).orElse(Collections.emptyList())
+        .forEach(log::info);
+    setStatusRunning.block();
     startGatling
         .doOnError(t -> log.error("Failed to start gatling", t))
+        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to start gatling"))
         .doOnNext(log::info).blockLast();
-    setStatusStopping.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status STOPPING", t))
-        .doOnNext(log::info).block();
-    waitForStatusStopping.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status STOPPING", t))
-        .doOnNext(log::info).block();
-    uploadResult
-        .doOnError(t -> log.error("Failed to upload result", t))
-        .block();
-    setStatusDone.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status DONE", t))
-        .doOnNext(log::info).block();
+    setStatusStopping.block();
+    waitForStatusStopping.block();
+    uploadResult.block();
+    setStatusDone.block();
   }
 
 }

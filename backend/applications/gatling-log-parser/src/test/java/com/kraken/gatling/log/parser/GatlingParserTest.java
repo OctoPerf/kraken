@@ -26,9 +26,9 @@ import java.time.Duration;
 import java.util.function.Predicate;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
+import static com.kraken.runtime.entity.FlatContainerTest.CONTAINER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -67,21 +67,21 @@ public class GatlingParserTest {
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
-    given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> "failed"));
+    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(CONTAINER));
+    given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
-    given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
+    given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(logParser.parse(any())).willReturn(Flux.empty());
-    given(runtimeClient.waitForPredicate(taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
+    given(runtimeClient.waitForPredicate(CONTAINER, taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     final var entries = ImmutableList.builder();
     given(writer.write(any())).willReturn(Flux.interval(Duration.ofMillis(400)).map(aLong -> DebugEntryTest.DEBUG_ENTRY).doOnNext(entries::add));
     parser.init();
-    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY);
-    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING);
-    verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
-    verify(runtimeClient).waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
-    verify(runtimeClient).waitForPredicate(any());
+    verify(runtimeClient).setStatus(CONTAINER, ContainerStatus.READY);
+    verify(runtimeClient).setStatus(CONTAINER, ContainerStatus.RUNNING);
+    verify(runtimeClient).setStatus(CONTAINER, ContainerStatus.DONE);
+    verify(runtimeClient).waitForStatus(CONTAINER, ContainerStatus.READY);
+    verify(runtimeClient).waitForPredicate(eq(CONTAINER), any());
     verify(logParser).parse(any(Path.class));
     verify(writer).write(any());
     verify(commandService).execute(Command.builder()

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.*;
+import lombok.With;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -71,7 +72,8 @@ public class RuntimeWebClientTest {
   public void shouldWaitForStatus() throws InterruptedException, IOException {
 
     final var expectedStatus = ContainerStatus.READY;
-    final var taskId = "readyTaskId";
+    final var flatContainer = FlatContainerTest.CONTAINER;
+    final var taskId = flatContainer.getTaskId();
     final var task = Task.builder()
         .id(taskId)
         .startDate(42L)
@@ -118,7 +120,7 @@ public class RuntimeWebClientTest {
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
             .setBody(body));
 
-    final var response = client.waitForStatus(taskId, expectedStatus).block();
+    final var response = client.waitForStatus(flatContainer, expectedStatus).block();
     assertThat(response).isEqualTo(task);
 
     final var request = runtimeMockWebServer.takeRequest();

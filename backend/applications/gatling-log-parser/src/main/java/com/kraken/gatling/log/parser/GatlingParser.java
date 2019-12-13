@@ -58,20 +58,19 @@ class GatlingParser {
     final var parse = writer.write(parser.parse(gatlingProperties.getDebugLog()));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusReady.map(Object::toString).block();
-    waitForStatusReady.map(Object::toString).block();
-    setStatusRunning.map(Object::toString).block();
+    setStatusReady.block();
+    waitForStatusReady.block();
+    setStatusRunning.block();
     Optional.ofNullable(listFiles
         .doOnError(t -> log.error("Failed to list files", t))
         .collectList()
         .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
         .block()).orElse(Collections.emptyList()).forEach(log::info);
     waitFor(parse.map(DebugEntry::getRequestName)
-            .doOnError(t -> log.error("Failed to wait for task completion", t))
             .doOnNext(log::info)
             .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable)),
         runtimeClient.waitForPredicate(me, taskPredicate), Duration.ofSeconds(15));
-    setStatusDone.map(Object::toString).block();
+    setStatusDone.block();
   }
 
 }

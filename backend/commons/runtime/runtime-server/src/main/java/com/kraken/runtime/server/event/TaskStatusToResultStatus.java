@@ -21,6 +21,7 @@ final class TaskStatusToResultStatus implements Function<ContainerStatus, Result
       .put(ContainerStatus.RUNNING, ResultStatus.RUNNING)
       .put(ContainerStatus.STOPPING, ResultStatus.STOPPING)
       .put(ContainerStatus.DONE, ResultStatus.COMPLETED)
+      .put(ContainerStatus.FAILED, ResultStatus.FAILED)
       .build();
 
   @Override

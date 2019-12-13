@@ -29,6 +29,7 @@ public class StatusToEndDate implements Function<ResultStatus, Long> {
       .put(ResultStatus.STOPPING, END_DATE_ZERO)
       .put(ResultStatus.COMPLETED, END_DATE_NOW)
       .put(ResultStatus.CANCELED, END_DATE_NOW)
+      .put(ResultStatus.FAILED, END_DATE_NOW)
       .build();
 
   @Override

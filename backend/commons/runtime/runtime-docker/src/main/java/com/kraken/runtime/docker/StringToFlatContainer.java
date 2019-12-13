@@ -29,7 +29,7 @@ final class StringToFlatContainer implements Function<String, FlatContainer> {
 
   @Override
   public FlatContainer apply(final String str) {
-    final var split = str.split("[;]", 10);
+    final var split = str.split("[;]", 11);
     final var id = split[0];
     final var status = split[1];
     final var dateStr = split[2];

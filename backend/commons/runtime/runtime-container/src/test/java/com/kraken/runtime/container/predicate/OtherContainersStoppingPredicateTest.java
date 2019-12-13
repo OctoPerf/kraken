@@ -58,6 +58,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.STOPPING)
                 .build()
         ))
+        .applicationId("app")
         .build())).isTrue();
   }
 
@@ -71,6 +72,7 @@ public class OtherContainersStoppingPredicateTest {
         .type(TaskType.RUN)
         .containers(ImmutableList.of())
         .expectedCount(2)
+        .applicationId("app")
         .build())).isFalse();
   }
 
@@ -109,6 +111,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.STOPPING)
                 .build()
         ))
+        .applicationId("app")
         .build())).isFalse();
   }
 
@@ -165,6 +168,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.RUNNING)
                 .build()
         ))
+        .applicationId("app")
         .build())).isTrue();
   }
 
