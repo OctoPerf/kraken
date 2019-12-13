@@ -8,10 +8,13 @@ import com.kraken.runtime.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskTest;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.event.TaskCancelledEvent;
+import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.event.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
+import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.unique.id.IdGenerator;
 import org.junit.Test;
@@ -53,7 +56,7 @@ public class TaskControllerTest {
   TaskListService taskListService;
 
   @MockBean
-  TaskUpdateHandler updater;
+  EventBus eventBus;
 
   @MockBean
   SSEService sse;
@@ -75,7 +78,6 @@ public class TaskControllerTest {
     given(idGenerator.generate()).willReturn(taskId);
     given(taskService.execute(updated))
         .willReturn(Mono.just(updated));
-    given(updater.taskExecuted(updated)).willReturn(Mono.just(taskId));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
@@ -86,6 +88,10 @@ public class TaskControllerTest {
         .expectStatus().isOk()
         .expectBody(String.class)
         .isEqualTo(taskId);
+
+    verify(eventBus).publish(TaskExecutedEvent.builder()
+        .context(updated)
+        .build());
   }
 
   @Test
@@ -108,8 +114,6 @@ public class TaskControllerTest {
     final var taskType = TaskType.RUN;
     given(taskService.cancel(applicationId, taskId, taskType))
         .willReturn(Mono.just(taskId));
-    given(updater.taskCanceled(taskId))
-        .willReturn(Mono.just(taskId));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/task/cancel")
@@ -121,7 +125,10 @@ public class TaskControllerTest {
         .expectStatus().isOk();
 
     verify(taskService).cancel(applicationId, taskId, taskType);
-    verify(updater).taskCanceled(taskId);
+    verify(eventBus).publish(TaskCancelledEvent.builder().applicationId(applicationId)
+        .taskId(taskId)
+        .type(taskType)
+        .build());
   }
 
   @Test
@@ -168,9 +175,9 @@ public class TaskControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\"}]\n" +
+    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
         "\n" +
-        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\"}]\n" +
+        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
         "\n");
   }
 

@@ -38,7 +38,7 @@ final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEven
   @Override
   protected void handleEvent(TaskExecutedEvent event) {
     final var context = event.getContext();
-        final var result = Result.builder()
+    final var result = Result.builder()
         .id(context.getTaskId())
         .startDate(new Date().getTime())
         .endDate(0L)
@@ -46,6 +46,6 @@ final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEven
         .description(context.getDescription())
         .type(taskTypeToResultType.apply(context.getTaskType()))
         .build();
-    analysisClient.create(result).map(storageNode -> context.getTaskId()).subscribe();
+    analysisClient.create(result).subscribe();
   }
 }

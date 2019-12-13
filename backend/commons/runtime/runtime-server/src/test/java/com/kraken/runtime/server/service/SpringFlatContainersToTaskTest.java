@@ -25,6 +25,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.READY)
         .expectedCount(2)
+        .applicationId("app")
         .build();
     final var flux = Flux.just(container).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
@@ -49,6 +50,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.RUNNING)
         .expectedCount(2)
+        .applicationId("app")
         .build();
     final var flux = Flux.just(container).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
@@ -73,6 +75,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.READY)
         .expectedCount(2)
+        .applicationId("app")
         .build();
     final var container2 = FlatContainer.builder()
         .id("id1")
@@ -85,6 +88,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.RUNNING)
         .expectedCount(2)
+        .applicationId("app")
         .build();
     final var flux = Flux.just(container1, container2).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
