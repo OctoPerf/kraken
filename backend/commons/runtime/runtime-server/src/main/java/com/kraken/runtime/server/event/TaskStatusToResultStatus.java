@@ -1,4 +1,4 @@
-package com.kraken.runtime.server.service;
+package com.kraken.runtime.server.event;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.ResultStatus;

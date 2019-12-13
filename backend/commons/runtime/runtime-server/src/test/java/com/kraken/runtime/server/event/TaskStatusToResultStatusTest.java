@@ -1,8 +1,8 @@
-package com.kraken.runtime.server.service;
+package com.kraken.runtime.server.event;
 
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.runtime.entity.ContainerStatus;
-import org.assertj.core.api.Assertions;
+import com.kraken.runtime.server.event.TaskStatusToResultStatus;
 import org.junit.Test;
 
 import java.util.Arrays;

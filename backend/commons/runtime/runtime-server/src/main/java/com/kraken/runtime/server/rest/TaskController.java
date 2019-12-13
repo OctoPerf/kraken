@@ -4,8 +4,11 @@ import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
-import com.kraken.runtime.server.service.TaskUpdateHandler;
+import com.kraken.runtime.event.TaskCancelledEvent;
+import com.kraken.runtime.event.TaskExecutedEvent;
+import com.kraken.runtime.server.event.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
+import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.unique.id.IdGenerator;
 import lombok.AccessLevel;
@@ -32,7 +35,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 @Validated
 public class TaskController {
 
-  @NonNull TaskUpdateHandler taskUpdateHandler;
+  @NonNull EventBus eventBus;
   @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
   @NonNull SSEService sse;
@@ -43,7 +46,8 @@ public class TaskController {
                           @RequestBody() final ExecutionContext context) {
     log.info(String.format("Execute %s task", context.getTaskType()));
     return taskService.execute(context.withApplicationId(applicationId).withTaskId(idGenerator.generate()))
-        .flatMap(taskUpdateHandler::taskExecuted);
+        .doOnNext(_context -> eventBus.publish(TaskExecutedEvent.builder().context(_context).build()))
+        .map(ExecutionContext::getTaskId);
   }
 
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
@@ -51,7 +55,8 @@ public class TaskController {
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
-    return taskService.cancel(applicationId, taskId, type).flatMap(aVoid -> taskUpdateHandler.taskCanceled(taskId));
+    return taskService.cancel(applicationId, taskId, type)
+        .doOnNext(s -> eventBus.publish(TaskCancelledEvent.builder().applicationId(applicationId).taskId(taskId).type(type).build()));
   }
 
   @GetMapping(value = "/watch")

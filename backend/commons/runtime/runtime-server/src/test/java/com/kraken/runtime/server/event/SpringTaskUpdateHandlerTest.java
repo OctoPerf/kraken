@@ -1,4 +1,4 @@
-package com.kraken.runtime.server.service;
+package com.kraken.runtime.server.event;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.analysis.client.AnalysisClient;
@@ -6,6 +6,7 @@ import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
 import com.kraken.runtime.entity.*;
+import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
 import org.junit.Test;

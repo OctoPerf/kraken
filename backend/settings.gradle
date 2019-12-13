@@ -42,6 +42,9 @@ include 'commons:runtime:runtime-gatling'
 findProject(':commons:runtime:runtime-gatling')?.name = 'runtime-gatling'
 include 'commons:runtime:runtime-server-properties'
 findProject(':commons:runtime:runtime-server-properties')?.name = 'runtime-server-properties'
+include 'commons:runtime:runtime-event'
+findProject(':commons:runtime:runtime-event')?.name = 'runtime-event'
+
 
 include ':commons:storage:storage-entity'
 findProject(':commons:storage:storage-entity')?.name = 'storage-entity'
@@ -66,6 +69,8 @@ include 'commons:tools:environment'
 findProject(':commons:tools:environment')?.name = 'environment'
 include 'commons:tools:properties'
 findProject(':commons:tools:properties')?.name = 'properties'
+include 'commons:tools:event-bus'
+findProject(':commons:tools:event-bus')?.name = 'event-bus'
 
 include ':commons:parser:har-parser'
 findProject(':commons:parser:har-parser')?.name = 'har-parser'
@@ -101,6 +106,4 @@ findProject(':applications:har-parser')?.name = 'app-har-parser'
 
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
-include 'commons:tools:event-bus'
-findProject(':commons:tools:event-bus')?.name = 'event-bus'
 

@@ -1,7 +1,8 @@
-package com.kraken.runtime.server.service;
+package com.kraken.runtime.server.event;
 
 import com.kraken.analysis.entity.ResultType;
 import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.server.event.TaskTypeToResultType;
 import org.junit.Test;
 
 import java.util.Arrays;

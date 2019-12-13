@@ -20,8 +20,8 @@ final class ReactorEventBus implements EventBus {
   public void publish(BusEvent event) {
     try {
       rp.onNext(event);
-    } catch (Exception e) {
-      log.error("Exception occurred during event handling " + event, e);
+    } catch (Throwable t) {
+      log.error("Exception occurred during event handling " + event, t);
     }
   }
 
