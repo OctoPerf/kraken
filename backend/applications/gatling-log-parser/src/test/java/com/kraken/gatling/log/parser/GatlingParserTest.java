@@ -68,6 +68,7 @@ public class GatlingParserTest {
   @Test
   public void shouldInit() throws InterruptedException {
     given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> "failed"));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(logParser.parse(any())).willReturn(Flux.empty());

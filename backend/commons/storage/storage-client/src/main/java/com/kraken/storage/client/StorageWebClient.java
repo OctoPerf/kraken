@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.*;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -32,6 +33,9 @@ import static reactor.core.publisher.Mono.error;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @Component
 class StorageWebClient implements StorageClient {
+
+  public static final int NUM_RETRIES = 5;
+  public static final Duration FIRST_BACKOFF = Duration.ofMillis(500);
 
   WebClient webClient;
   ObjectMapper mapper;
@@ -47,7 +51,8 @@ class StorageWebClient implements StorageClient {
         .post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/directory").queryParam("path", path).build())
         .retrieve()
-        .bodyToMono(StorageNode.class);
+        .bodyToMono(StorageNode.class)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
   }
 
   @Override
@@ -58,7 +63,8 @@ class StorageWebClient implements StorageClient {
         .retrieve()
         .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() {
         })
-        .map(list -> list.get(0));
+        .map(list -> list.get(0))
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
   }
 
   @Override
@@ -72,7 +78,8 @@ class StorageWebClient implements StorageClient {
         .uri(uriBuilder -> uriBuilder.path("/files/get/json")
             .queryParam("path", path).build())
         .retrieve()
-        .bodyToMono(clazz);
+        .bodyToMono(clazz)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
   }
 
   @Override
@@ -83,7 +90,8 @@ class StorageWebClient implements StorageClient {
             .build())
         .body(BodyInserters.fromObject(content))
         .retrieve()
-        .bodyToMono(StorageNode.class);
+        .bodyToMono(StorageNode.class)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
   }
 
   @Override
@@ -92,7 +100,8 @@ class StorageWebClient implements StorageClient {
         .uri(uriBuilder -> uriBuilder.path("/files/get/content")
             .queryParam("path", path).build())
         .retrieve()
-        .bodyToMono(String.class);
+        .bodyToMono(String.class)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
   }
 
   @Override
@@ -101,6 +110,7 @@ class StorageWebClient implements StorageClient {
     try {
       return DataBufferUtils.write(flux, new FileOutputStream(localFilePath.toFile(), false).getChannel())
           .map(DataBufferUtils::release)
+          .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
           .then()
           .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localFilePath, remotePath)));
     } catch (IOException e) {
@@ -118,6 +128,7 @@ class StorageWebClient implements StorageClient {
     try {
       return DataBufferUtils.write(flux, new FileOutputStream(zipPath.toFile()).getChannel())
           .map(DataBufferUtils::release)
+          .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
           .doOnSubscribe(subscription -> log.info(String.format("Downloading local: %s - remote: %s", localParentFolderPath, path)))
           .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
@@ -139,6 +150,7 @@ class StorageWebClient implements StorageClient {
   public Mono<StorageNode> uploadFile(final Path localFilePath, final Optional<String> remotePath) {
     return this.zipLocalFile(localFilePath)
         .flatMap(path -> this.setZip(path, remotePath))
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath)));
   }
 
@@ -149,7 +161,8 @@ class StorageWebClient implements StorageClient {
               .queryParam("path", path.orElse("")).build())
           .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localZipFile.toString())))
           .retrieve()
-          .bodyToMono(StorageNode.class);
+          .bodyToMono(StorageNode.class)
+          .retryBackoff(NUM_RETRIES, FIRST_BACKOFF);
     } catch (MalformedURLException e) {
       log.error("Failed to upload file", e);
       return error(e);

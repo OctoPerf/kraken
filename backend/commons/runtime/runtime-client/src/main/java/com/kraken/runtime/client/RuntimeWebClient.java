@@ -1,9 +1,10 @@
 package com.kraken.runtime.client;
 
-import com.kraken.runtime.entity.Container;
+import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.ContainerStatus;
 import com.kraken.runtime.entity.FlatContainer;
 import com.kraken.runtime.entity.Task;
+import com.kraken.runtime.entity.TaskType;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,9 +15,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -26,14 +29,18 @@ import static lombok.AccessLevel.PRIVATE;
 @Component
 class RuntimeWebClient implements RuntimeClient {
 
+  public static final int NUM_RETRIES = 5;
+  public static final Duration FIRST_BACKOFF = Duration.ofMillis(100);
   WebClient webClient;
+  AtomicReference<ContainerStatus> lastStatus;
 
   RuntimeWebClient(@Qualifier("webClientRuntime") final WebClient webClient) {
     this.webClient = Objects.requireNonNull(webClient);
+    this.lastStatus = new AtomicReference<>(ContainerStatus.STARTING);
   }
 
   @Override
-  public Mono<Task> waitForPredicate(final Predicate<Task> predicate) {
+  public Mono<Task> waitForPredicate(final FlatContainer container, final Predicate<Task> predicate) {
     final Flux<List<Task>> flux = webClient
         .get()
         .uri("/task/watch")
@@ -51,17 +58,43 @@ class RuntimeWebClient implements RuntimeClient {
         .filter(Optional::isPresent)
         .map(Optional::get)
         .doOnNext(task -> log.info(String.format("Matching task found: %s", task)))
-        .next();
+        .next()
+        .onErrorResume(throwable -> this.setFailedStatus(container).map(aVoid -> Task.builder()
+            .id(container.getTaskId())
+            .startDate(container.getStartDate())
+            .status(ContainerStatus.FAILED)
+            .type(container.getTaskType())
+            .containers(ImmutableList.of())
+            .expectedCount(1)
+            .description(container.getDescription())
+            .applicationId(container.getApplicationId())
+            .build()));
   }
 
   @Override
-  public Mono<Task> waitForStatus(final String taskId, final ContainerStatus status) {
-    return this.waitForPredicate(task -> taskId.equals(task.getId()) && task.getStatus().ordinal() >= status.ordinal())
-        .doOnSubscribe(subscription -> log.info(String.format("Wait for status %s for task %s", status.toString(), taskId)));
+  public Mono<Task> waitForStatus(final FlatContainer container, final ContainerStatus status) {
+    return this.waitForPredicate(container, task -> container.getTaskId().equals(task.getId()) && task.getStatus().ordinal() >= status.ordinal())
+        .doOnSubscribe(subscription -> log.info(String.format("Wait for status %s for task %s", status.toString(), container.getTaskId())))
+        .doOnError(t -> log.error("Failed to wait for status READY", t));
   }
 
   @Override
   public Mono<Void> setStatus(final FlatContainer container, final ContainerStatus status) {
+    if (lastStatus.get().isTerminal()) {
+      return Mono.empty();
+    }
+    return this._setStatus(container, status)
+        .doOnSuccess(aVoid -> this.lastStatus.set(status))
+        .onErrorResume(throwable -> this.setFailedStatus(container));
+  }
+
+  @Override
+  public Mono<Void> setFailedStatus(FlatContainer container) {
+    return this._setStatus(container, ContainerStatus.FAILED)
+        .onErrorContinue((throwable, o) -> log.error("Failed to set FAILED status", throwable));
+  }
+
+  private Mono<Void> _setStatus(final FlatContainer container, final ContainerStatus status) {
     return webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path("/container/status")
@@ -71,6 +104,9 @@ class RuntimeWebClient implements RuntimeClient {
             .queryParam("containerName", container.getName()).build())
         .retrieve()
         .bodyToMono(Void.class)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to set status " + status, t))
+        .doOnSuccess(aVoid -> log.info("Set status to " + status))
         .doOnSubscribe(subscription -> log.info(String.format("Set status %s for container %s", status.toString(), container.getName())));
   }
 
@@ -84,6 +120,7 @@ class RuntimeWebClient implements RuntimeClient {
             .build())
         .retrieve()
         .bodyToMono(FlatContainer.class)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnSubscribe(subscription -> log.info(String.format("Find container %s", containerName)));
   }
 }

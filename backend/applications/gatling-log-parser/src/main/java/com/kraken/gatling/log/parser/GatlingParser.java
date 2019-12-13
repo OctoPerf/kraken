@@ -46,8 +46,9 @@ class GatlingParser {
   public void init() throws InterruptedException {
     final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
     final var me = findMe.block();
+    final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
-    final var waitForStatusReady = runtimeClient.waitForStatus(containerProperties.getTaskId(), ContainerStatus.READY);
+    final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
     final var listFiles = commandService.execute(Command.builder()
         .path(gatlingProperties.getGatlingHome().toString())
@@ -57,27 +58,20 @@ class GatlingParser {
     final var parse = writer.write(parser.parse(gatlingProperties.getDebugLog()));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
-    setStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status READY", t))
-        .doOnNext(log::info).block();
-    waitForStatusReady.map(Object::toString)
-        .doOnError(t -> log.error("Failed to wait for status READY", t))
-        .doOnNext(log::info).block();
-    setStatusRunning.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status RUNNING", t))
-        .doOnNext(log::info).block();
+    setStatusReady.map(Object::toString).block();
+    waitForStatusReady.map(Object::toString).block();
+    setStatusRunning.map(Object::toString).block();
     Optional.ofNullable(listFiles
         .doOnError(t -> log.error("Failed to list files", t))
         .collectList()
+        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
         .block()).orElse(Collections.emptyList()).forEach(log::info);
     waitFor(parse.map(DebugEntry::getRequestName)
             .doOnError(t -> log.error("Failed to wait for task completion", t))
             .doOnNext(log::info)
             .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable)),
-        runtimeClient.waitForPredicate(taskPredicate), Duration.ofSeconds(15));
-    setStatusDone.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status DONE", t))
-        .doOnNext(log::info).block();
+        runtimeClient.waitForPredicate(me, taskPredicate), Duration.ofSeconds(15));
+    setStatusDone.map(Object::toString).block();
   }
 
 }

@@ -5,6 +5,7 @@ import com.kraken.runtime.entity.LogStatus;
 import com.kraken.runtime.entity.LogType;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class SpringLogsService implements LogsService {
@@ -34,7 +36,7 @@ final class SpringLogsService implements LogsService {
   @PostConstruct
   void init() {
     Flux.interval(INTERVAL)
-        .onErrorContinue((throwable, o) -> throwable.printStackTrace())
+        .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable))
         .subscribeOn(Schedulers.newSingle("LogsService", true))
         .subscribe(this::sendLogs);
   }

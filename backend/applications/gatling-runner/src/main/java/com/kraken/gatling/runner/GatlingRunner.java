@@ -39,6 +39,7 @@ final class GatlingRunner {
   public void init() {
     final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
     final var me = findMe.block();
+    final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
     final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());

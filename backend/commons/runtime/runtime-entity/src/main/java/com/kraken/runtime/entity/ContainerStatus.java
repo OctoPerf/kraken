@@ -1,13 +1,24 @@
 package com.kraken.runtime.entity;
 
 public enum ContainerStatus {
-  CREATING,
-  STARTING,
-  PREPARING,
-  READY,
-  RUNNING,
-  STOPPING,
-  DONE;
+  CREATING(false),
+  STARTING(false),
+  PREPARING(false),
+  READY(false),
+  RUNNING(false),
+  STOPPING(false),
+  DONE(true),
+  FAILED(true);
+
+  ContainerStatus(boolean terminal) {
+    this.terminal = terminal;
+  }
+
+  protected boolean terminal;
+
+  public boolean isTerminal() {
+    return this.terminal;
+  }
 
   public static ContainerStatus parse(final String str) {
     final var underscoreIndex = str.lastIndexOf("_");

@@ -9,11 +9,13 @@ import java.util.function.Predicate;
 
 public interface RuntimeClient {
 
-  Mono<Task> waitForPredicate(Predicate<Task> predicate);
+  Mono<Task> waitForPredicate(FlatContainer container, Predicate<Task> predicate);
 
-  Mono<Task> waitForStatus(String taskId, ContainerStatus status);
+  Mono<Task> waitForStatus(FlatContainer container, ContainerStatus status);
 
   Mono<Void> setStatus(FlatContainer container, ContainerStatus status);
+
+  Mono<Void> setFailedStatus(FlatContainer container);
 
   Mono<FlatContainer> find(String taskId, String containerName);
 

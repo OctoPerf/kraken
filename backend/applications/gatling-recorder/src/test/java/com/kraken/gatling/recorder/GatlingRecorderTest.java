@@ -64,6 +64,7 @@ public class GatlingRecorderTest {
   public void shouldInit() {
     given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
+    given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> "failed"));
     given(runtimeClient.waitForStatus(anyString(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));

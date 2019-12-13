@@ -44,10 +44,27 @@ public class RuntimeWebClientTest {
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
     );
 
-    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY).block();
+    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE).block();
 
     final var request = runtimeMockWebServer.takeRequest();
-    assertThat(request.getPath()).isEqualTo("/container/status/READY?taskId=taskId&containerId=id&containerName=name");
+    assertThat(request.getPath()).isEqualTo("/container/status/DONE?taskId=taskId&containerId=id&containerName=name");
+
+    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING).block();
+    assertThat(runtimeMockWebServer.getRequestCount()).isEqualTo(1);
+  }
+
+  @Test
+  public void shouldSetFailedStatus() throws InterruptedException {
+    runtimeMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+    );
+
+    client.setFailedStatus(FlatContainerTest.CONTAINER).block();
+
+    final var request = runtimeMockWebServer.takeRequest();
+    assertThat(request.getPath()).isEqualTo("/container/status/FAILED?taskId=taskId&containerId=id&containerName=name");
   }
 
   @Test
@@ -63,6 +80,7 @@ public class RuntimeWebClientTest {
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)
+        .applicationId("app")
         .build();
 
     final var empty = ImmutableList.<Task>of();
@@ -75,6 +93,7 @@ public class RuntimeWebClientTest {
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)
+        .applicationId("app")
         .build());
     final var ready = ImmutableList.of(TaskTest.TASK, task);
 
