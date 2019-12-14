@@ -6,6 +6,8 @@ import com.kraken.runtime.entity.TaskType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 public interface TaskService {
 
   Mono<ExecutionContext> execute(ExecutionContext context);
@@ -14,6 +16,6 @@ public interface TaskService {
 
   Mono<String> remove(String applicationId, String taskId, TaskType taskType);
 
-  Flux<FlatContainer> list();
+  Flux<FlatContainer> list(Optional<String> applicationId);
 
 }

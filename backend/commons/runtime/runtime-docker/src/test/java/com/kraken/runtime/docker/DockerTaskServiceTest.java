@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
@@ -169,6 +170,7 @@ public class DockerTaskServiceTest {
             "ps",
             "-a",
             "--filter", "label=com.kraken/taskId",
+            "--filter", "label=com.kraken/applicationId=app",
             "--format", StringToFlatContainer.FORMAT))
         .environment(ImmutableMap.of())
         .build();
@@ -177,7 +179,28 @@ public class DockerTaskServiceTest {
     given(commandService.execute(listCommand)).willReturn(Flux.just(taskAsString));
     given(stringToFlatContainer.apply(taskAsString)).willReturn(FlatContainerTest.CONTAINER);
 
-    assertThat(service.list().blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
+    assertThat(service.list(Optional.of("app")).blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
+
+    verify(commandService).execute(listCommand);
+  }
+
+  @Test
+  public void shouldListNoApp() {
+    final var listCommand = Command.builder()
+        .path(".")
+        .command(Arrays.asList("docker",
+            "ps",
+            "-a",
+            "--filter", "label=com.kraken/taskId",
+            "--format", StringToFlatContainer.FORMAT))
+        .environment(ImmutableMap.of())
+        .build();
+
+    final var taskAsString = "taskAsString";
+    given(commandService.execute(listCommand)).willReturn(Flux.just(taskAsString));
+    given(stringToFlatContainer.apply(taskAsString)).willReturn(FlatContainerTest.CONTAINER);
+
+    assertThat(service.list(Optional.empty()).blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
 
     verify(commandService).execute(listCommand);
   }

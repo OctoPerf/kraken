@@ -22,6 +22,7 @@ import reactor.core.scheduler.Schedulers;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,7 +74,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
     taskService.execute(context).block();
 
     Thread.sleep(5000);
-    final var flatContainers = taskService.list().collectList().block();
+    final var flatContainers = taskService.list(Optional.of(appId)).collectList().block();
     assertThat(flatContainers).isNotNull();
     assertThat(flatContainers.size()).isEqualTo(2);
 

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,7 +62,7 @@ public class DockerTaskServiceIntegrationTest {
 
   @Test
   public void shouldListFlatContainers() {
-    final var flatContainers = taskService.list().collectList().block();
+    final var flatContainers = taskService.list(Optional.of("app")).collectList().block();
     assertThat(flatContainers).isNotNull();
     System.out.println(flatContainers);
     assertThat(flatContainers.size()).isEqualTo(3);

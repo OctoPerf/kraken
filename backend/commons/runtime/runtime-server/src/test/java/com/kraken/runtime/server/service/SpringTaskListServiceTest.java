@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,18 +37,18 @@ public class SpringTaskListServiceTest {
 
   @Test
   public void shouldList() {
-    given(taskService.list()).willReturn(Flux.just(FlatContainerTest.CONTAINER));
+    given(taskService.list(Optional.empty())).willReturn(Flux.just(FlatContainerTest.CONTAINER));
     given(toTask.apply(any())).willReturn(Mono.just(TaskTest.TASK));
 
-    assertThat(taskListService.list().blockFirst()).isEqualTo(TaskTest.TASK);
+    assertThat(taskListService.list(Optional.empty()).blockFirst()).isEqualTo(TaskTest.TASK);
   }
 
   @Test
   public void shouldWatch() {
-    given(taskService.list()).willReturn(Flux.just(FlatContainerTest.CONTAINER));
+    given(taskService.list(Optional.empty())).willReturn(Flux.just(FlatContainerTest.CONTAINER));
     given(toTask.apply(any())).willReturn(Mono.just(TaskTest.TASK));
 
-    final var tasks = taskListService.watch().take(SpringTaskListService.WATCH_TASKS_DELAY.multipliedBy(3)).collectList().block();
+    final var tasks = taskListService.watch(Optional.empty()).take(SpringTaskListService.WATCH_TASKS_DELAY.multipliedBy(3)).collectList().block();
     assertThat(tasks).isNotNull();
     assertThat(tasks.size()).isEqualTo(1);
   }

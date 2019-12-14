@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -26,14 +27,14 @@ public class SpringTaskListService implements TaskListService {
   @NonNull TaskService taskService;
 
   @Override
-  public Flux<Task> list() {
-    return taskService.list().groupBy(FlatContainer::getTaskId).flatMap(toTask);
+  public Flux<Task> list(final Optional<String> applicationId) {
+    return taskService.list(applicationId).groupBy(FlatContainer::getTaskId).flatMap(toTask);
   }
 
   @Override
-  public Flux<List<Task>> watch() {
+  public Flux<List<Task>> watch(final Optional<String> applicationId) {
     return Flux.interval(WATCH_TASKS_DELAY)
-        .flatMap(aLong -> this.list().collectList())
+        .flatMap(aLong -> this.list(applicationId).collectList())
         .distinctUntilChanged();
   }
 }

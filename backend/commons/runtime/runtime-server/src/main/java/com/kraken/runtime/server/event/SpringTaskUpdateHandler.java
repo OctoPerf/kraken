@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ final class SpringTaskUpdateHandler implements TaskUpdateHandler {
 
   @Override
   public Flux<List<Task>> scanForUpdates() {
-    return taskListService.watch()
+    return taskListService.watch(Optional.empty())
         .scan((previousTasks, currentTasks) -> {
           final var previousMap = previousTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));
           final var currentMap = currentTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));

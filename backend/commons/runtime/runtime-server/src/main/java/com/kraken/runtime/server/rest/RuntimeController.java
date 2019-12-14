@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import javax.validation.constraints.Pattern;
+import java.util.Optional;
+
+import static java.util.Optional.of;
 
 @Slf4j
 @RestController()
@@ -35,6 +38,6 @@ public class RuntimeController {
 
   @GetMapping(value = "/watch/{applicationId}")
   public Flux<ServerSentEvent<SSEWrapper>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return sse.keepAlive(sse.merge("LOG", logsService.listen(applicationId), "TASKS", taskListService.watch()));
+    return sse.keepAlive(sse.merge("LOG", logsService.listen(applicationId), "TASKS", taskListService.watch(of(applicationId))));
   }
 }

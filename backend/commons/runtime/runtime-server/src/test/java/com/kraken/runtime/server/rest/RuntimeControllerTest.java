@@ -72,7 +72,7 @@ public class RuntimeControllerTest {
     final Flux<List<Task>> tasksFlux = Flux.just(ImmutableList.of(TaskTest.TASK));
     given(logsService.listen(applicationId))
         .willReturn(logFlux);
-    given(taskListService.watch()).willReturn(tasksFlux);
+    given(taskListService.watch(Optional.of(applicationId))).willReturn(tasksFlux);
     given(sse.merge("LOG", logFlux, "TASKS", tasksFlux)).willReturn(wrapperFlux);
     given(sse.keepAlive(wrapperFlux)).willReturn(eventsFlux);
 

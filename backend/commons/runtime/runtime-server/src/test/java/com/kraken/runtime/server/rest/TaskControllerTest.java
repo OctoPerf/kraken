@@ -147,11 +147,12 @@ public class TaskControllerTest {
   @Test
   public void shouldList() {
     final var tasksFlux = Flux.just(TaskTest.TASK);
-    given(taskListService.list())
+    given(taskListService.list(Optional.of("app")))
         .willReturn(tasksFlux);
 
     webTestClient.get()
         .uri("/task/list")
+        .header("ApplicationId", "app")
         .exchange()
         .expectStatus().isOk()
         .expectBodyList(Task.class)
@@ -163,11 +164,11 @@ public class TaskControllerTest {
     final List<Task> list = ImmutableList.of(TaskTest.TASK, TaskTest.TASK);
     final Flux<List<Task>> tasksFlux = Flux.just(list, list);
     final Flux<ServerSentEvent<List<Task>>> eventsFlux = Flux.just(ServerSentEvent.builder(list).build(), ServerSentEvent.builder(list).build());
-    given(taskListService.watch()).willReturn(tasksFlux);
+    given(taskListService.watch(Optional.of("app"))).willReturn(tasksFlux);
     given(sse.keepAlive(tasksFlux)).willReturn(eventsFlux);
 
     final var result = webTestClient.get()
-        .uri("/task/watch")
+        .uri("/task/watch/app")
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
         .expectStatus().isOk()

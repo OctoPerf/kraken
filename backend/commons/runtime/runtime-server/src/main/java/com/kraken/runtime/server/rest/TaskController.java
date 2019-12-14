@@ -24,7 +24,9 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Optional;
 
+import static java.util.Optional.of;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 @Slf4j
@@ -67,14 +69,14 @@ public class TaskController {
     return taskService.remove(applicationId, taskId, type);
   }
 
-  @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<List<Task>>> watch() {
+  @GetMapping(value = "/watch/{applicationId}")
+  public Flux<ServerSentEvent<List<Task>>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
     log.info("Watch tasks lists");
-    return sse.keepAlive(taskListService.watch());
+    return sse.keepAlive(taskListService.watch(of(applicationId)));
   }
 
   @GetMapping(value = "/list")
-  public Flux<Task> list() {
-    return taskListService.list();
+  public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+    return taskListService.list(of(applicationId));
   }
 }

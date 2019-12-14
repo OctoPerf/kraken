@@ -7,11 +7,12 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface TaskListService {
 
-  Flux<Task> list();
+  Flux<Task> list(Optional<String> applicationId);
 
-  Flux<List<Task>> watch();
+  Flux<List<Task>> watch(Optional<String> applicationId);
 
 }

@@ -1,5 +1,6 @@
 package com.kraken.runtime.docker;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.command.Command;
@@ -27,9 +28,11 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_APPLICATION_ID;
 import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Slf4j
@@ -113,14 +116,18 @@ final class DockerTaskService implements TaskService {
   }
 
   @Override
-  public Flux<FlatContainer> list() {
+  public Flux<FlatContainer> list(Optional<String> applicationId) {
+    final var commandBuilder = ImmutableList.<String>builder();
+    commandBuilder.add("docker",
+        "ps",
+        "-a",
+        "--filter", String.format("label=%s", COM_KRAKEN_TASK_ID));
+    applicationId.ifPresent(appId -> commandBuilder.add("--filter", String.format("label=%s=%s", COM_KRAKEN_APPLICATION_ID, appId)));
+    commandBuilder.add("--format", StringToFlatContainer.FORMAT);
+
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
-            "ps",
-            "-a",
-            "--filter", String.format("label=%s", COM_KRAKEN_TASK_ID),
-            "--format", StringToFlatContainer.FORMAT))
+        .command(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 
