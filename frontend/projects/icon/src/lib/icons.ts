@@ -14,8 +14,9 @@ import {faBug} from '@fortawesome/free-solid-svg-icons/faBug';
 import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
 import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
 import {faStop} from '@fortawesome/free-solid-svg-icons/faStop';
+import {faBroom} from '@fortawesome/free-solid-svg-icons/faBroom';
 
-library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt, faStop);
+library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt, faStop, faBroom);
 
 export const LOADING_ICON = new IconFa(faSync, 'muted', '', true);
 
@@ -35,7 +36,9 @@ export const CLOSE_ICON = new IconDynamic(new IconFa(faTimesCircle), {'selected'
 
 export const PLAY_ICON = new IconFa(faPlay, 'success');
 
-export const STOP_ICON = new IconFa(faStop, 'error')
+export const STOP_ICON = new IconFa(faStop, 'error');
+
+export const CLEAR_ICON = new IconFa(faBroom);
 
 export const DEBUG_ICON = new IconFa(faBug, 'primary');
 

@@ -15,7 +15,8 @@ export class ContainerStatusComponent {
     READY: 40,
     RUNNING: 60,
     STOPPING: 80,
-    DONE: 100
+    DONE: 100,
+    FAILED: 100
   };
 
   private _status: ContainerStatus;

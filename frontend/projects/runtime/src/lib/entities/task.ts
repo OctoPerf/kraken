@@ -10,4 +10,5 @@ export interface Task {
   readonly containers: Container[];
   readonly expectedCount: number;
   readonly description: string;
+  readonly applicationId: string;
 }

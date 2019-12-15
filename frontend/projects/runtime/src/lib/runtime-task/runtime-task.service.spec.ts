@@ -16,6 +16,7 @@ export const runtimeTaskServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeTaskService', [
     'list',
     'cancel',
+    'remove',
     'execute',
   ]);
   spy.tasksSubject = new BehaviorSubject([]);
@@ -64,6 +65,17 @@ describe('RuntimeTaskService', () => {
     const task = testTask();
     service.cancel(task).subscribe(data => expect(data).toBe(task.id), () => fail('cancel failed'));
     const request = httpTestingController.expectOne(req => req.url === 'taskApiUrl/task/cancel/' + task.type);
+    expect(request.request.method).toBe('DELETE');
+    expect(request.request.params.get('taskId')).toBe(task.id);
+    request.flush(task.id);
+    expect(publish).toHaveBeenCalledWith(new TaskCancelledEvent(task));
+  });
+
+  it('should remove', () => {
+    const publish = spyOn(eventBus, 'publish');
+    const task = testTask();
+    service.remove(task).subscribe(data => expect(data).toBe(task.id), () => fail('remove failed'));
+    const request = httpTestingController.expectOne(req => req.url === 'taskApiUrl/task/remove/' + task.type);
     expect(request.request.method).toBe('DELETE');
     expect(request.request.params.get('taskId')).toBe(task.id);
     request.flush(task.id);

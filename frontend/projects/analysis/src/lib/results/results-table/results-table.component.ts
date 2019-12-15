@@ -40,6 +40,7 @@ export class ResultsTableComponent implements OnInit {
       STOPPING: new IconFa(faCircleNotch, 'success', '', true),
       COMPLETED: new IconFa(faCheckSquare, 'success'),
       CANCELED: new IconFa(faExclamationTriangle, 'warn'),
+      FAILED: new IconFa(faExclamationCircle, 'error'),
     }
   );
   readonly typeIcon = new IconDynamic(

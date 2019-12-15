@@ -57,6 +57,9 @@
         <button mat-icon-button *ngIf="task.status !== 'DONE'" (click)="cancel(task)" matTooltip="Cancel task">
           <lib-icon [icon]="stopIcon"></lib-icon>
         </button>
+        <button mat-icon-button *ngIf="task.status == 'DONE'" (click)="remove(task)" matTooltip="Remove task">
+          <lib-icon [icon]="removeIcon"></lib-icon>
+        </button>
       </td>
     </ng-container>
 

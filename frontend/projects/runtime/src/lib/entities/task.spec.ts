@@ -9,7 +9,8 @@ export const testTask: () => Task = () => {
     type: 'RUN',
     containers: testContainers(),
     expectedCount: 2,
-    description: 'description'
+    description: 'description',
+    applicationId: 'applicationId'
   };
 };
 
@@ -23,7 +24,8 @@ export const testTasks: () => Task[] = () => {
       type: 'RUN',
       containers: testContainers(),
       expectedCount: 2,
-      description: 'description1'
+      description: 'description1',
+      applicationId: 'applicationId'
     },
     {
       id: 'id2',
@@ -32,7 +34,8 @@ export const testTasks: () => Task[] = () => {
       type: 'RUN',
       containers: testContainers(),
       expectedCount: 2,
-      description: 'description2'
+      description: 'description2',
+      applicationId: 'applicationId'
     }
   ];
 };

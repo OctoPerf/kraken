@@ -124,7 +124,8 @@ describe('TaskTableComponent', () => {
         type: 'RUN',
         containers: testContainers(),
         expectedCount: 2,
-        description: 'description1'
+        description: 'description1',
+        applicationId: 'applicationId'
       },
       {
         id: 'id2',
@@ -133,7 +134,8 @@ describe('TaskTableComponent', () => {
         type: 'RUN',
         containers: testContainers(),
         expectedCount: 2,
-        description: 'description2'
+        description: 'description2',
+        applicationId: 'applicationId'
       }
     ];
     const task = _.cloneDeep(tasks[0]);
@@ -151,7 +153,8 @@ describe('TaskTableComponent', () => {
         type: 'RUN',
         containers: testContainers(),
         expectedCount: 2,
-        description: 'description1'
+        description: 'description1',
+        applicationId: 'applicationId'
       },
       {
         id: 'id2',
@@ -160,7 +163,8 @@ describe('TaskTableComponent', () => {
         type: 'RUN',
         containers: testContainers(),
         expectedCount: 2,
-        description: 'description2'
+        description: 'description2',
+        applicationId: 'applicationId'
       }
     ];
     const task = _.cloneDeep(tasks[0]);
@@ -175,5 +179,12 @@ describe('TaskTableComponent', () => {
     const task = testTask();
     component.cancel(task);
     expect(taskService.cancel).toHaveBeenCalledWith(task);
+  });
+
+  it('should remove task', () => {
+    taskService.remove.and.returnValue(of('taskId'));
+    const task = testTask();
+    component.remove(task);
+    expect(taskService.remove).toHaveBeenCalledWith(task);
   });
 });

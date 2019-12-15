@@ -4,6 +4,7 @@ export type ContainerStatus = 'CREATING'
   | 'READY'
   | 'RUNNING'
   | 'STOPPING'
-  | 'DONE';
+  | 'DONE'
+  | 'FAILED';
 
 

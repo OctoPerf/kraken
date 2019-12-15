@@ -12,4 +12,5 @@ export interface FlatContainer {
   readonly startDate: number;
   readonly status: ContainerStatus;
   readonly expectedCount: number;
+  readonly applicationId: string;
 }

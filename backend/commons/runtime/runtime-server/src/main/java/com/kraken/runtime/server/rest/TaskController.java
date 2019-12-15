@@ -65,7 +65,7 @@ public class TaskController {
   public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
-    log.info(String.format("Cancel task %s", taskId));
+    log.info(String.format("Remove task %s", taskId));
     return taskService.remove(applicationId, taskId, type);
   }
 

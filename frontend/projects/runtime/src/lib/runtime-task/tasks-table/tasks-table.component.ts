@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Task} from 'projects/runtime/src/lib/entities/task';
-import {REFRESH_ICON, STOP_ICON} from 'projects/icon/src/lib/icons';
+import {CLEAR_ICON, REFRESH_ICON, STOP_ICON} from 'projects/icon/src/lib/icons';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {Subscription} from 'rxjs';
@@ -25,6 +25,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   readonly refreshIcon = REFRESH_ICON;
   readonly stopIcon = STOP_ICON;
+  readonly removeIcon = CLEAR_ICON;
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'status', 'type', 'description', 'containers', 'buttons'];
   loading = true;
   dataSource: MatTableDataSource<Task>;
@@ -77,6 +78,10 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   public cancel(task: Task) {
     this.dialogs.confirm('Cancel Task', 'Are you sure you want to cancel this task execution?')
       .subscribe(() => this.taskService.cancel(task).subscribe());
+  }
+
+  public remove(task: Task) {
+    this.taskService.remove(task).subscribe();
   }
 
   set tasks(tasks: Task[]) {
