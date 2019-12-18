@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,13 @@ import java.util.function.Function;
 @AllArgsConstructor
 final class ZtCommandService implements CommandService {
 
+  @NonNull
   Function<String, String> stringCleaner;
-  AtomicReference<Command> lastCommand;
-
-  @Autowired
-  public ZtCommandService(final Function<String, String> stringCleaner) {
-    this.stringCleaner = Objects.requireNonNull(stringCleaner);
-    this.lastCommand = new AtomicReference<>(Command.builder()
-        .command(ImmutableList.of())
-        .path("")
-        .environment(ImmutableMap.of())
-        .build());
-  }
 
   @Override
   public Flux<String> execute(final Command command) {
     return Flux.<String>create(emitter -> {
-      this.logCommand(command);
+      log.debug(String.format("Executing command %s in path %s", String.join(" ", command.getCommand()), command.getPath()));
       final var file = Paths.get(command.getPath()).toFile();
       final var errors = ImmutableList.<String>builder();
       final var process = new ProcessExecutor().command(command.getCommand())
@@ -65,13 +56,6 @@ final class ZtCommandService implements CommandService {
       emitter.complete();
     })
         .map(stringCleaner);
-  }
-
-  private void logCommand(final Command command) {
-    final var last = this.lastCommand.getAndSet(command);
-    if (!last.equals(command)) {
-      log.info(String.format("Executing command %s in path %s", String.join(" ", command.getCommand()), command.getPath()));
-    }
   }
 
 }
