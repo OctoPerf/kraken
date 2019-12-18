@@ -104,15 +104,12 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<String> remove(final String applicationId, final String taskId, final TaskType taskType) {
-    return Mono.fromCallable(() -> {
-      final var command = Command.builder()
-          .path(this.applicationProperties.getData().toString())
-          .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, taskId)))
-          .environment(ImmutableMap.of())
-          .build();
-      commandService.execute(command);
-      return taskId;
-    });
+    final var command = Command.builder()
+        .path(this.applicationProperties.getData().toString())
+        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, taskId)))
+        .environment(ImmutableMap.of())
+        .build();
+    return commandService.execute(command).collectList().map(strings -> taskId);
   }
 
   @Override

@@ -23,7 +23,7 @@ public class RuntimeWebClientTest {
 
   private ObjectMapper mapper;
   private MockWebServer runtimeMockWebServer;
-  private RuntimeClient client;
+  private RuntimeWebClient client;
 
   @Before
   public void before() {
@@ -52,6 +52,7 @@ public class RuntimeWebClientTest {
 
     client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING).block();
     assertThat(runtimeMockWebServer.getRequestCount()).isEqualTo(1);
+    assertThat(client.getLastStatus()).isEqualTo(ContainerStatus.DONE);
   }
 
   @Test
@@ -66,11 +67,14 @@ public class RuntimeWebClientTest {
 
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getPath()).isEqualTo("/container/status/FAILED?taskId=taskId&containerId=id&containerName=name");
+
+    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
+    assertThat(runtimeMockWebServer.getRequestCount()).isEqualTo(1);
+    assertThat(client.getLastStatus()).isEqualTo(ContainerStatus.FAILED);
   }
 
   @Test
   public void shouldWaitForStatus() throws InterruptedException, IOException {
-
     final var expectedStatus = ContainerStatus.READY;
     final var flatContainer = FlatContainerTest.CONTAINER;
     final var taskId = flatContainer.getTaskId();
@@ -126,6 +130,29 @@ public class RuntimeWebClientTest {
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
     assertThat(request.getPath()).isEqualTo("/task/watch");
+  }
+
+  @Test
+  public void shouldWaitForStatusFail() throws InterruptedException {
+    final var flatContainer = FlatContainerTest.CONTAINER;
+
+    // Tasks stream
+    runtimeMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(500)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
+            .setBody(""));
+
+    // Set status
+    runtimeMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+    );
+
+    client.waitForStatus(flatContainer, ContainerStatus.RUNNING).block();
+
+    assertThat(client.getLastStatus()).isEqualTo(ContainerStatus.FAILED);
   }
 
   @Test

@@ -57,7 +57,6 @@ class RuntimeWebClient implements RuntimeClient {
         .filter(Optional::isPresent)
         .map(Optional::get)
         .doOnNext(task -> log.info(String.format("Matching task found: %s", task)))
-        .next()
         .onErrorResume(throwable -> this.setFailedStatus(container).map(aVoid -> Task.builder()
             .id(container.getTaskId())
             .startDate(container.getStartDate())
@@ -67,7 +66,8 @@ class RuntimeWebClient implements RuntimeClient {
             .expectedCount(1)
             .description(container.getDescription())
             .applicationId(container.getApplicationId())
-            .build()));
+            .build()))
+        .next();
   }
 
   @Override
@@ -122,6 +122,10 @@ class RuntimeWebClient implements RuntimeClient {
         .bodyToMono(FlatContainer.class)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnSubscribe(subscription -> log.info(String.format("Find container %s", containerName)));
+  }
+
+  public ContainerStatus getLastStatus() {
+    return this.lastStatus.get();
   }
 
 }
