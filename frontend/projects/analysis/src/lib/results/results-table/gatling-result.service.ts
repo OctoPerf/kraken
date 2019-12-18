@@ -64,6 +64,6 @@ export class GatlingResultService {
   }
 
   canDeleteResult(result: Result) {
-    return result && (result.status === 'COMPLETED' || result.status === 'CANCELED');
+    return result && (result.status === 'COMPLETED' || result.status === 'CANCELED' || result.status === 'FAILED');
   }
 }

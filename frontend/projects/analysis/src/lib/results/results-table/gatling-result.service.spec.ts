@@ -131,6 +131,7 @@ describe('GatlingResultService', () => {
     expect(service.canDeleteResult(testResultStatus('RUNNING'))).toBeFalsy();
     expect(service.canDeleteResult(testResultStatus('COMPLETED'))).toBeTruthy();
     expect(service.canDeleteResult(testResultStatus('CANCELED'))).toBeTruthy();
+    expect(service.canDeleteResult(testResultStatus('FAILED'))).toBeTruthy();
   });
 });
 

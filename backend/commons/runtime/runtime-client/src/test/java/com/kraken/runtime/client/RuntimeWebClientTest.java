@@ -45,12 +45,14 @@ public class RuntimeWebClientTest {
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
     );
 
-    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE).block();
+    final var set1 = client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.DONE);
+    final var set2 = client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING);
 
+    set1.block();
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getPath()).isEqualTo("/container/status/DONE?taskId=taskId&containerId=id&containerName=name");
 
-    client.setStatus(FlatContainerTest.CONTAINER, ContainerStatus.RUNNING).block();
+    set2.block();
     assertThat(runtimeMockWebServer.getRequestCount()).isEqualTo(1);
     assertThat(client.getLastStatus()).isEqualTo(ContainerStatus.DONE);
   }
@@ -129,7 +131,7 @@ public class RuntimeWebClientTest {
 
     final var request = runtimeMockWebServer.takeRequest();
     assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
-    assertThat(request.getPath()).isEqualTo("/task/watch");
+    assertThat(request.getPath()).isEqualTo("/task/watch/app");
   }
 
   @Test

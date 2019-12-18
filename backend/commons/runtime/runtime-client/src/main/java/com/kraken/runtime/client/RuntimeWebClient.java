@@ -42,7 +42,7 @@ class RuntimeWebClient implements RuntimeClient {
   public Mono<Task> waitForPredicate(final FlatContainer container, final Predicate<Task> predicate) {
     final Flux<List<Task>> flux = webClient
         .get()
-        .uri("/task/watch")
+        .uri(uriBuilder -> uriBuilder.path("/task/watch").pathSegment(container.getApplicationId()).build())
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .retrieve()
         .bodyToFlux(new ParameterizedTypeReference<List<Task>>() {
@@ -57,6 +57,7 @@ class RuntimeWebClient implements RuntimeClient {
         .filter(Optional::isPresent)
         .map(Optional::get)
         .doOnNext(task -> log.info(String.format("Matching task found: %s", task)))
+        .doOnError(t -> log.error("Failed wait for predicate", t))
         .onErrorResume(throwable -> this.setFailedStatus(container).map(aVoid -> Task.builder()
             .id(container.getTaskId())
             .startDate(container.getStartDate())
@@ -90,24 +91,23 @@ class RuntimeWebClient implements RuntimeClient {
   }
 
   private Mono<Void> _setStatus(final FlatContainer container, final ContainerStatus status) {
-    if (lastStatus.get().isTerminal()) {
-      return Mono.empty();
-    }
-
-    return webClient
-        .post()
-        .uri(uriBuilder -> uriBuilder.path("/container/status")
-            .pathSegment(status.toString())
-            .queryParam("taskId", container.getTaskId())
-            .queryParam("containerId", container.getId())
-            .queryParam("containerName", container.getName()).build())
-        .retrieve()
-        .bodyToMono(Void.class)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
-        .doOnError(t -> log.error("Failed to set status " + status, t))
-        .doOnSuccess(aVoid -> log.info("Set status to " + status))
-        .doOnSuccess(aVoid -> this.lastStatus.set(status))
-        .doOnSubscribe(subscription -> log.info(String.format("Set status %s for container %s", status.toString(), container.getName())));
+    return Mono.fromCallable(() -> this.lastStatus.get().isTerminal())
+        .flatMap(terminal -> terminal ? Mono.empty() : webClient
+            .post()
+            .uri(uriBuilder -> uriBuilder.path("/container/status")
+                .pathSegment(status.toString())
+                .queryParam("taskId", container.getTaskId())
+                .queryParam("containerId", container.getId())
+                .queryParam("containerName", container.getName()).build())
+            .retrieve()
+            .bodyToMono(Void.class)
+            .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+            .doOnError(t -> log.error("Failed to set status " + status, t))
+            .doOnSuccess(aVoid -> {
+              log.info("Set status to " + status);
+              this.lastStatus.set(status);
+            })
+            .doOnSubscribe(subscription -> log.info(String.format("Set status %s -> %s for container %s", this.lastStatus.get(), status.toString(), container.getName()))));
   }
 
   @Override
