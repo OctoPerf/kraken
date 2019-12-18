@@ -15,7 +15,7 @@ export class HostIdToDescriptionPipe implements PipeTransform {
 
   transform(id: string): string {
     const host = this.hostService.host(id);
-    return host ? `Addresses: ${this.addressesToStringPipe.transform(host.addresses)} - Capacity: ${this.capacityToStringPipe.transform(host.capacity)}` : id;
+    return host ? `Name: ${host.name} - Addresses: ${this.addressesToStringPipe.transform(host.addresses)} - Capacity: ${this.capacityToStringPipe.transform(host.capacity)}` : id;
   }
 
 }
