@@ -16,6 +16,9 @@ import {faFileInvoice} from '@fortawesome/free-solid-svg-icons/faFileInvoice';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {faFileImport} from '@fortawesome/free-solid-svg-icons/faFileImport';
 import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
+import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/description-input/description-input.component';
+import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/contextual-menu.component';
+import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
@@ -55,6 +58,9 @@ export class ResultsTableComponent implements OnInit {
   dataSource: MatTableDataSource<Result>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  @ViewChild('menu', {static: true}) menu: ContextualMenuComponent;
+  reports: StorageNode[] = [];
+
   constructor(public gatling: GatlingResultService,
               public results: ResultsTableService) {
   }
@@ -64,6 +70,14 @@ export class ResultsTableComponent implements OnInit {
     this.results.valuesSubject.subscribe((resultsList) => {
       this.dataSource = new MatTableDataSource(resultsList);
       this.dataSource.sort = this.sort;
+    });
+  }
+
+  openMenu(event: MouseEvent) {
+    event.preventDefault();
+    this.gatling.listGatlingReport(this.results.selection).subscribe((reports: StorageNode[]) => {
+      this.reports = reports;
+      this.menu.open(event);
     });
   }
 

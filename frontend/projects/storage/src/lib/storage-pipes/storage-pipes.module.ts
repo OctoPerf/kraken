@@ -6,6 +6,7 @@ import {StorageNodeToParentPathPipe} from 'projects/storage/src/lib/storage-pipe
 import { StorageNodeToExtPipe } from './storage-node-to-ext.pipe';
 import { NodeEventToNodePipe } from './node-event-to-node.pipe';
 import { StorageNodeToPredicatePipe } from './storage-node-to-predicate.pipe';
+import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { StorageNodeToPredicatePipe } from './storage-node-to-predicate.pipe';
     StorageNodeToPredicatePipe,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ToolsModule,
   ],
   providers: [
     StorageNodeToIconPipe,

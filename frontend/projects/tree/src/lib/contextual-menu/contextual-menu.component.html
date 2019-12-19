@@ -6,5 +6,7 @@
 <!--[matMenuTriggerData]="{item: item}"-->
 <!--let-item="item"-->
 <mat-menu #contextMenu="matMenu">
-  <ng-content></ng-content>
+  <ng-template matMenuContent>
+    <ng-content></ng-content>
+  </ng-template>
 </mat-menu>

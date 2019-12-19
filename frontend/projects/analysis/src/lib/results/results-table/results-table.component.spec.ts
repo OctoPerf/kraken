@@ -9,6 +9,8 @@ import {
   resultsTableServiceSpy,
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
+import {testStorageNodes} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {of} from 'rxjs';
 
 describe('ResultsListComponent', () => {
   let component: ResultsTableComponent;
@@ -45,5 +47,18 @@ describe('ResultsListComponent', () => {
   it('should init datasource', () => {
     results.valuesSubject.next([testResult()]);
     expect(component.dataSource).toBeTruthy();
+  });
+
+  it('should pen menu', () => {
+    const event = {
+      preventDefault: jasmine.createSpy(),
+    };
+    component.menu = jasmine.createSpyObj('menu', ['open']);
+    const nodes = testStorageNodes();
+    gatling.listGatlingReport.and.returnValue(of(nodes));
+    component.openMenu(event as any);
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(component.reports).toBe(nodes);
+    expect(component.menu.open).toHaveBeenCalled();
   });
 });

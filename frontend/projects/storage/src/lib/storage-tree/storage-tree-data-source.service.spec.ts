@@ -24,6 +24,7 @@ import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
 
 export const testStorageNodesSorted: () => StorageNode[] = () => {
   return [
@@ -73,6 +74,7 @@ describe('StorageTreeDataSourceService', () => {
         {provide: StorageListService, useValue: storageListServiceSpy()},
         {provide: STORAGE_ROOT_NODE, useValue: rootNode},
         StorageNodeToParentPathPipe,
+        PathToParentPathPipe,
         StorageTreeDataSourceService,
       ]
     });

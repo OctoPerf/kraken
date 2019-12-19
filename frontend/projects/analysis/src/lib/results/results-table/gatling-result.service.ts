@@ -37,30 +37,17 @@ export class GatlingResultService {
     this.window.open(of(this.analysisConfiguration.grafanaUrl(`/${result.id}`)));
   }
 
-  openGatlingReport(result: Result) {
-    const path = this.rootNode.path + '/' + result.id;
-    const url = this.storage.find(path, 'index\.html')
-      .pipe(map((nodes: StorageNode[]) => {
-        if (nodes.length) {
-          return this.analysisConfiguration.staticApiUrl('/' + nodes[0].path);
-        } else {
-          throw Error('No report node found');
-        }
-      }), catchError(err => {
-        this.eventBus.publish(new NotificationEvent(
-          new BaseNotification('Cannot open Gatling report. \'index.html\' could not be found.', NotificationLevel.ERROR)
-        ));
-        throw err;
-      }));
-    this.window.open(url);
+  openGatlingReport(reportNode: StorageNode) {
+    this.window.open(of(this.analysisConfiguration.staticApiUrl('/' + reportNode.path)));
+  }
+
+  listGatlingReport(result: Result): Observable<StorageNode[]> {
+    const path = `${this.rootNode.path}/${result.id}/groups/`;
+    return this.storage.find(path, 'index\.html').pipe(catchError(err => of([])));
   }
 
   canOpenGrafanaReport(result: Result) {
     return result && (result.type === 'RUN');
-  }
-
-  canOpenGatlingReport(result: Result) {
-    return result && (result.type !== 'HAR' && result.status === 'COMPLETED' || result.status === 'CANCELED');
   }
 
   canDeleteResult(result: Result) {

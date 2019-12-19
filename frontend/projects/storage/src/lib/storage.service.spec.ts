@@ -28,6 +28,7 @@ import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-c
 import * as _ from 'lodash';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import SpyObj = jasmine.SpyObj;
+import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
 
 export const storageServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageService', [
@@ -70,6 +71,7 @@ describe('StorageService', () => {
         StorageService,
         StorageNodeToNamePipe,
         NodeEventToNodePipe,
+        PathToNamePipe,
       ]
     });
     eventBus = TestBed.get(EventBusService);

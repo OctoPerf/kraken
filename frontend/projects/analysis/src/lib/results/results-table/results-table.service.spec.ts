@@ -22,6 +22,8 @@ import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
+import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
 
 export const testResultStatus: (status: ResultStatus) => Result = (status: ResultStatus) => {
   return {
@@ -73,7 +75,7 @@ export const resultsTableServiceSpy: () => SpyObj<ResultsTableService> = () => {
   return spy;
 };
 
-describe('ResultsListService', () => {
+describe('ResultsTableService', () => {
   let service: ResultsTableService;
   let storage: SpyObj<StorageService>;
   let storageList: SpyObj<StorageListService>;
@@ -100,7 +102,9 @@ describe('ResultsListService', () => {
         {provide: StorageListService, useValue: storageList},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         StorageNodeToNamePipe,
+        PathToNamePipe,
         StorageNodeToParentPathPipe,
+        PathToParentPathPipe,
         NodeEventToNodePipe,
         ResultsTableService,
         IsDebugEntryStorageNodePipe,

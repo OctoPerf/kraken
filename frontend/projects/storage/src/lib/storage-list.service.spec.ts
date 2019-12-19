@@ -21,6 +21,8 @@ import {EventEmitter} from '@angular/core';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {storageWatcherServiceSpy} from 'projects/storage/src/lib/storage-watcher.service.spec';
 import Spy = jasmine.Spy;
+import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
+import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
 
 export const storageListServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageListService', [
@@ -56,7 +58,9 @@ describe('StorageListService', () => {
         EventBusService,
         NodeEventToNodePipe,
         StorageNodeToNamePipe,
+        PathToNamePipe,
         StorageNodeToParentPathPipe,
+        PathToParentPathPipe,
         StorageNodeToPredicatePipe,
         StorageListService,
       ]

@@ -31,6 +31,7 @@ export const gatlingResultServiceSpy = () => {
   const spy = jasmine.createSpyObj('GatlingResultService', [
     'deleteResult',
     'openGatlingReport',
+    'listGatlingReport',
   ]);
   return spy;
 };
@@ -84,31 +85,20 @@ describe('GatlingResultService', () => {
     expect(analysis.deleteTest).toHaveBeenCalledWith(result.id);
   });
 
+  it('should listGatlingReport', () => {
+    const nodes = [testStorageFileNode()];
+    storage.find.and.returnValue(of(nodes));
+    let resultNodes = [];
+    service.listGatlingReport(testResultStatus('COMPLETED')).subscribe(value => resultNodes = value);
+    expect(resultNodes).toEqual(nodes);
+    expect(storage.find).toHaveBeenCalledWith('gatling/results/uuid/groups/', 'index.html');
+  });
+
   it('should openGatlingReport', () => {
-    window.open.and.callFake(url => url.subscribe(value => expect(value).toBe('staticApiUrl/spotbugs/main.html')));
     const node = testStorageFileNode();
-    storage.find.and.returnValue(of([node]));
-    service.openGatlingReport(result);
+    window.open.and.callFake(url => url.subscribe(val => expect(val).toBe('staticApiUrl/spotbugs/main.html'), err => fail(err)));
+    service.openGatlingReport(node);
     expect(window.open).toHaveBeenCalled();
-    expect(storage.find).toHaveBeenCalledWith('gatling/results/uuid', 'index.html');
-  });
-
-  it('should not openGatlingReport', () => {
-    window.open.and.callFake(url => url.subscribe(val => fail(val), err => expect(err).toEqual('err')));
-    storage.find.and.returnValue(throwError('err'));
-    service.openGatlingReport(result);
-    expect(window.open).toHaveBeenCalled();
-    expect(storage.find).toHaveBeenCalledWith('gatling/results/uuid', 'index.html');
-    expect(events.publish).toHaveBeenCalled();
-  });
-
-  it('should not openGatlingReport (no nodes)', () => {
-    window.open.and.callFake(url => url.subscribe(val => fail(val), err => expect(err).toBeDefined()));
-    storage.find.and.returnValue(of([]));
-    service.openGatlingReport(result);
-    expect(window.open).toHaveBeenCalled();
-    expect(storage.find).toHaveBeenCalledWith('gatling/results/uuid', 'index.html');
-    expect(events.publish).toHaveBeenCalled();
   });
 
   it('should openGrafanaReport', () => {
@@ -120,11 +110,6 @@ describe('GatlingResultService', () => {
   it('should canOpenGrafanaReport', () => {
     expect(service.canOpenGrafanaReport(testResultStatus('RUNNING'))).toBeTruthy();
     expect(service.canOpenGrafanaReport(testResultDebug())).toBeFalsy();
-  });
-
-  it('should canOpenGatlingReport', () => {
-    expect(service.canOpenGatlingReport(testResultStatus('COMPLETED'))).toBeTruthy();
-    expect(service.canOpenGatlingReport(testResultStatus('CANCELED'))).toBeTruthy();
   });
 
   it('should canDeleteResult', () => {

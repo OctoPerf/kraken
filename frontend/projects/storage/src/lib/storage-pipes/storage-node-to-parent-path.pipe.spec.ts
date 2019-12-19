@@ -1,10 +1,11 @@
 import {StorageNodeToParentPathPipe} from './storage-node-to-parent-path.pipe';
+import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
 
 describe('StorageNodeToParentPathPipe', () => {
   let pipe: StorageNodeToParentPathPipe;
 
   beforeEach(() => {
-    pipe = new StorageNodeToParentPathPipe();
+    pipe = new StorageNodeToParentPathPipe(new PathToParentPathPipe());
   });
 
   it('create an instance', () => {

@@ -1,10 +1,11 @@
 import {StorageNodeToNamePipe} from './storage-node-to-name.pipe';
+import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
 
 describe('StorageNodeToNamePipe', () => {
   let pipe: StorageNodeToNamePipe;
 
   beforeEach(() => {
-    pipe = new StorageNodeToNamePipe();
+    pipe = new StorageNodeToNamePipe(new PathToNamePipe());
   });
 
   it('create an instance', () => {
