@@ -33,6 +33,7 @@ class BasicSimulation extends Simulation {
   val headers_10 = Map("Content-Type" -> "application/x-www-form-urlencoded") // Note the headers specific to a given request
 
   val foo = System.getProperty("FOO")
+  val users = System.getProperty("USERS_COUNT")
 
   val scn = scenario("Scenario Name") // A scenario is a chain of requests and pauses
     .exec(http("request_1")
@@ -48,5 +49,5 @@ class BasicSimulation extends Simulation {
       .formParam("discontinued", "")
       .formParam("company", "37"))
 
-  setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
+  setUp(scn.inject(atOnceUsers(users.toInt)).protocols(httpProtocol))
 }
