@@ -10,7 +10,7 @@
     "lastModified": 0
   },
   "runtimeApiUrl": "http://localhost:8082",
-  "docUrl": "https://kraken.octoperf.com",
+  "docUrl": "http://localhost:8000",
   "staticApiUrl": "http://localhost:8085",
   "analysisApiUrl": "http://localhost:8081",
   "analysisRootNode": {

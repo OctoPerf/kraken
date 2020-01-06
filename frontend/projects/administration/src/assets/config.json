@@ -10,5 +10,5 @@
     "lastModified": 0
   },
   "runtimeApiUrl": "http://localhost:8082",
-  "docUrl": "https://kraken.octoperf.com"
+  "docUrl": "http://localhost:8000"
 }
