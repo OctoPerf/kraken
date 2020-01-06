@@ -6,7 +6,6 @@ import com.kraken.runtime.entity.Task;
 import com.kraken.runtime.entity.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
-import com.kraken.runtime.server.event.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
@@ -24,7 +23,6 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Optional.of;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
