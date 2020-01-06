@@ -95,7 +95,7 @@ export class WorkspaceComponent implements OnInit {
     this.bottom = new SideConfiguration(
       new TabsConfiguration(
         [
-          new Tab(new ComponentPortal(HostsTableComponent), 'Hosts', new IconFa(faServer), null, true, []),
+          new Tab(new ComponentPortal(HostsTableComponent), 'Hosts', new IconFa(faServer), 'ADMIN_HOSTS_TABLE', true, []),
         ],
         0,
         50
