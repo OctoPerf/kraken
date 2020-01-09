@@ -124,7 +124,7 @@
               },
               {
                 "params": [],
-                "type": "sum"
+                "type": "max"
               }
             ]
           ],
@@ -652,7 +652,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "User Load Repartition",
+      "title": "User Load per Profile",
       "tooltip": {
         "shared": true,
         "sort": 0,
