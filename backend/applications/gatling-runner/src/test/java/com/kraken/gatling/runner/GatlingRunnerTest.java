@@ -78,7 +78,7 @@ public class GatlingRunnerTest {
     verify(runtimeClient).setStatus(CONTAINER, ContainerStatus.DONE);
     verify(runtimeClient).waitForStatus(CONTAINER, ContainerStatus.READY);
     verify(runtimeClient).waitForStatus(CONTAINER, ContainerStatus.STOPPING);
-    verify(storageClient, times(2)).downloadFolder(any(Path.class), any());
+    verify(storageClient, times(3)).downloadFolder(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
         .path(gatlingExecutionProperties.getGatlingHome().toString())

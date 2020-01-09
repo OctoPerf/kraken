@@ -16,11 +16,13 @@ public class GatlingExecutionProperties {
   @NonNull Path gatlingBin;
   @NonNull Path localUserFiles;
   @NonNull Path localConf;
+  @NonNull Path localLib;
   @NonNull Path localResult;
   @NonNull Path infoLog;
   @NonNull Path debugLog;
   @NonNull Optional<String> remoteUserFiles;
   @NonNull Optional<String> remoteConf;
+  @NonNull Optional<String> remoteLib;
   @NonNull Optional<String> remoteResult;
 
   @NonNull Path localHarPath;

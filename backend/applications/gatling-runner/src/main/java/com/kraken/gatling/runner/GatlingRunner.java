@@ -43,6 +43,7 @@ final class GatlingRunner {
     final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
     final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
     final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
+    final var downloadLib = storageClient.downloadFolder(gatlingExecutionProperties.getLocalLib(), gatlingExecutionProperties.getRemoteLib());
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commandService.execute(Command.builder()
@@ -63,6 +64,7 @@ final class GatlingRunner {
     setStatusPreparing.block();
     downloadConfiguration.block();
     downloadUserFiles.block();
+    downloadLib.block();
     setStatusReady.block();
     waitForStatusReady.map(Object::toString).block();
     Optional.ofNullable(listFiles

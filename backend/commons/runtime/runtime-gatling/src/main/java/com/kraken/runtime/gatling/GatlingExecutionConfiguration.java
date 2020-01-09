@@ -27,6 +27,8 @@ class GatlingExecutionConfiguration {
       @Value($KRAKEN_GATLING_BIN) final String bin,
       @Value($KRAKEN_GATLING_CONF_LOCAL) final String localConf,
       @Value($KRAKEN_GATLING_CONF_REMOTE) final String remoteConf,
+      @Value($KRAKEN_GATLING_LIB_LOCAL) final String localLib,
+      @Value($KRAKEN_GATLING_LIB_REMOTE) final String remoteLib,
       @Value($KRAKEN_GATLING_USER_FILES_LOCAL) final String localUserFiles,
       @Value($KRAKEN_GATLING_USER_FILES_REMOTE) final String remoteUserFiles,
       @Value($KRAKEN_GATLING_RESULT_LOCAL) final String localResult,
@@ -49,6 +51,8 @@ class GatlingExecutionConfiguration {
         .remoteConf(of(Paths.get(remoteConf).resolve(containerProperties.getTaskType().toString()).toString()))
         .localUserFiles(Paths.get(localUserFiles))
         .remoteUserFiles(of(remoteUserFiles))
+        .localLib(Paths.get(localLib))
+        .remoteLib(of(remoteLib))
         .localResult(Paths.get(localResult))
         .remoteResult(of(Paths.get(remoteResult).resolve(containerProperties.getTaskId()).toString()))
         .infoLog(Paths.get(infoLog))

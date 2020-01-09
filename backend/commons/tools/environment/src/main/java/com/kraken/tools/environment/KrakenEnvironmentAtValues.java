@@ -33,6 +33,8 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_GATLING_BIN = "${kraken.gatling.bin:#{environment.KRAKEN_GATLING_BIN}}";
   String $KRAKEN_GATLING_CONF_LOCAL = "${kraken.gatling.conf.local:#{environment.KRAKEN_GATLING_CONF_LOCAL}}";
   String $KRAKEN_GATLING_CONF_REMOTE = "${kraken.gatling.conf.remote:#{environment.KRAKEN_GATLING_CONF_REMOTE}}";
+  String $KRAKEN_GATLING_LIB_LOCAL = "${kraken.gatling.lib.local:#{environment.KRAKEN_GATLING_LIB_LOCAL}}";
+  String $KRAKEN_GATLING_LIB_REMOTE = "${kraken.gatling.lib.remote:#{environment.KRAKEN_GATLING_LIB_REMOTE}}";
   String $KRAKEN_GATLING_USER_FILES_LOCAL = "${kraken.gatling.user-files.local:#{environment.KRAKEN_GATLING_USER_FILES_LOCAL}}";
   String $KRAKEN_GATLING_USER_FILES_REMOTE = "${kraken.gatling.user-files.remote:#{environment.KRAKEN_GATLING_USER_FILES_REMOTE}}";
   String $KRAKEN_GATLING_RESULT_LOCAL = "${kraken.gatling.result.local:#{environment.KRAKEN_GATLING_RESULT_LOCAL}}";

@@ -8,6 +8,9 @@ kraken:
     user-files:
       local: ${kraken.gatling.home}/user-files
       remote: gatling/user-files
+    lib:
+      local: ${kraken.gatling.home}/lib
+      remote: gatling/lib
     result:
       local: ${kraken.gatling.home}/results
       remote: gatling/results
