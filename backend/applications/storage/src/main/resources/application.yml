@@ -32,3 +32,10 @@ spring:
 
 kraken:
   data: /home/kraken/data
+
+---
+spring:
+  profiles: kubernetes
+
+kraken:
+  data: /home/kraken/data
