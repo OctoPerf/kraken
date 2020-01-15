@@ -21,6 +21,7 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_K8S_PRETTY = "${kraken.k8s.pretty:#{environment.KRAKEN_K8S_PRETTY}}";
   String $KRAKEN_K8S_DEBUG = "${kraken.k8s.debug:#{environment.KRAKEN_K8S_DEBUG}}";
   String $KRAKEN_K8S_PATCH_HOSTS = "${kraken.k8s.patch-hosts:#{environment.KRAKEN_K8S_PATCH_HOSTS}}";
+  String $KRAKEN_K8S_CLIENT_BUILDER_TYPE = "${kraken.k8s.client-builder-type:#{environment.KRAKEN_K8S_CLIENT_BUILDER_TYPE}}";
   String $KRAKEN_K8S_CONFIG_PATH = "${kraken.k8s.config-path:#{environment.KRAKEN_K8S_CONFIG_PATH}}";
   String $KRAKEN_VERSION = "${kraken.version:#{environment.KRAKEN_VERSION}}";
 
