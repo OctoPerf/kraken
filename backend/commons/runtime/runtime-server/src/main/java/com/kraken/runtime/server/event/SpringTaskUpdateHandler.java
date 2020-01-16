@@ -34,7 +34,7 @@ final class SpringTaskUpdateHandler implements TaskUpdateHandler {
   public void start() {
     this.scanForUpdates()
         .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
-        .onErrorContinue((throwable, o) -> log.error("Failed to list tasks" + o, throwable))
+        .onErrorContinue((throwable, o) -> log.error("Failed to list tasks " + o, throwable))
         .subscribe();
   }
 
