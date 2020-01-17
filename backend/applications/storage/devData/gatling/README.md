@@ -8,7 +8,7 @@ The Gatling application is used to ease load and performance tests made with Gat
 * **Compare test executions** with records (or compare successive test executions),
 * Visualize results during the load test execution thanks to **Grafana**.
 
-Learn more about Kraken Gatling features and usage in <a href="https://kraken.octoperf.com/gatling/" target="_blank">the documentation</a>.
+Learn more about Kraken Gatling features and usage in <a href="/doc/gatling/" target="_blank">the documentation</a>.
 
 ## Getting Started
 
@@ -19,8 +19,8 @@ Learn more about Kraken Gatling features and usage in <a href="https://kraken.oc
 3. Click on the _Play_ icon next to the filename,
 4. Fill in the _Run Simulation_ dialog and click on _Run_.
 
-Once the test is running, you can <a href="https://kraken.octoperf.com/gatling/analyze-gatling-load-test/" target="_blank">open the Grafana dashboard</a>.
-The default credentials are admin/kraken.
+Once the test is running, you can <a href="/doc/gatling/analyze-gatling-load-test/" target="_blank">open the Grafana dashboard</a>.
+The default credentials are `admin/kraken`.
 
 **Need Help? Click on the Help button** at the right of the window to open the contextual Help.
 
@@ -28,4 +28,4 @@ The default credentials are admin/kraken.
 
 Much like running a load test, but this time click on the _Bug_ icon next to the simulation name.
 
-Once the debug has started, you will be able to <a href="https://kraken.octoperf.com/editors/debug-request-response/" target="_blank">check sent request and corresponding server responses</a>.
+Once the debug has started, you will be able to <a href="/doc/editors/debug-request-response/" target="_blank">check sent request and corresponding server responses</a>.
