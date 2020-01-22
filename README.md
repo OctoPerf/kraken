@@ -54,6 +54,9 @@ To run Kraken from the source code you need to:
   * `make setup` (one time only)
   * `make serve APP=gatling`
   * `make serve APP=administration`
+4. Start the documentation
+  * `cd documentation`
+  * `make serve`
   
 ![Kraken Dev Architecture](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-dev-architecture.png "Kraken Dev Architecture")
 
