@@ -13,8 +13,8 @@
         Invalid simulation name.
       </mat-error>
     </mat-form-field>
-    <lib-description-input #descriptionInput [formGroup]="simulationForm"
-                           [value]="(data.type | prettyString) + ' '+ data.simulationClass"></lib-description-input>
+    <app-description-input #descriptionInput [formGroup]="simulationForm"
+                           [value]="(data.type | prettyString) + ' '+ data.simulationClass"></app-description-input>
     <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"
                         [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
                         [multiple]="data.type === 'RUN'"></lib-hosts-selector>

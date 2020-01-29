@@ -10,7 +10,7 @@ import * as _ from 'lodash';
  */
 export class KeyBinding {
   constructor(
-    public readonly key: string,
+    public readonly keys: string[],
     public readonly binding: ($event: KeyboardEvent) => boolean,
     public readonly focusedId: string = null,
     public readonly preventDefault = true,
@@ -39,16 +39,20 @@ export class KeyBindingsService implements OnDestroy {
 
   public add(bindings: KeyBinding[]) {
     _.forEach(bindings, (binding) => {
-      if (!this.bindings[binding.key]) {
-        this.bindings[binding.key] = [];
-      }
-      this.bindings[binding.key].push(binding);
+      _.forEach(binding.keys, (key) => {
+        if (!this.bindings[key]) {
+          this.bindings[key] = [];
+        }
+        this.bindings[key].push(binding);
+      });
     });
   }
 
   public remove(bindings: KeyBinding[]) {
     _.forEach(bindings, (binding) => {
-      delete this.bindings[binding.key];
+      _.forEach(binding.keys, (key) => {
+        delete this.bindings[key];
+      });
     });
   }
 

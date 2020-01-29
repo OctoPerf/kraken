@@ -48,7 +48,7 @@ describe('PasteMenuItemComponent', () => {
     ctrl.hasSingleOrNoSelection = true;
     ctrl.selectedDirectory = directoryNode;
     const binding = component.binding;
-    expect(binding.key).toBe('ctrl + v');
+    expect(binding.keys).toEqual(['ctrl + v']);
     expect(binding.binding(null)).toBe(true);
     expect(copyPaste.paste).toHaveBeenCalledWith(directoryNode);
   });
@@ -57,7 +57,7 @@ describe('PasteMenuItemComponent', () => {
     const ctrl = component.treeControl as any;
     ctrl.hasSingleOrNoSelection = false;
     const binding = component.binding;
-    expect(binding.key).toBe('ctrl + v');
+    expect(binding.keys).toEqual(['ctrl + v']);
     expect(binding.binding(null)).toBe(false);
     expect(copyPaste.paste).not.toHaveBeenCalled();
   });

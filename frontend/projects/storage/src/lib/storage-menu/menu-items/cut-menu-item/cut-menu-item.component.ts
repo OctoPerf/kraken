@@ -23,7 +23,7 @@ export class CutMenuItemComponent extends KeyBoundMenuItem {
               public treeControl: StorageTreeControlService,
               public copyPaste: CopyPasteService,
               keys: KeyBindingsService) {
-    super(treeControl, keys, new KeyBinding('ctrl + x', () => this._handleKey(this.copyPaste.cut.bind(this.copyPaste)), id));
+    super(treeControl, keys, new KeyBinding(['ctrl + x'], () => this._handleKey(this.copyPaste.cut.bind(this.copyPaste)), id));
   }
 
 }

@@ -3,7 +3,7 @@
   <span fxFlex class="node-label text-ellipsis no-selection"
         [title]="node.path + ' - ' +  (node.length | fileSize) + ' - '+ (node.lastModified | dateTimeToStringMs)"
         (click)="treeControl.nodeClick($event, node)"
-        (dblclick)="treeControl.nodeDoubleClick($event, node)">
+        (dblclick)="treeControl.mouseNodeDoubleClick($event, node)">
     <lib-icon class="m-r-xs" [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
     {{node | storageNodeToName}}
   </span>

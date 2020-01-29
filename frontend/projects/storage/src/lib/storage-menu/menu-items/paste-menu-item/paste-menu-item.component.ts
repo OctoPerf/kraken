@@ -23,7 +23,7 @@ export class PasteMenuItemComponent extends KeyBoundMenuItem {
               public treeControl: StorageTreeControlService,
               public copyPaste: CopyPasteService,
               keys: KeyBindingsService) {
-    super(treeControl, keys, new KeyBinding('ctrl + v', () => {
+    super(treeControl, keys, new KeyBinding(['ctrl + v'], () => {
       if (this.treeControl.hasSingleOrNoSelection) {
         this.copyPaste.paste(this.treeControl.selectedDirectory);
         return true;

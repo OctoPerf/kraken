@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-  selector: 'lib-description-input',
+  selector: 'app-description-input',
   templateUrl: './description-input.component.html',
   styleUrls: ['./description-input.component.scss']
 })

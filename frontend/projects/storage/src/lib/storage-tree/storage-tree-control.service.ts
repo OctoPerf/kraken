@@ -55,8 +55,12 @@ export class StorageTreeControlService extends FlatTreeControl<StorageNode> impl
     this._toggleSelection($event, node);
   }
 
-  public nodeDoubleClick($event: MouseEvent, node: StorageNode) {
+  public mouseNodeDoubleClick($event: MouseEvent, node: StorageNode) {
     $event.stopPropagation();
+    this.nodeDoubleClick(node);
+  }
+
+  public nodeDoubleClick(node: StorageNode) {
     if (node.type === 'DIRECTORY') {
       this.toggle(node);
     } else {
@@ -91,10 +95,19 @@ export class StorageTreeControlService extends FlatTreeControl<StorageNode> impl
     return !!node && _.findIndex(this._selection.selected, current => current.path === node.path) !== -1;
   }
 
-  public selectOne(node: StorageNode) {
-    this._selection.clear();
+  public selectNode(node: StorageNode) {
     this._selection.select(node);
     this._lastSelection = node;
+  }
+
+  public deselectNode(node: StorageNode, nextNode: StorageNode) {
+    this._selection.deselect(node);
+    this._lastSelection = nextNode;
+  }
+
+  public selectOne(node: StorageNode) {
+    this._selection.clear();
+    this.selectNode(node);
     let parent = this.dataSource.parentNode(node);
     while (parent.path !== this.rootNode.path) {
       this.expand(parent);

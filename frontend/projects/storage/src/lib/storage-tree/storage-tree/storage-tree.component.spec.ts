@@ -23,6 +23,8 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
+import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
+import {storageKeyBindingServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service.spec';
 
 describe('StorageTreeComponent', () => {
   let component: StorageTreeComponent;
@@ -44,13 +46,15 @@ describe('StorageTreeComponent', () => {
         {provide: StorageService, useValue: storageServiceSpy()},
         {provide: STORAGE_CONTEXTUAL_MENU, useValue: StorageContextualMenuComponent},
         {provide: STORAGE_ID, useValue: 'storage'},
-        {provide: EventBusService, useValue: eventBus}
+        {provide: EventBusService, useValue: eventBus},
+        {provide: StorageKeyBindingService, useValue: storageKeyBindingServiceSpy}
       ]
     })
       .overrideProvider(StorageListService, {useValue: storageListServiceSpy()})
       .overrideProvider(StorageTreeControlService, {useValue: treeControl})
       .overrideProvider(StorageTreeDataSourceService, {useValue: dataSource})
       .overrideProvider(CopyPasteService, {useValue: copyPasteServiceSpy()})
+      .overrideProvider(StorageKeyBindingService, {useValue: storageKeyBindingServiceSpy()})
       .overrideTemplate(StorageTreeComponent, '')
       .compileComponents();
 

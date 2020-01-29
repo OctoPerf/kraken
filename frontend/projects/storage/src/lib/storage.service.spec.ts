@@ -37,6 +37,7 @@ export const storageServiceSpy = () => {
     'edit',
     'rename',
     'deleteFiles',
+    'deleteFilesWithConfirm',
     'addFile',
     'addDirectory',
     'upload',
@@ -109,8 +110,17 @@ describe('StorageService', () => {
 
   it('should deleteFiles', () => {
     const nodes = testStorageNodes();
-    dialogs.open.and.returnValue(of('close'));
     service.deleteFiles(nodes);
+    const req = httpTestingController.expectOne('storageApiUrl/files/delete');
+    expect(req.request.method).toBe('POST');
+    req.flush([true]);
+    expect(eventBus.publish).toHaveBeenCalledWith(new DeleteFilesEvent([true]));
+  });
+
+  it('should deleteFilesWithConfirm', () => {
+    const nodes = testStorageNodes();
+    dialogs.open.and.returnValue(of('close'));
+    service.deleteFilesWithConfirm(nodes);
     expect(dialogs.open).toHaveBeenCalledWith(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes});
     const req = httpTestingController.expectOne('storageApiUrl/files/delete');
     expect(req.request.method).toBe('POST');

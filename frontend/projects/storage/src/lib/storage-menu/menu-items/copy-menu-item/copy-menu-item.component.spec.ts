@@ -36,7 +36,7 @@ describe('CopyMenuItemComponent', () => {
 
   it('should copy key binding', () => {
     const binding = component.binding;
-    expect(binding.key).toBe('ctrl + c');
+    expect(binding.keys).toEqual(['ctrl + c']);
     spyOn(component, '_handleKey');
     binding.binding(null);
     expect(component._handleKey).toHaveBeenCalledWith(jasmine.any(Function));

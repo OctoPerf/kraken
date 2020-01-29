@@ -1,10 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {HttpClient} from '@angular/common/http';
-import {Observable, ReplaySubject, Subscription} from 'rxjs';
-import {flatMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {flatMap} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {OpenNodeEvent} from 'projects/storage/src/lib/events/open-node-event';
 import {DeleteFilesDialogComponent} from 'projects/storage/src/lib/storage-dialogs/delete-files-dialog/delete-files-dialog.component';
@@ -53,13 +53,15 @@ export class StorageService {
   }
 
   deleteFiles(nodes: StorageNode[]) {
-    this.dialogs.open(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes})
-      .pipe(flatMap(() => {
-        return this.http.post<boolean[]>(this.configuration.storageApiUrl('/delete'), _.map(nodes, 'path'));
-      }))
+    return this.http.post<boolean[]>(this.configuration.storageApiUrl('/delete'), _.map(nodes, 'path'))
       .subscribe((results: boolean[]) => {
         this.eventBus.publish(new DeleteFilesEvent(results));
       });
+  }
+
+  deleteFilesWithConfirm(nodes: StorageNode[]) {
+    this.dialogs.open(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes})
+      .subscribe(() => this.deleteFiles(nodes));
   }
 
   addFile(parent: StorageNode) {

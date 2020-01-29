@@ -36,7 +36,7 @@ describe('DeleteMenuItemComponent', () => {
 
   it('should delete key binding', () => {
     const binding = component.binding;
-    expect(binding.key).toBe('Delete');
+    expect(binding.keys).toEqual(['Delete']);
     spyOn(component, '_handleKey');
     binding.binding(null);
     expect(component._handleKey).toHaveBeenCalledWith(jasmine.any(Function));

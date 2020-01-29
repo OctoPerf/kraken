@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div fxFlex="grow" class="scrollable background-background" (click)="treeControl.clearSelection()"
+  <div #scrollableTree fxFlex="grow" class="scrollable background-background" (click)="treeControl.clearSelection()"
        (contextmenu)="treeControl.nodeContextMenu($event)">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="compact-tree background-background">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding [matTreeNodePaddingIndent]="20"

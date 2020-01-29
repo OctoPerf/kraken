@@ -1,4 +1,15 @@
-import {Component, Inject, InjectionToken, OnInit, Optional} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  InjectionToken,
+  OnInit,
+  Optional,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {IconFaAddon} from 'projects/icon/src/lib/icon-fa-addon';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons/faEllipsisV';
@@ -16,6 +27,9 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
+import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
+import {ScrollPositionComponent} from 'projects/storage/src/lib/storage-tree/scroll-position/scroll-position.component';
+import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 
 library.add(
   faEllipsisV,
@@ -34,10 +48,12 @@ export const STORAGE_TREE_LABEL = new InjectionToken<string>('StorageTreeLabel')
     StorageListService,
     StorageTreeDataSourceService,
     StorageTreeControlService,
+    StorageKeyBindingService,
     CopyPasteService,
+    ScrollPositionComponent,
   ]
 })
-export class StorageTreeComponent implements OnInit {
+export class StorageTreeComponent implements OnInit, AfterViewInit {
 
   // Icons
   readonly menuIcon = new IconFa(faEllipsisV, 'primary');
@@ -49,13 +65,17 @@ export class StorageTreeComponent implements OnInit {
   public contextualMenu: ComponentPortal<any>;
   public label: string;
 
+  @ViewChild('scrollableTree', {static: false}) scrollableTree: ElementRef<HTMLElement>;
+  @ViewChildren(StorageNodeComponent) treeNodes: QueryList<StorageNodeComponent>;
+
   constructor(public treeControl: StorageTreeControlService,
               public dataSource: StorageTreeDataSourceService,
               public copyPaste: CopyPasteService,
               @Inject(STORAGE_CONTEXTUAL_MENU) @Optional() contextualMenuType: any /*ComponentType<any>*/,
               @Inject(STORAGE_TREE_LABEL) @Optional() label: string,
               @Inject(STORAGE_ID) public id: string,
-              private eventBus: EventBusService) {
+              private eventBus: EventBusService,
+              private keyBinding: StorageKeyBindingService) {
     dataSource.treeControl = treeControl;
     this.contextualMenu = new ComponentPortal<any>(contextualMenuType ? contextualMenuType : StorageContextualMenuComponent);
     this.label = label ? label : 'Files';
@@ -63,6 +83,10 @@ export class StorageTreeComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.init();
+  }
+
+  ngAfterViewInit(): void {
+    this.keyBinding.init(this.treeNodes, this.scrollableTree);
   }
 
   selectHelpPage() {

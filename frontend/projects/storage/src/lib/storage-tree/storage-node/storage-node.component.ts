@@ -1,4 +1,4 @@
-import {Component, Inject, InjectionToken, Injector, Input, OnInit, Optional} from '@angular/core';
+import {Component, ElementRef, Inject, InjectionToken, Injector, Input, OnInit, Optional} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {ComponentPortal, ComponentType, PortalInjector} from '@angular/cdk/portal';
@@ -19,7 +19,8 @@ export class StorageNodeComponent implements OnInit {
 
   public nodeButtons: ComponentPortal<any>;
 
-  constructor(public treeControl: StorageTreeControlService,
+  constructor(public ref: ElementRef,
+    public treeControl: StorageTreeControlService,
               private injector: Injector,
               @Inject(STORAGE_NODE_BUTTONS) @Optional() private nodeButtonsType: any /*ComponentType<any>*/) {
   }

@@ -61,7 +61,7 @@ describe('CutMenuItemComponent', () => {
 
   it('should cut key binding', () => {
     const binding = component.binding;
-    expect(binding.key).toBe('ctrl + x');
+    expect(binding.keys).toEqual(['ctrl + x']);
     spyOn(component, '_handleKey');
     binding.binding(null);
     expect(component._handleKey).toHaveBeenCalledWith(jasmine.any(Function));

@@ -3,6 +3,18 @@ import {TestBed} from '@angular/core/testing';
 import {KeyBinding, KeyBindingsService} from './key-bindings.service';
 import {eventSpy} from 'projects/commons/src/lib/mock/event.mock.spec';
 import Spy = jasmine.Spy;
+import {testStorageNodesSorted} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service.spec';
+import {BehaviorSubject} from 'rxjs';
+import {EventEmitter} from '@angular/core';
+import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+
+export const keyBindingsServiceSpy = () => {
+  const spy = jasmine.createSpyObj('KeyBindingsService', [
+    'add',
+    'remove',
+  ]);
+  return spy;
+};
 
 describe('KeyBindingsService', () => {
 
@@ -41,7 +53,7 @@ describe('KeyBindingsService', () => {
   });
 
   it('should handle event', () => {
-    const binding = new KeyBinding('ctrl + a', jasmine.createSpy('binding'), null, true, true, ['TEXTAREA', 'SELECT']);
+    const binding = new KeyBinding(['ctrl + a'], jasmine.createSpy('binding'), null, true, true, ['TEXTAREA', 'SELECT']);
     (binding.binding as Spy).and.returnValue(true);
     const bindings = [binding];
     const event = eventSpy();
@@ -58,7 +70,7 @@ describe('KeyBindingsService', () => {
   });
 
   it('should not handle event (no binding found)', () => {
-    const binding = new KeyBinding('ctrl + a', jasmine.createSpy('binding'));
+    const binding = new KeyBinding(['ctrl + a'], jasmine.createSpy('binding'));
     (binding.binding as Spy).and.returnValue(true);
     const bindings = [binding];
     const event = eventSpy();
@@ -74,7 +86,7 @@ describe('KeyBindingsService', () => {
   });
 
   it('should handle event binding return false', () => {
-    const binding = new KeyBinding('ctrl + a', jasmine.createSpy('binding'), null, true, true, []);
+    const binding = new KeyBinding(['ctrl + a'], jasmine.createSpy('binding'), null, true, true, []);
     (binding.binding as Spy).and.returnValue(false);
     const bindings = [binding];
     const event = eventSpy();
@@ -91,7 +103,7 @@ describe('KeyBindingsService', () => {
   });
 
   it('should not handle event prevent tag name', () => {
-    const binding = new KeyBinding('ctrl + a', jasmine.createSpy('binding'));
+    const binding = new KeyBinding(['ctrl + a'], jasmine.createSpy('binding'));
     (binding.binding as Spy).and.returnValue(true);
     const bindings = [binding];
     const event = eventSpy();
@@ -108,7 +120,7 @@ describe('KeyBindingsService', () => {
   });
 
   it('should handle event no prevent default & stop prop', () => {
-    const binding = new KeyBinding('ctrl + a', jasmine.createSpy('binding'), null, false, false, ['', 'TEXTAREA', 'SELECT']);
+    const binding = new KeyBinding(['ctrl + a'], jasmine.createSpy('binding'), null, false, false, ['', 'TEXTAREA', 'SELECT']);
     (binding.binding as Spy).and.returnValue(true);
     const bindings = [binding];
     const event = eventSpy();

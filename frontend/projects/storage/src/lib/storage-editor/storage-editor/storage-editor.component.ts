@@ -60,7 +60,7 @@ export class StorageEditorComponent implements OnDestroy {
     this.subscriptions.push(this.eventBus.of(NodeDeletedEvent.CHANNEL).subscribe(this._closeDeletedNode.bind(this)));
     this.subscriptions.push(this.eventBus.of(NodePendingSaveEvent.CHANNEL).subscribe(this._tagPendingSaveNode.bind(this)));
 
-    this._saveKeyBinding = new KeyBinding('ctrl + s', () => {
+    this._saveKeyBinding = new KeyBinding(['ctrl + s'], () => {
       if (this.nodes.value.length) {
         this.eventBus.publish(new SaveNodeEvent(this.nodes.value[this.selectedIndex.value]));
       }
