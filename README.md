@@ -36,27 +36,12 @@ The source code of Kraken is divided in several folders:
 
 ### Run the application from the source code
 
-To run Kraken from the source code you need to:
+To run Kraken from the source code, from the root folder of the repository:
 
-1. Start the development stack of InfluxDB/Grafana
-  * `cd development`
-  * `./up.sh`
-2. Start the backend servers
-  * `cd backend`
-  * `make copy-data` (one time only)
-  * `make serve-storage`
-  * `make serve-command`
-  * `make serve-docker`
-  * `make serve-static`
-  * `make serve-analysis`
-3. Start the frontend applications
-  * `cd frontend`
-  * `make setup` (one time only)
-  * `make serve APP=gatling`
-  * `make serve APP=administration`
-4. Start the documentation
-  * `cd documentation`
-  * `make serve`
+* `make launch-docker` to run the Docker version,
+* `make launch-k8s` to run the Kubernetes version. 
+
+Open the `Makefile` to know in detail what each of these tasks does.
   
 ![Kraken Dev Architecture](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-dev-architecture.png "Kraken Dev Architecture")
 
