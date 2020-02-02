@@ -41,7 +41,7 @@ To run Kraken from the source code, from the root folder of the repository:
 * `make launch-docker` to run the Docker version,
 * `make launch-k8s` to run the Kubernetes version. 
 
-Open the `Makefile` to know in detail what each of these tasks does.
+Open the [Makefile](https://github.com/OctoPerf/kraken/blob/master/Makefile) to know in detail what each of these tasks does.
   
 ![Kraken Dev Architecture](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-dev-architecture.png "Kraken Dev Architecture")
 
