@@ -53,6 +53,7 @@ export const storageTreeDataSourceServiceSpy = () => {
     'ngOnDestroy',
   ]);
   spy.data = testStorageNodes();
+  spy._expandedNodes = testStorageNodes();
   return spy;
 };
 

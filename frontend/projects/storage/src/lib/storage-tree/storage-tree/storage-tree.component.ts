@@ -28,7 +28,6 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
-import {ScrollPositionComponent} from 'projects/storage/src/lib/storage-tree/scroll-position/scroll-position.component';
 import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 
 library.add(
@@ -50,7 +49,6 @@ export const STORAGE_TREE_LABEL = new InjectionToken<string>('StorageTreeLabel')
     StorageTreeControlService,
     StorageKeyBindingService,
     CopyPasteService,
-    ScrollPositionComponent,
   ]
 })
 export class StorageTreeComponent implements OnInit, AfterViewInit {

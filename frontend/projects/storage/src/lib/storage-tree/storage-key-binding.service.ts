@@ -50,26 +50,31 @@ export class StorageKeyBindingService implements OnDestroy {
 
   private upScroll(): void {
     const scrollTopTotal = this.scrollableTree.nativeElement.scrollTop + this.scrollableTree.nativeElement.clientTop;
-    const elementTop = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0].ref.nativeElement.offsetTop;
-    console.log('upScroll : ' + scrollTopTotal + ' / ' + elementTop);
-    if (elementTop - scrollTopTotal < 50) {
-      this.scrollableTree.nativeElement.scrollTop -= 26;
+    const node = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0];
+    const height = this.scrollableTree.nativeElement.scrollHeight / this.treeNodes.length;
+    if (node !== undefined) {
+      const elementTop = node.ref.nativeElement.offsetTop;
+      if (elementTop - scrollTopTotal < (height * 2)) {
+        this.scrollableTree.nativeElement.scrollTop -= height;
+      }
     }
   }
 
   private downScroll(): void {
     const scrollTopTotal = this.scrollableTree.nativeElement.scrollTop + this.scrollableTree.nativeElement.clientTop + this.scrollableTree.nativeElement.clientHeight;
-    const elementTop = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0].ref.nativeElement.offsetTop;
-    if (scrollTopTotal - elementTop < 50) {
-      this.scrollableTree.nativeElement.scrollTop += 26;
+    const node = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0];
+    if (node !== undefined) {
+      const elementTop = node.ref.nativeElement.offsetTop;
+      const height = this.scrollableTree.nativeElement.scrollHeight / this.treeNodes.length;
+      if (scrollTopTotal - elementTop < (height * 2)) {
+        this.scrollableTree.nativeElement.scrollTop += height;
+      }
     }
   }
 
   public upSelection(): boolean {
-    const nodes = this.dataSource.data;
-    const lastIndex = _.indexOf(nodes, this.treeControl._lastSelection);
-    if (lastIndex > 0) {
-      const nodeToSelect = this.selectNextOpen(lastIndex, index => index - 1);
+    const nodeToSelect = this.selectNextOpen(index => index - 1);
+    if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
       this.upScroll();
       return true;
@@ -78,12 +83,10 @@ export class StorageKeyBindingService implements OnDestroy {
   }
 
   public upMultiSelection(): boolean {
-    const nodes = this.dataSource.data;
-    const lastIndex = _.indexOf(nodes, this.treeControl._lastSelection);
-    if (lastIndex > 0) {
-      const nodeToSelect = this.selectNextOpen(lastIndex, index => index - 1);
+    const nodeToSelect = this.selectNextOpen(index => index - 1);
+    if (nodeToSelect) {
       if (this.treeControl.isSelected(nodeToSelect)) {
-        this.treeControl.deselectNode(nodes[lastIndex], nodeToSelect);
+        this.treeControl.deselectNode(this.data[this.lastIndexSelection], nodeToSelect);
       } else {
         this.treeControl.selectNode(nodeToSelect);
       }
@@ -94,10 +97,8 @@ export class StorageKeyBindingService implements OnDestroy {
   }
 
   public downSelection(): boolean {
-    const nodes = this.dataSource.data;
-    const lastIndex = _.indexOf(nodes, this.treeControl._lastSelection);
-    if (lastIndex < nodes.length - 1) {
-      const nodeToSelect = this.selectNextOpen(lastIndex, index => index + 1);
+    const nodeToSelect = this.selectNextOpen(index => index + 1);
+    if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
       this.downScroll();
       return true;
@@ -106,12 +107,10 @@ export class StorageKeyBindingService implements OnDestroy {
   }
 
   public downMultiSelection(): boolean {
-    const nodes = this.dataSource.data;
-    const lastIndex = _.indexOf(nodes, this.treeControl._lastSelection);
-    if (lastIndex < nodes.length - 1) {
-      const nextNode = this.selectNextOpen(lastIndex, index => index + 1);
+    const nextNode = this.selectNextOpen(index => index + 1);
+    if (nextNode) {
       if (this.treeControl.isSelected(nextNode)) {
-        this.treeControl.deselectNode(nodes[lastIndex], nextNode);
+        this.treeControl.deselectNode(this.data[this.lastIndexSelection], nextNode);
       } else {
         this.treeControl.selectNode(nextNode);
       }
@@ -121,16 +120,21 @@ export class StorageKeyBindingService implements OnDestroy {
     return false;
   }
 
-  private selectNextOpen(index: number, getNextIndex: (index: number) => number): StorageNode {
-    const nodes = this.dataSource.data;
-    const nodeToSelect = nodes[getNextIndex(index)];
-    if (index > 0 && index < nodes.length - 1) {
-      const parent = this.dataSource.parentNode(nodeToSelect);
-      if (parent.path !== this.rootNode.path && !this.treeControl.isExpanded(parent)) {
-        return this.selectNextOpen(getNextIndex(index), getNextIndex);
-      }
+  private selectNextOpen(getNextIndex: (index: number) => number): StorageNode {
+    const lastIndex = this.lastIndexSelection;
+    const newIndex = getNextIndex(lastIndex);
+    if (newIndex >= 0 && newIndex < this.data.length) {
+      return this.data[getNextIndex(lastIndex)];
     }
-    return nodeToSelect;
+    return null;
+  }
+
+  private get lastIndexSelection(): number {
+    return _.indexOf(this.dataSource._expandedNodes, this.treeControl._lastSelection);
+  }
+
+  private get data(): StorageNode[] {
+    return this.dataSource._expandedNodes;
   }
 
   public openSelection(): boolean {
@@ -154,9 +158,15 @@ export class StorageKeyBindingService implements OnDestroy {
     const node = this.treeControl._lastSelection;
     if (node.type !== 'DIRECTORY' || (node.type === 'DIRECTORY' && !this.treeControl.isExpanded(node))) {
       const parent = this.dataSource.parentNode(node);
-      this.treeControl.selectOne(parent);
+      if (parent.path !== this.rootNode.path) {
+        this.treeControl.selectOne(parent);
+        this.upScroll();
+      } else {
+        return this.upSelection();
+      }
     } else {
       this.treeControl.collapse(node);
+      this.upScroll();
     }
     return true;
   }

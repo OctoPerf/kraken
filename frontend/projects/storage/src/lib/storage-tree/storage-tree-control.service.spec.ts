@@ -23,11 +23,11 @@ import {
   testStorageNodes,
   testStorageRootNode
 } from 'projects/storage/src/lib/entities/storage-node.spec';
-import SpyObj = jasmine.SpyObj;
-import Spy = jasmine.Spy;
 import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-predicate.pipe';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
+import SpyObj = jasmine.SpyObj;
+import Spy = jasmine.Spy;
 
 
 export const storageTreeControlServiceSpy = () => {
