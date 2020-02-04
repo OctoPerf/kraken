@@ -27,7 +27,7 @@ test-auto:
 
 test-coverage:
 	ng test --watch=false --codeCoverage=true --sourceMap=true --project=$(APP)
-	google-chrome ./coverage/$(APP)/index.html &
+	xdg-open ./coverage/$(APP)/index.html &
 
 test-coverage-all:
 	./test-coverage-all.sh
