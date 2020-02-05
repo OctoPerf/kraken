@@ -124,7 +124,7 @@
               },
               {
                 "params": [],
-                "type": "max"
+                "type": "sum"
               }
             ]
           ],

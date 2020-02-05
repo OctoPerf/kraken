@@ -56,5 +56,5 @@ class HttpBin extends Simulation {
 			.headers(headers_4)
 			.check(status.is(404))))
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(atOnceUsers(3))).protocols(httpProtocol)
 }
