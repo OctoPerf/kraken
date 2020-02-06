@@ -1,2 +1,7 @@
 <lib-code-editor [mode]="'log'" [readonly]="true">
 </lib-code-editor>
+<div class="buttons">
+  <button mat-icon-button matTooltip="Scroll to bottom" (click)="codeEditor.scrollToBottom()">
+    <lib-icon [icon]="scrollIcon"></lib-icon>
+  </button>
+</div>

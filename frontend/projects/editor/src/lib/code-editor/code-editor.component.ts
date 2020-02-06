@@ -45,7 +45,6 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
   _onTouched = new EventEmitter<string>();
   _onChange = new EventEmitter<string>();
   _silent = false;
-
   private subscriptions: Subscription[] = [];
 
   constructor(private codeService: CodeService,
@@ -102,6 +101,11 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
     this._editor.setReadOnly(isDisabled);
   }
 
+  scrollToBottom(): void {
+    const editor = this._editor;
+    editor.gotoLine(editor.session.getLength(), 0, false);
+  }
+
   resize() {
     this._editor.resize(true);
   }
@@ -110,15 +114,15 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
     this._value += text;
     const editor = this._editor;
     if (editor) {
-      const scrollToBottom = (editor.session.getLength() - editor.renderer.getScrollBottomRow()) <= 2;
       editor.session.insert(
         {
           row: editor.session.getLength(),
           column: 0
         }, text
       );
+      const scrollToBottom = (editor.session.getLength() - editor.renderer.getScrollBottomRow()) <= 2;
       if (scrollToBottom) {
-        editor.gotoLine(editor.session.getLength(), 0, false);
+        this.scrollToBottom();
       }
       // Force refresh of horizontal scrollbar to prevent bug
       const left = editor.session.getScrollLeft();

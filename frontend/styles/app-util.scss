@@ -1,6 +1,44 @@
+@import 'app-variables';
+
+@mixin top-right-absolute() {
+  z-index: 9;
+  position: absolute;
+  top: 0px;
+  right: $app-margin-x-sm;
+}
+
+.top-right-absolute {
+  @include top-right-absolute();
+}
+
 // Scroll
 @mixin scrollable() {
   overflow: auto;
+}
+
+@mixin hover-show-child {
+  display: none;
+}
+
+@mixin hover-show-parent($class) {
+  &:hover {
+    #{$class} {
+      display: block;
+    }
+  }
+}
+
+@mixin hover-show-child-opacity($duration: 200ms) {
+  transition: opacity $duration ease-in-out;
+  opacity: 0;
+}
+
+@mixin hover-show-parent-opacity($class) {
+  &:hover {
+    #{$class} {
+      opacity: 1;
+    }
+  }
 }
 
 .scrollable {
@@ -8,11 +46,23 @@
 }
 
 .hover-show-child, .hover-show-child-2 {
-  display: none;
+  @include hover-show-child();
 }
 
-.hover-show-parent:hover .hover-show-child, .hover-show-parent-2:hover .hover-show-child-2 {
-  display: block;
+.hover-show-parent .hover-show-child {
+  @include hover-show-parent(".hover-show-child");
+}
+
+.hover-show-parent-2 {
+  @include hover-show-parent(".hover-show-child-2");
+}
+
+.hover-show-child-opacity {
+  @include hover-show-child-opacity();
+}
+
+.hover-show-parent-opacity {
+  @include hover-show-parent-opacity(".hover-show-child-opacity");
 }
 
 .no-selection {

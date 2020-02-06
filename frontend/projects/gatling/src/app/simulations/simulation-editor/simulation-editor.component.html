@@ -1,4 +1,4 @@
-<div class="buttons-group" *ngIf="contentService.state === 'loaded'">
+<div class="buttons" *ngIf="contentService.state === 'loaded'">
   <button mat-icon-button (click)="simulation.run(node)" matTooltip="Run Simulation">
     <lib-icon [icon]="runIcon"></lib-icon>
   </button>

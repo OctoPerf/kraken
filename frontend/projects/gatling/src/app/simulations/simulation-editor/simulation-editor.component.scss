@@ -1,8 +1,10 @@
-@import 'app-variables';
+@import 'app-util';
 
-.buttons-group {
-  z-index: 9;
-  position: absolute;
-  top: $app-margin-y-sm;
-  right: $app-margin-x-sm;
+:host {
+  @include hover-show-parent-opacity(".buttons")
+}
+
+.buttons {
+  @include top-right-absolute();
+  @include hover-show-child-opacity();
 }
