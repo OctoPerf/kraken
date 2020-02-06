@@ -19,6 +19,9 @@ import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
 import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/description-input/description-input.component';
 import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/contextual-menu.component';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
+import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
@@ -57,12 +60,11 @@ export class ResultsTableComponent implements OnInit {
 
   dataSource: MatTableDataSource<Result>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
   @ViewChild('menu', {static: true}) menu: ContextualMenuComponent;
-  reports: StorageNode[] = [];
 
   constructor(public gatling: GatlingResultService,
-              public results: ResultsTableService) {
+              public results: ResultsTableService,
+              private dialogs: DialogService) {
   }
 
   ngOnInit() {
@@ -74,11 +76,11 @@ export class ResultsTableComponent implements OnInit {
   }
 
   openMenu(event: MouseEvent) {
-    event.preventDefault();
-    this.gatling.listGatlingReport(this.results.selection).subscribe((reports: StorageNode[]) => {
-      this.reports = reports;
-      this.menu.open(event);
-    });
+    this.menu.open(event);
+  }
+
+  openGatlingReportsDialog(result: Result) {
+    this.dialogs.open(OpenGatlingReportsDialogComponent, DialogSize.SIZE_SM, {result});
   }
 
 }

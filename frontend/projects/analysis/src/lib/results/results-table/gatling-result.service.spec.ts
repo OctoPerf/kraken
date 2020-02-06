@@ -8,7 +8,7 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {Result} from 'projects/analysis/src/lib/entities/result';
-import {of, throwError} from 'rxjs';
+import {of} from 'rxjs';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
@@ -85,22 +85,6 @@ describe('GatlingResultService', () => {
     expect(analysis.deleteTest).toHaveBeenCalledWith(result.id);
   });
 
-  it('should listGatlingReport', () => {
-    const nodes = [testStorageFileNode()];
-    storage.find.and.returnValue(of(nodes));
-    let resultNodes = [];
-    service.listGatlingReport(testResultStatus('COMPLETED')).subscribe(value => resultNodes = value);
-    expect(resultNodes).toEqual(nodes);
-    expect(storage.find).toHaveBeenCalledWith('gatling/results/uuid/groups/', 'index.html');
-  });
-
-  it('should openGatlingReport', () => {
-    const node = testStorageFileNode();
-    window.open.and.callFake(url => url.subscribe(val => expect(val).toBe('staticApiUrl/spotbugs/main.html'), err => fail(err)));
-    service.openGatlingReport(node);
-    expect(window.open).toHaveBeenCalled();
-  });
-
   it('should openGrafanaReport', () => {
     window.open.and.callFake(url => url.subscribe(value => expect(value).toBe('grafanaUrl/uuid')));
     service.openGrafanaReport(result);
@@ -118,6 +102,25 @@ describe('GatlingResultService', () => {
     expect(service.canDeleteResult(testResultStatus('CANCELED'))).toBeTruthy();
     expect(service.canDeleteResult(testResultStatus('FAILED'))).toBeTruthy();
   });
+
+  it('should canOpenGatlingReport FAILED', () => {
+    expect(service.canOpenGatlingReport(testResultStatus('FAILED'))).toBeFalsy();
+  });
+
+  it('should canOpenGatlingReport COMPLETED', () => {
+    expect(service.canOpenGatlingReport(testResultStatus('COMPLETED'))).toBeTruthy();
+  });
+
+  it('should canOpenGatlingReport CANCELED', () => {
+    expect(service.canOpenGatlingReport(testResultStatus('CANCELED'))).toBeTruthy();
+  });
+
+  it('should canOpenGatlingReport HAR', () => {
+    const harResult = testResultDebug();
+    harResult.type = 'HAR';
+    expect(service.canOpenGatlingReport(harResult)).toBeFalsy();
+  });
+
 });
 
 

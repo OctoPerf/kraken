@@ -15,10 +15,11 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage-pipes.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
+import {AnalysisDialogsModule} from 'projects/analysis/src/lib/analysis-dialogs/analysis-dialogs.module';
 
 @NgModule({
   declarations: [ResultsTableComponent, IsDebugEntryStorageNodePipe],
-  exports: [ResultsTableComponent, DebugModule],
+  exports: [ResultsTableComponent, DebugModule, AnalysisDialogsModule],
   entryComponents: [ResultsTableComponent],
   imports: [
     CommonModule,
@@ -31,7 +32,8 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
     TreeModule,
     ComponentsModule,
     StoragePipesModule,
-    ToolsModule
+    ToolsModule,
+    AnalysisDialogsModule,
   ],
   providers: [
     ResultsTableService,

@@ -16,8 +16,6 @@ import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 @Injectable()
 export class GatlingResultService {
 
-  private rootNode: StorageNode;
-
   constructor(
     private storage: StorageService,
     private analysis: AnalysisService,
@@ -26,7 +24,6 @@ export class GatlingResultService {
     private analysisConfiguration: AnalysisConfigurationService,
     private dialogs: DialogService,
   ) {
-    this.rootNode = this.analysisConfiguration.analysisRootNode;
   }
 
   deleteResult(result: Result): Observable<string> {
@@ -37,17 +34,12 @@ export class GatlingResultService {
     this.window.open(of(this.analysisConfiguration.grafanaUrl(`/${result.id}`)));
   }
 
-  openGatlingReport(reportNode: StorageNode) {
-    this.window.open(of(this.analysisConfiguration.staticApiUrl('/' + reportNode.path)));
-  }
-
-  listGatlingReport(result: Result): Observable<StorageNode[]> {
-    const path = `${this.rootNode.path}/${result.id}/groups/`;
-    return this.storage.find(path, 'index\.html').pipe(catchError(err => of([])));
-  }
-
   canOpenGrafanaReport(result: Result) {
-    return result && (result.type === 'RUN');
+    return result && result.type === 'RUN';
+  }
+
+  canOpenGatlingReport(result: Result) {
+    return result && result.type !== 'HAR' && (result.status === 'COMPLETED' || result.status === 'CANCELED');
   }
 
   canDeleteResult(result: Result) {

@@ -4,28 +4,34 @@ import {ResultsTableComponent} from 'projects/analysis/src/lib/results/results-t
 import {GatlingResultService} from 'projects/analysis/src/lib/results/results-table/gatling-result.service';
 import {gatlingResultServiceSpy} from 'projects/analysis/src/lib/results/results-table/gatling-result.service.spec';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
-import SpyObj = jasmine.SpyObj;
 import {
   resultsTableServiceSpy,
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
-import {testStorageNodes} from 'projects/storage/src/lib/entities/storage-node.spec';
-import {of} from 'rxjs';
+import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import SpyObj = jasmine.SpyObj;
+import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
+import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
+import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 
 describe('ResultsListComponent', () => {
   let component: ResultsTableComponent;
   let fixture: ComponentFixture<ResultsTableComponent>;
   let results: SpyObj<ResultsTableService>;
   let gatling: SpyObj<GatlingResultService>;
+  let dialogs: SpyObj<DialogService>;
 
   beforeEach(async(() => {
     results = resultsTableServiceSpy();
     gatling = gatlingResultServiceSpy();
+    dialogs = dialogsServiceSpy();
+
     TestBed.configureTestingModule({
       declarations: [ResultsTableComponent],
       providers: [
         {provide: GatlingResultService, useValue: gatling},
-        {provide: ResultsTableService, useValue: results}
+        {provide: ResultsTableService, useValue: results},
+        {provide: DialogService, useValue: dialogs}
       ]
     })
       .overrideProvider(GatlingResultService, {useValue: gatling})
@@ -49,16 +55,16 @@ describe('ResultsListComponent', () => {
     expect(component.dataSource).toBeTruthy();
   });
 
-  it('should pen menu', () => {
-    const event = {
-      preventDefault: jasmine.createSpy(),
-    };
+  it('should open menu', () => {
+    const event: any = {};
     component.menu = jasmine.createSpyObj('menu', ['open']);
-    const nodes = testStorageNodes();
-    gatling.listGatlingReport.and.returnValue(of(nodes));
-    component.openMenu(event as any);
-    expect(event.preventDefault).toHaveBeenCalled();
-    expect(component.reports).toBe(nodes);
-    expect(component.menu.open).toHaveBeenCalled();
+    component.openMenu(event);
+    expect(component.menu.open).toHaveBeenCalledWith(event);
+  });
+
+  it('should open gatling reports dialog', () => {
+    const result = testResult();
+    component.openGatlingReportsDialog(result);
+    expect(dialogs.open).toHaveBeenCalledWith(OpenGatlingReportsDialogComponent, DialogSize.SIZE_SM, {result});
   });
 });

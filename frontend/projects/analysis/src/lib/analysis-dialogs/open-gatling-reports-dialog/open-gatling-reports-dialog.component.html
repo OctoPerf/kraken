@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Open Gatling Reports</h1>
+<div mat-dialog-content>
+  <lib-message *ngIf="loading" centered="true" level="loading">Loading reports...</lib-message>
+  <div *ngIf="reports.length">
+    <button *ngFor="let report of reports" mat-button (click)="openGatlingReport(report)">
+      <lib-icon class="m-r-xs" [icon]="reportIcon"></lib-icon>
+      Open report for host <b>{{report | storageNodeToParentPath | pathToParentPath | pathToName}}</b>
+    </button>
+  </div>
+  <lib-message *ngIf="!loading && !reports.length" centered="true" level="error">No reports found.</lib-message>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close
+  </button>
+</div>
