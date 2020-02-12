@@ -6,14 +6,34 @@ Kraken by [OctoPerf](https://octoperf.com) is a [load testing IDE](https://krake
 
 More information in [our load testing blog](https://octoperf.com/categories/kraken/)
 
-## Documentation
+## Support and Community
+
+### Documentation
 
 * [Getting Started](https://kraken.octoperf.com/)
 * [Download](https://kraken.octoperf.com/download/)
-* [Install](https://kraken.octoperf.com/install/linux/)
+* [Install - Docker](https://kraken.octoperf.com/install/linux/)
+* [Install - Kubernetes](https://kraken.octoperf.com/install/kubernetes/)
+* [Helm Chart](https://github.com/OctoPerf/helm-charts/tree/master/kraken)
 * [Gatling Integration](https://kraken.octoperf.com/gatling/)
 * [Administration](https://kraken.octoperf.com/administration/)
 
+### Blog
+
+[Kraken blog on OctoPerf](https://octoperf.com/categories/kraken/)
+
+### Live Chat
+
+Open [Kraken's documentation] and click on the _NEED HELP?_ button at the bottom right corner of the page.
+
+### Videos
+
+* [Kraken Playlist](https://www.youtube.com/playlist?list=PLpSi3AVZHI5pCtqsq-oQKA_W2CA78NJye)
+* [QAInsights](https://www.youtube.com/playlist?list=PLJ9A48W0kpRL_cAUalFmRcrbselrQsQFf)
+
+### Email
+
+Contact us at [support@octoperf.com](mailto:support@octoperf.com).
 
 ## Development
 
