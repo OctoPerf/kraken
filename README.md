@@ -24,7 +24,7 @@ More information in [our load testing blog](https://octoperf.com/categories/krak
 
 ### Live Chat
 
-Open [Kraken's documentation] and click on the _NEED HELP?_ button at the bottom right corner of the page.
+Open [Kraken's documentation](https://kraken.octoperf.com/) and click on the _NEED HELP?_ button at the bottom right corner of the page.
 
 ### Videos
 
