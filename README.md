@@ -1,10 +1,15 @@
 # Kraken - The Load Testing IDE
 
-Kraken by [OctoPerf](https://octoperf.com) is a [load testing IDE](https://kraken.octoperf.com/).
-
 ![Kraken Gatling](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-preview.gif "Kraken Gatling")
 
-More information in [our load testing blog](https://octoperf.com/categories/kraken/)
+Kraken is a load testing IDE based on Gatling.
+
+As such, Kraken provides a complete development environment to software programmers and load testers that seek to make the most out of Gatling:
+
+* A code editor to create and update .scala Gatling simulations with autocomplete suggestions and code snippets,
+* Simulations debugging and comparison with HAR imports,
+* Load tests analysis with aggregated data in InfluxDb displayed in comprehensive reports generated with Grafana,
+* Multi-hosts load injection using a Kubernetes cluster.
 
 ## Support and Community
 
