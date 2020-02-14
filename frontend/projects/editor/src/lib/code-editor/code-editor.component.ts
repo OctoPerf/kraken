@@ -17,6 +17,8 @@ import {CodeMode} from 'projects/editor/src/lib/code-editor/code-mode';
 import {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
+import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
+import Editor = Ace.Editor;
 
 @Component({
   selector: 'lib-code-editor',
@@ -38,6 +40,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
   @Input() enableSnippets = false;
   @Input() variablesAutoCompleter?: VariablesAutoCompleter;
   @Input() tabsSize?: number;
+  @Input() keyBindings ?: KeyBinding[];
   @Output() contentChange = new EventEmitter<string>();
   _value = '';
   _mode: CodeMode = 'text';
@@ -78,6 +81,17 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
     if (this.tabsSize) {
       this._editor.getSession().setTabSize(this.tabsSize);
     }
+    _.forEach(this.keyBindings, (binding: KeyBinding) => {
+      _.forEach(binding.keys, key => {
+        this._editor.commands.addCommand({
+          name: key,
+          bindKey: key,
+          exec: (editor: Editor, args?: any): void => {
+            binding.binding(null);
+          },
+        });
+      });
+    });
   }
 
   ngOnDestroy() {

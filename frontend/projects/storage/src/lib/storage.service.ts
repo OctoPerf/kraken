@@ -52,16 +52,20 @@ export class StorageService {
       .subscribe();
   }
 
-  deleteFiles(nodes: StorageNode[]) {
+  deleteFilesApi(nodes: StorageNode[]) {
     return this.http.post<boolean[]>(this.configuration.storageApiUrl('/delete'), _.map(nodes, 'path'))
       .subscribe((results: boolean[]) => {
         this.eventBus.publish(new DeleteFilesEvent(results));
       });
   }
 
-  deleteFilesWithConfirm(nodes: StorageNode[]) {
-    this.dialogs.open(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes})
-      .subscribe(() => this.deleteFiles(nodes));
+  deleteFiles(nodes: StorageNode[], force = false) {
+    if (force) {
+      this.deleteFilesApi(nodes);
+    } else {
+      this.dialogs.open(DeleteFilesDialogComponent, DialogSize.SIZE_LG, {nodes})
+        .subscribe(() => this.deleteFilesApi(nodes));
+    }
   }
 
   addFile(parent: StorageNode) {
@@ -73,7 +77,11 @@ export class StorageService {
   }
 
   private _add(parent: StorageNode, title: string, path: string, content?: string) {
-    this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {title, name: '', helpPageId: 'ADMIN_CREATE_FILE'})
+    this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {
+      title,
+      name: '',
+      helpPageId: 'ADMIN_CREATE_FILE'
+    })
       .pipe(flatMap((name: string) => {
         return this.http.post<StorageNode>(this.configuration.storageApiUrl(path), content, {
           params: {

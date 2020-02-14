@@ -11,6 +11,7 @@ import {
 import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {GuiToolsService} from 'projects/tools/src/lib/gui-tools.service';
+import {SimulationService} from 'projects/gatling/src/app/simulations/simulation.service';
 
 @Injectable()
 export class StorageKeyBindingService implements OnDestroy {
@@ -27,7 +28,8 @@ export class StorageKeyBindingService implements OnDestroy {
     private keys: KeyBindingsService,
     private dataSource: StorageTreeDataSourceService,
     public storage: StorageService,
-    public guiTools: GuiToolsService) {
+    public guiTools: GuiToolsService,
+    public simulationService: SimulationService) {
   }
 
   public init(matTreeNodes: QueryList<StorageNodeComponent>, scrollableTree: ElementRef<HTMLElement>): void {
@@ -38,7 +40,9 @@ export class StorageKeyBindingService implements OnDestroy {
     this.keyBindings.push(new KeyBinding(['Enter'], this.openSelection.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['Right', 'ArrowRight'], this.rightSelection.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['Left', 'ArrowLeft'], this.leftSelection.bind(this), this.id));
-    this.keyBindings.push(new KeyBinding(['ctrl + Delete'], this.deleteSelection.bind(this), this.id));
+    this.keyBindings.push(new KeyBinding(['F2'], this.renameSelection.bind(this), this.id));
+    this.keyBindings.push(new KeyBinding(['shift + ctrl + X'], this.runSelection.bind(this), this.id));
+    this.keyBindings.push(new KeyBinding(['shift + ctrl + D'], this.debugSelection.bind(this), this.id));
     this.keyBindings.forEach(binding => {
       this.keys.add([binding]);
     });
@@ -156,9 +160,28 @@ export class StorageKeyBindingService implements OnDestroy {
     return true;
   }
 
-  public deleteSelection(): boolean {
+  public deleteSelection(force = false): boolean {
     const nodes = this.treeControl.selected;
-    this.storage.deleteFiles(nodes);
+    this.storage.deleteFiles(nodes, force);
+    return true;
+  }
+
+  public renameSelection(): boolean {
+    const nodeSelected = this.treeControl._lastSelection;
+    const parent = this.dataSource.parentNode(nodeSelected);
+    this.storage.rename(nodeSelected, parent);
+    return true;
+  }
+
+  public runSelection(): boolean {
+    const nodeSelected = this.treeControl._lastSelection;
+    this.simulationService.run(nodeSelected);
+    return true;
+  }
+
+  public debugSelection(): boolean {
+    const nodeSelected = this.treeControl._lastSelection;
+    this.simulationService.debug(nodeSelected);
     return true;
   }
 }

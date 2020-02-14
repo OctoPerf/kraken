@@ -35,8 +35,7 @@ export class TableOverlaySelectionComponent<T> extends TableOverlayComponent imp
     this.noDataLabel = this.noDataLabel || 'No data';
     this.keyBindings.push(new KeyBinding(['ArrowUp', 'Up'], this.upSelection.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['ArrowDown', 'Down'], this.downSelection.bind(this), this.id));
-    this.keyBindings.push(new KeyBinding(['Delete'], this._deleteSelectionEmit.bind(this, false), this.id));
-    this.keyBindings.push(new KeyBinding(['ctrl + Delete'], this._deleteSelectionEmit.bind(this, true), this.id));
+    this.keyBindings.push(new KeyBinding(['Delete', 'ctrl + Delete'], this._deleteSelectionEmit.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['Enter'], this._enterSelectionEmit.bind(this), this.id));
     this.keyBindings.forEach(binding => {
       this.keys.add([binding]);
@@ -91,8 +90,8 @@ export class TableOverlaySelectionComponent<T> extends TableOverlayComponent imp
     return this.element.nativeElement.getElementsByClassName('mat-row-selected')[0];
   }
 
-  _deleteSelectionEmit(force: boolean): boolean {
-    this.deleteSelection.emit(force);
+  _deleteSelectionEmit(event: KeyboardEvent): boolean {
+    this.deleteSelection.emit(event.ctrlKey);
     return true;
   }
 

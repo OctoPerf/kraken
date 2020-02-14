@@ -1,5 +1,5 @@
 <button mat-menu-item *ngIf="treeControl.hasSingleSelection && simulation.isSimulationNode(treeControl.first)"
-        (click)="simulation.run(treeControl.first)">
+        (click)="simulation.run(treeControl.first)" matTooltip="Run Simulation (Ctrl + Shift + x)">
   <lib-icon [icon]="runIcon"></lib-icon>
   Run Simulation
 </button>
