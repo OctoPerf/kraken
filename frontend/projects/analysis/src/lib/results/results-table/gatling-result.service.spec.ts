@@ -32,6 +32,9 @@ export const gatlingResultServiceSpy = () => {
     'deleteResult',
     'openGatlingReport',
     'listGatlingReport',
+    'canOpenGrafanaReport',
+    'openGrafanaReport',
+    'canDeleteResult',
   ]);
   return spy;
 };
@@ -81,7 +84,7 @@ describe('GatlingResultService', () => {
     dialogs.delete.and.returnValue(of(null));
     analysis.deleteTest.and.returnValue(of('testId'));
     service.deleteResult(result).subscribe();
-    expect(dialogs.delete).toHaveBeenCalledWith('test result', [result.description]);
+    expect(dialogs.delete).toHaveBeenCalledWith('test result', [result.description], false);
     expect(analysis.deleteTest).toHaveBeenCalledWith(result.id);
   });
 

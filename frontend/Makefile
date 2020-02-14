@@ -21,6 +21,9 @@ update:
 test:
 	ng test --watch=false --project=$(APP)
 
+test-all:
+	ng test --watch=false
+
 # use 'fit' instead of 'it' with auto run tests to debug particular unit tests
 test-auto:
 	ng test --sourceMap=false --project=$(APP)

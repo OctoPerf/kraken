@@ -17,13 +17,14 @@ import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service'
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Injectable()
 export class DebugEntriesTableService extends StorageJsonService<DebugEntry> implements OnDestroy {
 
   public static readonly ENTRY_EXT = '.debug';
 
-  private _selection: DebugEntry | null;
+  public readonly _selection: SelectionModel<DebugEntry> = new SelectionModel(false);
   private _resultSelectionSubscription: Subscription;
   private _nodeSelectionSubscription: Subscription;
   private _result: Result;
@@ -76,27 +77,27 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
   public open(entry: DebugEntry) {
     const path = `${this.toPath.transform(entry)}/${entry.id}${DebugEntriesTableService.ENTRY_EXT}`;
     this.storage.get(path).subscribe(node => this.storage.edit(node));
-    this._selection = entry;
+    this._selection.select(entry);
   }
 
   public compare() {
     this.dialogs.open(CompareDialogComponent, DialogSize.SIZE_FULL, {
-      left: this._selection,
-      right: this._selection,
+      left: this._selection.selected[0],
+      right: this._selection.selected[0],
       results: this.resultsList.values,
     }).subscribe();
   }
 
   public set selection(entry: DebugEntry) {
-    this._selection = entry;
+    this._selection.select(entry);
   }
 
   public get selection(): DebugEntry {
-    return this._selection;
+    return this._selection.selected[0];
   }
 
   public isSelected(entry: DebugEntry): boolean {
-    return !!this._selection && this._selection === entry;
+    return !!this._selection && this._selection.selected[0] === entry;
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
@@ -108,13 +109,12 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
 
   private _selectNode(node: StorageNode) {
     if (!node) {
-      this._selection = null;
+      this._selection.clear();
       return;
     }
     const entry = this.find(node);
     if (entry) {
-      this._selection = entry;
+      this._selection.select(entry);
     }
   }
-
 }

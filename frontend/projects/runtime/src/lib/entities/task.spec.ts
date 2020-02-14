@@ -14,6 +14,19 @@ export const testTask: () => Task = () => {
   };
 };
 
+export const testTaskDone: () => Task = () => {
+  return {
+    id: 'id',
+    startDate: 0,
+    status: 'DONE',
+    type: 'RUN',
+    containers: testContainers(),
+    expectedCount: 2,
+    description: 'description',
+    applicationId: 'applicationId'
+  };
+};
+
 
 export const testTasks: () => Task[] = () => {
   return [

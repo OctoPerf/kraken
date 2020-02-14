@@ -10,6 +10,7 @@ import {
 } from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
+import {GuiToolsService} from 'projects/tools/src/lib/gui-tools.service';
 
 @Injectable()
 export class StorageKeyBindingService implements OnDestroy {
@@ -25,7 +26,8 @@ export class StorageKeyBindingService implements OnDestroy {
     @Inject(STORAGE_ROOT_NODE) private readonly rootNode: StorageNode,
     private keys: KeyBindingsService,
     private dataSource: StorageTreeDataSourceService,
-    public storage: StorageService) {
+    public storage: StorageService,
+    public guiTools: GuiToolsService) {
   }
 
   public init(matTreeNodes: QueryList<StorageNodeComponent>, scrollableTree: ElementRef<HTMLElement>): void {
@@ -48,35 +50,19 @@ export class StorageKeyBindingService implements OnDestroy {
     this.keyBindings.forEach(binding => this.keys.remove([binding]));
   }
 
-  private upScroll(): void {
-    const scrollTopTotal = this.scrollableTree.nativeElement.scrollTop + this.scrollableTree.nativeElement.clientTop;
-    const node = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0];
-    const height = this.scrollableTree.nativeElement.scrollHeight / this.treeNodes.length;
-    if (node !== undefined) {
-      const elementTop = node.ref.nativeElement.offsetTop;
-      if (elementTop - scrollTopTotal < (height * 2)) {
-        this.scrollableTree.nativeElement.scrollTop -= height;
-      }
-    }
+  private get selectedNode() {
+    return this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0];
   }
 
-  private downScroll(): void {
-    const scrollTopTotal = this.scrollableTree.nativeElement.scrollTop + this.scrollableTree.nativeElement.clientTop + this.scrollableTree.nativeElement.clientHeight;
-    const node = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path)[0];
-    if (node !== undefined) {
-      const elementTop = node.ref.nativeElement.offsetTop;
-      const height = this.scrollableTree.nativeElement.scrollHeight / this.treeNodes.length;
-      if (scrollTopTotal - elementTop < (height * 2)) {
-        this.scrollableTree.nativeElement.scrollTop += height;
-      }
-    }
+  private updateScroll() {
+    this.guiTools.scrollTo(this.scrollableTree, () => this.selectedNode.ref.nativeElement);
   }
 
   public upSelection(): boolean {
     const nodeToSelect = this.selectNextOpen(index => index - 1);
     if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
-      this.upScroll();
+      this.updateScroll();
       return true;
     }
     return false;
@@ -90,7 +76,7 @@ export class StorageKeyBindingService implements OnDestroy {
       } else {
         this.treeControl.selectNode(nodeToSelect);
       }
-      this.upScroll();
+      this.updateScroll();
       return true;
     }
     return false;
@@ -100,7 +86,7 @@ export class StorageKeyBindingService implements OnDestroy {
     const nodeToSelect = this.selectNextOpen(index => index + 1);
     if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
-      this.downScroll();
+      this.updateScroll();
       return true;
     }
     return false;
@@ -114,7 +100,7 @@ export class StorageKeyBindingService implements OnDestroy {
       } else {
         this.treeControl.selectNode(nextNode);
       }
-      this.downScroll();
+      this.updateScroll();
       return true;
     }
     return false;
@@ -160,14 +146,13 @@ export class StorageKeyBindingService implements OnDestroy {
       const parent = this.dataSource.parentNode(node);
       if (parent.path !== this.rootNode.path) {
         this.treeControl.selectOne(parent);
-        this.upScroll();
       } else {
         return this.upSelection();
       }
     } else {
       this.treeControl.collapse(node);
-      this.upScroll();
     }
+    this.updateScroll();
     return true;
   }
 

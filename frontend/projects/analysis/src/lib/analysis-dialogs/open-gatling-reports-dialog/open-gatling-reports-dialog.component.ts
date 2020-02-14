@@ -1,8 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DeleteFilesDialogData} from 'projects/storage/src/lib/storage-dialogs/delete-files-dialog/delete-files-dialog.component';
 import {Result} from 'projects/analysis/src/lib/entities/result';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {catchError} from 'rxjs/operators';
 import {StorageService} from 'projects/storage/src/lib/storage.service';

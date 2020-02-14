@@ -1,4 +1,4 @@
-<lib-table-overlay [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'"
+<lib-table-overlay [id]="'hosts'"  [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="id">

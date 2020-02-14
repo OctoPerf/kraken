@@ -11,6 +11,7 @@ export class TableOverlayComponent implements OnInit {
   @Input() loading: boolean;
   @Input() dataSource: MatTableDataSource<any>;
   @Input() noDataLabel: string;
+  @Input() id: string;
 
   ngOnInit(): void {
     this.noDataLabel = this.noDataLabel || 'No data';

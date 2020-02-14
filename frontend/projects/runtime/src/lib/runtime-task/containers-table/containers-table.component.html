@@ -1,4 +1,4 @@
-<lib-table-overlay [loading]="false" [dataSource]="dataSource" [noDataLabel]="'No Containers. Please select a task.'"
+<lib-table-overlay [id]="'containers'" [loading]="false" [dataSource]="dataSource" [noDataLabel]="'No Containers. Please select a task.'"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="hostId" matSortDirection="desc">
     <ng-container matColumnDef="id">

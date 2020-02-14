@@ -13,6 +13,9 @@ import SpyObj = jasmine.SpyObj;
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {of} from 'rxjs';
+import any = jasmine.any;
+import {Result} from 'projects/analysis/src/lib/entities/result';
 
 describe('ResultsListComponent', () => {
   let component: ResultsTableComponent;
@@ -66,5 +69,48 @@ describe('ResultsListComponent', () => {
     const result = testResult();
     component.openGatlingReportsDialog(result);
     expect(dialogs.open).toHaveBeenCalledWith(OpenGatlingReportsDialogComponent, DialogSize.SIZE_SM, {result});
+  });
+
+  it('should open grafana reports selection', () => {
+    gatling.canOpenGrafanaReport.and.returnValue(true);
+    expect(component.openGrafanaSelection()).toBe(true);
+    expect(gatling.canOpenGrafanaReport).toHaveBeenCalledTimes(1);
+    expect(gatling.openGrafanaReport).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not open grafana reports selection', () => {
+    gatling.canOpenGrafanaReport.and.returnValue(false);
+    expect(component.openGrafanaSelection()).toBe(false);
+    expect(gatling.canOpenGrafanaReport).toHaveBeenCalledTimes(1);
+    expect(gatling.openGrafanaReport).toHaveBeenCalledTimes(0);
+  });
+
+  // TODO à finir
+  // it('should delete result selection and force', () => {
+  //   gatling.canDeleteResult.and.returnValue(true);
+//     expect(component.deleteSelection(true)).toBe(true);
+//     expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
+//     expect(gatling.deleteResult).toHaveBeenCalledTimes(1);
+  // });
+
+  it('should not delete result selection and force', () => {
+    gatling.canDeleteResult.and.returnValue(false);
+    expect(component.deleteSelection(true)).toBe(false);
+    expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
+    expect(gatling.deleteResult).toHaveBeenCalledTimes(0);
+  });
+  // TODO à finir
+  // it('should delete result selection', () => {
+  //   gatling.canDeleteResult.and.returnValue(true);
+//     expect(component.deleteSelection(false)).toBe(true);
+//     expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
+//     expect(gatling.deleteResult).toHaveBeenCalledTimes(1);
+  // });
+
+  it('should not delete result selection', () => {
+    gatling.canDeleteResult.and.returnValue(false);
+    expect(component.deleteSelection(false)).toBe(false);
+    expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
+    expect(gatling.deleteResult).toHaveBeenCalledTimes(0);
   });
 });

@@ -16,9 +16,7 @@ import {faFileInvoice} from '@fortawesome/free-solid-svg-icons/faFileInvoice';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {faFileImport} from '@fortawesome/free-solid-svg-icons/faFileImport';
 import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
-import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/description-input/description-input.component';
 import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/contextual-menu.component';
-import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
@@ -26,12 +24,14 @@ import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
 @Component({
-  selector: 'lib-results-list',
+  selector: 'lib-results-table',
   templateUrl: './results-table.component.html',
   styleUrls: ['./results-table.component.scss'],
   providers: [GatlingResultService]
 })
 export class ResultsTableComponent implements OnInit {
+
+  readonly ID = 'results';
 
   readonly displayedColumns: string[] = ['status', 'description', 'startDate', 'contextualMenu'];
   readonly chartIcon = new IconFa(faChartLine, 'primary');
@@ -83,4 +83,19 @@ export class ResultsTableComponent implements OnInit {
     this.dialogs.open(OpenGatlingReportsDialogComponent, DialogSize.SIZE_SM, {result});
   }
 
+  openGrafanaSelection(): boolean {
+    if (this.gatling.canOpenGrafanaReport(this.results.selection)) {
+      this.gatling.openGrafanaReport(this.results.selection);
+      return true;
+    }
+    return false;
+  }
+
+  deleteSelection(force = false): boolean {
+    if (this.gatling.canDeleteResult(this.results.selection)) {
+      this.gatling.deleteResult(this.results.selection, force).subscribe();
+      return true;
+    }
+    return false;
+  }
 }

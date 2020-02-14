@@ -12,6 +12,7 @@ import {MENU_ICON} from 'projects/icon/src/lib/icons';
 import {faNotEqual} from '@fortawesome/free-solid-svg-icons/faNotEqual';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {DebugEntriesTableService} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service';
+import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
 library.add(faTimesCircle, faCheckSquare, faNotEqual);
 
@@ -35,12 +36,13 @@ export class DebugEntriesTableComponent implements OnInit {
   );
   readonly menuIcon = MENU_ICON;
   readonly compareIcon = new IconFa(faNotEqual, 'success');
+  readonly ID = 'debugs';
 
-  dataSource: MatTableDataSource<DebugEntry>;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  dataSource: MatTableDataSource<DebugEntry> = new MatTableDataSource([]);
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  constructor(public resultsList: ResultsTableService,
-              public debugResult: DebugEntriesTableService) {
+  constructor(public debugResult: DebugEntriesTableService,
+  ) {
   }
 
   ngOnInit() {
@@ -51,4 +53,7 @@ export class DebugEntriesTableComponent implements OnInit {
     });
   }
 
+  private compareSelection() {
+    this.debugResult.compare();
+  }
 }

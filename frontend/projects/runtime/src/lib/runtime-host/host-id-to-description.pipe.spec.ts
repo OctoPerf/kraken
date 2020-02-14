@@ -23,7 +23,7 @@ describe('HostIdToDescriptionPipe', () => {
   it('create convert host', () => {
     const host = testHost();
     hostService.host.and.returnValue(host);
-    expect(pipe.transform(host.id)).toEqual('Addresses: type=address - Capacity: key=value');
+    expect(pipe.transform(host.id)).toEqual('Name: name0 - Addresses: type=address - Capacity: key=value');
     expect(hostService.host).toHaveBeenCalledWith(host.id);
   });
 

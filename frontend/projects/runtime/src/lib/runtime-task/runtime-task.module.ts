@@ -7,17 +7,19 @@ import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
-import { ContainersTableComponent } from './containers-table/containers-table.component';
+import {ContainersTableComponent} from './containers-table/containers-table.component';
 import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
-import { ContainerStatusComponent } from './container-status/container-status.component';
+import {ContainerStatusComponent} from './container-status/container-status.component';
 import {CommonModule} from '@angular/common';
+import {ContainerStatusIsTerminalPipe} from './container-status/container-status-is-terminal.pipe';
 
 
 @NgModule({
   declarations: [
     TasksTableComponent,
     ContainersTableComponent,
-    ContainerStatusComponent
+    ContainerStatusComponent,
+    ContainerStatusIsTerminalPipe
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,7 @@ import {CommonModule} from '@angular/common';
   providers: [
     RuntimeContainerService,
     RuntimeTaskService,
+    ContainerStatusIsTerminalPipe,
   ],
   entryComponents: [
     TasksTableComponent,

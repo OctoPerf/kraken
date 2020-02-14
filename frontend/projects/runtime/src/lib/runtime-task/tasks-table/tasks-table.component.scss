@@ -8,7 +8,6 @@
 :host {
   @include block-filler();
   @include compact-table();
-  @include scrollable();
 }
 
 table {

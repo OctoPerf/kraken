@@ -8,11 +8,12 @@ import {Subscription} from 'rxjs';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
-import {flatMap, map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import * as _ from 'lodash';
-import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
+import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 
 @Component({
   selector: 'lib-tasks-table',
@@ -20,6 +21,10 @@ import {DialogService} from 'projects/dialog/src/lib/dialog.service';
   styleUrls: ['./tasks-table.component.scss']
 })
 export class TasksTableComponent implements OnInit, OnDestroy {
+
+  readonly ID = 'tasks';
+
+  private keyBindings: KeyBinding[] = [];
 
   readonly _selection: SelectionModel<Task> = new SelectionModel(false);
   private _subscriptions: Subscription[] = [];
@@ -34,12 +39,17 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   constructor(private taskService: RuntimeTaskService,
               private eventBus: EventBusService,
-              private dialogs: DialogService) {
+              private dialogs: DialogService,
+              private keys: KeyBindingsService,
+              private statusIsTerminal: ContainerStatusIsTerminalPipe) {
     this._subscriptions.push(eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
       .pipe(map(event => event.tasks)).subscribe(tasks => this.tasks = tasks));
     this._subscriptions.push(this._selection.changed.subscribe(value => {
       this.eventBus.publish(new TaskSelectedEvent(this._selection.selected[0]));
     }));
+    this.keyBindings.forEach(binding => {
+      this.keys.add([binding]);
+    });
   }
 
   ngOnInit() {
@@ -48,6 +58,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     _.invokeMap(this._subscriptions, 'unsubscribe');
+    this.keyBindings.forEach(binding => this.keys.remove([binding]));
   }
 
   refresh() {
@@ -75,13 +86,27 @@ export class TasksTableComponent implements OnInit, OnDestroy {
     return this.hasSelection ? this._selection.selected[0] : null;
   }
 
-  public cancel(task: Task) {
-    this.dialogs.confirm('Cancel Task', 'Are you sure you want to cancel this task execution?')
-      .subscribe(() => this.taskService.cancel(task).subscribe());
+  public cancel(task: Task, force = false) {
+    this.dialogs.confirm('Cancel Task', 'Are you sure you want to cancel this task execution?', force)
+      .subscribe(() => {
+        this.loading = true;
+        this.taskService.cancel(task).subscribe();
+      });
   }
 
   public remove(task: Task) {
+    this.loading = true;
     this.taskService.remove(task).subscribe();
+  }
+
+  public deleteSelection(force: boolean): boolean {
+    const task = this.selection;
+    if (this.statusIsTerminal.transform(task.status)) {
+      this.remove(this.selection);
+    } else {
+      this.cancel(task, force);
+    }
+    return true;
   }
 
   set tasks(tasks: Task[]) {

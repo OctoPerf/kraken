@@ -1,5 +1,7 @@
-<lib-table-overlay [loading]="false" [dataSource]="dataSource" [noDataLabel]="'No Results.'"
-                   class="mat-table-body-bg">
+<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource" [selection]="results._selection"
+                             [noDataLabel]="'No Results.'" (deleteSelection)="deleteSelection($event)"
+                             (enterSelection)="openGrafanaSelection()"
+                             class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="startDate"
          matSortDirection="desc">
     <ng-container matColumnDef="status">
@@ -50,10 +52,10 @@
       Open Gatling Reports
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="gatling.deleteResult(results.selection).subscribe()"
+    <button mat-menu-item (click)="gatling.deleteResult(results.selection, $event.ctrlKey).subscribe()"
             [disabled]="!gatling.canDeleteResult(results.selection)">
       <lib-icon [icon]="deleteIcon"></lib-icon>
       Delete Result
     </button>
   </lib-contextual-menu>
-</lib-table-overlay>
+</lib-table-overlay-selection>

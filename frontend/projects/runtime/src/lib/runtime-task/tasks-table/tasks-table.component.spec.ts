@@ -5,16 +5,17 @@ import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
-import {testTask, testTasks} from 'projects/runtime/src/lib/entities/task.spec';
+import {testTask, testTaskDone, testTasks} from 'projects/runtime/src/lib/entities/task.spec';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 import {of} from 'rxjs';
 import * as _ from 'lodash';
-import SpyObj = jasmine.SpyObj;
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
 import {Task} from 'projects/runtime/src/lib/entities/task';
+import SpyObj = jasmine.SpyObj;
+import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
@@ -22,6 +23,9 @@ describe('TaskTableComponent', () => {
   let taskService: SpyObj<RuntimeTaskService>;
   let eventBus: EventBusService;
   let dialogs: SpyObj<DialogService>;
+  const spyPipe = jasmine.createSpyObj('ContainerStatusIsTerminalPipe', [
+    'transform',
+  ]);
 
   beforeEach(async(() => {
     taskService = runtimeTaskServiceSpy();
@@ -32,6 +36,7 @@ describe('TaskTableComponent', () => {
       providers: [
         {provide: RuntimeTaskService, useValue: taskService},
         {provide: DialogService, useValue: dialogs},
+        {provide: ContainerStatusIsTerminalPipe, useValue: spyPipe},
         EventBusService,
       ]
     })
@@ -112,7 +117,7 @@ describe('TaskTableComponent', () => {
     const tasks = [];
     component.selection = testTask();
     component.tasks = tasks;
-    expect(component.hasSelection).toBeFalse();
+    expect(component.hasSelection).toBe(false);
   });
 
   it('should set tasks update selection first not done', () => {
@@ -181,10 +186,39 @@ describe('TaskTableComponent', () => {
     expect(taskService.cancel).toHaveBeenCalledWith(task);
   });
 
+  it('should cancel task with force', () => {
+    dialogs.confirm.and.returnValue(of(null));
+    taskService.cancel.and.returnValue(of('taskId'));
+    const task = testTask();
+    component.cancel(task, false);
+    expect(taskService.cancel).toHaveBeenCalledWith(task);
+  });
+
   it('should remove task', () => {
     taskService.remove.and.returnValue(of('taskId'));
     const task = testTask();
     component.remove(task);
     expect(taskService.remove).toHaveBeenCalledWith(task);
   });
+
+  it('should delete task done and selected', () => {
+    taskService.remove.and.returnValue(of(null));
+    spyPipe.transform.and.returnValue(true);
+    const task = testTaskDone();
+    component.selection = task;
+    component.deleteSelection(true);
+    expect(taskService.remove).toHaveBeenCalledWith(task);
+
+  });
+
+  it('should delete task selected', () => {
+    spyPipe.transform.and.returnValue(false);
+    const spy = spyOn(component, 'cancel');
+    const task = testTask();
+    component.selection = task;
+    component.deleteSelection(true);
+
+    expect(spy).toHaveBeenCalledWith(task, true);
+  });
+
 });

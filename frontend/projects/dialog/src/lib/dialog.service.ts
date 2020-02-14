@@ -1,7 +1,7 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ComponentType} from '@angular/cdk/portal';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {InspectDialogComponent} from 'projects/dialog/src/lib/inspect-dialog/inspect-dialog.component';
 import {DeleteDialogComponent} from 'projects/dialog/src/lib/delete-dialog/delete-dialog.component';
@@ -49,7 +49,10 @@ export class DialogService {
     });
   }
 
-  public delete(name: string, items: string[], helpPageId?: HelpPageId): Observable<void> {
+  public delete(name: string, items: string[], force = false, helpPageId?: HelpPageId): Observable<void> {
+    if (force) {
+      return of(null);
+    }
     return this.open(DeleteDialogComponent, DialogSize.SIZE_MD, {
       name,
       items,
@@ -57,7 +60,10 @@ export class DialogService {
     });
   }
 
-  public confirm(title: string, message: string): Observable<void> {
+  public confirm(title: string, message: string, force = false): Observable<void> {
+    if (force) {
+      return of(null);
+    }
     return this.open(ConfirmDialogComponent, DialogSize.SIZE_MD, {
       title,
       message,

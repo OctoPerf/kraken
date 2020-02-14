@@ -153,7 +153,7 @@ describe('DebugEntriesTableService', () => {
     it('should unselect node', () => {
       service.selection = debugEntry;
       eventBus.publish(new SelectNodeEvent(null));
-      expect(service.selection).toBeNull();
+      expect(service.selection).toBeUndefined();
     });
 
     it('should select do not find node', () => {

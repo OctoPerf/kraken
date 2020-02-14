@@ -147,7 +147,7 @@ describe('ResultsTableService', () => {
   });
 
   it('should select emit', () => {
-    const spy = spyOn(service.selectionChanged, 'emit');
+    const spy = spyOn(service._selection, 'select');
     service.selection = result;
     expect(spy).toHaveBeenCalledWith(result);
   });

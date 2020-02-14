@@ -13,6 +13,7 @@ import {SpinnerComponent} from 'projects/components/src/lib/spinner/spinner.comp
 import {MessageComponent} from 'projects/components/src/lib/message/message.component';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import { LazyIfDirective } from './lazy-if.directive';
+import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-overlay-selection/table-overlay-selection.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { LazyIfDirective } from './lazy-if.directive';
     RouterProgressComponent,
     HeaderComponent,
     TableOverlayComponent,
+    TableOverlaySelectionComponent,
     SpinnerComponent,
     MessageComponent,
     LazyIfDirective,
@@ -39,6 +41,7 @@ import { LazyIfDirective } from './lazy-if.directive';
     RouterProgressComponent,
     HeaderComponent,
     TableOverlayComponent,
+    TableOverlaySelectionComponent,
     SpinnerComponent,
     MessageComponent,
     LazyIfDirective,

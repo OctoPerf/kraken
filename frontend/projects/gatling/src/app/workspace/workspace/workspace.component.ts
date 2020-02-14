@@ -131,6 +131,14 @@ export class WorkspaceComponent implements OnInit {
         -1,
         50
       ),
+
+      // new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
+      //         [STORAGE_ROOT_NODE, this.gatlingConfiguration.simulationsRootNode],
+      //         [STORAGE_ID, 'simulations-tree'],
+      //         [STORAGE_TREE_LABEL, 'Simulations'],
+      //         [STORAGE_NODE_BUTTONS, SimulationNodeButtonsComponent],
+      //         [STORAGE_CONTEXTUAL_MENU, SimulationContextualMenuComponent]
+      //       ])));
       new TabsConfiguration(
         [
           new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', DEBUG_ICON,

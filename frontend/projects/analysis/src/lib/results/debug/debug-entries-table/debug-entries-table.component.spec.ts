@@ -57,5 +57,4 @@ describe('DebugEntriesTableComponent', () => {
     debugResult.valuesSubject.next([testDebugEntry()]);
     expect(component.dataSource).toBeTruthy();
   });
-
 });

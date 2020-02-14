@@ -47,14 +47,14 @@ describe('OpenGatlingReportsDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.loading).toBeTrue();
+    expect(component.loading).toBe(true);
   });
 
   it('should create list reports', () => {
     storage.find.and.returnValue(of([testResultNode()]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    expect(component.loading).toBeFalse();
+    expect(component.loading).toBe(false);
     expect(component.reports.length).toBe(1);
   });
 
@@ -62,7 +62,7 @@ describe('OpenGatlingReportsDialogComponent', () => {
     storage.find.and.returnValue(throwError('Fail!'));
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    expect(component.loading).toBeFalse();
+    expect(component.loading).toBe(false);
     expect(component.reports.length).toBe(0);
   });
 

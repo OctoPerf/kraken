@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {catchError, flatMap, map} from 'rxjs/operators';
-import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {flatMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
-import {BaseNotification} from 'projects/notification/src/lib/base-notification';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
-import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 
 @Injectable()
@@ -26,8 +22,8 @@ export class GatlingResultService {
   ) {
   }
 
-  deleteResult(result: Result): Observable<string> {
-    return this.dialogs.delete('test result', [result.description]).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
+  deleteResult(result: Result, force = false): Observable<string> {
+    return this.dialogs.delete('test result', [result.description], force).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
   }
 
   openGrafanaReport(result: Result) {

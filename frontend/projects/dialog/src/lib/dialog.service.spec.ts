@@ -1,9 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 
 import {DialogService} from './dialog.service';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {Component} from '@angular/core';
-import SpyObj = jasmine.SpyObj;
 import {InspectDialogComponent} from 'projects/dialog/src/lib/inspect-dialog/inspect-dialog.component';
 import {DeleteDialogComponent} from 'projects/dialog/src/lib/delete-dialog/delete-dialog.component';
 import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dialog.component';
@@ -11,6 +10,7 @@ import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dial
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
 import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
+import SpyObj = jasmine.SpyObj;
 
 export const dialogsServiceSpy = () => {
   const spy = jasmine.createSpyObj('DialogService', [
@@ -97,7 +97,7 @@ describe('DialogService', () => {
 
   it('should delete', () => {
     const spy = spyOn(service, 'open');
-    service.delete('name', ['item'], 'TEST');
+    service.delete('name', ['item'], false, 'TEST');
     expect(spy).toHaveBeenCalledWith(
       DeleteDialogComponent, DialogSize.SIZE_MD, {
         name: 'name',
