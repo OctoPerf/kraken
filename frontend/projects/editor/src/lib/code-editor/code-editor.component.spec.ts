@@ -9,6 +9,7 @@ import {ChangeDetectorRef, Input} from '@angular/core';
 import SpyObj = jasmine.SpyObj;
 import {changeDetectorSpy} from 'projects/commons/src/lib/mock/angular.mock.spec';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
+import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
 
 describe('CodeEditorComponent', () => {
   let component: CodeEditorComponent;
@@ -49,6 +50,9 @@ describe('CodeEditorComponent', () => {
   });
 
   it('should init editorComponent', inject([CodeService], (service: CodeService) => {
+    component.keyBindings = [
+      new KeyBinding(['Del'], ($event: KeyboardEvent) => true)
+    ];
     component.ngAfterViewInit();
     expect(service.initCodeEditorComponent).toHaveBeenCalledWith(component._editor, component.variablesAutoCompleter);
   }));

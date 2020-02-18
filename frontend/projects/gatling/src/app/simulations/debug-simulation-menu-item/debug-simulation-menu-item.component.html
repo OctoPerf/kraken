@@ -1,5 +1,5 @@
-<button mat-menu-item *ngIf="treeControl.hasSingleSelection && simulation.isSimulationNode(treeControl.first)"
-        (click)="simulation.debug(treeControl.first)" matTooltip="Debug Simulation (Ctrl + Shift + d)">
+<button mat-menu-item *ngIf="canDebug()"
+        (click)="debug()" matTooltip="Debug Simulation (Ctrl + Shift + D)">
   <lib-icon [icon]="debugIcon"></lib-icon>
   Debug Simulation
 </button>

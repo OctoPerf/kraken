@@ -7,12 +7,10 @@ import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faCheckSquare} from '@fortawesome/free-solid-svg-icons/faCheckSquare';
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {MENU_ICON} from 'projects/icon/src/lib/icons';
 import {faNotEqual} from '@fortawesome/free-solid-svg-icons/faNotEqual';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {DebugEntriesTableService} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service';
-import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
 library.add(faTimesCircle, faCheckSquare, faNotEqual);
 
@@ -53,7 +51,7 @@ export class DebugEntriesTableComponent implements OnInit {
     });
   }
 
-  private compareSelection() {
+  public compareSelection() {
     this.debugResult.compare();
   }
 }

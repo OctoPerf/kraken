@@ -57,4 +57,9 @@ describe('DebugEntriesTableComponent', () => {
     debugResult.valuesSubject.next([testDebugEntry()]);
     expect(component.dataSource).toBeTruthy();
   });
+
+  it('should compareSelection', () => {
+    component.compareSelection();
+    expect(debugResult.compare).toHaveBeenCalled();
+  });
 });

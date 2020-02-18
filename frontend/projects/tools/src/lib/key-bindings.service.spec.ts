@@ -3,10 +3,6 @@ import {TestBed} from '@angular/core/testing';
 import {KeyBinding, KeyBindingsService} from './key-bindings.service';
 import {eventSpy} from 'projects/commons/src/lib/mock/event.mock.spec';
 import Spy = jasmine.Spy;
-import {testStorageNodesSorted} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service.spec';
-import {BehaviorSubject} from 'rxjs';
-import {EventEmitter} from '@angular/core';
-import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 
 export const keyBindingsServiceSpy = () => {
   const spy = jasmine.createSpyObj('KeyBindingsService', [

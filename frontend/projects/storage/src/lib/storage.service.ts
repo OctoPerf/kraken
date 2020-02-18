@@ -28,15 +28,15 @@ export class StorageService {
               private toName: StorageNodeToNamePipe) {
   }
 
-  list(): Observable<StorageNode[]> {
+  public list(): Observable<StorageNode[]> {
     return this.http.get<StorageNode[]>(this.configuration.storageApiUrl('/list'));
   }
 
-  edit(node: StorageNode) {
+  public edit(node: StorageNode) {
     this.eventBus.publish(new OpenNodeEvent(node));
   }
 
-  rename(node: StorageNode, parentDirectory: StorageNode) {
+  public rename(node: StorageNode, parentDirectory: StorageNode) {
     const oldName = this.toName.transform(node);
     const directoryPath = parentDirectory.path;
     this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {title: 'Rename File', name: oldName})
@@ -52,14 +52,14 @@ export class StorageService {
       .subscribe();
   }
 
-  deleteFilesApi(nodes: StorageNode[]) {
+  private deleteFilesApi(nodes: StorageNode[]) {
     return this.http.post<boolean[]>(this.configuration.storageApiUrl('/delete'), _.map(nodes, 'path'))
       .subscribe((results: boolean[]) => {
         this.eventBus.publish(new DeleteFilesEvent(results));
       });
   }
 
-  deleteFiles(nodes: StorageNode[], force = false) {
+  public deleteFiles(nodes: StorageNode[], force = false) {
     if (force) {
       this.deleteFilesApi(nodes);
     } else {
@@ -68,11 +68,11 @@ export class StorageService {
     }
   }
 
-  addFile(parent: StorageNode) {
+  public addFile(parent: StorageNode) {
     this._add(parent, 'New File', '/set/content', 'New file');
   }
 
-  addDirectory(parent: StorageNode) {
+  public addDirectory(parent: StorageNode) {
     this._add(parent, 'New Directory', '/set/directory', null);
   }
 
@@ -94,7 +94,7 @@ export class StorageService {
       });
   }
 
-  upload(parent: StorageNode) {
+  public upload(parent: StorageNode) {
     const path = parent.path;
     const endpoint = this.configuration.storageApiUrl(`/set/file?path=${path}`);
     this.dialogs.open(FileUploadDialogComponent, DialogSize.SIZE_MD, {
@@ -105,12 +105,12 @@ export class StorageService {
     }).subscribe();
   }
 
-  downloadLink(node?: StorageNode): string {
+  public downloadLink(node?: StorageNode): string {
     const path = node ? node.path : '';
     return this.configuration.storageApiUrl(`/get/file?path=${path}`);
   }
 
-  get(path: string): Observable<StorageNode> {
+  public get(path: string): Observable<StorageNode> {
     return this.http.get<StorageNode>(this.configuration.storageApiUrl('/get'), {
       params: {
         path
@@ -118,7 +118,7 @@ export class StorageService {
     });
   }
 
-  getContent(node: StorageNode): Observable<string> {
+  public getContent(node: StorageNode): Observable<string> {
     return this.http.get(this.configuration.storageApiUrl('/get/content'), {
       responseType: 'text',
       params: {
@@ -127,7 +127,7 @@ export class StorageService {
     });
   }
 
-  getJSON<T>(node: StorageNode): Observable<T> {
+  public getJSON<T>(node: StorageNode): Observable<T> {
     return this.http.get<T>(this.configuration.storageApiUrl('/get/json'), {
       params: {
         path: node.path
@@ -135,15 +135,15 @@ export class StorageService {
     });
   }
 
-  listJSON<T>(nodes: StorageNode[]): Observable<T[]> {
+  public listJSON<T>(nodes: StorageNode[]): Observable<T[]> {
     return this.http.post<T[]>(this.configuration.storageApiUrl('/list/json'), _.map(nodes, 'path'));
   }
 
-  deleteFile(path: string): Observable<boolean[]> {
+  public deleteFile(path: string): Observable<boolean[]> {
     return this.http.post<boolean[]>(this.configuration.storageApiUrl('/delete'), [path]);
   }
 
-  find(rootPath: string, matcher: string = null, maxDepth: number = null): Observable<StorageNode[]> {
+  public find(rootPath: string, matcher: string = null, maxDepth: number = null): Observable<StorageNode[]> {
     const params: any = {rootPath};
     if (matcher) {
       params.matcher = matcher;
@@ -154,7 +154,7 @@ export class StorageService {
     return this.http.get<StorageNode[]>(this.configuration.storageApiUrl('/find'), {params});
   }
 
-  filterExisting(nodes: StorageNode[]): Observable<StorageNode[]> {
+  public filterExisting(nodes: StorageNode[]): Observable<StorageNode[]> {
     return this.http.post<StorageNode[]>(this.configuration.storageApiUrl('/filter/existing'), nodes);
   }
 }

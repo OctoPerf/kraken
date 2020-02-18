@@ -106,6 +106,12 @@ describe('DialogService', () => {
       });
   });
 
+  it('should delete force', () => {
+    const spy = spyOn(service, 'open');
+    expect(service.delete('name', ['item'], true, 'TEST')).toBeDefined();
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should confirm', () => {
     const spy = spyOn(service, 'open');
     service.confirm('title', 'message');
@@ -114,6 +120,12 @@ describe('DialogService', () => {
         title: 'title',
         message: 'message'
       });
+  });
+
+  it('should confirm force', () => {
+    const spy = spyOn(service, 'open');
+    expect(service.confirm('title', 'message', true)).toBeDefined();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should wait', () => {

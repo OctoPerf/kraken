@@ -146,6 +146,12 @@ describe('ResultsTableService', () => {
     expect(service.isSelected(result)).toBeTruthy();
   });
 
+  it('should setSelection clear', () => {
+    service.selection = result;
+    service.selection = null;
+    expect(service.hasSelection).toBeFalse();
+  });
+
   it('should select emit', () => {
     const spy = spyOn(service._selection, 'select');
     service.selection = result;

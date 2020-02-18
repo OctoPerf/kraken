@@ -20,7 +20,7 @@ export class TableOverlaySelectionComponent<T> extends TableOverlayComponent imp
   @Input() noDataLabel: string;
   @Input() selection: SelectionModel<any>;
   @Output() deleteSelection = new EventEmitter<boolean>();
-  @Output() enterSelection = new EventEmitter<boolean>();
+  @Output() enterSelection = new EventEmitter<void>();
 
   @ViewChild('scrollableTable', {static: false}) scrollableTable: ElementRef<HTMLElement>;
 

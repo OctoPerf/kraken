@@ -36,9 +36,9 @@ describe('DeleteMenuItemComponent', () => {
 
   it('should delete key binding', () => {
     const binding = component.binding;
-    expect(binding.keys).toEqual(['Delete']);
+    expect(binding.keys).toEqual(['Delete', 'ctrl + Delete']);
     spyOn(component, '_handleKey');
-    binding.binding(null);
+    binding.binding({ctrlKey: true} as any);
     expect(component._handleKey).toHaveBeenCalledWith(jasmine.any(Function));
   });
 });

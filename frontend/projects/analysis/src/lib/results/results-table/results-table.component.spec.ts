@@ -9,13 +9,11 @@ import {
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import SpyObj = jasmine.SpyObj;
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
-import any = jasmine.any;
-import {Result} from 'projects/analysis/src/lib/entities/result';
+import SpyObj = jasmine.SpyObj;
 
 describe('ResultsListComponent', () => {
   let component: ResultsTableComponent;
@@ -85,13 +83,13 @@ describe('ResultsListComponent', () => {
     expect(gatling.openGrafanaReport).toHaveBeenCalledTimes(0);
   });
 
-  // TODO à finir
-  // it('should delete result selection and force', () => {
-  //   gatling.canDeleteResult.and.returnValue(true);
-//     expect(component.deleteSelection(true)).toBe(true);
-//     expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
-//     expect(gatling.deleteResult).toHaveBeenCalledTimes(1);
-  // });
+  it('should delete result selection and force', () => {
+    gatling.canDeleteResult.and.returnValue(true);
+    gatling.deleteResult.and.returnValue(of('ok'));
+    expect(component.deleteSelection(true)).toBe(true);
+    expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
+    expect(gatling.deleteResult).toHaveBeenCalledTimes(1);
+  });
 
   it('should not delete result selection and force', () => {
     gatling.canDeleteResult.and.returnValue(false);
@@ -99,13 +97,6 @@ describe('ResultsListComponent', () => {
     expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
     expect(gatling.deleteResult).toHaveBeenCalledTimes(0);
   });
-  // TODO à finir
-  // it('should delete result selection', () => {
-  //   gatling.canDeleteResult.and.returnValue(true);
-//     expect(component.deleteSelection(false)).toBe(true);
-//     expect(gatling.canDeleteResult).toHaveBeenCalledTimes(1);
-//     expect(gatling.deleteResult).toHaveBeenCalledTimes(1);
-  // });
 
   it('should not delete result selection', () => {
     gatling.canDeleteResult.and.returnValue(false);

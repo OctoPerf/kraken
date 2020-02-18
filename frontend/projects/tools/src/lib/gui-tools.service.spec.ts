@@ -1,29 +1,16 @@
-import {ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {GuiToolsService} from './gui-tools.service';
-import {By} from '@angular/platform-browser';
-import {LoadingIconComponent} from 'projects/components/src/lib/loading-icon/loading-icon.component';
 
-class TestComponent {
-}
+export const guiToolsServiceSpy = () => {
+  const spy = jasmine.createSpyObj('GuiToolsService', [
+    'scrollTo',
+  ]);
+  return spy;
+};
 
-fdescribe('GuiToolsService', () => {
+describe('GuiToolsService', () => {
 
-  // let fixture: ComponentFixture<TestComponent>;
-
-  const scrollableTreeSpy = () => {
-    const spy = jasmine.createSpyObj('ElementRef', ['']);
-    spy.nativeElement = '<div>' +
-      '  <div id="username" >Hello</div>' +
-      '  <button id="button" />' +
-      '</div>';
-    return spy;
-  };
-
-
-  const getElement = () => {
-    return document.getElementsByClassName('cdk-overlay-backdrop')[0];
-  };
 
   beforeEach(() => TestBed.configureTestingModule({}));
 
@@ -31,21 +18,60 @@ fdescribe('GuiToolsService', () => {
     const service: GuiToolsService = TestBed.get(GuiToolsService);
     expect(service).toBeTruthy();
   });
-  // TODO à finir
-  // it('should be created', () => {
-  //   const service: GuiToolsService = TestBed.get(GuiToolsService);
-  // const spy = jasmine.createSpyObj('ElementRef', ['nativeElement']);
-  // spy.nativeElement = document.createElement('div');
-  // jasmine.createSpyObj('nativeElement', ['offsetHeight', 'getBoundingClientRect']);
-  //   spy.nativeElement.offsetHeight = 200;
-  // spy.nativeElement.getBoundingClientRect() = jasmine.createSpyObj('getBoundingClientRect', ['top']);
-  // spyOn(spy.nativeElement, 'getBoundingClientRect').and.returnValue({'top': 100});
-  // spy.nativeElement.getBoundingClientRect().top = 100;
-  // spyOn(spy.nativeElement, 'getBoundingClientRect').and.callFake(
-  //  jasmine.createSpy('getBoundingClientRect').and.returnValue({top: 1, height: 100, left: 2, width: 200, right: 202})
-  // );
 
-  // service.scrollTo(spy, getElement);
-  // });
+  it('should not scroll', fakeAsync(() => {
+    const getElement: any = () => null;
+    const scrollableElement: any = null;
+    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    service.scrollTo(scrollableElement, getElement);
+    tick(1);
+  }));
 
+  it('should scroll up', fakeAsync(() => {
+    const getElement: any = () => {
+      return {
+        getBoundingClientRect: () => {
+          return {top: 1, bottom: 10};
+        }
+      };
+    };
+    const scrollableElement: any = {
+      nativeElement: {
+        offsetHeight: 100,
+        scrollTop: 10,
+        getBoundingClientRect: () => {
+          return {top: 50};
+        }
+      }
+    };
+
+    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    service.scrollTo(scrollableElement, getElement);
+    tick(1);
+    expect(scrollableElement.nativeElement.scrollTop).toBe(-89);
+  }));
+
+  it('should scroll down', fakeAsync(() => {
+    const getElement: any = () => {
+      return {
+        getBoundingClientRect: () => {
+          return {top: 200, bottom: 10};
+        }
+      };
+    };
+    const scrollableElement: any = {
+      nativeElement: {
+        offsetHeight: 100,
+        scrollTop: 10,
+        getBoundingClientRect: () => {
+          return {top: 50};
+        }
+      }
+    };
+
+    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    service.scrollTo(scrollableElement, getElement);
+    tick(1);
+    expect(scrollableElement.nativeElement.scrollTop).toBe(10);
+  }));
 });

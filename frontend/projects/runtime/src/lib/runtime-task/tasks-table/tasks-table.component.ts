@@ -24,8 +24,6 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   readonly ID = 'tasks';
 
-  private keyBindings: KeyBinding[] = [];
-
   readonly _selection: SelectionModel<Task> = new SelectionModel(false);
   private _subscriptions: Subscription[] = [];
   readonly refreshIcon = REFRESH_ICON;
@@ -40,16 +38,12 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   constructor(private taskService: RuntimeTaskService,
               private eventBus: EventBusService,
               private dialogs: DialogService,
-              private keys: KeyBindingsService,
               private statusIsTerminal: ContainerStatusIsTerminalPipe) {
     this._subscriptions.push(eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
       .pipe(map(event => event.tasks)).subscribe(tasks => this.tasks = tasks));
     this._subscriptions.push(this._selection.changed.subscribe(value => {
       this.eventBus.publish(new TaskSelectedEvent(this._selection.selected[0]));
     }));
-    this.keyBindings.forEach(binding => {
-      this.keys.add([binding]);
-    });
   }
 
   ngOnInit() {
@@ -58,7 +52,6 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     _.invokeMap(this._subscriptions, 'unsubscribe');
-    this.keyBindings.forEach(binding => this.keys.remove([binding]));
   }
 
   refresh() {

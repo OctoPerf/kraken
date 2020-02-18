@@ -7,9 +7,12 @@ export class GuiToolsService {
 
   private static readonly DELTA_HEIGHT = 50;
 
-  scrollTo(scrollableElement: ElementRef<HTMLElement>, getElement: () => Element): void {
+  scrollTo(scrollableElement: ElementRef<HTMLElement>, getElement: () => Element | null): void {
     setTimeout(() => {
       const element = getElement();
+      if (!element) {
+        return;
+      }
       const scrollHeight = scrollableElement.nativeElement.offsetHeight;
       const scrollTop = scrollableElement.nativeElement.getBoundingClientRect().top;
       const scrollBottom = scrollTop + scrollHeight;

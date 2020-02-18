@@ -110,7 +110,7 @@ describe('StorageService', () => {
 
   it('should deleteFiles', () => {
     const nodes = testStorageNodes();
-    service.deleteFiles(nodes);
+    service.deleteFiles(nodes, true);
     const req = httpTestingController.expectOne('storageApiUrl/files/delete');
     expect(req.request.method).toBe('POST');
     req.flush([true]);

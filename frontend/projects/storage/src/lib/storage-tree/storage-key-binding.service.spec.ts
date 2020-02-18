@@ -17,6 +17,8 @@ import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storag
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {GuiToolsService} from 'projects/tools/src/lib/gui-tools.service';
+import {guiToolsServiceSpy} from 'projects/tools/src/lib/gui-tools.service.spec';
 
 export const storageKeyBindingServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageKeyBindingService', [
@@ -75,6 +77,7 @@ describe('StorageKeyBindingService', () => {
         {provide: STORAGE_ROOT_NODE, useValue: rootNode},
         {provide: KeyBindingsService, useValue: keyBindingsServiceSpy()},
         {provide: StorageNodeComponent, useValue: element()},
+        {provide: GuiToolsService, useValue: guiToolsServiceSpy()},
         StorageKeyBindingService,
       ]
     });
@@ -152,25 +155,25 @@ describe('StorageKeyBindingService', () => {
       expect(treeControl.deselectNode).toHaveBeenCalledWith(dataSource._expandedNodes[7], dataSource._expandedNodes[6]);
     });
   });
-  it('should does not select up data', () => {
+  it('should not select up data', () => {
     treeControl._lastSelection = dataSource._expandedNodes[0];
     expect(service.upSelection()).toBe(false);
     expect(treeControl.selectOne).toHaveBeenCalledTimes(0);
   });
 
-  it('should does not select down data', () => {
+  it('should not select down data', () => {
     treeControl._lastSelection = dataSource._expandedNodes[dataSource._expandedNodes.length - 1];
     expect(service.downSelection()).toBe(false);
     expect(treeControl.selectOne).toHaveBeenCalledTimes(0);
   });
 
-  it('should does not multi select up data', () => {
+  it('should not multi select up data', () => {
     treeControl._lastSelection = dataSource._expandedNodes[0];
     expect(service.upMultiSelection()).toBe(false);
     expect(treeControl.selectOne).toHaveBeenCalledTimes(0);
   });
 
-  it('should does not multi select down data', () => {
+  it('should not multi select down data', () => {
     treeControl._lastSelection = dataSource._expandedNodes[dataSource._expandedNodes.length - 1];
     expect(service.downMultiSelection()).toBe(false);
     expect(treeControl.selectOne).toHaveBeenCalledTimes(0);
@@ -252,8 +255,17 @@ describe('StorageKeyBindingService', () => {
 
   it('should delete selection', () => {
     (treeControl as any).selected = [dataSource._expandedNodes[7], dataSource._expandedNodes[8]];
-    expect(service.deleteSelection()).toBe(true);
-    expect(storageService.deleteFiles).toHaveBeenCalledWith([dataSource._expandedNodes[7], dataSource._expandedNodes[8]]);
+    expect(service.deleteSelection(true)).toBe(true);
+    expect(storageService.deleteFiles).toHaveBeenCalledWith([dataSource._expandedNodes[7], dataSource._expandedNodes[8]], true);
+  });
+
+  it('should left selection like up selection', () => {
+    treeControl._lastSelection = dataSource._expandedNodes[12];
+    dataSource.parentNode.withArgs(dataSource._expandedNodes[12]).and.returnValue(rootNode);
+    expect(service.leftSelection()).toBe(true);
+    expect(treeControl.selectOne).toHaveBeenCalledTimes(1);
+    expect(treeControl.selectOne).toHaveBeenCalledWith(dataSource._expandedNodes[11]);
+    expect(treeControl.collapse).toHaveBeenCalledTimes(0);
   });
 
   it('should left selection like up selection', () => {

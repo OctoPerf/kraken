@@ -101,6 +101,14 @@ describe('StorageTreeControlService', () => {
     service.ngOnDestroy();
   });
 
+  it('should deselectNode', () => {
+    service._selection = new SelectionModel<StorageNode>(true /* multiple */);
+    service._selection.select(fileNode, directoryNode);
+    service.deselectNode(fileNode, directoryNode);
+    expect(service._selection.selected).toEqual([directoryNode]);
+    expect(service._lastSelection).toBe(directoryNode);
+  });
+
   it('should toggle _selection no key', () => {
     spyOn(service, 'selectOne');
     service._toggleSelection({ctrlKey: false, shiftKey: false} as any, directoryNode);

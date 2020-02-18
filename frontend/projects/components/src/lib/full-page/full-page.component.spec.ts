@@ -58,4 +58,5 @@ describe('FullPageComponent', () => {
     expect(component.fullPage.tabsBottom).toBe(true);
     expect(component.fullPage.tabsTop).toBe(true);
   }));
+
 });

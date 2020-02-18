@@ -7,20 +7,26 @@ import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-
 import {storageNodeEditorContentServiceSpy} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service.spec';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import SpyObj = jasmine.SpyObj;
+import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 
 describe('SimulationEditorComponent', () => {
   let component: SimulationEditorComponent;
   let fixture: ComponentFixture<SimulationEditorComponent>;
+  let simulation: SpyObj<SimulationService>;
+  let node: StorageNode;
 
   beforeEach(async(() => {
     const contentService = storageNodeEditorContentServiceSpy();
+    simulation = simulationServiceSpy();
+    node = testStorageFileNode();
 
     TestBed.configureTestingModule({
       declarations: [SimulationEditorComponent],
       providers: [
         {provide: StorageNodeEditorContentService, useValue: contentService},
-        {provide: SimulationService, useValue: simulationServiceSpy()},
-        {provide: STORAGE_NODE, useValue: testStorageFileNode()},
+        {provide: SimulationService, useValue: simulation},
+        {provide: STORAGE_NODE, useValue: node},
       ]
     })
       .overrideTemplate(SimulationEditorComponent, '')
@@ -36,5 +42,15 @@ describe('SimulationEditorComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should run selection', () => {
+    expect(component.runSelection()).toBeTrue();
+    expect(simulation.run).toHaveBeenCalledWith(node);
+  });
+
+  it('should debug selection', () => {
+    expect(component.debugSelection()).toBeTrue();
+    expect(simulation.debug).toHaveBeenCalledWith(node);
   });
 });
