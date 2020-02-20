@@ -1,4 +1,6 @@
 import {ElementRef, Injectable} from '@angular/core';
+import {interval, Subscription} from 'rxjs';
+import {finalize, map, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +8,10 @@ import {ElementRef, Injectable} from '@angular/core';
 export class GuiToolsService {
 
   private static readonly DELTA_HEIGHT = 50;
+  private static readonly SCROLL_EASE_PERIOD = 10; // ms
+  private static readonly SCROLL_EASE_STEPS = 25; // total animation duration is equal to period * steps
+
+  private subscriptions: Map<string, Subscription> = new Map<string, Subscription>();
 
   scrollTo(scrollableElement: ElementRef<HTMLElement>, getElement: () => Element | null): void {
     setTimeout(() => {
@@ -21,10 +27,34 @@ export class GuiToolsService {
       const deltaBottom = scrollBottom - GuiToolsService.DELTA_HEIGHT - elementBottom;
       const deltaTop = elementTop - (scrollTop + GuiToolsService.DELTA_HEIGHT);
       if (deltaBottom < 0) {
-        scrollableElement.nativeElement.scrollTop += Math.abs(deltaBottom);
+        this.easeScroll(scrollableElement.nativeElement, Math.abs(deltaBottom));
       } else if (deltaTop < 0) {
-        scrollableElement.nativeElement.scrollTop -= Math.abs(deltaTop);
+        this.easeScroll(scrollableElement.nativeElement, -Math.abs(deltaTop));
       }
     });
+  }
+
+  easeOutQuart(t: number): number {
+    return 1 - (--t) * t * t * t;
+  }
+
+  easeScroll(nativeElement: HTMLElement, delta: number) {
+    const id = nativeElement.id;
+    if (this.subscriptions.has(id)) {
+      this.subscriptions.get(id).unsubscribe();
+    }
+
+    const start = nativeElement.scrollTop;
+    const steps = GuiToolsService.SCROLL_EASE_STEPS;
+    const period = GuiToolsService.SCROLL_EASE_PERIOD;
+
+    const subscription = interval(period).pipe(take(steps),
+      map(t => t / (steps - 1)), // set time in [0,1] interval
+      map(this.easeOutQuart), // easing out
+      map(x => start + (x * delta)),
+      finalize(() => nativeElement.scrollTop = start + delta) // force end value when unsubscribed
+    ).subscribe(value => nativeElement.scrollTop = value);
+
+    this.subscriptions.set(id, subscription);
   }
 }

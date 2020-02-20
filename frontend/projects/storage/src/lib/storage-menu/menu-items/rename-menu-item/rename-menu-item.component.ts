@@ -26,8 +26,6 @@ export class RenameMenuItemComponent extends KeyBoundMenuItem {
   }
 
   public canRename(): boolean {
-    console.log(this.treeControl);
-    console.log(this.treeControl.hasSingleSelection);
     return this.treeControl.hasSingleSelection;
   }
 
