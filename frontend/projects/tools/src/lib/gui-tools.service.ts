@@ -13,7 +13,7 @@ export class GuiToolsService {
 
   private subscriptions: Map<string, Subscription> = new Map<string, Subscription>();
 
-  scrollTo(scrollableElement: ElementRef<HTMLElement>, getElement: () => Element | null): void {
+  public scrollTo(scrollableElement: ElementRef<HTMLElement>, getElement: () => Element | null): void {
     setTimeout(() => {
       const element = getElement();
       if (!element) {
@@ -34,11 +34,11 @@ export class GuiToolsService {
     });
   }
 
-  easeOutQuart(t: number): number {
+  private easeOutQuart(t: number): number {
     return 1 - (--t) * t * t * t;
   }
 
-  easeScroll(nativeElement: HTMLElement, delta: number) {
+  private easeScroll(nativeElement: HTMLElement, delta: number) {
     const id = nativeElement.id;
     if (this.subscriptions.has(id)) {
       this.subscriptions.get(id).unsubscribe();
@@ -56,5 +56,19 @@ export class GuiToolsService {
     ).subscribe(value => nativeElement.scrollTop = value);
 
     this.subscriptions.set(id, subscription);
+  }
+
+  public copyToClipboard(text: string) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = text;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }

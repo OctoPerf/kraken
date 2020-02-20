@@ -16,6 +16,7 @@ import {TreeModule} from 'projects/tree/src/lib/tree.module';
 import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/compare.module';
 import {DebugPipesModule} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-pipes.module';
 import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
+import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debu
     TreeModule,
     CompareModule,
     DebugPipesModule,
+    ToolsModule,
   ],
 })
 export class DebugModule {

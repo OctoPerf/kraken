@@ -5,6 +5,7 @@ import {GuiToolsService} from './gui-tools.service';
 export const guiToolsServiceSpy = () => {
   const spy = jasmine.createSpyObj('GuiToolsService', [
     'scrollTo',
+    'copyToClipboard',
   ]);
   return spy;
 };
@@ -24,7 +25,7 @@ describe('GuiToolsService', () => {
     const scrollableElement: any = null;
     const service: GuiToolsService = TestBed.get(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
-    tick(1);
+    tick(250);
   }));
 
   it('should scroll up', fakeAsync(() => {
@@ -47,7 +48,7 @@ describe('GuiToolsService', () => {
 
     const service: GuiToolsService = TestBed.get(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
-    tick(1);
+    tick(250);
     expect(scrollableElement.nativeElement.scrollTop).toBe(-89);
   }));
 
@@ -71,7 +72,7 @@ describe('GuiToolsService', () => {
 
     const service: GuiToolsService = TestBed.get(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
-    tick(1);
+    tick(250);
     expect(scrollableElement.nativeElement.scrollTop).toBe(10);
   }));
 });

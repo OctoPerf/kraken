@@ -72,6 +72,9 @@
           <button mat-icon-button (click)="debug.openResponseBody()" matTooltip="Open Body in new browser tab">
             <lib-icon [icon]="newTabIcon"></lib-icon>
           </button>
+          <button mat-icon-button [libCopyToClipboard]="debug.responseBody" matTooltip="Open Body in new browser tab">
+            <lib-icon [icon]="copyToClipboardIcon"></lib-icon>
+          </button>
         </div>
       </div>
     </div>

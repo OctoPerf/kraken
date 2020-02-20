@@ -14,6 +14,7 @@ import {MessageComponent} from 'projects/components/src/lib/message/message.comp
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import { LazyIfDirective } from './lazy-if.directive';
 import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-overlay-selection/table-overlay-selection.component';
+import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clipboard.directive';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-
     SpinnerComponent,
     MessageComponent,
     LazyIfDirective,
+    CopyToClipboardDirective,
   ],
   exports: [
     FullPageComponent,
@@ -45,6 +47,7 @@ import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-
     SpinnerComponent,
     MessageComponent,
     LazyIfDirective,
+    CopyToClipboardDirective,
   ],
   entryComponents: [],
 })

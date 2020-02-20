@@ -12,8 +12,9 @@ import {Portal} from '@angular/cdk/portal';
 import {SplitPane} from 'projects/split/src/lib/split-pane';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {StringToolsService} from 'projects/tools/src/lib/string-tools.service';
+import {faClipboard} from '@fortawesome/free-regular-svg-icons/faClipboard';
 
-library.add(faExternalLinkAlt, faInfoCircle);
+library.add(faExternalLinkAlt, faInfoCircle, faClipboard);
 
 @Component({
   selector: 'lib-debug-editor',
@@ -26,6 +27,7 @@ library.add(faExternalLinkAlt, faInfoCircle);
 export class DebugEditorComponent extends DefaultStorageNodeEditorComponent implements OnInit {
 
   readonly newTabIcon = new IconFa(faExternalLinkAlt, 'primary');
+  readonly copyToClipboardIcon = new IconFa(faClipboard, 'accent');
   readonly sessionIcon = new IconFa(faInfoCircle, 'accent');
 
   public debug: DebugEditorContentService;

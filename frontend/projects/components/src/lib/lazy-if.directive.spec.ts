@@ -1,6 +1,5 @@
 import {LazyIfDirective} from './lazy-if.directive';
-import {Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {ComponentsModule} from 'projects/components/src/lib/components.module';
+import {TemplateRef, ViewContainerRef} from '@angular/core';
 import SpyObj = jasmine.SpyObj;
 
 describe('LazyIfDirective', () => {
