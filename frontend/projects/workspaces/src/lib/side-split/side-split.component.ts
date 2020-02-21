@@ -22,8 +22,8 @@ export class SideSplitComponent implements OnInit {
   @ViewChild('endTabsPortal', { static: true }) endTabsPortal: Portal<any>;
 
   // Tabs
-  @ViewChild('startTabsContent', { static: false }) startTabsContent: TabsContentComponent;
-  @ViewChild('endTabsContent', { static: false }) endTabsContent: TabsContentComponent;
+  @ViewChild('startTabsContent') startTabsContent: TabsContentComponent;
+  @ViewChild('endTabsContent') endTabsContent: TabsContentComponent;
 
   // Splits
   @ViewChild('split', { static: true }) split: SplitPanesComponent;

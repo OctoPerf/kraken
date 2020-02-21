@@ -17,12 +17,12 @@ export class WorkspaceComponent implements OnInit {
 
   // Splits
   @ViewChild('verticalSplit', { static: true }) verticalSplit: SplitPanesComponent;
-  @ViewChild('horizontalSplit', { static: false }) horizontalSplit: SplitPanesComponent;
+  @ViewChild('horizontalSplit') horizontalSplit: SplitPanesComponent;
 
   // Side Splits
-  @ViewChild('leftSideSplit', { static: false }) leftSideSplit: SideSplitComponent;
-  @ViewChild('rightSideSplit', { static: false }) rightSideSplit: SideSplitComponent;
-  @ViewChild('bottomSideSplit', { static: false }) bottomSideSplit: SideSplitComponent;
+  @ViewChild('leftSideSplit') leftSideSplit: SideSplitComponent;
+  @ViewChild('rightSideSplit') rightSideSplit: SideSplitComponent;
+  @ViewChild('bottomSideSplit') bottomSideSplit: SideSplitComponent;
 
   @ViewChild('leftSideSplitPortal', { static: true }) leftSideSplitPortal: Portal<any>;
   @ViewChild('rightSideSplitPortal', { static: true }) rightSideSplitPortal: Portal<any>;

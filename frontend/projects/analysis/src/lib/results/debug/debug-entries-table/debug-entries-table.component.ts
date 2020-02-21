@@ -37,7 +37,7 @@ export class DebugEntriesTableComponent implements OnInit {
   readonly ID = 'debugs';
 
   dataSource: MatTableDataSource<DebugEntry> = new MatTableDataSource([]);
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public debugResult: DebugEntriesTableService,
   ) {

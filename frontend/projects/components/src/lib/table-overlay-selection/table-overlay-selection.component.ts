@@ -22,7 +22,7 @@ export class TableOverlaySelectionComponent<T> extends TableOverlayComponent imp
   @Output() deleteSelection = new EventEmitter<boolean>();
   @Output() enterSelection = new EventEmitter<void>();
 
-  @ViewChild('scrollableTable', {static: false}) scrollableTable: ElementRef<HTMLElement>;
+  @ViewChild('scrollableTable') scrollableTable: ElementRef<HTMLElement>;
 
   constructor(
     private keys: KeyBindingsService,

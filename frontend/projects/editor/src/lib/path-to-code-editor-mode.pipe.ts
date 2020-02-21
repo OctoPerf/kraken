@@ -14,7 +14,7 @@ export interface ModeMatcher {
 })
 export class PathToCodeEditorModePipe implements PipeTransform {
 
-  private static readonly MATCHERS: ModeMatcher[] = [
+  private readonly defaultMatchers: ModeMatcher[] = [
     {regexp: /.*Dockerfile$/, mode: 'dockerfile'},
     {regexp: /.*\.css$/, mode: 'css'},
     {regexp: /.*\.html$/, mode: 'html'},
@@ -43,7 +43,7 @@ export class PathToCodeEditorModePipe implements PipeTransform {
 
   constructor(@Optional() @Inject(EDITOR_MODE_MATCHERS) _matchers: ModeMatcher[]) {
     _matchers = _matchers ? _matchers : [];
-    this.matchers = _.concat(_matchers, PathToCodeEditorModePipe.MATCHERS);
+    this.matchers = _.concat(_matchers, this.defaultMatchers);
   }
 
   transform(path: string, args?: any): CodeMode {

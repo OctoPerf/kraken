@@ -23,7 +23,7 @@ import {RuntimeApplicationIdService} from 'projects/commons/src/lib/config/runti
   ]
 })
 export class ConfigurationModule {
-  public static forRoot(environment: any): ModuleWithProviders {
+  public static forRoot(environment: any): ModuleWithProviders<ConfigurationModule> {
     return {
       ngModule: ConfigurationModule,
       providers: [

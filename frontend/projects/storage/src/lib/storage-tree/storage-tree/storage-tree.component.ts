@@ -63,7 +63,7 @@ export class StorageTreeComponent implements OnInit, AfterViewInit {
   public contextualMenu: ComponentPortal<any>;
   public label: string;
 
-  @ViewChild('scrollableTree', {static: false}) scrollableTree: ElementRef<HTMLElement>;
+  @ViewChild('scrollableTree') scrollableTree: ElementRef<HTMLElement>;
   @ViewChildren(StorageNodeComponent) treeNodes: QueryList<StorageNodeComponent>;
 
   constructor(public treeControl: StorageTreeControlService,

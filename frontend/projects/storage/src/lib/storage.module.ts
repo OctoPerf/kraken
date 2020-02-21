@@ -34,7 +34,7 @@ import {ComponentType} from '@angular/cdk/portal';
 export class StorageModule {
   public static forRoot(id: string,
                         editors?: EditorMatcher[],
-                        defaultEditor?: ComponentType<StorageNodeEditor>): ModuleWithProviders {
+                        defaultEditor?: ComponentType<StorageNodeEditor>): ModuleWithProviders<StorageModule> {
     return {
       ngModule: StorageModule,
       providers: [
