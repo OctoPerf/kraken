@@ -13,6 +13,10 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 
 library.add(faFileInvoice);
 
+export interface OpenGatlingReportsDialogData {
+  result: Result;
+}
+
 @Component({
   selector: 'lib-open-gatling-reports-dialog',
   templateUrl: './open-gatling-reports-dialog.component.html',
@@ -25,7 +29,7 @@ export class OpenGatlingReportsDialogComponent implements OnInit {
   readonly reportIcon = new IconFa(faFileInvoice);
 
   constructor(public dialogRef: MatDialogRef<OpenGatlingReportsDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { result: Result },
+              @Inject(MAT_DIALOG_DATA) public data: OpenGatlingReportsDialogData,
               private storage: StorageService,
               private analysisConfiguration: AnalysisConfigurationService,
               private window: WindowService) {

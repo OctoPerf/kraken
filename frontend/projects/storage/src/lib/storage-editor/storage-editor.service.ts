@@ -18,7 +18,7 @@ import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 @Injectable()
 export class StorageEditorService {
 
-  private static readonly MATCHERS: EditorMatcher[] = [
+  private readonly defaultMatchers: EditorMatcher[] = [
     {regexp: /.*\.markdown/, editor: MarkdownStorageNodeEditorComponent, helpPageId: 'EDITOR_MARKDOWN'},
     {regexp: /.*\.md/, editor: MarkdownStorageNodeEditorComponent, helpPageId: 'EDITOR_MARKDOWN'},
   ];
@@ -30,7 +30,7 @@ export class StorageEditorService {
               @Optional() @Inject(STORAGE_DEFAULT_EDITOR) _defaultEditor: any /*ComponentType<StorageNodeEditor>*/,
               private injector: Injector) {
     this.defaultEditor = _defaultEditor ? _defaultEditor : DefaultStorageNodeEditorComponent;
-    this.editorsMapping = _editorsMapping ? _.concat(_editorsMapping, StorageEditorService.MATCHERS) : StorageEditorService.MATCHERS;
+    this.editorsMapping = _editorsMapping ? _.concat(_editorsMapping, this.defaultMatchers) : this.defaultMatchers;
     // AOT compiler does not support RegExp. So mwe must convert strings to RegExp at runtime in production
     _.forEach(this.editorsMapping, (matcher: EditorMatcher) => {
       const regexp = matcher.regexp;
