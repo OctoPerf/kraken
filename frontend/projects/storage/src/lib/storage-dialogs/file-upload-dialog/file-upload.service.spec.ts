@@ -25,8 +25,8 @@ describe('FileUploadService', () => {
       imports: [CoreTestModule],
       providers: [FileUploadService]
     });
-    service = TestBed.get(FileUploadService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(FileUploadService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {

@@ -36,7 +36,7 @@ describe('HighlightService', () => {
   }));
 
   it('should highlight default duration', fakeAsync(() => {
-    const highlightService = TestBed.get(HighlightService);
+    const highlightService = TestBed.inject(HighlightService);
     highlightService.document = document;
     highlightService.highlight('someShit');
     expect(overlayRef.attach).toHaveBeenCalled();
@@ -46,7 +46,7 @@ describe('HighlightService', () => {
   }));
 
   it('should highlight custom duration', fakeAsync(() => {
-    const highlightService = TestBed.get(HighlightService);
+    const highlightService = TestBed.inject(HighlightService);
     highlightService.document = document;
     highlightService.highlight('someShit', 200);
     expect(overlayRef.attach).toHaveBeenCalled();
@@ -58,7 +58,7 @@ describe('HighlightService', () => {
   }));
 
   it('should not highlight', () => {
-    const highlightService = TestBed.get(HighlightService);
+    const highlightService = TestBed.inject(HighlightService);
     highlightService.document = document;
     document.querySelector.and.returnValue(null);
     highlightService.highlight('someShit', 200);

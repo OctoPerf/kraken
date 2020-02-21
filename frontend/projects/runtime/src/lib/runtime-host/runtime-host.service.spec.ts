@@ -37,8 +37,8 @@ describe('HostService', () => {
       ]
     });
 
-    service = TestBed.get(RuntimeHostService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(RuntimeHostService);
+    httpTestingController = TestBed.inject(HttpTestingController);
     hosts = testHosts();
   });
 

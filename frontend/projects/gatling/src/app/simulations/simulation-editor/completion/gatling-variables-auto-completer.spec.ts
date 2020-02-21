@@ -48,7 +48,7 @@ describe('GatlingVariablesAutoCompleter', () => {
     callback = (error: string | null, _results: { name: string, value: string, score: number, meta: string }[]) => {
       results = _results as any;
     };
-    completer = TestBed.get(GatlingVariablesAutoCompleter);
+    completer = TestBed.inject(GatlingVariablesAutoCompleter);
   }));
 
   beforeEach(() => {

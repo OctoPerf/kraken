@@ -7,7 +7,7 @@ describe('PrettyStringPipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({declarations: [PrettyStringPipe], providers: [PrettyStringPipe, StringToolsService]});
-    pipe = TestBed.get(PrettyStringPipe);
+    pipe = TestBed.inject(PrettyStringPipe);
   });
 
   it('create an instance', () => {

@@ -42,7 +42,7 @@ describe('AnalysisConfigurationService', () => {
         },
       ]
     });
-    service = TestBed.get(AnalysisConfigurationService);
+    service = TestBed.inject(AnalysisConfigurationService);
   });
 
   it('should be created', () => {

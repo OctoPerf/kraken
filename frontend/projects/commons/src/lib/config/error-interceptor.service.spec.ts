@@ -23,7 +23,7 @@ describe('ErrorInterceptor', () => {
         ]
       }
     );
-    interceptor = TestBed.get(ErrorInterceptor);
+    interceptor = TestBed.inject(ErrorInterceptor);
     next = jasmine.createSpyObj('next', ['handle']);
   });
 

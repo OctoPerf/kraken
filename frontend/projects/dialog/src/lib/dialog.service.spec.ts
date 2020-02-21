@@ -3,14 +3,14 @@ import {TestBed} from '@angular/core/testing';
 import {DialogService} from './dialog.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Component} from '@angular/core';
-import {InspectDialogComponent} from 'projects/dialog/src/lib/inspect-dialog/inspect-dialog.component';
-import {DeleteDialogComponent} from 'projects/dialog/src/lib/delete-dialog/delete-dialog.component';
-import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dialog.component';
-import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
-import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
 import SpyObj = jasmine.SpyObj;
+import {InspectDialogComponent} from 'projects/dialog/src/lib/default-dialogs/inspect-dialog/inspect-dialog.component';
+import {LogsDialogComponent} from 'projects/dialog/src/lib/default-dialogs/logs-dialog/logs-dialog.component';
+import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/delete-dialog/delete-dialog.component';
+import {ConfirmDialogComponent} from 'projects/dialog/src/lib/default-dialogs/confirm-dialog/confirm-dialog.component';
+import {WaitDialogComponent} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog.component';
 
 export const dialogsServiceSpy = () => {
   const spy = jasmine.createSpyObj('DialogService', [
@@ -42,8 +42,8 @@ describe('DialogService', () => {
         DialogService
       ]
     });
-    service = TestBed.get(DialogService);
-    dialog = TestBed.get(MatDialog);
+    service = TestBed.inject(DialogService);
+    dialog = TestBed.inject(MatDialog);
   });
 
   it('should be created', () => {

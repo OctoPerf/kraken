@@ -21,7 +21,7 @@ describe('EventSourceService', () => {
     TestBed.configureTestingModule({
       imports: [ToolsModule]
     });
-    service = TestBed.get(EventSourceService);
+    service = TestBed.inject(EventSourceService);
   });
 
   it('should be created', () => {

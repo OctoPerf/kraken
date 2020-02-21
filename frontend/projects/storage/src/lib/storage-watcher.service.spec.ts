@@ -39,8 +39,8 @@ describe('StorageWatcherService', () => {
         DurationToStringPipe,
       ]
     });
-    service = TestBed.get(StorageWatcherService);
-    eventBus = TestBed.get(EventBusService);
+    service = TestBed.inject(StorageWatcherService);
+    eventBus = TestBed.inject(EventBusService);
   });
 
   afterEach(() => {

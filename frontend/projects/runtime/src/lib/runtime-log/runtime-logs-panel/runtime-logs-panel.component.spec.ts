@@ -32,7 +32,7 @@ describe('RuntimeLogsPanelComponent', () => {
     })
       .overrideTemplate(RuntimeLogsPanelComponent, '')
       .compileComponents();
-    eventBus = TestBed.get(EventBusService);
+    eventBus = TestBed.inject(EventBusService);
   }));
 
   beforeEach(() => {

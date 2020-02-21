@@ -66,9 +66,9 @@ describe('StorageListService', () => {
       ]
     });
 
-    service = TestBed.get(StorageListService);
-    storage = TestBed.get(StorageService);
-    eventBus = TestBed.get(EventBusService);
+    service = TestBed.inject(StorageListService);
+    storage = TestBed.inject(StorageService);
+    eventBus = TestBed.inject(EventBusService);
   });
 
   afterEach(() => {

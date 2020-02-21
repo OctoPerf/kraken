@@ -36,8 +36,8 @@ describe('LinkSelectionButtonComponent', () => {
       declarations: [ LinkSelectionButtonComponent ]
     }).overrideTemplate(LinkSelectionButtonComponent, '')
     .compileComponents();
-    eventBus = TestBed.get(EventBusService);
-    treeControl = TestBed.get(StorageTreeControlService);
+    eventBus = TestBed.inject(EventBusService);
+    treeControl = TestBed.inject(StorageTreeControlService);
     fileNode = testStorageFileNode();
   }));
 

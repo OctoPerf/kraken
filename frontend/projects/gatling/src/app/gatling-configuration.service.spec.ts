@@ -44,7 +44,7 @@ describe('GatlingConfigurationService', () => {
         },
       ]
     });
-    service = TestBed.get(GatlingConfigurationService);
+    service = TestBed.inject(GatlingConfigurationService);
   });
 
   it('should be created', () => {

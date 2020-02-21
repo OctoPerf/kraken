@@ -49,9 +49,9 @@ describe('RuntimeWatcherService', () => {
         QueryParamsToStringPipe,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    service = TestBed.get(RuntimeWatcherService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
+    service = TestBed.inject(RuntimeWatcherService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -56,7 +56,7 @@ describe('TabsHeaderComponent', () => {
   }));
 
   beforeEach(() => {
-    eventBus = TestBed.get(EventBusService);
+    eventBus = TestBed.inject(EventBusService);
     fixture = TestBed.createComponent(TabsHeaderComponent);
     component = fixture.componentInstance;
     component.tabs = [
@@ -92,7 +92,7 @@ describe('TabsHeaderComponent', () => {
       expect(component.content.selectedTab).toBe(component.tabs[0]);
       fixture.nativeElement.querySelector('button').click();
       expect(component.content.selectedTab).toBeNull();
-      expect(TestBed.get(WindowService).resizeNow).toHaveBeenCalled();
+      expect(TestBed.inject(WindowService).resizeNow).toHaveBeenCalled();
     }));
 
 });

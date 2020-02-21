@@ -38,7 +38,7 @@ describe('StorageConfigurationService', () => {
         },
       ]
     });
-    service = TestBed.get(StorageConfigurationService);
+    service = TestBed.inject(StorageConfigurationService);
   });
 
   it('should be created', () => {

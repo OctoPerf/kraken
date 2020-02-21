@@ -75,10 +75,10 @@ describe('StorageService', () => {
         PathToNamePipe,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    dialogs = TestBed.get(DialogService);
-    service = TestBed.get(StorageService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
+    dialogs = TestBed.inject(DialogService);
+    service = TestBed.inject(StorageService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {

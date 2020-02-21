@@ -46,9 +46,9 @@ describe('CopyPasteService', () => {
         StorageNodeToPredicatePipe,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    service = TestBed.get(CopyPasteService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
+    service = TestBed.inject(CopyPasteService);
+    httpTestingController = TestBed.inject(HttpTestingController);
     nodes = testStorageNodes();
     fileNode = testStorageFileNode();
     directoryNode = testStorageDirectoryNode();

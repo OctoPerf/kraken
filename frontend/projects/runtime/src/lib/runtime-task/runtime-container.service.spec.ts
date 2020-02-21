@@ -32,9 +32,9 @@ describe('RuntimeContainerService', () => {
         RuntimeContainerService,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    service = TestBed.get(RuntimeContainerService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
+    service = TestBed.inject(RuntimeContainerService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

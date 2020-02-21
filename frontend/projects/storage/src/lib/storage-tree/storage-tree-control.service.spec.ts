@@ -82,10 +82,10 @@ describe('StorageTreeControlService', () => {
         StorageNodeToPredicatePipe,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    dataSource = TestBed.get(StorageTreeDataSourceService);
-    localStorage = TestBed.get(LocalStorageService);
-    service = TestBed.get(StorageTreeControlService);
+    eventBus = TestBed.inject(EventBusService);
+    dataSource = TestBed.inject(StorageTreeDataSourceService);
+    localStorage = TestBed.inject(LocalStorageService);
+    service = TestBed.inject(StorageTreeControlService);
     service._selection = selection as any;
     fileNode = testStorageFileNode();
     directoryNode = testStorageDirectoryNode();

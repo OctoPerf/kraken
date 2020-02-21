@@ -44,10 +44,10 @@ describe('RuntimeLogService', () => {
         RuntimeLogService,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    service = TestBed.get(RuntimeLogService);
-    runtimeContainerService = TestBed.get(RuntimeContainerService);
-    runtimeTaskService = TestBed.get(RuntimeTaskService);
+    eventBus = TestBed.inject(EventBusService);
+    service = TestBed.inject(RuntimeLogService);
+    runtimeContainerService = TestBed.inject(RuntimeContainerService);
+    runtimeTaskService = TestBed.inject(RuntimeTaskService);
   });
 
   afterEach(() => {

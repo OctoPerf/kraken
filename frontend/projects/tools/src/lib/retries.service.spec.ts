@@ -16,7 +16,7 @@ describe('RetriesService', () => {
   }));
 
   it('should be created', () => {
-    const service: RetriesService = TestBed.get(RetriesService);
+    const service: RetriesService = TestBed.inject(RetriesService);
     expect(service).toBeTruthy();
     const retry = service.get();
     expect(retry.getDelay()).toEqual(2000);

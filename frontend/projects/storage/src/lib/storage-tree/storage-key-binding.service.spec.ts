@@ -81,13 +81,13 @@ describe('StorageKeyBindingService', () => {
         StorageKeyBindingService,
       ]
     });
-    dataSource = TestBed.get(StorageTreeDataSourceService);
-    keys = TestBed.get(KeyBindingsService);
-    treeControl = TestBed.get(StorageTreeControlService);
-    storageService = TestBed.get(StorageService);
-    service = TestBed.get(StorageKeyBindingService);
+    dataSource = TestBed.inject(StorageTreeDataSourceService);
+    keys = TestBed.inject(KeyBindingsService);
+    treeControl = TestBed.inject(StorageTreeControlService);
+    storageService = TestBed.inject(StorageService);
+    service = TestBed.inject(StorageKeyBindingService);
     const treeNodes = treeChildren();
-    // const elementObj = TestBed.get(element());
+    // const elementObj = TestBed.inject(element());
     service.init(treeNodes, scrollableTreeSpy());
 
     treeNodes.filter.and.returnValue([element()]);

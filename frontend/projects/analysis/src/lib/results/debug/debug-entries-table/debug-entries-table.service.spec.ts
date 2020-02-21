@@ -96,10 +96,10 @@ describe('DebugEntriesTableService', () => {
         DebugEntriesTableService,
       ]
     });
-    service = TestBed.get(DebugEntriesTableService);
-    results = TestBed.get(ResultsTableService);
-    eventBus = TestBed.get(EventBusService);
-    dialogs = TestBed.get(DialogService);
+    service = TestBed.inject(DebugEntriesTableService);
+    results = TestBed.inject(ResultsTableService);
+    eventBus = TestBed.inject(EventBusService);
+    dialogs = TestBed.inject(DialogService);
   });
 
   afterEach(() => {

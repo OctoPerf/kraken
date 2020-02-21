@@ -44,7 +44,7 @@ describe('TaskTableComponent', () => {
       .compileComponents();
 
     taskService.list.and.returnValue(of(testTasks()));
-    eventBus = TestBed.get(EventBusService);
+    eventBus = TestBed.inject(EventBusService);
   }));
 
   beforeEach(() => {

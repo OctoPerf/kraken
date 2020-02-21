@@ -29,7 +29,7 @@ describe('NotificationService', () => {
   }));
 
   it('should count', inject([NotificationService], (service: NotificationService) => {
-    TestBed.get(EventBusService).publish(new NotificationEvent(testNotification()));
+    TestBed.inject(EventBusService).publish(new NotificationEvent(testNotification()));
     const count = service.count;
     expect(count).toBe(1);
     expect(service.notifications.length).toBe(1);

@@ -29,7 +29,7 @@ describe('StorageEditorService', () => {
         StorageNodeToExtPipe,
       ]
     });
-    service = TestBed.get(StorageEditorService);
+    service = TestBed.inject(StorageEditorService);
   });
 
   it('should be created', () => {

@@ -19,7 +19,7 @@ describe('KeyBindingsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.get(KeyBindingsService);
+    service = TestBed.inject(KeyBindingsService);
     document = jasmine.createSpyObj('document', ['hasFocus']);
     document.activeElement = {tagName: 'INPUT'} as any;
     service.document = document;

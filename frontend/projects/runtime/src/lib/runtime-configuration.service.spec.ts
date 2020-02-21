@@ -36,7 +36,7 @@ describe('RuntimeConfigurationService', () => {
         },
       ]
     });
-    service = TestBed.get(RuntimeConfigurationService);
+    service = TestBed.inject(RuntimeConfigurationService);
   });
 
   it('should be created', () => {

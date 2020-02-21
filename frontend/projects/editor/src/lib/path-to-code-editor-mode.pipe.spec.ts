@@ -10,7 +10,7 @@ describe('PathToCodeEditorModePipe', () => {
     TestBed.configureTestingModule({
       providers: [PathToCodeEditorModePipe]
     });
-    pipe = TestBed.get(PathToCodeEditorModePipe);
+    pipe = TestBed.inject(PathToCodeEditorModePipe);
   });
 
   it('create an instance', () => {

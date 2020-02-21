@@ -79,9 +79,9 @@ describe('StorageTreeDataSourceService', () => {
         StorageTreeDataSourceService,
       ]
     });
-    storage = TestBed.get(StorageService);
-    storageList = TestBed.get(StorageListService);
-    service = TestBed.get(StorageTreeDataSourceService);
+    storage = TestBed.inject(StorageService);
+    storageList = TestBed.inject(StorageListService);
+    service = TestBed.inject(StorageTreeDataSourceService);
     treeControl = storageTreeControlServiceSpy();
     nodes = testStorageNodes();
     service.treeControl = treeControl;

@@ -16,14 +16,14 @@ describe('GuiToolsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    const service: GuiToolsService = TestBed.inject(GuiToolsService);
     expect(service).toBeTruthy();
   });
 
   it('should not scroll', fakeAsync(() => {
     const getElement: any = () => null;
     const scrollableElement: any = null;
-    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    const service: GuiToolsService = TestBed.inject(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
     tick(250);
   }));
@@ -46,7 +46,7 @@ describe('GuiToolsService', () => {
       }
     };
 
-    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    const service: GuiToolsService = TestBed.inject(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
     tick(250);
     expect(scrollableElement.nativeElement.scrollTop).toBe(-89);
@@ -70,7 +70,7 @@ describe('GuiToolsService', () => {
       }
     };
 
-    const service: GuiToolsService = TestBed.get(GuiToolsService);
+    const service: GuiToolsService = TestBed.inject(GuiToolsService);
     service.scrollTo(scrollableElement, getElement);
     tick(250);
     expect(scrollableElement.nativeElement.scrollTop).toBe(10);

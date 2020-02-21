@@ -47,7 +47,7 @@ describe('SplitPanesComponent', () => {
   }));
 
   beforeEach(() => {
-    storage = TestBed.get(LocalStorageService);
+    storage = TestBed.inject(LocalStorageService);
     storage.clear();
     fixture = TestBed.createComponent(SplitPanesComponent);
     component = fixture.componentInstance;
@@ -169,7 +169,7 @@ describe('SplitPanesComponent', () => {
       {visibleSize: 0, defaultSize: 50, minSize: 30}
     ]);
     expect(component.paneHidden.emit).toHaveBeenCalledTimes(3);
-    expect(TestBed.get(WindowService).resize).toHaveBeenCalled();
+    expect(TestBed.inject(WindowService).resize).toHaveBeenCalled();
   });
 
   it('should stopDrag update sizes', () => {

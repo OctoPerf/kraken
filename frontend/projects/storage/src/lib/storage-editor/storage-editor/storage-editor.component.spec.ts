@@ -52,11 +52,11 @@ describe('StorageEditorComponent', () => {
       .compileComponents();
 
     nodes = testStorageNodes();
-    storage = TestBed.get(StorageService);
+    storage = TestBed.inject(StorageService);
     storage.filterExisting.and.returnValue(cold('---x|', {x: nodes}));
-    eventBus = TestBed.get(EventBusService);
-    editorService = TestBed.get(StorageEditorService);
-    configuration = TestBed.get(StorageConfigurationService);
+    eventBus = TestBed.inject(EventBusService);
+    editorService = TestBed.inject(StorageEditorService);
+    configuration = TestBed.inject(StorageConfigurationService);
   }));
 
   beforeEach(() => {

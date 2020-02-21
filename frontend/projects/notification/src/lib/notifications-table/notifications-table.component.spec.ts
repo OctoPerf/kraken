@@ -43,7 +43,7 @@ describe('NotificationsTableComponent', () => {
   });
 
   it('should display table', () => {
-    TestBed.get(EventBusService).publish(new NotificationEvent(testNotification()));
+    TestBed.inject(EventBusService).publish(new NotificationEvent(testNotification()));
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelectorAll('td').length).toBe(4);
   });

@@ -39,7 +39,7 @@ describe('DebugEntryToStringPipe', () => {
         DebugEntryToStringPipe,
       ]
     });
-    pipe = TestBed.get(DebugEntryToStringPipe);
+    pipe = TestBed.inject(DebugEntryToStringPipe);
   });
 
   it('create an instance', () => {

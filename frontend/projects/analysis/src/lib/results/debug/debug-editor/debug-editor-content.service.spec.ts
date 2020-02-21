@@ -53,11 +53,11 @@ describe('DebugEditorContentService', () => {
         DebugEntryToPathPipe,
       ]
     });
-    service = TestBed.get(DebugEditorContentService);
-    storage = TestBed.get(StorageService);
-    window = TestBed.get(WindowService);
-    httpTestingController = TestBed.get(HttpTestingController);
-    eventBus = TestBed.get(EventBusService);
+    service = TestBed.inject(DebugEditorContentService);
+    storage = TestBed.inject(StorageService);
+    window = TestBed.inject(WindowService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
   });
 
   it('should be created', () => {

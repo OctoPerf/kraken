@@ -37,9 +37,9 @@ describe('RuntimeTaskService', () => {
         RuntimeTaskService,
       ]
     });
-    eventBus = TestBed.get(EventBusService);
-    service = TestBed.get(RuntimeTaskService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
+    service = TestBed.inject(RuntimeTaskService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -59,11 +59,11 @@ describe('SimulationService', () => {
         SimulationService,
       ]
     });
-    service = TestBed.get(SimulationService);
-    tasks = TestBed.get(RuntimeTaskService);
-    storage = TestBed.get(StorageService);
-    dialogs = TestBed.get(DialogService);
-    eventBus = TestBed.get(EventBusService);
+    service = TestBed.inject(SimulationService);
+    tasks = TestBed.inject(RuntimeTaskService);
+    storage = TestBed.inject(StorageService);
+    dialogs = TestBed.inject(DialogService);
+    eventBus = TestBed.inject(EventBusService);
   });
 
   it('should be created', () => {

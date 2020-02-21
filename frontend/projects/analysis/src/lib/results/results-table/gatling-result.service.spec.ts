@@ -68,12 +68,12 @@ describe('GatlingResultService', () => {
         GatlingResultService,
       ]
     });
-    service = TestBed.get(GatlingResultService);
-    analysis = TestBed.get(AnalysisService);
-    storage = TestBed.get(StorageService);
-    events = TestBed.get(EventBusService);
-    window = TestBed.get(WindowService);
-    dialogs = TestBed.get(DialogService);
+    service = TestBed.inject(GatlingResultService);
+    analysis = TestBed.inject(AnalysisService);
+    storage = TestBed.inject(StorageService);
+    events = TestBed.inject(EventBusService);
+    window = TestBed.inject(WindowService);
+    dialogs = TestBed.inject(DialogService);
   });
 
   it('should be created', () => {

@@ -25,7 +25,7 @@ describe('StorageContextualMenuComponent', () => {
     })
       .overrideTemplate(StorageContextualMenuComponent, '')
       .compileComponents();
-    eventBus = TestBed.get(EventBusService);
+    eventBus = TestBed.inject(EventBusService);
   }));
 
   beforeEach(() => {

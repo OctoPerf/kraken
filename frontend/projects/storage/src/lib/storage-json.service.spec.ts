@@ -53,7 +53,7 @@ describe('StorageJsonService', () => {
         TestStorageJsonService,
       ]
     });
-    service = TestBed.get(TestStorageJsonService);
+    service = TestBed.inject(TestStorageJsonService);
   });
 
   afterEach(() => {

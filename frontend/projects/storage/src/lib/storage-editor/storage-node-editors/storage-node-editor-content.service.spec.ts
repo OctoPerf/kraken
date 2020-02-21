@@ -45,10 +45,10 @@ describe('StorageNodeEditorContentService', () => {
         StorageNodeEditorContentService,
       ]
     });
-    service = TestBed.get(StorageNodeEditorContentService);
-    storage = TestBed.get(StorageService);
-    httpTestingController = TestBed.get(HttpTestingController);
-    eventBus = TestBed.get(EventBusService);
+    service = TestBed.inject(StorageNodeEditorContentService);
+    storage = TestBed.inject(StorageService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    eventBus = TestBed.inject(EventBusService);
     publish = spyOn(eventBus, 'publish');
     publish.and.callThrough();
   });

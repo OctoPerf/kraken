@@ -110,9 +110,9 @@ describe('ResultsTableService', () => {
         IsDebugEntryStorageNodePipe,
       ]
     });
-    service = TestBed.get(ResultsTableService);
-    events = TestBed.get(EventBusService);
-    localStorage = TestBed.get(LocalStorageService);
+    service = TestBed.inject(ResultsTableService);
+    events = TestBed.inject(EventBusService);
+    localStorage = TestBed.inject(LocalStorageService);
   });
 
   afterEach(() => {

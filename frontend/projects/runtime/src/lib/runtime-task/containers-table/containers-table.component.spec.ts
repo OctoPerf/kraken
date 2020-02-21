@@ -30,8 +30,8 @@ describe('ContainersTableComponent', () => {
       .overrideTemplate(ContainersTableComponent, '')
       .compileComponents();
 
-    containerService = TestBed.get(RuntimeContainerService);
-    eventBus = TestBed.get(EventBusService);
+    containerService = TestBed.inject(RuntimeContainerService);
+    eventBus = TestBed.inject(EventBusService);
   }));
 
   beforeEach(() => {

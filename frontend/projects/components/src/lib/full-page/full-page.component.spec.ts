@@ -46,7 +46,7 @@ describe('FullPageComponent', () => {
   });
 
   it('should leave place for tabs', fakeAsync(() => {
-    const eventBus = TestBed.get(EventBusService);
+    const eventBus = TestBed.inject(EventBusService);
     eventBus.publish(new TabsAddedEvent(TabsSide.BOTTOM, TabsPosition.START));
     eventBus.publish(new TabsAddedEvent(TabsSide.LEFT, TabsPosition.START));
     eventBus.publish(new TabsAddedEvent(TabsSide.TOP, TabsPosition.START));
