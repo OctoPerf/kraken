@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'lib-contextual-menu',
@@ -10,7 +10,7 @@ export class ContextualMenuComponent {
 
   contextMenuPosition = {x: 0, y: 0};
 
-  @ViewChild(MatMenuTrigger, { static: true })
+  @ViewChild(MatMenuTrigger, {static: true})
   contextMenu: MatMenuTrigger;
 
   open(event: MouseEvent) {

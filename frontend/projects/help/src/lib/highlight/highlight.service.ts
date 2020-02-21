@@ -1,7 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
-import {Overlay} from '@angular/cdk/overlay';
+import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
-import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 import {
   HIGHLIGHT_DURATION_DATA,
   HIGHLIGHT_RECT_DATA, HighlightBackdropComponent

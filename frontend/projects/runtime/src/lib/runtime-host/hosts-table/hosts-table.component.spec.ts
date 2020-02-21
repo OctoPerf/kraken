@@ -24,7 +24,7 @@ describe('HostsTableComponent', () => {
       .overrideTemplate(HostsTableComponent, '')
       .compileComponents();
 
-    hostService = TestBed.inject(RuntimeHostService);
+    hostService = TestBed.inject(RuntimeHostService) as SpyObj<RuntimeHostService>;
   }));
 
   beforeEach(() => {

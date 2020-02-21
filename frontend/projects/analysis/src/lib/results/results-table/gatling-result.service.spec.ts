@@ -6,7 +6,6 @@ import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {of} from 'rxjs';
 import {WindowService} from 'projects/tools/src/lib/window.service';
@@ -69,11 +68,11 @@ describe('GatlingResultService', () => {
       ]
     });
     service = TestBed.inject(GatlingResultService);
-    analysis = TestBed.inject(AnalysisService);
-    storage = TestBed.inject(StorageService);
-    events = TestBed.inject(EventBusService);
-    window = TestBed.inject(WindowService);
-    dialogs = TestBed.inject(DialogService);
+    analysis = TestBed.inject(AnalysisService) as SpyObj<AnalysisService>;
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
+    events = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
+    window = TestBed.inject(WindowService) as SpyObj<WindowService>;
+    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
   });
 
   it('should be created', () => {

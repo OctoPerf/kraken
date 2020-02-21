@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {WaitDialogComponent} from './wait-dialog.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
+import {WaitDialogProgress} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog-progress';
 
 describe('WaitDialogComponent', () => {
   let component: WaitDialogComponent;

@@ -67,7 +67,7 @@ describe('StorageListService', () => {
     });
 
     service = TestBed.inject(StorageListService);
-    storage = TestBed.inject(StorageService);
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
     eventBus = TestBed.inject(EventBusService);
   });
 

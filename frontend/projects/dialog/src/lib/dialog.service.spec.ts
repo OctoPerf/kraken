@@ -43,7 +43,7 @@ describe('DialogService', () => {
       ]
     });
     service = TestBed.inject(DialogService);
-    dialog = TestBed.inject(MatDialog);
+    dialog = TestBed.inject(MatDialog) as SpyObj<MatDialog>;
   });
 
   it('should be created', () => {

@@ -52,11 +52,11 @@ describe('StorageEditorComponent', () => {
       .compileComponents();
 
     nodes = testStorageNodes();
-    storage = TestBed.inject(StorageService);
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
     storage.filterExisting.and.returnValue(cold('---x|', {x: nodes}));
     eventBus = TestBed.inject(EventBusService);
     editorService = TestBed.inject(StorageEditorService);
-    configuration = TestBed.inject(StorageConfigurationService);
+    configuration = TestBed.inject(StorageConfigurationService) as SpyObj<StorageConfigurationService>;
   }));
 
   beforeEach(() => {

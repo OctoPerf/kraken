@@ -46,8 +46,8 @@ describe('RuntimeLogService', () => {
     });
     eventBus = TestBed.inject(EventBusService);
     service = TestBed.inject(RuntimeLogService);
-    runtimeContainerService = TestBed.inject(RuntimeContainerService);
-    runtimeTaskService = TestBed.inject(RuntimeTaskService);
+    runtimeContainerService = TestBed.inject(RuntimeContainerService) as SpyObj<RuntimeContainerService>;
+    runtimeTaskService = TestBed.inject(RuntimeTaskService) as SpyObj<RuntimeTaskService>;
   });
 
   afterEach(() => {

@@ -111,7 +111,7 @@ describe('ResultsTableService', () => {
       ]
     });
     service = TestBed.inject(ResultsTableService);
-    events = TestBed.inject(EventBusService);
+    events = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
     localStorage = TestBed.inject(LocalStorageService);
   });
 

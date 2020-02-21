@@ -97,9 +97,9 @@ describe('DebugEntriesTableService', () => {
       ]
     });
     service = TestBed.inject(DebugEntriesTableService);
-    results = TestBed.inject(ResultsTableService);
-    eventBus = TestBed.inject(EventBusService);
-    dialogs = TestBed.inject(DialogService);
+    results = TestBed.inject(ResultsTableService) as SpyObj<ResultsTableService>;
+    eventBus = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
+    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
   });
 
   afterEach(() => {

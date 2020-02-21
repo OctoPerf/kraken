@@ -60,10 +60,10 @@ describe('SimulationService', () => {
       ]
     });
     service = TestBed.inject(SimulationService);
-    tasks = TestBed.inject(RuntimeTaskService);
-    storage = TestBed.inject(StorageService);
-    dialogs = TestBed.inject(DialogService);
-    eventBus = TestBed.inject(EventBusService);
+    tasks = TestBed.inject(RuntimeTaskService) as SpyObj<RuntimeTaskService>;
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
+    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
+    eventBus = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
   });
 
   it('should be created', () => {

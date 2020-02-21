@@ -76,7 +76,7 @@ describe('StorageService', () => {
       ]
     });
     eventBus = TestBed.inject(EventBusService);
-    dialogs = TestBed.inject(DialogService);
+    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
     service = TestBed.inject(StorageService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });

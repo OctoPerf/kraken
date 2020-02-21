@@ -46,7 +46,7 @@ describe('StorageNodeEditorContentService', () => {
       ]
     });
     service = TestBed.inject(StorageNodeEditorContentService);
-    storage = TestBed.inject(StorageService);
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
     httpTestingController = TestBed.inject(HttpTestingController);
     eventBus = TestBed.inject(EventBusService);
     publish = spyOn(eventBus, 'publish');

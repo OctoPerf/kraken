@@ -1,6 +1,5 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
-import {ComponentType} from '@angular/cdk/portal/typings/portal';
-import {ComponentPortal} from '@angular/cdk/portal';
+import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {Component} from '@angular/core';

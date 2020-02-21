@@ -3,14 +3,14 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ComponentType} from '@angular/cdk/portal';
 import {Observable, of} from 'rxjs';
 import {filter} from 'rxjs/operators';
-import {InspectDialogComponent} from 'projects/dialog/src/lib/inspect-dialog/inspect-dialog.component';
-import {DeleteDialogComponent} from 'projects/dialog/src/lib/delete-dialog/delete-dialog.component';
-import {LogsDialogComponent} from 'projects/dialog/src/lib/logs-dialog/logs-dialog.component';
-import {WaitDialogProgress} from 'projects/dialog/src/lib/wait-dialog/wait-dialog-progress';
-import {WaitDialogComponent} from 'projects/dialog/src/lib/wait-dialog/wait-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
-import {ConfirmDialogComponent} from 'projects/dialog/src/lib/confirm-dialog/confirm-dialog.component';
+import {InspectDialogComponent} from 'projects/dialog/src/lib/default-dialogs/inspect-dialog/inspect-dialog.component';
+import {LogsDialogComponent} from 'projects/dialog/src/lib/default-dialogs/logs-dialog/logs-dialog.component';
+import {ConfirmDialogComponent} from 'projects/dialog/src/lib/default-dialogs/confirm-dialog/confirm-dialog.component';
+import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/delete-dialog/delete-dialog.component';
+import {WaitDialogComponent} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog.component';
+import {WaitDialogProgress} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog-progress';
 
 @Injectable()
 export class DialogService {

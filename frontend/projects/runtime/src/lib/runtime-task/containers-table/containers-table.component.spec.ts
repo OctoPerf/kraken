@@ -1,16 +1,14 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ContainersTableComponent} from './containers-table.component';
-import {TasksTableComponent} from 'projects/runtime/src/lib/runtime-task/tasks-table/tasks-table.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
 import {runtimeContainerServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-container.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
-import {testContainer} from 'projects/runtime/src/lib/entities/container.spec';
 import {of} from 'rxjs';
+import SpyObj = jasmine.SpyObj;
 
 describe('ContainersTableComponent', () => {
   let component: ContainersTableComponent;
@@ -30,7 +28,7 @@ describe('ContainersTableComponent', () => {
       .overrideTemplate(ContainersTableComponent, '')
       .compileComponents();
 
-    containerService = TestBed.inject(RuntimeContainerService);
+    containerService = TestBed.inject(RuntimeContainerService) as SpyObj<RuntimeContainerService>;
     eventBus = TestBed.inject(EventBusService);
   }));
 

@@ -81,10 +81,10 @@ describe('StorageKeyBindingService', () => {
         StorageKeyBindingService,
       ]
     });
-    dataSource = TestBed.inject(StorageTreeDataSourceService);
+    dataSource = TestBed.inject(StorageTreeDataSourceService) as SpyObj<StorageTreeDataSourceService>;
     keys = TestBed.inject(KeyBindingsService);
-    treeControl = TestBed.inject(StorageTreeControlService);
-    storageService = TestBed.inject(StorageService);
+    treeControl = TestBed.inject(StorageTreeControlService) as SpyObj<StorageTreeControlService>;
+    storageService = TestBed.inject(StorageService) as SpyObj<StorageService>;
     service = TestBed.inject(StorageKeyBindingService);
     const treeNodes = treeChildren();
     // const elementObj = TestBed.inject(element());
@@ -268,12 +268,4 @@ describe('StorageKeyBindingService', () => {
     expect(treeControl.collapse).toHaveBeenCalledTimes(0);
   });
 
-  it('should left selection like up selection', () => {
-    treeControl._lastSelection = dataSource._expandedNodes[12];
-    dataSource.parentNode.withArgs(dataSource._expandedNodes[12]).and.returnValue(rootNode);
-    expect(service.leftSelection()).toBe(true);
-    expect(treeControl.selectOne).toHaveBeenCalledTimes(1);
-    expect(treeControl.selectOne).toHaveBeenCalledWith(dataSource._expandedNodes[11]);
-    expect(treeControl.collapse).toHaveBeenCalledTimes(0);
-  });
 });

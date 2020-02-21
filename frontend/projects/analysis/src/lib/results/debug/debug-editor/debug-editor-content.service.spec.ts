@@ -54,8 +54,8 @@ describe('DebugEditorContentService', () => {
       ]
     });
     service = TestBed.inject(DebugEditorContentService);
-    storage = TestBed.inject(StorageService);
-    window = TestBed.inject(WindowService);
+    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
+    window = TestBed.inject(WindowService) as SpyObj<WindowService>;
     httpTestingController = TestBed.inject(HttpTestingController);
     eventBus = TestBed.inject(EventBusService);
   });
