@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {map} from 'rxjs/operators';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
-import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
+import {PATH_REGEXP} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {CompareDialogComponent} from 'projects/analysis/src/lib/results/debug/compare/compare-dialog/compare-dialog.component';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
@@ -41,7 +41,7 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
     private dialogs: DialogService,
   ) {
     super(storage, storageList, node => {
-      const result = node.path.match(IsDebugEntryStorageNodePipe.PATH_REGEXP);
+      const result = node.path.match(PATH_REGEXP);
       return result ? `${result[2]}_${result[1]}` : '';
     }, value => `${value.id}_${value.resultId}`);
 

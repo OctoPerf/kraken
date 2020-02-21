@@ -12,7 +12,10 @@ import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service'
 import {OpenDebugEvent} from 'projects/analysis/src/lib/events/open-debug-event';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {filter, map} from 'rxjs/operators';
-import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
+import {
+  IsDebugEntryStorageNodePipe,
+  PATH_REGEXP
+} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import * as _ from 'lodash';
@@ -87,7 +90,7 @@ export class ResultsTableService extends StorageJsonService<Result> implements O
     this._subscriptions.push(this.eventBus.of<SelectNodeEvent>(SelectNodeEvent.CHANNEL)
       .pipe(map(this.toNode.transform), filter(this.isDebug.transform.bind(this.isDebug)))
       .subscribe((node: StorageNode) => {
-        const result = node.path.match(IsDebugEntryStorageNodePipe.PATH_REGEXP);
+        const result = node.path.match(PATH_REGEXP);
         const resultId = result[1];
         this.selection = this.get(resultId);
       }));
