@@ -95,6 +95,19 @@ public class ZtCommandServiceTest {
   }
 
   @Test
+  public void shouldCommandExitStatus() {
+    final var command = Command.builder()
+        .path(".")
+        .command(ImmutableList.of("cat", "doesnotexist.txt"))
+        .environment(ImmutableMap.of())
+        .build();
+    StepVerifier.create(service.execute(command))
+        .expectNext("cat: doesnotexist.txt: Aucun fichier ou dossier de ce type")
+        .expectError(IllegalArgumentException.class)
+        .verify();
+  }
+
+  @Test
   public void shouldRunDockerCommands() {
     final var up = Command.builder()
         .path("./testDir")

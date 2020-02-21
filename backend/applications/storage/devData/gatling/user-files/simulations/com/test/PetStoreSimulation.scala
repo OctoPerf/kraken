@@ -32,5 +32,5 @@ class PetStoreSimulation extends Simulation {
             .queryParam("viewProduct", "")
             .queryParam("productId", "${productId}"))
 
-    setUp(scn.inject(constantConcurrentUsers(100) during(3 minutes))).protocols(httpProtocol)
+    setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }

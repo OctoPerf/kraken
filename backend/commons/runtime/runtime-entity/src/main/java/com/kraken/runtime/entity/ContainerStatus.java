@@ -7,8 +7,8 @@ public enum ContainerStatus {
   READY(false),
   RUNNING(false),
   STOPPING(false),
-  DONE(true),
-  FAILED(true);
+  FAILED(true),
+  DONE(true);
 
   ContainerStatus(boolean terminal) {
     this.terminal = terminal;

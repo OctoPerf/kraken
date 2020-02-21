@@ -47,13 +47,17 @@ final class ZtCommandService implements CommandService {
             }
           });
       try {
-        process.execute();
+        final var exitValue = process.execute().getExitValue();
+        if (exitValue != 0) {
+          emitter.error(new IllegalArgumentException("Command returned with code != 0"));
+        } else {
+          emitter.complete();
+        }
       } catch (InterruptedException | TimeoutException | IOException e) {
         log.error("Command execution failed", e);
         log.error(String.join("\n", errors.build()));
         emitter.error(e);
       }
-      emitter.complete();
     })
         .map(stringCleaner);
   }

@@ -100,5 +100,42 @@ public class SpringFlatContainersToTaskTest {
     assertThat(task.getExpectedCount()).isEqualTo(2);
   }
 
+  @Test
+  public void shouldUseFailedContainerStatus() {
+    final var container1 = FlatContainer.builder()
+        .id("id1")
+        .name("containerId1")
+        .hostId("hostId")
+        .taskId("taskId")
+        .taskType(TaskType.RUN)
+        .label("name")
+        .description("description")
+        .startDate(42L)
+        .status(ContainerStatus.DONE)
+        .expectedCount(2)
+        .applicationId("app")
+        .build();
+    final var container2 = FlatContainer.builder()
+        .id("id1")
+        .name("containerId2")
+        .hostId("hostId")
+        .taskId("taskId")
+        .taskType(TaskType.RUN)
+        .label("name")
+        .description("description")
+        .startDate(42L)
+        .status(ContainerStatus.FAILED)
+        .expectedCount(2)
+        .applicationId("app")
+        .build();
+    final var flux = Flux.just(container1, container2).groupBy(FlatContainer::getTaskId).next().block();
+    assertThat(flux).isNotNull();
+    final var task = dockerContainersToTask.apply(flux).block();
+    assertThat(task).isNotNull();
+    assertThat(task.getStatus()).isEqualTo(ContainerStatus.FAILED);
+    assertThat(task.getDescription()).isEqualTo("description");
+    assertThat(task.getContainers().size()).isEqualTo(2);
+    assertThat(task.getExpectedCount()).isEqualTo(2);
+  }
 }
 
