@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as _ from 'lodash';

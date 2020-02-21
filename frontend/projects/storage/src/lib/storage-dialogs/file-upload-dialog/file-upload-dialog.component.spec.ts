@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FileUploadDialogComponent} from './file-upload-dialog.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {FileUploadService} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload.service';
 import {fileUploadServiceSpy} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload.service.spec';

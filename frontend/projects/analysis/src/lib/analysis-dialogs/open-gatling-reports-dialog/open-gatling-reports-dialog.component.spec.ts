@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {OpenGatlingReportsDialogComponent} from './open-gatling-reports-dialog.component';
 import {of, throwError} from 'rxjs';
 import {testResult, testResultNode} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
