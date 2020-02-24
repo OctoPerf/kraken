@@ -1,7 +1,4 @@
 plugins {
-    // Build scans
-    id 'com.gradle.build-scan' version '3.1.1'
-
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     // Required by lombok
     id 'net.ltgt.apt' version '0.21'
@@ -143,11 +140,6 @@ subprojects {
     }
 
     check.dependsOn spotbugsMain
-
-    buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
-    }
 }
 
 task jacocoRootReport(type: JacocoReport) {
