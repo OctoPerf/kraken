@@ -2,12 +2,12 @@ package com.kraken.storage.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.kraken.tools.sse.SSEService;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
 import com.kraken.storage.file.StorageWatcherService;
+import com.kraken.tools.sse.SSEService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +71,7 @@ public class StorageControllerTest {
         .uri("/files/list")
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(path);
   }
@@ -88,7 +88,7 @@ public class StorageControllerTest {
             .build())
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$.path").isEqualTo(filename);
   }
@@ -132,7 +132,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/testupload.txt")))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody(StorageNode.class)
         .isEqualTo(StorageNodeTest.STORAGE_NODE);
   }
@@ -150,7 +150,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/kraken.zip")))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody(StorageNode.class)
         .isEqualTo(StorageNodeTest.STORAGE_NODE);
   }
@@ -167,7 +167,7 @@ public class StorageControllerTest {
             .build())
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody(StorageNode.class)
         .isEqualTo(StorageNodeTest.STORAGE_NODE);
   }
@@ -204,7 +204,7 @@ public class StorageControllerTest {
             .build())
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody(StorageNode.class)
         .isEqualTo(node);
   }
@@ -240,7 +240,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromObject(content))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody(StorageNode.class)
         .isEqualTo(StorageNodeTest.STORAGE_NODE);
   }
@@ -319,7 +319,7 @@ public class StorageControllerTest {
             .build())
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
   }
@@ -338,7 +338,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromObject(paths))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
   }
@@ -357,7 +357,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromObject(paths))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
   }
@@ -390,7 +390,7 @@ public class StorageControllerTest {
         .body(BodyInserters.fromObject(nodes))
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(nodes.get(0).getPath())
         .jsonPath("$[1].path").isEqualTo(nodes.get(1).getPath())
@@ -409,7 +409,7 @@ public class StorageControllerTest {
             .build())
         .exchange()
         .expectStatus().isOk()
-        .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+        .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$.path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
   }

@@ -104,7 +104,7 @@ public class TaskControllerTest {
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromObject(env))
         .exchange()
-        .expectStatus().is5xxServerError();
+        .expectStatus().is4xxClientError();
   }
 
   @Test

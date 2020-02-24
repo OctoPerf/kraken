@@ -47,7 +47,7 @@ public class DockerTaskServiceIntegrationTest {
         .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
-    commandService.execute(clean).blockLast();
+    commandService.execute(clean).onErrorReturn("").blockLast();
   }
 
   @After

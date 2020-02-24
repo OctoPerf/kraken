@@ -9,7 +9,7 @@ dependencies {
     implementation project(':commons:analysis:analysis-entity')
 
     // https://mvnrepository.com/artifact/org.apache.tika/tika-core
-    implementation group: 'org.apache.tika', name: 'tika-core', version: '1.21'
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '1.23'
 
     testCompile project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
     testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
