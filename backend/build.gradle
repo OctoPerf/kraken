@@ -54,6 +54,7 @@ subprojects {
         guavaVersion = '28.2-jre'
         equalsVerifierVersion = '3.1.12'
         ztZipVersion = '1.14'
+        okhttpVersion = '4.4.0'
     }
 
     apply plugin: 'java'
@@ -91,9 +92,6 @@ subprojects {
         testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: equalsVerifierVersion
         // https://mvnrepository.com/artifact/com.google.code.findbugs/annotations
         implementation group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
-
-        testImplementation 'com.squareup.okhttp3:mockwebserver:4.4.0'
-        testImplementation 'com.squareup.okhttp3:okhttp:4.4.0'
     }
 
     dependencyManagement {
@@ -144,10 +142,10 @@ subprojects {
 
 task jacocoRootReport(type: JacocoReport) {
     dependsOn = subprojects.test
-    getAdditionalSourceDirs().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
-    getSourceDirectories().setFrom(files(subprojects.sourceSets.main.allSource.srcDirs))
-    getClassDirectories().setFrom(files(subprojects.sourceSets.main.output))
-    getExecutionData().setFrom(files(subprojects.jacocoTestReport.executionData))
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+    executionData.setFrom project.fileTree(dir: '.', include: '**/build/jacoco/test.exec')
     reports {
         html.enabled = true
         xml.enabled = true

@@ -1,4 +1,7 @@
 dependencies {
     implementation project(':commons:analysis:influxdb-client-properties')
     testImplementation project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')
+
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
+    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
 }

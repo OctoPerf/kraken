@@ -5,4 +5,7 @@ dependencies {
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
+
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
+    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
 }

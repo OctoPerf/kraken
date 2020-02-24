@@ -8,4 +8,6 @@ dependencies {
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
 
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: ztZipVersion
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
+    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
 }
