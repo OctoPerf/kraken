@@ -1,8 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ContextualMenuComponent} from './contextual-menu.component';
-import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {TreeModule} from 'projects/tree/src/lib/tree.module';
 
 describe('ContextualMenuComponent', () => {
   let component: ContextualMenuComponent;
@@ -10,8 +8,8 @@ describe('ContextualMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CoreTestModule, TreeModule],
-    })
+      declarations: [ContextualMenuComponent],
+    }).overrideTemplate(ContextualMenuComponent, '')
       .compileComponents();
   }));
 
@@ -26,8 +24,14 @@ describe('ContextualMenuComponent', () => {
   });
 
   it('should open and close', () => {
-    spyOn(component.contextMenu, 'openMenu').and.callThrough();
-    spyOn(component.contextMenu, 'closeMenu').and.callThrough();
+    const offEvent = {preventDefault: jasmine.createSpy('preventDefault')};
+    spyOn(document, 'getElementsByClassName').and.returnValue([{
+      addEventListener: (eventType: string, callback: (event: any) => void) => {
+        callback(offEvent);
+      },
+      dispatchEvent: jasmine.createSpy('dispatchEvent'),
+    }] as any);
+    component.contextMenu = jasmine.createSpyObj('contextMenu', ['openMenu', 'closeMenu']);
     const event = {clientX: 10, clientY: 10, preventDefault: jasmine.createSpy('preventDefault')};
     component.open(event as any);
     expect(event.preventDefault).toHaveBeenCalled();
@@ -37,5 +41,6 @@ describe('ContextualMenuComponent', () => {
     document.getElementsByClassName('cdk-overlay-backdrop')[0].dispatchEvent(new Event('contextmenu'));
     fixture.detectChanges();
     expect(component.contextMenu.closeMenu).toHaveBeenCalled();
+    expect(offEvent.preventDefault).toHaveBeenCalled();
   });
 });
