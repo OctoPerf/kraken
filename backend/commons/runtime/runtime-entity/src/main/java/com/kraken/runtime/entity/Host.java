@@ -16,19 +16,22 @@ import static java.util.Objects.requireNonNull;
 public class Host {
   String id;
   String name;
-  Map<String, String> capacity;
+  HostCapacity capacity;
+  HostCapacity allocatable;
   List<HostAddress> addresses;
 
   @JsonCreator
   Host(
       @JsonProperty("id") final String id,
       @JsonProperty("name") final String name,
-      @JsonProperty("capacity") final Map<String, String> capacity,
+      @JsonProperty("capacity") final HostCapacity capacity,
+      @JsonProperty("allocatable") final HostCapacity allocatable,
       @JsonProperty("addresses") final List<HostAddress> addresses) {
     super();
     this.id = requireNonNull(id);
     this.name = requireNonNull(name);
     this.capacity = requireNonNull(capacity);
+    this.allocatable = requireNonNull(allocatable);
     this.addresses = requireNonNull(addresses);
   }
 }
