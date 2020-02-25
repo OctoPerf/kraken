@@ -12,7 +12,7 @@ public interface HostService {
 
   Flux<Host> listAll();
 
-  Mono<Void> detach(Host host);
+  Mono<Host> detach(Host host);
 
   Mono<Host> attach(Host host);
 

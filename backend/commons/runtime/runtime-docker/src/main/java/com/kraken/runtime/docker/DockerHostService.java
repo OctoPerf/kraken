@@ -42,7 +42,7 @@ class DockerHostService implements HostService {
   }
 
   @Override
-  public Mono<Void> detach(final Host host) {
+  public Mono<Host> detach(final Host host) {
     return Mono.error(new UnsupportedOperationException("Cannot detach host"));
   }
 
