@@ -11,9 +11,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -32,6 +34,21 @@ class DockerHostService implements HostService {
         .allocatable(HostCapacity.builder().cpu(EMPTY).memory(EMPTY).build())
         .addresses(ImmutableList.of())
         .build());
+  }
+
+  @Override
+  public Flux<Host> listAll() {
+    return Flux.empty();
+  }
+
+  @Override
+  public Mono<Void> detach(final Host host) {
+    return Mono.error(new UnsupportedOperationException("Cannot detach host"));
+  }
+
+  @Override
+  public Mono<Host> attach(Host host) {
+    return Mono.error(new UnsupportedOperationException("Cannot attach host"));
   }
 
 }

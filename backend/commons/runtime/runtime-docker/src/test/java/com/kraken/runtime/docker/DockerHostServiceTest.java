@@ -1,9 +1,9 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.Host;
 import com.kraken.runtime.entity.HostCapacity;
+import com.kraken.runtime.entity.HostTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +20,6 @@ public class DockerHostServiceTest {
 
   @Test
   public void shouldList() {
-
     final var list = service.list().collectList().block();
     assertThat(list).isNotNull();
     assertThat(list.size()).isEqualTo(1);
@@ -31,6 +30,23 @@ public class DockerHostServiceTest {
         .allocatable(HostCapacity.builder().cpu("-").memory("-").build())
         .addresses(ImmutableList.of())
         .build());
+  }
+
+  @Test
+  public void shouldListAll() {
+    final var list = service.listAll().collectList().block();
+    assertThat(list).isNotNull();
+    assertThat(list.size()).isEqualTo(0);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldNotDetach() {
+    service.detach(HostTest.HOST).block();
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldNotAttach() {
+    service.attach(HostTest.HOST).block();
   }
 
 }
