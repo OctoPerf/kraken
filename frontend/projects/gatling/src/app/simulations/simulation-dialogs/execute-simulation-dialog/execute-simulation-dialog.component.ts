@@ -1,10 +1,7 @@
 import {Component, Inject, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
-import {Host} from 'projects/runtime/src/lib/entities/host';
-import {PrettyStringPipe} from 'projects/tools/src/lib/pretty-string.pipe';
 import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/description-input/description-input.component';
 import {EnvironmentVariablesListComponent} from 'projects/runtime/src/lib/runtime-host/environment-variables-list/environment-variables-list.component';
 import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
