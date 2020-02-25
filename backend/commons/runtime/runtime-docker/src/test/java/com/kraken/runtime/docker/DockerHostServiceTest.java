@@ -3,6 +3,7 @@ package com.kraken.runtime.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.Host;
+import com.kraken.runtime.entity.HostCapacity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +27,8 @@ public class DockerHostServiceTest {
     assertThat(list.get(0)).isEqualTo(Host.builder()
         .id("local")
         .name("local")
-        .capacity(ImmutableMap.of())
+        .capacity(HostCapacity.builder().cpu("-").memory("-").build())
+        .allocatable(HostCapacity.builder().cpu("-").memory("-").build())
         .addresses(ImmutableList.of())
         .build());
   }
