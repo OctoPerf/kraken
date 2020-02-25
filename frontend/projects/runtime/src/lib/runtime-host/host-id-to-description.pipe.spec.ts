@@ -1,7 +1,6 @@
 import {HostIdToDescriptionPipe} from './host-id-to-description.pipe';
 import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 import {AddressesToStringPipe} from 'projects/runtime/src/lib/runtime-host/addresses-to-string.pipe';
-import {CapacityToStringPipe} from 'projects/runtime/src/lib/runtime-host/capacity-to-string.pipe';
 import {testHost} from 'projects/runtime/src/lib/entities/host.spec';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import SpyObj = jasmine.SpyObj;
@@ -13,7 +12,7 @@ describe('HostIdToDescriptionPipe', () => {
 
   beforeEach(() => {
     hostService = runtimeHostServiceSpy();
-    pipe = new HostIdToDescriptionPipe(hostService, new AddressesToStringPipe(), new CapacityToStringPipe());
+    pipe = new HostIdToDescriptionPipe(hostService, new AddressesToStringPipe());
   });
 
   it('create an instance', () => {
@@ -23,7 +22,7 @@ describe('HostIdToDescriptionPipe', () => {
   it('create convert host', () => {
     const host = testHost();
     hostService.host.and.returnValue(host);
-    expect(pipe.transform(host.id)).toEqual('Name: name0 - Addresses: type=address - Capacity: key=value');
+    expect(pipe.transform(host.id)).toEqual('Name: name0 - CPU: 5 / 10 - Memory: 5GB / 10GB - Addresses: type=address');
     expect(hostService.host).toHaveBeenCalledWith(host.id);
   });
 

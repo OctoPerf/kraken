@@ -14,6 +14,6 @@ table {
   @include table-filler();
 }
 
-.mat-column-name, .mat-column-addresses, .mat-column-capacity {
+.mat-column-name, .mat-column-addresses, .mat-column-cpu, .mat-column-memory {
   @include column-text-ellipsis(100px);
 }

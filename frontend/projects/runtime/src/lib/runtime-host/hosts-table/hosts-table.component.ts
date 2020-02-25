@@ -14,7 +14,7 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 export class HostsTableComponent implements OnInit, OnDestroy {
 
   readonly refreshIcon = REFRESH_ICON;
-  readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'capacity'];
+  readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'cpu', 'memory'];
   loading = true;
   dataSource: MatTableDataSource<Host>;
 

@@ -22,10 +22,17 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="capacity">
+    <ng-container matColumnDef="cpu">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>CPU</th>
+      <td mat-cell *matCellDef="let host">
+        {{host.allocatable.cpu}} / {{host.capacity.cpu}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="memory">
       <th mat-header-cell *matHeaderCellDef>
         <div fxLayout="row" fxLayoutAlign="start center">
-          <span fxFlex fxFill>Capacity</span>
+          <span fxFlex fxFill>Memory</span>
           <div fxFlex="34px">
             <button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh hosts table">
               <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
@@ -33,8 +40,8 @@
           </div>
         </div>
       </th>
-      <td mat-cell *matCellDef="let host" [title]="host.capacity | capacityToString">
-        {{host.capacity | capacityToString}}
+      <td mat-cell *matCellDef="let host">
+        {{host.allocatable.memory}} / {{host.capacity.memory}}
       </td>
     </ng-container>
 
