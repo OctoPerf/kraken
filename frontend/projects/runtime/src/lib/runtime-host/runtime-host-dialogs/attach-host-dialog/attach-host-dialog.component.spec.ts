@@ -1,11 +1,9 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AttachHostDialogComponent} from './attach-host-dialog.component';
-import {ExecuteSimulationDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
 import SpyObj = jasmine.SpyObj;
 
 describe('AttachHostDialogComponent', () => {
@@ -23,12 +21,13 @@ describe('AttachHostDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: {
             title: 'title',
+            initialId: 'id',
           }
         },
         {provide: MatDialogRef, useValue: dialogRef},
       ]
     })
-      .overrideTemplate(ExecuteSimulationDialogComponent, '')
+      .overrideTemplate(AttachHostDialogComponent, '')
       .compileComponents();
   }));
 
@@ -42,13 +41,12 @@ describe('AttachHostDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return simulationName', () => {
-    expect(component.hostId.value).toBe('');
+  it('should return hostId', () => {
+    expect(component.hostId.value).toBe('id');
   });
-
 
   it('should attach', () => {
     component.attach();
-    expect(dialogRef.close).toHaveBeenCalledWith('');
+    expect(dialogRef.close).toHaveBeenCalledWith('id');
   });
 });
