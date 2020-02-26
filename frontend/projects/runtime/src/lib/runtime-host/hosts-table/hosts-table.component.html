@@ -1,4 +1,5 @@
-<lib-table-overlay [id]="'hosts'" [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'"
+<lib-table-overlay-selection [id]="'hosts'" [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'" [selection]="_selection"
+                             (deleteSelection)="detach(selection, $event)"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="id">
@@ -46,7 +47,7 @@
         <button mat-icon-button *ngIf="host.id" (click)="setId(host)" matTooltip="Set Host ID">
           <lib-icon [icon]="setIdIcon"></lib-icon>
         </button>
-        <button mat-icon-button *ngIf="host.id" (click)="detach(host, $event)" matTooltip="Detach Host">
+        <button mat-icon-button *ngIf="host.id" (click)="detach(host, $event.ctrlKey)" matTooltip="Detach Host">
           <lib-icon [icon]="detachIcon"></lib-icon>
         </button>
         <button mat-icon-button *ngIf="!host.id" (click)="attach(host)" matTooltip="Attach Host">
@@ -61,4 +62,4 @@
         [ngClass]="{'mat-row-selected' : isSelected(row)}">
     </tr>
   </table>
-</lib-table-overlay>
+</lib-table-overlay-selection>

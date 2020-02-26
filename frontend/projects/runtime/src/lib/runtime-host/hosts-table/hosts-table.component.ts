@@ -13,6 +13,7 @@ import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faLink} from '@fortawesome/free-solid-svg-icons/faLink';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faUnlink} from '@fortawesome/free-solid-svg-icons/faUnlink';
+import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
 library.add(faLink, faUnlink);
 
@@ -30,6 +31,8 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'cpu', 'memory', 'buttons'];
   readonly _selection: SelectionModel<Host> = new SelectionModel(false);
 
+  private keyBindings: KeyBinding[] = [];
+
   loading = true;
   dataSource: MatTableDataSource<Host>;
 
@@ -38,9 +41,14 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(private dialogs: DialogService,
-              private hostService: RuntimeHostService) {
+              private hostService: RuntimeHostService,
+              private keys: KeyBindingsService) {
     this.dataSource = new MatTableDataSource([]);
     this.subscription = this.hostService.allSubject.subscribe((hosts) => this.hosts = hosts);
+    this.keyBindings.push(new KeyBinding(['Enter'], this._onEnter.bind(this), 'hosts'));
+    this.keyBindings.forEach(binding => {
+      this.keys.add([binding]);
+    });
   }
 
   ngOnInit() {
@@ -49,6 +57,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.keyBindings.forEach(binding => this.keys.remove([binding]));
   }
 
   public refresh() {
@@ -63,24 +72,43 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   }
 
   public setId(host: Host) {
-    this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {title: `Set Host ID for '${host.name}'`})
+    this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {
+      title: `Set Host ID for '${host.name}'`,
+      initialId: host.id
+    })
       .subscribe(id => {
         this.hostService.attach(host, id).subscribe();
       });
   }
 
   public attach(host: Host) {
-    this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {title: `Attach Host '${host.name}'`})
+    this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {
+      title: `Attach Host '${host.name}'`,
+      initialId: ''
+    })
       .subscribe(id => {
         this.hostService.attach(host, id).subscribe();
       });
   }
 
-  public detach(host: Host, $event: MouseEvent) {
-    this.dialogs.confirm('Detach Host', 'This host will not be usable to execute tasks on Kraken. Are you sure?', $event.ctrlKey)
+  public detach(host: Host, force: boolean) {
+    this.dialogs.confirm('Detach Host', 'This host will not be usable to execute tasks on Kraken. Are you sure?', force)
       .subscribe(() => {
         this.hostService.detach(host).subscribe();
       });
+  }
+
+  _onEnter($event: KeyboardEvent): boolean {
+    if (this.hasSelection) {
+      const host = this.selection;
+      if (host.id) {
+        this.setId(host);
+      } else {
+        this.attach(host);
+      }
+      return true;
+    }
+    return false;
   }
 
   public isSelected(host: Host): boolean {
