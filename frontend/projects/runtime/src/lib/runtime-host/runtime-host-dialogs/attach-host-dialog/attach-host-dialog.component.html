@@ -1,0 +1,32 @@
+<form [formGroup]="hostForm" autocomplete=off>
+  <h1 mat-dialog-title>{{data.title}}</h1>
+  <div mat-dialog-content>
+    <lib-help-anchor pageId="ADMIN_ATTACH_HOST"></lib-help-anchor>
+    <mat-form-field class="block-filler-x">
+      <input matInput placeholder="Host Identifier" formControlName="hostId"
+             (keydown.enter)="hostForm.valid ? attach() : null"
+             cdkFocusInitial
+             required>
+      <mat-error *ngIf="hostId.hasError('required')">
+        Host ID is required.
+      </mat-error>
+      <mat-error *ngIf="hostId.hasError('minlength')">
+        Host ID must be more than 3 characters long.
+      </mat-error>
+      <mat-error *ngIf="hostId.hasError('maxlength')">
+        Host ID must be less than 64 characters long.
+      </mat-error>
+      <mat-error *ngIf="hostId.hasError('pattern')">
+        Host ID must begin and end with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button (click)="attach()"
+            type="submit" color="accent"
+            [disabled]="!hostForm.valid">
+      OK
+    </button>
+  </div>
+</form>

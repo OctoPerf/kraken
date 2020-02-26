@@ -17,3 +17,15 @@ table {
 .mat-column-name, .mat-column-addresses, .mat-column-cpu, .mat-column-memory {
   @include column-text-ellipsis(100px);
 }
+
+.mat-column-buttons {
+  @include column-action(100px);
+}
+
+.mat-row {
+  @include mat-selectable-row();
+}
+
+.mat-row-selected {
+  @include mat-row-selected();
+}

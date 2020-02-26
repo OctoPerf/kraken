@@ -1,4 +1,4 @@
-<lib-table-overlay [id]="'hosts'"  [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'"
+<lib-table-overlay [id]="'hosts'" [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="id">
@@ -30,23 +30,35 @@
     </ng-container>
 
     <ng-container matColumnDef="memory">
-      <th mat-header-cell *matHeaderCellDef>
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <span fxFlex fxFill>Memory</span>
-          <div fxFlex="34px">
-            <button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh hosts table">
-              <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
-            </button>
-          </div>
-        </div>
-      </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Memory</th>
       <td mat-cell *matCellDef="let host">
         {{host.allocatable.memory}} / {{host.capacity.memory}}
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh hosts table">
+          <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let host">
+        <button mat-icon-button *ngIf="host.id" (click)="setId(host)" matTooltip="Set Host ID">
+          <lib-icon [icon]="setIdIcon"></lib-icon>
+        </button>
+        <button mat-icon-button *ngIf="host.id" (click)="detach(host, $event)" matTooltip="Detach Host">
+          <lib-icon [icon]="detachIcon"></lib-icon>
+        </button>
+        <button mat-icon-button *ngIf="!host.id" (click)="attach(host)" matTooltip="Attach Host">
+          <lib-icon [icon]="attachIcon"></lib-icon>
+        </button>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selection = row"
+        [ngClass]="{'mat-row-selected' : isSelected(row)}">
     </tr>
   </table>
 </lib-table-overlay>

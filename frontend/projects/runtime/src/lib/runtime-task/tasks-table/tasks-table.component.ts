@@ -12,7 +12,6 @@ import {map} from 'rxjs/operators';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import * as _ from 'lodash';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 
 @Component({

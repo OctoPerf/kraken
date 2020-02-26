@@ -77,12 +77,7 @@ export class ResultsTableService extends StorageJsonService<Result> implements O
     // Update _selection on list change
     this._subscriptions.push(this.valuesSubject.subscribe(() => {
       if (this.hasSelection) {
-        const result = this.get(this.selection.id);
-        if (result) {
-          this.selection = result;
-        } else {
-          this._selection.clear();
-        }
+        this.selection = this.get(this.selection.id);
       }
     }));
 

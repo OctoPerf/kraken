@@ -10,6 +10,7 @@ import {HostsSelectorComponent} from 'projects/runtime/src/lib/runtime-host/host
 import {CommonModule} from '@angular/common';
 import {EnvironmentVariablesListComponent} from './environment-variables-list/environment-variables-list.component';
 import {HostIdToHostPipe} from 'projects/runtime/src/lib/runtime-host/host-id-to-host.pipe';
+import {RuntimeHostDialogsModule} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/runtime-host-dialogs.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {HostIdToHostPipe} from 'projects/runtime/src/lib/runtime-host/host-id-to
     ComponentsModule,
     VendorsModule,
     IconModule,
+    RuntimeHostDialogsModule,
   ],
   declarations: [
     HostsSelectorComponent,

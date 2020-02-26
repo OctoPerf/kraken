@@ -30,4 +30,5 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_DELETE_IMAGE: '/administration/docker-images-table/#delete-docker-image',
   ADMIN_UPLOAD_FILE: '/administration/files-manager-usage/#files-upload',
   ADMIN_DOWNLOAD_FILE: '/administration/files-manager-usage/#files-and-folders-download',
+  ADMIN_ATTACH_HOST: '/administration/hosts-table/', // TODO update when doc is done
 };

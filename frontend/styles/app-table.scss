@@ -12,8 +12,8 @@
   width: $width;
 }
 
-@mixin column-action() {
-  @include column-width(50px);
+@mixin column-action($width: 50px) {
+  @include column-width($width);
   text-align: center;
 }
 
