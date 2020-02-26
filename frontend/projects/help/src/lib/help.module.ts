@@ -31,9 +31,6 @@ import { HelpAnchorComponent } from './help-anchor/help-anchor.component';
     OpenHelpDirective,
     HelpAnchorComponent,
   ],
-  entryComponents: [
-    HelpPanelComponent,
-  ]
 })
 export class HelpModule {
   constructor(public helpService: HelpService) {

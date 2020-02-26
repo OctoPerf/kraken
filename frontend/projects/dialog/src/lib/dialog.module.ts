@@ -14,12 +14,8 @@ import {DefaultDialogsModule} from 'projects/dialog/src/lib/default-dialogs/defa
     HelpModule,
     DefaultDialogsModule,
   ],
-  declarations: [
-  ],
   exports: [
     DefaultDialogsModule,
-  ],
-  entryComponents: [
   ],
   providers: [
     DialogService,

@@ -23,10 +23,6 @@ import { EditorMessagesComponent } from './editor-messages/editor-messages.compo
     ToolsModule,
     VendorsModule,
   ],
-  entryComponents: [
-    DefaultStorageNodeEditorComponent,
-    MarkdownStorageNodeEditorComponent,
-  ],
   exports: [
     EditorMessagesComponent,
   ]

@@ -24,9 +24,6 @@ class TestComponent {
 @NgModule({
   imports: [CoreTestModule, TabsModule],
   declarations: [TestComponent],
-  entryComponents: [
-    TestComponent,
-  ],
 })
 class TestModule {
 }

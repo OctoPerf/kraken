@@ -24,9 +24,6 @@ import {TreeModule} from 'projects/tree/src/lib/tree.module';
   exports: [
     StorageEditorComponent,
   ],
-  entryComponents: [
-    StorageEditorComponent,
-  ],
   providers: [
     StorageEditorService,
   ]

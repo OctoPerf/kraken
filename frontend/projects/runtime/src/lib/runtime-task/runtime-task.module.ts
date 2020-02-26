@@ -39,10 +39,6 @@ import {ContainerStatusIsTerminalPipe} from './container-status/container-status
     RuntimeTaskService,
     ContainerStatusIsTerminalPipe,
   ],
-  entryComponents: [
-    TasksTableComponent,
-    ContainersTableComponent
-  ]
 })
 export class RuntimeTaskModule {
 }

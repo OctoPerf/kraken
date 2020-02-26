@@ -30,9 +30,6 @@ class TestComponent {
 @NgModule({
   imports: [CoreTestModule, TabsModule],
   declarations: [TestComponent],
-  entryComponents: [
-    TestComponent,
-  ],
   providers: [
     {provide: WindowService, useValue: windowSpy()}
   ]

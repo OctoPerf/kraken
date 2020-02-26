@@ -20,9 +20,6 @@ class TestComponent {
 @NgModule({
   imports: [CoreTestModule, WorkspacesModule],
   declarations: [TestComponent],
-  entryComponents: [
-    TestComponent,
-  ],
 })
 class TestModule {
 }

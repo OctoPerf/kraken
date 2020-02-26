@@ -35,9 +35,6 @@ import {RuntimeHostDialogsModule} from 'projects/runtime/src/lib/runtime-host/ru
     HostIdToHostPipe,
     EnvironmentVariablesListComponent,
   ],
-  entryComponents: [
-    HostsTableComponent,
-  ],
   providers: [
     PrettyStringPipe,
     AddressesToStringPipe,

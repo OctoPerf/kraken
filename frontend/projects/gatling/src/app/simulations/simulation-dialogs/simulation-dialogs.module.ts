@@ -13,7 +13,6 @@ import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/si
 @NgModule({
   declarations: [DescriptionInputComponent, ExecuteSimulationDialogComponent, ImportHarDialogComponent],
   exports: [ExecuteSimulationDialogComponent, ImportHarDialogComponent],
-  entryComponents: [ExecuteSimulationDialogComponent, ImportHarDialogComponent],
   imports: [
     CommonModule,
     VendorsModule,

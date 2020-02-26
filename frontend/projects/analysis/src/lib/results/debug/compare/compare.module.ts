@@ -17,9 +17,6 @@ import {HelpModule} from 'projects/help/src/lib/help.module';
   exports: [
     CompareDialogComponent,
   ],
-  entryComponents: [
-    CompareDialogComponent,
-  ],
   imports: [
     CommonModule,
     VendorsModule,

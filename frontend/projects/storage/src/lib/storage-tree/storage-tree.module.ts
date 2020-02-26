@@ -37,12 +37,6 @@ import {StorageMenuModule} from 'projects/storage/src/lib/storage-menu/storage-m
   exports: [
     StorageTreeComponent,
   ],
-  entryComponents: [
-    StorageTreeComponent,
-    FileNameDialogComponent,
-    DeleteFilesDialogComponent,
-    FileUploadDialogComponent,
-  ]
 })
 export class StorageTreeModule {
 }

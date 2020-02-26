@@ -32,10 +32,6 @@ import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-lo
   exports: [
     RuntimeLogsPanelComponent,
   ],
-  entryComponents: [
-    RuntimeLogsComponent,
-    RuntimeLogsPanelComponent,
-  ]
 })
 export class RuntimeLogModule {
 }

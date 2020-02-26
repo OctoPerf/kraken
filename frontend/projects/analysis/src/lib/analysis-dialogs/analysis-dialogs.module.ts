@@ -12,7 +12,6 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 @NgModule({
   declarations: [OpenGatlingReportsDialogComponent],
   exports: [OpenGatlingReportsDialogComponent],
-  entryComponents: [OpenGatlingReportsDialogComponent],
   imports: [
     CommonModule,
     VendorsModule,

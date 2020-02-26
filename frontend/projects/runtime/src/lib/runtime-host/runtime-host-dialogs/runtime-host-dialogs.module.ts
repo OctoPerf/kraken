@@ -10,9 +10,6 @@ import {HelpModule} from 'projects/help/src/lib/help.module';
   exports: [
     AttachHostDialogComponent
   ],
-  entryComponents: [
-    AttachHostDialogComponent
-  ],
   imports: [
     CommonModule,
     VendorsModule,

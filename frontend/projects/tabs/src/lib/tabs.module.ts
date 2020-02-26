@@ -25,9 +25,6 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
     TabsHeaderComponent,
     TabsContentComponent,
   ],
-  entryComponents: [
-    TabHeaderComponent,
-  ]
 })
 export class TabsModule {
 }

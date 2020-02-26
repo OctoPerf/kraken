@@ -28,11 +28,6 @@ import {HelpModule} from 'projects/help/src/lib/help.module';
     DeleteFilesDialogComponent,
     FileUploadDialogComponent,
   ],
-  entryComponents: [
-    FileNameDialogComponent,
-    DeleteFilesDialogComponent,
-    FileUploadDialogComponent,
-  ]
 })
 export class StorageDialogsModule {
 }

@@ -30,10 +30,6 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
     DebugEditorComponent,
     CompareModule,
   ],
-  entryComponents: [
-    DebugEntriesTableComponent,
-    DebugEditorComponent,
-  ],
   imports: [
     CommonModule,
     VendorsModule,

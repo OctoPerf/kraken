@@ -22,9 +22,6 @@ class TestComponent {
 @NgModule({
   imports: [CoreTestModule, SplitModule],
   declarations: [TestComponent],
-  entryComponents: [
-    TestComponent,
-  ],
   providers: [
     {provide: WindowService, useValue: windowSpy()}
   ]

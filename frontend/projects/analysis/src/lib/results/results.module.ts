@@ -20,7 +20,6 @@ import {AnalysisDialogsModule} from 'projects/analysis/src/lib/analysis-dialogs/
 @NgModule({
   declarations: [ResultsTableComponent, IsDebugEntryStorageNodePipe],
   exports: [ResultsTableComponent, DebugModule, AnalysisDialogsModule],
-  entryComponents: [ResultsTableComponent],
   imports: [
     CommonModule,
     StorageModule,

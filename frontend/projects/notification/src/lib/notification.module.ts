@@ -27,10 +27,6 @@ import {NotificationLevelToIconPipe} from './notification-level-to-icon.pipe';
     NotificationsTabHeaderComponent,
     NotificationsTableComponent
   ],
-  entryComponents: [
-    NotificationsTabHeaderComponent,
-    NotificationsTableComponent
-  ]
 })
 export class NotificationModule {
 }

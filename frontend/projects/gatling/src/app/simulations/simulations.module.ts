@@ -49,11 +49,6 @@ import {SimulationDialogsModule} from 'projects/gatling/src/app/simulations/simu
     SimulationEditorComponent,
     SimulationDialogsModule,
   ],
-  entryComponents: [
-    SimulationNodeButtonsComponent,
-    SimulationContextualMenuComponent,
-    SimulationEditorComponent,
-  ],
   providers: [
     SimulationService
   ]

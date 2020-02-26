@@ -15,9 +15,6 @@ import {HighlightOverDirective} from 'projects/help/src/lib/highlight/highlight-
     HighlightDirective,
     HighlightOverDirective,
   ],
-  entryComponents: [
-    HighlightBackdropComponent
-  ],
   exports: [
     HighlightDirective,
     HighlightOverDirective,

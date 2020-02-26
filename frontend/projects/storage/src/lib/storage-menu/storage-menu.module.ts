@@ -42,10 +42,6 @@ import { RenameMenuItemComponent } from './menu-items/rename-menu-item/rename-me
     RenameNodeButtonComponent,
     MenuNodeButtonComponent,
   ],
-  entryComponents: [
-    StorageContextualMenuComponent,
-    StorageNodeButtonsComponent,
-  ],
   imports: [
     CommonModule,
     VendorsModule,

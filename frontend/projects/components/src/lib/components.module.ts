@@ -49,7 +49,6 @@ import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clip
     LazyIfDirective,
     CopyToClipboardDirective,
   ],
-  entryComponents: [],
 })
 export class ComponentsModule {
 }

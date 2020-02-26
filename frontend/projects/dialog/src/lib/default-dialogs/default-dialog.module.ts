@@ -30,12 +30,5 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     WaitDialogComponent,
     ConfirmDialogComponent,
   ],
-  entryComponents: [
-    InspectDialogComponent,
-    DeleteDialogComponent,
-    LogsDialogComponent,
-    WaitDialogComponent,
-    ConfirmDialogComponent,
-  ],
 })
 export class DefaultDialogsModule { }
