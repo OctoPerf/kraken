@@ -51,7 +51,7 @@ public class AnalysisControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/result")
             .build())
-        .body(BodyInserters.fromObject(result))
+        .body(BodyInserters.fromValue(result))
         .exchange()
         .expectStatus().isOk()
         .expectBody(StorageNode.class)
@@ -109,7 +109,7 @@ public class AnalysisControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/result/debug")
             .build())
-        .body(BodyInserters.fromObject(debug))
+        .body(BodyInserters.fromValue(debug))
         .exchange()
         .expectStatus().isOk();
   }

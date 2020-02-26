@@ -49,7 +49,7 @@ class GrafanaWebClient implements GrafanaClient{
   public Mono<String> setDashboard(final String dashboard) {
     return webClient.post()
         .uri(uriBuilder -> uriBuilder.path("/api/dashboards/db").build())
-        .body(BodyInserters.fromObject(encapsulateSetDashboard(dashboard)))
+        .body(BodyInserters.fromValue(encapsulateSetDashboard(dashboard)))
         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
         .retrieve()
         .bodyToMono(String.class);
@@ -58,7 +58,7 @@ class GrafanaWebClient implements GrafanaClient{
   public  Mono<String> importDashboard(final String dashboard) {
     return webClient.post()
         .uri(uriBuilder -> uriBuilder.path("/api/dashboards/import").build())
-        .body(BodyInserters.fromObject(encapsulateImportDashboard(dashboard)))
+        .body(BodyInserters.fromValue(encapsulateImportDashboard(dashboard)))
         .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
         .retrieve()
         .bodyToMono(String.class);

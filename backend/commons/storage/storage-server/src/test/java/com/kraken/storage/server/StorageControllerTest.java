@@ -101,7 +101,7 @@ public class StorageControllerTest {
 
     webTestClient.post()
         .uri("/files/delete")
-        .body(BodyInserters.fromObject(paths))
+        .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().isOk();
   }
@@ -114,7 +114,7 @@ public class StorageControllerTest {
 
     webTestClient.post()
         .uri("/files/delete")
-        .body(BodyInserters.fromObject(paths))
+        .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().is5xxServerError();
   }
@@ -237,7 +237,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/content")
             .queryParam("path", path)
             .build())
-        .body(BodyInserters.fromObject(content))
+        .body(BodyInserters.fromValue(content))
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -272,7 +272,7 @@ public class StorageControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/list/json")
             .build())
-        .body(BodyInserters.fromObject(paths))
+        .body(BodyInserters.fromValue(paths))
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -335,7 +335,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/copy")
             .queryParam("destination", destination)
             .build())
-        .body(BodyInserters.fromObject(paths))
+        .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -354,7 +354,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/move")
             .queryParam("destination", destination)
             .build())
-        .body(BodyInserters.fromObject(paths))
+        .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -387,7 +387,7 @@ public class StorageControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/filter/existing")
             .build())
-        .body(BodyInserters.fromObject(nodes))
+        .body(BodyInserters.fromValue(nodes))
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)

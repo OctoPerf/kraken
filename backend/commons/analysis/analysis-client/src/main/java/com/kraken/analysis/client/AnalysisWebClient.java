@@ -34,7 +34,7 @@ class AnalysisWebClient implements AnalysisClient {
     return webClient.post()
         .uri(uriBuilder -> uriBuilder.path("/result")
             .build())
-        .body(BodyInserters.fromObject(result))
+        .body(BodyInserters.fromValue(result))
         .retrieve()
         .bodyToMono(StorageNode.class);
   }
@@ -65,7 +65,7 @@ class AnalysisWebClient implements AnalysisClient {
     return webClient.post()
         .uri(uriBuilder -> uriBuilder.path("/result/debug")
             .build())
-        .body(BodyInserters.fromObject(debug))
+        .body(BodyInserters.fromValue(debug))
         .retrieve()
         .bodyToMono(DebugEntry.class);
   }

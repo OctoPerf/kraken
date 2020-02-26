@@ -61,7 +61,7 @@ class StorageWebClient implements StorageClient {
   public Mono<Boolean> delete(final String path) {
     return webClient.post()
         .uri("/files/delete")
-        .body(BodyInserters.fromObject(Collections.singletonList(path)))
+        .body(BodyInserters.fromValue(Collections.singletonList(path)))
         .retrieve()
         .bodyToMono(new ParameterizedTypeReference<List<Boolean>>() {
         })
@@ -94,7 +94,7 @@ class StorageWebClient implements StorageClient {
         .uri(uriBuilder -> uriBuilder.path("/files/set/content")
             .queryParam("path", path)
             .build())
-        .body(BodyInserters.fromObject(content))
+        .body(BodyInserters.fromValue(content))
         .retrieve()
         .bodyToMono(StorageNode.class)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)

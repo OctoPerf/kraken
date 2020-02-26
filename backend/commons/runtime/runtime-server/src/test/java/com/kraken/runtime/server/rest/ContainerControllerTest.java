@@ -71,7 +71,7 @@ public class ContainerControllerTest {
             .queryParam("containerId", "containerId")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(ContainerTest.CONTAINER))
+        .body(BodyInserters.fromValue(ContainerTest.CONTAINER))
         .exchange()
         .expectStatus().is5xxServerError();
   }

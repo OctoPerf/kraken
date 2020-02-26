@@ -83,7 +83,7 @@ public class TaskControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/task")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(context))
+        .body(BodyInserters.fromValue(context))
         .exchange()
         .expectStatus().isOk()
         .expectBody(String.class)
@@ -102,7 +102,7 @@ public class TaskControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/task")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromObject(env))
+        .body(BodyInserters.fromValue(env))
         .exchange()
         .expectStatus().is4xxClientError();
   }
