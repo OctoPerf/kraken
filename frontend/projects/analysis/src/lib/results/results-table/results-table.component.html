@@ -1,4 +1,4 @@
-<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource" [selection]="results._selection"
+<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource" [selection]="results._selection.model"
                              [noDataLabel]="'No Results.'" (deleteSelection)="deleteSelection($event)"
                              (enterSelection)="openGrafanaSelection()"
                              class="mat-table-body-bg">
@@ -34,26 +34,26 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="results.selection = row"
-        (contextmenu)="results.selection = row; openMenu($event)"
-        [ngClass]="{'mat-row-selected' : results.isSelected(row), 'mat-row-debug' : row.type !== 'RUN'}">
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="results._selection.selection = row"
+        (contextmenu)="results._selection.selection = row; openMenu($event)"
+        [ngClass]="{'mat-row-selected' : results._selection.isSelected(row), 'mat-row-debug' : row.type !== 'RUN'}">
     </tr>
   </table>
 
   <lib-contextual-menu #menu>
-    <button mat-menu-item (click)="gatling.openGrafanaReport(results.selection)"
-            [disabled]="!gatling.canOpenGrafanaReport(results.selection)">
+    <button mat-menu-item (click)="gatling.openGrafanaReport(results._selection.selection)"
+            [disabled]="!gatling.canOpenGrafanaReport(results._selection.selection)">
       <lib-icon [icon]="chartIcon"></lib-icon>
       Open Grafana Report
     </button>
-    <button mat-menu-item [disabled]="!gatling.canOpenGatlingReport(results.selection)"
-            (click)="openGatlingReportsDialog(results.selection)">
+    <button mat-menu-item [disabled]="!gatling.canOpenGatlingReport(results._selection.selection)"
+            (click)="openGatlingReportsDialog(results._selection.selection)">
       <lib-icon [icon]="reportIcon"></lib-icon>
       Open Gatling Reports
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="gatling.deleteResult(results.selection, $event.ctrlKey).subscribe()"
-            [disabled]="!gatling.canDeleteResult(results.selection)">
+    <button mat-menu-item (click)="gatling.deleteResult(results._selection.selection, $event.ctrlKey).subscribe()"
+            [disabled]="!gatling.canDeleteResult(results._selection.selection)">
       <lib-icon [icon]="deleteIcon"></lib-icon>
       Delete Result
     </button>

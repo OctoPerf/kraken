@@ -19,4 +19,7 @@ describe('HostIdToDescriptionPipe', () => {
     expect(pipe.transform(host)).toEqual('Name: name0 - CPU: 5 / 10 - Memory: 5GB / 10GB - Addresses: type=address');
   });
 
+  it('should convert host', () => {
+    expect(pipe.transform(null)).toBe('');
+  });
 });

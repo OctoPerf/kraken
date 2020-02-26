@@ -84,16 +84,16 @@ export class ResultsTableComponent implements OnInit {
   }
 
   openGrafanaSelection(): boolean {
-    if (this.gatling.canOpenGrafanaReport(this.results.selection)) {
-      this.gatling.openGrafanaReport(this.results.selection);
+    if (this.gatling.canOpenGrafanaReport(this.results._selection.selection)) {
+      this.gatling.openGrafanaReport(this.results._selection.selection);
       return true;
     }
     return false;
   }
 
   deleteSelection(force = false): boolean {
-    if (this.gatling.canDeleteResult(this.results.selection)) {
-      this.gatling.deleteResult(this.results.selection, force).subscribe();
+    if (this.gatling.canDeleteResult(this.results._selection.selection)) {
+      this.gatling.deleteResult(this.results._selection.selection, force).subscribe();
       return true;
     }
     return false;

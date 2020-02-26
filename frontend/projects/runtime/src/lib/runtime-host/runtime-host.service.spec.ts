@@ -61,6 +61,7 @@ describe('HostService', () => {
     expect(request.request.method).toBe('GET');
     request.flush(hosts);
     expect(service.hostsSubject.value).toBe(hosts);
+    expect(service.host(hosts[0].id)).toBe(hosts[0]);
   });
 
   it('should list all', () => {
@@ -69,7 +70,6 @@ describe('HostService', () => {
     expect(request.request.method).toBe('GET');
     request.flush(hosts);
     expect(service.allSubject.value).toBe(hosts);
-    expect(service.host(hosts[0].id)).toBe(hosts[0]);
   });
 
   it('should attach', () => {

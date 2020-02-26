@@ -18,13 +18,14 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 import {SelectionModel} from '@angular/cdk/collections';
+import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
 
 @Injectable()
 export class DebugEntriesTableService extends StorageJsonService<DebugEntry> implements OnDestroy {
 
   public static readonly ENTRY_EXT = '.debug';
 
-  public readonly _selection: SelectionModel<DebugEntry> = new SelectionModel(false);
+  public readonly _selection: MonoSelectionWrapper<DebugEntry> = new MonoSelectionWrapper<DebugEntry>((t1, t2) => t1 === t2);
   private _resultSelectionSubscription: Subscription;
   private _nodeSelectionSubscription: Subscription;
   private _result: Result;
@@ -57,13 +58,11 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
   }
 
   public init() {
-    this.selection = null;
-
-    const result = this.resultsList.selection;
+    const result = this.resultsList._selection.selection;
     if (!result || result === this._result) {
       return;
     }
-
+    this._selection.selection = null;
     this.values = [];
     this._result = result;
 
@@ -77,27 +76,16 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
   public open(entry: DebugEntry) {
     const path = `${this.toPath.transform(entry)}/${entry.id}${DebugEntriesTableService.ENTRY_EXT}`;
     this.storage.get(path).subscribe(node => this.storage.edit(node));
-    this._selection.select(entry);
+    this._selection.selection = entry;
   }
 
   public compare() {
+    const selection = this._selection.selection;
     this.dialogs.open(CompareDialogComponent, DialogSize.SIZE_FULL, {
-      left: this._selection.selected[0],
-      right: this._selection.selected[0],
+      left: selection,
+      right: selection,
       results: this.resultsList.values,
     }).subscribe();
-  }
-
-  public set selection(entry: DebugEntry) {
-    this._selection.select(entry);
-  }
-
-  public get selection(): DebugEntry {
-    return this._selection.selected[0];
-  }
-
-  public isSelected(entry: DebugEntry): boolean {
-    return !!this._selection && this._selection.selected[0] === entry;
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
@@ -109,12 +97,12 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
 
   private _selectNode(node: StorageNode) {
     if (!node) {
-      this._selection.clear();
+      this._selection.selection = null;
       return;
     }
     const entry = this.find(node);
     if (entry) {
-      this._selection.select(entry);
+      this._selection.selection = entry;
     }
   }
 }

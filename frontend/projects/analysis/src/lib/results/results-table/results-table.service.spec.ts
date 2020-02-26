@@ -24,6 +24,7 @@ import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.servi
 import SpyObj = jasmine.SpyObj;
 import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
 import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
+import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
 
 export const testResultStatus: (status: ResultStatus) => Result = (status: ResultStatus) => {
   return {
@@ -72,6 +73,7 @@ export const resultsTableServiceSpy: () => SpyObj<ResultsTableService> = () => {
   spy.valuesSubject = new ReplaySubject<Result[]>(1);
   spy.selectionChanged = new EventEmitter();
   spy.values = [];
+  spy._selection = new MonoSelectionWrapper<Result>((t1, t2) => t1.id === t2.id);
   return spy;
 };
 
@@ -128,36 +130,6 @@ describe('ResultsTableService', () => {
     expect(service.find(resultNode)).toBe(result);
   });
 
-  it('should return hasSelection', () => {
-    expect(service.hasSelection).toBeFalsy();
-    service.selection = result;
-    expect(service.hasSelection).toBeTruthy();
-  });
-
-  it('should return selection', () => {
-    expect(service.selection).toBeNull();
-    service.selection = result;
-    expect(service.selection).toEqual(result);
-  });
-
-  it('should return isSelected', () => {
-    expect(service.isSelected(result)).toBeFalsy();
-    service.selection = result;
-    expect(service.isSelected(result)).toBeTruthy();
-  });
-
-  it('should setSelection clear', () => {
-    service.selection = result;
-    service.selection = null;
-    expect(service.hasSelection).toBeFalse();
-  });
-
-  it('should select emit', () => {
-    const spy = spyOn(service._selection, 'select');
-    service.selection = result;
-    expect(spy).toHaveBeenCalledWith(result);
-  });
-
   it('should init selection', () => {
     spyOn(localStorage, 'getItem').and.returnValue(result);
     service.init();
@@ -178,7 +150,7 @@ describe('ResultsTableService', () => {
       storage.getJSON.and.returnValue(of(debugResult));
       storageList.nodeCreated.emit(testStorageFileNode());
       expect(service.values[0]).toEqual(debugResult);
-      expect(service.selection).toEqual(debugResult);
+      expect(service._selection.selection).toEqual(debugResult);
     });
 
     it('should _nodeCreated prevent duplicates', () => {
@@ -190,39 +162,39 @@ describe('ResultsTableService', () => {
 
     it('should handle selection change', () => {
       spyOn(events, 'publish');
-      service.selection = result;
+      service._selection.selection = result;
       expect(localStorage.getItem(ResultsTableService.ID)).toEqual(result);
       expect(events.publish).not.toHaveBeenCalledWith(new OpenDebugEvent());
     });
 
     it('should handle selection change debug', () => {
       spyOn(events, 'publish');
-      service.selection = debugResult;
+      service._selection.selection = debugResult;
       expect(localStorage.getItem(ResultsTableService.ID)).toEqual(debugResult);
       expect(events.publish).toHaveBeenCalledWith(new OpenDebugEvent());
     });
 
     it('should handle selection clear', () => {
-      service.selection = debugResult;
-      (service as any)._selection.clear();
+      service._selection.selection = debugResult;
+      (service as any)._selection.model.clear();
       expect(localStorage.getItem(ResultsTableService.ID)).toBeUndefined();
     });
 
     it('should update selection on list change', () => {
-      service.selection = debugResult;
+      service._selection.selection = debugResult;
       service.valuesSubject.next([result, debugResult]);
-      expect(service.isSelected(debugResult)).toBeTruthy();
+      expect(service._selection.isSelected(debugResult)).toBeTruthy();
     });
 
     it('should update selection on list change', () => {
-      service.selection = debugResult;
+      service._selection.selection = debugResult;
       service.valuesSubject.next([result]);
-      expect(service.hasSelection).toBeFalsy();
+      expect(service._selection.hasSelection).toBeFalsy();
     });
 
     it('should not update selection on list change', () => {
       service.valuesSubject.next([result]);
-      expect(service.hasSelection).toBeFalsy();
+      expect(service._selection.hasSelection).toBeFalsy();
     });
 
     it('should update selection on editor change', () => {
@@ -234,7 +206,7 @@ describe('ResultsTableService', () => {
         length: 42,
         lastModified: 1337
       }));
-      expect(service.isSelected(debugResult)).toBeTruthy();
+      expect(service._selection.isSelected(debugResult)).toBeTruthy();
     });
 
   });

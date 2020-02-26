@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -9,13 +9,14 @@ import * as _ from 'lodash';
 import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/runtime-container.service';
 import {Container} from 'projects/runtime/src/lib/entities/container';
 import {LOGS_ICON} from 'projects/icon/src/lib/icons';
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 
 @Component({
   selector: 'lib-containers-table',
   templateUrl: './containers-table.component.html',
   styleUrls: ['./containers-table.component.scss']
 })
-export class ContainersTableComponent implements OnDestroy {
+export class ContainersTableComponent implements OnInit, OnDestroy {
 
   private _subscriptions: Subscription[] = [];
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'hostId', 'status', 'label', 'name', 'logs'];
@@ -26,7 +27,8 @@ export class ContainersTableComponent implements OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private containerService: RuntimeContainerService,
-              private eventBus: EventBusService) {
+              private eventBus: EventBusService,
+              private hosts: RuntimeHostService) {
     this._subscriptions.push(eventBus.of<TaskSelectedEvent>(TaskSelectedEvent.CHANNEL)
       .pipe(map(event => event.task)).subscribe(task => {
         if (task) {
@@ -37,6 +39,10 @@ export class ContainersTableComponent implements OnDestroy {
           this.containers = [];
         }
       }));
+  }
+
+  ngOnInit() {
+    this.hosts.all().subscribe();
   }
 
   ngOnDestroy() {

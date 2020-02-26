@@ -1,5 +1,7 @@
-<lib-table-overlay-selection [id]="ID"  [loading]="false" [dataSource]="dataSource" [selection]="debugResult._selection" [noDataLabel]="'Please select a Debug result.'"
-                   class="mat-table-body-bg" (enterSelection)="compareSelection()">
+<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource"
+                             [selection]="debugResult._selection.model"
+                             [noDataLabel]="'Please select a Debug result.'"
+                             class="mat-table-body-bg" (enterSelection)="compareSelection()">
   <table mat-table [dataSource]="dataSource" class="mat-table-body-bg" matSort matSortActive="date"
          matSortDirection="asc">
     <ng-container matColumnDef="requestName">
@@ -10,7 +12,8 @@
     </ng-container>
     <ng-container matColumnDef="requestStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let entry" [title]="'Request: ' + entry.requestStatus + ' | Response: ' + entry.responseStatus">
+      <td mat-cell *matCellDef="let entry"
+          [title]="'Request: ' + entry.requestStatus + ' | Response: ' + entry.responseStatus">
         <lib-icon [icon]="statusIcon" [state]="entry.requestStatus.startsWith('OK') ? 'OK' : 'KO'"></lib-icon>
       </td>
     </ng-container>
@@ -32,7 +35,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
         (contextmenu)="debugResult.open(row); menu.open($event)"
-        (click)="debugResult.open(row)" [ngClass]="{'mat-row-selected' : debugResult.isSelected(row)}">
+        (click)="debugResult.open(row)" [ngClass]="{'mat-row-selected' : debugResult._selection.isSelected(row)}">
     </tr>
   </table>
 

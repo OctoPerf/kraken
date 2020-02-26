@@ -24,14 +24,14 @@ export class RuntimeHostService {
   public hosts(): Observable<Host[]> {
     return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/list')).pipe(tap(data => {
       this.hostsSubject.next(data);
+      this.hostsMap.clear();
+      data.forEach(host => this.hostsMap.set(host.id, host));
     }));
   }
 
   public all(): Observable<Host[]> {
     return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/all')).pipe(tap(data => {
       this.allSubject.next(data);
-      this.hostsMap.clear();
-      data.forEach(host => this.hostsMap.set(host.id, host));
     }));
   }
 

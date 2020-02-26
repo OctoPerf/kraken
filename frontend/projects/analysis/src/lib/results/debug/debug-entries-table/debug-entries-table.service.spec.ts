@@ -128,13 +128,6 @@ describe('DebugEntriesTableService', () => {
     expect(storage.edit).toHaveBeenCalledWith(debugEntryNode);
   });
 
-  it('should isSelected', () => {
-    expect(service.isSelected(debugEntry)).toBeFalsy();
-    service.selection = debugEntry;
-    expect(service.isSelected(debugEntry)).toBeTruthy();
-    expect(service.isSelected(_.cloneDeep(debugEntry))).toBeFalsy();
-  });
-
   it('should not init', () => {
     service.init();
     expect(storageList.init).not.toHaveBeenCalled();
@@ -142,7 +135,7 @@ describe('DebugEntriesTableService', () => {
 
   describe('should init and', () => {
     beforeEach(() => {
-      results.selection = testResult();
+      results._selection.selection = testResult();
       service.init();
     });
 
@@ -151,20 +144,20 @@ describe('DebugEntriesTableService', () => {
     });
 
     it('should unselect node', () => {
-      service.selection = debugEntry;
+      service._selection.selection = debugEntry;
       eventBus.publish(new SelectNodeEvent(null));
-      expect(service.selection).toBeUndefined();
+      expect(service._selection.selection).toBeNull();
     });
 
     it('should select do not find node', () => {
       eventBus.publish(new SelectNodeEvent(debugEntryNode));
-      expect(service.selection).toBeNull();
+      expect(service._selection.selection).toBeNull();
     });
 
     it('should select', () => {
       spyOn(service, 'find').and.returnValue(debugEntry);
       eventBus.publish(new SelectNodeEvent(debugEntryNode));
-      expect(service.selection).toEqual(debugEntry);
+      expect(service._selection.selection).toEqual(debugEntry);
     });
   });
 });

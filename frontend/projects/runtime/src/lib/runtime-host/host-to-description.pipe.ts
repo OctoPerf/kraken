@@ -11,7 +11,10 @@ export class HostToDescriptionPipe implements PipeTransform {
   }
 
   transform(host: Host): string {
-    return `Name: ${host.name} - CPU: ${host.allocatable.cpu} / ${host.capacity.cpu} - Memory: ${host.allocatable.memory} / ${host.capacity.memory} - Addresses: ${this.addressesToStringPipe.transform(host.addresses)}`;
+    if (host) {
+      return `Name: ${host.name} - CPU: ${host.allocatable.cpu} / ${host.capacity.cpu} - Memory: ${host.allocatable.memory} / ${host.capacity.memory} - Addresses: ${this.addressesToStringPipe.transform(host.addresses)}`;
+    }
+    return '';
   }
 
 }

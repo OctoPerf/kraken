@@ -15,7 +15,7 @@ import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 
-describe('ResultsListComponent', () => {
+describe('ResultsTableComponent', () => {
   let component: ResultsTableComponent;
   let fixture: ComponentFixture<ResultsTableComponent>;
   let results: SpyObj<ResultsTableService>;

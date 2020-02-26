@@ -9,11 +9,14 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
+import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
+import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 
 describe('ContainersTableComponent', () => {
   let component: ContainersTableComponent;
   let fixture: ComponentFixture<ContainersTableComponent>;
   let containerService: SpyObj<RuntimeContainerService>;
+  let hostsService: SpyObj<RuntimeHostService>;
   let eventBus: EventBusService;
 
   beforeEach(async(() => {
@@ -22,6 +25,7 @@ describe('ContainersTableComponent', () => {
       declarations: [ContainersTableComponent],
       providers: [
         {provide: RuntimeContainerService, useValue: runtimeContainerServiceSpy()},
+        {provide: RuntimeHostService, useValue: runtimeHostServiceSpy()},
         EventBusService,
       ]
     })
@@ -29,7 +33,10 @@ describe('ContainersTableComponent', () => {
       .compileComponents();
 
     containerService = TestBed.inject(RuntimeContainerService) as SpyObj<RuntimeContainerService>;
+    hostsService = TestBed.inject(RuntimeHostService) as SpyObj<RuntimeHostService>;
     eventBus = TestBed.inject(EventBusService);
+
+    hostsService.all.and.returnValue(of(null));
   }));
 
   beforeEach(() => {
@@ -44,6 +51,7 @@ describe('ContainersTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(hostsService.all).toHaveBeenCalled();
   });
 
   it('should handle task selection', () => {
