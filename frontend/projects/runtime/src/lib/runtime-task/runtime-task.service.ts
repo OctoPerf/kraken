@@ -7,7 +7,6 @@ import {Task} from 'projects/runtime/src/lib/entities/task';
 import {map, tap} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
-import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
 import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
 import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';

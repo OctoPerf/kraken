@@ -10,7 +10,7 @@
 
     <ng-container matColumnDef="hostId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Host</th>
-      <td mat-cell *matCellDef="let container" [title]="container.hostId | hostIdToDescription">
+      <td mat-cell *matCellDef="let container" [title]="container.hostId | hostToDescription">
         {{container.hostId}}
       </td>
     </ng-container>

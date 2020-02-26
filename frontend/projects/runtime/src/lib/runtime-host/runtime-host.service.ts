@@ -4,11 +4,13 @@ import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-conf
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Host} from 'projects/runtime/src/lib/entities/host';
 import {tap} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Injectable()
 export class RuntimeHostService {
 
   public hostsSubject: BehaviorSubject<Host[]>;
+  public allSubject: BehaviorSubject<Host[]>;
   private readonly hostsMap = new Map<string, Host>();
 
   constructor(
@@ -21,9 +23,38 @@ export class RuntimeHostService {
   public hosts(): Observable<Host[]> {
     return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/list')).pipe(tap(data => {
       this.hostsSubject.next(data);
+    }));
+  }
+
+  public all(): Observable<Host[]> {
+    return this.http.get<Host[]>(this.runtimeConfiguration.hostApiUrl('/all')).pipe(tap(data => {
+      this.allSubject.next(data);
       this.hostsMap.clear();
       data.forEach(host => this.hostsMap.set(host.id, host));
     }));
+  }
+
+  public attach(host: Host, id: string): Observable<Host> {
+    const withId = _.cloneDeep(host);
+    withId.id = id;
+    return this.http.post<Host>(this.runtimeConfiguration.hostApiUrl('/attach'), withId).pipe(tap(updated => {
+      this.updateHost(host, updated);
+    }));
+  }
+
+  public detach(host: Host): Observable<Host> {
+    return this.http.post<Host>(this.runtimeConfiguration.hostApiUrl('/detach'), host).pipe(tap(updated => {
+      this.updateHost(host, updated);
+    }));
+  }
+
+  private updateHost(host: Host, updated: Host) {
+    const all = this.allSubject.getValue();
+    const index = _.indexOf(all, host);
+    if (index !== -1) {
+      all[index] = updated;
+    }
+    this.allSubject.next(all);
   }
 
   public host(id: string): Host | undefined {

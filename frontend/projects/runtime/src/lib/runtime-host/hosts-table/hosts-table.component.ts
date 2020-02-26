@@ -24,7 +24,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
 
   constructor(private hostService: RuntimeHostService) {
     this.dataSource = new MatTableDataSource([]);
-    this.subscription = this.hostService.hostsSubject.subscribe((hosts) => this.hosts = hosts);
+    this.subscription = this.hostService.allSubject.subscribe((hosts) => this.hosts = hosts);
   }
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.loading = true;
-    this.hostService.hosts().subscribe();
+    this.hostService.all().subscribe();
   }
 
   set hosts(hosts: Host[]) {
