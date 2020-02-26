@@ -48,15 +48,15 @@ describe('HostsTableComponent', () => {
   });
 
   it('should refresh', () => {
-    hostService.hosts.and.returnValue(of(testHosts()));
+    hostService.all.and.returnValue(of(testHosts()));
     component.refresh();
     expect(component.loading).toBe(true);
-    expect(hostService.hosts).toHaveBeenCalled();
+    expect(hostService.all).toHaveBeenCalled();
   });
 
-  it('should set images', () => {
+  it('should set hosts', () => {
     const hosts = testHosts();
-    hostService.hostsSubject.next(hosts);
+    hostService.allSubject.next(hosts);
     expect(component.dataSource.data).toBe(hosts);
   });
 

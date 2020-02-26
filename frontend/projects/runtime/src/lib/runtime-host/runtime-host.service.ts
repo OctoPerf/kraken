@@ -18,6 +18,7 @@ export class RuntimeHostService {
     private runtimeConfiguration: RuntimeConfigurationService,
   ) {
     this.hostsSubject = new BehaviorSubject([]);
+    this.allSubject = new BehaviorSubject([]);
   }
 
   public hosts(): Observable<Host[]> {
