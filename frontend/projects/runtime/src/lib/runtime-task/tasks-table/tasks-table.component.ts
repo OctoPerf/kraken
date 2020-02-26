@@ -13,6 +13,8 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import * as _ from 'lodash';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
+import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
+import {Host} from 'projects/runtime/src/lib/entities/host';
 
 @Component({
   selector: 'lib-tasks-table',
@@ -23,7 +25,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   readonly ID = 'tasks';
 
-  readonly _selection: SelectionModel<Task> = new SelectionModel(false);
+  readonly _selection: MonoSelectionWrapper<Task> = new MonoSelectionWrapper<Task>(this._match.bind(this));
   private _subscriptions: Subscription[] = [];
   readonly refreshIcon = REFRESH_ICON;
   readonly stopIcon = STOP_ICON;
@@ -40,8 +42,8 @@ export class TasksTableComponent implements OnInit, OnDestroy {
               private statusIsTerminal: ContainerStatusIsTerminalPipe) {
     this._subscriptions.push(eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
       .pipe(map(event => event.tasks)).subscribe(tasks => this.tasks = tasks));
-    this._subscriptions.push(this._selection.changed.subscribe(value => {
-      this.eventBus.publish(new TaskSelectedEvent(this._selection.selected[0]));
+    this._subscriptions.push(this._selection.model.changed.subscribe(value => {
+      this.eventBus.publish(new TaskSelectedEvent(this._selection.selection));
     }));
   }
 
@@ -58,24 +60,8 @@ export class TasksTableComponent implements OnInit, OnDestroy {
     this.taskService.list().subscribe();
   }
 
-  public isSelected(task: Task): boolean {
-    return this.hasSelection && this.selection.id === task.id;
-  }
-
-  public get hasSelection(): boolean {
-    return this._selection.hasValue();
-  }
-
-  public set selection(task: Task) {
-    if (task) {
-      this._selection.select(task);
-    } else {
-      this._selection.clear();
-    }
-  }
-
-  public get selection(): Task | null {
-    return this.hasSelection ? this._selection.selected[0] : null;
+  _match(t1: Task, t2: Task): boolean {
+    return t1.id === t2.id;
   }
 
   public cancel(task: Task, force = false) {
@@ -92,9 +78,9 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   }
 
   public deleteSelection(force: boolean): boolean {
-    const task = this.selection;
+    const task = this._selection.selection;
     if (this.statusIsTerminal.transform(task.status)) {
-      this.remove(this.selection);
+      this.remove(task);
     } else {
       this.cancel(task, force);
     }
@@ -102,11 +88,11 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   }
 
   set tasks(tasks: Task[]) {
-    const taskId = this.hasSelection ? this.selection.id : null;
+    const taskId = this._selection.hasSelection ? this._selection.selection.id : null;
     const first = _.first(_.filter(tasks, (task: Task) => task.status !== 'DONE'));
     const currentNotDone = _.find(tasks, (task: Task) => task.id === taskId && task.status !== 'DONE');
     const current = _.find(tasks, {id: taskId});
-    this.selection = currentNotDone || first || current;
+    this._selection.selection = currentNotDone || first || current;
     this.dataSource = new MatTableDataSource(tasks);
     this.dataSource.sort = this.sort;
     this.loading = false;

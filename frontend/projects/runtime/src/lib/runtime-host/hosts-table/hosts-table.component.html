@@ -1,5 +1,5 @@
-<lib-table-overlay-selection [id]="'hosts'" [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'" [selection]="_selection"
-                             (deleteSelection)="detach(selection, $event)"
+<lib-table-overlay-selection [id]="'hosts'" [loading]="loading" [dataSource]="dataSource" [noDataLabel]="'No hosts.'" [selection]="_selection.model"
+                             (deleteSelection)="detach(_selection.selection, $event)"
                    class="mat-table-body-bg">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="name" matSortDirection="desc">
     <ng-container matColumnDef="id">
@@ -58,8 +58,8 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        (click)="selection = row"
-        [ngClass]="{'mat-row-selected' : isSelected(row)}">
+        (click)="_selection.selection = row"
+        [ngClass]="{'mat-row-selected' : _selection.isSelected(row)}">
     </tr>
   </table>
 </lib-table-overlay-selection>

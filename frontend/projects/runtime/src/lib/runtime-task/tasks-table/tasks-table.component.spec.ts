@@ -14,8 +14,8 @@ import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
 import {Task} from 'projects/runtime/src/lib/entities/task';
-import SpyObj = jasmine.SpyObj;
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
+import SpyObj = jasmine.SpyObj;
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
@@ -64,14 +64,14 @@ describe('TaskTableComponent', () => {
   it('should fire TaskSelectedEvent on selection change', () => {
     const task = testTask();
     const publish = spyOn(eventBus, 'publish');
-    component._selection.select(task);
+    component._selection.model.select(task);
     expect(publish).toHaveBeenCalledWith(new TaskSelectedEvent(task));
   });
 
   it('should fire TaskSelectedEvent on selection change', () => {
     const task = testTask();
     const publish = spyOn(eventBus, 'publish');
-    component._selection.select(task);
+    component._selection.model.select(task);
     expect(publish).toHaveBeenCalledWith(new TaskSelectedEvent(task));
   });
 
@@ -94,30 +94,25 @@ describe('TaskTableComponent', () => {
     expect(taskService.list).toHaveBeenCalled();
   });
 
-  it('should handle selection', () => {
-    const task = testTask();
-    expect(component.hasSelection).toBeFalsy();
-    component.selection = task;
-    expect(component.hasSelection).toBeTruthy();
-    expect(component.isSelected(task)).toBeTruthy();
-    component.selection = null;
-    expect(component.hasSelection).toBeFalsy();
+  it('should _match', () => {
+    expect(component._match(testTask(), testTasks()[1])).toBeFalsy();
+    expect(component._match(testTask(), testTask())).toBeTrue();
   });
 
   it('should set tasks update selection', () => {
     const tasks = testTasks();
     const task = _.cloneDeep(tasks[0]);
-    component.selection = task;
+    component._selection.selection = task;
     component.tasks = tasks;
-    expect(component.selection).toBe(tasks[0]);
-    expect(component.selection).not.toBe(task);
+    expect(component._selection.selection).toBe(tasks[0]);
+    expect(component._selection.selection).not.toBe(task);
   });
 
   it('should set tasks unselect', () => {
     const tasks = [];
-    component.selection = testTask();
+    component._selection.selection = testTask();
     component.tasks = tasks;
-    expect(component.hasSelection).toBe(false);
+    expect(component._selection.hasSelection).toBe(false);
   });
 
   it('should set tasks update selection first not done', () => {
@@ -144,9 +139,9 @@ describe('TaskTableComponent', () => {
       }
     ];
     const task = _.cloneDeep(tasks[0]);
-    component.selection = task;
+    component._selection.selection = task;
     component.tasks = tasks;
-    expect(component.selection).toBe(tasks[1]);
+    expect(component._selection.selection).toBe(tasks[1]);
   });
 
   it('should set tasks update selection current done', () => {
@@ -173,9 +168,9 @@ describe('TaskTableComponent', () => {
       }
     ];
     const task = _.cloneDeep(tasks[0]);
-    component.selection = task;
+    component._selection.selection = task;
     component.tasks = tasks;
-    expect(component.selection).toBe(tasks[0]);
+    expect(component._selection.selection).toBe(tasks[0]);
   });
 
   it('should cancel task', () => {
@@ -205,7 +200,7 @@ describe('TaskTableComponent', () => {
     taskService.remove.and.returnValue(of(null));
     spyPipe.transform.and.returnValue(true);
     const task = testTaskDone();
-    component.selection = task;
+    component._selection.selection = task;
     component.deleteSelection(true);
     expect(taskService.remove).toHaveBeenCalledWith(task);
 
@@ -215,7 +210,7 @@ describe('TaskTableComponent', () => {
     spyPipe.transform.and.returnValue(false);
     const spy = spyOn(component, 'cancel');
     const task = testTask();
-    component.selection = task;
+    component._selection.selection = task;
     component.deleteSelection(true);
 
     expect(spy).toHaveBeenCalledWith(task, true);

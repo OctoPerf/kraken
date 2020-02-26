@@ -110,7 +110,7 @@ describe('HostsTableComponent', () => {
   });
 
   it('should _onEnter setId', () => {
-    component.selection = testHost();
+    component._selection.selection = testHost();
     const spy = spyOn(component, 'setId');
     expect(component._onEnter(null)).toBeTrue();
     expect(spy).toHaveBeenCalled();
@@ -119,9 +119,13 @@ describe('HostsTableComponent', () => {
   it('should _onEnter attach', () => {
     const host = testHost();
     host.id = '';
-    component.selection = host;
+    component._selection.selection = host;
     const spy = spyOn(component, 'attach');
     expect(component._onEnter(null)).toBeTrue();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should match', () => {
+    expect(component._match(testHost(), testHost())).toBeTrue();
   });
 });

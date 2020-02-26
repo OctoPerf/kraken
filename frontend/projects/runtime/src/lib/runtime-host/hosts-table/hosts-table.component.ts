@@ -8,12 +8,12 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 import {AttachHostDialogComponent} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/attach-host-dialog/attach-host-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {SelectionModel} from '@angular/cdk/collections';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faLink} from '@fortawesome/free-solid-svg-icons/faLink';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faUnlink} from '@fortawesome/free-solid-svg-icons/faUnlink';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
+import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
 
 library.add(faLink, faUnlink);
 
@@ -29,7 +29,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   readonly attachIcon = new IconFa(faLink);
   readonly detachIcon = new IconFa(faUnlink);
   readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'cpu', 'memory', 'buttons'];
-  readonly _selection: SelectionModel<Host> = new SelectionModel(false);
+  readonly _selection: MonoSelectionWrapper<Host> = new MonoSelectionWrapper<Host>(this._match.bind(this));
 
   private keyBindings: KeyBinding[] = [];
 
@@ -99,8 +99,8 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   }
 
   _onEnter($event: KeyboardEvent): boolean {
-    if (this.hasSelection) {
-      const host = this.selection;
+    if (this._selection.hasSelection) {
+      const host = this._selection.selection;
       if (host.id) {
         this.setId(host);
       } else {
@@ -111,23 +111,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public isSelected(host: Host): boolean {
-    return this.hasSelection && this.selection.name === host.name;
-  }
-
-  public get hasSelection(): boolean {
-    return this._selection.hasValue();
-  }
-
-  public set selection(host: Host) {
-    if (host) {
-      this._selection.select(host);
-    } else {
-      this._selection.clear();
-    }
-  }
-
-  public get selection(): Host | null {
-    return this.hasSelection ? this._selection.selected[0] : null;
+  _match(host1: Host, host2: Host): boolean {
+    return host1.name === host2.name;
   }
 }
