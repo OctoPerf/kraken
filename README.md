@@ -61,7 +61,7 @@ The source code of Kraken is divided in several folders:
 
 ### Run the application from the source code
 
-To run Kraken from the source code, from the root folder of the repository:
+To run Kraken from the source code, execute one of the following commands from the root folder of the repository:
 
 * `make launch-docker` to run the Docker version,
 * `make launch-k8s` to run the Kubernetes version. 
