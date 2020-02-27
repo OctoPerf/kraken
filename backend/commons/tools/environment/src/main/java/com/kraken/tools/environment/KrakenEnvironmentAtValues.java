@@ -54,10 +54,33 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN = "${kraken.runtime.containers-count.run:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN}}";
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_DEBUG = "${kraken.runtime.containers-count.debug:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_DEBUG}}";
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_RECORD = "${kraken.runtime.containers-count.record:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_RECORD}}";
-  String $KRAKEN_RUNTIME_CPU_REQUEST = "${kraken.runtime.resources-allocation.cpu.request:#{environment.KRAKEN_RUNTIME_CPU_REQUEST}}";
-  String $KRAKEN_RUNTIME_CPU_LIMIT = "${kraken.runtime.resources-allocation.cpu.limit:#{environment.KRAKEN_RUNTIME_CPU_LIMIT}}";
-  String $KRAKEN_RUNTIME_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.memory.request:#{environment.KRAKEN_RUNTIME_MEMORY_REQUEST}}";
-  String $KRAKEN_RUNTIME_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.memory.limit:#{environment.KRAKEN_RUNTIME_MEMORY_LIMIT}}";
+
+  String $KRAKEN_RUNTIME_RUN_GATLING_CPU_REQUEST = "${kraken.runtime.resources-allocation.run.gatling.cpu.request:#{environment.KRAKEN_RUNTIME_RUN_GATLING_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_RUN_GATLING_CPU_LIMIT = "${kraken.runtime.resources-allocation.run.gatling.cpu.limit:#{environment.KRAKEN_RUNTIME_RUN_GATLING_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_RUN_GATLING_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.run.gatling.memory.request:#{environment.KRAKEN_RUNTIME_RUN_GATLING_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_RUN_GATLING_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.run.gatling.memory.limit:#{environment.KRAKEN_RUNTIME_RUN_GATLING_MEMORY_LIMIT}}";
+  String $KRAKEN_RUNTIME_RUN_TELEGRAF_CPU_REQUEST = "${kraken.runtime.resources-allocation.run.telegraf.cpu.request:#{environment.KRAKEN_RUNTIME_RUN_TELEGRAF_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_RUN_TELEGRAF_CPU_LIMIT = "${kraken.runtime.resources-allocation.run.telegraf.cpu.limit:#{environment.KRAKEN_RUNTIME_RUN_TELEGRAF_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_RUN_TELEGRAF_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.run.telegraf.memory.request:#{environment.KRAKEN_RUNTIME_RUN_TELEGRAF_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_RUN_TELEGRAF_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.run.telegraf.memory.limit:#{environment.KRAKEN_RUNTIME_RUN_TELEGRAF_MEMORY_LIMIT}}";
+
+  String $KRAKEN_RUNTIME_DEBUG_GATLING_CPU_REQUEST = "${kraken.runtime.resources-allocation.debug.gatling.cpu.request:#{environment.KRAKEN_RUNTIME_DEBUG_GATLING_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_DEBUG_GATLING_CPU_LIMIT = "${kraken.runtime.resources-allocation.debug.gatling.cpu.limit:#{environment.KRAKEN_RUNTIME_DEBUG_GATLING_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_DEBUG_GATLING_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.debug.gatling.memory.request:#{environment.KRAKEN_RUNTIME_DEBUG_GATLING_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_DEBUG_GATLING_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.debug.gatling.memory.limit:#{environment.KRAKEN_RUNTIME_DEBUG_GATLING_MEMORY_LIMIT}}";
+  String $KRAKEN_RUNTIME_DEBUG_LOG_PARSER_CPU_REQUEST = "${kraken.runtime.resources-allocation.debug.log-parser.cpu.request:#{environment.KRAKEN_RUNTIME_DEBUG_LOG_PARSER_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_DEBUG_LOG_PARSER_CPU_LIMIT = "${kraken.runtime.resources-allocation.debug.log-parser.cpu.limit:#{environment.KRAKEN_RUNTIME_DEBUG_LOG_PARSER_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_DEBUG_LOG_PARSER_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.debug.log-parser.memory.request:#{environment.KRAKEN_RUNTIME_DEBUG_LOG_PARSER_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_DEBUG_LOG_PARSER_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.debug.log-parser.memory.limit:#{environment.KRAKEN_RUNTIME_DEBUG_LOG_PARSER_MEMORY_LIMIT}}";
+
+  String $KRAKEN_RUNTIME_RECORD_GATLING_CPU_REQUEST = "${kraken.runtime.resources-allocation.record.gatling.cpu.request:#{environment.KRAKEN_RUNTIME_RECORD_GATLING_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_RECORD_GATLING_CPU_LIMIT = "${kraken.runtime.resources-allocation.record.gatling.cpu.limit:#{environment.KRAKEN_RUNTIME_RECORD_GATLING_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_RECORD_GATLING_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.record.gatling.memory.request:#{environment.KRAKEN_RUNTIME_RECORD_GATLING_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_RECORD_GATLING_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.record.gatling.memory.limit:#{environment.KRAKEN_RUNTIME_RECORD_GATLING_MEMORY_LIMIT}}";
+  String $KRAKEN_RUNTIME_RECORD_HAR_PARSER_CPU_REQUEST = "${kraken.runtime.resources-allocation.record.har-parser.cpu.request:#{environment.KRAKEN_RUNTIME_RECORD_HAR_PARSER_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_RECORD_HAR_PARSER_CPU_LIMIT = "${kraken.runtime.resources-allocation.record.har-parser.cpu.limit:#{environment.KRAKEN_RUNTIME_RECORD_HAR_PARSER_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_RECORD_HAR_PARSER_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.record.har-parser.memory.request:#{environment.KRAKEN_RUNTIME_RECORD_HAR_PARSER_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_RECORD_HAR_PARSER_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.record.har-parser.memory.limit:#{environment.KRAKEN_RUNTIME_DEBUG_HAR_PARSER_MEMORY_LIMIT}}";
 
   String $KRAKEN_STORAGE_URL = "${kraken.storage.url:#{environment.KRAKEN_STORAGE_URL}}";
   String $KRAKEN_DATA = "${kraken.data:#{environment.KRAKEN_DATA}}";

@@ -16,9 +16,8 @@ public class RuntimeServerProperties {
   Map<TaskType, Integer> containersCount;
 
   @NonNull
-  String version;
+  Map<TaskType, Map<String, ResourcesAllocation>> defaultAllocations;
 
   @NonNull
-  ResourcesAllocation defaultAllocations;
-
+  String version;
 }

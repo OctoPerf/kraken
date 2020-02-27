@@ -6,9 +6,48 @@ kraken:
       debug: 2
       record: 2
     resources-allocation:
-      cpu:
-        request: "1"
-        limit: "2"
-      memory:
-        request: "512M"
-        limit: "1024M"
+      run:
+        gatling:
+          cpu:
+            request: "1"
+            limit: "2"
+          memory:
+            request: "512M"
+            limit: "1024M"
+        telegraf:
+          cpu:
+            request: "0.5"
+            limit: "1"
+          memory:
+            request: "128M"
+            limit: "256M"
+      debug:
+        gatling:
+          cpu:
+            request: "1"
+            limit: "2"
+          memory:
+            request: "512M"
+            limit: "1024M"
+        log-parser:
+          cpu:
+            request: "0.5"
+            limit: "1"
+          memory:
+            request: "256M"
+            limit: "512M"
+      record:
+        gatling:
+          cpu:
+            request: "0.5"
+            limit: "1"
+          memory:
+            request: "512M"
+            limit: "1024M"
+        har-parser:
+          cpu:
+            request: "0.5"
+            limit: "1"
+          memory:
+            request: "512M"
+            limit: "1024M"
