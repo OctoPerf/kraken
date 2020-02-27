@@ -1,5 +1,6 @@
 package com.kraken.runtime.server.properties;
 
+import com.kraken.runtime.entity.ResourcesAllocation;
 import com.kraken.runtime.entity.TaskType;
 import lombok.Builder;
 import lombok.NonNull;
@@ -16,4 +17,8 @@ public class RuntimeServerProperties {
 
   @NonNull
   String version;
+
+  @NonNull
+  ResourcesAllocation defaultAllocations;
+
 }

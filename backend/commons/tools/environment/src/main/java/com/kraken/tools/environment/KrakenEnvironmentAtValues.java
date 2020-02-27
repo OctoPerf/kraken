@@ -54,6 +54,10 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN = "${kraken.runtime.containers-count.run:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_RUN}}";
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_DEBUG = "${kraken.runtime.containers-count.debug:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_DEBUG}}";
   String $KRAKEN_RUNTIME_CONTAINERS_COUNT_RECORD = "${kraken.runtime.containers-count.record:#{environment.KRAKEN_RUNTIME_CONTAINERS_COUNT_RECORD}}";
+  String $KRAKEN_RUNTIME_CPU_REQUEST = "${kraken.runtime.resources-allocation.cpu.request:#{environment.KRAKEN_RUNTIME_CPU_REQUEST}}";
+  String $KRAKEN_RUNTIME_CPU_LIMIT = "${kraken.runtime.resources-allocation.cpu.limit:#{environment.KRAKEN_RUNTIME_CPU_LIMIT}}";
+  String $KRAKEN_RUNTIME_MEMORY_REQUEST = "${kraken.runtime.resources-allocation.memory.request:#{environment.KRAKEN_RUNTIME_MEMORY_REQUEST}}";
+  String $KRAKEN_RUNTIME_MEMORY_LIMIT = "${kraken.runtime.resources-allocation.memory.limit:#{environment.KRAKEN_RUNTIME_MEMORY_LIMIT}}";
 
   String $KRAKEN_STORAGE_URL = "${kraken.storage.url:#{environment.KRAKEN_STORAGE_URL}}";
   String $KRAKEN_DATA = "${kraken.data:#{environment.KRAKEN_DATA}}";

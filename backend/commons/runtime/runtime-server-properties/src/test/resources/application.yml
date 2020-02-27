@@ -5,3 +5,10 @@ kraken:
       run: 1
       debug: 2
       record: 2
+    resources-allocation:
+      cpu:
+        request: "1"
+        limit: "2"
+      memory:
+        request: "512M"
+        limit: "1024M"
