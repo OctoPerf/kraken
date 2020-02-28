@@ -196,6 +196,7 @@ describe('StorageService', () => {
     const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/content');
     expect(req.request.method).toEqual('GET');
     expect(req.request.headers.get('Accept')).toEqual('application/json');
+    expect(req.request.headers.get('Content-Type')).toEqual('application/json');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush(response);
   });

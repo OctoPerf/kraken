@@ -130,7 +130,8 @@ export class StorageService {
   public getJSON<T>(node: StorageNode): Observable<T> {
     return this.http.get<T>(this.configuration.storageApiUrl('/get/content'), {
       headers: {
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
       params: {
         path: node.path
