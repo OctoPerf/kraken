@@ -137,7 +137,6 @@ class StorageController {
     return this.service.getContent(path);
   }
 
-//   TODO refactor !!!
   @PostMapping(value = "/list/json", produces = APPLICATION_JSON_VALUE)
   public Mono<String> listJSON(@RequestBody() final List<String> paths) {
     log.info(String.format("List JSON for %s", String.join(", ", paths)));
