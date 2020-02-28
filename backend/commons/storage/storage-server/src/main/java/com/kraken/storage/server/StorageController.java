@@ -131,7 +131,7 @@ class StorageController {
     return service.setContent(path, nullToEmpty(content));
   }
 
-  @GetMapping(value = "/get/content", produces = {TEXT_PLAIN_VALUE, APPLICATION_JSON_VALUE, MediaTypes.TEXT_YAML_VALUE})
+  @GetMapping(value = "/get/content", consumes = {TEXT_PLAIN_VALUE, APPLICATION_JSON_VALUE, MediaTypes.TEXT_YAML_VALUE}, produces = {TEXT_PLAIN_VALUE, APPLICATION_JSON_VALUE, MediaTypes.TEXT_YAML_VALUE})
   public Mono<String> getContent(@RequestParam(value = "path") final String path) {
     log.debug(String.format("Get content of %s", path));
     return this.service.getContent(path);

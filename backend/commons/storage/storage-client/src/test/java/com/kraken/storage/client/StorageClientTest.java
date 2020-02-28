@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
+import com.kraken.analysis.entity.ResultTest;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.tools.configuration.cors.JacksonConfiguration;
 import com.kraken.tools.configuration.cors.MediaTypes;
@@ -19,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -148,14 +148,7 @@ public class StorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
-    final var result = Result.builder()
-        .id("id")
-        .description("description")
-        .status(ResultStatus.STARTING)
-        .endDate(0L)
-        .startDate(42L)
-        .type(RUN)
-        .build();
+    final var result = ResultTest.RESULT;
 
     storageMockWebServer.enqueue(
         new MockResponse()
@@ -199,14 +192,7 @@ public class StorageClientTest {
 
   @Test
   public void shouldGetYamlContent() throws InterruptedException, IOException {
-    final var result = Result.builder()
-        .id("id")
-        .description("description")
-        .status(ResultStatus.STARTING)
-        .endDate(0L)
-        .startDate(42L)
-        .type(RUN)
-        .build();
+    final var result = ResultTest.RESULT;
 
     storageMockWebServer.enqueue(
         new MockResponse()

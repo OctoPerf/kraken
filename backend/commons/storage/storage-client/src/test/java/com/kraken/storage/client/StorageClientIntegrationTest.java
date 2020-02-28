@@ -1,6 +1,8 @@
 package com.kraken.storage.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kraken.analysis.entity.Result;
+import com.kraken.test.utils.ResourceUtils;
+import com.kraken.test.utils.TestConfiguration;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,13 +11,16 @@ import org.springframework.boot.test.context.ConfigFileApplicationContextInitial
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Ignore("make serve-storage before running")
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {StorageWebClient.class, StorageClientConfiguration.class, ObjectMapper.class},
+    classes = {TestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class StorageClientIntegrationTest {
 
@@ -44,5 +49,18 @@ public class StorageClientIntegrationTest {
     final var outFile = Paths.get("testDir/zipDir");
 
     client.uploadFile(outFile, Optional.of(testFile.toString())).block();
+  }
+
+  @Test
+  public void shouldDownloadJsonAndYaml() throws IOException {
+    final var jsonPath = "result.json.kraken";
+    final var yamlPath = "result.yaml.kraken";
+    client.setContent(jsonPath, ResourceUtils.getResourceContent(jsonPath)).block();
+    client.setContent(yamlPath, ResourceUtils.getResourceContent(jsonPath)).block();
+    final var resultJson = client.getJsonContent(jsonPath, Result.class).block();
+    final var resultYaml = client.getYamlContent(yamlPath, Result.class).block();
+    assertThat(resultJson).isEqualTo(resultYaml);
+    client.delete(jsonPath).block();
+    client.delete(yamlPath).block();
   }
 }

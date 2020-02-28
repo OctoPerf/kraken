@@ -43,7 +43,7 @@ class StorageWebClient implements StorageClient {
   WebClient webClient;
   ObjectMapper mapper;
 
-  StorageWebClient(@Qualifier("webClientStorage") final WebClient webClient, final ObjectMapper mapper) {
+  StorageWebClient(@Qualifier("webClientStorage") final WebClient webClient, @Qualifier("webClientMapper") final ObjectMapper mapper) {
     this.webClient = Objects.requireNonNull(webClient);
     this.mapper = Objects.requireNonNull(mapper);
   }
@@ -84,7 +84,8 @@ class StorageWebClient implements StorageClient {
     return webClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/get/content")
             .queryParam("path", path).build())
-        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML_VALUE)
+        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .retrieve()
         .bodyToMono(clazz)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
@@ -98,6 +99,7 @@ class StorageWebClient implements StorageClient {
         .uri(uriBuilder -> uriBuilder.path("/files/get/content")
             .queryParam("path", path).build())
         .header(HttpHeaders.ACCEPT, MediaTypes.TEXT_YAML_VALUE)
+        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.TEXT_YAML_VALUE)
         .retrieve()
         .bodyToMono(clazz)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)

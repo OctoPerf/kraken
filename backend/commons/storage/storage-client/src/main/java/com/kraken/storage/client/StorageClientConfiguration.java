@@ -1,5 +1,6 @@
 package com.kraken.storage.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraken.storage.client.properties.StorageClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,11 @@ class StorageClientConfiguration {
           configurer.customCodecs().register(yamlEncoder);
         })
         .build();
+  }
+
+  @Bean("webClientMapper")
+  ObjectMapper objectMapper() {
+    return new ObjectMapper();
   }
 
 }
