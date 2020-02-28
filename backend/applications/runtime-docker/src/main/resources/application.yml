@@ -8,48 +8,53 @@ kraken:
       run:
         gatling:
           cpu:
-            request: "1"
-            limit: "2"
+            request: 1
+            limit: 2
           memory:
-            request: "512M"
-            limit: "1024M"
+            request: 512
+            limit: 1024
+            percentage: 0.9
         telegraf:
           cpu:
-            request: "0.5"
-            limit: "1"
+            request: 0.5
+            limit: 1
           memory:
-            request: "128M"
-            limit: "256M"
+            request: 128
+            limit: 256
       debug:
         gatling:
           cpu:
-            request: "1"
-            limit: "2"
+            request: 1
+            limit: 2
           memory:
-            request: "512M"
-            limit: "1024M"
+            request: 512
+            limit: 1024
+            percentage: 0.9
         log-parser:
           cpu:
-            request: "0.5"
-            limit: "1"
+            request: 0.5
+            limit: 1
           memory:
-            request: "256M"
-            limit: "512M"
+            request: 256
+            limit: 512
+            percentage: 0.9
       record:
         gatling:
           cpu:
-            request: "0.5"
-            limit: "1"
+            request: 0.5
+            limit: 1
           memory:
-            request: "512M"
-            limit: "1024M"
+            request: 512
+            limit: 1024
+            percentage: 0.9
         har-parser:
           cpu:
-            request: "0.5"
-            limit: "1"
+            request: 0.5
+            limit: 1
           memory:
-            request: "512M"
-            limit: "1024M"
+            request: 512
+            limit: 1024
+            percentage: 0.9
   influxdb:
     user: admin
     password: kraken

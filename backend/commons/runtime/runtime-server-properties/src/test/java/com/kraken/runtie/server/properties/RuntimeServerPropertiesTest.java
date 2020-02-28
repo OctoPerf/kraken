@@ -9,7 +9,10 @@ import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
+import static java.util.Optional.of;
 
 public class RuntimeServerPropertiesTest {
 
@@ -17,12 +20,12 @@ public class RuntimeServerPropertiesTest {
       .containersCount(ImmutableMap.of(TaskType.RUN, 2, TaskType.DEBUG, 2, TaskType.RECORD, 2))
       .defaultAllocations(
           ImmutableMap.of(
-              TaskType.RUN, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build(),
-                  "telegraf", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build()),
-              TaskType.DEBUG, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build(),
-                  "log-parser", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build()),
-              TaskType.RECORD, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build(),
-                  "har-parser", ResourcesAllocation.builder().cpuRequest("1").cpuLimit("2").memoryRequest("512M").memoryLimit("1024M").build())
+              TaskType.RUN, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build(),
+                  "telegraf", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build()),
+              TaskType.DEBUG, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build(),
+                  "log-parser", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build()),
+              TaskType.RECORD, ImmutableMap.of("gatling", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build(),
+                  "har-parser", ResourcesAllocation.builder().cpuRequest(1f).cpuLimit(2f).memoryRequest(512).memoryLimit(1024).memoryPercentage(of(0.9f)).build())
           )
       )
       .version("1.3.0")

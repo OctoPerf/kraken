@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
 
+import java.util.Optional;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -16,21 +18,24 @@ import static java.util.Objects.requireNonNull;
 @Value
 @Builder
 public class ResourcesAllocation {
-  String cpuRequest;
-  String cpuLimit;
-  String memoryRequest;
-  String memoryLimit;
+  Float cpuRequest;
+  Float cpuLimit;
+  Integer memoryRequest; // in MB
+  Integer memoryLimit;
+  Optional<Float> memoryPercentage; // [0,1]
 
   @JsonCreator
   ResourcesAllocation(
-      @JsonProperty("cpuRequest") final String cpuRequest,
-      @JsonProperty("cpuLimit") final String cpuLimit,
-      @JsonProperty("memoryRequest") final String memoryRequest,
-      @JsonProperty("memoryLimit") final String memoryLimit) {
+      @JsonProperty("cpuRequest") final Float cpuRequest,
+      @JsonProperty("cpuLimit") final Float cpuLimit,
+      @JsonProperty("memoryRequest") final Integer memoryRequest,
+      @JsonProperty("memoryLimit") final Integer memoryLimit,
+      @JsonProperty("memoryPercentage") final Optional<Float> memoryPercentage) {
     super();
     this.cpuRequest = requireNonNull(cpuRequest);
     this.cpuLimit = requireNonNull(cpuLimit);
     this.memoryRequest = requireNonNull(memoryRequest);
     this.memoryLimit = requireNonNull(memoryLimit);
+    this.memoryPercentage = requireNonNull(memoryPercentage);
   }
 }
