@@ -72,7 +72,7 @@ subprojects {
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
         // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-        testCompile group: 'io.projectreactor', name: 'reactor-test', version: springReactorVersion
+        testImplementation group: 'io.projectreactor', name: 'reactor-test', version: springReactorVersion
 
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion

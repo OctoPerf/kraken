@@ -3,10 +3,10 @@ dependencies {
     implementation group: 'io.methvin', name: 'directory-watcher', version: '0.9.9'
 
     implementation project(':commons:tools:properties')
-    testCompile project(path: ':commons:tools:properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
 
     implementation project(':commons:storage:storage-entity')
-    testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: ztZipVersion
 }

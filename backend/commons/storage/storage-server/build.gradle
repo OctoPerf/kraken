@@ -2,7 +2,7 @@ dependencies {
     implementation project(':commons:storage:storage-file')
 
     implementation project(':commons:storage:storage-entity')
-    testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 
     implementation project(':commons:tools:sse')
 }

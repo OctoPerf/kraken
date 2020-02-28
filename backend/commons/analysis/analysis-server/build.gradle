@@ -11,10 +11,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.tika/tika-core
     implementation group: 'org.apache.tika', name: 'tika-core', version: '1.23'
 
-    testCompile project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:analysis:grafana-client-properties', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')
-    testCompile project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:grafana-client', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:grafana-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:influxdb-client', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:influxdb-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }
