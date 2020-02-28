@@ -1,4 +1,5 @@
 dependencies {
+    implementation project(':commons:tools:configuration')
     implementation project(':commons:storage:storage-entity')
     implementation project(':commons:storage:storage-client-properties')
 

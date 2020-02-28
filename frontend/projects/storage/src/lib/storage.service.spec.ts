@@ -193,8 +193,9 @@ describe('StorageService', () => {
     const node = testStorageFileNode();
     const response = {key: 'value'};
     service.getJSON(node).subscribe(value => expect(value).toEqual(response));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/json');
+    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/content');
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Accept')).toEqual('application/json');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush(response);
   });

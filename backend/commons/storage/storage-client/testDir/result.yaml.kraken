@@ -1,0 +1,6 @@
+id: "id"
+startDate: 42
+endDate: 0
+status: "STARTING"
+description: "description"
+type: "RUN"

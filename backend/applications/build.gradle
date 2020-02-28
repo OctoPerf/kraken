@@ -1,6 +1,6 @@
 plugins {
-    // TODO Cannot use ${springBootVersion} here ... why?
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    // TODO Cannot use ${springBootVersion} here ... why? FUUUUUUUUUUUAAAAA
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
 }
 
 subprojects {

@@ -4,6 +4,7 @@ import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
 import com.kraken.storage.file.StorageWatcherService;
+import com.kraken.tools.configuration.cors.MediaTypes;
 import com.kraken.tools.sse.SSEService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -130,18 +131,13 @@ class StorageController {
     return service.setContent(path, nullToEmpty(content));
   }
 
-  @GetMapping(value = "/get/content", produces = TEXT_PLAIN_VALUE)
+  @GetMapping(value = "/get/content", produces = {TEXT_PLAIN_VALUE, APPLICATION_JSON_VALUE, MediaTypes.TEXT_YAML_VALUE})
   public Mono<String> getContent(@RequestParam(value = "path") final String path) {
     log.debug(String.format("Get content of %s", path));
     return this.service.getContent(path);
   }
 
-  @GetMapping(value = "/get/json", produces = APPLICATION_JSON_VALUE)
-  public Mono<String> getJSON(@RequestParam(value = "path") final String path) {
-    log.info(String.format("Get JSON for %s", path));
-    return this.service.getContent(path);
-  }
-
+//   TODO refactor !!!
   @PostMapping(value = "/list/json", produces = APPLICATION_JSON_VALUE)
   public Mono<String> listJSON(@RequestBody() final List<String> paths) {
     log.info(String.format("List JSON for %s", String.join(", ", paths)));

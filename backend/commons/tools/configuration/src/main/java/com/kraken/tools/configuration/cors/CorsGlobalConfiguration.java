@@ -10,7 +10,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 class CorsGlobalConfiguration implements WebFluxConfigurer {
 
   @Override
-  public void addCorsMappings(CorsRegistry corsRegistry) {
+  public void addCorsMappings(final CorsRegistry corsRegistry) {
     corsRegistry.addMapping("/**")
         .allowedOrigins("*")
         .allowedMethods("*")

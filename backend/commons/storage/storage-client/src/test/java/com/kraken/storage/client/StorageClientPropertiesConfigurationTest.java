@@ -1,6 +1,7 @@
 package com.kraken.storage.client;
 
 import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
+import com.kraken.tools.configuration.cors.JacksonConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {StorageClientConfiguration.class, StorageClientPropertiesTestConfiguration.class},
+    classes = {StorageClientConfiguration.class, JacksonConfiguration.class, StorageClientPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class StorageClientPropertiesConfigurationTest {
 

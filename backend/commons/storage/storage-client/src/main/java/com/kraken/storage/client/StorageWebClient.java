@@ -2,6 +2,7 @@ package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.tools.configuration.cors.MediaTypes;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +10,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -79,13 +82,27 @@ class StorageWebClient implements StorageClient {
   @Override
   public <T> Mono<T> getJsonContent(final String path, final Class<T> clazz) {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/files/get/json")
+        .uri(uriBuilder -> uriBuilder.path("/files/get/content")
             .queryParam("path", path).build())
+        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML_VALUE)
         .retrieve()
         .bodyToMono(clazz)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnError(t -> log.error("Failed to get json file content " + path, t))
         .doOnSubscribe(subscription -> log.info("Getting json file content " + path));
+  }
+
+  @Override
+  public <T> Mono<T> getYamlContent(final String path, final Class<T> clazz) {
+    return webClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/get/content")
+            .queryParam("path", path).build())
+        .header(HttpHeaders.ACCEPT, MediaTypes.TEXT_YAML_VALUE)
+        .retrieve()
+        .bodyToMono(clazz)
+        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+        .doOnError(t -> log.error("Failed to get yaml file content " + path, t))
+        .doOnSubscribe(subscription -> log.info("Getting yaml file content " + path));
   }
 
   @Override

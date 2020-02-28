@@ -1,11 +1,13 @@
 package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.storage.entity.StorageNodeTest;
+import com.kraken.tools.configuration.cors.JacksonConfiguration;
+import com.kraken.tools.configuration.cors.MediaTypes;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -17,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -34,15 +37,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StorageClientTest {
 
-  private ObjectMapper mapper;
+  private ObjectMapper jsonMapper;
+  private ObjectMapper yamlMapper;
   private MockWebServer storageMockWebServer;
   private StorageClient client;
 
   @Before
   public void before() {
     storageMockWebServer = new MockWebServer();
-    mapper = new ObjectMapper();
-    client = new StorageWebClient(WebClient.create(storageMockWebServer.url("/").toString()), mapper);
+    jsonMapper = new ObjectMapper();
+    yamlMapper = new ObjectMapper(new YAMLFactory());
+
+    client = new StorageWebClient(WebClient.builder()
+        .codecs(configurer -> configurer.customCodecs().register(new JacksonConfiguration().yamlDecoder()))
+        .baseUrl(storageMockWebServer.url("/").toString())
+        .build(), jsonMapper);
   }
 
   @After
@@ -64,7 +73,7 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(directoryNode))
+            .setBody(jsonMapper.writeValueAsString(directoryNode))
     );
 
     final var response = client.createFolder("path").block();
@@ -103,7 +112,7 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(fileNode))
+            .setBody(jsonMapper.writeValueAsString(fileNode))
     );
 
     final var response = client.setContent("path", "content").block();
@@ -152,7 +161,7 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(fileNode))
+            .setBody(jsonMapper.writeValueAsString(fileNode))
     );
 
     final var response = client.setJsonContent("path", result).block();
@@ -160,7 +169,7 @@ public class StorageClientTest {
 
     final var recordedRequest = storageMockWebServer.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/content?path=path");
-    assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(mapper.writeValueAsString(result));
+    assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(jsonMapper.writeValueAsString(result));
   }
 
   @Test
@@ -178,14 +187,39 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(result))
+            .setBody(jsonMapper.writeValueAsString(result))
     );
 
     final var response = client.getJsonContent("path", Result.class).block();
     assertThat(response).isEqualTo(result);
 
     final var recordedRequest = storageMockWebServer.takeRequest();
-    assertThat(recordedRequest.getPath()).startsWith("/files/get/json?path=path");
+    assertThat(recordedRequest.getPath()).startsWith("/files/get/content?path=path");
+  }
+
+  @Test
+  public void shouldGetYamlContent() throws InterruptedException, IOException {
+    final var result = Result.builder()
+        .id("id")
+        .description("description")
+        .status(ResultStatus.STARTING)
+        .endDate(0L)
+        .startDate(42L)
+        .type(RUN)
+        .build();
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaTypes.TEXT_YAML_VALUE)
+            .setBody(yamlMapper.writeValueAsString(result))
+    );
+
+    final var response = client.getYamlContent("path", Result.class).block();
+    assertThat(response).isEqualTo(result);
+
+    final var recordedRequest = storageMockWebServer.takeRequest();
+    assertThat(recordedRequest.getPath()).startsWith("/files/get/content?path=path");
   }
 
   @Test
@@ -254,7 +288,7 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(STORAGE_NODE))
+            .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
     );
 
     final var response = client.uploadFile(testFile, Optional.empty()).block();
@@ -274,7 +308,7 @@ public class StorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(mapper.writeValueAsString(STORAGE_NODE))
+            .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
     );
 
     final var response = client.uploadFile(testFile, Optional.of("path")).block();

@@ -16,6 +16,8 @@ public interface StorageClient {
 
   <T> Mono<T> getJsonContent(String path, Class<T> clazz);
 
+  <T> Mono<T> getYamlContent(String path, Class<T> clazz);
+
   Mono<StorageNode> setContent(String path, String content);
 
   Mono<String> getContent(String path);

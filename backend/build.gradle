@@ -48,13 +48,14 @@ subprojects {
     }
 
     ext {
-        springBootVersion = '2.2.4.RELEASE'
-        springReactorVersion = '3.3.2.RELEASE'
+        springBootVersion = '2.2.5.RELEASE'
+        springReactorVersion = '3.3.3.RELEASE'
         lombokVersion = '1.18.12'
         guavaVersion = '28.2-jre'
         equalsVerifierVersion = '3.1.12'
         ztZipVersion = '1.14'
         okhttpVersion = '4.4.0'
+        jacksonVersion = '2.10.2'
     }
 
     apply plugin: 'java'
@@ -73,7 +74,6 @@ subprojects {
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
         // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
         testImplementation group: 'io.projectreactor', name: 'reactor-test', version: springReactorVersion
-
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
 

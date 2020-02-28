@@ -17,6 +17,11 @@ check: test-all
 scan:
 	./gradlew build --scan
 
+dependencies:
+	./gradlew $(APP):dependencies
+
+
+
 # Runs tests continuously for a project
 # Example: make test APP=:commons:runtime:docker:docker-client
 test:
