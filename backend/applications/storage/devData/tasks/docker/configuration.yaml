@@ -1,0 +1,54 @@
+tasks:
+  - type: RUN
+    file: tasks/docker/RUN/docker-compose.yml
+    containers-count: 2
+    environment:
+      GATLING_CPU_REQUEST: 1
+      GATLING_CPU_LIMIT: 2
+      GATLING_MEMORY_REQUEST: 512M
+      GATLING_MEMORY_LIMIT: 1024M
+      GATLING_XMX: 900m
+      TELEGRAF_CPU_REQUEST: 0.5
+      TELEGRAF_CPU_LIMIT: 1
+      TELEGRAF_MEMORY_REQUEST: 128M
+      TELEGRAF_MEMORY_LIMIT: 256M
+  - type: DEBUG
+    file: tasks/docker/DEBUG/docker-compose.yml
+    containers-count: 2
+    resources-allocation:
+      gatling:
+        cpu:
+          request: 1
+          limit: 2
+        memory:
+          request: 512
+          limit: 1024
+          percentage: 0.9
+      log-parser:
+        cpu:
+          request: 0.5
+          limit: 1
+        memory:
+          request: 256
+          limit: 512
+          percentage: 0.9
+  - type: RECORD
+    file: tasks/docker/RECORD/docker-compose.yml
+    containers-count: 2
+    resources-allocation:
+      gatling:
+        cpu:
+          request: 0.5
+          limit: 1
+        memory:
+          request: 512
+          limit: 1024
+          percentage: 0.9
+      har-parser:
+        cpu:
+          request: 0.5
+          limit: 1
+        memory:
+          request: 512
+          limit: 1024
+          percentage: 0.9

@@ -91,6 +91,11 @@ findProject(':commons:parser:gatling-log-parser')?.name = 'gatling-log-parser'
 include ':commons:parser:debug-entry-writer'
 findProject(':commons:parser:debug-entry-writer')?.name = 'debug-entry-writer'
 
+include 'commons:template:template-api'
+findProject(':commons:template:template-api')?.name = 'template-api'
+include 'commons:template:template-string'
+findProject(':commons:template:template-string')?.name = 'template-string'
+
 include ':commons:ee:license'
 findProject(':commons:ee:license')?.name = 'license'
 include 'commons:ee:runtime-kubernetes'
