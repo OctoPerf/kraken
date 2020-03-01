@@ -1,8 +1,8 @@
 package com.kraken.runtime.event;
 
 import com.google.common.testing.NullPointerTester;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 

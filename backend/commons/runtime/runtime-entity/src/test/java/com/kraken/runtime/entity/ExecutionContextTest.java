@@ -1,7 +1,7 @@
 package com.kraken.runtime.entity;
 
 import com.google.common.collect.ImmutableMap;
-import org.assertj.core.api.Assertions;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

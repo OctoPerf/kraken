@@ -1,34 +1,25 @@
 package com.kraken.runtime.server.event;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.analysis.client.AnalysisClient;
-import com.kraken.analysis.entity.Result;
-import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCreatedEvent;
 import com.kraken.runtime.event.TaskRemovedEvent;
 import com.kraken.runtime.event.TaskStatusUpdatedEvent;
 import com.kraken.runtime.server.service.TaskListService;
-import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.tools.event.bus.EventBus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

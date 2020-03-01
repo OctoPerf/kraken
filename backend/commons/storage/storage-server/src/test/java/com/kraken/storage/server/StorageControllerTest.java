@@ -256,6 +256,7 @@ public class StorageControllerTest {
             .queryParam("path", path)
             .build())
         .accept(MediaType.TEXT_PLAIN)
+        .header("Content-type", MediaType.TEXT_PLAIN_VALUE)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType("text/plain;charset=UTF-8")

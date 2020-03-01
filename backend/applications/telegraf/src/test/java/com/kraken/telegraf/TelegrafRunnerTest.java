@@ -9,7 +9,10 @@ import com.kraken.runtime.command.CommandTest;
 import com.kraken.runtime.container.predicate.TaskPredicate;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.FlatContainerTest;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +24,11 @@ import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 

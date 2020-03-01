@@ -1,6 +1,9 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.task;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

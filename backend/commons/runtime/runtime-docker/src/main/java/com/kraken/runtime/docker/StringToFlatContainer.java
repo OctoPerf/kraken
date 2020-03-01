@@ -1,8 +1,8 @@
 package com.kraken.runtime.docker;
 
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.tools.environment.KrakenEnvironmentLabels;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

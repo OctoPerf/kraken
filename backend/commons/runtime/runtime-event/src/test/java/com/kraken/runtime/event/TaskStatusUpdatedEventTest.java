@@ -1,14 +1,13 @@
 package com.kraken.runtime.event;
 
 import com.google.common.testing.NullPointerTester;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
 
 public class TaskStatusUpdatedEventTest {
   public static final TaskStatusUpdatedEvent TASK_STATUS_UPDATED_EVENT = TaskStatusUpdatedEvent.builder()

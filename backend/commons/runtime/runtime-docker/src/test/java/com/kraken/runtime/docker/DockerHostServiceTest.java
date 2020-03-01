@@ -1,9 +1,9 @@
 package com.kraken.runtime.docker;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.entity.Host;
-import com.kraken.runtime.entity.HostCapacity;
-import com.kraken.runtime.entity.HostTest;
+import com.kraken.runtime.entity.host.Host;
+import com.kraken.runtime.entity.host.HostCapacity;
+import com.kraken.runtime.entity.host.HostTest;
 import org.junit.Before;
 import org.junit.Test;
 

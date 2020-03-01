@@ -1,6 +1,6 @@
 package com.kraken.runtime.docker.env;
 
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

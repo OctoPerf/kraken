@@ -5,12 +5,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ExecutionContextTest;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskTest;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
-import com.kraken.runtime.server.event.TaskUpdateHandler;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
@@ -104,7 +103,7 @@ public class TaskControllerTest {
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromValue(env))
         .exchange()
-        .expectStatus().is4xxClientError();
+        .expectStatus().is5xxServerError();
   }
 
   @Test

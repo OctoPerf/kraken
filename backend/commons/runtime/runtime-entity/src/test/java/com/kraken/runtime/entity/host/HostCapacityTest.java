@@ -1,5 +1,6 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.host;
 
+import com.kraken.runtime.entity.host.HostCapacity;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

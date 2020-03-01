@@ -1,19 +1,27 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.task;
 
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ContainerTest {
+public class FlatContainerTest {
 
-  public static final Container CONTAINER = Container.builder()
+  public static final FlatContainer CONTAINER = FlatContainer.builder()
       .id("id")
       .name("name")
       .hostId("hostId")
+      .taskId("taskId")
       .startDate(42L)
       .status(ContainerStatus.STARTING)
       .label("label")
+      .taskType(TaskType.RUN)
+      .description("description")
+      .expectedCount(2)
+      .applicationId("app")
       .build();
 
 

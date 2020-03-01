@@ -3,10 +3,9 @@ package com.kraken.runtime.server.rest;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.ContainerTest;
-import com.kraken.runtime.entity.LogTest;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.log.LogTest;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
@@ -24,11 +23,8 @@ import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 

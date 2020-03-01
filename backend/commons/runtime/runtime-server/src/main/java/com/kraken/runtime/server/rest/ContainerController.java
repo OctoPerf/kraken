@@ -1,8 +1,8 @@
 package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.ContainerService;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

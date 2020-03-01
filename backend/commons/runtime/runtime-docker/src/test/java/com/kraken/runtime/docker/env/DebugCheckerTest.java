@@ -1,7 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

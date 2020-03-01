@@ -1,8 +1,8 @@
 package com.kraken.runtime.server.service;
 
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 

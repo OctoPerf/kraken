@@ -1,10 +1,9 @@
 package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.ContainerService;
-import com.kraken.runtime.entity.Container;
-import com.kraken.runtime.entity.ContainerTest;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.FlatContainerTest;
+import com.kraken.runtime.entity.task.ContainerTest;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.FlatContainerTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

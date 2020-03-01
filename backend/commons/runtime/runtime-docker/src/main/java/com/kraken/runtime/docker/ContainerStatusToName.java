@@ -1,6 +1,6 @@
 package com.kraken.runtime.docker;
 
-import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.function.BiFunction;

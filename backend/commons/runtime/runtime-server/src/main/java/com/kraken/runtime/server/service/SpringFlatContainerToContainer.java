@@ -1,7 +1,7 @@
 package com.kraken.runtime.server.service;
 
-import com.kraken.runtime.entity.Container;
-import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.task.Container;
+import com.kraken.runtime.entity.task.FlatContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

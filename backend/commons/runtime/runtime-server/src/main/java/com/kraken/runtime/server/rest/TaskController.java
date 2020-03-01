@@ -2,8 +2,8 @@ package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.TaskService;
 import com.kraken.runtime.entity.ExecutionContext;
-import com.kraken.runtime.entity.Task;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;

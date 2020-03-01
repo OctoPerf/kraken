@@ -4,25 +4,20 @@ import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.event.TaskExecutedEventTest;
-import com.kraken.runtime.event.TaskStatusUpdatedEvent;
-import com.kraken.runtime.event.TaskStatusUpdatedEventTest;
 import com.kraken.tools.event.bus.EventBus;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.BDDMockito;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;

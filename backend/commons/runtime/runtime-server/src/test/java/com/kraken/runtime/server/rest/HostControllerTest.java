@@ -1,10 +1,8 @@
 package com.kraken.runtime.server.rest;
 
 import com.kraken.runtime.api.HostService;
-import com.kraken.runtime.entity.ExecutionContextTest;
-import com.kraken.runtime.entity.Host;
-import com.kraken.runtime.entity.HostTest;
-import com.kraken.runtime.event.TaskExecutedEvent;
+import com.kraken.runtime.entity.host.Host;
+import com.kraken.runtime.entity.host.HostTest;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

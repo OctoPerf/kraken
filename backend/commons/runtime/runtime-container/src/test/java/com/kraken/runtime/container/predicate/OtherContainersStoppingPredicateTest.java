@@ -3,7 +3,7 @@ package com.kraken.runtime.container.predicate;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
-import com.kraken.runtime.entity.*;
+import com.kraken.runtime.entity.task.*;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

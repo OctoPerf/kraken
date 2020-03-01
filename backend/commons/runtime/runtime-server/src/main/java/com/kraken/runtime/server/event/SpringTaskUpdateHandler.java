@@ -1,6 +1,6 @@
 package com.kraken.runtime.server.event;
 
-import com.kraken.runtime.entity.Task;
+import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.event.TaskCreatedEvent;
 import com.kraken.runtime.event.TaskRemovedEvent;
 import com.kraken.runtime.event.TaskStatusUpdatedEvent;

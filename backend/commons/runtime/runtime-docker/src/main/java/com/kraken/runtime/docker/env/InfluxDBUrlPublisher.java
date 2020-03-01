@@ -3,7 +3,7 @@ package com.kraken.runtime.docker.env;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.influxdb.client.InfluxDBClientProperties;
 import com.kraken.runtime.entity.ExecutionContext;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

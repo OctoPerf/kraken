@@ -2,6 +2,7 @@ package com.kraken.runtime.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.*;
 
 import java.util.Map;

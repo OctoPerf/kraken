@@ -1,6 +1,6 @@
 package com.kraken.runtime.event;
 
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.tools.event.bus.BusEvent;
 import lombok.Builder;
 import lombok.NonNull;

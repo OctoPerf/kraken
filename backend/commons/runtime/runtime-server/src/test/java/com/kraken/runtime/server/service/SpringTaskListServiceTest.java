@@ -1,19 +1,16 @@
 package com.kraken.runtime.server.service;
 
 import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.*;
-import lombok.NonNull;
-import org.assertj.core.api.Assertions;
+import com.kraken.runtime.entity.task.FlatContainerTest;
+import com.kraken.runtime.entity.task.TaskTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

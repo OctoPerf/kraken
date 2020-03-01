@@ -1,7 +1,7 @@
 package com.kraken.runtime.logs;
 
-import com.kraken.runtime.entity.Log;
-import com.kraken.runtime.entity.LogType;
+import com.kraken.runtime.entity.log.Log;
+import com.kraken.runtime.entity.log.LogType;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 

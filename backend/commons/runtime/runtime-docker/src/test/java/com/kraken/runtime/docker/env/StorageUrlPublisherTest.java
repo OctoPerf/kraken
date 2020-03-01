@@ -1,7 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.kraken.runtime.entity.ExecutionContextTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;

@@ -1,6 +1,6 @@
 package com.kraken.runtime.docker;
 
-import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

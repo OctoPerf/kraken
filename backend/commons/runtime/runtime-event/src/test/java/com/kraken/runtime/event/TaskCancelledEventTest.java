@@ -1,6 +1,6 @@
 package com.kraken.runtime.event;
 
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

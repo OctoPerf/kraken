@@ -4,12 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import com.kraken.runtime.entity.ResourcesAllocation;
 import com.kraken.runtime.entity.ResourcesAllocationTest;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
-
-import java.util.Optional;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static java.util.Optional.of;

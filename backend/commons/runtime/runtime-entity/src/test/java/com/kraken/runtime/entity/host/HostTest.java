@@ -1,7 +1,6 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.host;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import org.junit.Test;
 

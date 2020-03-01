@@ -1,8 +1,7 @@
 package com.kraken.runtime.server.event;
 
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.server.event.TaskStatusToResultStatus;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import org.junit.Test;
 
 import java.util.Arrays;

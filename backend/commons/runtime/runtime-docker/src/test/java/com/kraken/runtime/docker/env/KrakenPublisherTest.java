@@ -1,7 +1,7 @@
 package com.kraken.runtime.docker.env;
 
 import com.google.common.testing.NullPointerTester;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.tools.environment.JavaOptsFactory;
 import org.junit.Before;

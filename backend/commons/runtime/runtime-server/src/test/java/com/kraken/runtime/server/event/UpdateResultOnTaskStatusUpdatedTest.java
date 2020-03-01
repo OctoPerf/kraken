@@ -2,7 +2,7 @@ package com.kraken.runtime.server.event;
 
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.event.TaskStatusUpdatedEvent;
 import com.kraken.runtime.event.TaskStatusUpdatedEventTest;
 import com.kraken.tools.event.bus.EventBus;

@@ -1,7 +1,7 @@
 package com.kraken.runtime.api;
 
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
 import reactor.core.publisher.Mono;
 
 public interface ContainerService {

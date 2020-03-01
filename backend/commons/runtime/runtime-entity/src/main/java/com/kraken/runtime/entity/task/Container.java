@@ -1,4 +1,4 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

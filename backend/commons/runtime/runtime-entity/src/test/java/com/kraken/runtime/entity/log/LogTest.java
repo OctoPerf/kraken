@@ -1,5 +1,8 @@
-package com.kraken.runtime.entity;
+package com.kraken.runtime.entity.log;
 
+import com.kraken.runtime.entity.log.Log;
+import com.kraken.runtime.entity.log.LogStatus;
+import com.kraken.runtime.entity.log.LogType;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

@@ -8,10 +8,10 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.FlatContainer;
-import com.kraken.runtime.entity.FlatContainerTest;
-import com.kraken.runtime.entity.TaskTest;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.FlatContainerTest;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.tools.properties.ApplicationProperties;
 import com.kraken.tools.properties.ApplicationPropertiesTest;
@@ -28,7 +28,6 @@ import java.nio.file.Path;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 

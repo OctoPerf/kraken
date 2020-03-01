@@ -6,7 +6,7 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.entity.ContainerStatus;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.gatling.GatlingExecutionProperties;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;

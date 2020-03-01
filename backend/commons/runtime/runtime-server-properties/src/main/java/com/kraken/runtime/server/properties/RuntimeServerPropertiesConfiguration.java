@@ -2,14 +2,12 @@ package com.kraken.runtime.server.properties;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.ResourcesAllocation;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Optional;
 
 import static com.kraken.tools.environment.KrakenEnvironmentAtValues.*;
 import static java.util.Optional.empty;

@@ -1,8 +1,8 @@
 package com.kraken.runtime.container.predicate;
 
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.Task;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.Task;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

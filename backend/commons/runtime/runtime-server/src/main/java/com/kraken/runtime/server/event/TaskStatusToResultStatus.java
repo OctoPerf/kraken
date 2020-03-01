@@ -2,9 +2,7 @@ package com.kraken.runtime.server.event;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.ContainerStatus;
-import com.kraken.runtime.entity.TaskType;
+import com.kraken.runtime.entity.task.ContainerStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
