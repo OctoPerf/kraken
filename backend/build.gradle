@@ -19,7 +19,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven {
-            url "http://www.license4j.com/maven/"
+            url "https://www.license4j.com/maven/"
         }
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -34,7 +34,7 @@ allprojects {
 subprojects {
     repositories {
         maven {
-            url "http://www.license4j.com/maven/"
+            url "https://www.license4j.com/maven/"
         }
         maven {
             url "https://plugins.gradle.org/m2/"
