@@ -1,7 +1,8 @@
-package com.kraken.tools.configuration.cors;
+package com.kraken.tools.configuration.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.ServerCodecConfigurer;
@@ -17,8 +18,9 @@ public class JacksonConfiguration implements WebFluxConfigurer {
 
   @Override
   public void configureHttpMessageCodecs(final ServerCodecConfigurer configurer) {
-    configurer.customCodecs().register(this.yamlEncoder());
-    configurer.customCodecs().register(this.yamlDecoder());
+    final var yamlObjectMapper = yamlObjectMapper();
+    configurer.customCodecs().register(this.yamlEncoder(yamlObjectMapper));
+    configurer.customCodecs().register(this.yamlDecoder(yamlObjectMapper));
   }
 
   @Override
@@ -27,12 +29,22 @@ public class JacksonConfiguration implements WebFluxConfigurer {
   }
 
   @Bean
-  public Jackson2JsonDecoder yamlDecoder() {
-    return new Jackson2JsonDecoder(new ObjectMapper(new YAMLFactory()), MediaTypes.TEXT_YAML);
+  public Jackson2JsonDecoder yamlDecoder(@Qualifier("yamlObjectMapper") final ObjectMapper mapper) {
+    return new Jackson2JsonDecoder(mapper, MediaTypes.TEXT_YAML);
   }
 
   @Bean
-  public Jackson2JsonEncoder yamlEncoder() {
-    return new Jackson2JsonEncoder(new ObjectMapper(new YAMLFactory()), MediaTypes.TEXT_YAML);
+  public Jackson2JsonEncoder yamlEncoder(@Qualifier("yamlObjectMapper") final ObjectMapper mapper) {
+    return new Jackson2JsonEncoder(mapper, MediaTypes.TEXT_YAML);
+  }
+
+  @Bean("objectMapper")
+  ObjectMapper objectMapper() {
+    return new ObjectMapper();
+  }
+
+  @Bean("yamlObjectMapper")
+  ObjectMapper yamlObjectMapper() {
+    return new ObjectMapper(new YAMLFactory());
   }
 }

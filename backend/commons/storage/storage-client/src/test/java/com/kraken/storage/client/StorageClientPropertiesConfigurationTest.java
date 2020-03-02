@@ -1,7 +1,7 @@
 package com.kraken.storage.client;
 
 import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
-import com.kraken.tools.configuration.cors.JacksonConfiguration;
+import com.kraken.tools.configuration.jackson.JacksonConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

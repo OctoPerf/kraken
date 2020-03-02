@@ -1,14 +1,13 @@
 package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.configuration.cors.JacksonConfiguration;
-import com.kraken.tools.configuration.cors.MediaTypes;
+import com.kraken.tools.configuration.jackson.JacksonConfiguration;
+import com.kraken.tools.configuration.jackson.MediaTypes;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -18,8 +17,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -35,21 +40,29 @@ import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {JacksonConfiguration.class})
 public class StorageClientTest {
 
-  private ObjectMapper jsonMapper;
-  private ObjectMapper yamlMapper;
   private MockWebServer storageMockWebServer;
   private StorageClient client;
+
+  @Autowired
+  @Qualifier("yamlObjectMapper")
+  ObjectMapper yamlMapper;
+
+  @Autowired
+  @Qualifier("objectMapper")
+  ObjectMapper jsonMapper;
+
+  @Autowired
+  Jackson2JsonDecoder decoder;
 
   @Before
   public void before() {
     storageMockWebServer = new MockWebServer();
-    jsonMapper = new ObjectMapper();
-    yamlMapper = new ObjectMapper(new YAMLFactory());
-
     client = new StorageWebClient(WebClient.builder()
-        .codecs(configurer -> configurer.customCodecs().register(new JacksonConfiguration().yamlDecoder()))
+        .codecs(configurer -> configurer.customCodecs().register(decoder))
         .baseUrl(storageMockWebServer.url("/").toString())
         .build(), jsonMapper);
   }

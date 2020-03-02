@@ -2,7 +2,7 @@ package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.configuration.cors.MediaTypes;
+import com.kraken.tools.configuration.jackson.MediaTypes;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

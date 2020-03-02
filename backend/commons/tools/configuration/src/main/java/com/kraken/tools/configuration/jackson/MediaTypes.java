@@ -1,4 +1,4 @@
-package com.kraken.tools.configuration.cors;
+package com.kraken.tools.configuration.jackson;
 
 import org.springframework.http.MediaType;
 

@@ -1,6 +1,5 @@
 dependencies {
     implementation project(':commons:tools:configuration')
-    testImplementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
     implementation project(':commons:storage:storage-entity')
     implementation project(':commons:storage:storage-client-properties')
 

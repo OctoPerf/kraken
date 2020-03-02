@@ -4,7 +4,7 @@ import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
 import com.kraken.storage.file.StorageWatcherService;
-import com.kraken.tools.configuration.cors.MediaTypes;
+import com.kraken.tools.configuration.jackson.MediaTypes;
 import com.kraken.tools.sse.SSEService;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
