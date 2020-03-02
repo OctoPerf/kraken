@@ -5,8 +5,8 @@ import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
 import com.kraken.tools.unique.id.IdGenerator;
 import com.runtime.context.api.ExecutionContextService;
-import com.runtime.context.entity.CancelContext;
 import com.runtime.context.entity.ExecutionContext;
+import com.runtime.context.entity.ExecutionContextBuilder;
 import com.runtime.context.environment.EnvironmentChecker;
 import com.runtime.context.environment.EnvironmentPublisher;
 import lombok.AccessLevel;
@@ -37,7 +37,7 @@ class SpringExecutionContextService implements ExecutionContextService {
     return configurationService.getConfiguration(environment.getTaskType())
         .flatMap(taskConfiguration -> {
           final var taskId = idGenerator.generate();
-          final var context = ExecutionContext.builder()
+          final var context = ExecutionContextBuilder.builder()
               .taskId(taskId)
               .applicationId(applicationId)
               .description(environment.getDescription())
@@ -49,11 +49,25 @@ class SpringExecutionContextService implements ExecutionContextService {
               .flatMap(ctx -> this.addGlobalEnvironment(ctx, environment.getEnvironment()))
               .flatMap(ctx -> this.addGlobalEnvironment(ctx, taskConfiguration.getEnvironment()))
               .flatMap(this::addPublishers)
-              .map(this::checkContext);
+              .map(this::checkContext)
+              .flatMap(this::toExecutionContext);
         });
   }
 
-  private Mono<ExecutionContext> addHostEnvironments(final ExecutionContext input, final Map<String, Map<String, String>> hostEnvironments) {
+  @Override
+  public Mono<ExecutionContext> newCancelContext(String applicationId, String taskId, String taskType) {
+    return configurationService.getConfiguration(taskType)
+        .map(taskConfiguration -> ExecutionContextBuilder.builder()
+            .taskId(taskId)
+            .applicationId(applicationId)
+            .taskType(taskType)
+            .file(taskConfiguration.getFile())
+            .description("")
+            .build())
+        .flatMap(this::toExecutionContext);
+  }
+
+  private Mono<ExecutionContextBuilder> addHostEnvironments(final ExecutionContextBuilder input, final Map<String, Map<String, String>> hostEnvironments) {
     return Flux
         .fromIterable(hostEnvironments.entrySet())
         .reduce(input, (context, hostEntry) -> Flux
@@ -62,31 +76,31 @@ class SpringExecutionContextService implements ExecutionContextService {
             .block());
   }
 
-  private Mono<ExecutionContext> addGlobalEnvironment(final ExecutionContext input, final Map<String, String> environment) {
+  private Mono<ExecutionContextBuilder> addGlobalEnvironment(final ExecutionContextBuilder input, final Map<String, String> environment) {
     return Flux
         .fromIterable(environment.entrySet())
         .reduce(input, (context, entry) -> context.withGlobalEnvironmentVariable(entry.getKey(), entry.getValue()));
   }
 
-  private Mono<ExecutionContext> addPublishers(final ExecutionContext input) {
+  private Mono<ExecutionContextBuilder> addPublishers(final ExecutionContextBuilder input) {
     return Flux
         .fromIterable(this.publishers)
         .reduce(input, (context, publisher) -> publisher.apply(context));
   }
 
-  private ExecutionContext checkContext(final ExecutionContext input) {
+  private ExecutionContextBuilder checkContext(final ExecutionContextBuilder input) {
     this.checkers.forEach(environmentChecker -> environmentChecker.accept(input.getHostEnvironments()));
     return input;
   }
 
-  @Override
-  public Mono<CancelContext> newCancelContext(String applicationId, String taskId, String taskType) {
-    return configurationService.getConfiguration(taskType)
-        .map(taskConfiguration -> CancelContext.builder()
-            .taskId(taskId)
-            .applicationId(applicationId)
-            .taskType(taskType)
-            .file(taskConfiguration.getFile())
+  private Mono<ExecutionContext> toExecutionContext(final ExecutionContextBuilder input) {
+    return configurationService.getTemplates(input.getFile(), input.getHostEnvironments())
+        .map(templates -> ExecutionContext.builder()
+            .taskId(input.getTaskId())
+            .taskType(input.getTaskType())
+            .applicationId(input.getApplicationId())
+            .templates(templates)
             .build());
   }
+
 }
