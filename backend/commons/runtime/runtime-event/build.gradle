@@ -1,6 +1,9 @@
 dependencies {
     implementation project(':commons:tools:event-bus')
     implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-context-api')
+
+    testImplementation project(path: ':commons:runtime:runtime-context-api', configuration: 'testArtifacts')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 }

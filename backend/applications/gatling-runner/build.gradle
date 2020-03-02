@@ -4,11 +4,11 @@ dependencies {
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:runtime:runtime-client')
     implementation project(':commons:runtime:runtime-command')
-    implementation project(':commons:runtime:runtime-gatling')
     implementation project(':commons:runtime:runtime-container')
+    implementation project(':commons:runtime:runtime-container-gatling')
 
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-gatling', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-container-gatling', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-command', configuration: 'testArtifacts')

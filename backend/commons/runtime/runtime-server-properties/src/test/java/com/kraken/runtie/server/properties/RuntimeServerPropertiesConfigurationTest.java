@@ -21,6 +21,6 @@ public class RuntimeServerPropertiesConfigurationTest {
 
   @Test
   public void shouldCreateProperties() {
-    Assertions.assertThat(runtimeServerProperties.getContainersCount()).isNotNull();
+    Assertions.assertThat(runtimeServerProperties.getVersion()).isNotNull();
   }
 }

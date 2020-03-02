@@ -27,6 +27,6 @@ final class UpdateResultOnTaskCancelled extends EventBusListener<TaskCancelledEv
 
   @Override
   protected void handleEvent(TaskCancelledEvent event) {
-    analysisClient.setStatus(event.getTaskId(), ResultStatus.CANCELED).subscribe();
+    analysisClient.setStatus(event.getContext().getTaskId(), ResultStatus.CANCELED).subscribe();
   }
 }

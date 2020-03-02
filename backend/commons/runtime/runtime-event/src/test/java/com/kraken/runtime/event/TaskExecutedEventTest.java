@@ -1,9 +1,12 @@
 package com.kraken.runtime.event;
 
-import com.kraken.runtime.entity.ExecutionContextTest;
+import com.google.common.testing.NullPointerTester;
+import com.kraken.test.utils.TestUtils;
+import com.runtime.context.entity.ExecutionContext;
+import com.runtime.context.entity.ExecutionContextTest;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 
 public class TaskExecutedEventTest {
   public static final TaskExecutedEvent TASK_EXECUTED_EVENT = TaskExecutedEvent.builder()
@@ -13,7 +16,11 @@ public class TaskExecutedEventTest {
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassAll(TASK_EXECUTED_EVENT);
+    TestUtils.shouldPassEquals(TASK_EXECUTED_EVENT.getClass());
+    TestUtils.shouldPassToString(TASK_EXECUTED_EVENT);
+    new NullPointerTester()
+        .setDefault(ExecutionContext.class, ExecutionContextTest.EXECUTION_CONTEXT)
+        .testConstructors(TASK_EXECUTED_EVENT.getClass(), PACKAGE);
   }
 
 }

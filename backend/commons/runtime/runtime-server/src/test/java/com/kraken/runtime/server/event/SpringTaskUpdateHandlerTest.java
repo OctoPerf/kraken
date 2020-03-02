@@ -3,7 +3,6 @@ package com.kraken.runtime.server.event;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.Task;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCreatedEvent;
 import com.kraken.runtime.event.TaskRemovedEvent;
 import com.kraken.runtime.event.TaskStatusUpdatedEvent;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Flux;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -45,7 +43,7 @@ public class SpringTaskUpdateHandlerTest {
         .id("taskId")
         .startDate(42L)
         .status(ContainerStatus.CREATING)
-        .type(TaskType.RUN)
+        .type("RUN")
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)
@@ -55,7 +53,7 @@ public class SpringTaskUpdateHandlerTest {
         .id("taskId")
         .startDate(42L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.RUN)
+        .type("RUN")
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)

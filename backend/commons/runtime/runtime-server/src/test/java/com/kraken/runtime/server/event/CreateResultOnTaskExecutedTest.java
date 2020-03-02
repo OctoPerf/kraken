@@ -4,7 +4,6 @@ import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.event.TaskExecutedEventTest;
 import com.kraken.tools.event.bus.EventBus;
@@ -33,7 +32,7 @@ public class CreateResultOnTaskExecutedTest {
   AnalysisClient analysisClient;
 
   @Mock
-  Function<TaskType, ResultType> taskTypeToResultType;
+  Function<String, ResultType> taskTypeToResultType;
 
   @Mock
   EventBus eventBus;

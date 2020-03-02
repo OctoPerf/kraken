@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':commons:storage:storage-client')
+    implementation project(':commons:runtime:runtime-server-properties')
+
+    testImplementation project(':commons:tools:configuration')
+    testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
+}

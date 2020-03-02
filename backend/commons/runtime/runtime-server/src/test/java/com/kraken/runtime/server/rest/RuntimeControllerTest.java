@@ -2,7 +2,7 @@ package com.kraken.runtime.server.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.api.TaskService;
+import com.kraken.runtime.backend.api.TaskService;
 import com.kraken.runtime.entity.log.LogTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;

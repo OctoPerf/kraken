@@ -1,0 +1,16 @@
+ext {
+    jacksonVersion = '2.9.9'
+}
+
+dependencies {
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-backend-api')
+    implementation project(':commons:runtime:runtime-command')
+    implementation project(':commons:runtime:runtime-logs')
+    implementation project(':commons:runtime:runtime-context-api')
+    implementation project(':commons:tools:properties')
+
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
+}

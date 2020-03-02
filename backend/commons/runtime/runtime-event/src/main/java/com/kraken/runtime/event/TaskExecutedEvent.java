@@ -1,7 +1,7 @@
 package com.kraken.runtime.event;
 
-import com.kraken.runtime.entity.ExecutionContext;
 import com.kraken.tools.event.bus.BusEvent;
+import com.runtime.context.entity.ExecutionContext;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

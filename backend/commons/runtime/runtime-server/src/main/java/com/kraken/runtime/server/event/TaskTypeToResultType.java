@@ -2,23 +2,22 @@ package com.kraken.runtime.server.event;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.function.Function;
 
 @Component
-final class TaskTypeToResultType implements Function<TaskType, ResultType> {
+final class TaskTypeToResultType implements Function<String, ResultType> {
 
-  private static final Map<TaskType, ResultType> MAP = ImmutableMap.of(
-      TaskType.RUN, ResultType.RUN,
-      TaskType.DEBUG, ResultType.DEBUG,
-      TaskType.RECORD, ResultType.HAR
+  private static final Map<String, ResultType> MAP = ImmutableMap.of(
+      "RUN", ResultType.RUN,
+      "DEBUG", ResultType.DEBUG,
+      "RECORD", ResultType.HAR
   );
 
   @Override
-  public ResultType apply(TaskType taskType) {
+  public ResultType apply(String taskType) {
     return MAP.get(taskType);
   }
 }

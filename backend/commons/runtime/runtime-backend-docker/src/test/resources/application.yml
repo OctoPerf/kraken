@@ -1,0 +1,15 @@
+kraken:
+  data: testDir
+  version: 1.0.0
+  runtime:
+    configuration-path: tasks/docker/configuration.yaml
+    url: runtimeUrl
+  analysis:
+    url: analysisUrl
+  storage:
+    url: storageUrl
+  influxdb:
+    url: influxdbUrl
+    user: influxdbUser
+    password: influxdbPassword
+    database: influxdbDatabase

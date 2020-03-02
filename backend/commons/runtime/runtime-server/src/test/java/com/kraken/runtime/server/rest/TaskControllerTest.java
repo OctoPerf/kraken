@@ -3,11 +3,10 @@ package com.kraken.runtime.server.rest;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.ExecutionContextTest;
+import com.kraken.runtime.backend.api.TaskService;
+import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;
@@ -15,7 +14,9 @@ import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.tools.unique.id.IdGenerator;
+import com.runtime.context.api.ExecutionContextService;
+import com.runtime.context.entity.CancelContextTest;
+import com.runtime.context.entity.ExecutionContextTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +56,13 @@ public class TaskControllerTest {
   TaskListService taskListService;
 
   @MockBean
+  ExecutionContextService contextService;
+
+  @MockBean
   EventBus eventBus;
 
   @MockBean
   SSEService sse;
-
-  @MockBean
-  IdGenerator idGenerator;
 
   @Test
   public void shouldPassTestUtils() {
@@ -72,24 +73,25 @@ public class TaskControllerTest {
   public void shouldRun() {
     final var applicationId = "test";
     final var taskId = "taskId";
+    final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     final var context = ExecutionContextTest.EXECUTION_CONTEXT;
-    final var updated = context.withApplicationId(applicationId).withTaskId(taskId);
-    given(idGenerator.generate()).willReturn(taskId);
-    given(taskService.execute(updated))
-        .willReturn(Mono.just(updated));
+
+    given(contextService.newExecuteContext(applicationId, env)).willReturn(Mono.just(context));
+    given(taskService.execute(context))
+        .willReturn(Mono.just(context));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
             .build())
         .header("ApplicationId", applicationId)
-        .body(BodyInserters.fromValue(context))
+        .body(BodyInserters.fromValue(env))
         .exchange()
         .expectStatus().isOk()
         .expectBody(String.class)
         .isEqualTo(taskId);
 
     verify(eventBus).publish(TaskExecutedEvent.builder()
-        .context(updated)
+        .context(context)
         .build());
   }
 
@@ -110,9 +112,13 @@ public class TaskControllerTest {
   public void shouldCancel() {
     final var applicationId = "test";
     final var taskId = "taskId";
-    final var taskType = TaskType.RUN;
-    given(taskService.cancel(applicationId, taskId, taskType))
-        .willReturn(Mono.just(taskId));
+    final var taskType = "RUN";
+    final var context = CancelContextTest.CANCEL_CONTEXT;
+
+    given(contextService.newCancelContext(applicationId, taskId, taskType)).willReturn(Mono.just(context));
+
+    given(taskService.cancel(context))
+        .willReturn(Mono.just(context));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/task/cancel")
@@ -123,10 +129,8 @@ public class TaskControllerTest {
         .exchange()
         .expectStatus().isOk();
 
-    verify(taskService).cancel(applicationId, taskId, taskType);
-    verify(eventBus).publish(TaskCancelledEvent.builder().applicationId(applicationId)
-        .taskId(taskId)
-        .type(taskType)
+    verify(taskService).cancel(context);
+    verify(eventBus).publish(TaskCancelledEvent.builder().context(context)
         .build());
   }
 

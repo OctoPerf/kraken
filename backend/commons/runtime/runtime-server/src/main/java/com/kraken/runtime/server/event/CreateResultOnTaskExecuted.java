@@ -4,7 +4,6 @@ import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultType;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.event.bus.EventBusListener;
@@ -23,12 +22,12 @@ import static java.util.Objects.requireNonNull;
 final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEvent> {
 
   AnalysisClient analysisClient;
-  Function<TaskType, ResultType> taskTypeToResultType;
+  Function<String, ResultType> taskTypeToResultType;
 
   @Autowired
   CreateResultOnTaskExecuted(final EventBus eventBus,
                              final AnalysisClient analysisClient,
-                             final Function<TaskType, ResultType> taskTypeToResultType) {
+                             final Function<String, ResultType> taskTypeToResultType) {
     super(eventBus, TaskExecutedEvent.class);
     this.analysisClient = requireNonNull(analysisClient);
     this.taskTypeToResultType = requireNonNull(taskTypeToResultType);

@@ -2,8 +2,6 @@ package com.kraken.runtime.entity.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kraken.runtime.entity.task.ContainerStatus;
-import com.kraken.runtime.entity.task.TaskType;
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
@@ -17,7 +15,7 @@ public class FlatContainer {
   String name;
   String hostId;
   String taskId;
-  TaskType taskType;
+  String taskType;
   String label;
   String description;
   Long startDate;
@@ -32,7 +30,7 @@ public class FlatContainer {
       @JsonProperty("name") final String name,
       @JsonProperty("hostId") final String hostId,
       @JsonProperty("taskId") final String taskId,
-      @JsonProperty("taskType") final TaskType taskType,
+      @JsonProperty("taskType") final String taskType,
       @JsonProperty("label") final String label,
       @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,

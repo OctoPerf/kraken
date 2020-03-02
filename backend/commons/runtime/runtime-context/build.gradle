@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-context-api')
+    implementation project(':commons:runtime:runtime-tasks-configuration')
+    implementation project(':commons:tools:unique-id')
+}

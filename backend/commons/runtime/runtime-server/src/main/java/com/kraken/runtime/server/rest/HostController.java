@@ -1,6 +1,6 @@
 package com.kraken.runtime.server.rest;
 
-import com.kraken.runtime.api.HostService;
+import com.kraken.runtime.backend.api.HostService;
 import com.kraken.runtime.entity.host.Host;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,10 @@
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:runtime:runtime-event')
-    implementation project(':commons:runtime:runtime-api')
+    implementation project(':commons:runtime:runtime-backend-api')
+    implementation project(':commons:runtime:runtime-context-api')
     implementation project(':commons:runtime:runtime-logs')
     implementation project(':commons:tools:sse')
-    implementation project(':commons:tools:unique-id')
     implementation project(':commons:tools:event-bus')
     implementation project(':commons:analysis:analysis-client')
     implementation project(':commons:analysis:analysis-client-properties')
@@ -13,8 +13,8 @@ dependencies {
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-event', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-context-api', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-client', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-client-properties', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:tools:sse', configuration: 'testArtifacts')
 }

@@ -1,15 +1,16 @@
 package com.kraken.runtime.server.rest;
 
-import com.kraken.runtime.api.TaskService;
-import com.kraken.runtime.entity.ExecutionContext;
+import com.kraken.runtime.backend.api.TaskService;
+import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.task.Task;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.tools.unique.id.IdGenerator;
+import com.runtime.context.api.ExecutionContextService;
+import com.runtime.context.entity.CancelContext;
+import com.runtime.context.entity.ExecutionContext;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -38,14 +39,15 @@ public class TaskController {
   @NonNull EventBus eventBus;
   @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
+  @NonNull ExecutionContextService executionContextService;
   @NonNull SSEService sse;
-  @NonNull IdGenerator idGenerator;
 
   @PostMapping(produces = TEXT_PLAIN_VALUE)
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                          @RequestBody() final ExecutionContext context) {
-    log.info(String.format("Execute %s task", context.getTaskType()));
-    return taskService.execute(context.withApplicationId(applicationId).withTaskId(idGenerator.generate()))
+                          @RequestBody() final ExecutionEnvironment environment) {
+    log.info(String.format("Execute %s task", environment.getTaskType()));
+    return executionContextService.newExecuteContext(applicationId, environment)
+        .flatMap(taskService::execute)
         .doOnNext(_context -> eventBus.publish(TaskExecutedEvent.builder().context(_context).build()))
         .map(ExecutionContext::getTaskId);
   }
@@ -53,18 +55,22 @@ public class TaskController {
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestParam("taskId") final String taskId,
-                             @PathVariable("type") final TaskType type) {
+                             @PathVariable("type") final String type) {
     log.info(String.format("Cancel task %s", taskId));
-    return taskService.cancel(applicationId, taskId, type)
-        .doOnNext(s -> eventBus.publish(TaskCancelledEvent.builder().applicationId(applicationId).taskId(taskId).type(type).build()));
+    return executionContextService.newCancelContext(applicationId, taskId, type)
+        .flatMap(taskService::cancel)
+        .doOnNext(context -> eventBus.publish(TaskCancelledEvent.builder().context(context).build()))
+        .map(CancelContext::getTaskId);
   }
 
   @DeleteMapping(value = "/remove/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestParam("taskId") final String taskId,
-                             @PathVariable("type") final TaskType type) {
+                             @PathVariable("type") final String type) {
     log.info(String.format("Remove task %s", taskId));
-    return taskService.remove(applicationId, taskId, type);
+    return executionContextService.newCancelContext(applicationId, taskId, type)
+        .flatMap(taskService::remove)
+        .map(CancelContext::getTaskId);
   }
 
   @GetMapping(value = "/watch/{applicationId}")

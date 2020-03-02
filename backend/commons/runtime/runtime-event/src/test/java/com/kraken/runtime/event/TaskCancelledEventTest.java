@@ -1,21 +1,26 @@
 package com.kraken.runtime.event;
 
-import com.kraken.runtime.entity.task.TaskType;
+import com.google.common.testing.NullPointerTester;
+import com.kraken.test.utils.TestUtils;
+import com.runtime.context.entity.CancelContext;
+import com.runtime.context.entity.CancelContextTest;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 
 public class TaskCancelledEventTest {
   public static final TaskCancelledEvent TASK_CANCELLED_EVENT = TaskCancelledEvent.builder()
-      .applicationId("app")
-      .taskId("taskId")
-      .type(TaskType.RUN)
+      .context(CancelContextTest.CANCEL_CONTEXT)
       .build();
 
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassAll(TASK_CANCELLED_EVENT);
+    TestUtils.shouldPassEquals(TASK_CANCELLED_EVENT.getClass());
+    TestUtils.shouldPassToString(TASK_CANCELLED_EVENT);
+    new NullPointerTester()
+        .setDefault(CancelContext.class, CancelContextTest.CANCEL_CONTEXT)
+        .testConstructors(TASK_CANCELLED_EVENT.getClass(), PACKAGE);
   }
 
 }
