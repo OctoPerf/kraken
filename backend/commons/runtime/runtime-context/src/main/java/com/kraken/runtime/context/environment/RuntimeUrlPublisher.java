@@ -1,9 +1,9 @@
 package com.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.client.properties.RuntimeClientProperties;
+import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
+import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
-import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -19,15 +19,16 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class RuntimeUrlPublisher implements EnvironmentPublisher {
 
-  @NonNull RuntimeClientProperties properties;
+//  @NonNull RuntimeClientProperties properties;
 
   @Override
-  public boolean test(final TaskType taskType) {
+  public boolean test(final String taskType) {
     return true;
   }
 
   @Override
-  public Map<String, String> apply(final ExecutionEnvironment context) {
-    return ImmutableMap.of(KRAKEN_RUNTIME_URL, properties.getRuntimeUrl());
+  public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
+//    return ImmutableMap.of(KRAKEN_RUNTIME_URL, properties.getRuntimeUrl());
+    return context;
   }
 }

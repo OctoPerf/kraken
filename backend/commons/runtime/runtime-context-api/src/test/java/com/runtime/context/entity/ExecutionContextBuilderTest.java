@@ -1,7 +1,7 @@
 package com.runtime.context.entity;
 
 import com.google.common.collect.ImmutableMap;
-import org.assertj.core.api.Assertions;
+import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
@@ -30,10 +30,11 @@ public class ExecutionContextBuilderTest {
         .withHostEnvironmentVariable("hostId", "foo", "bar")
         .withHostEnvironmentVariable("hostId", "foo", "bar2")
         .withHostEnvironmentVariable("hostId2", "foo", "bar")
-        .withGlobalEnvironmentVariable("abc", "abc");
+        .withGlobalEnvironmentVariable("abc", "abc")
+        .withGlobalEnvironmentVariables(ImmutableMap.of("def", "def"));
     assertThat(context.getHostEnvironments()).isEqualTo(
-        ImmutableMap.of("hostId", ImmutableMap.of("key", "value", "foo", "bar", "abc", "abc"),
-            "hostId2", ImmutableMap.of("foo", "bar", "abc", "abc")));
+        ImmutableMap.of("hostId", ImmutableMap.of("key", "value", "foo", "bar", "abc", "abc", "def", "def"),
+            "hostId2", ImmutableMap.of("foo", "bar", "abc", "abc", "def", "def")));
   }
 
 }

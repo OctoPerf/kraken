@@ -1,6 +1,7 @@
 package com.runtime.context.entity;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.context.entity.ExecutionContext;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;

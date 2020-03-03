@@ -60,8 +60,16 @@ include 'commons:runtime:runtime-context'
 findProject(':commons:runtime:runtime-context')?.name = 'runtime-context'
 include 'commons:runtime:runtime-context-api'
 findProject(':commons:runtime:runtime-context-api')?.name = 'runtime-context-api'
+include 'commons:runtime:runtime-context-entity'
+findProject(':commons:runtime:runtime-context-entity')?.name = 'runtime-context-entity'
 include 'commons:runtime:runtime-context-gatling'
 findProject(':commons:runtime:runtime-context-gatling')?.name = 'runtime-context-gatling'
+include 'commons:runtime:runtime-tasks-configuration'
+findProject(':commons:runtime:runtime-tasks-configuration')?.name = 'runtime-tasks-configuration'
+include 'commons:runtime:runtime-tasks-configuration-api'
+findProject(':commons:runtime:runtime-tasks-configuration-api')?.name = 'runtime-tasks-configuration-api'
+include 'commons:runtime:runtime-tasks-configuration-entity'
+
 
 include ':commons:storage:storage-entity'
 findProject(':commons:storage:storage-entity')?.name = 'storage-entity'
@@ -128,6 +136,4 @@ findProject(':applications:har-parser')?.name = 'app-har-parser'
 
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
-include 'commons:runtime:runtime-tasks-configuration'
-findProject(':commons:runtime:runtime-tasks-configuration')?.name = 'runtime-tasks-configuration'
 

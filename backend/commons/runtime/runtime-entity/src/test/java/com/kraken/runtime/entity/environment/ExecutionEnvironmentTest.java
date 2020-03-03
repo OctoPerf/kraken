@@ -1,25 +1,27 @@
 package com.kraken.runtime.entity.environment;
 
-import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.entity.environment.ExecutionEnvironment;
+import com.google.common.collect.ImmutableList;
+import com.google.common.testing.NullPointerTester;
+import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 
 public class ExecutionEnvironmentTest {
 
   public static final ExecutionEnvironment EXECUTION_ENVIRONMENT = ExecutionEnvironment.builder()
       .taskType("RUN")
       .description("description")
-      .environment(ImmutableMap.of("foo", "bar"))
-      .hosts(ImmutableMap.of("hostId", ImmutableMap.of("key", "value")))
+      .hostIds(ImmutableList.of("local"))
+      .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))
       .build();
 
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassAll(EXECUTION_ENVIRONMENT);
+    TestUtils.shouldPassEquals(EXECUTION_ENVIRONMENT.getClass());
+    new NullPointerTester().setDefault(ExecutionEnvironmentEntry.class, ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY).testConstructors(EXECUTION_ENVIRONMENT.getClass(), PACKAGE);
+    TestUtils.shouldPassToString(EXECUTION_ENVIRONMENT);
   }
 
 }
