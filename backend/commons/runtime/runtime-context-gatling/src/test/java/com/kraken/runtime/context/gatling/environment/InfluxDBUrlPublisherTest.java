@@ -1,10 +1,9 @@
-package com.kraken.runtime.docker.env;
+package com.kraken.runtime.context.gatling.environment;
 
+import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import com.kraken.test.utils.TestUtils;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +11,35 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {StorageUrlPublisher.class, StorageClientPropertiesTestConfiguration.class})
+@ContextConfiguration(classes = {InfluxDBUrlPublisher.class, InfluxDBClientPropertiesTestConfiguration.class})
 @EnableAutoConfiguration
-public class StorageUrlPublisherTest {
+public class InfluxDBUrlPublisherTest {
 
   @Autowired
-  StorageUrlPublisher publisher;
+  InfluxDBUrlPublisher publisher;
 
   @Test
   public void shouldTest() {
     assertThat(publisher.test(TaskType.RUN)).isTrue();
-    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
-    assertThat(publisher.test(TaskType.RECORD)).isTrue();
+    assertThat(publisher.test(TaskType.DEBUG)).isFalse();
+    assertThat(publisher.test(TaskType.RECORD)).isFalse();
   }
 
   @Test
-  public void shouldApply() {
+  public void shouldGet() {
     final var env = publisher.apply(ExecutionEnvironmentTest.EXECUTION_CONTEXT);
-    assertThat(env.get(KrakenEnvironmentKeys.KRAKEN_STORAGE_URL)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_URL)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_DATABASE)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_USER)).isNotNull();
+    assertThat(env.get(KRAKEN_INFLUXDB_PASSWORD)).isNotNull();
   }
 
   @Test
   public void shouldTestUtils(){
-    TestUtils.shouldPassNPE(StorageUrlPublisher.class);
+    TestUtils.shouldPassNPE(InfluxDBUrlPublisher.class);
   }
 }

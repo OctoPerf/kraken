@@ -1,4 +1,4 @@
-package com.kraken.runtime.docker.env;
+package com.kraken.runtime.context.gatling.environment;
 
 import com.google.common.testing.NullPointerTester;
 import com.kraken.runtime.entity.task.TaskType;

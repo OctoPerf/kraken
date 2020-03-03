@@ -1,4 +1,4 @@
-package com.kraken.runtime.docker.env;
+package com.kraken.runtime.context.gatling.environment;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.task.TaskType;

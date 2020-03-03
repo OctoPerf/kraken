@@ -8,18 +8,16 @@ import java.util.Map;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
-class DebugChecker implements EnvironmentChecker {
+class JavaOptsChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(environment,
-        KRAKEN_GATLING_SIMULATION,
-        KRAKEN_ANALYSIS_URL,
-        KRAKEN_STORAGE_URL);
+        KRAKEN_GATLING_JAVA_OPTS);
   }
 
   @Override
   public boolean test(final String taskType) {
-    return "DEBUG".equals(taskType);
+    return true;
   }
 }
