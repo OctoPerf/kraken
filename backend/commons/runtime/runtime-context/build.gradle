@@ -5,5 +5,13 @@ dependencies {
     implementation project(':commons:runtime:runtime-tasks-configuration-api')
     implementation project(':commons:runtime:runtime-tasks-configuration-entity')
     implementation project(':commons:runtime:runtime-server-properties')
+    implementation project(':commons:runtime:runtime-client-properties')
+    implementation project(':commons:storage:storage-client')
+    implementation project(':commons:template:template-api')
     implementation project(':commons:tools:unique-id')
+
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
 }

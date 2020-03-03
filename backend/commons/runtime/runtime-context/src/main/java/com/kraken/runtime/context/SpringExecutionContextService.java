@@ -1,8 +1,14 @@
 package com.kraken.runtime.context;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.context.api.MapExecutionEnvironmentEntries;
+import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
+import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
+import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
+import com.kraken.storage.client.StorageClient;
+import com.kraken.template.api.TemplateService;
 import com.kraken.tools.unique.id.IdGenerator;
 import com.kraken.runtime.context.api.ExecutionContextService;
 import com.kraken.runtime.context.entity.ExecutionContext;
@@ -17,9 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuple4;
+import reactor.util.function.Tuples;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.TASK_CONFIGURATION;
 
 @Component
 @Slf4j
@@ -31,79 +43,95 @@ class SpringExecutionContextService implements ExecutionContextService {
   @NonNull IdGenerator idGenerator;
   @NonNull List<EnvironmentPublisher> publishers;
   @NonNull List<EnvironmentChecker> checkers;
+  @NonNull StorageClient storageClient;
+  @NonNull TemplateService templateService;
+  @NonNull MapExecutionEnvironmentEntries toMap;
 
   @Override
-  public Mono<ExecutionContext> newExecuteContext(String applicationId, ExecutionEnvironment environment) {
-//    return configurationService.getConfiguration(environment.getTaskType())
-//        .flatMap(taskConfiguration -> {
-//          final var taskId = idGenerator.generate();
-//          final var context = ExecutionContextBuilder.builder()
-//              .taskId(taskId)
-//              .applicationId(applicationId)
-//              .description(environment.getDescription())
-//              .taskType(environment.getTaskType())
-//              .file(taskConfiguration.getFile())
-//              .hostEnvironments(ImmutableMap.<String, Map<String, String>>builder().build())
-//              .build();
-//          return this.addHostEnvironments(context, environment.getHosts())
-//              .flatMap(ctx -> this.addGlobalEnvironment(ctx, environment.getEnvironment()))
-//              .flatMap(ctx -> this.addGlobalEnvironment(ctx, taskConfiguration.getEnvironment()))
-//              .flatMap(this::addPublishers)
-//              .map(this::checkContext)
-//              .flatMap(this::toExecutionContext);
-//        });
-    return null;
+  public Mono<ExecutionContext> newExecuteContext(final String applicationId, final ExecutionEnvironment environment) {
+    return configurationService.getConfiguration(environment.getTaskType())
+        .map(taskConfiguration -> this.newExecutionContextBuilder(taskConfiguration, applicationId, environment))
+        .flatMap(this::withPublishers)
+        .flatMap(this::withTemplate)
+        .flatMapMany(this::asMaps)
+        .map(t4 -> {
+          this.checkers.forEach(checker -> checker.accept(t4.getT4()));
+          return t4;
+        })
+        .flatMap(this::toExecutionContext)
+        .reduce(this::merge);
   }
 
   @Override
-  public Mono<ExecutionContext> newCancelContext(String applicationId, String taskId, String taskType) {
-//    return configurationService.getConfiguration(taskType)
-//        .map(taskConfiguration -> ExecutionContextBuilder.builder()
-//            .taskId(taskId)
-//            .applicationId(applicationId)
-//            .taskType(taskType)
-//            .file(taskConfiguration.getFile())
-//            .description("")
-//            .build())
-//        .flatMap(this::toExecutionContext);
-//
-    return null;
+  public Mono<CancelContext> newCancelContext(String applicationId, String taskId, String taskType) {
+    return configurationService.getConfiguration(taskType)
+        .map(TaskConfiguration::getFile)
+        .flatMap(storageClient::getContent)
+        .map(template -> CancelContext.builder()
+            .applicationId(applicationId)
+            .taskId(taskId)
+            .taskType(taskType)
+            .template(template)
+            .build());
   }
 
-//  private Mono<ExecutionContextBuilder> addHostEnvironments(final ExecutionContextBuilder input, final Map<String, Map<String, String>> hostEnvironments) {
-//    return Flux
-//        .fromIterable(hostEnvironments.entrySet())
-//        .reduce(input, (context, hostEntry) -> Flux
-//            .fromIterable(hostEntry.getValue().entrySet())
-//            .reduce(context, (curContext, entry) -> curContext.withHostEnvironmentVariable(hostEntry.getKey(), entry.getKey(), entry.getValue()))
-//            .block());
-//  }
-//
-//  private Mono<ExecutionContextBuilder> addGlobalEnvironment(final ExecutionContextBuilder input, final Map<String, String> environment) {
-//    return Flux
-//        .fromIterable(environment.entrySet())
-//        .reduce(input, (context, entry) -> context.withGlobalEnvironmentVariable(entry.getKey(), entry.getValue()));
-//  }
-//
-//  private Mono<ExecutionContextBuilder> addPublishers(final ExecutionContextBuilder input) {
-//    return Flux
-//        .fromIterable(this.publishers)
-//        .reduce(input, (context, publisher) -> publisher.apply(context));
-//  }
-//
-//  private ExecutionContextBuilder checkContext(final ExecutionContextBuilder input) {
-//    this.checkers.forEach(environmentChecker -> environmentChecker.accept(input.getHostEnvironments()));
-//    return input;
-//  }
-//
-//  private Mono<ExecutionContext> toExecutionContext(final ExecutionContextBuilder input) {
-//    return configurationService.getTemplates(input.getFile(), input.getHostEnvironments())
-//        .map(templates -> ExecutionContext.builder()
-//            .taskId(input.getTaskId())
-//            .taskType(input.getTaskType())
-//            .applicationId(input.getApplicationId())
-//            .templates(templates)
-//            .build());
-//  }
+  private ExecutionContext merge(final ExecutionContext c1, final ExecutionContext c2) {
+    return ExecutionContext.builder()
+        .applicationId(c1.getApplicationId())
+        .taskId(c1.getTaskId())
+        .taskType(c1.getTaskType())
+        .templates(ImmutableMap.<String, String>builder().putAll(c1.getTemplates()).putAll(c2.getTemplates()).build())
+        .build();
+  }
+
+  private Mono<ExecutionContext> toExecutionContext(final Tuple4<String, ExecutionContextBuilder, String, Map<String, String>> t4) {
+    final var template = t4.getT1();
+    final var context = t4.getT2();
+    final var hostId = t4.getT3();
+    final var envMap = t4.getT4();
+    return templateService.replaceAll(template, envMap).map(replaced -> ExecutionContext.builder()
+        .applicationId(context.getApplicationId())
+        .taskId(context.getTaskId())
+        .taskType(context.getTaskType())
+        .templates(ImmutableMap.of(hostId, replaced))
+        .build());
+  }
+
+  private Flux<Tuple4<String, ExecutionContextBuilder, String, Map<String, String>>> asMaps(final Tuple2<String, ExecutionContextBuilder> t2) {
+    final var template = t2.getT1();
+    final var context = t2.getT2();
+
+    return Flux.fromIterable(context.getHostIds())
+        .map(hostId -> Tuples.of(template, context, hostId, toMap.apply(hostId, context.getEntries())));
+  }
+
+  private Mono<Tuple2<String, ExecutionContextBuilder>> withTemplate(final ExecutionContextBuilder context) {
+    final var templateMono = storageClient.getContent(context.getFile());
+    return templateMono.map(template -> Tuples.of(template, context));
+  }
+
+  private Mono<ExecutionContextBuilder> withPublishers(final ExecutionContextBuilder context) {
+    return Flux
+        .fromIterable(this.publishers)
+        .reduce(context, (currentContext, publisher) -> publisher.apply(currentContext));
+  }
+
+  private ExecutionContextBuilder newExecutionContextBuilder(final TaskConfiguration taskConfiguration, final String applicationId, final ExecutionEnvironment environment) {
+    final var taskId = idGenerator.generate();
+    return ExecutionContextBuilder.builder()
+        .taskId(taskId)
+        .applicationId(applicationId)
+        .description(environment.getDescription())
+        .taskType(environment.getTaskType())
+        .file(taskConfiguration.getFile())
+        .containersCount(taskConfiguration.getContainersCount() * environment.getHostIds().size())
+        .hostIds(environment.getHostIds())
+        .entries(environment.getEntries())
+        .build()
+        .addEntries(taskConfiguration.getEnvironment().entrySet()
+            .stream()
+            .map(entry -> ExecutionEnvironmentEntry.builder().scope("").from(TASK_CONFIGURATION).key(entry.getKey()).value(entry.getValue()).build())
+            .collect(Collectors.toUnmodifiableList()));
+  }
 
 }

@@ -1,25 +1,21 @@
 package com.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.client.properties.RuntimeClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_URL;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class RuntimeUrlPublisher implements EnvironmentPublisher {
-
-  @NonNull RuntimeClientProperties runtimeClientProperties;
+class ContextPublisher implements EnvironmentPublisher {
 
   @Override
   public boolean test(final String taskType) {
@@ -29,7 +25,11 @@ class RuntimeUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_RUNTIME_URL).value(runtimeClientProperties.getRuntimeUrl()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_ID).value(context.getTaskId()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_DESCRIPTION).value(context.getDescription()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_APPLICATION_ID).value(context.getApplicationId()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_TYPE).value(context.getTaskType()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_EXPECTED_COUNT).value(context.getContainersCount().toString()).build()
     ));
   }
 }
