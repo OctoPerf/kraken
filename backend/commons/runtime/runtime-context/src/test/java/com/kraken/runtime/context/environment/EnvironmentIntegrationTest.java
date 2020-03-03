@@ -5,6 +5,7 @@ import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
 import com.kraken.runtime.client.properties.RuntimeClientPropertiesTest;
 import com.kraken.runtime.context.api.MapExecutionEnvironmentEntries;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
+import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import org.junit.Before;
@@ -20,14 +21,16 @@ public class EnvironmentIntegrationTest {
 
   List<EnvironmentPublisher> publishers;
   BaseChecker checker;
+  ExecutionContextBuilder contextBuilder;
 
   @Before
   public void before() {
+    contextBuilder = ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER;
     publishers = ImmutableList.of(
-      new ContextPublisher(),
-      new HostIdsPublisher(),
-      new KrakenVersionPublisher(RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES),
-      new RuntimeUrlPublisher(RuntimeClientPropertiesTest.RUNTIME_PROPERTIES)
+        new ContextPublisher(),
+        new HostIdsPublisher(),
+        new KrakenVersionPublisher(RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES),
+        new RuntimeUrlPublisher(RuntimeClientPropertiesTest.RUNTIME_PROPERTIES)
     );
     checker = new BaseChecker();
   }
@@ -36,12 +39,13 @@ public class EnvironmentIntegrationTest {
   public void shouldCheck() {
     final var published = Flux
         .fromIterable(this.publishers)
-        .filter(publisher -> publisher.test(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER.getTaskType()))
-        .reduce(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER, (context, publisher) -> publisher.apply(context)).block();
+        .filter(publisher -> publisher.test(contextBuilder.getTaskType()))
+        .reduce(contextBuilder, (context, publisher) -> publisher.apply(context)).block();
     assertThat(published).isNotNull();
     assertThat(checker.test(published.getTaskType())).isTrue();
-    final var map = published.getEntries().stream().collect(Collectors.toMap(ExecutionEnvironmentEntry::getKey, ExecutionEnvironmentEntry::getValue));
-    System.out.println(map);
+    final var map = published.getEntries().stream()
+        .filter(entry -> entry.getScope().equals("") || entry.getScope().equals("hostId"))
+        .collect(Collectors.toMap(ExecutionEnvironmentEntry::getKey, ExecutionEnvironmentEntry::getValue));
     checker.accept(map);
   }
 

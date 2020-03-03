@@ -14,4 +14,5 @@ dependencies {
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-tasks-configuration-entity', configuration: 'testArtifacts')
 }

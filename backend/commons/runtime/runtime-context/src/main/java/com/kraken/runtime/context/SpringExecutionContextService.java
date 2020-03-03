@@ -55,7 +55,10 @@ class SpringExecutionContextService implements ExecutionContextService {
         .flatMap(this::withTemplate)
         .flatMapMany(this::asMaps)
         .map(t4 -> {
-          this.checkers.forEach(checker -> checker.accept(t4.getT4()));
+          this.checkers
+              .stream()
+              .filter(checker -> checker.test(t4.getT2().getTaskType()))
+              .forEach(checker -> checker.accept(t4.getT4()));
           return t4;
         })
         .flatMap(this::toExecutionContext)
@@ -113,6 +116,7 @@ class SpringExecutionContextService implements ExecutionContextService {
   private Mono<ExecutionContextBuilder> withPublishers(final ExecutionContextBuilder context) {
     return Flux
         .fromIterable(this.publishers)
+        .filter(publisher -> publisher.test(context.getTaskType()))
         .reduce(context, (currentContext, publisher) -> publisher.apply(currentContext));
   }
 

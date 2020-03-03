@@ -12,7 +12,7 @@ public class ExecutionEnvironmentTest {
   public static final ExecutionEnvironment EXECUTION_ENVIRONMENT = ExecutionEnvironment.builder()
       .taskType("RUN")
       .description("description")
-      .hostIds(ImmutableList.of("local"))
+      .hostIds(ImmutableList.of("hostId", "other"))
       .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))
       .build();
 

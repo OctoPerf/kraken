@@ -26,7 +26,7 @@ public class ExecutionContextBuilderTest {
       .description("description")
       .file("file")
       .containersCount(42)
-      .hostIds(ImmutableList.of("hostId"))
+      .hostIds(ImmutableList.of("hostId", "other"))
       .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))
       .build();
 
