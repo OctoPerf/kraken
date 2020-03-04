@@ -1,8 +1,9 @@
 package com.kraken.runtime.context.gatling.environment;
 
+import com.google.common.collect.ImmutableSet;
 import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
-import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
-import com.kraken.runtime.entity.task.TaskType;
+import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
+import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.stream.Collectors;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,22 +27,24 @@ public class InfluxDBUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test(TaskType.RUN)).isTrue();
-    assertThat(publisher.test(TaskType.DEBUG)).isFalse();
-    assertThat(publisher.test(TaskType.RECORD)).isFalse();
+    assertThat(publisher.test("RUN")).isTrue();
+    assertThat(publisher.test("DEBUG")).isFalse();
+    assertThat(publisher.test("RECORD")).isFalse();
   }
 
   @Test
   public void shouldGet() {
-    final var env = publisher.apply(ExecutionEnvironmentTest.EXECUTION_CONTEXT);
-    assertThat(env.get(KRAKEN_INFLUXDB_URL)).isNotNull();
-    assertThat(env.get(KRAKEN_INFLUXDB_DATABASE)).isNotNull();
-    assertThat(env.get(KRAKEN_INFLUXDB_USER)).isNotNull();
-    assertThat(env.get(KRAKEN_INFLUXDB_PASSWORD)).isNotNull();
+    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
+    assertThat(env.getEntries()
+        .stream()
+        .map(ExecutionEnvironmentEntry::getKey)
+        .collect(Collectors.toUnmodifiableSet())).isEqualTo(ImmutableSet.of(
+        KRAKEN_INFLUXDB_URL, KRAKEN_INFLUXDB_DATABASE, KRAKEN_INFLUXDB_USER, KRAKEN_INFLUXDB_PASSWORD, "foo"
+    ));
   }
 
   @Test
-  public void shouldTestUtils(){
+  public void shouldTestUtils() {
     TestUtils.shouldPassNPE(InfluxDBUrlPublisher.class);
   }
 }

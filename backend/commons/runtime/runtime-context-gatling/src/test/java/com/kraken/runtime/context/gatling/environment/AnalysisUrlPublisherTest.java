@@ -1,8 +1,8 @@
 package com.kraken.runtime.context.gatling.environment;
 
 import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
-import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
-import com.kraken.runtime.entity.task.TaskType;
+import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
+import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +24,15 @@ public class AnalysisUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test(TaskType.RUN)).isFalse();
-    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
-    assertThat(publisher.test(TaskType.RECORD)).isTrue();
+    assertThat(publisher.test("RUN")).isFalse();
+    assertThat(publisher.test("DEBUG")).isTrue();
+    assertThat(publisher.test("RECORD")).isTrue();
   }
 
   @Test
   public void shouldGet() {
-    final var env = publisher.apply(ExecutionEnvironmentTest.EXECUTION_CONTEXT);
-    assertThat(env.get(KRAKEN_ANALYSIS_URL)).isNotNull();
+    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
+    assertThat(env.getEntries().stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_ANALYSIS_URL))).isTrue();
   }
 
   @Test

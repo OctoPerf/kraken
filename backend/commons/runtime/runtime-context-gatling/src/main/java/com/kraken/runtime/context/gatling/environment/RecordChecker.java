@@ -1,6 +1,6 @@
-package com.kraken.runtime.context.gatling;
+package com.kraken.runtime.context.gatling.environment;
 
-import com.kraken.runtime.entity.task.TaskType;
+import com.kraken.runtime.context.api.environment.EnvironmentChecker;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -12,21 +12,16 @@ class RecordChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
-    requireEnv(environment, KRAKEN_VERSION,
+    requireEnv(environment,
         KRAKEN_GATLING_SIMULATION_CLASS,
         KRAKEN_GATLING_SIMULATION_PACKAGE,
         KRAKEN_GATLING_HAR_PATH_REMOTE,
-        KRAKEN_DESCRIPTION,
-        KRAKEN_TASK_ID,
-        KRAKEN_EXPECTED_COUNT,
-        KRAKEN_APPLICATION_ID,
         KRAKEN_ANALYSIS_URL,
-        KRAKEN_RUNTIME_URL,
         KRAKEN_STORAGE_URL);
   }
 
   @Override
-  public boolean test(final TaskType taskType) {
-    return TaskType.RECORD == taskType;
+  public boolean test(final String taskType) {
+    return "RECORD".equals(taskType);
   }
 }
