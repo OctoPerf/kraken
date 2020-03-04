@@ -1,7 +1,6 @@
 package com.kraken.runtime.context.gatling.environment;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +20,9 @@ public class DebugCheckerTest {
 
   @Test
   public void shouldTest() {
-    assertThat(checker.test(TaskType.RUN)).isFalse();
-    assertThat(checker.test(TaskType.DEBUG)).isTrue();
-    assertThat(checker.test(TaskType.RECORD)).isFalse();
+    assertThat(checker.test("RUN")).isFalse();
+    assertThat(checker.test("DEBUG")).isTrue();
+    assertThat(checker.test("RECORD")).isFalse();
   }
 
 
@@ -35,14 +34,8 @@ public class DebugCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_VERSION, "value")
         .put(KRAKEN_GATLING_SIMULATION, "value")
-        .put(KRAKEN_DESCRIPTION, "value")
-        .put(KRAKEN_TASK_ID, "value")
-        .put(KRAKEN_EXPECTED_COUNT, "value")
-        .put(KRAKEN_APPLICATION_ID, "value")
         .put(KRAKEN_ANALYSIS_URL, "value")
-        .put(KRAKEN_RUNTIME_URL, "value")
         .put(KRAKEN_STORAGE_URL, "value")
         .build();
     checker.accept(env);
