@@ -12,6 +12,7 @@ import lombok.With;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExecutionContextBuilderTest {
 
-  public static final ExecutionContextBuilder EXECUTION_CONTEXT_BUILDER = ExecutionContextBuilder.builder()
+  public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WithEntries = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
       .applicationId("applicationId")
       .taskId("taskId")
       .taskType("RUN")
@@ -27,8 +28,10 @@ public class ExecutionContextBuilderTest {
       .file("file")
       .containersCount(42)
       .hostIds(ImmutableList.of("hostId", "other"))
-      .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))
+      .entries(entries)
       .build();
+
+  public static final ExecutionContextBuilder EXECUTION_CONTEXT_BUILDER = WithEntries.apply(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY));
 
   @Test
   public void shouldPassTestUtils() {
