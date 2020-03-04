@@ -1,17 +1,17 @@
 package com.kraken.runtime.backend.docker;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.docker.env.EnvironmentChecker;
-import com.kraken.runtime.docker.env.EnvironmentPublisher;
+import com.kraken.runtime.context.entity.CancelContext;
+import com.kraken.runtime.context.entity.CancelContextTest;
+import com.kraken.runtime.context.entity.ExecutionContext;
+import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.log.LogType;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
@@ -44,10 +44,6 @@ public class DockerTaskServiceTest {
   LogsService logsService;
   @Mock
   Function<String, FlatContainer> stringToFlatContainer;
-  @Mock
-  EnvironmentChecker envChecker;
-  @Mock
-  EnvironmentPublisher envPublisher;
 
   DockerTaskService service;
 
@@ -57,9 +53,7 @@ public class DockerTaskServiceTest {
         commandService,
         logsService,
         stringToFlatContainer,
-        ApplicationPropertiesTest.APPLICATION_PROPERTIES,
-        ImmutableList.of(envChecker),
-        ImmutableList.of(envPublisher));
+        ApplicationPropertiesTest.APPLICATION_PROPERTIES);
 
     FileSystemUtils.deleteRecursively(Paths.get("testDir/taskId"));
     FileSystemUtils.deleteRecursively(Paths.get("testDir/id"));
@@ -67,22 +61,7 @@ public class DockerTaskServiceTest {
 
   @Test
   public void shouldExecute() {
-    final var applicationId = "applicationId";
-    final var taskId = "taskId";
-    final var taskType = TaskType.RUN;
-
-    final var context = ExecutionEnvironment.builder()
-        .taskType(TaskType.RUN)
-        .taskId(taskId)
-        .applicationId(applicationId)
-        .description("description")
-        .environment(ImmutableMap.of("foo", "bar"))
-        .hosts(ImmutableMap.of())
-        .build();
-
-    given(envChecker.test(taskType)).willReturn(true);
-    given(envPublisher.test(taskType)).willReturn(true);
-    given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
+    final var context = ExecutionContextTest.EXECUTION_CONTEXT;
 
     final var executeCmd = Command.builder()
         .path("testDir/taskId")
@@ -91,9 +70,7 @@ public class DockerTaskServiceTest {
             "up",
             "-d",
             "--no-color"))
-        .environment(ImmutableMap.<String, String>builder().putAll(context.getEnvironment())
-            .put("FOO", "BAR")
-            .build())
+        .environment(ImmutableMap.of())
         .build();
 
     final var logs = Flux.just("logs");
@@ -102,66 +79,56 @@ public class DockerTaskServiceTest {
     assertThat(service.execute(context).block()).isEqualTo(context);
 
     verify(commandService).execute(executeCmd);
-    verify(logsService).push(eq(applicationId), eq(taskId), eq(LogType.TASK), any());
+    verify(logsService).push(eq(context.getApplicationId()), eq(context.getTaskId()), eq(LogType.TASK), any());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldExecuteFail() {
-    final var context = ExecutionEnvironment.builder()
-        .taskType(TaskType.RUN)
-        .taskId("taskId")
+    final var context = ExecutionContext.builder()
         .applicationId("applicationId")
-        .description("description")
-        .environment(ImmutableMap.of("foo", "bar"))
-        .hosts(ImmutableMap.of("host1", ImmutableMap.of(), "host2", ImmutableMap.of()))
+        .taskId("taskId")
+        .taskType("RUN")
+        .templates(ImmutableMap.of())
         .build();
+
     service.execute(context).block();
   }
 
   @Test
   public void shouldCancel() {
-    final var applicationId = "applicationId";
-    final var taskId = TaskTest.TASK.getId();
-    final var taskType = TaskType.RUN;
-
-    given(envPublisher.test(taskType)).willReturn(true);
-    given(envPublisher.apply(any())).willReturn(ImmutableMap.of("FOO", "BAR"));
+    final var context = CancelContextTest.CANCEL_CONTEXT;
 
     final var cancelCmd = Command.builder()
-        .path("testDir/id")
+        .path("testDir/taskId")
         .command(Arrays.asList("docker-compose",
             "--no-ansi",
             "down"))
-        .environment(ImmutableMap.<String, String>builder()
-            .put("FOO", "BAR")
-            .build())
+        .environment(ImmutableMap.of())
         .build();
 
     final var logs = Flux.just("logs");
     given(commandService.execute(cancelCmd)).willReturn(logs);
 
-    assertThat(service.cancel(applicationId, taskId, taskType).block()).isEqualTo(taskId);
+    assertThat(service.cancel(context).block()).isEqualTo(context);
 
     verify(commandService).execute(cancelCmd);
-    verify(logsService).push(eq(applicationId), eq(taskId), eq(LogType.TASK), any());
+    verify(logsService).push(eq(context.getApplicationId()), eq(context.getTaskId()), eq(LogType.TASK), any());
   }
 
   @Test
   public void shouldRemove() {
-    final var applicationId = "applicationId";
-    final var taskId = TaskTest.TASK.getId();
-    final var taskType = TaskType.RUN;
+    final var context = CancelContextTest.CANCEL_CONTEXT;
 
     final var removeCmd = Command.builder()
         .path("testDir")
-        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, taskId)))
+        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())))
         .environment(ImmutableMap.of())
         .build();
 
     final var logs = Flux.just("logs");
     given(commandService.execute(removeCmd)).willReturn(logs);
 
-    assertThat(service.remove(applicationId, taskId, taskType).block()).isEqualTo(taskId);
+    assertThat(service.remove(context).block()).isEqualTo(context);
 
     verify(commandService).execute(removeCmd);
   }

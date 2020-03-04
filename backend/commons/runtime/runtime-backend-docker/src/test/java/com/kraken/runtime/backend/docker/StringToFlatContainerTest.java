@@ -1,9 +1,7 @@
 package com.kraken.runtime.backend.docker;
 
-import com.kraken.runtime.backend.docker.StringToFlatContainer;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
-import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
 import java.util.Date;
@@ -27,7 +25,7 @@ public class StringToFlatContainerTest {
         .description("Some description; test!")
         .startDate(1567501871000L)
         .status(ContainerStatus.READY)
-        .taskType(TaskType.RUN)
+        .taskType("RUN")
         .expectedCount(2)
         .applicationId("app")
         .build());

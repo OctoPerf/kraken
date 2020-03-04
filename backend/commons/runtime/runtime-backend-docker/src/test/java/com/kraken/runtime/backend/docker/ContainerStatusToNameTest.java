@@ -1,6 +1,5 @@
 package com.kraken.runtime.backend.docker;
 
-import com.kraken.runtime.backend.docker.ContainerStatusToName;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import org.junit.Test;
 
