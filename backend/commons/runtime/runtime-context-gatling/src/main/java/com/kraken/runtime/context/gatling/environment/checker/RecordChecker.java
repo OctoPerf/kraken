@@ -22,6 +22,6 @@ class RecordChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final String taskType) {
-    return "RECORD".equals(taskType);
+    return accept(taskType, "RECORD");
   }
 }

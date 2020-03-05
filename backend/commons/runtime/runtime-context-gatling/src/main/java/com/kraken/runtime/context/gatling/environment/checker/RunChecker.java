@@ -23,6 +23,6 @@ class RunChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final String taskType) {
-    return "RUN".equals(taskType);
+    return accept(taskType, "RUN");
   }
 }

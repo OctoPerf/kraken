@@ -18,6 +18,6 @@ class JavaOptsChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final String taskType) {
-    return true;
+    return accept(taskType, "RUN", "DEBUG", "RECORD");
   }
 }

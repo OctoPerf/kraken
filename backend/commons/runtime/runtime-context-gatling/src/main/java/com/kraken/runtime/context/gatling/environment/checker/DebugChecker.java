@@ -20,6 +20,6 @@ class DebugChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final String taskType) {
-    return "DEBUG".equals(taskType);
+    return accept(taskType, "DEBUG");
   }
 }
