@@ -1,0 +1,36 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: "kraken"
+
+services:
+  kraken-container-one:
+    labels:
+      com.kraken/taskId: taskId
+      com.kraken/taskType: RECORD
+      com.kraken/containerName: taskId-container-one
+      com.kraken/hostId: hostId
+      com.kraken/label: Container One
+      com.kraken/description: description
+      com.kraken/expectedCount: 2
+      com.kraken/applicationId: test
+    container_name: taskId-container-one_STARTING
+    image: nginx
+    networks:
+      - kraken
+
+  kraken-container-two:
+    labels:
+      com.kraken/taskId: taskId
+      com.kraken/taskType: RECORD
+      com.kraken/containerName: taskId-container-two
+      com.kraken/hostId: hostId
+      com.kraken/label: Container Two
+      com.kraken/description: description
+      com.kraken/expectedCount: 2
+      com.kraken/applicationId: test
+    container_name: taskId-container-two_STARTING
+    image: nginx
+    networks:
+      - kraken

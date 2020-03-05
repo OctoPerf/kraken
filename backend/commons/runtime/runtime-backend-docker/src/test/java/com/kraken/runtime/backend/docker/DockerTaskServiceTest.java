@@ -94,6 +94,18 @@ public class DockerTaskServiceTest {
     service.execute(context).block();
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldExecuteFailTooManyHosts() {
+    final var context = ExecutionContext.builder()
+        .applicationId("applicationId")
+        .taskId("taskId")
+        .taskType("RUN")
+        .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
+        .build();
+
+    service.execute(context).block();
+  }
+
   @Test
   public void shouldCancel() {
     final var context = CancelContextTest.CANCEL_CONTEXT;
