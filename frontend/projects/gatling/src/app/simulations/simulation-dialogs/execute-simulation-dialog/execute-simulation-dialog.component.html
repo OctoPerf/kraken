@@ -1,5 +1,5 @@
 <form [formGroup]="simulationForm" autocomplete=off>
-  <h1 mat-dialog-title>{{data.type | prettyString}} Simulation</h1>
+  <h1 mat-dialog-title>{{data.type | taskTypeToString}} Simulation</h1>
   <div mat-dialog-content>
     <lib-help-anchor [pageId]="data.type === 'GATLING_DEBUG' ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
@@ -14,7 +14,7 @@
       </mat-error>
     </mat-form-field>
     <app-description-input #descriptionInput [formGroup]="simulationForm"
-                           [value]="(data.type | prettyString) + ' '+ data.simulationClass"></app-description-input>
+                           [value]="(data.type | taskTypeToString) + ' '+ data.simulationClass"></app-description-input>
     <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"
                         [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
                         [multiple]="data.type === 'GATLING_RUN'"></lib-hosts-selector>
@@ -31,7 +31,7 @@
     <button mat-button (click)="run()" cdkFocusInitial
             type="submit" color="accent"
             [disabled]="!simulationForm.valid">
-      {{data.type | prettyString}}
+      {{data.type | taskTypeToString}}
     </button>
   </div>
 </form>

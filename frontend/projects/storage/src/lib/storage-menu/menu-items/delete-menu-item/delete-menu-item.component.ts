@@ -19,7 +19,8 @@ export class DeleteMenuItemComponent extends KeyBoundMenuItem {
               public storage: StorageService,
               public treeControl: StorageTreeControlService,
               keys: KeyBindingsService) {
-    super(treeControl, keys, new KeyBinding(['Delete', 'ctrl + Delete'], (event: KeyboardEvent) => this._handleKey(this.storage.deleteFiles.bind(this.storage, event.ctrlKey)), id));
+    super(treeControl, keys, new KeyBinding(['Delete', 'ctrl + Delete'],
+      (event: KeyboardEvent) => this._handleKey(this.storage.deleteFiles.bind(this.storage, this.treeControl.selected, event.ctrlKey)), id));
   }
 
 }

@@ -18,8 +18,13 @@ class PetStoreSimulation extends Simulation {
         .inferHtmlResources(BlackList(), WhiteList("https://petstore.octoperf.com/.*"))
 
     val csvFeeder = csv("categories.csv").random
+    
+    val foo = System.getProperty("Foo")
+    val also = System.getProperty("Also")
 
     val scn = scenario("PetStoreSimulation")
+        .exec { session => println(foo); session }
+        .exec { session => println(also); session }
         .exec(http("Homepage").get("/actions/Catalog.action"))
         .feed(csvFeeder)
         .exec(http("Catalog ${categoryId}")

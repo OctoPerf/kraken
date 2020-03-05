@@ -27,7 +27,7 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
       <td mat-cell *matCellDef="let task">
-        {{task.type | prettyString}}
+        {{task.type | taskTypeToString}}
       </td>
     </ng-container>
 
