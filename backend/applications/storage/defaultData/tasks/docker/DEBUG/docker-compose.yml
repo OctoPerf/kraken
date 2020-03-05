@@ -1,0 +1,75 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: kraken
+    external: true
+
+services:
+  kraken-gatling-log-parser:
+    image: octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}
+    container_name: ${KRAKEN_TASK_ID}-gatling-log-parser_STARTING
+    networks:
+      - kraken
+    labels:
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: DEBUG
+      com.kraken/containerName: ${KRAKEN_TASK_ID}-gatling-log-parser
+      com.kraken/hostId: local
+      com.kraken/label: Gatling Logs Parser
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
+    environment:
+      KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
+      KRAKEN_TASK_TYPE: DEBUG
+      KRAKEN_CONTAINER_NAME: ${KRAKEN_TASK_ID}-gatling-log-parser
+      KRAKEN_HOST_ID: local
+      KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
+      KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
+      KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+    volumes:
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
+        read_only: true
+        volume:
+          nocopy: true
+    depends_on:
+      - kraken-gatling-debugger
+
+  kraken-gatling-debugger:
+    image: octoperf/kraken-gatling-runner:${KRAKEN_VERSION}
+    container_name: ${KRAKEN_TASK_ID}-gatling-debugger_STARTING
+    networks:
+      - kraken
+    labels:
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
+      com.kraken/taskType: DEBUG
+      com.kraken/containerName: ${KRAKEN_TASK_ID}-gatling-debugger
+      com.kraken/hostId: local
+      com.kraken/label: Gatling Runner
+      com.kraken/description: ${KRAKEN_DESCRIPTION}
+      com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
+      com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
+    environment:
+      KRAKEN_TASK_ID: ${KRAKEN_TASK_ID}
+      KRAKEN_TASK_TYPE: DEBUG
+      KRAKEN_CONTAINER_NAME: ${KRAKEN_TASK_ID}-gatling-debugger
+      KRAKEN_HOST_ID: local
+      KRAKEN_GATLING_SIMULATION: ${KRAKEN_GATLING_SIMULATION}
+      KRAKEN_GATLING_DESCRIPTION: ${KRAKEN_DESCRIPTION}
+      KRAKEN_GATLING_JAVA_OPTS: ${KRAKEN_GATLING_JAVA_OPTS}
+      KRAKEN_ANALYSIS_URL: ${KRAKEN_ANALYSIS_URL}
+      KRAKEN_RUNTIME_URL: ${KRAKEN_RUNTIME_URL}
+      KRAKEN_STORAGE_URL: ${KRAKEN_STORAGE_URL}
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+    volumes:
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
+
+volumes:
+  gatling-volume:
+    name: ${KRAKEN_TASK_ID}-gatling-volume

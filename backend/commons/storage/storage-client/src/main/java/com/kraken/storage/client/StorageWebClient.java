@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.*;
 
+import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 import static reactor.core.publisher.Mono.error;
 
@@ -42,10 +43,12 @@ class StorageWebClient implements StorageClient {
 
   WebClient webClient;
   ObjectMapper mapper;
+  ObjectMapper yamlMapper;
 
-  StorageWebClient(@Qualifier("webClientStorage") final WebClient webClient, @Qualifier("webClientMapper") final ObjectMapper mapper) {
-    this.webClient = Objects.requireNonNull(webClient);
-    this.mapper = Objects.requireNonNull(mapper);
+  StorageWebClient(@Qualifier("webClientStorage") final WebClient webClient, final ObjectMapper mapper, @Qualifier("yamlObjectMapper") final ObjectMapper yamlMapper) {
+    this.webClient = requireNonNull(webClient);
+    this.mapper = requireNonNull(mapper);
+    this.yamlMapper = requireNonNull(yamlMapper);
   }
 
   @Override
@@ -82,10 +85,9 @@ class StorageWebClient implements StorageClient {
   @Override
   public <T> Mono<T> getJsonContent(final String path, final Class<T> clazz) {
     return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/files/get/content")
+        .uri(uriBuilder -> uriBuilder.path("/files/get/json")
             .queryParam("path", path).build())
         .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .retrieve()
         .bodyToMono(clazz)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
@@ -95,16 +97,8 @@ class StorageWebClient implements StorageClient {
 
   @Override
   public <T> Mono<T> getYamlContent(final String path, final Class<T> clazz) {
-    return webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/files/get/content")
-            .queryParam("path", path).build())
-        .header(HttpHeaders.ACCEPT, MediaTypes.TEXT_YAML_VALUE)
-        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.TEXT_YAML_VALUE)
-        .retrieve()
-        .bodyToMono(clazz)
-        .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
-        .doOnError(t -> log.error("Failed to get yaml file content " + path, t))
-        .doOnSubscribe(subscription -> log.info("Getting yaml file content " + path));
+    return this.getContent(path)
+        .flatMap(s -> Mono.fromCallable(() -> yamlMapper.readValue(s, clazz)));
   }
 
   @Override

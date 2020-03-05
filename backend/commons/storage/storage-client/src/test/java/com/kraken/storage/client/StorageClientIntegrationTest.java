@@ -63,4 +63,14 @@ public class StorageClientIntegrationTest {
     client.delete(jsonPath).block();
     client.delete(yamlPath).block();
   }
+
+  @Test
+  public void shouldDownloadContent() throws IOException {
+    final var path = "test.txt";
+    final var content = ResourceUtils.getResourceContent(path);
+    client.setContent(path, content).block();
+    final var result = client.getContent(path).block();
+    assertThat(result).isEqualTo(content);
+    client.delete(path).block();
+  }
 }

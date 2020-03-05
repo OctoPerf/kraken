@@ -1,6 +1,6 @@
 tasks:
   - type: GATLING_RUN
-    file: tasks/docker/gatling-run.yml
+    file: tasks/docker/gatling-run.yaml
     containers-count: 2
     environment:
       KRAKEN_GATLING_CPU_REQUEST: 1
@@ -13,7 +13,7 @@ tasks:
       KRAKEN_SIDEKICK_MEMORY_REQUEST: 128M
       KRAKEN_SIDEKICK_MEMORY_LIMIT: 256M
   - type: GATLING_DEBUG
-    file: tasks/docker/gatling-debug.yml
+    file: tasks/docker/gatling-debug.yaml
     containers-count: 2
     environment:
       KRAKEN_GATLING_CPU_REQUEST: 1
@@ -27,7 +27,7 @@ tasks:
       KRAKEN_SIDEKICK_MEMORY_LIMIT: 512M
       KRAKEN_SIDEKICK_XMX: 450m
   - type: GATLING_RECORD
-    file: tasks/docker/gatling-record.yml
+    file: tasks/docker/gatling-record.yaml
     containers-count: 2
     environment:
       KRAKEN_GATLING_CPU_REQUEST: 0.5

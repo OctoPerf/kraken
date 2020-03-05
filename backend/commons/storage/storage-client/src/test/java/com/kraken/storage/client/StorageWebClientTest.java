@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.FileSystemUtils;
@@ -42,7 +41,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {JacksonConfiguration.class})
-public class StorageClientTest {
+public class StorageWebClientTest {
 
   private MockWebServer storageMockWebServer;
   private StorageClient client;
@@ -52,19 +51,15 @@ public class StorageClientTest {
   ObjectMapper yamlMapper;
 
   @Autowired
-  @Qualifier("objectMapper")
   ObjectMapper jsonMapper;
 
-  @Autowired
-  Jackson2JsonDecoder decoder;
 
   @Before
   public void before() {
     storageMockWebServer = new MockWebServer();
     client = new StorageWebClient(WebClient.builder()
-        .codecs(configurer -> configurer.customCodecs().register(decoder))
         .baseUrl(storageMockWebServer.url("/").toString())
-        .build(), jsonMapper);
+        .build(), jsonMapper, yamlMapper);
   }
 
   @After
@@ -141,7 +136,7 @@ public class StorageClientTest {
     storageMockWebServer.enqueue(
         new MockResponse()
             .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
             .setBody("content")
     );
 
@@ -200,7 +195,7 @@ public class StorageClientTest {
     assertThat(response).isEqualTo(result);
 
     final var recordedRequest = storageMockWebServer.takeRequest();
-    assertThat(recordedRequest.getPath()).startsWith("/files/get/content?path=path");
+    assertThat(recordedRequest.getPath()).startsWith("/files/get/json?path=path");
   }
 
   @Test

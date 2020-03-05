@@ -7,6 +7,7 @@ import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
 import com.kraken.storage.file.StorageWatcherService;
+import com.kraken.tools.configuration.jackson.MediaTypes;
 import com.kraken.tools.sse.SSEService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -262,6 +263,26 @@ public class StorageControllerTest {
         .expectHeader().contentType("text/plain;charset=UTF-8")
         .expectBody(String.class)
         .isEqualTo("some getContent");
+  }
+
+
+  @Test
+  public void shouldGetJson() {
+    final var path = "toto/file.json";
+    given(service.getContent(path))
+        .willReturn(Mono.just("{}"));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/get/json")
+            .queryParam("path", path)
+            .build())
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType("application/json;charset=UTF-8")
+        .expectBody(String.class)
+        .isEqualTo("{}");
   }
 
   @Test

@@ -1,5 +1,10 @@
 dependencies {
     implementation project(':commons:runtime:runtime-server')
+    implementation project(':commons:runtime:runtime-tasks-configuration')
     implementation project(':commons:runtime:runtime-backend-docker')
+    implementation project(':commons:runtime:runtime-context')
+    implementation project(':commons:runtime:runtime-context-gatling')
+    implementation project(':commons:runtime:runtime-event-gatling')
+    implementation project(':commons:template:template-string')
     implementation project(':commons:tools:configuration')
 }
