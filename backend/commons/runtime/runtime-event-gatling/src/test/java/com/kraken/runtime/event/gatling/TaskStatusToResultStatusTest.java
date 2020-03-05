@@ -1,4 +1,4 @@
-package com.kraken.runtime.server.event;
+package com.kraken.runtime.event.gatling;
 
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.runtime.entity.task.ContainerStatus;

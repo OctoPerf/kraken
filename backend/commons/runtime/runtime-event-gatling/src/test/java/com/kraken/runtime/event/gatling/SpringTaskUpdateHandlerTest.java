@@ -1,4 +1,4 @@
-package com.kraken.runtime.server.event;
+package com.kraken.runtime.event.gatling;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.task.ContainerStatus;

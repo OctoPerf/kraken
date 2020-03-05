@@ -136,4 +136,6 @@ findProject(':applications:har-parser')?.name = 'app-har-parser'
 
 //include 'applications:ee:runtime-kubernetes'
 //findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
+include 'commons:runtime:runtime-event-gatling'
+findProject(':commons:runtime:runtime-event-gatling')?.name = 'runtime-event-gatling'
 

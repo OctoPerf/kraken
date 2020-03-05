@@ -1,4 +1,4 @@
-package com.kraken.runtime.server.event;
+package com.kraken.runtime.event.gatling;
 
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.Result;
@@ -8,6 +8,7 @@ import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.event.TaskExecutedEventTest;
 import com.kraken.tools.event.bus.EventBus;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,11 +59,11 @@ public class CreateResultOnTaskExecutedTest {
     listener.handleEvent(event);
     verify(analysisClient).create(resultArgumentCaptor.capture());
     final var result = resultArgumentCaptor.getValue();
-    assertThat(result.getId()).isEqualTo(context.getTaskId());
-    assertThat(result.getEndDate()).isEqualTo(0L);
-    assertThat(result.getStatus()).isEqualTo(ResultStatus.STARTING);
-    assertThat(result.getDescription()).isEqualTo(context.getDescription());
-    assertThat(result.getType()).isEqualTo(ResultType.RUN);
+    Assertions.assertThat(result.getId()).isEqualTo(context.getTaskId());
+    Assertions.assertThat(result.getEndDate()).isEqualTo(0L);
+    Assertions.assertThat(result.getStatus()).isEqualTo(ResultStatus.STARTING);
+    Assertions.assertThat(result.getDescription()).isEqualTo(context.getDescription());
+    Assertions.assertThat(result.getType()).isEqualTo(ResultType.RUN);
   }
 
 }
