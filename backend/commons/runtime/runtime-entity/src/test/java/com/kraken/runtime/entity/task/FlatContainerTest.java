@@ -15,7 +15,7 @@ public class FlatContainerTest {
       .startDate(42L)
       .status(ContainerStatus.STARTING)
       .label("label")
-      .taskType(TaskType.RUN)
+      .taskType(TaskType.GATLING_RUN)
       .description("description")
       .expectedCount(2)
       .applicationId("app")

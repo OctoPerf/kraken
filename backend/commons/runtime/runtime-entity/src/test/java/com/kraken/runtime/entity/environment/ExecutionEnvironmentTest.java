@@ -11,7 +11,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 public class ExecutionEnvironmentTest {
 
   public static final ExecutionEnvironment EXECUTION_ENVIRONMENT = ExecutionEnvironment.builder()
-      .taskType(TaskType.RUN)
+      .taskType(TaskType.GATLING_RUN)
       .description("description")
       .hostIds(ImmutableList.of("hostId", "other"))
       .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))

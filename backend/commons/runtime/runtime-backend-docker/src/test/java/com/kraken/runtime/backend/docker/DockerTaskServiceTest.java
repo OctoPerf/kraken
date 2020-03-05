@@ -3,15 +3,12 @@ package com.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.context.entity.CancelContextTest;
 import com.kraken.runtime.context.entity.ExecutionContext;
 import com.kraken.runtime.context.entity.ExecutionContextTest;
-import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.log.LogType;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
-import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.properties.ApplicationPropertiesTest;
@@ -88,7 +85,7 @@ public class DockerTaskServiceTest {
     final var context = ExecutionContext.builder()
         .applicationId("applicationId")
         .taskId("taskId")
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .templates(ImmutableMap.of())
         .build();
 
@@ -100,7 +97,7 @@ public class DockerTaskServiceTest {
     final var context = ExecutionContext.builder()
         .applicationId("applicationId")
         .taskId("taskId")
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
         .build();
 

@@ -24,6 +24,6 @@ class RunChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final TaskType taskType) {
-    return test(taskType, TaskType.RUN);
+    return test(taskType, TaskType.GATLING_RUN);
   }
 }

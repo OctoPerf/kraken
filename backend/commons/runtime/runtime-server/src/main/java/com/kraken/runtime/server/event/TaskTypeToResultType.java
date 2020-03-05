@@ -12,9 +12,9 @@ import java.util.function.Function;
 final class TaskTypeToResultType implements Function<TaskType, ResultType> {
 
   private static final Map<TaskType, ResultType> MAP = ImmutableMap.of(
-      TaskType.RUN, ResultType.RUN,
-      TaskType.DEBUG, ResultType.DEBUG,
-      TaskType.RECORD, ResultType.HAR
+      TaskType.GATLING_RUN, ResultType.RUN,
+      TaskType.GATLING_DEBUG, ResultType.DEBUG,
+      TaskType.GATLING_RECORD, ResultType.HAR
   );
 
   @Override

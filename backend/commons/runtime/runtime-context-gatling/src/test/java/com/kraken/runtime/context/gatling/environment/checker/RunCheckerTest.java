@@ -1,7 +1,6 @@
 package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.context.gatling.environment.checker.RunChecker;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
@@ -22,9 +21,9 @@ public class RunCheckerTest {
 
   @Test
   public void shouldTest() {
-    assertThat(checker.test(TaskType.RUN)).isTrue();
-    assertThat(checker.test(TaskType.DEBUG)).isFalse();
-    assertThat(checker.test(TaskType.RECORD)).isFalse();
+    assertThat(checker.test(TaskType.GATLING_RUN)).isTrue();
+    assertThat(checker.test(TaskType.GATLING_DEBUG)).isFalse();
+    assertThat(checker.test(TaskType.GATLING_RECORD)).isFalse();
   }
 
 

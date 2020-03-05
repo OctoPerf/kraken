@@ -10,7 +10,7 @@ public class CancelContextTest {
   public static final CancelContext CANCEL_CONTEXT = CancelContext.builder()
       .applicationId("applicationId")
       .taskId("taskId")
-      .taskType(TaskType.RUN)
+      .taskType(TaskType.GATLING_RUN)
       .template("template")
       .build();
 

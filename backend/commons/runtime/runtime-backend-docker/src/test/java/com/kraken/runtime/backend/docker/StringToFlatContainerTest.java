@@ -26,7 +26,7 @@ public class StringToFlatContainerTest {
         .description("Some description; test!")
         .startDate(1567501871000L)
         .status(ContainerStatus.READY)
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .expectedCount(2)
         .applicationId("app")
         .build());

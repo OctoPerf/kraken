@@ -38,7 +38,7 @@ public class OtherContainersStoppingPredicateTest {
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.RUN)
+        .type(TaskType.GATLING_RUN)
         .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
@@ -69,7 +69,7 @@ public class OtherContainersStoppingPredicateTest {
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.RUN)
+        .type(TaskType.GATLING_RUN)
         .containers(ImmutableList.of())
         .expectedCount(2)
         .applicationId("app")
@@ -83,7 +83,7 @@ public class OtherContainersStoppingPredicateTest {
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.RUN)
+        .type(TaskType.GATLING_RUN)
         .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
@@ -122,7 +122,7 @@ public class OtherContainersStoppingPredicateTest {
         .taskId("vzkziobanr")
         .containerName("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf")
         .hostId("n0usmshdr0")
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .build();
 
     final var taskPredicate = new OtherContainersStoppingPredicate(containerProperties);
@@ -132,7 +132,7 @@ public class OtherContainersStoppingPredicateTest {
         .description("description")
         .startDate(1574464436000L)
         .status(ContainerStatus.RUNNING)
-        .type(TaskType.RUN)
+        .type(TaskType.GATLING_RUN)
         .expectedCount(4)
         .containers(ImmutableList.of(
             Container.builder()

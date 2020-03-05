@@ -1,22 +1,17 @@
 package com.kraken.runtime.context.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntryTest;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
-import lombok.NonNull;
-import lombok.With;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExecutionContextBuilderTest {
@@ -24,7 +19,7 @@ public class ExecutionContextBuilderTest {
   public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WithEntries = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
       .applicationId("applicationId")
       .taskId("taskId")
-      .taskType(TaskType.RUN)
+      .taskType(TaskType.GATLING_RUN)
       .description("description")
       .file("file")
       .containersCount(42)

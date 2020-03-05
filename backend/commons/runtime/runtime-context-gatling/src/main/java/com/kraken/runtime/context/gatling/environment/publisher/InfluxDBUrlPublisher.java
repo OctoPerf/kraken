@@ -24,7 +24,7 @@ class InfluxDBUrlPublisher implements EnvironmentPublisher {
 
   @Override
   public boolean test(final TaskType taskType) {
-    return test(taskType, TaskType.RUN);
+    return test(taskType, TaskType.GATLING_RUN);
   }
 
   @Override

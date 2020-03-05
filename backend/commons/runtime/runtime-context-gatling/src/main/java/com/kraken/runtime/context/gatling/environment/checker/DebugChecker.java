@@ -21,6 +21,6 @@ class DebugChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final TaskType taskType) {
-    return test(taskType, TaskType.DEBUG);
+    return test(taskType, TaskType.GATLING_DEBUG);
   }
 }

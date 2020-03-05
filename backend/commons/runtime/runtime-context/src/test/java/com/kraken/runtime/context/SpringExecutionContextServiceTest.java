@@ -9,7 +9,6 @@ import com.kraken.runtime.context.entity.*;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
-import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
@@ -17,17 +16,12 @@ import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.template.api.TemplateService;
 import com.kraken.tools.unique.id.IdGenerator;
-import lombok.NonNull;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -97,7 +91,7 @@ public class SpringExecutionContextServiceTest {
     final var context = this.service.newExecuteContext("applicationId", executionEnvironment).block();
     assertThat(context).isEqualTo(ExecutionContext.builder()
         .applicationId("applicationId")
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .templates(ImmutableMap.of("hostId", "replaced", "other", "replaced"))
         .build());
@@ -122,10 +116,10 @@ public class SpringExecutionContextServiceTest {
 
   @Test
   public void shouldCreateCancelContext() {
-    final var context = this.service.newCancelContext("applicationId", "taskId", TaskType.RUN).block();
+    final var context = this.service.newCancelContext("applicationId", "taskId", TaskType.GATLING_RUN).block();
     assertThat(context).isEqualTo(CancelContext.builder()
         .applicationId("applicationId")
-        .taskType(TaskType.RUN)
+        .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .template("template")
         .build());

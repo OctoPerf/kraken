@@ -1,7 +1,7 @@
 package com.kraken.runtime.entity.task;
 
 public enum TaskType {
-  RUN,
-  DEBUG,
-  RECORD
+  GATLING_RUN,
+  GATLING_DEBUG,
+  GATLING_RECORD
 }

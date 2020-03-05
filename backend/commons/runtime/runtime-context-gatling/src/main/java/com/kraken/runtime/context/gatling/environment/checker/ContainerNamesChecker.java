@@ -22,6 +22,6 @@ class ContainerNamesChecker implements EnvironmentChecker {
 
   @Override
   public boolean test(final TaskType taskType) {
-    return test(taskType, TaskType.RUN, TaskType.DEBUG, TaskType.RECORD);
+    return test(taskType, TaskType.GATLING_RUN, TaskType.GATLING_DEBUG, TaskType.GATLING_RECORD);
   }
 }

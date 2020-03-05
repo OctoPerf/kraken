@@ -36,7 +36,7 @@ public class SpringTaskConfigurationServiceTest {
   @Test
   public void shouldReturnTasksConfiguration() {
     given(storageClient.getYamlContent(serverProperties.getConfigurationPath(), TasksConfiguration.class)).willReturn(Mono.just(TasksConfigurationTest.TASKS_CONFIGURATION));
-    final var result = service.getConfiguration(TaskType.RUN).block();
+    final var result = service.getConfiguration(TaskType.GATLING_RUN).block();
     assertThat(result).isNotNull();
     assertThat(result).isEqualTo(TaskConfigurationTest.TASK_CONFIGURATION);
   }

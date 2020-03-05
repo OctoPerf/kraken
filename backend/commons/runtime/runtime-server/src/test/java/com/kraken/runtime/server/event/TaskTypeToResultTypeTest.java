@@ -12,9 +12,9 @@ public class TaskTypeToResultTypeTest {
 
   @Test
   public void shouldConvert() {
-    assertThat(converter.apply(TaskType.RUN)).isEqualTo(ResultType.RUN);
-    assertThat(converter.apply(TaskType.DEBUG)).isEqualTo(ResultType.DEBUG);
-    assertThat(converter.apply(TaskType.RECORD)).isEqualTo(ResultType.HAR);
+    assertThat(converter.apply(TaskType.GATLING_RUN)).isEqualTo(ResultType.RUN);
+    assertThat(converter.apply(TaskType.GATLING_DEBUG)).isEqualTo(ResultType.DEBUG);
+    assertThat(converter.apply(TaskType.GATLING_RECORD)).isEqualTo(ResultType.HAR);
   }
 
 }

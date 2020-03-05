@@ -21,9 +21,9 @@ public class ContainerNamesCheckerTest {
 
   @Test
   public void shouldTest() {
-    assertThat(checker.test(TaskType.RUN)).isTrue();
-    assertThat(checker.test(TaskType.DEBUG)).isTrue();
-    assertThat(checker.test(TaskType.RECORD)).isTrue();
+    assertThat(checker.test(TaskType.GATLING_RUN)).isTrue();
+    assertThat(checker.test(TaskType.GATLING_DEBUG)).isTrue();
+    assertThat(checker.test(TaskType.GATLING_RECORD)).isTrue();
   }
 
 

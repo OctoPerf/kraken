@@ -11,7 +11,7 @@ public class TaskTest {
       .id("id")
       .startDate(42L)
       .status(ContainerStatus.STARTING)
-      .type(TaskType.RUN)
+      .type(TaskType.GATLING_RUN)
       .containers(ImmutableList.of())
       .expectedCount(2)
       .description("description")

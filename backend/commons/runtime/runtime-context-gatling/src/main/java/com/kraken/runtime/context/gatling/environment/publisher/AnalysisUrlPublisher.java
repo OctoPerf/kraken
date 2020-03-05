@@ -24,7 +24,7 @@ class AnalysisUrlPublisher implements EnvironmentPublisher {
 
   @Override
   public boolean test(final TaskType taskType) {
-    return test(taskType, TaskType.DEBUG, TaskType.RECORD);
+    return test(taskType, TaskType.GATLING_DEBUG, TaskType.GATLING_RECORD);
   }
 
   @Override

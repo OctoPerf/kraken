@@ -2,7 +2,6 @@ package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
-import com.kraken.runtime.context.gatling.environment.publisher.AnalysisUrlPublisher;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
@@ -26,9 +25,9 @@ public class AnalysisUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test(TaskType.RUN)).isFalse();
-    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
-    assertThat(publisher.test(TaskType.RECORD)).isTrue();
+    assertThat(publisher.test(TaskType.GATLING_RUN)).isFalse();
+    assertThat(publisher.test(TaskType.GATLING_DEBUG)).isTrue();
+    assertThat(publisher.test(TaskType.GATLING_RECORD)).isTrue();
   }
 
   @Test
