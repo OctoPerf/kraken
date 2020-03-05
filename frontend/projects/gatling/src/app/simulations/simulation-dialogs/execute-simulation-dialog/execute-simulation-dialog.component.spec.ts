@@ -4,8 +4,9 @@ import {ExecuteSimulationDialogComponent} from './execute-simulation-dialog.comp
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
 import SpyObj = jasmine.SpyObj;
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 describe('ExecuteSimulationDialogComponent', () => {
   let component: ExecuteSimulationDialogComponent;
@@ -23,7 +24,7 @@ describe('ExecuteSimulationDialogComponent', () => {
           useValue: {
             simulationPackage: 'simulationPackage',
             simulationClass: 'simulationClass',
-            type: 'RUN',
+            type: 'GATLING_RUN',
             atOnce: true,
           }
         },
@@ -62,13 +63,12 @@ describe('ExecuteSimulationDialogComponent', () => {
       }
     } as any;
     component.run();
-    expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionContext(
-      'RUN',
+    expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionEnvironment(
+      'GATLING_RUN',
       'description',
-      {FOO: 'BAR', KRAKEN_GATLING_SIMULATION: 'simulationPackage.simulationClass'},
-      {
-        'local': {}
-      }
+      ['local'],
+      [new ExecutionEnvironmentEntry('', 'FRONTEND', 'FOO', 'BAR'),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION', 'simulationPackage.simulationClass')]
     ));
   });
 });

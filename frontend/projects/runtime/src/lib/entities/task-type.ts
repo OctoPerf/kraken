@@ -1,1 +1,1 @@
-export type TaskType = 'RUN' | 'DEBUG' | 'RECORD';
+export type TaskType = 'GATLING_RUN' | 'GATLING_DEBUG' | 'GATLING_RECORD';

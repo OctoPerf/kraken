@@ -23,7 +23,7 @@ import {StorageConfigurationService} from 'projects/storage/src/lib/storage-conf
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
-import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
+import {testExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment.spec';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 import SpyObj = jasmine.SpyObj;
 
@@ -83,7 +83,7 @@ class AdvancedSimulationStep05 extends Simulation {
 
 object Search {
     `));
-    const context = testExecutionContext();
+    const context = testExecutionEnvironment();
     dialogs.open.and.returnValue(of(context));
     tasks.execute.and.returnValue(of('taskId'));
     service.run(testStorageFileNode());
@@ -91,7 +91,7 @@ object Search {
       DialogSize.SIZE_LG, {
         simulationPackage: 'computerdatabase.advanced',
         simulationClass: 'AdvancedSimulationStep05',
-        type: 'RUN',
+        type: 'GATLING_RUN',
         atOnce: false,
       });
     expect(tasks.execute).toHaveBeenCalledWith(context);
@@ -114,7 +114,7 @@ setUp(scn.inject(atOnceUsers(1)).protocols(httpProtocol))
 
 object Search {
     `));
-    const context = testExecutionContext();
+    const context = testExecutionEnvironment();
     dialogs.open.and.returnValue(of(context));
     tasks.execute.and.returnValue(of('taskId'));
     service.debug(testStorageFileNode());
@@ -122,7 +122,7 @@ object Search {
       DialogSize.SIZE_LG, {
         simulationPackage: 'computerdatabase.advanced',
         simulationClass: 'AdvancedSimulationStep05',
-        type: 'DEBUG',
+        type: 'GATLING_DEBUG',
         atOnce: true,
       });
     expect(tasks.execute).toHaveBeenCalledWith(context);
@@ -171,7 +171,7 @@ object Search {
   });
 
   it('should importHar', () => {
-    const context = testExecutionContext();
+    const context = testExecutionEnvironment();
     dialogs.open.and.returnValue(of(context));
     tasks.execute.and.returnValue(of('taskId'));
     service.importHar({path: 'gatling/user-files/simulations/test.har'} as any);

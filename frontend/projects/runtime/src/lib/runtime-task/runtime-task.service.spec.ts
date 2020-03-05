@@ -10,7 +10,7 @@ import {runtimeConfigurationServiceSpy} from 'projects/runtime/src/lib/runtime-c
 import {testTask, testTasks} from 'projects/runtime/src/lib/entities/task.spec';
 import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
-import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
+import {testExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment.spec';
 
 export const runtimeTaskServiceSpy = () => {
   const spy = jasmine.createSpyObj('RuntimeTaskService', [
@@ -85,7 +85,7 @@ describe('RuntimeTaskService', () => {
   it('should execute', () => {
     const publish = spyOn(eventBus, 'publish');
     const taskId = 'taskId';
-    const context = testExecutionContext();
+    const context = testExecutionEnvironment();
     service.execute(context).subscribe(data => expect(data).toBe(taskId), () => fail('execute failed'));
     const request = httpTestingController.expectOne('taskApiUrl/task');
     expect(request.request.method).toBe('POST');

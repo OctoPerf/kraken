@@ -7,7 +7,7 @@ import {Task} from 'projects/runtime/src/lib/entities/task';
 import {map, tap} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
 import {TaskCancelledEvent} from 'projects/runtime/src/lib/events/task-cancelled-event';
 
@@ -55,7 +55,7 @@ export class RuntimeTaskService implements OnDestroy {
       }).pipe(tap(id => this.eventBus.publish(new TaskCancelledEvent(task))));
   }
 
-  execute(context: ExecutionContext): Observable<string> {
+  execute(context: ExecutionEnvironment): Observable<string> {
     return this.http.post(this.runtimeConfiguration.taskApiUrl(),
       context,
       {

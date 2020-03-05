@@ -1,8 +1,9 @@
 import {Component, Inject, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
 import {HostsSelectorComponent} from 'projects/runtime/src/lib/runtime-host/hosts-selector/hosts-selector.component';
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 export interface ImportHarDialogComponentData {
   harPath: string;
@@ -46,15 +47,15 @@ export class ImportHarDialogComponent {
     const hostId: string = this.hostsSelector.hostId;
     const hosts = {};
     hosts[hostId] = {};
-    const context = new ExecutionContext(
-      'RECORD',
+    const context = new ExecutionEnvironment(
+      'GATLING_RECORD',
       `Import har ${this.simulationPackage.value}.${this.simulationClass.value}`,
-      {
-        KRAKEN_GATLING_SIMULATION_CLASS: this.simulationClass.value,
-        KRAKEN_GATLING_SIMULATION_PACKAGE: this.simulationPackage.value,
-        KRAKEN_GATLING_HAR_PATH_REMOTE: this.data.harPath
-      },
-      hosts
+      [hostId],
+      [
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASS', this.simulationClass.value),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGE', this.simulationPackage.value),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HAR_PATH_REMOTE', this.data.harPath)
+      ]
     );
     this.dialogRef.close(context);
   }

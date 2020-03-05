@@ -4,8 +4,9 @@ import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/sim
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
 import SpyObj = jasmine.SpyObj;
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 describe('ImportHarDialogComponent', () => {
   let component: ImportHarDialogComponent;
@@ -55,18 +56,15 @@ describe('ImportHarDialogComponent', () => {
       hostId: 'local'
     } as any;
     component.import();
-    expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionContext(
-      'RECORD',
+    expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionEnvironment(
+      'GATLING_RECORD',
       'Import har .',
-      {
-        KRAKEN_GATLING_SIMULATION_CLASS: '',
-        KRAKEN_GATLING_SIMULATION_PACKAGE: '',
-        KRAKEN_GATLING_HAR_PATH_REMOTE: 'harPath'
-      },
-      {
-        'local': {}
-      }
-    ));
+      ['local'],
+      [
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASS', ''),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGE', ''),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HAR_PATH_REMOTE', 'harPath'),
+      ]));
   });
 
 });

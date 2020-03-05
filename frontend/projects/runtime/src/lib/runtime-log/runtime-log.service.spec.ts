@@ -9,7 +9,7 @@ import {RuntimeContainerService} from 'projects/runtime/src/lib/runtime-task/run
 import {runtimeContainerServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-container.service.spec';
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
 import {TaskExecutedEvent} from 'projects/runtime/src/lib/events/task-executed-event';
-import {testExecutionContext} from 'projects/runtime/src/lib/entities/execution-context.spec';
+import {testExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment.spec';
 import {LogsAttachedEvent} from 'projects/runtime/src/lib/events/logs-attached-event';
 import {testContainer} from 'projects/runtime/src/lib/entities/container.spec';
 import {Log} from 'projects/runtime/src/lib/entities/log';
@@ -62,9 +62,9 @@ describe('RuntimeLogService', () => {
     let count = 0;
     service.logLabelsChanged.subscribe(() => count++);
     const taskId = 'taskId';
-    const context = testExecutionContext();
+    const context = testExecutionEnvironment();
     eventBus.publish(new TaskExecutedEvent(taskId, context));
-    expect(service.label(taskId)).toEqual({name: 'description', title: 'RUN task description'});
+    expect(service.label(taskId)).toEqual({name: 'description', title: 'GATLING_RUN task description'});
     service.removeLabel(taskId);
     expect(service.label(taskId)).toBeUndefined();
     expect(count).toBe(1);
@@ -75,7 +75,7 @@ describe('RuntimeLogService', () => {
     service.logLabelsChanged.subscribe(() => count++);
     const task = testTask();
     eventBus.publish(new TaskCancelledEvent(task));
-    expect(service.label(task.id)).toEqual({name: 'description', title: 'RUN task description'});
+    expect(service.label(task.id)).toEqual({name: 'description', title: 'GATLING_RUN task description'});
     service.removeLabel(task.id);
     expect(service.label(task.id)).toBeUndefined();
     expect(count).toBe(1);

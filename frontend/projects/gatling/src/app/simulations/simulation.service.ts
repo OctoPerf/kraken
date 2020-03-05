@@ -16,7 +16,7 @@ import {
   ExecuteSimulationDialogComponent,
   ExecuteSimulationDialogData
 } from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
 import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-task.service';
 import {ImportHarDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/import-har-dialog/import-har-dialog.component';
 import {OpenResultsEvent} from 'projects/analysis/src/lib/events/open-results-event';
@@ -35,11 +35,11 @@ export class SimulationService {
   }
 
   run(node: StorageNode) {
-    this._start(node, 'RUN');
+    this._start(node, 'GATLING_RUN');
   }
 
   debug(node: StorageNode) {
-    this._start(node, 'DEBUG');
+    this._start(node, 'GATLING_DEBUG');
   }
 
   private _start(node: StorageNode,
@@ -59,7 +59,7 @@ export class SimulationService {
       }))
       .subscribe((data: ExecuteSimulationDialogData) => {
         this.dialogs.open(ExecuteSimulationDialogComponent, DialogSize.SIZE_LG, data)
-          .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe(taskId => {
+          .subscribe((context: ExecutionEnvironment) => this.taskService.execute(context).subscribe(taskId => {
             this.eventBus.publish(new OpenResultsEvent());
             this.eventBus.publish(new OpenTasksEvent());
           }));
@@ -90,6 +90,6 @@ export class SimulationService {
 
   importHar(node: StorageNode) {
     this.dialogs.open(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: node.path})
-      .subscribe((context: ExecutionContext) => this.taskService.execute(context).subscribe());
+      .subscribe((context: ExecutionEnvironment) => this.taskService.execute(context).subscribe());
   }
 }

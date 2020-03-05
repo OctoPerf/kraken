@@ -5,6 +5,7 @@ import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service'
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import SpyObj = jasmine.SpyObj;
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 describe('EnvironmentVariablesListComponent', () => {
   let component: EnvironmentVariablesListComponent;
@@ -44,8 +45,8 @@ describe('EnvironmentVariablesListComponent', () => {
       scope: 'hostId'
     }]);
     component.ngOnInit();
-    expect(component.environment).toEqual({key: 'value'});
-    expect(component.hosts).toEqual({hostId: {key: 'value'}});
+    expect(component.entries).toEqual([new ExecutionEnvironmentEntry('', 'USER', 'key', 'value'),
+      new ExecutionEnvironmentEntry('hostId', 'USER', 'key', 'value')]);
   });
 
   it('should addVariableIfEmpty', fakeAsync(() => {

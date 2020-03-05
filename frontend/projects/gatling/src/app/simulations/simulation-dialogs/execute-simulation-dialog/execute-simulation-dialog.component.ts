@@ -4,7 +4,9 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {TaskType} from 'projects/runtime/src/lib/entities/task-type';
 import {DescriptionInputComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/description-input/description-input.component';
 import {EnvironmentVariablesListComponent} from 'projects/runtime/src/lib/runtime-host/environment-variables-list/environment-variables-list.component';
-import {ExecutionContext} from 'projects/runtime/src/lib/entities/execution-context';
+import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
+import {HostsSelectorComponent} from 'projects/runtime/src/lib/runtime-host/hosts-selector/hosts-selector.component';
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 export interface ExecuteSimulationDialogData {
   simulationPackage: string;
@@ -27,6 +29,9 @@ export class ExecuteSimulationDialogComponent {
   @ViewChild('envVarList', {static: true})
   envVarList: EnvironmentVariablesListComponent;
 
+  @ViewChild('hostsSelector', {static: true})
+  hostsSelector: HostsSelectorComponent;
+
   constructor(public dialogRef: MatDialogRef<ExecuteSimulationDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ExecuteSimulationDialogData,
               private fb: FormBuilder) {
@@ -43,13 +48,11 @@ export class ExecuteSimulationDialogComponent {
   }
 
   run() {
-    const env = this.envVarList.environment;
-    env.KRAKEN_GATLING_SIMULATION = this.simulationName.value;
-    const context = new ExecutionContext(
+    const context = new ExecutionEnvironment(
       this.data.type,
       this.descriptionInput.description.value,
-      env,
-      this.envVarList.hosts
+      this.hostsSelector.hostIds,
+      this.envVarList.entries.concat(new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION', this.simulationName.value))
     );
     this.dialogRef.close(context);
   }

@@ -3,12 +3,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ADD_ICON, DELETE_ICON} from 'projects/icon/src/lib/icons';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import * as _ from 'lodash';
-
-interface FlatVariable {
-  key: string;
-  value: string;
-  scope: string;
-}
+import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
 
 @Component({
   selector: 'lib-environment-variables-list',
@@ -36,11 +31,11 @@ export class EnvironmentVariablesListComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup.addControl('variables', this.fb.array([]));
     const variables = this.variables;
-    const flatVariables = this.localStorage.getItem<FlatVariable[]>(EnvironmentVariablesListComponent.ID_PREFIX + this.storageId, []);
-    _.forEach(flatVariables, item => {
+    const entries = this.localStorage.getItem<ExecutionEnvironmentEntry[]>(EnvironmentVariablesListComponent.ID_PREFIX + this.storageId, []);
+    _.forEach(entries, item => {
       variables.push(this.newVariableFormGroup(item.key, item.value, item.scope));
     });
-    this.envExpanded = flatVariables.length > 0;
+    this.envExpanded = entries.length > 0;
   }
 
   get variables(): FormArray {
@@ -76,22 +71,17 @@ export class EnvironmentVariablesListComponent implements OnInit {
     return this.variables.controls[i].get('value');
   }
 
-  get environment(): { [key in string]: string } {
-    const flatVariables = this.flatVariables;
-    this.saveFlatVariables(flatVariables);
-    const global = _.filter(flatVariables, variable => !variable.scope);
-    return this.flatVariablesToObject(global);
-  }
-
-  get hosts(): { [hostId in string]: { [key in string]: string } } {
-    const flatVariables = this.flatVariables;
-    this.saveFlatVariables(flatVariables);
-    const hosts = {};
-    _.forEach(this.hostIds, hostId => {
-      const currentVariables = _.filter(flatVariables, variable => variable.scope === hostId);
-      hosts[hostId] = this.flatVariablesToObject(currentVariables);
+  get entries(): ExecutionEnvironmentEntry[] {
+    const variables = this.variables;
+    const entries: ExecutionEnvironmentEntry[] = variables.controls.map(control => {
+      return new ExecutionEnvironmentEntry(control.get('scope').value || '',
+        'USER',
+        control.get('key').value,
+        control.get('value').value
+      );
     });
-    return hosts;
+    this.saveEntries(entries);
+    return entries;
   }
 
   private newVariableFormGroup(key = '', value = '', scope = '') {
@@ -103,25 +93,8 @@ export class EnvironmentVariablesListComponent implements OnInit {
       });
   }
 
-  private get flatVariables(): FlatVariable[] {
-    const variables = this.variables;
-    return variables.controls.map(control => {
-      return {
-        key: control.get('key').value,
-        value: control.get('value').value,
-        scope: control.get('scope').value,
-      };
-    });
+  private saveEntries(entries: ExecutionEnvironmentEntry[]) {
+    this.localStorage.setItem(EnvironmentVariablesListComponent.ID_PREFIX + this.storageId, entries);
   }
 
-  private saveFlatVariables(flatVariables: FlatVariable[]) {
-    this.localStorage.setItem(EnvironmentVariablesListComponent.ID_PREFIX + this.storageId, flatVariables);
-  }
-
-  private flatVariablesToObject(flatVariables: FlatVariable[]): { [key in string]: string } {
-    return _.chain(flatVariables)
-      .keyBy('key')
-      .mapValues('value')
-      .value();
-  }
 }

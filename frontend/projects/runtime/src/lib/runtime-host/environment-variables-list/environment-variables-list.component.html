@@ -34,7 +34,7 @@
         <mat-form-field fxFlex>
           <mat-label>Scope</mat-label>
           <mat-select formControlName="scope">
-            <mat-option>Global</mat-option>
+            <mat-option [value]="''">Global</mat-option>
             <mat-option *ngFor="let hostId of hostIds" [value]="hostId">{{hostId}}</mat-option>
           </mat-select>
         </mat-form-field>
