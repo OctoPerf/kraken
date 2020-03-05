@@ -69,6 +69,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
         .taskId(taskId)
         .applicationId(appId)
         .templates(ImmutableMap.of("local", template))
+        .description("description")
         .build();
 
     taskService.execute(context).block();

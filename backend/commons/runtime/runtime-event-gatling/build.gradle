@@ -11,6 +11,7 @@ dependencies {
     implementation project(':commons:tools:event-bus')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-event', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-client', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-client-properties', configuration: 'testArtifacts')

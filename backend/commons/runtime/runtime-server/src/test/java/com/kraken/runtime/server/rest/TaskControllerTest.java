@@ -136,11 +136,35 @@ public class TaskControllerTest {
   }
 
   @Test
+  public void shouldRemove() {
+    final var context = CancelContextTest.CANCEL_CONTEXT;
+    final var applicationId = context.getApplicationId();
+    final var taskId = context.getTaskId();
+    final var taskType = context.getTaskType();
+
+    given(contextService.newCancelContext(applicationId, taskId, taskType)).willReturn(Mono.just(context));
+
+    given(taskService.remove(context))
+        .willReturn(Mono.just(context));
+
+    webTestClient.delete()
+        .uri(uriBuilder -> uriBuilder.path("/task/remove")
+            .pathSegment(taskType.toString())
+            .queryParam("taskId", taskId)
+            .build())
+        .header("ApplicationId", applicationId)
+        .exchange()
+        .expectStatus().isOk();
+
+    verify(taskService).remove(context);
+  }
+
+  @Test
   public void shouldFailToCancel() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/task/cancel")
-            .pathSegment("RUN")
+            .pathSegment("GATLING_RUN")
             .queryParam("taskId", "taskId")
             .build())
         .header("ApplicationId", applicationId)
@@ -180,9 +204,9 @@ public class TaskControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
+    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
         "\n" +
-        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
+        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
         "\n");
   }
 

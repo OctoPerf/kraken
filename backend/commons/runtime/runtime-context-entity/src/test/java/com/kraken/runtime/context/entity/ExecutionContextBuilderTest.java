@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExecutionContextBuilderTest {
 
   public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WithEntries = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
-      .applicationId("applicationId")
+      .applicationId("application")
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .description("description")

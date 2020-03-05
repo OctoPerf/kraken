@@ -21,8 +21,8 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class ContainerNamesPublisher implements EnvironmentPublisher {
 
-  private static final Map<String, String> SIDEKICK_NAMES = ImmutableMap.of("RUN", "telegraf", "DEBUG", "log-parser", "RECORD", "har-parser");
-  private static final Map<String, String> SIDEKICK_LABELS = ImmutableMap.of("RUN", "Telegraf", "DEBUG", "Log parser", "RECORD", "HAR parser");
+  private static final Map<TaskType, String> SIDEKICK_NAMES = ImmutableMap.of(TaskType.GATLING_RUN, "telegraf", TaskType.GATLING_DEBUG, "log-parser", TaskType.GATLING_RECORD, "har-parser");
+  private static final Map<TaskType, String> SIDEKICK_LABELS = ImmutableMap.of(TaskType.GATLING_RUN, "Telegraf", TaskType.GATLING_DEBUG, "Log parser", TaskType.GATLING_RECORD, "HAR parser");
 
   @Override
   public boolean test(final TaskType taskType) {

@@ -1,6 +1,6 @@
 tasks:
-  - type: RUN
-    file: tasks/docker/RUN/docker-compose.yml
+  - type: GATLING_RUN
+    file: tasks/docker/GATLING_RUN/docker-compose.yml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 1
@@ -12,8 +12,8 @@ tasks:
       TELEGRAF_CPU_LIMIT: 1
       TELEGRAF_MEMORY_REQUEST: 128M
       TELEGRAF_MEMORY_LIMIT: 256M
-  - type: DEBUG
-    file: tasks/docker/DEBUG/docker-compose.yml
+  - type: GATLING_DEBUG
+    file: tasks/docker/GATLING_DEBUG/docker-compose.yml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 1
@@ -26,8 +26,8 @@ tasks:
       LOG_PARSER_MEMORY_REQUEST: 256M
       LOG_PARSER_MEMORY_LIMIT: 512M
       LOG_PARSER_XMX: 450m
-  - type: RECORD
-    file: tasks/docker/RECORD/docker-compose.yml
+  - type: GATLING_RECORD
+    file: tasks/docker/GATLING_RECORD/docker-compose.yml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 0.5

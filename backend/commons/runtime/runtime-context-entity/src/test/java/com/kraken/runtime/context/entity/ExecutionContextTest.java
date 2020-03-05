@@ -9,7 +9,7 @@ import static com.kraken.test.utils.TestUtils.shouldPassAll;
 public class ExecutionContextTest {
 
   public static final ExecutionContext EXECUTION_CONTEXT = ExecutionContext.builder()
-      .applicationId("applicationId")
+      .applicationId("application")
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .description("description")

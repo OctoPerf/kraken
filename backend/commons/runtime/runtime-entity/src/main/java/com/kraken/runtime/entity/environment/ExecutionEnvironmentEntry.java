@@ -20,8 +20,8 @@ public class ExecutionEnvironmentEntry {
   ExecutionEnvironmentEntry(
       @JsonProperty("scope") final String scope,
       @JsonProperty("from") final ExecutionEnvironmentEntrySource from,
-      @JsonProperty("environment") final String key,
-      @JsonProperty("hosts") final String value) {
+      @JsonProperty("key") final String key,
+      @JsonProperty("value") final String value) {
     super();
     this.scope = requireNonNull(scope);
     this.from = requireNonNull(from);

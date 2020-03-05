@@ -45,6 +45,7 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<ExecutionContext> execute(final ExecutionContext context) {
+    checkArgument(context.getTemplates().entrySet().size() <= 1, "The Docker runtime server can only run tasks on one host!");
     final var templateOptional = context.getTemplates().values().stream().findFirst();
     checkArgument(templateOptional.isPresent(), "The Docker runtime server can only run tasks on one host!");
     final var template = templateOptional.get();

@@ -2,6 +2,7 @@ package com.kraken.runtime.tasks.configuration.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -13,14 +14,14 @@ import static java.util.Objects.requireNonNull;
 @Value
 @Builder
 public class TaskConfiguration {
-  @NonNull String type;
+  @NonNull TaskType type;
   @NonNull String file;
   @NonNull Integer containersCount;
   @NonNull Map<String, String> environment;
 
   @JsonCreator
   TaskConfiguration(
-      @JsonProperty("type") final String type,
+      @JsonProperty("type") final TaskType type,
       @JsonProperty("file") final String file,
       @JsonProperty("containers-count") final Integer containersCount,
       @JsonProperty("environment") final Map<String, String> environment) {

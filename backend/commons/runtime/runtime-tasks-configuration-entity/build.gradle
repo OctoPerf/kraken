@@ -1,3 +1,4 @@
 dependencies {
     testImplementation project(':commons:tools:configuration')
+    implementation project(':commons:runtime:runtime-entity')
 }

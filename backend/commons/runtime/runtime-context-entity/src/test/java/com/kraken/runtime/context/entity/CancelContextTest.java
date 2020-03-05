@@ -8,7 +8,7 @@ import static com.kraken.test.utils.TestUtils.shouldPassAll;
 public class CancelContextTest {
 
   public static final CancelContext CANCEL_CONTEXT = CancelContext.builder()
-      .applicationId("applicationId")
+      .applicationId("application")
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .template("template")

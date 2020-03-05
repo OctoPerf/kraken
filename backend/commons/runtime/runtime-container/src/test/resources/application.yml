@@ -4,6 +4,6 @@ kraken:
       name: containerName
     task:
       id: taskId
-      type: DEBUG
+      type: GATLING_DEBUG
     host:
       id: hostId

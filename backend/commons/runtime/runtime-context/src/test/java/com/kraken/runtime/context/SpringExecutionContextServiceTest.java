@@ -88,16 +88,17 @@ public class SpringExecutionContextServiceTest {
 
   @Test
   public void shouldCreateExecutionContext() {
-    final var context = this.service.newExecuteContext("applicationId", executionEnvironment).block();
+    final var context = this.service.newExecuteContext("application", executionEnvironment).block();
     assertThat(context).isEqualTo(ExecutionContext.builder()
-        .applicationId("applicationId")
+        .applicationId("application")
         .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .templates(ImmutableMap.of("hostId", "replaced", "other", "replaced"))
+        .description("description")
         .build());
     verify(publisher).apply(ExecutionContextBuilder.builder()
         .hostIds(executionEnvironment.getHostIds())
-        .applicationId("applicationId")
+        .applicationId("application")
         .containersCount(taskConfiguration.getContainersCount() * executionEnvironment.getHostIds().size())
         .taskId("taskId")
         .taskType(executionEnvironment.getTaskType())
@@ -116,9 +117,9 @@ public class SpringExecutionContextServiceTest {
 
   @Test
   public void shouldCreateCancelContext() {
-    final var context = this.service.newCancelContext("applicationId", "taskId", TaskType.GATLING_RUN).block();
+    final var context = this.service.newCancelContext("application", "taskId", TaskType.GATLING_RUN).block();
     assertThat(context).isEqualTo(CancelContext.builder()
-        .applicationId("applicationId")
+        .applicationId("application")
         .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .template("template")

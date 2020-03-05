@@ -87,6 +87,7 @@ public class DockerTaskServiceTest {
         .taskId("taskId")
         .taskType(TaskType.GATLING_RUN)
         .templates(ImmutableMap.of())
+        .description("description")
         .build();
 
     service.execute(context).block();
@@ -99,6 +100,7 @@ public class DockerTaskServiceTest {
         .taskId("taskId")
         .taskType(TaskType.GATLING_RUN)
         .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
+        .description("description")
         .build();
 
     service.execute(context).block();
