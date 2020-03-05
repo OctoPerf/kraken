@@ -1,4 +1,4 @@
-package com.kraken.runtime.context.gatling.environment;
+package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.test.utils.TestUtils;
@@ -12,17 +12,17 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DebugChecker.class})
-public class DebugCheckerTest {
+@ContextConfiguration(classes = {ContainerNamesChecker.class})
+public class ContainerNamesCheckerTest {
 
   @Autowired
-  DebugChecker checker;
+  ContainerNamesChecker checker;
 
   @Test
   public void shouldTest() {
-    assertThat(checker.test("RUN")).isFalse();
+    assertThat(checker.test("RUN")).isTrue();
     assertThat(checker.test("DEBUG")).isTrue();
-    assertThat(checker.test("RECORD")).isFalse();
+    assertThat(checker.test("RECORD")).isTrue();
   }
 
 
@@ -34,15 +34,16 @@ public class DebugCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_SIMULATION, "value")
-        .put(KRAKEN_ANALYSIS_URL, "value")
-        .put(KRAKEN_STORAGE_URL, "value")
+        .put(KRAKEN_GATLING_CONTAINER_NAME, "value")
+        .put(KRAKEN_GATLING_CONTAINER_LABEL, "value")
+        .put(KRAKEN_GATLING_SIDEKICK_NAME, "value")
+        .put(KRAKEN_GATLING_SIDEKICK_LABEL, "value")
         .build();
     checker.accept(env);
   }
 
   @Test
-  public void shouldTestUtils(){
-    TestUtils.shouldPassNPE(DebugChecker.class);
+  public void shouldTestUtils() {
+    TestUtils.shouldPassNPE(ContainerNamesChecker.class);
   }
 }

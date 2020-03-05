@@ -13,4 +13,8 @@ public interface EnvironmentChecker extends Predicate<String>, Consumer<Map<Stri
     Arrays.asList(keys).forEach(key -> requireNonNull(hostsEnvironment.get(key), String.format("Environment variable '%s' is required.", key)));
   }
 
+  default boolean accept(final String taskType, final String... types) {
+    return Arrays.asList(types).stream().anyMatch(type -> type.equals(taskType));
+  }
+
 }

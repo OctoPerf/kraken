@@ -1,4 +1,4 @@
-package com.kraken.runtime.context.gatling.environment;
+package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.kraken.runtime.context.api.environment.EnvironmentChecker;
 import org.springframework.stereotype.Component;

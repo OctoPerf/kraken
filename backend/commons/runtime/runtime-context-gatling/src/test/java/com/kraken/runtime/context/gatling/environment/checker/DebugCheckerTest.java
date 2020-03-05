@@ -1,6 +1,7 @@
-package com.kraken.runtime.context.gatling.environment;
+package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.context.gatling.environment.checker.DebugChecker;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,17 +13,17 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {JavaOptsChecker.class})
-public class JavaOptsCheckerTest {
+@ContextConfiguration(classes = {DebugChecker.class})
+public class DebugCheckerTest {
 
   @Autowired
-  JavaOptsChecker checker;
+  DebugChecker checker;
 
   @Test
   public void shouldTest() {
-    assertThat(checker.test("RUN")).isTrue();
+    assertThat(checker.test("RUN")).isFalse();
     assertThat(checker.test("DEBUG")).isTrue();
-    assertThat(checker.test("RECORD")).isTrue();
+    assertThat(checker.test("RECORD")).isFalse();
   }
 
 
@@ -34,13 +35,15 @@ public class JavaOptsCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_JAVA_OPTS, "value")
+        .put(KRAKEN_GATLING_SIMULATION, "value")
+        .put(KRAKEN_ANALYSIS_URL, "value")
+        .put(KRAKEN_STORAGE_URL, "value")
         .build();
     checker.accept(env);
   }
 
   @Test
-  public void shouldTestUtils() {
-    TestUtils.shouldPassNPE(RunChecker.class);
+  public void shouldTestUtils(){
+    TestUtils.shouldPassNPE(DebugChecker.class);
   }
 }

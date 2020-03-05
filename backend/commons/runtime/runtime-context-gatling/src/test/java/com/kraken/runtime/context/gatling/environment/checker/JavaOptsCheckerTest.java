@@ -1,6 +1,8 @@
-package com.kraken.runtime.context.gatling.environment;
+package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.context.gatling.environment.checker.JavaOptsChecker;
+import com.kraken.runtime.context.gatling.environment.checker.RunChecker;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,17 +14,17 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {RunChecker.class})
-public class RunCheckerTest {
+@ContextConfiguration(classes = {JavaOptsChecker.class})
+public class JavaOptsCheckerTest {
 
   @Autowired
-  RunChecker checker;
+  JavaOptsChecker checker;
 
   @Test
   public void shouldTest() {
     assertThat(checker.test("RUN")).isTrue();
-    assertThat(checker.test("DEBUG")).isFalse();
-    assertThat(checker.test("RECORD")).isFalse();
+    assertThat(checker.test("DEBUG")).isTrue();
+    assertThat(checker.test("RECORD")).isTrue();
   }
 
 
@@ -34,18 +36,13 @@ public class RunCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_SIMULATION, "value")
-        .put(KRAKEN_INFLUXDB_URL, "value")
-        .put(KRAKEN_INFLUXDB_DATABASE, "value")
-        .put(KRAKEN_INFLUXDB_USER, "value")
-        .put(KRAKEN_INFLUXDB_PASSWORD, "value")
-        .put(KRAKEN_STORAGE_URL, "value")
+        .put(KRAKEN_GATLING_JAVA_OPTS, "value")
         .build();
     checker.accept(env);
   }
 
   @Test
   public void shouldTestUtils() {
-    TestUtils.shouldPassNPE(RunChecker.class);
+    TestUtils.shouldPassNPE(JavaOptsChecker.class);
   }
 }

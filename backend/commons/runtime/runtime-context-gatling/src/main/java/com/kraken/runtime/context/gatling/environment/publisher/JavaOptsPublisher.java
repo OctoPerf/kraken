@@ -1,4 +1,4 @@
-package com.kraken.runtime.context.gatling.environment;
+package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
