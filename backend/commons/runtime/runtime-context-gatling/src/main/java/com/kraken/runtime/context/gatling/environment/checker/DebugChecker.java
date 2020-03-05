@@ -1,6 +1,7 @@
 package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.kraken.runtime.context.api.environment.EnvironmentChecker;
+import com.kraken.runtime.entity.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ class DebugChecker implements EnvironmentChecker {
   }
 
   @Override
-  public boolean test(final String taskType) {
-    return accept(taskType, "DEBUG");
+  public boolean test(final TaskType taskType) {
+    return test(taskType, TaskType.DEBUG);
   }
 }

@@ -3,6 +3,7 @@ package com.kraken.runtime.context.gatling.environment.publisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.context.gatling.environment.publisher.StorageUrlPublisher;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
@@ -25,9 +26,9 @@ public class StorageUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test("RUN")).isTrue();
-    assertThat(publisher.test("DEBUG")).isTrue();
-    assertThat(publisher.test("RECORD")).isTrue();
+    assertThat(publisher.test(TaskType.RUN)).isTrue();
+    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
+    assertThat(publisher.test(TaskType.RECORD)).isTrue();
   }
 
   @Test

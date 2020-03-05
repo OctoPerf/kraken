@@ -1,5 +1,6 @@
 package com.kraken.runtime.context.entity;
 
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
@@ -13,6 +14,6 @@ import java.util.Map;
 public class CancelContext {
   @NonNull String applicationId;
   @NonNull String taskId;
-  @NonNull String taskType;
+  @NonNull TaskType taskType;
   @NonNull String template;
 }

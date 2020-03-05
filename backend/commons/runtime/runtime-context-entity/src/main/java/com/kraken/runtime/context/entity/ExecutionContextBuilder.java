@@ -3,6 +3,7 @@ package com.kraken.runtime.context.entity;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.*;
 
 import java.util.Comparator;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class ExecutionContextBuilder {
   @NonNull String applicationId;
   @NonNull String taskId;
-  @NonNull String taskType;
+  @NonNull TaskType taskType;
   @NonNull String description;
   @NonNull String file;
   @NonNull Integer containersCount;

@@ -2,6 +2,7 @@ package com.kraken.runtime.server.service;
 
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 
@@ -18,7 +19,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)
@@ -43,7 +44,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)
@@ -68,7 +69,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId1")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)
@@ -81,7 +82,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId2")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)
@@ -106,7 +107,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId1")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)
@@ -119,7 +120,7 @@ public class SpringFlatContainersToTaskTest {
         .name("containerId2")
         .hostId("hostId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .label("name")
         .description("description")
         .startDate(42L)

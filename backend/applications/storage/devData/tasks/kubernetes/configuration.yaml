@@ -1,6 +1,6 @@
 tasks:
-  - type: RUN
-    file: tasks/kubernetes/RUN/pod.yaml
+  - type: GATLING_RUN
+    file: tasks/kubernetes/GATLING_RUN/pod.yaml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 1
@@ -12,8 +12,8 @@ tasks:
       TELEGRAF_CPU_LIMIT: 1
       TELEGRAF_MEMORY_REQUEST: 128M
       TELEGRAF_MEMORY_LIMIT: 256M
-  - type: DEBUG
-    file: tasks/kubernetes/DEBUG/pod.yaml
+  - type: GATLING_DEBUG
+    file: tasks/kubernetes/GATLING_DEBUG/pod.yaml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 1
@@ -26,8 +26,8 @@ tasks:
       LOG_PARSER_MEMORY_REQUEST: 256M
       LOG_PARSER_MEMORY_LIMIT: 512M
       LOG_PARSER_XMX: 450m
-  - type: RECORD
-    file: tasks/kubernetes/RECORD/pod.yaml
+  - type: GATLING_RECORD
+    file: tasks/kubernetes/GATLING_RECORD/pod.yaml
     containers-count: 2
     environment:
       GATLING_CPU_REQUEST: 0.5

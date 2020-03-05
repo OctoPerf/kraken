@@ -1,6 +1,7 @@
 package com.kraken.runtime.context.environment;
 
 import com.kraken.runtime.context.api.environment.EnvironmentChecker;
+import com.kraken.runtime.entity.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -23,7 +24,7 @@ class BaseChecker implements EnvironmentChecker {
   }
 
   @Override
-  public boolean test(final String taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 

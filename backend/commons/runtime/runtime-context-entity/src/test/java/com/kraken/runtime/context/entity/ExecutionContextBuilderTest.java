@@ -6,6 +6,7 @@ import com.google.common.testing.NullPointerTester;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntryTest;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import lombok.NonNull;
 import lombok.With;
@@ -23,7 +24,7 @@ public class ExecutionContextBuilderTest {
   public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WithEntries = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
       .applicationId("applicationId")
       .taskId("taskId")
-      .taskType("RUN")
+      .taskType(TaskType.RUN)
       .description("description")
       .file("file")
       .containersCount(42)

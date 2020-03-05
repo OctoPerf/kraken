@@ -10,6 +10,7 @@ import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
@@ -65,9 +66,9 @@ public class SpringExecutionContextServiceTest {
     contextBuilder = ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER;
     executionEnvironment = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     taskConfiguration = TaskConfigurationTest.TASK_CONFIGURATION;
-    given(configurationService.getConfiguration(anyString())).willReturn(Mono.just(taskConfiguration));
+    given(configurationService.getConfiguration(any())).willReturn(Mono.just(taskConfiguration));
     given(idGenerator.generate()).willReturn("taskId");
-    given(publisher.test(anyString())).willReturn(true);
+    given(publisher.test(any())).willReturn(true);
     given(publisher.apply(any())).willReturn(contextBuilder.addEntries(ImmutableList.of(
         ExecutionEnvironmentEntry.builder()
             .key("hello")
@@ -76,7 +77,7 @@ public class SpringExecutionContextServiceTest {
             .from(BACKEND)
             .build()
     )));
-    given(checker.test(anyString())).willReturn(true);
+    given(checker.test(any())).willReturn(true);
     given(storageClient.getContent(anyString())).willReturn(Mono.just("template"));
     given(templateService.replaceAll(anyString(), any())).willReturn(Mono.just("replaced"));
     given(toMap.apply(anyString(), any())).willReturn(ImmutableMap.of("hello", "toMap"));
@@ -96,7 +97,7 @@ public class SpringExecutionContextServiceTest {
     final var context = this.service.newExecuteContext("applicationId", executionEnvironment).block();
     assertThat(context).isEqualTo(ExecutionContext.builder()
         .applicationId("applicationId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .taskId("taskId")
         .templates(ImmutableMap.of("hostId", "replaced", "other", "replaced"))
         .build());
@@ -121,10 +122,10 @@ public class SpringExecutionContextServiceTest {
 
   @Test
   public void shouldCreateCancelContext() {
-    final var context = this.service.newCancelContext("applicationId", "taskId", "RUN").block();
+    final var context = this.service.newCancelContext("applicationId", "taskId", TaskType.RUN).block();
     assertThat(context).isEqualTo(CancelContext.builder()
         .applicationId("applicationId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .taskId("taskId")
         .template("template")
         .build());

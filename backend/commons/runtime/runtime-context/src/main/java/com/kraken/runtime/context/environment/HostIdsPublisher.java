@@ -3,6 +3,7 @@ package com.kraken.runtime.context.environment;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,7 +20,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_HOST_ID;
 class HostIdsPublisher implements EnvironmentPublisher {
 
   @Override
-  public boolean test(final String taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 

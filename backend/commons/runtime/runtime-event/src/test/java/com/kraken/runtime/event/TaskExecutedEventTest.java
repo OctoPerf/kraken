@@ -1,9 +1,9 @@
 package com.kraken.runtime.event;
 
 import com.google.common.testing.NullPointerTester;
+import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.test.utils.TestUtils;
 import com.kraken.runtime.context.entity.ExecutionContext;
-import com.runtime.context.entity.ExecutionContextTest;
 import org.junit.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;

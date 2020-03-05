@@ -4,6 +4,7 @@ import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfigu
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.context.gatling.environment.publisher.AnalysisUrlPublisher;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +26,9 @@ public class AnalysisUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test("RUN")).isFalse();
-    assertThat(publisher.test("DEBUG")).isTrue();
-    assertThat(publisher.test("RECORD")).isTrue();
+    assertThat(publisher.test(TaskType.RUN)).isFalse();
+    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
+    assertThat(publisher.test(TaskType.RECORD)).isTrue();
   }
 
   @Test

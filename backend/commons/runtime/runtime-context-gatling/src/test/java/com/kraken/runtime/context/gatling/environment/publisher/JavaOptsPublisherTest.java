@@ -5,6 +5,7 @@ import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfigu
 import com.kraken.runtime.context.gatling.environment.publisher.AnalysisUrlPublisher;
 import com.kraken.runtime.context.gatling.environment.publisher.JavaOptsPublisher;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +28,9 @@ public class JavaOptsPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test("RUN")).isTrue();
-    assertThat(publisher.test("DEBUG")).isTrue();
-    assertThat(publisher.test("RECORD")).isTrue();
+    assertThat(publisher.test(TaskType.RUN)).isTrue();
+    assertThat(publisher.test(TaskType.DEBUG)).isTrue();
+    assertThat(publisher.test(TaskType.RECORD)).isTrue();
   }
 
   @Test

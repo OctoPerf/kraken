@@ -1,5 +1,6 @@
 package com.kraken.runtime.tasks.configuration;
 
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
@@ -24,7 +25,7 @@ final class SpringTaskConfigurationService implements TaskConfigurationService {
   @NonNull RuntimeServerProperties runtimeServerProperties;
   @NonNull StorageClient storageClient;
 
-  public Mono<TaskConfiguration> getConfiguration(final String taskType) {
+  public Mono<TaskConfiguration> getConfiguration(final TaskType taskType) {
     return storageClient.getYamlContent(runtimeServerProperties.getConfigurationPath(), TasksConfiguration.class)
         .map(tasksConfiguration -> tasksConfiguration.getTasks()
             .stream()

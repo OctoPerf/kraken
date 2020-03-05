@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +19,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 class ContextPublisher implements EnvironmentPublisher {
 
   @Override
-  public boolean test(final String taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 
@@ -28,7 +29,7 @@ class ContextPublisher implements EnvironmentPublisher {
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_ID).value(context.getTaskId()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_DESCRIPTION).value(context.getDescription()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_APPLICATION_ID).value(context.getApplicationId()).build(),
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_TYPE).value(context.getTaskType()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_TYPE).value(context.getTaskType().toString()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_EXPECTED_COUNT).value(context.getContainersCount().toString()).build()
     ));
   }

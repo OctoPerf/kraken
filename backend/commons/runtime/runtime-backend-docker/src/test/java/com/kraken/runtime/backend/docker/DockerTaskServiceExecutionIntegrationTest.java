@@ -7,6 +7,7 @@ import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.context.entity.ExecutionContext;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.test.utils.ResourceUtils;
 import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
@@ -56,7 +57,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   public void shouldExecuteAndCancelStatus() throws InterruptedException, IOException {
     final var taskId = "taskId";
     final var appId = "test";
-    final var taskType = "RECORD";
+    final var taskType = TaskType.RECORD;
     final var template = ResourceUtils.getResourceContent("docker-compose.yml");
     final var logs = new ArrayList<Log>();
     final var disposable = logsService.listen(appId)

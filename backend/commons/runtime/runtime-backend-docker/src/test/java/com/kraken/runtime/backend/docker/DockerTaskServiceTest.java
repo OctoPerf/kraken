@@ -12,6 +12,7 @@ import com.kraken.runtime.entity.log.LogType;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
@@ -87,7 +88,7 @@ public class DockerTaskServiceTest {
     final var context = ExecutionContext.builder()
         .applicationId("applicationId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .templates(ImmutableMap.of())
         .build();
 
@@ -99,7 +100,7 @@ public class DockerTaskServiceTest {
     final var context = ExecutionContext.builder()
         .applicationId("applicationId")
         .taskId("taskId")
-        .taskType("RUN")
+        .taskType(TaskType.RUN)
         .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
         .build();
 

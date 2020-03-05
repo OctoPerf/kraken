@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +25,7 @@ class ContainerNamesPublisher implements EnvironmentPublisher {
   private static final Map<String, String> SIDEKICK_LABELS = ImmutableMap.of("RUN", "Telegraf", "DEBUG", "Log parser", "RECORD", "HAR parser");
 
   @Override
-  public boolean test(final String taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 

@@ -5,6 +5,7 @@ import com.kraken.analysis.client.properties.AnalysisClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_ANALYSIS_URL;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_URL;
 
 @Component
 @AllArgsConstructor
@@ -23,8 +23,8 @@ class AnalysisUrlPublisher implements EnvironmentPublisher {
   @NonNull AnalysisClientProperties properties;
 
   @Override
-  public boolean test(final String taskType) {
-    return "DEBUG".equals(taskType) || "RECORD".equals(taskType);
+  public boolean test(final TaskType taskType) {
+    return test(taskType, TaskType.DEBUG, TaskType.RECORD);
   }
 
   @Override

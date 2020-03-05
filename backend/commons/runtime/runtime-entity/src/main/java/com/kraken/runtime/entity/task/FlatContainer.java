@@ -15,7 +15,7 @@ public class FlatContainer {
   String name;
   String hostId;
   String taskId;
-  String taskType;
+  TaskType taskType;
   String label;
   String description;
   Long startDate;
@@ -30,7 +30,7 @@ public class FlatContainer {
       @JsonProperty("name") final String name,
       @JsonProperty("hostId") final String hostId,
       @JsonProperty("taskId") final String taskId,
-      @JsonProperty("taskType") final String taskType,
+      @JsonProperty("taskType") final TaskType taskType,
       @JsonProperty("label") final String label,
       @JsonProperty("description") final String description,
       @JsonProperty("startDate") final Long startDate,

@@ -5,6 +5,7 @@ import com.kraken.runtime.context.api.MapExecutionEnvironmentEntries;
 import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.kraken.storage.client.StorageClient;
@@ -66,7 +67,7 @@ class SpringExecutionContextService implements ExecutionContextService {
   }
 
   @Override
-  public Mono<CancelContext> newCancelContext(String applicationId, String taskId, String taskType) {
+  public Mono<CancelContext> newCancelContext(String applicationId, String taskId, TaskType taskType) {
     return configurationService.getConfiguration(taskType)
         .map(TaskConfiguration::getFile)
         .flatMap(storageClient::getContent)
@@ -83,6 +84,7 @@ class SpringExecutionContextService implements ExecutionContextService {
         .applicationId(c1.getApplicationId())
         .taskId(c1.getTaskId())
         .taskType(c1.getTaskType())
+        .description(c1.getDescription())
         .templates(ImmutableMap.<String, String>builder().putAll(c1.getTemplates()).putAll(c2.getTemplates()).build())
         .build();
   }
@@ -96,6 +98,7 @@ class SpringExecutionContextService implements ExecutionContextService {
         .applicationId(context.getApplicationId())
         .taskId(context.getTaskId())
         .taskType(context.getTaskType())
+        .description(context.getDescription())
         .templates(ImmutableMap.of(hostId, replaced))
         .build());
   }

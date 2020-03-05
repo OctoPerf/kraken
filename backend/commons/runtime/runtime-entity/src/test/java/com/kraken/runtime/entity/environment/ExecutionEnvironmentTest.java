@@ -2,6 +2,7 @@ package com.kraken.runtime.entity.environment;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 public class ExecutionEnvironmentTest {
 
   public static final ExecutionEnvironment EXECUTION_ENVIRONMENT = ExecutionEnvironment.builder()
-      .taskType("RUN")
+      .taskType(TaskType.RUN)
       .description("description")
       .hostIds(ImmutableList.of("hostId", "other"))
       .entries(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY))

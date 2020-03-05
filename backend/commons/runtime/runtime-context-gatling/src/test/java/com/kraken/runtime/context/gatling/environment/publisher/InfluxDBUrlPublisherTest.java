@@ -5,6 +5,7 @@ import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.context.gatling.environment.publisher.InfluxDBUrlPublisher;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,9 +29,9 @@ public class InfluxDBUrlPublisherTest {
 
   @Test
   public void shouldTest() {
-    assertThat(publisher.test("RUN")).isTrue();
-    assertThat(publisher.test("DEBUG")).isFalse();
-    assertThat(publisher.test("RECORD")).isFalse();
+    assertThat(publisher.test(TaskType.RUN)).isTrue();
+    assertThat(publisher.test(TaskType.DEBUG)).isFalse();
+    assertThat(publisher.test(TaskType.RECORD)).isFalse();
   }
 
   @Test

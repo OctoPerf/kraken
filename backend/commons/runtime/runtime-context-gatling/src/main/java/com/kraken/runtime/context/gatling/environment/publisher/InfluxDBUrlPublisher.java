@@ -5,6 +5,7 @@ import com.kraken.influxdb.client.InfluxDBClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -22,8 +23,8 @@ class InfluxDBUrlPublisher implements EnvironmentPublisher {
   @NonNull InfluxDBClientProperties properties;
 
   @Override
-  public boolean test(final String taskType) {
-    return "RUN".equals(taskType);
+  public boolean test(final TaskType taskType) {
+    return test(taskType, TaskType.RUN);
   }
 
   @Override

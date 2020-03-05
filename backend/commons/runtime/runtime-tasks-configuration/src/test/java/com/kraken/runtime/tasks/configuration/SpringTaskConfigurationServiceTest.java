@@ -1,6 +1,7 @@
 package com.kraken.runtime.tasks.configuration;
 
 import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
@@ -35,7 +36,7 @@ public class SpringTaskConfigurationServiceTest {
   @Test
   public void shouldReturnTasksConfiguration() {
     given(storageClient.getYamlContent(serverProperties.getConfigurationPath(), TasksConfiguration.class)).willReturn(Mono.just(TasksConfigurationTest.TASKS_CONFIGURATION));
-    final var result = service.getConfiguration("RUN").block();
+    final var result = service.getConfiguration(TaskType.RUN).block();
     assertThat(result).isNotNull();
     assertThat(result).isEqualTo(TaskConfigurationTest.TASK_CONFIGURATION);
   }

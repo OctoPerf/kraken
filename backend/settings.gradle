@@ -111,8 +111,8 @@ findProject(':commons:template:template-string')?.name = 'template-string'
 
 include ':commons:ee:license'
 findProject(':commons:ee:license')?.name = 'license'
-include 'commons:ee:runtime-backend-kubernetes'
-findProject(':commons:ee:runtime-backend-kubernetes')?.name = 'runtime-backend-kubernetes'
+//include 'commons:ee:runtime-backend-kubernetes'
+//findProject(':commons:ee:runtime-backend-kubernetes')?.name = 'runtime-backend-kubernetes'
 
 include ':test-utils'
 findProject(':test-utils')?.name = 'test-utils'
@@ -134,6 +134,6 @@ findProject(':applications:gatling-recorder')?.name = 'app-gatling-recorder'
 include 'applications:har-parser'
 findProject(':applications:har-parser')?.name = 'app-har-parser'
 
-include 'applications:ee:runtime-kubernetes'
-findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
+//include 'applications:ee:runtime-kubernetes'
+//findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
 

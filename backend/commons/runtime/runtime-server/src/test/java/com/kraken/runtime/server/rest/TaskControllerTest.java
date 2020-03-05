@@ -4,9 +4,13 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.backend.api.TaskService;
+import com.kraken.runtime.context.api.ExecutionContextService;
+import com.kraken.runtime.context.entity.CancelContextTest;
+import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;
@@ -14,9 +18,6 @@ import com.kraken.test.utils.TestUtils;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.runtime.context.api.ExecutionContextService;
-import com.runtime.context.entity.CancelContextTest;
-import com.runtime.context.entity.ExecutionContextTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +72,10 @@ public class TaskControllerTest {
 
   @Test
   public void shouldRun() {
-    final var applicationId = "test";
-    final var taskId = "taskId";
     final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     final var context = ExecutionContextTest.EXECUTION_CONTEXT;
+    final var applicationId = context.getApplicationId();
+    final var taskId = context.getTaskId();
 
     given(contextService.newExecuteContext(applicationId, env)).willReturn(Mono.just(context));
     given(taskService.execute(context))
@@ -110,10 +111,10 @@ public class TaskControllerTest {
 
   @Test
   public void shouldCancel() {
-    final var applicationId = "test";
-    final var taskId = "taskId";
-    final var taskType = "RUN";
     final var context = CancelContextTest.CANCEL_CONTEXT;
+    final var applicationId = context.getApplicationId();
+    final var taskId = context.getTaskId();
+    final var taskType = context.getTaskType();
 
     given(contextService.newCancelContext(applicationId, taskId, taskType)).willReturn(Mono.just(context));
 

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.storage.client.properties.StorageClientProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ class StorageUrlPublisher implements EnvironmentPublisher {
   @NonNull StorageClientProperties properties;
 
   @Override
-  public boolean test(final String taskType) {
+  public boolean test(final TaskType taskType) {
     return true;
   }
 
