@@ -10,7 +10,7 @@ import static com.kraken.test.utils.TestUtils.*;
 public class HostTest {
 
   public static final Host HOST = Host.builder()
-      .id("hostId")
+      .id("host-1")
       .name("hostName")
       .capacity(HostCapacityTest.HOST_CAPACITY)
       .allocatable(HostCapacityTest.HOST_CAPACITY)
