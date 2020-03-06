@@ -23,7 +23,7 @@ export class AttachHostDialogComponent {
         Validators.required,
         Validators.maxLength(63),
         Validators.minLength(4),
-        Validators.pattern(/^[a-zA-Z0-9]+[a-zA-Z0-9\-_\.]*[a-zA-Z0-9]+$/),
+        Validators.pattern(/^[a-z0-9]+[a-z0-9\-]*[a-z0-9]+$/),
       ]],
     });
   }

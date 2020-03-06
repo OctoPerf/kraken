@@ -9,12 +9,12 @@ metadata:
     com.kraken/hostId: "${KRAKEN_HOST_ID}"
     com.kraken/taskId: "${KRAKEN_TASK_ID}"
     com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
-  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
+  name: "${KRAKEN_APPLICATION_ID}.${KRAKEN_TASK_ID}.${KRAKEN_HOST_ID}"
 spec:
   containers:
     -
       image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}.${KRAKEN_TASK_ID}.${KRAKEN_HOST_ID}.${KRAKEN_GATLING_CONTAINER_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_GATLING_CPU_LIMIT}"
@@ -32,7 +32,7 @@ spec:
         - name: KRAKEN_HOST_ID
           value: "${KRAKEN_HOST_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}.${KRAKEN_TASK_ID}.${KRAKEN_HOST_ID}.${KRAKEN_GATLING_CONTAINER_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_CONTAINER_LABEL}"
         - name: KRAKEN_GATLING_JAVA_OPTS
@@ -47,7 +47,7 @@ spec:
           value: "${KRAKEN_DESCRIPTION}"
     -
       image: "octoperf/kraken-log-parser:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}.${KRAKEN_TASK_ID}.${KRAKEN_HOST_ID}.${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
@@ -65,7 +65,7 @@ spec:
         - name: KRAKEN_HOST_ID
           value: "${KRAKEN_HOST_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}.${KRAKEN_TASK_ID}.${KRAKEN_HOST_ID}.${KRAKEN_GATLING_SIDEKICK_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
         - name: KRAKEN_INFLUXDB_URL
