@@ -8,11 +8,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "${GATLING_CPU_LIMIT}"
-          memory: "${GATLING_MEMORY_LIMIT}"
+          cpus: "${KRAKEN_GATLING_CPU_LIMIT}"
+          memory: "${KRAKEN_GATLING_MEMORY_LIMIT}"
         reservations:
-          cpus: "${GATLING_CPU_REQUEST}"
-          memory: "${GATLING_MEMORY_REQUEST}"
+          cpus: "${KRAKEN_GATLING_CPU_REQUEST}"
+          memory: "${KRAKEN_GATLING_MEMORY_REQUEST}"
     labels:
       com.kraken/taskId: "${KRAKEN_TASK_ID}"
       com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
@@ -33,7 +33,6 @@ services:
       KRAKEN_GATLING_JAVA_OPTS: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
       KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
       KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
-      KRAKEN_ANALYSIS_URL: "${KRAKEN_ANALYSIS_URL}"
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_GATLING_XMX}"
 
   kraken-har-parser:
@@ -43,11 +42,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "${SIDEKICK_CPU_LIMIT}"
-          memory: "${SIDEKICK_MEMORY_LIMIT}"
+          cpus: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_LIMIT}"
         reservations:
-          cpus: "${SIDEKICK_CPU_REQUEST}"
-          memory: "${SIDEKICK_MEMORY_REQUEST}"
+          cpus: "${KRAKEN_SIDEKICK_CPU_REQUEST}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
     labels:
       com.kraken/taskId: "${KRAKEN_TASK_ID}"
       com.kraken/taskType: "${KRAKEN_TASK_TYPE}"

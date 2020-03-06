@@ -1,10 +1,16 @@
 version: '3.5'
 
+networks:
+  kraken:
+    name: kraken
+    external: true
+
 services:
   kraken-gatling-debugger:
     image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:
