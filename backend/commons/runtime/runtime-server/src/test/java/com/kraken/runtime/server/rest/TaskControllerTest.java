@@ -10,7 +10,6 @@ import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;

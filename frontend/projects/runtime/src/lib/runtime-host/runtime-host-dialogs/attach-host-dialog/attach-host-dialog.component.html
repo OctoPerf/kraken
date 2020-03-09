@@ -17,7 +17,7 @@
         Host ID must be less than 64 characters long.
       </mat-error>
       <mat-error *ngIf="hostId.hasError('pattern')">
-        Host ID must begin and end with an alphanumeric character ([a-z0-9]) with underscores (_) and alphanumerics between.
+        Host ID must begin and end with an alphanumeric character ([a-z0-9]) with dashes (-) and alphanumerics between.
       </mat-error>
     </mat-form-field>
   </div>
