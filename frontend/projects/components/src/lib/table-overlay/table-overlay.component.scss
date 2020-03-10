@@ -21,7 +21,7 @@
 
 .loading-shade, .no-data-shade {
   position: absolute;
-  top: 44px;
+  top: 34px;
   left: 0;
   bottom: 0;
   right: 0;
@@ -33,4 +33,8 @@
   justify-content: center;
   text-align: center;
   //@include font-lg();
+
+  .shade-content {
+    margin-top: 10px;
+  }
 }

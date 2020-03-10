@@ -1,12 +1,12 @@
 <div class="container" tabindex="0" [id]="id" #scrollableTable>
   <div class="loading-shade"
        *ngIf="loading">
-    <lib-spinner *ngIf="loading" [size]="48"></lib-spinner>
+    <lib-spinner class="shade-content" *ngIf="loading" [size]="48"></lib-spinner>
   </div>
 
   <div class="no-data-shade"
        *ngIf="!loading && (!dataSource || dataSource.data.length === 0)">
-    <lib-message level="info" centered="true">
+    <lib-message class="shade-content" level="info" centered="true">
       {{noDataLabel}}
     </lib-message>
   </div>
