@@ -95,8 +95,6 @@ public class DockerTaskServiceExecutionIntegrationTest {
     System.out.println(logs);
 
     assertThat(logsString).containsIgnoringCase("Creating");
-    assertThat(logsString).containsIgnoringCase("Stopping");
-    assertThat(logsString).containsIgnoringCase("Removing");
     assertThat(logsString).containsIgnoringCase("container-two_STARTING ... done");
     assertThat(logsString).containsIgnoringCase("container-one_STARTING ... done");
   }

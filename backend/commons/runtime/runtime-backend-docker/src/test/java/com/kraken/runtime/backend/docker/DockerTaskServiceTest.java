@@ -15,6 +15,8 @@ import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.FileSystemUtils;
@@ -42,6 +44,9 @@ public class DockerTaskServiceTest {
   LogsService logsService;
   @Mock
   Function<String, FlatContainer> stringToFlatContainer;
+  @Captor
+  ArgumentCaptor<Command> commandCaptor;
+
 
   DockerTaskService service;
 
@@ -50,8 +55,7 @@ public class DockerTaskServiceTest {
     service = new DockerTaskService(
         commandService,
         logsService,
-        stringToFlatContainer,
-        ApplicationPropertiesTest.APPLICATION_PROPERTIES);
+        stringToFlatContainer);
 
     FileSystemUtils.deleteRecursively(Paths.get("testDir/taskId"));
     FileSystemUtils.deleteRecursively(Paths.get("testDir/id"));
@@ -60,24 +64,20 @@ public class DockerTaskServiceTest {
   @Test
   public void shouldExecute() {
     final var context = ExecutionContextTest.EXECUTION_CONTEXT;
-
-    final var executeCmd = Command.builder()
-        .path("testDir/taskId")
-        .command(Arrays.asList("docker-compose",
-            "--no-ansi",
-            "up",
-            "-d",
-            "--no-color"))
-        .environment(ImmutableMap.of())
-        .build();
-
     final var logs = Flux.just("logs");
-    given(commandService.execute(executeCmd)).willReturn(logs);
+    given(commandService.execute(any())).willReturn(logs);
 
     assertThat(service.execute(context).block()).isEqualTo(context);
 
-    verify(commandService).execute(executeCmd);
+    verify(commandService).execute(commandCaptor.capture());
     verify(logsService).push(eq(context.getApplicationId()), eq(context.getTaskId()), eq(LogType.TASK), any());
+
+    final var executed = commandCaptor.getValue();
+    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("docker-compose",
+        "--no-ansi",
+        "up",
+        "-d",
+        "--no-color"));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -109,40 +109,25 @@ public class DockerTaskServiceTest {
   @Test
   public void shouldCancel() {
     final var context = CancelContextTest.CANCEL_CONTEXT;
-
-    final var cancelCmd = Command.builder()
-        .path("testDir/taskId")
-        .command(Arrays.asList("docker-compose",
-            "--no-ansi",
-            "down"))
-        .environment(ImmutableMap.of())
-        .build();
-
     final var logs = Flux.just("logs");
-    given(commandService.execute(cancelCmd)).willReturn(logs);
-
+    given(commandService.execute(any())).willReturn(logs);
     assertThat(service.cancel(context).block()).isEqualTo(context);
+    verify(commandService).execute(commandCaptor.capture());
 
-    verify(commandService).execute(cancelCmd);
-    verify(logsService).push(eq(context.getApplicationId()), eq(context.getTaskId()), eq(LogType.TASK), any());
+    final var executed = commandCaptor.getValue();
+    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())));
   }
 
   @Test
   public void shouldRemove() {
     final var context = CancelContextTest.CANCEL_CONTEXT;
-
-    final var removeCmd = Command.builder()
-        .path("testDir")
-        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())))
-        .environment(ImmutableMap.of())
-        .build();
-
     final var logs = Flux.just("logs");
-    given(commandService.execute(removeCmd)).willReturn(logs);
-
+    given(commandService.execute(any())).willReturn(logs);
     assertThat(service.remove(context).block()).isEqualTo(context);
+    verify(commandService).execute(commandCaptor.capture());
 
-    verify(commandService).execute(removeCmd);
+    final var executed = commandCaptor.getValue();
+    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())));
   }
 
   @Test
