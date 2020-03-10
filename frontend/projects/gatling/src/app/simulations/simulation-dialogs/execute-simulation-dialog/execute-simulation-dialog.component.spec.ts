@@ -57,17 +57,17 @@ describe('ExecuteSimulationDialogComponent', () => {
       }
     } as any;
     component.envVarList = {
-      environment: {FOO: 'BAR'},
-      hosts: {
-        'local': {}
-      }
+      entries: [new ExecutionEnvironmentEntry('', 'USER', 'Foo', 'Bar')],
+    } as any;
+    component.hostsSelector = {
+      hostIds: ['local']
     } as any;
     component.run();
     expect(dialogRef.close).toHaveBeenCalledWith(new ExecutionEnvironment(
       'GATLING_RUN',
       'description',
       ['local'],
-      [new ExecutionEnvironmentEntry('', 'FRONTEND', 'FOO', 'BAR'),
+      [new ExecutionEnvironmentEntry('', 'USER', 'Foo', 'Bar'),
         new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION', 'simulationPackage.simulationClass')]
     ));
   });
