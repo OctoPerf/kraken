@@ -17,7 +17,6 @@ import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service'
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
-import {SelectionModel} from '@angular/cdk/collections';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
 
 @Injectable()

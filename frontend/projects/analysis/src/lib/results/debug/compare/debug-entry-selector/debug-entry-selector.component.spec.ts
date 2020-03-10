@@ -22,6 +22,7 @@ describe('DebugEntrySelectorComponent', () => {
     component.debugEntries = [testDebugEntry()];
     component.results = [testResult(), testResultDebug()];
     component.debugEntryId = testDebugEntry().id;
+    component.resultId = testResultDebug().id;
     fixture.detectChanges();
   });
 
@@ -33,7 +34,13 @@ describe('DebugEntrySelectorComponent', () => {
     expect(component.filter(testDebugEntry().resultId).length).toBe(1);
   });
 
-  it('should handle selection', () => {
+  it('should handle result selection', () => {
+    const emit = spyOn(component.debugSelected, 'emit');
+    component.resultSelected(testResult().id);
+    expect(emit).toHaveBeenCalled();
+  });
+
+  it('should handle entry selection', () => {
     const emit = spyOn(component.debugSelected, 'emit');
     component.debugEntrySelected(testDebugEntry().resultId);
     expect(emit).toHaveBeenCalled();

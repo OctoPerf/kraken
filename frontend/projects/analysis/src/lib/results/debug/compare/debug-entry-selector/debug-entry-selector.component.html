@@ -1,12 +1,24 @@
-<mat-form-field class="block-filler-x">
-  <mat-label>Debug</mat-label>
-  <mat-select (selectionChange)="debugEntrySelected($event.value)" [value]="resultId + ':' + debugEntryId">
-    <mat-optgroup *ngFor="let result of results"
-                  [label]="result.description + ' - '+ (result.startDate | dateTimeFromNow)">
-      <mat-option *ngFor="let debugEntry of filter(result.id)" [value]="debugEntry.resultId + ':' + debugEntry.id">
-        {{debugEntry.requestName}} - {{debugEntry.date | timeToStringMs}}
-      </mat-option>
-    </mat-optgroup>
-  </mat-select>
-  <mat-hint>{{result.description}} - {{result.startDate | dateTimeFromNow}}</mat-hint>
-</mat-form-field>
+<div fxLayout="row" fxLayoutGap="10px">
+  <div fxFlex="50">
+    <mat-form-field class="block-filler-x">
+      <mat-label>Result</mat-label>
+      <mat-select (selectionChange)="resultSelected($event.value)" [value]="result.id">
+        <mat-option *ngFor="let result of sortedResults" [value]="result.id"
+                    [title]="result.type + ' - '+ result.id">
+          {{result.description}}- {{result.startDate | dateTimeFromNow}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxFlex="50">
+    <mat-form-field class="block-filler-x">
+      <mat-label>Debug</mat-label>
+      <mat-select (selectionChange)="debugEntrySelected($event.value)" [value]="entry.id">
+        <mat-option *ngFor="let debugEntry of filter(result.id)" [value]="debugEntry.id"
+                    [title]="debugEntry.requestUrl + ' - '+ debugEntry.id">
+          {{debugEntry.requestName}} - {{debugEntry.date | timeToStringMs}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

@@ -18,24 +18,30 @@ export class DebugEntrySelectorComponent implements OnInit {
 
   private _sortedEntries: DebugEntry[];
 
+  public sortedResults: Result[];
   public entry: DebugEntry;
   public result: Result;
 
   ngOnInit() {
     this._sortedEntries = _.sortBy(this.debugEntries, 'date');
-    this.debugEntrySelected(this.resultId + ':' + this.debugEntryId);
+    this.sortedResults = _.sortBy(this.results, 'startDate');
+    _.reverse(this.sortedResults);
+    this.resultSelected(this.resultId);
+    this.debugEntrySelected(this.debugEntryId);
   }
 
   filter(resultId: string): DebugEntry[] {
     return _.filter(this._sortedEntries, {resultId});
   }
 
-  debugEntrySelected(compositeId: string) {
-    const ids = compositeId.split(':', 2);
-    const resultId = ids[0];
-    const entryId = ids[1];
-    const entry1: DebugEntry = _.find(this._sortedEntries, {resultId: resultId, id: entryId}) as DebugEntry;
+  resultSelected(resultId: string) {
     this.result = _.find(this.results, {id: resultId});
-    this.debugSelected.emit(entry1);
+    this.entry = _.find(this._sortedEntries, {resultId: this.result.id}) as DebugEntry;
+    this.debugSelected.emit(this.entry);
+  }
+
+  debugEntrySelected(entryId: string) {
+    this.entry = _.find(this._sortedEntries, {resultId: this.result.id, id: entryId}) as DebugEntry;
+    this.debugSelected.emit(this.entry);
   }
 }
