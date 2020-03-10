@@ -68,14 +68,10 @@ class SpringExecutionContextService implements ExecutionContextService {
 
   @Override
   public Mono<CancelContext> newCancelContext(String applicationId, String taskId, TaskType taskType) {
-    return configurationService.getConfiguration(taskType)
-        .map(TaskConfiguration::getFile)
-        .flatMap(storageClient::getContent)
-        .map(template -> CancelContext.builder()
+    return Mono.just(CancelContext.builder()
             .applicationId(applicationId)
             .taskId(taskId)
             .taskType(taskType)
-            .template(template)
             .build());
   }
 

@@ -122,7 +122,6 @@ public class SpringExecutionContextServiceTest {
         .applicationId("application")
         .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
-        .template("template")
         .build());
   }
 

@@ -10,7 +10,6 @@ import com.kraken.runtime.context.entity.ExecutionContext;
 import com.kraken.runtime.entity.log.LogType;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -23,6 +22,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
@@ -41,7 +41,6 @@ final class DockerTaskService implements TaskService {
   @NonNull CommandService commandService;
   @NonNull LogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
-  @NonNull ApplicationProperties applicationProperties;
 
   @Override
   public Mono<ExecutionContext> execute(final ExecutionContext context) {
@@ -53,7 +52,7 @@ final class DockerTaskService implements TaskService {
     return Mono.fromCallable(() -> {
       final var path = this.createDockerComposeFolder(context.getTaskId(), template);
       final var command = Command.builder()
-          .path(path)
+          .path(path.toString())
           .command(Arrays.asList("docker-compose",
               "--no-ansi",
               "up",
@@ -63,7 +62,7 @@ final class DockerTaskService implements TaskService {
           .build();
 
       // Automatically display logs stream
-      final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(context.getTaskId()));
+      final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(path));
       logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
       return context;
     });
@@ -71,29 +70,17 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<CancelContext> cancel(final CancelContext context) {
-    return Mono.fromCallable(() -> {
-      final var path = this.createDockerComposeFolder(context.getTaskId(), context.getTemplate());
-      final var command = Command.builder()
-          .path(path)
-          .command(Arrays.asList("docker-compose",
-              "--no-ansi",
-              "down"))
-          .environment(ImmutableMap.of())
-          .build();
-      final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(context.getTaskId()));
-      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
-      return context;
-    });
+    return this.remove(context);
   }
 
   @Override
   public Mono<CancelContext> remove(final CancelContext context) {
-    final var command = Command.builder()
-        .path(this.applicationProperties.getData().toString())
+    return Mono.fromCallable(() -> Command.builder()
+        .path(this.createCommandFolder(context.getTaskId()).toString())
         .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())))
         .environment(ImmutableMap.of())
-        .build();
-    return commandService.execute(command).collectList().map(strings -> context);
+        .build()).flatMap(command -> commandService.execute(command).collectList())
+        .map(str -> context);
   }
 
   @Override
@@ -116,14 +103,18 @@ final class DockerTaskService implements TaskService {
         .map(stringToFlatContainer);
   }
 
-  private String createDockerComposeFolder(final String taskId, final String template) throws IOException {
-    final var taskPath = Files.createDirectory(this.applicationProperties.getData().resolve(taskId));
-    Files.writeString(taskPath.resolve(DOCKER_COMPOSE_YML), template);
-    return taskPath.toString();
+  private Path createCommandFolder(final String taskId) throws IOException {
+    final var taskPath = Files.createTempDirectory(taskId);
+    return taskPath;
   }
 
-  private void removeDockerComposeFolder(final String taskId) {
-    final var taskPath = this.applicationProperties.getData().resolve(taskId);
+  private Path createDockerComposeFolder(final String taskId, final String template) throws IOException {
+    final var taskPath = this.createCommandFolder(taskId);
+    Files.writeString(taskPath.resolve(DOCKER_COMPOSE_YML), template);
+    return taskPath;
+  }
+
+  private void removeDockerComposeFolder(final Path taskPath) {
     try {
       FileSystemUtils.deleteRecursively(taskPath);
     } catch (IOException e) {

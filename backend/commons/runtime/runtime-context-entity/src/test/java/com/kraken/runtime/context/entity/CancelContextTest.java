@@ -11,7 +11,6 @@ public class CancelContextTest {
       .applicationId("application")
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
-      .template("template")
       .build();
 
 

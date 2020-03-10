@@ -87,7 +87,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
     assertThat(flatContainer.getStatus()).isEqualTo(ContainerStatus.STARTING);
     assertThat(flatContainer.getDescription()).isEqualTo("description");
 
-    taskService.cancel(CancelContext.builder().applicationId(appId).taskId(taskId).taskType(taskType).template(template).build()).block();
+    taskService.cancel(CancelContext.builder().applicationId(appId).taskId(taskId).taskType(taskType).build()).block();
     Thread.sleep(10000);
     disposable.dispose();
     final var logsString = logs.stream().map(Log::getText).reduce((s, s2) -> s + s2).orElse("");

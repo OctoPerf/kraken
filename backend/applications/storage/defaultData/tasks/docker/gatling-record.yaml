@@ -44,7 +44,8 @@ services:
   kraken-har-parser:
     image: "octoperf/kraken-har-parser:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:

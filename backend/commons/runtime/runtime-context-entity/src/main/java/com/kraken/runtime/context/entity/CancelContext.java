@@ -15,5 +15,4 @@ public class CancelContext {
   @NonNull String applicationId;
   @NonNull String taskId;
   @NonNull TaskType taskType;
-  @NonNull String template;
 }

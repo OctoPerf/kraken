@@ -47,7 +47,8 @@ services:
   kraken-gatling-log-parser:
     image: "octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:

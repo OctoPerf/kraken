@@ -8,7 +8,7 @@ networks:
 services:
   kraken-gatling-runner:
     image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
-    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
+    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAMEt}_STARTING"
     networks:
       - kraken
     deploy:
@@ -43,7 +43,8 @@ services:
   kraken-gatling-telegraf:
     image: "octoperf/kraken-telegraf:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:
