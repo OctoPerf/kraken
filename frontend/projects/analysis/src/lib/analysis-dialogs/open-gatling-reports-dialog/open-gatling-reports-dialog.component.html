@@ -4,7 +4,7 @@
   <div *ngIf="reports.length">
     <button *ngFor="let report of reports" mat-button (click)="openGatlingReport(report)">
       <lib-icon class="m-r-xs" [icon]="reportIcon"></lib-icon>
-      Open report for host <b>{{report | storageNodeToParentPath | pathToParentPath | pathToName}}</b>
+      Open report for host {{report | storageNodeToParentPath | pathToParentPath | pathToName}}
     </button>
   </div>
   <lib-message *ngIf="!loading && !reports.length" centered="true" level="error">No reports found.</lib-message>

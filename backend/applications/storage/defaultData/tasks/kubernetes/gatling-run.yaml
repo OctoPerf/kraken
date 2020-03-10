@@ -46,7 +46,7 @@ spec:
         - name: KRAKEN_GATLING_DESCRIPTION
           value: "${KRAKEN_DESCRIPTION}"
     -
-      image: "octoperf/kraken-log-parser:${KRAKEN_VERSION}"
+      image: "octoperf/kraken-telegraf:${KRAKEN_VERSION}"
       name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
@@ -57,7 +57,7 @@ spec:
           memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
       env:
         - name: JAVA_OPTS
-          value: "-Dspring.profiles.active=kubernetes -Xmx${KRAKEN_SIDEKICK_XMX}"
+          value: "-Dspring.profiles.active=kubernetes"
         - name: KRAKEN_TASK_ID
           value: "${KRAKEN_TASK_ID}"
         - name: KRAKEN_TASK_TYPE
@@ -76,8 +76,6 @@ spec:
           value: "${KRAKEN_INFLUXDB_USER}"
         - name: KRAKEN_INFLUXDB_PASSWORD
           value: "${KRAKEN_INFLUXDB_PASSWORD}"
-        - name: KRAKEN_ANALYSIS_URL
-          value: "${KRAKEN_ANALYSIS_URL}"
         - name: KRAKEN_STORAGE_URL
           value: "${KRAKEN_STORAGE_URL}"
         - name: KRAKEN_RUNTIME_URL
