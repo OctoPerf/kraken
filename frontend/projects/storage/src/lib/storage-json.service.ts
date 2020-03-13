@@ -8,6 +8,7 @@ export abstract class StorageJsonService<T> {
 
   public readonly valuesSubject: BehaviorSubject<T[]> = new BehaviorSubject([]);
   protected readonly _subscriptions: Subscription[] = [];
+  protected _loading = false;
 
   protected constructor(protected storage: StorageService,
                         protected storageList: StorageListService,
@@ -40,13 +41,20 @@ export abstract class StorageJsonService<T> {
     return _.find(this.values, value => this.valueToId(value) === id);
   }
 
+  get loading(): boolean {
+    return this._loading;
+  }
+
   protected clearSubscriptions() {
     _.invokeMap(this._subscriptions, 'unsubscribe');
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
+    this._loading = true;
+    console.log("listed");
     this.storage.listJSON<T>(nodes).subscribe((values: T[]) => {
       this.values = values;
+      this._loading = false;
     });
   }
 

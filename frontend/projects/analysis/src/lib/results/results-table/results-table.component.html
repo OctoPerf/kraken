@@ -1,4 +1,4 @@
-<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource" [selection]="results._selection.model"
+<lib-table-overlay-selection [id]="ID" [loading]="results.loading" [dataSource]="dataSource" [selection]="results._selection.model"
                              [noDataLabel]="'No Results.'" (deleteSelection)="deleteSelection($event)"
                              (enterSelection)="openGrafanaSelection()"
                              class="mat-table-body-bg">

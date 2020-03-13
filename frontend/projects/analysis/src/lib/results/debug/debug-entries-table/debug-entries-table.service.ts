@@ -88,9 +88,11 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
+    this._loading = true;
     this.storage.listJSON<DebugEntry>(nodes).subscribe((values: DebugEntry[]) => {
       this.values = values;
       this._selectNode(this._lastSelectedNode);
+      this._loading = false;
     });
   }
 

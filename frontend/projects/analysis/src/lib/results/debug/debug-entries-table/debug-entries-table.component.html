@@ -1,4 +1,4 @@
-<lib-table-overlay-selection [id]="ID" [loading]="false" [dataSource]="dataSource"
+<lib-table-overlay-selection [id]="ID" [loading]="debugResult.loading" [dataSource]="dataSource"
                              [selection]="debugResult._selection.model"
                              [noDataLabel]="'Please select a Debug result.'"
                              class="mat-table-body-bg" (enterSelection)="compareSelection()">
