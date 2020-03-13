@@ -15,27 +15,31 @@ class PetStoreSimulation extends Simulation {
         .acceptLanguageHeader("en-US,en;q=0.5")
         .acceptEncodingHeader("gzip, deflate")
         .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0")
-        .inferHtmlResources(BlackList(), WhiteList("https://petstore.octoperf.com/.*"))
+        // .inferHtmlResources(BlackList(), WhiteList("https://petstore.octoperf.com/.*"))
 
-    val csvFeeder = csv("categories.csv").random
-    
-    val foo = System.getProperty("Foo")
-    val also = System.getProperty("Also")
+    val csvRecords = csv("categories.csv").readRecords
 
-    val scn = scenario("PetStoreSimulation")
-        .exec { session => println(foo); session }
-        .exec { session => println(also); session }
-        .exec(http("Homepage").get("/actions/Catalog.action"))
-        .feed(csvFeeder)
-        .exec(http("Catalog ${categoryId}")
+    val categoryRequest = http("Catalog ${categoryId}")
             .get("/actions/Catalog.action")
             .queryParam("viewCategory", "")
             .queryParam("categoryId", "${categoryId}")
-            .check(regex("""productId=(.*)"""").findRandom.saveAs("productId")))
-        .exec(http("Product ${productId}")
-            .get("/actions/Catalog.action")
-            .queryParam("viewProduct", "")
-            .queryParam("productId", "${productId}"))
+            .check(regex("""productId=(.*)"""").findAll.transform(productIds => util.Random.shuffle(productIds)).saveAs("productIds"))
+
+    val productRequest = http("Product ${productIds(productIndex)}")
+              .get("/actions/Catalog.action")
+              .queryParam("viewProduct", "")
+              .queryParam("productId", "${productIds(productIndex)}")
+
+    val scn = scenario("PetStoreSimulation")
+        .exec(http("Homepage").get("/actions/Catalog.action"))
+        .foreach(csvRecords, "category") {
+          exec(flattenMapIntoAttributes("${category}"))
+          .exec(categoryRequest)
+          .repeat(session => session("productIds").as[List[Any]].size, "productIndex"){
+            exec(productRequest)  
+          }
+          
+        }
 
     setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }

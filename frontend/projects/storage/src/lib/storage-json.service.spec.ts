@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {StorageJsonService} from './storage-json.service';
 import {Injectable, OnDestroy} from '@angular/core';
@@ -76,13 +76,15 @@ describe('StorageJsonService', () => {
     expect(service.find(node)).toBe(value);
   });
 
-  it('should _nodesListed', () => {
+  it('should _nodesListed', fakeAsync(() => {
     const nodes = [node];
     const values = [value];
     storage.listJSON.and.returnValue(of(values));
     storageList.nodesListed.emit(nodes);
+    tick(500);
     expect(service.values).toBe(values);
-  });
+    expect(service.loading).toBeFalse();
+  }));
 
   it('should _nodeCreated', () => {
     const values = [value];

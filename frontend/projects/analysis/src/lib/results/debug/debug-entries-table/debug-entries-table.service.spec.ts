@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {of, ReplaySubject} from 'rxjs';
@@ -11,7 +11,6 @@ import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
-import * as _ from 'lodash';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
@@ -24,6 +23,7 @@ import {
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
+import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 
 export const testDebugEntry: () => DebugEntry = () => {
   return {
@@ -159,5 +159,15 @@ describe('DebugEntriesTableService', () => {
       eventBus.publish(new SelectNodeEvent(debugEntryNode));
       expect(service._selection.selection).toEqual(debugEntry);
     });
+
+    it('should _nodesListed', fakeAsync(() => {
+      const nodes = [testStorageFileNode()];
+      const values = [testDebugEntry()];
+      storage.listJSON.and.returnValue(of(values));
+      storageList.nodesListed.emit(nodes);
+      tick(500);
+      expect(service.values).toBe(values);
+      expect(service.loading).toBeFalse();
+    }));
   });
 });

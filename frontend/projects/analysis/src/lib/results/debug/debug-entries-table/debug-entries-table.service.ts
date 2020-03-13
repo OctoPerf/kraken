@@ -65,7 +65,7 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
     this.values = [];
     this._result = result;
 
-    super.init(`${this.analysisConfiguration.analysisRootNode.path}/${this._result.id}`, '.*\\.debug', 2);
+    super.init(`${this.analysisConfiguration.analysisRootNode.path}/${this._result.id}`, '.*\\.debug', 2, 250);
 
     this._subscriptions.push(this.eventBus.of<SelectNodeEvent>(SelectNodeEvent.CHANNEL)
       .pipe(map(this.toNode.transform))
@@ -88,7 +88,6 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
-    this._loading = true;
     this.storage.listJSON<DebugEntry>(nodes).subscribe((values: DebugEntry[]) => {
       this.values = values;
       this._selectNode(this._lastSelectedNode);

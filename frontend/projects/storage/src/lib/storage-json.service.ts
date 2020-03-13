@@ -3,6 +3,7 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import * as _ from 'lodash';
+import {debounceTime, tap} from 'rxjs/operators';
 
 export abstract class StorageJsonService<T> {
 
@@ -18,12 +19,13 @@ export abstract class StorageJsonService<T> {
 
   protected init(rootPath: string,
                  matcher: string,
-                 maxDepth: number) {
+                 maxDepth: number,
+                 debounce = 100) {
     // Clear subscriptions
     this.clearSubscriptions();
 
     // Convert nodes into T
-    this._subscriptions.push(this.storageList.nodesListed.subscribe(this._nodesListed.bind(this)));
+    this._subscriptions.push(this.storageList.nodesListed.pipe(tap(() => this._loading = true), debounceTime(debounce)).subscribe(this._nodesListed.bind(this)));
     this._subscriptions.push(this.storageList.nodeCreated.subscribe(this._nodeCreated.bind(this)));
     this._subscriptions.push(this.storageList.nodeModified.subscribe(this._nodeModified.bind(this)));
     this._subscriptions.push(this.storageList.nodesDeleted.subscribe(this._nodesDeleted.bind(this)));
@@ -50,8 +52,6 @@ export abstract class StorageJsonService<T> {
   }
 
   protected _nodesListed(nodes: StorageNode[]) {
-    this._loading = true;
-    console.log("listed");
     this.storage.listJSON<T>(nodes).subscribe((values: T[]) => {
       this.values = values;
       this._loading = false;
