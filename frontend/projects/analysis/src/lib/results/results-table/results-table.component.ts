@@ -20,6 +20,7 @@ import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/con
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {MatPaginator} from '@angular/material/paginator';
 
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
@@ -60,6 +61,7 @@ export class ResultsTableComponent implements OnInit {
 
   dataSource: MatTableDataSource<Result>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('menu', {static: true}) menu: ContextualMenuComponent;
 
   constructor(public gatling: GatlingResultService,
@@ -72,6 +74,7 @@ export class ResultsTableComponent implements OnInit {
     this.results.valuesSubject.subscribe((resultsList) => {
       this.dataSource = new MatTableDataSource(resultsList);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 

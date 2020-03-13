@@ -11,6 +11,7 @@ import {MENU_ICON} from 'projects/icon/src/lib/icons';
 import {faNotEqual} from '@fortawesome/free-solid-svg-icons/faNotEqual';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {DebugEntriesTableService} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service';
+import {MatPaginator} from '@angular/material/paginator';
 
 library.add(faTimesCircle, faCheckSquare, faNotEqual);
 
@@ -38,6 +39,7 @@ export class DebugEntriesTableComponent implements OnInit {
 
   dataSource: MatTableDataSource<DebugEntry> = new MatTableDataSource([]);
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public debugResult: DebugEntriesTableService,
   ) {
@@ -48,6 +50,7 @@ export class DebugEntriesTableComponent implements OnInit {
     this.debugResult.valuesSubject.subscribe((entries: DebugEntry[]) => {
       this.dataSource = new MatTableDataSource(entries);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 

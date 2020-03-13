@@ -33,3 +33,9 @@
 .table-filler {
   @include table-filler();
 }
+
+.table-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
