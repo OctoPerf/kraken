@@ -15,6 +15,7 @@ import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
 import {Host} from 'projects/runtime/src/lib/entities/host';
+import {isTerminalContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
 
 @Component({
   selector: 'lib-tasks-table',
@@ -89,10 +90,10 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   set tasks(tasks: Task[]) {
     const taskId = this._selection.hasSelection ? this._selection.selection.id : null;
-    const first = _.first(_.filter(tasks, (task: Task) => task.status !== 'DONE'));
-    const currentNotDone = _.find(tasks, (task: Task) => task.id === taskId && task.status !== 'DONE');
+    const first = _.first(_.filter(tasks, (task: Task) => !isTerminalContainerStatus(task.status)));
+    const currentNotTerminal = _.find(tasks, (task: Task) => task.id === taskId && !isTerminalContainerStatus(task.status));
     const current = _.find(tasks, {id: taskId});
-    this._selection.selection = currentNotDone || first || current;
+    this._selection.selection = currentNotTerminal || first || current;
     this.dataSource = new MatTableDataSource(tasks);
     this.dataSource.sort = this.sort;
     this.loading = false;

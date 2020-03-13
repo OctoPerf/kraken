@@ -7,4 +7,4 @@ export type ContainerStatus = 'CREATING'
   | 'DONE'
   | 'FAILED';
 
-
+export const isTerminalContainerStatus = (status: ContainerStatus) => status === 'DONE' || status === 'FAILED';
