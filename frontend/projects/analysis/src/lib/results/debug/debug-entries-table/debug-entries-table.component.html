@@ -38,7 +38,7 @@
         (click)="debugResult.open(row)" [ngClass]="{'mat-row-selected' : debugResult._selection.isSelected(row)}">
     </tr>
   </table>
-  <mat-paginator hidePageSize="true" pageSize="50" showFirstLastButtons class="table-paginator-sticky"></mat-paginator>
+  <mat-paginator hidePageSize="true" pageSize="50" [hidden]="dataSource.data.length <= 50" showFirstLastButtons class="table-paginator-sticky"></mat-paginator>
 
   <lib-contextual-menu #menu>
     <button mat-menu-item (click)="debugResult.compare()" matTooltip="Open the Compare Dialog (Enter)">

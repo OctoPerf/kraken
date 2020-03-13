@@ -39,7 +39,7 @@
         [ngClass]="{'mat-row-selected' : results._selection.isSelected(row), 'mat-row-debug' : row.type !== 'RUN'}">
     </tr>
   </table>
-  <mat-paginator hidePageSize="true" pageSize="20"  showFirstLastButtons class="table-paginator-sticky"></mat-paginator>
+  <mat-paginator hidePageSize="true" pageSize="20"  showFirstLastButtons [hidden]="dataSource.data.length <= 20" class="table-paginator-sticky"></mat-paginator>
 
   <lib-contextual-menu #menu>
     <button mat-menu-item (click)="gatling.openGrafanaReport(results._selection.selection)"
