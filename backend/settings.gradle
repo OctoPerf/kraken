@@ -140,4 +140,6 @@ include 'commons:runtime:runtime-event-gatling'
 findProject(':commons:runtime:runtime-event-gatling')?.name = 'runtime-event-gatling'
 include 'commons:tools:sse-server'
 findProject(':commons:tools:sse-server')?.name = 'sse-server'
+include 'applications:sse'
+findProject(':applications:sse')?.name = 'app-sse'
 
