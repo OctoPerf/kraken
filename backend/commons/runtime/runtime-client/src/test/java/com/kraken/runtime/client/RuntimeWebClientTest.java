@@ -3,6 +3,7 @@ package com.kraken.runtime.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.entity.log.LogTest;
 import com.kraken.runtime.entity.task.*;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -172,6 +173,38 @@ public class RuntimeWebClientTest {
     assertThat(request.getMethod()).isEqualTo("GET");
     assertThat(request.getPath()).isEqualTo("/container/find?taskId=taskId&containerName=containerName");
     assertThat(result).isEqualTo(container);
+  }
+
+  @Test
+  public void shouldWatchLogs() throws InterruptedException, IOException {
+    final var body = ":keep alive\n" +
+        "\n" +
+        "data:" + mapper.writeValueAsString(LogTest.LOG) + "\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:" + mapper.writeValueAsString(LogTest.LOG) + "\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:" + mapper.writeValueAsString(LogTest.LOG) + "\n" +
+        "\n" +
+        "data:" + mapper.writeValueAsString(LogTest.LOG) + "\n" +
+        "\n";
+
+    runtimeMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
+            .setBody(body));
+
+    final var response = client.watchLogs("app").collectList().block();
+    assertThat(response).isNotNull();
+    assertThat(response.size()).isEqualTo(4);
+
+    final var request = runtimeMockWebServer.takeRequest();
+    assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
+    assertThat(request.getPath()).isEqualTo("/logs/watch/app");
   }
 
 }

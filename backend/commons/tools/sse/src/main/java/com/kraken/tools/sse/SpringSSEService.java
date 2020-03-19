@@ -1,6 +1,5 @@
 package com.kraken.tools.sse;
 
-import com.google.common.collect.ImmutableList;
 import com.kraken.tools.environment.KrakenEnvironmentAtValues;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -31,11 +32,8 @@ final class SpringSSEService implements SSEService {
   }
 
   @Override
-  public Flux<SSEWrapper> merge(final String type1,
-                                       final Flux<? extends Object> flux1,
-                                       final String type2,
-                                       final Flux<? extends Object> flux2) {
-    final List<Flux<SSEWrapper>> asEvents = ImmutableList.of(wrap(type1, flux1), wrap(type2, flux2));
+  public Flux<SSEWrapper> merge(final Map<String, Flux<? extends Object>> fluxMap) {
+    final List<Flux<SSEWrapper>> asEvents = fluxMap.entrySet().stream().map(entry -> wrap(entry.getKey(), entry.getValue())).collect(Collectors.toUnmodifiableList());
     return Flux.merge(asEvents);
   }
 

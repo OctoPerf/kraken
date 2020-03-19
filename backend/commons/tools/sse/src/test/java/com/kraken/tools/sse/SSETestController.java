@@ -1,5 +1,6 @@
 package com.kraken.tools.sse;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -33,6 +34,6 @@ class SSETestController {
     final var strFlux = Flux.interval(Duration.ofMillis(500)).take(3)
         .map(aLong -> String.format("event%d", aLong));
     final var longFlux = Flux.interval(Duration.ofMillis(700)).take(3);
-    return this.sse.<Object>merge("String", strFlux, "Long", longFlux ).take(6);
+    return this.sse.<Object>merge(ImmutableMap.of("String", strFlux, "Long", longFlux)).take(6);
   }
 }

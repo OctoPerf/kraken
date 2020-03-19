@@ -1,5 +1,6 @@
 package com.kraken.tools.sse;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
@@ -42,7 +43,7 @@ public class SpringSSEServiceTest {
         .map(aLong -> String.format("event%d", aLong));
     final var longFlux = Flux.interval(Duration.ofMillis(700)).take(3);
 
-    final var merged = service.<Object>merge("String", strFlux, "Long", longFlux ).take(6);
+    final var merged = service.<Object>merge(ImmutableMap.of("String", strFlux, "Long", longFlux)).take(6);
 
     StepVerifier
         .create(merged)

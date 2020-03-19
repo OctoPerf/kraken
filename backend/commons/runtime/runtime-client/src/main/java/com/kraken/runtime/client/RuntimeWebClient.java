@@ -1,6 +1,7 @@
 package com.kraken.runtime.client;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.Task;
@@ -40,16 +41,8 @@ class RuntimeWebClient implements RuntimeClient {
 
   @Override
   public Mono<Task> waitForPredicate(final FlatContainer container, final Predicate<Task> predicate) {
-    final Flux<List<Task>> flux = webClient
-        .get()
-        .uri(uriBuilder -> uriBuilder.path("/task/watch").pathSegment(container.getApplicationId()).build())
-        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
-        .retrieve()
-        .bodyToFlux(new ParameterizedTypeReference<List<Task>>() {
-        });
-
+    final Flux<List<Task>> flux = this.watchTasks(container.getApplicationId());
     return flux
-        .doOnSubscribe(subscription -> log.info("Wait for predicate"))
         .map((List<Task> tasks) -> {
           log.info(String.format("Tasks found: %s", tasks.toString()));
           return tasks.stream().filter(predicate).findAny();
@@ -57,7 +50,6 @@ class RuntimeWebClient implements RuntimeClient {
         .filter(Optional::isPresent)
         .map(Optional::get)
         .doOnNext(task -> log.info(String.format("Matching task found: %s", task)))
-        .doOnError(t -> log.error("Failed wait for predicate", t))
         .onErrorResume(throwable -> this.setFailedStatus(container).map(aVoid -> Task.builder()
             .id(container.getTaskId())
             .startDate(container.getStartDate())
@@ -122,6 +114,31 @@ class RuntimeWebClient implements RuntimeClient {
         .bodyToMono(FlatContainer.class)
         .retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
         .doOnSubscribe(subscription -> log.info(String.format("Find container %s", containerName)));
+  }
+
+  @Override
+  public Flux<Log> watchLogs(String applicationId) {
+    return webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/logs/watch").pathSegment(applicationId).build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .retrieve()
+        .bodyToFlux(Log.class)
+        .doOnSubscribe(subscription -> log.info("Watch logs"))
+        .doOnError(t -> log.error("Failed to watch logs", t));
+  }
+
+  @Override
+  public Flux<List<Task>> watchTasks(String applicationId) {
+    return webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/task/watch").pathSegment(applicationId).build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .retrieve()
+        .bodyToFlux(new ParameterizedTypeReference<List<Task>>() {
+        })
+        .doOnSubscribe(subscription -> log.info("Watch tasks"))
+        .doOnError(t -> log.error("Failed to wWatch tasks", t));
   }
 
   public ContainerStatus getLastStatus() {
