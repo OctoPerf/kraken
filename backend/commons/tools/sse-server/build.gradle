@@ -7,6 +7,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-client')
     implementation project(':commons:runtime:runtime-client-properties')
 
+    implementation project(':commons:tools:environment')
     implementation project(':commons:tools:sse')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')

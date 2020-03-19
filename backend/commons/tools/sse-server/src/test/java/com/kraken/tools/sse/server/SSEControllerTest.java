@@ -2,23 +2,18 @@ package com.kraken.tools.sse.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.entity.log.LogTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.storage.entity.StorageWatcherEventTest;
 import com.kraken.test.utils.TestUtils;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
 import com.kraken.tools.sse.SSEWrapperTest;
-import lombok.NonNull;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -29,13 +24,10 @@ import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.BDDMockito.given;
 

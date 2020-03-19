@@ -2,7 +2,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     // Required by lombok
     id 'net.ltgt.apt' version '0.21'
-    id 'com.github.spotbugs' version '3.0.0'
+    id 'com.github.spotbugs' version '4.0.4'
 //    Uncomment only to get license info : https://github.com/hierynomus/license-gradle-plugin/issues/161
 //    id 'com.github.hierynomus.license-report' version '0.15.0'
 
@@ -27,7 +27,7 @@ allprojects {
     }
 
     jacoco {
-        toolVersion = '0.8.2'
+        toolVersion = '0.8.5'
     }
 }
 
