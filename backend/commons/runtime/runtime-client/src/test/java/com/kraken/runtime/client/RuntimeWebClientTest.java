@@ -73,8 +73,7 @@ public class RuntimeWebClientTest {
     assertThat(client.getLastStatus()).isEqualTo(ContainerStatus.FAILED);
   }
 
-//  TODO Fix this!
-//  @Test
+  @Test
   public void shouldWaitForStatus() throws InterruptedException, IOException {
     final var expectedStatus = ContainerStatus.READY;
     final var flatContainer = FlatContainerTest.CONTAINER;

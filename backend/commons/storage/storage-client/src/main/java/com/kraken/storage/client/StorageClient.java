@@ -1,6 +1,8 @@
 package com.kraken.storage.client;
 
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.storage.entity.StorageWatcherEvent;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
@@ -27,5 +29,7 @@ public interface StorageClient {
   Mono<Void> downloadFolder(Path localFolderPath, Optional<String> path);
 
   Mono<StorageNode> uploadFile(Path localFilePath, Optional<String> remotePath);
+
+  Flux<StorageWatcherEvent> watch();
 
 }

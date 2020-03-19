@@ -1,5 +1,6 @@
 package com.kraken.runtime.server.rest;
 
+import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
@@ -24,20 +25,19 @@ import static java.util.Optional.of;
 
 @Slf4j
 @RestController()
-@RequestMapping("/runtime")
+@RequestMapping("/logs")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Validated
-public class RuntimeController {
+public class LogsController {
 
   @NonNull LogsService logsService;
-  @NonNull TaskListService taskListService;
 
   @NonNull
   SSEService sse;
 
   @GetMapping(value = "/watch/{applicationId}")
-  public Flux<ServerSentEvent<SSEWrapper>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return sse.keepAlive(sse.merge("LOG", logsService.listen(applicationId), "TASKS", taskListService.watch(of(applicationId))));
+  public Flux<ServerSentEvent<Log>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+    return sse.keepAlive(logsService.listen(applicationId));
   }
 }

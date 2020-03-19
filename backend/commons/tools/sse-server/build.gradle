@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:tools:sse')
+    testImplementation project(path: ':commons:tools:sse', configuration: 'testArtifacts')
+}

@@ -2,6 +2,7 @@ package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.tools.configuration.jackson.MediaTypes;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,17 @@ class StorageWebClient implements StorageClient {
     this.webClient = requireNonNull(webClient);
     this.mapper = requireNonNull(mapper);
     this.yamlMapper = requireNonNull(yamlMapper);
+  }
+
+  @Override
+  public Flux<StorageWatcherEvent> watch() {
+    return webClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/watch").build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .retrieve()
+        .bodyToFlux(StorageWatcherEvent.class)
+        .doOnError(t -> log.error("Failed to watch storage", t))
+        .doOnSubscribe(subscription -> log.info("Watching storage"));
   }
 
   @Override

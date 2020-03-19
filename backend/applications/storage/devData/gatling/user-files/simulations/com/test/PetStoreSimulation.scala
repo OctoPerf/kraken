@@ -1,3 +1,4 @@
+
 package com.test
 
 import scala.concurrent.duration._
@@ -23,22 +24,29 @@ class PetStoreSimulation extends Simulation {
             .get("/actions/Catalog.action")
             .queryParam("viewCategory", "")
             .queryParam("categoryId", "${categoryId}")
-            .check(regex("""productId=(.*)"""").findAll.transform(productIds => util.Random.shuffle(productIds)).saveAs("productIds"))
+            .check(regex("""productId=(.*)"""").findAll.saveAs("productIds"))
 
-    val productRequest = http("Product ${productIds(productIndex)}")
-              .get("/actions/Catalog.action")
-              .queryParam("viewProduct", "")
-              .queryParam("productId", "${productIds(productIndex)}")
+    val productRequest = http("Product ${productId}")
+          .get("/actions/Catalog.action")
+          .queryParam("viewProduct", "")
+          .queryParam("productId", "${productId}")
 
     val scn = scenario("PetStoreSimulation")
         .exec(http("Homepage").get("/actions/Catalog.action"))
+        .pause(500 milliseconds)
         .foreach(csvRecords, "category") {
           exec(flattenMapIntoAttributes("${category}"))
           .exec(categoryRequest)
-          .repeat(session => session("productIds").as[List[Any]].size, "productIndex"){
-            exec(productRequest)  
+          .pause(500 milliseconds)
+          .during(10 seconds) {
+            pace(1 seconds)
+            .exec(session => {
+              val productIds = session("productIds").as[List[Any]]
+              val productIndex = util.Random.nextInt(productIds.size)
+              session.set("productId", productIds(productIndex))
+            })
+            .exec(productRequest)
           }
-          
         }
 
     setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)

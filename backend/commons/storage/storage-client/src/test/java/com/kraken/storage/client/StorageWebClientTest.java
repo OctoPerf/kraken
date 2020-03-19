@@ -1,11 +1,14 @@
 package com.kraken.storage.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.storage.entity.StorageWatcherEventTest;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
 import com.kraken.tools.configuration.jackson.MediaTypes;
 import okhttp3.mockwebserver.MockResponse;
@@ -129,6 +132,38 @@ public class StorageWebClientTest {
     final var recordedRequest = storageMockWebServer.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/content?path=path");
     assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo("content");
+  }
+
+  @Test
+  public void shouldWatch() throws InterruptedException, JsonProcessingException {
+    final var body = ":keep alive\n" +
+        "\n" +
+        "data:" + jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT) + "\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:" + jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT) + "\n" +
+        "\n" +
+        ":keep alive\n" +
+        "\n" +
+        "data:" + jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT) + "\n" +
+        "\n" +
+        "data:" + jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT) + "\n" +
+        "\n";
+
+    storageMockWebServer.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
+            .setBody(body));
+
+    final var response = client.watch().collectList().block();
+    assertThat(response).isNotNull();
+    assertThat(response.size()).isEqualTo(4);
+
+    final var request = storageMockWebServer.takeRequest();
+    assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
+    assertThat(request.getPath()).isEqualTo("/files/watch");
   }
 
   @Test

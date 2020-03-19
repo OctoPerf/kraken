@@ -34,10 +34,10 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {RuntimeController.class})
+    classes = {LogsController.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
-public class RuntimeControllerTest {
+public class LogsControllerTest {
 
   @Autowired
   WebTestClient webTestClient;
@@ -46,34 +46,23 @@ public class RuntimeControllerTest {
   LogsService logsService;
 
   @MockBean
-  TaskService taskService;
-
-  @MockBean
-  TaskListService taskListService;
-
-  @MockBean
   SSEService sse;
 
   @Test
   public void shouldPassTestUtils() {
-    shouldPassNPE(RuntimeController.class);
+    shouldPassNPE(LogsController.class);
   }
 
   @Test
   public void shouldWatch() {
     final var applicationId = "test";
     final var logFlux = Flux.just(LogTest.LOG);
-    final Flux<SSEWrapper> wrapperFlux = Flux.just(SSEWrapperTest.WRAPPER_STRING, SSEWrapperTest.WRAPPER_INT);
-    final var eventsFlux = Flux.just(ServerSentEvent.builder(SSEWrapperTest.WRAPPER_STRING).build(), ServerSentEvent.builder(SSEWrapperTest.WRAPPER_INT).build());
-    final Flux<List<Task>> tasksFlux = Flux.just(ImmutableList.of(TaskTest.TASK));
-    given(logsService.listen(applicationId))
-        .willReturn(logFlux);
-    given(taskListService.watch(Optional.of(applicationId))).willReturn(tasksFlux);
-    given(sse.merge("LOG", logFlux, "TASKS", tasksFlux)).willReturn(wrapperFlux);
-    given(sse.keepAlive(wrapperFlux)).willReturn(eventsFlux);
+    final var eventsFlux = Flux.just(ServerSentEvent.builder(LogTest.LOG).build(), ServerSentEvent.builder(LogTest.LOG).build());
+    given(logsService.listen(applicationId)).willReturn(logFlux);
+    given(sse.keepAlive(logFlux)).willReturn(eventsFlux);
 
     final var result = webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/runtime/watch").pathSegment(applicationId).build())
+        .uri(uriBuilder -> uriBuilder.path("/logs/watch").pathSegment(applicationId).build())
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
         .expectStatus().isOk()
@@ -81,18 +70,17 @@ public class RuntimeControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    Assertions.assertThat(body).isEqualTo("data:{\"type\":\"String\",\"value\":\"value\"}\n" +
+    Assertions.assertThat(body).isEqualTo("data:{\"applicationId\":\"applicationId\",\"id\":\"id\",\"type\":\"CONTAINER\",\"text\":\"text\",\"status\":\"RUNNING\"}\n" +
         "\n" +
-        "data:{\"type\":\"Integer\",\"value\":42}\n" +
+        "data:{\"applicationId\":\"applicationId\",\"id\":\"id\",\"type\":\"CONTAINER\",\"text\":\"text\",\"status\":\"RUNNING\"}\n" +
         "\n");
   }
-
 
   @Test
   public void shouldFailToWatch() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/runtime/watch").pathSegment(applicationId).build())
+        .uri(uriBuilder -> uriBuilder.path("/logs/watch").pathSegment(applicationId).build())
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
         .expectStatus().is5xxServerError();
