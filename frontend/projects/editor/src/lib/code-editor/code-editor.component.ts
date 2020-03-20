@@ -64,6 +64,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
       value: this._value,
       enableSnippets: this.enableSnippets,
       enableBasicAutocompletion: this.enableBasicAutoCompletion,
+
+
     } as any);
   }
 
@@ -117,7 +119,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
 
   scrollToBottom(): void {
     const editor = this._editor;
-    editor.gotoLine(editor.session.getLength(), 0, false);
+    editor.scrollToRow(editor.session.getLength());
   }
 
   resize() {
@@ -128,13 +130,17 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
     this._value += text;
     const editor = this._editor;
     if (editor) {
+
+      // Must be computed before the insert!
+      const scrollToBottom = (editor.session.getLength() - editor.renderer.getLastVisibleRow()) <= 2;
+
       editor.session.insert(
         {
           row: editor.session.getLength(),
           column: 0
         }, text
       );
-      const scrollToBottom = (editor.session.getLength() - editor.renderer.getScrollBottomRow()) <= 2;
+
       if (scrollToBottom) {
         this.scrollToBottom();
       }
