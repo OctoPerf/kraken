@@ -21,6 +21,7 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ export class WorkspaceModule {
   constructor(tabsService: TabsService,
               results: ResultsTableService,
               hostService: RuntimeHostService,
-              watcher: RuntimeWatcherService) {
+              runtimeWatcherService: RuntimeWatcherService,
+              storageWatcherService: StorageWatcherService) {
     // inject services to force initialization
     results.init();
     hostService.hosts().subscribe();

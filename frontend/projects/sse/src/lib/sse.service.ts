@@ -27,8 +27,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
               private sseConfiguration: SSEConfigurationService,
               private eventBus: EventBusService,
               private eventSourceService: EventSourceService,
-              retries: RetriesService,
-              private durationToString: DurationToStringPipe) {
+              retries: RetriesService) {
     this._retry = retries.get();
     this.watch();
   }
@@ -58,7 +57,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
   error(err: any) {
     const delay = this._retry.getDelay();
     this.eventBus.publish(new NotificationEvent(new BaseNotification(
-      `An error occurred while listening for server events. Will reconnect in ${this.durationToString.transform(delay)}.`,
+      `An error occurred while listening for server events. Will reconnect in ${new DurationToStringPipe().transform(delay)}.`,
       NotificationLevel.ERROR)));
     if (this.closed) {
       return;

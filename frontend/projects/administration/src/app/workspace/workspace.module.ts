@@ -14,6 +14,8 @@ import {NotificationService} from 'projects/notification/src/lib/notification.se
 import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-host.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
+import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
+import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 })
 export class WorkspaceModule {
   constructor(tabsService: TabsService,
-              hostService: RuntimeHostService) {
+              hostService: RuntimeHostService,
+              storageWatcherService: StorageWatcherService) {
     // inject services to force initialization
     hostService.hosts().subscribe();
   }

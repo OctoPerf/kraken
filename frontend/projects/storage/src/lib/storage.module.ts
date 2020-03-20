@@ -13,6 +13,7 @@ import {StorageNodeEditor} from 'projects/storage/src/lib/storage-editor/storage
 import {StorageDialogsModule} from 'projects/storage/src/lib/storage-dialogs/storage-dialogs.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ComponentType} from '@angular/cdk/portal';
+import {SSEModule} from 'projects/sse/src/lib/sse.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {ComponentType} from '@angular/cdk/portal';
     StorageEditorModule,
     StorageDialogsModule,
     DateModule,
+    SSEModule,
   ],
   exports: [
     StorageTreeModule,

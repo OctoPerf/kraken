@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import {ToolsModule} from 'projects/tools/src/lib/tools.module';
+import {NgModule} from '@angular/core';
 
 @NgModule({
   declarations: [],
-  imports: [ToolsModule],
+  imports: [],
   exports: []
 })
-export class SseModule { }
+export class SSEModule { }
