@@ -106,4 +106,65 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
             "DELETE"
         ));
   }
+
+  @Test
+  public void shouldWatchSubDir() throws IOException, InterruptedException {
+    final var root = this.applicationProperties.getData().resolve("test2");
+    final var otherPath = root.resolve("other");
+    final var currentPath = root.resolve("toto");
+    final var watch = service.watch("test2/toto");
+    final var events = new ArrayList<StorageWatcherEvent>();
+    final var subscription = watch.subscribe(events::add);
+    final var file = currentPath.toFile();
+    assertThat(file.mkdirs()).isTrue();
+    assertThat(otherPath.toFile().mkdirs()).isTrue();
+    sleep(1000);
+    final var textPath = otherPath.resolve("the-file-name.txt");
+    Files.write(textPath, Arrays.asList("The first line", "The second line"), Charsets.UTF_8);
+    sleep(1000);
+    assertThat(textPath.toFile().renameTo(currentPath.resolve("the-new-file-name.txt").toFile())).isTrue();
+    sleep(1000);
+    // Deleting the root directly won't sent an event for the deletion of test2/toto, only for test2
+    deleteRecursively(currentPath);
+    deleteRecursively(root);
+    sleep(1000);
+    subscription.dispose();
+
+    assertThat(events
+        .stream()
+        .map(StorageWatcherEvent::getNode)
+        .map(StorageNode::getPath)
+        .collect(Collectors.toList()))
+        .isEqualTo(of(
+            "test2/toto",
+            "test2/toto/the-new-file-name.txt",
+            "test2/toto/the-new-file-name.txt",
+            "test2/toto"
+        ));
+
+    assertThat(events
+        .stream()
+        .map(StorageWatcherEvent::getNode)
+        .map(StorageNode::getType)
+        .collect(Collectors.toList()))
+        .isEqualTo(of(
+            DIRECTORY,
+            FILE,
+            NONE,
+            NONE
+        ));
+
+
+    assertThat(events
+        .stream()
+        .map(StorageWatcherEvent::getEvent)
+        .collect(Collectors.toList()))
+        .isEqualTo(of(
+            "CREATE",
+            "CREATE",
+            "DELETE",
+            "DELETE"
+        ));
+  }
+
 }
