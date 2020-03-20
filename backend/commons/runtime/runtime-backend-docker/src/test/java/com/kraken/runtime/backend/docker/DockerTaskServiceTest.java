@@ -11,7 +11,6 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

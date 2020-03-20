@@ -28,8 +28,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_APPLICATION_ID;
-import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_APPLICATION_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Slf4j
 @Component

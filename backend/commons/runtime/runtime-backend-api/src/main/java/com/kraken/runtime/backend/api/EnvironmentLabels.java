@@ -1,6 +1,6 @@
-package com.kraken.tools.environment;
+package com.kraken.runtime.backend.api;
 
-public interface KrakenEnvironmentLabels {
+public interface EnvironmentLabels {
 
   String COM_KRAKEN_TASK_ID = "com.kraken/taskId";
   String COM_KRAKEN_HOST_ID = "com.kraken/hostId";

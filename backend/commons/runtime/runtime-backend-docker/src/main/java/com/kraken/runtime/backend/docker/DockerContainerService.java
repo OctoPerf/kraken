@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_CONTAINER_NAME;
-import static com.kraken.tools.environment.KrakenEnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_CONTAINER_NAME;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
 
 @Slf4j
 @Component
