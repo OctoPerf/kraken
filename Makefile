@@ -7,6 +7,7 @@ launch-docker:
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-docker'
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-static'
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
 	
 	#start frontend
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
@@ -24,6 +25,7 @@ launch-k8s:
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-kubernetes'
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-static'
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
 	
 	#start frontend
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'

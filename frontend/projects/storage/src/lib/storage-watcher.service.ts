@@ -1,86 +1,38 @@
-import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
-import {NotificationLevel} from 'projects/notification/src/lib/notification-level';
 import {StorageWatcherEvent} from 'projects/storage/src/lib/entities/storage-watcher-event';
 import {NodeCreatedEvent} from 'projects/storage/src/lib/events/node-created-event';
 import {NodeDeletedEvent} from 'projects/storage/src/lib/events/node-deleted-event';
 import {NodeModifiedEvent} from 'projects/storage/src/lib/events/node-modified-event';
-import {EventSourceService} from 'projects/tools/src/lib/event-source.service';
-import {BaseNotification} from 'projects/notification/src/lib/base-notification';
-import {Observer, Subscription} from 'rxjs';
-import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
-import {DurationToStringPipe} from 'projects/date/src/lib/duration-to-string.pipe';
-import {RetriesService} from 'projects/tools/src/lib/retries.service';
-import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
-import {Retry} from 'projects/tools/src/lib/retry';
+import {Subscription} from 'rxjs';
+import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
+import {filter, map} from 'rxjs/operators';
 
 @Injectable()
-export class StorageWatcherService implements OnDestroy, Observer<StorageWatcherEvent> {
+export class StorageWatcherService implements OnDestroy {
 
   _subscription: Subscription;
-  _retry: Retry;
-  closed = false;
-  public reconnected: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private configuration: StorageConfigurationService,
-              private eventBus: EventBusService,
-              private eventSourceService: EventSourceService,
-              retries: RetriesService,
-              private durationToString: DurationToStringPipe) {
-    this._retry = retries.get();
-    this.watch();
+  constructor(private eventBus: EventBusService) {
+    this._subscription = this.eventBus.of<SSEEvent>(SSEEvent.CHANNEL)
+      .pipe(filter(event => event.wrapper.type === 'NODE'),
+        map(event => event.wrapper.value as StorageWatcherEvent))
+      .subscribe(watcherEvent => {
+        switch (watcherEvent.event) {
+          case 'CREATE':
+            this.eventBus.publish(new NodeCreatedEvent(watcherEvent.node));
+            break;
+          case 'DELETE':
+            this.eventBus.publish(new NodeDeletedEvent(watcherEvent.node));
+            break;
+          case 'MODIFY':
+            this.eventBus.publish(new NodeModifiedEvent(watcherEvent.node));
+            break;
+        }
+      });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this._subscription.unsubscribe();
-    this.closed = true;
-  }
-
-  watch() {
-    if (this._subscription) {
-      this._subscription.unsubscribe();
-    }
-    this._subscription = this.eventSourceService.newObservable(this.configuration.storageApiUrl('/watch'), {converter: JSON.parse})
-      .subscribe(this);
-  }
-
-  next(watcherEvent: StorageWatcherEvent) {
-    this._retry.reset();
-    switch (watcherEvent.event) {
-      case 'CREATE':
-        this.eventBus.publish(new NodeCreatedEvent(watcherEvent.node));
-        break;
-      case 'DELETE':
-        this.eventBus.publish(new NodeDeletedEvent(watcherEvent.node));
-        break;
-      case 'MODIFY':
-        this.eventBus.publish(new NodeModifiedEvent(watcherEvent.node));
-        break;
-    }
-  }
-
-  error(err: any) {
-    const delay = this._retry.getDelay();
-    this.eventBus.publish(new NotificationEvent(new BaseNotification(
-      `An error occurred while listening for file events. Will reconnect in ${this.durationToString.transform(delay)}.`,
-      NotificationLevel.ERROR,
-      null,
-      {
-        selector: 'lib-storage-tree',
-        busEvent: new OpenStorageTreeEvent()
-      })));
-
-    if (this.closed) {
-      return;
-    }
-    setTimeout(() => {
-      this.watch();
-      this.reconnected.emit();
-    }, delay);
-  }
-
-  complete() {
-    this.error(null);
   }
 }

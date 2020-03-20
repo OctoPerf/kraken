@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {EventSourceService} from './event-source.service';
-import {ToolsModule} from './tools.module';
+import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 
 export const eventSourceSpy = () => {
   const spy = jasmine.createSpyObj('EventSource', ['onerror', 'onmessage', 'onopen', 'close']);

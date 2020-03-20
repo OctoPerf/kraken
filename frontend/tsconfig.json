@@ -144,6 +144,10 @@
       ],
       "runtime/*": [
         "dist/runtime/*"
+      ],
+      "sse": [
+        "dist/sse/sse",
+        "dist/sse"
       ]
     }
   }

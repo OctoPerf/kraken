@@ -1,61 +1,31 @@
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
 import {RuntimeWatcherService} from './runtime-watcher.service';
-import {HttpTestingController} from '@angular/common/http/testing';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {eventSourceSpy} from 'projects/tools/src/lib/event-source.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
-import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
-import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
-import {RetriesService} from 'projects/tools/src/lib/retries.service';
-import {retriesServiceSpy} from 'projects/tools/src/lib/retries.service.spec';
-import {DurationToStringPipe} from 'projects/date/src/lib/duration-to-string.pipe';
-import {RuntimeConfigurationService} from 'projects/runtime/src/lib/runtime-configuration.service';
-import {runtimeConfigurationServiceSpy} from 'projects/runtime/src/lib/runtime-configuration.service.spec';
-import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
-import {Log} from 'projects/runtime/src/lib/entities/log';
 import {testLog} from 'projects/runtime/src/lib/entities/log.spec';
 import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
-import {Task} from 'projects/runtime/src/lib/entities/task';
 import {testTasks} from 'projects/runtime/src/lib/entities/task.spec';
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
-import {QueryParamsToStringPipe} from 'projects/tools/src/lib/query-params-to-string.pipe';
-
-export const runtimeWatcherServiceSpy = () => {
-  const spy = jasmine.createSpyObj('RuntimeWatcherService', [
-    'watch',
-  ]);
-  return spy;
-};
+import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
 
 describe('RuntimeWatcherService', () => {
   let service: RuntimeWatcherService;
-  let httpTestingController: HttpTestingController;
   let eventBus: EventBusService;
-  let eventSource: EventSource;
 
   beforeEach(() => {
-    eventSource = eventSourceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       providers: [
-        {provide: EventBusService, useValue: eventBusSpy()},
-        {provide: ConfigurationService, useValue: configurationServiceMock()},
-        {provide: RuntimeConfigurationService, useValue: runtimeConfigurationServiceSpy()},
-        {provide: RetriesService, useValue: retriesServiceSpy()},
+        EventBusService,
         RuntimeWatcherService,
-        DurationToStringPipe,
-        QueryParamsToStringPipe,
       ]
     });
     eventBus = TestBed.inject(EventBusService);
     service = TestBed.inject(RuntimeWatcherService);
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
-    httpTestingController.verify();
     service.ngOnDestroy();
   });
 
@@ -63,42 +33,15 @@ describe('RuntimeWatcherService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should watch', () => {
-    service.watch();
-    expect(service._eventSourceSubscription).toBeTruthy();
-    const subscription = service._eventSourceSubscription = jasmine.createSpyObj('_subscription', ['unsubscribe']);
-    service.watch();
-    expect(subscription.unsubscribe).toHaveBeenCalled();
+  it('should handle log event', () => {
+    const spy = spyOn(eventBus, 'publish').and.callThrough();
+    eventBus.publish(new SSEEvent({type: 'LOG', value: testLog()}));
+    expect(spy).toHaveBeenCalledWith(new LogEvent(testLog()));
   });
 
-  it('should handle error', fakeAsync(() => {
-    const watch = spyOn(service, 'watch');
-    service.error(null);
-    expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
-    tick(1000);
-    expect(watch).toHaveBeenCalled();
-  }));
-
-  it('should not handle error destroyed', fakeAsync(() => {
-    const watch = spyOn(service, 'watch');
-    service.ngOnDestroy();
-    service.complete();
-    expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
-    tick(1000);
-    expect(watch).not.toHaveBeenCalled();
-  }));
-
-  it('should send event on LOG message', () => {
-    const log: Log = testLog();
-    service.next({type: 'LOG', value: log});
-    expect(service._retry.reset).toHaveBeenCalled();
-    expect(eventBus.publish).toHaveBeenCalledWith(new LogEvent(log));
-  });
-
-  it('should send event on TASKS message', () => {
-    const tasks: Task[] = testTasks();
-    service.next({type: 'TASKS', value: tasks});
-    expect(service._retry.reset).toHaveBeenCalled();
-    expect(eventBus.publish).toHaveBeenCalledWith(new TasksRefreshEvent(tasks));
+  it('should handle tasks event', () => {
+    const spy = spyOn(eventBus, 'publish').and.callThrough();
+    eventBus.publish(new SSEEvent({type: 'TASKS', value: testTasks()}));
+    expect(spy).toHaveBeenCalledWith(new TasksRefreshEvent(testTasks()));
   });
 });

@@ -14,6 +14,7 @@ import {StorageNodeToNamePipe} from 'projects/storage/src/lib/storage-pipes/stor
 import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-predicate.pipe';
 import {StorageNodeToParentPathPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-parent-path.pipe';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
+import {SSEService} from 'projects/sse/src/lib/sse.service';
 
 @Injectable()
 export class StorageListService implements OnDestroy {
@@ -35,7 +36,7 @@ export class StorageListService implements OnDestroy {
               private toName: StorageNodeToNamePipe,
               private toParentPath: StorageNodeToParentPathPipe,
               private toPredicate: StorageNodeToPredicatePipe,
-              watcher: StorageWatcherService) {
+              watcher: SSEService) {
     this._watcherSubscription = watcher.reconnected.subscribe(this._refresh.bind(this));
   }
 

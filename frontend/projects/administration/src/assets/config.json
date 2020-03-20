@@ -2,13 +2,14 @@
   "version": "administration-test-1",
   "applicationId": "administration",
   "storageApiUrl": "http://localhost:8080",
+  "runtimeApiUrl": "http://localhost:8082",
+  "sseApiUrl": "http://localhost:8083",
+  "docUrl": "http://localhost:8000",
   "readmeNode": {
     "path": "README.md",
     "type": "FILE",
     "depth": 0,
     "length": 0,
     "lastModified": 0
-  },
-  "runtimeApiUrl": "http://localhost:8082",
-  "docUrl": "http://localhost:8000"
+  }
 }

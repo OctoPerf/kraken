@@ -2,13 +2,14 @@
   "version": "administration-1",
   "applicationId": "administration",
   "storageApiUrl": "/api/storage",
+  "runtimeApiUrl": "/api/runtime",
+  "sseApiUrl": "/api/sse",
+  "docUrl": "/doc",
   "readmeNode": {
     "path": "README.md",
     "type": "FILE",
     "depth": 0,
     "length": 0,
     "lastModified": 0
-  },
-  "runtimeApiUrl": "/api/runtime",
-  "docUrl": "/doc"
+  }
 }

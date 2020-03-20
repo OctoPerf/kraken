@@ -56,6 +56,9 @@ serve-storage:
 serve-static:
 	docker run --rm --name kraken-static-dev -v $(PWD)/applications/storage/devData:/usr/share/nginx/html:ro -p 8085:80 octoperf/kraken-static
 
+serve-sse:
+	$(MAKE) serve APP=:applications:app-sse
+
 clean:
 	./gradlew $(APP):clean
 

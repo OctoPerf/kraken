@@ -10,6 +10,7 @@
     "lastModified": 0
   },
   "runtimeApiUrl": "/api/runtime",
+  "sseApiUrl": "/api/sse",
   "docUrl": "/doc",
   "staticApiUrl": "/api/static",
   "analysisApiUrl": "/api/analysis",

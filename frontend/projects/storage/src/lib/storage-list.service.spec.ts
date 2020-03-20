@@ -16,13 +16,13 @@ import {NodeModifiedEvent} from 'projects/storage/src/lib/events/node-modified-e
 import * as _ from 'lodash';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {NodeDeletedEvent} from 'projects/storage/src/lib/events/node-deleted-event';
-import SpyObj = jasmine.SpyObj;
 import {EventEmitter} from '@angular/core';
-import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
-import {storageWatcherServiceSpy} from 'projects/storage/src/lib/storage-watcher.service.spec';
-import Spy = jasmine.Spy;
 import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
 import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.pipe';
+import {sseServiceSpy} from 'projects/sse/src/lib/sse.service.spec';
+import {SSEService} from 'projects/sse/src/lib/sse.service';
+import SpyObj = jasmine.SpyObj;
+import Spy = jasmine.Spy;
 
 export const storageListServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageListService', [
@@ -45,16 +45,16 @@ describe('StorageListService', () => {
   let service: StorageListService;
   let storage: SpyObj<StorageService>;
   let eventBus: EventBusService;
-  let watcher: SpyObj<StorageWatcherService>;
+  let sseService: SpyObj<SSEService>;
   let reconnectedSpy: Spy;
 
   beforeEach(() => {
-    watcher = storageWatcherServiceSpy();
-    reconnectedSpy = spyOn(watcher.reconnected, 'subscribe').and.callThrough();
+    sseService = sseServiceSpy();
+    reconnectedSpy = spyOn(sseService.reconnected, 'subscribe').and.callThrough();
     TestBed.configureTestingModule({
       providers: [
         {provide: StorageService, useValue: storageServiceSpy()},
-        {provide: StorageWatcherService, useValue: watcher},
+        {provide: SSEService, useValue: sseService},
         EventBusService,
         NodeEventToNodePipe,
         StorageNodeToNamePipe,
