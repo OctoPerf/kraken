@@ -2,6 +2,7 @@ package com.kraken.tools.sse;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.Value;
 
@@ -9,6 +10,7 @@ import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder
+@ExcludeFromObfuscation
 public class SSEWrapper {
   String type;
   Object value;

@@ -1,3 +1,4 @@
 dependencies {
     implementation project(':commons:tools:environment')
+    implementation project(':commons:tools:obfuscation')
 }

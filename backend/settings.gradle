@@ -142,4 +142,8 @@ include 'commons:tools:sse-server'
 findProject(':commons:tools:sse-server')?.name = 'sse-server'
 include 'applications:sse'
 findProject(':applications:sse')?.name = 'app-sse'
+include 'commons:tools:obfuscation'
+findProject(':commons:tools:obfuscation')?.name = 'obfuscation'
+include 'commons:tools:application'
+findProject(':commons:tools:application')?.name = 'application'
 

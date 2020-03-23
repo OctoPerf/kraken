@@ -38,7 +38,7 @@ class PetStoreSimulation extends Simulation {
           exec(flattenMapIntoAttributes("${category}"))
           .exec(categoryRequest)
           .pause(500 milliseconds)
-          .during(10 seconds) {
+          .forever {
             pace(1 seconds)
             .exec(session => {
               val productIds = session("productIds").as[List[Any]]
