@@ -63,7 +63,7 @@ public class SSEControllerTest {
     given(storageClient.watch()).willReturn(Flux.just(StorageWatcherEventTest.STORAGE_WATCHER_EVENT));
 
     final var result = webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/sse/watch").pathSegment(applicationId).build())
+        .uri(uriBuilder -> uriBuilder.path("/watch").pathSegment(applicationId).build())
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
         .expectStatus().isOk()

@@ -1,4 +1,7 @@
 dependencies {
     implementation project(':commons:storage:storage-server')
     implementation project(':commons:tools:configuration')
+    implementation project(':commons:tools:properties')
+
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
 }

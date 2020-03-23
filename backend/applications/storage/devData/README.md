@@ -1,6 +1,6 @@
 # Administration
 
-![Logo](/api/static/kraken.svg "Logo")
+![Logo](http://localhost:8080/static/kraken.svg "Logo")
 
 The Kraken Administration application:
 

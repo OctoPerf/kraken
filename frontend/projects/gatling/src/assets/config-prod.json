@@ -12,7 +12,7 @@
   "runtimeApiUrl": "/api/runtime",
   "sseApiUrl": "/api/sse",
   "docUrl": "/doc",
-  "staticApiUrl": "/api/static",
+  "staticApiUrl": "/api/storage/static",
   "analysisApiUrl": "/api/analysis",
   "analysisRootNode": {
     "path": "gatling/results",

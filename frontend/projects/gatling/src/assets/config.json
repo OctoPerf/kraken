@@ -12,7 +12,7 @@
   "runtimeApiUrl": "http://localhost:8082",
   "sseApiUrl": "http://localhost:8083",
   "docUrl": "http://localhost:8000",
-  "staticApiUrl": "http://localhost:8085",
+  "staticApiUrl": "http://localhost:8080/static",
   "analysisApiUrl": "http://localhost:8081",
   "analysisRootNode": {
     "path": "gatling/results",

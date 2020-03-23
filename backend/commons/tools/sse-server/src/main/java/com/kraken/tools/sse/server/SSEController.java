@@ -22,7 +22,6 @@ import javax.validation.constraints.Pattern;
 
 @Slf4j
 @RestController()
-@RequestMapping("/sse")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Validated
