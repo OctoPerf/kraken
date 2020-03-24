@@ -1,45 +1,35 @@
-version: '3.5'
+version: '3.7'
 
 services:
-  kraken-influxdb-dev:
-    image: influxdb:1.7.4
-    container_name: kraken-influxdb-dev
-    network_mode: host
-    ports:
-      - "8086:8086"
-    expose:
-      - "8086"
-    env_file:
-      - 'influxdb/env.influxdb'
+  kraken-postgres:
+    image: postgres:12.2
+    container_name: kraken-postgres-dev
     volumes:
-      - ./analysis/influxdb:/var/lib/influxdb
-      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
 
-  kraken-analysis-telegraf-dev:
-    user: ${KRAKEN_HOST_UID}:${KRAKEN_HOST_GID}
-    image: telegraf:1.10.0
-    container_name: kraken-analysis-telegraf-dev
-    network_mode: host
-    env_file:
-      - 'telegraf/env.telegraf'
+  kraken-keycloak:
+    image: quay.io/keycloak/keycloak:9.0.2
+    container_name: kraken-keycloak-dev
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: kraken-postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: kraken
     volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./keycloak/imports:/opt/jboss/keycloak/imports
+    ports:
+      - 9080:8080
+    expose:
+      - 9080
     depends_on:
-      - kraken-influxdb-dev
-
-  kraken-grafana-dev:
-    user: ${KRAKEN_HOST_UID}:${KRAKEN_HOST_GID}
-    image: grafana/grafana:5.4.3
-    container_name: kraken-grafana-dev
-    network_mode: host
-    ports:
-      - "3000:3000"
-    expose:
-      - "3000"
-    env_file:
-      - 'grafana/env.grafana'
-    volumes:
-      - ./analysis/grafana:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - kraken-postgres
+    command:
+      - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/kraken-realm.json"

@@ -2,4 +2,4 @@
 
 docker-compose down
 
-sudo rm -rf analysis
+sudo rm -rf postgres/data/
