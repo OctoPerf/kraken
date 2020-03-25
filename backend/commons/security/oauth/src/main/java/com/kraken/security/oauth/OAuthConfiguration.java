@@ -23,26 +23,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @EnableWebFluxSecurity
-public class SecurityConfiguration {
-  @Bean
-  SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-    http
-        .csrf().disable()
-        .httpBasic().disable()
-        .formLogin().disable()
-        .authorizeExchange()
-        .pathMatchers(HttpMethod.OPTIONS).permitAll()
-        .pathMatchers("/user").hasAuthority("USER")
-        .pathMatchers("/admin").hasAuthority("ADMIN")
-        .anyExchange().denyAll()
-        .and()
-        .oauth2ResourceServer()
-        .jwt()
-        .jwtAuthenticationConverter(grantedAuthoritiesExtractor());
-    return http.build();
-  }
+public class OAuthConfiguration {
 
-  private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
+  @Bean
+  Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
     GrantedAuthoritiesExtractor extractor = new GrantedAuthoritiesExtractor();
     return new ReactiveJwtAuthenticationConverterAdapter(extractor);
   }
@@ -50,13 +34,8 @@ public class SecurityConfiguration {
   static class GrantedAuthoritiesExtractor extends JwtAuthenticationConverter {
     @Override
     protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-      Map<String, Object> claims = jwt.getClaims();
-      JSONObject realmAccess = (JSONObject) claims.get("realm_access");
-      JSONArray roles = (JSONArray) realmAccess.get("roles");
-      return roles.stream()
-          .map(Object::toString)
-          .map(SimpleGrantedAuthority::new)
-          .collect(Collectors.toSet());
+      System.out.println(jwt);
+      return super.extractAuthorities(jwt);
     }
   }
 }
