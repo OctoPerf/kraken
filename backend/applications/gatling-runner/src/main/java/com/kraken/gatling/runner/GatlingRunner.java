@@ -57,7 +57,7 @@ final class GatlingRunner {
     final var waitForStatusStopping = runtimeClient.waitForStatus(me, ContainerStatus.STOPPING);
     final var uploadResult = storageClient.uploadFile(
         gatlingExecutionProperties.getLocalResult(),
-        gatlingExecutionProperties.getRemoteResult().map(s -> Paths.get(s).resolve("groups").resolve(containerProperties.getHostId()).toString())
+      Paths.get(gatlingExecutionProperties.getRemoteResult()).resolve("groups").resolve(containerProperties.getHostId()).toString()
     );
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 

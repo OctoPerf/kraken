@@ -26,9 +26,9 @@ public interface StorageClient {
 
   Mono<Void> downloadFile(Path localFolderPath, String path);
 
-  Mono<Void> downloadFolder(Path localFolderPath, Optional<String> path);
+  Mono<Void> downloadFolder(Path localFolderPath, String path);
 
-  Mono<StorageNode> uploadFile(Path localFilePath, Optional<String> remotePath);
+  Mono<StorageNode> uploadFile(Path localFilePath, String remotePath);
 
   Flux<StorageWatcherEvent> watch();
 

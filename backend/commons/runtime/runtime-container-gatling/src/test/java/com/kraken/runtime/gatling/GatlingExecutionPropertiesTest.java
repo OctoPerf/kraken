@@ -1,37 +1,49 @@
 package com.kraken.runtime.gatling;
 
-import com.kraken.test.utils.TestUtils;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
-import java.nio.file.Path;
-import java.util.Optional;
+import static com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+import static com.kraken.test.utils.TestUtils.shouldPassToString;
+import static org.junit.Assert.assertNotNull;
 
 public class GatlingExecutionPropertiesTest {
 
   public static final GatlingExecutionProperties GATLING_PROPERTIES = GatlingExecutionProperties.builder()
-      .gatlingHome(Path.of("gatlingHome"))
-      .gatlingBin(Path.of("gatlingBin"))
-      .localUserFiles(Path.of("localUserFiles"))
-      .localConf(Path.of("localConf"))
-      .localLib(Path.of("localLib"))
-      .localResult(Path.of("localResult"))
-      .remoteUserFiles(Optional.of("remoteUserFiles"))
-      .remoteConf(Optional.of("remoteConf"))
-      .remoteLib(Optional.of("remoteLib"))
-      .remoteResult(Optional.of("remoteResult"))
-      .infoLog(Path.of("infoLog"))
-      .debugLog(Path.of("debugLog"))
-      .simulation("simulation")
-      .description("description")
-      .localHarPath(Path.of("localHarPath"))
-      .remoteHarPath("remoteHarPath")
-      .simulationClass("simulationClass")
-      .simulationPackage("simulationPackage")
-      .javaOpts("-Dfoo=\"bar\"")
-      .build();
+    .containerProperties(RUNTIME_PROPERTIES)
+    .gatlingHome("gatlingHome")
+    .gatlingBin("gatlingBin")
+    .localUserFiles("localUserFiles")
+    .localConf("localConf")
+    .localLib("localLib")
+    .localResult("localResult")
+    .remoteUserFiles("remoteUserFiles")
+    .remoteConf("remoteConf")
+    .remoteLib("remoteLib")
+    .remoteResult("remoteResult")
+    .infoLog("infoLog")
+    .debugLog("debugLog")
+    .simulation("simulation")
+    .description("description")
+    .localHarPath("localHarPath")
+    .remoteHarPath("remoteHarPath")
+    .simulationClass("simulationClass")
+    .simulationPackage("simulationPackage")
+    .javaOpts("-Dfoo=\"bar\"")
+    .build();
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(GATLING_PROPERTIES);
+    shouldPassToString(GATLING_PROPERTIES);
+  }
+
+  @Test
+  public void shouldPassEqualsVerifier() {
+    EqualsVerifier.forClass(GatlingExecutionProperties.class).verify();
+  }
+
+  @Test
+  public void shouldCreate() {
+    assertNotNull(GATLING_PROPERTIES);
   }
 }

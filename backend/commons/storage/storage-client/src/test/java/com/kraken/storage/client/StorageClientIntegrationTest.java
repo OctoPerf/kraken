@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,7 +39,7 @@ public class StorageClientIntegrationTest {
     final var testFile = Paths.get("gatling/");
     final var outFile = Paths.get("testDir/intTest");
 
-    client.downloadFolder(outFile, Optional.of(testFile.toString())).block();
+    client.downloadFolder(outFile, testFile.toString()).block();
   }
 
   @Test
@@ -48,7 +47,7 @@ public class StorageClientIntegrationTest {
     final var testFile = Paths.get("gatling/");
     final var outFile = Paths.get("testDir/zipDir");
 
-    client.uploadFile(outFile, Optional.of(testFile.toString())).block();
+    client.uploadFile(outFile, testFile.toString()).block();
   }
 
   @Test

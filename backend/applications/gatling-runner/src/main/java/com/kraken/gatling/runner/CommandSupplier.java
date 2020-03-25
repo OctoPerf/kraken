@@ -8,13 +8,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
@@ -24,22 +19,22 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 @AllArgsConstructor
 final class CommandSupplier implements Supplier<Command> {
 
-  @NonNull GatlingExecutionProperties gatlingExecutionProperties;
+  @NonNull GatlingExecutionProperties properties;
 
   @Override
   public Command get() {
     return Command.builder()
-        .path(gatlingExecutionProperties.getGatlingBin().toString())
+        .path(properties.getGatlingBin().toString())
         .environment(ImmutableMap.of(
-            KRAKEN_GATLING_RESULT_INFO_LOG, gatlingExecutionProperties.getInfoLog().toString(),
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatlingExecutionProperties.getDebugLog().toString(),
-            JAVA_OPTS, gatlingExecutionProperties.getJavaOpts())
+            KRAKEN_GATLING_RESULT_INFO_LOG, properties.getInfoLog().toString(),
+            KRAKEN_GATLING_RESULT_DEBUG_LOG, properties.getDebugLog().toString(),
+            JAVA_OPTS, properties.getJavaOpts())
         )
         .command(ImmutableList.of(
             "./gatling.sh",
-            "-s", gatlingExecutionProperties.getSimulation(),
-            "-rd", gatlingExecutionProperties.getDescription(),
-            "-rf", gatlingExecutionProperties.getLocalResult().toString()))
+            "-s", properties.getSimulation(),
+            "-rd", properties.getDescription(),
+            "-rf", properties.getLocalResult().toString()))
         .build();
   }
 }

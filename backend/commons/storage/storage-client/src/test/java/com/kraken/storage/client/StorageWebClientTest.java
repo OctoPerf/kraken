@@ -3,7 +3,6 @@ package com.kraken.storage.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
@@ -34,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import static com.kraken.analysis.entity.ResultType.RUN;
 import static com.kraken.storage.entity.StorageNodeTest.STORAGE_NODE;
@@ -300,7 +298,7 @@ public class StorageWebClientTest {
     );
 
 
-    client.downloadFolder(outDir, Optional.empty()).block();
+    client.downloadFolder(outDir, "").block();
 
     final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/file?path=");
@@ -320,7 +318,7 @@ public class StorageWebClientTest {
             .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
     );
 
-    final var response = client.uploadFile(testFile, Optional.empty()).block();
+    final var response = client.uploadFile(testFile, "").block();
     assertThat(response).isEqualTo(STORAGE_NODE);
 
     final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
@@ -340,7 +338,7 @@ public class StorageWebClientTest {
             .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
     );
 
-    final var response = client.uploadFile(testFile, Optional.of("path")).block();
+    final var response = client.uploadFile(testFile, "path").block();
     assertThat(response).isEqualTo(STORAGE_NODE);
 
     final RecordedRequest setRequest = storageMockWebServer.takeRequest();

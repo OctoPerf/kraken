@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressFBWarnings(value = {"DMI_HARDCODED_ABSOLUTE_FILENAME"}, justification = "It's just test values")
 @RunWith(SpringRunner.class)
 @ContextConfiguration(
-    classes = {GatlingExecutionConfiguration.class, RuntimeContainerPropertiesTestConfiguration.class},
+    classes = {GatlingExecutionProperties.class, RuntimeContainerPropertiesTestConfiguration.class},
     initializers = {ConfigFileApplicationContextInitializer.class})
 public class GatlingExecutionConfigurationTest {
 
