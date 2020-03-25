@@ -50,6 +50,7 @@ subprojects {
     ext {
         springBootVersion = '2.2.5.RELEASE'
         springReactorVersion = '3.3.3.RELEASE'
+        springSecurityVersion = '5.3.0.RELEASE'
         lombokVersion = '1.18.12'
         guavaVersion = '28.2-jre'
         equalsVerifierVersion = '3.1.12'
@@ -70,6 +71,10 @@ subprojects {
         // Spring boot
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: springBootVersion
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+        implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: springSecurityVersion
+        implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: springSecurityVersion
+
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
         testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
         // https://mvnrepository.com/artifact/io.projectreactor/reactor-test

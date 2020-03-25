@@ -10,7 +10,7 @@ spring:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
   com:
     kraken: INFO
 
@@ -22,6 +22,11 @@ server:
 ---
 spring:
   profiles: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9080/auth/realms/kraken
 
 kraken:
   data: devData/
