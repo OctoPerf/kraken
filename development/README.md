@@ -64,3 +64,14 @@ docker stop grafana
 ## Provisioning
 [Blog post](https://ops.tips/blog/initialize-grafana-with-preconfigured-dashboards/#configuring-grafana)
 [Documentation](http://docs.grafana.org/administration/provisioning/)
+
+
+## Keycloak tests
+
+```
+curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'username=kraken-user&password=kraken&grant_type=password' -d 'client_id=kraken-web' "http://localhost:9080/auth/realms/kraken/protocol/openid-connect/token" | jq -r '.access_token' > token
+```
+
+```
+curl --verbose -X GET http://localhost:8080/files/list -H "Authorization: Bearer $(cat token)"
+```
