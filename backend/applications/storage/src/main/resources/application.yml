@@ -10,7 +10,7 @@ spring:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
   com:
     kraken: INFO
 
