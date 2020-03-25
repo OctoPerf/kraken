@@ -1,16 +1,11 @@
 package com.kraken.tools.environment;
 
 public interface KrakenEnvironmentAtValues {
-  String $KRAKEN_TELEGRAF_CONF_LOCAL = "${kraken.telegraf.conf.local:#{environment.KRAKEN_TELEGRAF_CONF_LOCAL}}";
-  String $KRAKEN_TELEGRAF_CONF_REMOTE = "${kraken.telegraf.conf.remote:#{environment.KRAKEN_TELEGRAF_CONF_REMOTE}}";
+  String $KRAKEN_TELEGRAF_CONF_LOCAL = "${kraken.telegraf.conf.local}";
+  String $KRAKEN_TELEGRAF_CONF_REMOTE = "${kraken.telegraf.conf.remote}";
 
-  String $KRAKEN_ANALYSIS_URL = "${kraken.analysis.url:#{environment.KRAKEN_ANALYSIS_URL}}";
-  String $KRAKEN_ANALYSIS_RESULTS_ROOT = "${kraken.analysis.results.root:#{environment.KRAKEN_ANALYSIS_RESULTS_ROOT}}";
-
-  String $KRAKEN_GRAFANA_URL = "${kraken.grafana.url:#{environment.KRAKEN_GRAFANA_URL}}";
-  String $KRAKEN_GRAFANA_DASHBOARD = "${kraken.grafana.dashboard:#{environment.KRAKEN_GRAFANA_DASHBOARD}}";
-  String $KRAKEN_GRAFANA_USER = "${kraken.grafana.user:#{environment.KRAKEN_GRAFANA_USER}}";
-  String $KRAKEN_GRAFANA_PASSWORD = "${kraken.grafana.password:#{environment.KRAKEN_GRAFANA_PASSWORD}}";
+  String $KRAKEN_ANALYSIS_URL = "${kraken.analysis.url}";
+  String $KRAKEN_ANALYSIS_RESULTS_ROOT = "${kraken.analysis.results.root}";
 
   String $KRAKEN_INFLUXDB_URL = "${kraken.influxdb.url:#{environment.KRAKEN_INFLUXDB_URL}}";
   String $KRAKEN_INFLUXDB_USER = "${kraken.influxdb.user:#{environment.KRAKEN_INFLUXDB_USER}}";

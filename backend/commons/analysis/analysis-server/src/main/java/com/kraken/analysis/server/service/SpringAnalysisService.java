@@ -31,7 +31,7 @@ class SpringAnalysisService implements AnalysisService {
   private static final String RESULT_JSON = "result.json";
 
   @NonNull AnalysisProperties properties;
-  @NonNull GrafanaClientProperties grafanaClientProperties;
+  @NonNull GrafanaClientProperties grafana;
 
   @NonNull StorageClient storageClient;
   @NonNull GrafanaClient grafanaClient;
@@ -45,7 +45,7 @@ class SpringAnalysisService implements AnalysisService {
     final var resultPath = properties.getResultPath(result.getId());
     final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
 
-    final var createGrafanaReport = storageClient.getContent(grafanaClientProperties.getGrafanaDashboard())
+    final var createGrafanaReport = storageClient.getContent(grafana.getDashboard())
         .map(dashboard -> grafanaClient.initDashboard(result.getId(), result.getDescription() + " - " + result.getId(), result.getStartDate(), dashboard))
         .flatMap(grafanaClient::importDashboard);
 

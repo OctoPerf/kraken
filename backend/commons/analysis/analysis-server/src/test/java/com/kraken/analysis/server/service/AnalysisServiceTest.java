@@ -235,7 +235,7 @@ public class AnalysisServiceTest {
     given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
-    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getGrafanaDashboard())).willReturn(Mono.just(dashboard));
+    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getDashboard())).willReturn(Mono.just(dashboard));
     given(grafanaClient.initDashboard(anyString(), anyString(), any(Long.class), anyString())).willReturn(dashboard);
     given(grafanaClient.importDashboard(anyString())).willReturn(Mono.just("dashboard set"));
 
@@ -268,7 +268,7 @@ public class AnalysisServiceTest {
     given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
-    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getGrafanaDashboard())).willReturn(Mono.just(dashboard));
+    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getDashboard())).willReturn(Mono.just(dashboard));
 
     final var response = service.create(result).block();
     assertThat(response).isEqualTo(resultNode);

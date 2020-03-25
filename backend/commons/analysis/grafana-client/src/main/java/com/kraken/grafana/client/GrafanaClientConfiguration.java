@@ -1,6 +1,5 @@
 package com.kraken.grafana.client;
 
-import com.google.common.base.Charsets;
 import com.kraken.grafana.client.properties.GrafanaClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +9,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Base64;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 @Slf4j
 @Configuration
 class GrafanaClientConfiguration {
 
   @Bean("webClientGrafana")
   @Autowired
-  WebClient grafanaWebClient(final GrafanaClientProperties properties) {
-    final var credentials = properties.getGrafanaUser() + ":" + properties.getGrafanaPassword();
-    final var encoded = Base64.getEncoder().encodeToString(credentials.getBytes(Charsets.UTF_8));
+  WebClient grafanaWebClient(final GrafanaClientProperties grafana) {
+    final var credentials = grafana.getUser() + ":" + grafana.getPassword();
+    final var encoded = Base64.getEncoder().encodeToString(credentials.getBytes(UTF_8));
     return WebClient
         .builder()
-        .baseUrl(properties.getGrafanaUrl())
+        .baseUrl(grafana.getUrl())
         .defaultHeader("Authorization", "Basic " + encoded)
         .build();
   }
