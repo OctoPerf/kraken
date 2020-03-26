@@ -29,28 +29,47 @@ launch-k8s:
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
 
-list_submodules := backend/commons/ee backend/applications/ee deployment documentation
-cmd_pull_submodule = $(foreach submodule,$(list_submodules),$(MAKE) git-pull-submodule SUBMODULE=$(submodule))
-git-pull-master:
-	git checkout master
+git-help:
+	@echo "git-init"
+	@echo "git-pull BRANCH=branch_name"
+	@echo "git-push BRANCH=branch_name"
+	@echo "git-branch-start BRANCH=branch_name"
+	@echo "git-commit-push MESSAGE=message_txt BRANCH=branch_name"
+	@echo "git-branch-finish BRANCH=branch_name"
+
+#list_submodules := backend/commons/ee backend/applications/ee deployment documentation
+#cmd_pull_submodule = $(foreach submodule,$(list_submodules),$(MAKE) git-pull-submodule SUBMODULE=$(submodule))
+git-pull:
+	git checkout $(BRANCH)
 	git fetch --progress --prune --recurse-submodules=no origin
 	git pull
 	git submodule update
-	$(MAKE) git-pull-submodule SUBMODULE=backend/commons/ee
-	$(MAKE) git-pull-submodule SUBMODULE=backend/applications/ee
-	$(MAKE) git-pull-submodule SUBMODULE=deployment
-	$(MAKE) git-pull-submodule SUBMODULE=documentation
+	$(MAKE) git-pull-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
+	$(MAKE) git-pull-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
+	$(MAKE) git-pull-submodule SUBMODULE=deployment BRANCH=$(BRANCH)
+	$(MAKE) git-pull-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
 
 git-pull-submodule:
-	cd $(SUBMODULE);pwd
-	cd $(SUBMODULE);git checkout master
+	cd $(SUBMODULE);git checkout BRANCH=$(BRANCH)
 	cd $(SUBMODULE);git fetch --progress --prune --recurse-submodules=no origin
 	cd $(SUBMODULE);git pull
+
+git-push:
+	git push origin $(BRANCH)
+	$(MAKE) git-push-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
+	$(MAKE) git-push-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
+	$(MAKE) git-push-submodule SUBMODULE=deployment BRANCH=$(BRANCH)
+	$(MAKE) git-push-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
+
+git-push-submodule:
+	git push origin $(BRANCH)
 
 git-init:
 	sudo apt-get update -y
 	sudo apt-get install -y git-flow
 	git config --global pull.rebase true
+	git submodule init
+	git submodule update
 	git flow init -d
 	$(MAKE) git-init-submodule SUBMODULE=backend/commons/ee
 	$(MAKE) git-init-submodule SUBMODULE=backend/applications/ee
