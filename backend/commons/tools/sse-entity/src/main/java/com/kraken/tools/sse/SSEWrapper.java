@@ -1,4 +1,4 @@
-package sse;
+package com.kraken.tools.sse;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

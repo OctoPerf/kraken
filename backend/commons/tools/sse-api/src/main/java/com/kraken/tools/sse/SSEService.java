@@ -1,4 +1,4 @@
-package sse;
+package com.kraken.tools.sse;
 
 import org.springframework.http.codec.ServerSentEvent;
 import reactor.core.publisher.Flux;
