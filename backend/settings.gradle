@@ -69,7 +69,7 @@ findProject(':commons:runtime:runtime-tasks-configuration')?.name = 'runtime-tas
 include 'commons:runtime:runtime-tasks-configuration-api'
 findProject(':commons:runtime:runtime-tasks-configuration-api')?.name = 'runtime-tasks-configuration-api'
 include 'commons:runtime:runtime-tasks-configuration-entity'
-
+findProject(':commons:runtime:runtime-tasks-configuration-entity')?.name = 'runtime-tasks-configuration-entity'
 
 include ':commons:storage:storage-entity'
 findProject(':commons:storage:storage-entity')?.name = 'storage-entity'
@@ -113,8 +113,12 @@ findProject(':commons:template:template-api')?.name = 'template-api'
 include 'commons:template:template-string'
 findProject(':commons:template:template-string')?.name = 'template-string'
 
-include 'commons:security:oauth'
-findProject(':commons:security:oauth')?.name = 'oauth'
+include 'commons:security:security-configuration-entity'
+findProject(':commons:security:security-configuration-entity')?.name = 'security-configuration-entity'
+include 'commons:security:security-configuration-api'
+findProject(':commons:security:security-configuration-api')?.name = 'security-configuration-api'
+include 'commons:security:security-configuration-jwt'
+findProject(':commons:security:security-configuration-jwt')?.name = 'security-configuration-jwt'
 
 include ':commons:ee:license'
 findProject(':commons:ee:license')?.name = 'license'
