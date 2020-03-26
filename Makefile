@@ -51,14 +51,14 @@ git-init:
 	sudo apt-get update -y
 	sudo apt-get install -y git-flow
 	git config --global pull.rebase true
-	git flow init
+	git flow init -d
 	$(MAKE) git-init-submodule SUBMODULE=backend/commons/ee
 	$(MAKE) git-init-submodule SUBMODULE=backend/applications/ee
 	$(MAKE) git-init-submodule SUBMODULE=deployment
 	$(MAKE) git-init-submodule SUBMODULE=documentation
 
 git-init-submodule:
-	cd $(SUBMODULE);git flow init
+	cd $(SUBMODULE);git flow init -d
 
 git-branch-start:
 	git flow feature start $(BRANCH)
