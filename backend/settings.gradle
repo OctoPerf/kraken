@@ -24,6 +24,8 @@ include ':commons:analysis:analysis-server'
 include ':commons:analysis:analysis-client'
 include ':commons:analysis:analysis-client-properties'
 include ':commons:analysis:analysis-client-properties-api'
+include ':commons:analysis:analysis-properties-api'
+include ':commons:analysis:analysis-properties-spring'
 
 include ':commons:gatling:gatling-properties-api'
 include ':commons:gatling:gatling-properties-spring'
