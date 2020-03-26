@@ -28,6 +28,6 @@ class TestController {
 
   @GetMapping("/user")
   public Mono<String> user() {
-    return userProvider.getAuthenticatedUser().map(s -> "hello " + s);
+    return userProvider.getAuthenticatedUser().map(user -> "hello " + user.getUsername());
   }
 }

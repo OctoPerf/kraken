@@ -1,5 +1,6 @@
 package com.kraken.security.configuration;
 
+import com.kraken.security.configuration.entity.KrakenUser;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -23,14 +24,19 @@ class JwtConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> 
     JSONObject realmAccess = (JSONObject) claims.get("realm_access");
     JSONArray roles = (JSONArray) realmAccess.get("roles");
     JSONArray groups = (JSONArray) claims.get("user_groups");
-    log.info("Roles: " + roles.stream().map(Object::toString).collect(Collectors.joining(", ")));
-    log.info("Groups: " + groups.stream().map(Object::toString).collect(Collectors.joining(", ")));
     final var authorities = roles.stream()
         .map(Object::toString)
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toSet());
     final var token = new JwtAuthenticationToken(jwt, authorities);
-    token.setDetails("toto");
+    final var user = KrakenUser.builder()
+        .roles(roles.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
+        .groups(groups.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
+        .userId(jwt.getSubject())
+        .username(jwt.getClaimAsString("preferred_username"))
+        .build();
+    token.setDetails(user);
+    log.info(user.toString());
     return Mono.just(token);
   }
 }

@@ -53,11 +53,11 @@ serve-runtime-k8s:
 serve-storage:
 	$(MAKE) serve APP=:applications:app-storage
 
-serve-static:
-	docker run --rm --name kraken-static-dev -v $(PWD)/applications/storage/devData:/usr/share/nginx/html:ro -p 8085:80 octoperf/kraken-static
-
 serve-sse:
 	$(MAKE) serve APP=:applications:app-sse
+
+serve-security-test:
+	$(MAKE) serve APP=:applications:security-configuration-test
 
 clean:
 	./gradlew $(APP):clean
