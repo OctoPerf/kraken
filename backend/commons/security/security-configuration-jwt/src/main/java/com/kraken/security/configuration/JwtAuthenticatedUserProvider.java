@@ -1,7 +1,6 @@
-package com.kraken.security.confioguration;
+package com.kraken.security.configuration;
 
 
-import com.kraken.security.configuration.AuthenticatedUserProvider;
 import com.kraken.security.configuration.entity.KrakenUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
