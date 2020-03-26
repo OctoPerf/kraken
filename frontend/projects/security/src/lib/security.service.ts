@@ -15,7 +15,6 @@ export class SecurityService {
   }
 
   public init(): Observable<boolean> {
-    // Test
     if (this.kcInstance) {
       return of(this.authenticated);
     }
