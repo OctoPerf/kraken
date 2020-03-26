@@ -36,7 +36,7 @@ class JwtConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> 
         .username(jwt.getClaimAsString("preferred_username"))
         .build();
     token.setDetails(user);
-    log.info(token.toString());
+    log.info(user.toString());
     return Mono.just(token);
   }
 }

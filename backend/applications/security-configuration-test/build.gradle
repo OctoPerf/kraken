@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:security:security-configuration-api')
+    implementation project(':commons:security:security-configuration-jwt')
+    implementation project(':commons:security:security-configuration-entity')
+}

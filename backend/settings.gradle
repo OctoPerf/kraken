@@ -13,7 +13,6 @@ gradleEnterprise {
 rootProject.name = 'backend'
 
 include 'test-utils'
-findProject(':test-utils')?.name = 'test-utils'
 
 include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
@@ -108,3 +107,4 @@ findProject(':applications:sse')?.name = 'app-sse'
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
 
+include ':applications:security-configuration-test'
