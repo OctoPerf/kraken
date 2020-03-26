@@ -2,7 +2,9 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Observable} from 'rxjs';
 import {SecurityService} from 'projects/security/src/lib/security.service';
 import {flatMap} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class SecurityInterceptor implements HttpInterceptor {
 
   constructor(private security: SecurityService) {
