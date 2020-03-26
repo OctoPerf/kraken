@@ -26,7 +26,6 @@ public class ContainerNamesCheckerTest {
     assertThat(checker.test(TaskType.GATLING_RECORD)).isTrue();
   }
 
-
   @Test(expected = NullPointerException.class)
   public void shouldFailCheck() {
     checker.accept(ImmutableMap.of());

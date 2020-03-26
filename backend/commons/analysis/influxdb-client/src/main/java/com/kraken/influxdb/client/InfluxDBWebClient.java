@@ -1,15 +1,19 @@
 package com.kraken.influxdb.client;
 
+import com.google.common.base.Charsets;
+import com.kraken.analysis.properties.api.InfluxDBClientProperties;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Base64;
+
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
+import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
 
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -19,20 +23,22 @@ class InfluxDBWebClient implements InfluxDBClient {
   WebClient client;
   InfluxDBClientProperties influxdb;
 
-  InfluxDBWebClient(
-    final InfluxDBClientProperties influxdb,
-    @Qualifier("webClientInfluxdb") final WebClient client) {
+  InfluxDBWebClient(final InfluxDBClientProperties properties) {
     super();
-    this.client = requireNonNull(client);
-    this.influxdb = requireNonNull(influxdb);
+    final var credentials = properties.getUser() + ":" + properties.getPassword();
+    final var encoded = Base64.getEncoder().encodeToString(credentials.getBytes(Charsets.UTF_8));
+    this.client = WebClient
+      .builder()
+      .baseUrl(properties.getUrl())
+      .defaultHeader("Authorization", "Basic " + encoded)
+      .build();
+    this.influxdb = requireNonNull(properties);
   }
 
   public Mono<String> deleteSeries(final String testId) {
     return client.post()
-        .uri(uriBuilder -> uriBuilder.path("/query")
-            .queryParam("db", influxdb.getDatabase())
-            .build())
-        .body(BodyInserters.fromFormData("q", String.format("DROP SERIES FROM /.*/ WHERE test = '%s'", testId)))
+        .uri(uri -> uri.path("/query").queryParam("db", influxdb.getDatabase()).build())
+        .body(fromFormData("q", format("DROP SERIES FROM /.*/ WHERE test = '%s'", testId)))
         .retrieve()
         .bodyToMono(String.class);
   }

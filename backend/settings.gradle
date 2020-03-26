@@ -17,13 +17,9 @@ findProject(':test-utils')?.name = 'test-utils'
 
 include ':commons:analysis:analysis-entity'
 include ':commons:analysis:grafana-client'
-include ':commons:analysis:grafana-client-properties'
 include ':commons:analysis:influxdb-client'
-include ':commons:analysis:influxdb-client-properties'
 include ':commons:analysis:analysis-server'
 include ':commons:analysis:analysis-client'
-include ':commons:analysis:analysis-client-properties'
-include ':commons:analysis:analysis-client-properties-api'
 include ':commons:analysis:analysis-properties-api'
 include ':commons:analysis:analysis-properties-spring'
 

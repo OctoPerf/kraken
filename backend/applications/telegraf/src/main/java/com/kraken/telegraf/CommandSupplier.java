@@ -2,7 +2,7 @@ package com.kraken.telegraf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.kraken.influxdb.client.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBClientProperties;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import lombok.AccessLevel;

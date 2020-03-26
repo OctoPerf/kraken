@@ -1,6 +1,0 @@
-dependencies {
-    implementation project(':commons:tools:obfuscation')
-    implementation project(':commons:analysis:analysis-client-properties-api')
-    
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
-}

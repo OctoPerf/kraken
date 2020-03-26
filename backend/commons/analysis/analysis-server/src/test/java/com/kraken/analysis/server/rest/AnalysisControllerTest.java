@@ -32,7 +32,6 @@ public class AnalysisControllerTest {
 
   @Autowired
   WebTestClient webTestClient;
-
   @MockBean
   AnalysisService service;
 

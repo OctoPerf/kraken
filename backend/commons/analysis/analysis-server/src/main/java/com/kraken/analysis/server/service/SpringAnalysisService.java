@@ -4,9 +4,9 @@ import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.HttpHeader;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.analysis.server.properties.AnalysisProperties;
+import com.kraken.analysis.properties.api.AnalysisResultsProperties;
+import com.kraken.analysis.properties.api.GrafanaClientProperties;
 import com.kraken.grafana.client.GrafanaClient;
-import com.kraken.grafana.client.properties.GrafanaClientProperties;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;
@@ -20,17 +20,18 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.function.Function;
 
+import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
-@FieldDefaults(level = PRIVATE, makeFinal = true)
-@AllArgsConstructor
 @Component
+@AllArgsConstructor(access = PACKAGE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 class SpringAnalysisService implements AnalysisService {
 
   private static final String RESULT_JSON = "result.json";
 
-  @NonNull AnalysisProperties properties;
+  @NonNull AnalysisResultsProperties properties;
   @NonNull GrafanaClientProperties grafana;
 
   @NonNull StorageClient storageClient;

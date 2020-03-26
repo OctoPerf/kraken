@@ -6,6 +6,7 @@ import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.storage.client.properties.StorageClientProperties;
 import com.kraken.test.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_STORAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -24,6 +26,11 @@ public class StorageUrlPublisherTest {
   StorageUrlPublisher publisher;
   @MockBean
   StorageClientProperties properties;
+
+  @Before
+  public void setUp() {
+    when(properties.getUrl()).thenReturn("url");
+  }
 
   @Test
   public void shouldTest() {

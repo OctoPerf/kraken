@@ -1,10 +1,11 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
+import com.kraken.analysis.properties.api.AnalysisClientProperties;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static com.kraken.runtime.context.entity.ExecutionContextBuilderTest.WithEntries;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {JavaOptsPublisher.class})
@@ -25,6 +27,11 @@ public class JavaOptsPublisherTest {
   JavaOptsPublisher publisher;
   @MockBean
   AnalysisClientProperties properties;
+
+  @Before
+  public void setUp() {
+    when(properties.getUrl()).thenReturn("url");
+  }
 
   @Test
   public void shouldTest() {

@@ -1,7 +1,8 @@
 package com.kraken.analysis.server.service;
 
 import com.kraken.analysis.entity.*;
-import com.kraken.analysis.server.properties.AnalysisPropertiesTest;
+import com.kraken.analysis.properties.api.AnalysisResultsProperties;
+import com.kraken.analysis.properties.api.GrafanaClientProperties;
 import com.kraken.grafana.client.GrafanaClient;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
@@ -16,10 +17,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.kraken.grafana.client.properties.GrafanaClientPropertiesTest.GRAFANA_CLIENT_PROPERTIES;
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,6 +42,10 @@ public class AnalysisServiceTest {
   Function<List<HttpHeader>, String> headersToExtension;
   @Mock
   Function<ResultStatus, Long> statusToEndDate;
+  @Mock
+  AnalysisResultsProperties analysisResults;
+  @Mock
+  GrafanaClientProperties grafana;
 
   private AnalysisService service;
 
@@ -48,13 +53,17 @@ public class AnalysisServiceTest {
   public void before() {
     when(headersToExtension.apply(anyList())).thenReturn(".txt");
     when(statusToEndDate.apply(any(ResultStatus.class))).thenReturn(0L);
-    service = new SpringAnalysisService(AnalysisPropertiesTest.ANALYSIS_PROPERTIES,
-        GRAFANA_CLIENT_PROPERTIES,
-        storageClient,
-        grafanaClient,
-        influxdbClient,
-        headersToExtension,
-        statusToEndDate);
+    when(grafana.getDashboard()).thenReturn("dashboard");
+    when(analysisResults.getResultPath(anyString())).thenAnswer(args -> Paths.get("resultsRoot", args.getArgument(0, String.class)));
+    service = new SpringAnalysisService(
+      analysisResults,
+      grafana,
+      storageClient,
+      grafanaClient,
+      influxdbClient,
+      headersToExtension,
+      statusToEndDate
+    );
   }
 
   @Test
@@ -92,12 +101,12 @@ public class AnalysisServiceTest {
     final var dashboard = "dashboard";
     final var result = ResultTest.RESULT;
     final var resultNode = StorageNode.builder()
-        .depth(1)
-        .path("path/result.son")
-        .type(FILE)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(1)
+      .path("path/result.son")
+      .type(FILE)
+      .length(0L)
+      .lastModified(0L)
+      .build();
 
     given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
     given(storageClient.setJsonContent("resultsRoot/resultId/result.json", result.withStatus(ResultStatus.RUNNING).withEndDate(0L))).willReturn(Mono.just(resultNode));
@@ -118,12 +127,12 @@ public class AnalysisServiceTest {
     final var dashboard = "dashboard";
     final var result = ResultTest.RESULT;
     final var resultNode = StorageNode.builder()
-        .depth(1)
-        .path("path/result.son")
-        .type(FILE)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(1)
+      .path("path/result.son")
+      .type(FILE)
+      .length(0L)
+      .lastModified(0L)
+      .build();
 
     given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
@@ -148,12 +157,12 @@ public class AnalysisServiceTest {
     final var resultId = "resultId";
     final var result = ResultTest.DEBUG_RESULT;
     final var resultNode = StorageNode.builder()
-        .depth(1)
-        .path("path/result.son")
-        .type(FILE)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(1)
+      .path("path/result.son")
+      .type(FILE)
+      .length(0L)
+      .lastModified(0L)
+      .build();
 
     given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
     given(storageClient.setJsonContent("resultsRoot/resultId/result.json", result.withStatus(ResultStatus.RUNNING).withEndDate(0L))).willReturn(Mono.just(resultNode));
@@ -169,20 +178,20 @@ public class AnalysisServiceTest {
   public void shouldSetStatusFail() {
     final var resultId = "resultId";
     final var result = Result.builder()
-        .id(resultId)
-        .startDate(42L)
-        .endDate(1337L)
-        .status(ResultStatus.COMPLETED)
-        .description("description")
-        .type(ResultType.RUN)
-        .build();
+      .id(resultId)
+      .startDate(42L)
+      .endDate(1337L)
+      .status(ResultStatus.COMPLETED)
+      .description("description")
+      .type(ResultType.RUN)
+      .build();
 
     given(storageClient.getJsonContent("resultsRoot/resultId/result.json", Result.class)).willReturn(Mono.just(result));
 
     // No error thrown if Result status is already terminal
     StepVerifier.create(service.setStatus(resultId, ResultStatus.RUNNING))
-        .expectComplete()
-        .verify();
+      .expectComplete()
+      .verify();
   }
 
   @Test
@@ -218,24 +227,24 @@ public class AnalysisServiceTest {
     final var result = ResultTest.RESULT;
     final var dashboard = "dashboard";
     final var directoryNode = StorageNode.builder()
-        .depth(0)
-        .path("path")
-        .type(DIRECTORY)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(0)
+      .path("path")
+      .type(DIRECTORY)
+      .length(0L)
+      .lastModified(0L)
+      .build();
     final var resultNode = StorageNode.builder()
-        .depth(1)
-        .path("path/result.son")
-        .type(FILE)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(1)
+      .path("path/result.son")
+      .type(FILE)
+      .length(0L)
+      .lastModified(0L)
+      .build();
 
     given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
-    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getDashboard())).willReturn(Mono.just(dashboard));
+    given(storageClient.getContent(grafana.getDashboard())).willReturn(Mono.just(dashboard));
     given(grafanaClient.initDashboard(anyString(), anyString(), any(Long.class), anyString())).willReturn(dashboard);
     given(grafanaClient.importDashboard(anyString())).willReturn(Mono.just("dashboard set"));
 
@@ -251,24 +260,24 @@ public class AnalysisServiceTest {
     final var result = ResultTest.DEBUG_RESULT;
     final var dashboard = "dashboard";
     final var directoryNode = StorageNode.builder()
-        .depth(0)
-        .path("path")
-        .type(DIRECTORY)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(0)
+      .path("path")
+      .type(DIRECTORY)
+      .length(0L)
+      .lastModified(0L)
+      .build();
     final var resultNode = StorageNode.builder()
-        .depth(1)
-        .path("path/result.son")
-        .type(FILE)
-        .length(0L)
-        .lastModified(0L)
-        .build();
+      .depth(1)
+      .path("path/result.son")
+      .type(FILE)
+      .length(0L)
+      .lastModified(0L)
+      .build();
 
     given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
-    given(storageClient.getContent(GRAFANA_CLIENT_PROPERTIES.getDashboard())).willReturn(Mono.just(dashboard));
+    given(storageClient.getContent(grafana.getDashboard())).willReturn(Mono.just(dashboard));
 
     final var response = service.create(result).block();
     assertThat(response).isEqualTo(resultNode);

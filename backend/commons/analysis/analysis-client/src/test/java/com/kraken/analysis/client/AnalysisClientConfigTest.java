@@ -1,7 +1,7 @@
 package com.kraken.analysis.client;
 
 import com.kraken.Application;
-import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
+import com.kraken.analysis.properties.api.AnalysisClientProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
