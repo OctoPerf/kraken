@@ -1,8 +1,10 @@
 package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kraken.storage.client.properties.StorageClientProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,19 +38,28 @@ import static lombok.AccessLevel.PRIVATE;
 import static reactor.core.publisher.Mono.error;
 
 @Slf4j
-@FieldDefaults(level = PRIVATE, makeFinal = true)
 @Component
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 class StorageWebClient implements StorageClient {
 
   public static final int NUM_RETRIES = 5;
   public static final Duration FIRST_BACKOFF = Duration.ofMillis(500);
 
+  @NonNull
   WebClient webClient;
+  @NonNull
   ObjectMapper mapper;
+  @NonNull
   ObjectMapper yamlMapper;
 
-  StorageWebClient(@Qualifier("webClientStorage") final WebClient webClient, final ObjectMapper mapper, @Qualifier("yamlObjectMapper") final ObjectMapper yamlMapper) {
-    this.webClient = requireNonNull(webClient);
+  StorageWebClient(
+    final StorageClientProperties properties,
+    final ObjectMapper mapper,
+    @Qualifier("yamlObjectMapper") final ObjectMapper yamlMapper) {
+    this.webClient = WebClient
+      .builder()
+      .baseUrl(properties.getUrl())
+      .build();
     this.mapper = requireNonNull(mapper);
     this.yamlMapper = requireNonNull(yamlMapper);
   }

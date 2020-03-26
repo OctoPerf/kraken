@@ -1,27 +1,37 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
+import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_ANALYSIS_URL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AnalysisUrlPublisher.class, AnalysisClientPropertiesTestConfiguration.class})
+@ContextConfiguration(classes = {AnalysisUrlPublisher.class})
 @EnableAutoConfiguration
 public class AnalysisUrlPublisherTest {
 
   @Autowired
   AnalysisUrlPublisher publisher;
+  @MockBean
+  AnalysisClientProperties properties;
+
+  @Before
+  public void setUp() {
+    when(properties.getUrl()).thenReturn("http://localhost");
+  }
 
   @Test
   public void shouldTest() {

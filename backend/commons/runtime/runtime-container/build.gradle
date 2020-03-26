@@ -1,4 +1,7 @@
 dependencies {
     implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:tools:obfuscation')
+
+    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 }

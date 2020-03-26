@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
 @Component
 final class OtherContainersStoppingPredicate implements TaskPredicate {
 
-  @NonNull RuntimeContainerProperties containerProperties;
+  @NonNull RuntimeContainerProperties container;
 
   @Override
   public boolean test(Task task) {
-    return task.getId().equals(containerProperties.getTaskId())
+    return task.getId().equals(container.getTaskId())
         && task.getContainers()
         .stream()
-        .filter(container -> container.getHostId().equals(containerProperties.getHostId()))
-        .allMatch(container -> container.getName().equals(containerProperties.getContainerName()) // Me
+        .filter(container -> container.getHostId().equals(this.container.getHostId()))
+        .allMatch(container -> container.getName().equals(this.container.getContainerName()) // Me
             || container.getStatus().ordinal() > ContainerStatus.RUNNING.ordinal() // Or finished running
         );
   }

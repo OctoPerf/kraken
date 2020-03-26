@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class RuntimeContainerPropertiesTest {
 
-  public static final RuntimeContainerProperties RUNTIME_PROPERTIES = RuntimeContainerProperties.builder()
+  public static final ImmutableRuntimeContainerProperties RUNTIME_PROPERTIES = ImmutableRuntimeContainerProperties.builder()
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .containerName("containerName")
@@ -15,6 +15,7 @@ public class RuntimeContainerPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
+    RUNTIME_PROPERTIES.postConstruct();
     TestUtils.shouldPassAll(RUNTIME_PROPERTIES);
   }
 

@@ -1,29 +1,27 @@
 package com.kraken.storage.client;
 
-import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
+import com.kraken.storage.client.properties.StorageClientProperties;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.reactive.function.client.WebClient;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {StorageClientConfiguration.class, JacksonConfiguration.class, StorageClientPropertiesTestConfiguration.class},
-    initializers = {ConfigFileApplicationContextInitializer.class})
+@SpringBootTest(classes = {JacksonConfiguration.class, StorageWebClient.class})
 public class StorageClientPropertiesConfigurationTest {
-
-  @Qualifier("webClientStorage")
   @Autowired
-  WebClient storageWebClient;
+  StorageClient client;
+  @MockBean
+  StorageClientProperties properties;
 
   @Test
   public void shouldCreateWebClients() {
-    Assertions.assertThat(storageWebClient).isNotNull();
+    assertThat(properties).isNotNull();
+    assertThat(client).isNotNull();
   }
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.gatling.GatlingExecutionProperties;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -19,26 +18,24 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 final class CommandSupplier implements Supplier<Command> {
-
-
-  @NonNull GatlingExecutionProperties gatlingExecutionProperties;
+  @NonNull GatlingExecutionProperties gatling;
 
   @Override
   public Command get() {
     return Command.builder()
-        .path(gatlingExecutionProperties.getGatlingBin().toString())
+        .path(gatling.getGatlingBin().toString())
         .environment(ImmutableMap.of(
-            KRAKEN_GATLING_RESULT_INFO_LOG, gatlingExecutionProperties.getInfoLog().toString(),
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatlingExecutionProperties.getDebugLog().toString(),
-            JAVA_OPTS, gatlingExecutionProperties.getJavaOpts())
+            KRAKEN_GATLING_RESULT_INFO_LOG, gatling.getInfoLog().toString(),
+            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatling.getDebugLog().toString(),
+            JAVA_OPTS, gatling.getJavaOpts())
         )
         .command(ImmutableList.of(
             "./recorder.sh",
             "--headless", "true",
             "--mode", "Har",
-            "--har-file", gatlingExecutionProperties.getLocalHarPath().toString(),
-            "--package", gatlingExecutionProperties.getSimulationPackage(),
-            "--class-name", gatlingExecutionProperties.getSimulationClass()
+            "--har-file", gatling.getLocalHarPath().toString(),
+            "--package", gatling.getSimulationPackage(),
+            "--class-name", gatling.getSimulationClass()
         ))
         .build();
   }

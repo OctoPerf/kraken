@@ -20,7 +20,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class KrakenVersionPublisher implements EnvironmentPublisher {
 
-  @NonNull RuntimeServerProperties runtimeServerProperties;
+  @NonNull RuntimeServerProperties server;
 
   @Override
   public boolean test(final TaskType taskType) {
@@ -30,7 +30,7 @@ class KrakenVersionPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_VERSION).value(runtimeServerProperties.getVersion()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_VERSION).value(server.getVersion()).build()
     ));
   }
 }

@@ -1,14 +1,8 @@
 package com.kraken.runtime.server.properties;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+public interface RuntimeServerProperties {
+  
+  String getVersion();
 
-@Value
-@Builder
-public class RuntimeServerProperties {
-  @NonNull
-  String version;
-  @NonNull
-  String configurationPath;
+  String getConfigurationPath();
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import com.kraken.analysis.entity.DebugEntryTest;
 import com.kraken.debug.entry.writer.DebugEntryWriter;
+import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -29,7 +30,8 @@ import java.time.Duration;
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.kraken.runtime.entity.task.FlatContainerTest.CONTAINER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -48,27 +50,27 @@ public class GatlingParserTest {
   @Mock
   TaskPredicate taskPredicate;
 
-  RuntimeContainerProperties containerProperties;
-  GatlingParserProperties gatlingParserProperties;
+  RuntimeContainerProperties container;
+  @Mock
+  GatlingProperties gatling;
 
   GatlingParser parser;
 
   @Before
   public void before() {
-    containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatlingParserProperties = GatlingParserPropertiesTest.GATLING_PROPERTIES;
+    container = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
     parser = new GatlingParser(logParser,
         runtimeClient,
         writer,
-        containerProperties,
-        gatlingParserProperties,
+      container,
+      gatling,
         taskPredicate,
         commandService);
   }
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(CONTAINER));
+    given(runtimeClient.find(container.getTaskId(), container.getContainerName())).willReturn(Mono.just(CONTAINER));
     given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
@@ -86,7 +88,7 @@ public class GatlingParserTest {
     verify(logParser).parse(any(Path.class));
     verify(writer).write(any());
     verify(commandService).execute(Command.builder()
-        .path(gatlingParserProperties.getGatlingHome().toString())
+        .path(gatling.getHome())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
@@ -95,9 +97,6 @@ public class GatlingParserTest {
 
   @Test
   public void shouldPassTestUtils() {
-    new NullPointerTester()
-        .setDefault(RuntimeContainerProperties.class, containerProperties)
-        .setDefault(GatlingParserProperties.class, gatlingParserProperties)
-        .testConstructors(GatlingParser.class, PACKAGE);
+    new NullPointerTester().testConstructors(GatlingParser.class, PACKAGE);
   }
 }

@@ -30,7 +30,7 @@ class StorageUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_STORAGE_URL).value(properties.getStorageUrl()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_STORAGE_URL).value(properties.getUrl()).build()
     ));
   }
 }

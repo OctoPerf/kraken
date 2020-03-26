@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class AnalysisPropertiesTest {
 
-  public static final AnalysisProperties ANALYSIS_PROPERTIES = AnalysisProperties.builder()
+  public static final ImmutableAnalysisProperties ANALYSIS_PROPERTIES = ImmutableAnalysisProperties.builder()
       .resultsRoot("resultsRoot")
       .build();
 

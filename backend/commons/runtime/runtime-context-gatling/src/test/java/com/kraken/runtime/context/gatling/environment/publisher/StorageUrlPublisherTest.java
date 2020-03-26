@@ -1,27 +1,29 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
+import com.kraken.Application;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.storage.client.properties.StorageClientPropertiesTestConfiguration;
+import com.kraken.storage.client.properties.StorageClientProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_STORAGE_URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {StorageUrlPublisher.class, StorageClientPropertiesTestConfiguration.class})
-@EnableAutoConfiguration
+@SpringBootTest(classes = Application.class)
 public class StorageUrlPublisherTest {
 
   @Autowired
   StorageUrlPublisher publisher;
+  @MockBean
+  StorageClientProperties properties;
 
   @Test
   public void shouldTest() {

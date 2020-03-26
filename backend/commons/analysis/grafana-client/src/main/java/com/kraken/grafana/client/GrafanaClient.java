@@ -3,6 +3,7 @@ package com.kraken.grafana.client;
 import reactor.core.publisher.Mono;
 
 public interface GrafanaClient {
+
   Mono<String> getDashboard(String testId);
 
   Mono<String> setDashboard(String dashboard);

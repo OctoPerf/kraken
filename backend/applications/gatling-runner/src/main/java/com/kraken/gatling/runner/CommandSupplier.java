@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.gatling.GatlingExecutionProperties;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -13,12 +12,13 @@ import org.springframework.stereotype.Component;
 import java.util.function.Supplier;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 final class CommandSupplier implements Supplier<Command> {
-
   @NonNull GatlingExecutionProperties properties;
 
   @Override

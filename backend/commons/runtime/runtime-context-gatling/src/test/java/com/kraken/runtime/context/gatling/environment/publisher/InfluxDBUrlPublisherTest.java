@@ -1,7 +1,7 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableSet;
-import com.kraken.influxdb.client.InfluxDBClientPropertiesTestConfiguration;
+import com.kraken.influxdb.client.ImmutableInfluxDBClientProperties;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
@@ -19,7 +19,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {InfluxDBUrlPublisher.class, InfluxDBClientPropertiesTestConfiguration.class})
+@ContextConfiguration(classes = {InfluxDBUrlPublisher.class, ImmutableInfluxDBClientProperties.class})
 @EnableAutoConfiguration
 public class InfluxDBUrlPublisherTest {
 

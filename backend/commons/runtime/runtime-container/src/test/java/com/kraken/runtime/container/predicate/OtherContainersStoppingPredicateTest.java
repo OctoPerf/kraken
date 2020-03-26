@@ -1,30 +1,40 @@
 package com.kraken.runtime.container.predicate;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.Application;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
-import com.kraken.runtime.entity.task.*;
+import com.kraken.runtime.entity.task.Container;
+import com.kraken.runtime.entity.task.ContainerStatus;
+import com.kraken.runtime.entity.task.Task;
+import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.test.utils.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.kraken.runtime.entity.task.TaskType.GATLING_RUN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {OtherContainersStoppingPredicate.class, RuntimeContainerPropertiesTestConfiguration.class},
-    initializers = {ConfigFileApplicationContextInitializer.class})
+@SpringBootTest(classes = Application.class)
 public class OtherContainersStoppingPredicateTest {
-
   @Autowired
   OtherContainersStoppingPredicate taskPredicate;
+  @MockBean
+  RuntimeContainerProperties container;
 
-  @Autowired
-  RuntimeContainerProperties containerProperties;
+  @Before
+  public void setUp() {
+    when(container.getTaskId()).thenReturn("vzkziobanr");
+    when(container.getContainerName()).thenReturn("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf");
+    when(container.getHostId()).thenReturn("n0usmshdr0");
+    when(container.getTaskType()).thenReturn(GATLING_RUN);
+  }
 
   @Test
   public void shouldTestTaskOtherId() {
@@ -34,24 +44,24 @@ public class OtherContainersStoppingPredicateTest {
   @Test
   public void shouldTestTaskGatlingStopping() {
     assertThat(taskPredicate.test(Task.builder()
-        .id(containerProperties.getTaskId())
+        .id(container.getTaskId())
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.GATLING_RUN)
+        .type(GATLING_RUN)
         .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
                 .id("id")
-                .hostId(containerProperties.getHostId())
+                .hostId(container.getHostId())
                 .label("label")
-                .name(containerProperties.getContainerName())
+                .name(container.getContainerName())
                 .startDate(0L)
                 .status(ContainerStatus.RUNNING)
                 .build(),
             Container.builder()
                 .id("otherId")
-                .hostId(containerProperties.getHostId())
+                .hostId(container.getHostId())
                 .label("label")
                 .name("otherName")
                 .startDate(0L)
@@ -69,7 +79,7 @@ public class OtherContainersStoppingPredicateTest {
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.GATLING_RUN)
+        .type(GATLING_RUN)
         .containers(ImmutableList.of())
         .expectedCount(2)
         .applicationId("app")
@@ -79,24 +89,24 @@ public class OtherContainersStoppingPredicateTest {
   @Test
   public void shouldTestTaskGatlingRunning() {
     assertThat(taskPredicate.test(Task.builder()
-        .id(containerProperties.getTaskId())
+        .id(container.getTaskId())
         .description("description")
         .startDate(0L)
         .status(ContainerStatus.STARTING)
-        .type(TaskType.GATLING_RUN)
+        .type(GATLING_RUN)
         .expectedCount(2)
         .containers(ImmutableList.of(
             Container.builder()
                 .id("id")
-                .hostId(containerProperties.getHostId())
+                .hostId(container.getHostId())
                 .label("label")
-                .name(containerProperties.getContainerName())
+                .name(container.getContainerName())
                 .startDate(0L)
                 .status(ContainerStatus.RUNNING)
                 .build(),
             Container.builder()
                 .id("otherId")
-                .hostId(containerProperties.getHostId())
+                .hostId(container.getHostId())
                 .label("label")
                 .name("otherName")
                 .startDate(0L)
@@ -117,22 +127,14 @@ public class OtherContainersStoppingPredicateTest {
 
   @Test
   public void shouldTestTaskRunStopping() {
-
-    final var containerProperties = RuntimeContainerProperties.builder()
-        .taskId("vzkziobanr")
-        .containerName("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf")
-        .hostId("n0usmshdr0")
-        .taskType(TaskType.GATLING_RUN)
-        .build();
-
-    final var taskPredicate = new OtherContainersStoppingPredicate(containerProperties);
+    final var taskPredicate = new OtherContainersStoppingPredicate(container);
 
     assertThat(taskPredicate.test(Task.builder()
         .id("vzkziobanr")
         .description("description")
         .startDate(1574464436000L)
         .status(ContainerStatus.RUNNING)
-        .type(TaskType.GATLING_RUN)
+        .type(GATLING_RUN)
         .expectedCount(4)
         .containers(ImmutableList.of(
             Container.builder()

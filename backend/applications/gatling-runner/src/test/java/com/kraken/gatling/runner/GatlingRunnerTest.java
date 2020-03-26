@@ -13,7 +13,7 @@ import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.runtime.gatling.GatlingExecutionProperties;
-import com.kraken.runtime.gatling.GatlingExecutionPropertiesTest;
+import com.kraken.runtime.gatling.ImmutableGatlingExecutionPropertiesTest;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
@@ -54,7 +54,7 @@ public class GatlingRunnerTest {
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatlingExecutionProperties = GatlingExecutionPropertiesTest.GATLING_PROPERTIES;
+    gatlingExecutionProperties = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
     runner = new GatlingRunner(storageClient,
         runtimeClient,
         commandService,
@@ -92,9 +92,6 @@ public class GatlingRunnerTest {
 
   @Test
   public void shouldPassTestUtils() {
-    new NullPointerTester()
-        .setDefault(RuntimeContainerProperties.class, containerProperties)
-        .setDefault(GatlingExecutionProperties.class, gatlingExecutionProperties)
-        .testConstructors(GatlingRunner.class, PACKAGE);
+    new NullPointerTester().testConstructors(GatlingRunner.class, PACKAGE);
   }
 }

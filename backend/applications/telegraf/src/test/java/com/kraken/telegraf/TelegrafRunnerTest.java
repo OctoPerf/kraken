@@ -48,7 +48,7 @@ public class TelegrafRunnerTest {
 
   RuntimeContainerProperties containerProperties;
 
-  TelegrafProperties telegrafProperties;
+  ImmutableTelegrafProperties telegrafProperties;
 
   TelegrafRunner runner;
 
@@ -91,8 +91,6 @@ public class TelegrafRunnerTest {
   @Test
   public void shouldPassTestUtils() {
     new NullPointerTester()
-        .setDefault(RuntimeContainerProperties.class, containerProperties)
-        .setDefault(TelegrafProperties.class, telegrafProperties)
         .testConstructors(TelegrafRunner.class, PACKAGE);
   }
 }

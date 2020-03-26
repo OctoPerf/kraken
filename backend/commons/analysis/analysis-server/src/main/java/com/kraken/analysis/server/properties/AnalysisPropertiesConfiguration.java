@@ -17,7 +17,7 @@ public class AnalysisPropertiesConfiguration {
   AnalysisProperties analysisProperties(@Value($KRAKEN_ANALYSIS_RESULTS_ROOT) final String resultsRoot) {
     log.info("Results root is set to " + resultsRoot);
 
-    return AnalysisProperties.builder()
+    return ImmutableAnalysisProperties.builder()
         .resultsRoot(resultsRoot)
         .build();
   }

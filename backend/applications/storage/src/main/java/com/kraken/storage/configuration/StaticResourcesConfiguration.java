@@ -7,7 +7,6 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
@@ -17,12 +16,12 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class StaticResourcesConfiguration implements WebFluxConfigurer {
 
-  @NonNull ApplicationProperties applicationProperties;
+  @NonNull ApplicationProperties application;
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     final var pattern = "/static/**";
-    final var files = "file:" + applicationProperties.getData() + "/";
+    final var files = "file:" + application.getData() + "/";
     registry
         .addResourceHandler(pattern)
         .addResourceLocations(files);

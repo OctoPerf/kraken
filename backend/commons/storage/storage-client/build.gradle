@@ -3,6 +3,7 @@ dependencies {
     implementation project(':commons:storage:storage-entity')
     implementation project(':commons:storage:storage-client-properties')
 
+    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-client-properties', configuration: 'testArtifacts')
     testImplementation project(':commons:analysis:analysis-entity')

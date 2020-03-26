@@ -3,7 +3,7 @@ package com.kraken.analysis.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTest;
+import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
 import com.kraken.analysis.entity.DebugEntryTest;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
@@ -14,35 +14,46 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AnalysisClientTest {
 
   private ObjectMapper mapper;
-  private MockWebServer analysisMockWebServer;
+  private MockWebServer server;
   private AnalysisClient client;
+
+  @Mock
+  AnalysisClientProperties properties;
 
   @Before
   public void before() {
     mapper = new ObjectMapper();
-    analysisMockWebServer = new MockWebServer();
-    client = new AnalysisWebClient(AnalysisClientPropertiesTest.ANALYSIS_CLIENT_PROPERTIES, WebClient.create(analysisMockWebServer.url("/").toString()));
+    server = new MockWebServer();
+
+    final String url = server.url("/").toString();
+    when(properties.getUrl()).thenReturn(url);
+
+    client = new AnalysisWebClient(properties);
   }
 
   @After
   public void tearDown() throws IOException {
-    analysisMockWebServer.shutdown();
+    server.shutdown();
   }
 
   @Test
   public void shouldCreateResult() throws InterruptedException, JsonProcessingException {
-    analysisMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +63,7 @@ public class AnalysisClientTest {
     final var response = client.create(ResultTest.RESULT).block();
     assertThat(response).isEqualTo(StorageNodeTest.STORAGE_NODE);
 
-    final RecordedRequest request = analysisMockWebServer.takeRequest();
+    final RecordedRequest request = server.takeRequest();
     assertThat(request.getPath()).isEqualTo("/result");
     assertThat(request.getBody().readString(Charsets.UTF_8)).isEqualTo(mapper.writeValueAsString(ResultTest.RESULT));
   }
@@ -61,7 +72,7 @@ public class AnalysisClientTest {
   public void shouldDeleteResult() throws InterruptedException {
     final var resultId = "resultId";
 
-    analysisMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
@@ -71,7 +82,7 @@ public class AnalysisClientTest {
     final var response = client.delete(resultId).block();
     assertThat(response).isEqualTo(resultId);
 
-    final RecordedRequest request = analysisMockWebServer.takeRequest();
+    final RecordedRequest request = server.takeRequest();
     assertThat(request.getPath()).isEqualTo("/result?resultId=resultId");
     assertThat(request.getMethod()).isEqualTo("DELETE");
   }
@@ -81,7 +92,7 @@ public class AnalysisClientTest {
     final var resultId = "resultId";
     final var status = ResultStatus.COMPLETED;
 
-    analysisMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -91,7 +102,7 @@ public class AnalysisClientTest {
     final var response = client.setStatus(resultId, status).block();
     assertThat(response).isEqualTo(StorageNodeTest.STORAGE_NODE);
 
-    final RecordedRequest request = analysisMockWebServer.takeRequest();
+    final RecordedRequest request = server.takeRequest();
     assertThat(request.getPath()).isEqualTo("/result/status/COMPLETED?resultId=resultId");
     assertThat(request.getMethod()).isEqualTo("POST");
     assertThat(request.getBody().readString(Charsets.UTF_8)).isEqualTo("");
@@ -101,7 +112,7 @@ public class AnalysisClientTest {
   public void shouldAddDebugEntry() throws InterruptedException, JsonProcessingException {
     final var debug = DebugEntryTest.DEBUG_ENTRY;
 
-    analysisMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -111,7 +122,7 @@ public class AnalysisClientTest {
     final var response = client.debug(debug).block();
     assertThat(response).isEqualTo(debug);
 
-    final RecordedRequest request = analysisMockWebServer.takeRequest();
+    final RecordedRequest request = server.takeRequest();
     assertThat(request.getPath()).isEqualTo("/result/debug");
     assertThat(request.getMethod()).isEqualTo("POST");
     assertThat(request.getBody().readString(Charsets.UTF_8)).isEqualTo(mapper.writeValueAsString(debug));

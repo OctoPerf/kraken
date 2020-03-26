@@ -5,12 +5,13 @@ import org.junit.Test;
 
 public class StorageClientPropertiesTest {
 
-  public static final StorageClientProperties STORAGE_PROPERTIES = StorageClientProperties.builder()
-      .storageUrl("storageUrl")
+  public static final ImmutableStorageClientProperties STORAGE_PROPERTIES = ImmutableStorageClientProperties.builder()
+      .url("storageUrl")
       .build();
 
   @Test
   public void shouldPassTestUtils() {
+    STORAGE_PROPERTIES.log();
     TestUtils.shouldPassAll(STORAGE_PROPERTIES);
   }
 

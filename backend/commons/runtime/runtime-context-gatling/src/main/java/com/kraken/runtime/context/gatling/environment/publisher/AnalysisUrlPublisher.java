@@ -1,7 +1,7 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.analysis.client.properties.AnalysisClientProperties;
+import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
@@ -30,7 +30,7 @@ class AnalysisUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_ANALYSIS_URL).value(properties.getAnalysisUrl()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_ANALYSIS_URL).value(properties.getUrl()).build()
     ));
   }
 }

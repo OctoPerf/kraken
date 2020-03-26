@@ -8,6 +8,8 @@ dependencies {
 
     implementation project(':commons:parser:gatling-log-parser')
     implementation project(':commons:parser:debug-entry-writer')
+    implementation project(':commons:gatling:gatling-properties-api')
+    implementation project(':commons:gatling:gatling-properties-spring')
 
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')

@@ -3,6 +3,7 @@ package com.kraken.runtime.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.client.properties.RuntimeClientProperties;
 import com.kraken.runtime.entity.log.LogTest;
 import com.kraken.runtime.entity.task.*;
 import okhttp3.mockwebserver.MockResponse;
@@ -10,25 +11,34 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RuntimeWebClientTest {
 
   private ObjectMapper mapper;
   private MockWebServer runtimeMockWebServer;
   private RuntimeWebClient client;
 
+  @Mock
+  RuntimeClientProperties properties;
+
   @Before
   public void before() {
     runtimeMockWebServer = new MockWebServer();
     mapper = new ObjectMapper();
-    client = new RuntimeWebClient(WebClient.create(runtimeMockWebServer.url("/").toString()));
+    final String url = runtimeMockWebServer.url("/").toString();
+    when(properties.getUrl()).thenReturn(url);
+    client = new RuntimeWebClient(properties);
   }
 
   @After

@@ -45,7 +45,7 @@ import static reactor.core.publisher.Mono.just;
 final class FileSystemStorageService implements StorageService {
 
   @NonNull
-  ApplicationProperties applicationProperties;
+  ApplicationProperties application;
 
   @NonNull
   Function<Path, StorageNode> toStorageNode;
@@ -53,7 +53,8 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageNode> list() {
     try {
-      return fromStream(Files.walk(applicationProperties.getData()).map(toStorageNode)).filter(StorageNode::notRoot);
+      final var data = Paths.get(application.getData());
+      return fromStream(Files.walk(data).map(toStorageNode)).filter(StorageNode::notRoot);
     } catch (Exception e) {
       return error(e);
     }
@@ -283,7 +284,7 @@ final class FileSystemStorageService implements StorageService {
   private Path stringToPath(final String path) throws IllegalArgumentException {
     checkArgument(!path.contains(".."), "Cannot store file with relative path outside current directory "
         + path);
-    return this.applicationProperties.getData().resolve(path);
+    return Paths.get(application.getData()).resolve(path);
   }
 
 }

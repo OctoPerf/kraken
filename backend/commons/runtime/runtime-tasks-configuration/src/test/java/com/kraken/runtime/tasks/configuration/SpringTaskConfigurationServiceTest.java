@@ -1,8 +1,8 @@
 package com.kraken.runtime.tasks.configuration;
 
-import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
+import com.kraken.runtie.server.properties.KrakentServerPropertiesTest;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.runtime.server.properties.RuntimeServerProperties;
+import com.kraken.runtime.server.properties.ImmutableRuntimeServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfigurationTest;
@@ -23,13 +23,13 @@ public class SpringTaskConfigurationServiceTest {
   StorageClient storageClient;
 
 
-  RuntimeServerProperties serverProperties;
+  ImmutableRuntimeServerProperties serverProperties;
 
   SpringTaskConfigurationService service;
 
   @Before
   public void before() {
-    serverProperties = RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES;
+    serverProperties = KrakentServerPropertiesTest.RUNTIME_SERVER_PROPERTIES;
     service = new SpringTaskConfigurationService(serverProperties, storageClient);
   }
 

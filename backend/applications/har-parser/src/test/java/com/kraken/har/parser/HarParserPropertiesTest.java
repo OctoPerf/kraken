@@ -1,19 +1,20 @@
 package com.kraken.har.parser;
 
-import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
-import java.nio.file.Path;
+import static com.kraken.test.utils.TestUtils.shouldPassEquals;
+import static com.kraken.test.utils.TestUtils.shouldPassToString;
 
 public class HarParserPropertiesTest {
 
-  public static final HarParserProperties HAR_PROPERTIES = HarParserProperties.builder()
-      .localHarPath(Path.of("localHarPath"))
-      .remoteHarPath("remoteHarPath")
+  public static final ImmutableHarParserProperties HAR_PROPERTIES = ImmutableHarParserProperties.builder()
+      .local("localHarPath")
+      .remote("remoteHarPath")
       .build();
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(HAR_PROPERTIES);
+    shouldPassToString(HAR_PROPERTIES);
+    shouldPassEquals(HAR_PROPERTIES.getClass());
   }
 }

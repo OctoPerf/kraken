@@ -1,17 +1,8 @@
 package com.kraken.har.parser;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+public interface HarParserProperties {
 
-import java.nio.file.Path;
+  String getLocal();
 
-@Value
-@Builder
-public class HarParserProperties {
-
-  @NonNull Path localHarPath;
-  @NonNull String remoteHarPath;
-
+  String getRemote();
 }
-

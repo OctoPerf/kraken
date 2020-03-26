@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.influxdb.client.InfluxDBClientProperties;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -21,20 +20,20 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class CommandSupplier implements Supplier<Command> {
 
-  @NonNull InfluxDBClientProperties influxDBProperties;
-  @NonNull RuntimeContainerProperties containerProperties;
+  @NonNull InfluxDBClientProperties properties;
+  @NonNull RuntimeContainerProperties container;
 
   @Override
   public Command get() {
     return Command.builder()
         .path(".")
         .environment(ImmutableMap.<String, String>builder()
-            .put(KRAKEN_INFLUXDB_URL, influxDBProperties.getInfluxdbUrl())
-            .put(KRAKEN_INFLUXDB_DATABASE, influxDBProperties.getInfluxdbDatabase())
-            .put(KRAKEN_INFLUXDB_USER, influxDBProperties.getInfluxdbUser())
-            .put(KRAKEN_INFLUXDB_PASSWORD, influxDBProperties.getInfluxdbPassword())
-            .put(KRAKEN_TEST_ID, containerProperties.getTaskId())
-            .put(KRAKEN_INJECTOR, containerProperties.getHostId())
+            .put(KRAKEN_INFLUXDB_URL, properties.getUrl())
+            .put(KRAKEN_INFLUXDB_DATABASE, properties.getDatabase())
+            .put(KRAKEN_INFLUXDB_USER, properties.getUser())
+            .put(KRAKEN_INFLUXDB_PASSWORD, properties.getPassword())
+            .put(KRAKEN_TEST_ID, container.getTaskId())
+            .put(KRAKEN_INJECTOR, container.getHostId())
             .build()
         )
         .command(ImmutableList.of("telegraf"))

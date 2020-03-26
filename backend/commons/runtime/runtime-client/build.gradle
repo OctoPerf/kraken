@@ -3,6 +3,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:runtime:runtime-client-properties')
 
+    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
 

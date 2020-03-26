@@ -3,10 +3,19 @@ kraken:
     conf:
       local: /etc/telegraf/telegraf.conf
       remote: telegraf/telegraf.conf
+  runtime:
+    url: http://localhost
+    task-id: taskId
+    task-type: GATLING_RUN
+    container-name: containerName
+    host-id: hostId
   influxdb:
-    user: admin
-    password: kraken
-    database: gatling
+    url: influxDbUrl
+    user: influxDbUser
+    password: influxDbPassword
+    database: influxDbDatabase
+  storage:
+    url: http://localhost:8080
 
 logging:
   level:

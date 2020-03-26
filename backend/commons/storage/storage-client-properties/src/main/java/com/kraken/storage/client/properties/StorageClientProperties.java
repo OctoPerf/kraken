@@ -1,14 +1,7 @@
 package com.kraken.storage.client.properties;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+@FunctionalInterface
+public interface StorageClientProperties {
 
-@Value
-@Builder
-public class StorageClientProperties {
-
-  @NonNull
-  String storageUrl;
-
+  String getUrl();
 }

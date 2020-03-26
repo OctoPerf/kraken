@@ -29,34 +29,34 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 final class GatlingRecorder {
 
-  @NonNull StorageClient storageClient;
-  @NonNull RuntimeClient runtimeClient;
-  @NonNull CommandService commandService;
-  @NonNull RuntimeContainerProperties containerProperties;
-  @NonNull GatlingExecutionProperties gatlingExecutionProperties;
-  @NonNull Supplier<Command> commandSupplier;
+  @NonNull StorageClient storage;
+  @NonNull RuntimeClient runtime;
+  @NonNull CommandService commands;
+  @NonNull RuntimeContainerProperties container;
+  @NonNull GatlingExecutionProperties gatling;
+  @NonNull Supplier<Command> newCommands;
 
   @PostConstruct
   public void init() {
-    final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
+    final var findMe = runtime.find(container.getTaskId(), container.getContainerName());
     final var me = findMe.block();
-    final var setStatusFailed = runtimeClient.setFailedStatus(me);
-    final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
-    final var downloadHAR = storageClient.downloadFile(gatlingExecutionProperties.getLocalHarPath(), gatlingExecutionProperties.getRemoteHarPath());
-    final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
-    final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
-    final var listFiles = commandService.execute(Command.builder()
-        .path(gatlingExecutionProperties.getGatlingHome().toString())
+    final var setStatusFailed = runtime.setFailedStatus(me);
+    final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);
+    final var downloadConfiguration = storage.downloadFolder(gatling.getLocalConf(), gatling.getRemoteConf());
+    final var downloadHAR = storage.downloadFile(gatling.getLocalHarPath(), gatling.getRemoteHarPath());
+    final var setStatusReady = runtime.setStatus(me, ContainerStatus.READY);
+    final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
+    final var listFiles = commands.execute(Command.builder()
+        .path(gatling.getGatlingHome().toString())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
-    final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
-    final var startGatling = commandService.execute(commandSupplier.get());
-    final var setStatusStopping = runtimeClient.setStatus(me, ContainerStatus.STOPPING);
-    final var waitForStatusStopping = runtimeClient.waitForStatus(me, ContainerStatus.STOPPING);
-    final var uploadSimulation = storageClient.uploadFile(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
-    final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
+    final var setStatusRunning = runtime.setStatus(me, ContainerStatus.RUNNING);
+    final var startGatling = commands.execute(newCommands.get());
+    final var setStatusStopping = runtime.setStatus(me, ContainerStatus.STOPPING);
+    final var waitForStatusStopping = runtime.waitForStatus(me, ContainerStatus.STOPPING);
+    final var uploadSimulation = storage.uploadFile(gatling.getLocalUserFiles(), gatling.getRemoteUserFiles());
+    final var setStatusDone = runtime.setStatus(me, ContainerStatus.DONE);
 
     setStatusPreparing.block();
     downloadConfiguration

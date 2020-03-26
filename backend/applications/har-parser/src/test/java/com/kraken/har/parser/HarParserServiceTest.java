@@ -88,10 +88,6 @@ public class HarParserServiceTest {
 
   @Test
   public void shouldPassTestUtils() {
-    new NullPointerTester()
-        .setDefault(RuntimeContainerProperties.class, containerProperties)
-        .setDefault(HarParserProperties.class, harParserProperties)
-        .setDefault(ApplicationProperties.class, applicationProperties)
-        .testConstructors(HarParserService.class, PACKAGE);
+    new NullPointerTester().testConstructors(HarParserService.class, PACKAGE);
   }
 }

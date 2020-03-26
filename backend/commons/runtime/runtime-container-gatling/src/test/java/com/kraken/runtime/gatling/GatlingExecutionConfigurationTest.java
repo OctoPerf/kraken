@@ -1,12 +1,11 @@
 package com.kraken.runtime.gatling;
 
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTestConfiguration;
+import com.kraken.Application;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.file.Paths;
@@ -15,9 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressFBWarnings(value = {"DMI_HARDCODED_ABSOLUTE_FILENAME"}, justification = "It's just test values")
 @RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {GatlingExecutionProperties.class, RuntimeContainerPropertiesTestConfiguration.class},
-    initializers = {ConfigFileApplicationContextInitializer.class})
+@SpringBootTest(classes = Application.class)
 public class GatlingExecutionConfigurationTest {
 
   @Autowired

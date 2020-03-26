@@ -1,20 +1,12 @@
 package com.kraken.influxdb.client;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+public interface InfluxDBClientProperties {
 
-@Value
-@Builder
-public class InfluxDBClientProperties {
+  String getUrl();
 
-  @NonNull
-  String influxdbUrl;
-  @NonNull
-  String influxdbUser;
-  @NonNull
-  String influxdbPassword;
-  @NonNull
-  String influxdbDatabase;
+  String getUser();
 
+  String getPassword();
+
+  String getDatabase();
 }

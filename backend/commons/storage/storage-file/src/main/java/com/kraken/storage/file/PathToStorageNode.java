@@ -1,7 +1,6 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.storage.entity.StorageNodeType;
 import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,9 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.util.function.Function;
 
+import static com.kraken.storage.entity.StorageNodeType.*;
+import static java.nio.file.Paths.get;
+
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
@@ -21,13 +23,13 @@ final class PathToStorageNode implements Function<Path, StorageNode> {
   ApplicationProperties applicationProperties;
 
   @Override
-  public StorageNode apply(Path path) {
+  public StorageNode apply(final Path path) {
     final var file = path.toFile();
-    var type = StorageNodeType.NONE;
+    var type = NONE;
     if (file.exists()) {
-      type = file.isDirectory() ? StorageNodeType.DIRECTORY : StorageNodeType.FILE;
+      type = file.isDirectory() ? DIRECTORY : FILE;
     }
-    final var relative = this.applicationProperties.getData().relativize(path);
+    final var relative = get(applicationProperties.getData()).relativize(path);
     return StorageNode.builder()
         .path(relative.toString())
         .type(type)

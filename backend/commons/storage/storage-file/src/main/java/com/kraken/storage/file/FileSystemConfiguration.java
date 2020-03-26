@@ -6,7 +6,6 @@ import com.kraken.tools.properties.ApplicationProperties;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryChangeListener;
 import io.methvin.watcher.DirectoryWatcher;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +13,7 @@ import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.function.Function;
 
@@ -23,13 +23,13 @@ public class FileSystemConfiguration {
 
   @Bean
   Flux<StorageWatcherEvent> watcherEventFlux(
-      final ApplicationProperties applicationProperties,
+      final ApplicationProperties application,
       final Function<Path, StorageNode> toStorageNode
   ) {
     return Flux.<StorageWatcherEvent>create(emitter -> {
       try {
         final var watcher = DirectoryWatcher.builder()
-            .path(applicationProperties.getData())
+            .path(Paths.get(application.getData()))
             .listener(new DirectoryChangeListener() {
               @Override
               public void onEvent(DirectoryChangeEvent event) {

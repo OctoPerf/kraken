@@ -17,53 +17,55 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.Duration;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.kraken.tools.reactor.utils.ReactorUtils.waitFor;
+import static java.nio.file.Paths.get;
+import static java.time.Duration.ofSeconds;
+import static java.util.Collections.emptyList;
+import static lombok.AccessLevel.PACKAGE;
 
 @Slf4j
 @Component
+@AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@AllArgsConstructor
 final class TelegrafRunner {
 
-  @NonNull RuntimeClient runtimeClient;
-  @NonNull CommandService commandService;
-  @NonNull StorageClient storageClient;
-  @NonNull RuntimeContainerProperties containerProperties;
-  @NonNull TelegrafProperties telegrafProperties;
-  @NonNull Supplier<Command> commandSupplier;
-  @NonNull TaskPredicate taskPredicate;
+  @NonNull RuntimeClient client;
+  @NonNull CommandService commands;
+  @NonNull StorageClient storage;
+  @NonNull RuntimeContainerProperties container;
+  @NonNull TelegrafProperties telegraf;
+  @NonNull Supplier<Command> newCommand;
+  @NonNull TaskPredicate tasks;
 
   @PostConstruct
   public void init() throws InterruptedException {
-    final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
+    final var findMe = client.find(container.getTaskId(), container.getContainerName());
     final var me = findMe.block();
-    final var setStatusFailed = runtimeClient.setFailedStatus(me);
-    final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfFile = storageClient.downloadFile(telegrafProperties.getLocalConf(), telegrafProperties.getRemoteConf());
-    final var displayTelegrafConf = commandService.execute(Command.builder()
+    final var setStatusFailed = client.setFailedStatus(me);
+    final var setStatusPreparing = client.setStatus(me, ContainerStatus.PREPARING);
+    final var downloadConfFile = storage.downloadFile(get(telegraf.getLocal()), telegraf.getRemote());
+    final var displayTelegrafConf = commands.execute(Command.builder()
         .path("/etc/telegraf")
         .environment(ImmutableMap.of())
         .command(ImmutableList.of("cat", "telegraf.conf"))
         .build());
-    final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
-    final var startTelegraf = commandService.execute(commandSupplier.get());
-    final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
+    final var setStatusRunning = client.setStatus(me, ContainerStatus.RUNNING);
+    final var startTelegraf = commands.execute(newCommand.get());
+    final var setStatusDone = client.setStatus(me, ContainerStatus.DONE);
 
     setStatusPreparing.block();
     downloadConfFile.block();
     // Mandatory or the file is empty
     Optional.ofNullable(displayTelegrafConf.collectList()
         .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
-        .block()).orElse(Collections.emptyList()).forEach(log::info);
+        .block()).orElse(emptyList()).forEach(log::info);
     setStatusRunning.block();
     waitFor(startTelegraf
         .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Telegraf start failed"))
-        .doOnNext(log::info), runtimeClient.waitForPredicate(me, taskPredicate), Duration.ofSeconds(5));
+        .doOnNext(log::info), client.waitForPredicate(me, tasks), ofSeconds(5));
     setStatusDone.block();
   }
 

@@ -16,18 +16,21 @@ import static lombok.AccessLevel.PRIVATE;
 @Component
 class InfluxDBWebClient implements InfluxDBClient {
 
-  WebClient webClient;
-  InfluxDBClientProperties properties;
+  WebClient client;
+  InfluxDBClientProperties influxdb;
 
-  InfluxDBWebClient(final InfluxDBClientProperties properties, @Qualifier("webClientInfluxdb") final WebClient webClient) {
-    this.webClient = requireNonNull(webClient);
-    this.properties = requireNonNull(properties);
+  InfluxDBWebClient(
+    final InfluxDBClientProperties influxdb,
+    @Qualifier("webClientInfluxdb") final WebClient client) {
+    super();
+    this.client = requireNonNull(client);
+    this.influxdb = requireNonNull(influxdb);
   }
 
   public Mono<String> deleteSeries(final String testId) {
-    return webClient.post()
+    return client.post()
         .uri(uriBuilder -> uriBuilder.path("/query")
-            .queryParam("db", properties.getInfluxdbDatabase())
+            .queryParam("db", influxdb.getDatabase())
             .build())
         .body(BodyInserters.fromFormData("q", String.format("DROP SERIES FROM /.*/ WHERE test = '%s'", testId)))
         .retrieve()

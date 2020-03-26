@@ -22,11 +22,11 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class SpringTaskConfigurationService implements TaskConfigurationService {
 
-  @NonNull RuntimeServerProperties runtimeServerProperties;
+  @NonNull RuntimeServerProperties server;
   @NonNull StorageClient storageClient;
 
   public Mono<TaskConfiguration> getConfiguration(final TaskType taskType) {
-    return storageClient.getYamlContent(runtimeServerProperties.getConfigurationPath(), TasksConfiguration.class)
+    return storageClient.getYamlContent(server.getConfigurationPath(), TasksConfiguration.class)
         .map(tasksConfiguration -> tasksConfiguration.getTasks()
             .stream()
             .filter(taskConfiguration -> taskConfiguration.getType().equals(taskType))

@@ -30,10 +30,10 @@ class InfluxDBUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_URL).value(properties.getInfluxdbUrl()).build(),
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE).value(properties.getInfluxdbDatabase()).build(),
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_USER).value(properties.getInfluxdbUser()).build(),
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD).value(properties.getInfluxdbPassword()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_URL).value(properties.getUrl()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE).value(properties.getDatabase()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_USER).value(properties.getUser()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD).value(properties.getPassword()).build()
     ));
   }
 }

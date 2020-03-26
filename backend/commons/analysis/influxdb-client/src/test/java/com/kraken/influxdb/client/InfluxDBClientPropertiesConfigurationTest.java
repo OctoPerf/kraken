@@ -1,27 +1,26 @@
 package com.kraken.influxdb.client;
 
-import org.assertj.core.api.Assertions;
+import com.kraken.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {InfluxDBClientConfiguration.class, InfluxDBClientPropertiesTestConfiguration.class},
-    initializers = {ConfigFileApplicationContextInitializer.class})
+@SpringBootTest(classes = Application.class)
 public class InfluxDBClientPropertiesConfigurationTest {
 
   @Qualifier("webClientInfluxdb")
   @Autowired
-  WebClient influxdbWebClient;
+  WebClient client;
 
   @Test
   public void shouldCreateWebClients() {
-    Assertions.assertThat(influxdbWebClient).isNotNull();
+    assertThat(client).isNotNull();
   }
 }

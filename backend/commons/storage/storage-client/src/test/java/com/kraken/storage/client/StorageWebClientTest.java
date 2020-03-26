@@ -6,6 +6,7 @@ import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
+import com.kraken.storage.client.properties.StorageClientProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEventTest;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
@@ -22,12 +23,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +40,13 @@ import static com.kraken.storage.entity.StorageNodeTest.STORAGE_NODE;
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {JacksonConfiguration.class})
+@SpringBootTest(classes =  JacksonConfiguration.class)
 public class StorageWebClientTest {
 
-  private MockWebServer storageMockWebServer;
+  private MockWebServer server;
   private StorageClient client;
 
   @Autowired
@@ -54,18 +56,20 @@ public class StorageWebClientTest {
   @Autowired
   ObjectMapper jsonMapper;
 
+  @MockBean
+  StorageClientProperties properties;
 
   @Before
   public void before() {
-    storageMockWebServer = new MockWebServer();
-    client = new StorageWebClient(WebClient.builder()
-        .baseUrl(storageMockWebServer.url("/").toString())
-        .build(), jsonMapper, yamlMapper);
+    server = new MockWebServer();
+    final String baseUrl = server.url("/").toString();
+    when(properties.getUrl()).thenReturn(baseUrl);
+    client = new StorageWebClient(properties, jsonMapper, yamlMapper);
   }
 
   @After
   public void tearDown() throws IOException {
-    storageMockWebServer.shutdown();
+    server.shutdown();
   }
 
   @Test
@@ -78,7 +82,7 @@ public class StorageWebClientTest {
         .lastModified(0L)
         .build();
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -88,13 +92,13 @@ public class StorageWebClientTest {
     final var response = client.createFolder("path").block();
     assertThat(response).isEqualTo(directoryNode);
 
-    final var directoryRequest = storageMockWebServer.takeRequest();
+    final var directoryRequest = server.takeRequest();
     assertThat(directoryRequest.getPath()).startsWith("/files/set/directory?path=path");
   }
 
   @Test
   public void shouldDelete() throws InterruptedException {
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +107,7 @@ public class StorageWebClientTest {
     final var response = client.delete("path").block();
     assertThat(response).isEqualTo(true);
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo("[\"path\"]");
   }
 
@@ -117,7 +121,7 @@ public class StorageWebClientTest {
         .lastModified(0L)
         .build();
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -127,7 +131,7 @@ public class StorageWebClientTest {
     final var response = client.setContent("path", "content").block();
     assertThat(response).isEqualTo(fileNode);
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/content?path=path");
     assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo("content");
   }
@@ -149,7 +153,7 @@ public class StorageWebClientTest {
         "data:" + jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT) + "\n" +
         "\n";
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -159,14 +163,14 @@ public class StorageWebClientTest {
     assertThat(response).isNotNull();
     assertThat(response.size()).isEqualTo(4);
 
-    final var request = storageMockWebServer.takeRequest();
+    final var request = server.takeRequest();
     assertThat(request.getHeader(HttpHeaders.ACCEPT)).isEqualTo(MediaType.TEXT_EVENT_STREAM_VALUE);
     assertThat(request.getPath()).isEqualTo("/files/watch");
   }
 
   @Test
   public void shouldGetContent() throws InterruptedException {
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
@@ -176,7 +180,7 @@ public class StorageWebClientTest {
     final var response = client.getContent("path").block();
     assertThat(response).isEqualTo("content");
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/content?path=path");
   }
 
@@ -191,7 +195,7 @@ public class StorageWebClientTest {
         .build();
     final var result = ResultTest.RESULT;
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -201,7 +205,7 @@ public class StorageWebClientTest {
     final var response = client.setJsonContent("path", result).block();
     assertThat(response).isEqualTo(fileNode);
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/content?path=path");
     assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo(jsonMapper.writeValueAsString(result));
   }
@@ -217,7 +221,7 @@ public class StorageWebClientTest {
         .type(RUN)
         .build();
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -227,7 +231,7 @@ public class StorageWebClientTest {
     final var response = client.getJsonContent("path", Result.class).block();
     assertThat(response).isEqualTo(result);
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/json?path=path");
   }
 
@@ -235,7 +239,7 @@ public class StorageWebClientTest {
   public void shouldGetYamlContent() throws InterruptedException, IOException {
     final var result = ResultTest.RESULT;
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaTypes.TEXT_YAML_VALUE)
@@ -245,7 +249,7 @@ public class StorageWebClientTest {
     final var response = client.getYamlContent("path", Result.class).block();
     assertThat(response).isEqualTo(result);
 
-    final var recordedRequest = storageMockWebServer.takeRequest();
+    final var recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/content?path=path");
   }
 
@@ -257,7 +261,7 @@ public class StorageWebClientTest {
     final var buffer = new Buffer();
     buffer.writeAll(Okio.source(testFile.toFile()));
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -276,7 +280,7 @@ public class StorageWebClientTest {
       Assertions.fail(e.getMessage());
     }
 
-    final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
+    final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/file?path=testDir/test.xml");
   }
 
@@ -290,7 +294,7 @@ public class StorageWebClientTest {
     final var buffer = new Buffer();
     buffer.writeAll(Okio.source(new File(testFile)));
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -300,7 +304,7 @@ public class StorageWebClientTest {
 
     client.downloadFolder(outDir, "").block();
 
-    final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
+    final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/get/file?path=");
 
     assertThat(Files.list(outDir).count()).isEqualTo(7);
@@ -311,7 +315,7 @@ public class StorageWebClientTest {
   public void shouldUploadFile() throws InterruptedException, IOException {
     final var testFile = Paths.get("testDir/test.xml");
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -321,7 +325,7 @@ public class StorageWebClientTest {
     final var response = client.uploadFile(testFile, "").block();
     assertThat(response).isEqualTo(STORAGE_NODE);
 
-    final RecordedRequest recordedRequest = storageMockWebServer.takeRequest();
+    final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/zip?path=");
     // Must be compressed !
     assertThat(recordedRequest.getBodySize()).isLessThan(testFile.toFile().length());
@@ -331,7 +335,7 @@ public class StorageWebClientTest {
   public void shouldUploadFolder() throws InterruptedException, IOException {
     final var testFile = Paths.get("testDir/zipDir");
 
-    storageMockWebServer.enqueue(
+    server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -341,7 +345,7 @@ public class StorageWebClientTest {
     final var response = client.uploadFile(testFile, "path").block();
     assertThat(response).isEqualTo(STORAGE_NODE);
 
-    final RecordedRequest setRequest = storageMockWebServer.takeRequest();
+    final RecordedRequest setRequest = server.takeRequest();
     assertThat(setRequest.getPath()).isEqualTo("/files/set/zip?path=path");
   }
 }

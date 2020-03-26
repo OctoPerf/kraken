@@ -1,9 +1,8 @@
 package com.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtie.server.properties.RuntimeServerPropertiesTest;
-import com.kraken.runtime.client.properties.RuntimeClientPropertiesTest;
-import com.kraken.runtime.context.api.MapExecutionEnvironmentEntries;
+import com.kraken.runtie.server.properties.KrakentServerPropertiesTest;
+import com.kraken.runtime.client.properties.ImmutableRuntimeClientPropertiesTest;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
@@ -29,8 +28,8 @@ public class EnvironmentIntegrationTest {
     publishers = ImmutableList.of(
         new ContextPublisher(),
         new HostIdsPublisher(),
-        new KrakenVersionPublisher(RuntimeServerPropertiesTest.RUNTIME_SERVER_PROPERTIES),
-        new RuntimeUrlPublisher(RuntimeClientPropertiesTest.RUNTIME_PROPERTIES)
+        new KrakenVersionPublisher(KrakentServerPropertiesTest.RUNTIME_SERVER_PROPERTIES),
+        new RuntimeUrlPublisher(ImmutableRuntimeClientPropertiesTest.RUNTIME_PROPERTIES)
     );
     checker = new BaseChecker();
   }

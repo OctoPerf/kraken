@@ -1,13 +1,13 @@
 package com.kraken.runtime.client;
 
 import com.google.common.collect.ImmutableList;
+import com.kraken.runtime.client.properties.RuntimeClientProperties;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.Task;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,16 +17,16 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
+import static com.kraken.runtime.entity.task.ContainerStatus.STARTING;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
-@FieldDefaults(level = PRIVATE, makeFinal = true)
 @Component
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 class RuntimeWebClient implements RuntimeClient {
 
   public static final int NUM_RETRIES = 5;
@@ -34,9 +34,12 @@ class RuntimeWebClient implements RuntimeClient {
   WebClient webClient;
   AtomicReference<ContainerStatus> lastStatus;
 
-  RuntimeWebClient(@Qualifier("webClientRuntime") final WebClient webClient) {
-    this.webClient = Objects.requireNonNull(webClient);
-    this.lastStatus = new AtomicReference<>(ContainerStatus.STARTING);
+  RuntimeWebClient(final RuntimeClientProperties properties) {
+    this.webClient = WebClient
+      .builder()
+      .baseUrl(properties.getUrl())
+      .build();
+    this.lastStatus = new AtomicReference<>(STARTING);
   }
 
   @Override

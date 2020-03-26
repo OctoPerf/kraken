@@ -1,7 +1,7 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.analysis.client.properties.AnalysisClientPropertiesTestConfiguration;
+import com.kraken.analysis.client.properties.api.AnalysisClientProperties;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -17,12 +18,13 @@ import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySou
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {JavaOptsPublisher.class, AnalysisClientPropertiesTestConfiguration.class})
+@ContextConfiguration(classes = {JavaOptsPublisher.class})
 @EnableAutoConfiguration
 public class JavaOptsPublisherTest {
-
   @Autowired
   JavaOptsPublisher publisher;
+  @MockBean
+  AnalysisClientProperties properties;
 
   @Test
   public void shouldTest() {

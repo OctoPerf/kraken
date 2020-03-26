@@ -31,23 +31,23 @@ final class GatlingRunner {
   @NonNull StorageClient storageClient;
   @NonNull RuntimeClient runtimeClient;
   @NonNull CommandService commandService;
-  @NonNull RuntimeContainerProperties containerProperties;
-  @NonNull GatlingExecutionProperties gatlingExecutionProperties;
+  @NonNull RuntimeContainerProperties container;
+  @NonNull GatlingExecutionProperties gatling;
   @NonNull Supplier<Command> commandSupplier;
 
   @PostConstruct
   public void init() {
-    final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
+    final var findMe = runtimeClient.find(container.getTaskId(), container.getContainerName());
     final var me = findMe.block();
     final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusPreparing = runtimeClient.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storageClient.downloadFolder(gatlingExecutionProperties.getLocalConf(), gatlingExecutionProperties.getRemoteConf());
-    final var downloadUserFiles = storageClient.downloadFolder(gatlingExecutionProperties.getLocalUserFiles(), gatlingExecutionProperties.getRemoteUserFiles());
-    final var downloadLib = storageClient.downloadFolder(gatlingExecutionProperties.getLocalLib(), gatlingExecutionProperties.getRemoteLib());
+    final var downloadConfiguration = storageClient.downloadFolder(gatling.getLocalConf(), gatling.getRemoteConf());
+    final var downloadUserFiles = storageClient.downloadFolder(gatling.getLocalUserFiles(), gatling.getRemoteUserFiles());
+    final var downloadLib = storageClient.downloadFolder(gatling.getLocalLib(), gatling.getRemoteLib());
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commandService.execute(Command.builder()
-        .path(gatlingExecutionProperties.getGatlingHome().toString())
+        .path(gatling.getGatlingHome().toString())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
@@ -56,8 +56,8 @@ final class GatlingRunner {
     final var setStatusStopping = runtimeClient.setStatus(me, ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtimeClient.waitForStatus(me, ContainerStatus.STOPPING);
     final var uploadResult = storageClient.uploadFile(
-        gatlingExecutionProperties.getLocalResult(),
-      Paths.get(gatlingExecutionProperties.getRemoteResult()).resolve("groups").resolve(containerProperties.getHostId()).toString()
+        gatling.getLocalResult(),
+      Paths.get(gatling.getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
     );
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 

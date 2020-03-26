@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.debug.entry.writer.DebugEntryWriter;
+import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
@@ -33,25 +35,25 @@ class GatlingParser {
   @NonNull LogParser parser;
   @NonNull RuntimeClient runtimeClient;
   @NonNull DebugEntryWriter writer;
-  @NonNull RuntimeContainerProperties containerProperties;
-  @NonNull GatlingParserProperties gatlingProperties;
+  @NonNull RuntimeContainerProperties container;
+  @NonNull GatlingProperties gatling;
   @NonNull TaskPredicate taskPredicate;
   @NonNull CommandService commandService;
 
   @PostConstruct
   public void init() throws InterruptedException {
-    final var findMe = runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName());
+    final var findMe = runtimeClient.find(container.getTaskId(), container.getContainerName());
     final var me = findMe.block();
     final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtimeClient.waitForStatus(me, ContainerStatus.READY);
     final var setStatusRunning = runtimeClient.setStatus(me, ContainerStatus.RUNNING);
     final var listFiles = commandService.execute(Command.builder()
-        .path(gatlingProperties.getGatlingHome().toString())
+        .path(Paths.get(gatling.getHome()).toString())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
-    final var parse = writer.write(parser.parse(gatlingProperties.getDebugLog()));
+    final var parse = writer.write(parser.parse(Paths.get(gatling.getDebugLog())));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
     setStatusReady.block();

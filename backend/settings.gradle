@@ -31,6 +31,13 @@ include ':commons:analysis:analysis-client'
 findProject(':commons:analysis:analysis-client')?.name = 'analysis-client'
 include 'commons:analysis:analysis-client-properties'
 findProject(':commons:analysis:analysis-client-properties')?.name = 'analysis-client-properties'
+include 'commons:analysis:analysis-client-properties-api'
+findProject(':commons:analysis:analysis-client-properties-api')?.name = 'analysis-client-properties-api'
+
+include 'commons:gatling:gatling-properties-api'
+findProject(':commons:gatling:gatling-properties-api')?.name = 'gatling-properties-api'
+include 'commons:gatling:gatling-properties-spring'
+findProject(':commons:gatling:gatling-properties-spring')?.name = 'gatling-properties-spring'
 
 include ':commons:runtime:runtime-server'
 findProject(':commons:runtime:runtime-server')?.name = 'runtime-server'
@@ -148,4 +155,4 @@ findProject(':commons:runtime:runtime-event-gatling')?.name = 'runtime-event-gat
 include 'commons:tools:sse-server'
 findProject(':commons:tools:sse-server')?.name = 'sse-server'
 include 'applications:sse'
-findProject(':applications:sse')?.name = 'app-sse'
+
