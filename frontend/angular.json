@@ -77,7 +77,8 @@
               "node_modules/ace-builds/src-min/ext-language_tools.js",
               "node_modules/ace-builds/src-min/ext-modelist.js",
               "ext/mode-log.js",
-              "ext/theme-kraken.js"
+              "ext/theme-kraken.js",
+              "node_modules/keycloak-js/dist/keycloak.js"
             ]
           },
           "configurations": {
@@ -1026,7 +1027,8 @@
               "node_modules/ace-builds/src-min/ext-modelist.js",
               "ext/mode-log.js",
               "ext/theme-kraken.js",
-              "ext/snippets/scala.js"
+              "ext/snippets/scala.js",
+              "node_modules/keycloak-js/dist/keycloak.js"
             ]
           },
           "configurations": {
@@ -1269,6 +1271,49 @@
             "tsConfig": [
               "projects/sse/tsconfig.lib.json",
               "projects/sse/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "security": {
+      "projectType": "library",
+      "root": "projects/security",
+      "sourceRoot": "projects/security/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/security/tsconfig.lib.json",
+            "project": "projects/security/ng-package.json",
+            "scripts": [
+              "node_modules/keycloak-js/dist/keycloak.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/security/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/security/src/test.ts",
+            "tsConfig": "projects/security/tsconfig.spec.json",
+            "karmaConfig": "projects/security/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/security/tsconfig.lib.json",
+              "projects/security/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

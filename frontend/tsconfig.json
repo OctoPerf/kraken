@@ -148,6 +148,10 @@
       "sse": [
         "dist/sse/sse",
         "dist/sse"
+      ],
+      "security": [
+        "dist/security/security",
+        "dist/security"
       ]
     }
   }

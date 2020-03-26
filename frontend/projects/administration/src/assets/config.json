@@ -11,5 +11,10 @@
     "depth": 0,
     "length": 0,
     "lastModified": 0
+  },
+  "keycloakConfiguration": {
+    "url": "http://localhost:9080/auth",
+    "realm": "kraken",
+    "clientId": "kraken-web"
   }
 }
