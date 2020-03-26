@@ -23,7 +23,7 @@ final class ImmutableGrafanaClientProperties implements GrafanaClientProperties 
   @NonNull String password;
 
   @PostConstruct
-  void postConstruct() {
+  void log() {
     log.info(toString());
   }
 }

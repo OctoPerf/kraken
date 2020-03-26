@@ -1,17 +1,16 @@
 package com.kraken.storage.file;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.storage.TestConfiguration;
+import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Mono;
 
@@ -34,7 +33,7 @@ import static reactor.core.publisher.Mono.just;
 import static reactor.test.StepVerifier.create;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ApplicationPropertiesTestConfiguration.class, TestConfiguration.class})
+@SpringBootTest(classes = Application.class)
 public class FileSystemStorageServiceIntegrationTest {
 
   @Autowired

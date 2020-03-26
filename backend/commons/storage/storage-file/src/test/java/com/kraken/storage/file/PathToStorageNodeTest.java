@@ -1,16 +1,13 @@
 package com.kraken.storage.file;
 
-import com.kraken.tools.properties.ApplicationProperties;
-import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
-import com.kraken.storage.TestConfiguration;
+import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+import com.kraken.tools.properties.ApplicationProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.file.Path;
@@ -22,8 +19,7 @@ import static com.kraken.storage.entity.StorageNodeType.NONE;
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ApplicationPropertiesTestConfiguration.class, TestConfiguration.class})
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@SpringBootTest(classes = Application.class)
 public class PathToStorageNodeTest {
 
   @Autowired
@@ -39,13 +35,14 @@ public class PathToStorageNodeTest {
 
   @Test
   public void shouldConvertExistingPath() {
+    final var data = Paths.get(applicationProperties.getData()).resolve("README.md");
     Assert.assertEquals(StorageNode.builder()
         .path("README.md")
         .type(FILE)
         .depth(0)
-        .length(applicationProperties.getData().resolve("README.md").toFile().length())
-        .lastModified(applicationProperties.getData().resolve("README.md").toFile().lastModified())
-        .build(), service.apply(applicationProperties.getData().resolve("README.md")));
+        .length(data.toFile().length())
+        .lastModified(data.toFile().lastModified())
+        .build(), service.apply(data));
   }
 
   public void shouldFail() {

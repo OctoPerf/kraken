@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class GrafanaClientPropertiesTest {
 
-  public static final ImmutableGrafanaClientProperties GRAFANA_CLIENT_PROPERTIES = ImmutableGrafanaClientProperties
+  public static final GrafanaClientProperties GRAFANA_CLIENT_PROPERTIES = ImmutableGrafanaClientProperties
     .builder()
     .url("grafanaUrl")
     .user("grafanaUser")
@@ -20,6 +20,6 @@ public class GrafanaClientPropertiesTest {
 
   @Test
   public void shouldPostConstruct() {
-    GRAFANA_CLIENT_PROPERTIES.postConstruct();
+    ((ImmutableGrafanaClientProperties)GRAFANA_CLIENT_PROPERTIES).log();
   }
 }

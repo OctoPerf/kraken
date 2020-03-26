@@ -1,19 +1,19 @@
 package com.kraken.storage.file;
 
 import com.google.common.base.Charsets;
-import com.kraken.tools.properties.ApplicationProperties;
-import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
-import com.kraken.storage.TestConfiguration;
+import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
+import com.kraken.tools.properties.ApplicationProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,12 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ApplicationPropertiesTestConfiguration.class, TestConfiguration.class})
+@SpringBootTest(classes = Application.class)
 public class FileSystemStorageWatcherServiceIntegrationTest {
-
   @Autowired
   StorageWatcherService service;
-
   @Autowired
   ApplicationProperties applicationProperties;
 
@@ -40,7 +38,8 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
     final var watch = service.watch();
     final var events = new ArrayList<StorageWatcherEvent>();
     final var subscription = watch.subscribe(events::add);
-    final var currentPath = this.applicationProperties.getData().resolve("test/toto");
+    final var data = Paths.get(applicationProperties.getData());
+    final var currentPath = data.resolve("test/toto");
     final var file = currentPath.toFile();
     assertThat(file.mkdirs()).isTrue();
     sleep(1000);
@@ -51,7 +50,7 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
     sleep(1000);
     assertThat(textPath.toFile().renameTo(currentPath.resolve("the-new-file-name.txt").toFile())).isTrue();
     sleep(1000);
-    deleteRecursively(this.applicationProperties.getData().resolve("test"));
+    deleteRecursively(data.resolve("test"));
     sleep(1000);
     subscription.dispose();
 
@@ -109,7 +108,8 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
 
   @Test
   public void shouldWatchSubDir() throws IOException, InterruptedException {
-    final var root = this.applicationProperties.getData().resolve("test2");
+    final var data = Paths.get(applicationProperties.getData());
+    final var root = data.resolve("test2");
     final var otherPath = root.resolve("other");
     final var currentPath = root.resolve("toto");
     final var watch = service.watch("test2/toto");

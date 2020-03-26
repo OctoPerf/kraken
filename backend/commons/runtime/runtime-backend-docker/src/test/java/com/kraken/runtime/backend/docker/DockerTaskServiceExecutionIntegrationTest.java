@@ -1,6 +1,7 @@
 package com.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.Application;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.context.entity.CancelContext;
@@ -10,14 +11,11 @@ import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.test.utils.ResourceUtils;
-import com.kraken.tools.properties.ApplicationPropertiesTestConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.scheduler.Schedulers;
 
@@ -30,8 +28,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestConfiguration.class, ApplicationPropertiesTestConfiguration.class}, initializers = {ConfigFileApplicationContextInitializer.class})
-@EnableAutoConfiguration
+@SpringBootTest(classes = Application.class)
 public class DockerTaskServiceExecutionIntegrationTest {
 
   @Autowired
