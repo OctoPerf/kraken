@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {SecurityConfigurationService} from 'projects/security/src/lib/security-configuration.service';
 import {from, Observable, of} from 'rxjs';
 import * as kc from 'keycloak-js';
-import {flatMap, map, tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +14,29 @@ export class SecurityService {
   constructor(private configuration: SecurityConfigurationService) {
   }
 
-  private init(): Observable<void> {
+  public init(): Observable<boolean> {
     if (this.kcInstance) {
-      return of(null);
+      return of(this.authenticated);
     }
     const kcInstance: kc.KeycloakInstance = kc(this.configuration.keycloakConfiguration);
     return from(kcInstance.init({onLoad: 'check-sso', checkLoginIframe: false}))
-      .pipe(tap(() => this.kcInstance = kcInstance), map(() => null));
+      .pipe(tap(() => this.kcInstance = kcInstance), map(() => this.authenticated));
   }
 
   public login(): Observable<void> {
-    return this.init().pipe(
-      flatMap(() => from(this.kcInstance.login())),
+    return from(this.kcInstance.login()).pipe(
       tap(() => console.log(this.kcInstance.tokenParsed))
     );
   }
 
   public logout(): Observable<void> {
     return from(this.kcInstance.logout({redirectUri: document.baseURI}));
+  }
+
+  public get token(): Observable<string> {
+    return from(this.kcInstance.updateToken(30)).pipe(
+      map(() => this.kcInstance.token)
+    );
   }
 
   public get authenticated(): boolean {
