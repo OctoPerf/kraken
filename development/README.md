@@ -81,5 +81,5 @@ curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'usernam
 
 List files
 ```
-curl --verbose -X GET http://localhost:8080/files/list -H "Authorization: Bearer $(cat token)"
+curl --verbose -X GET http://localhost:8080/test/user -H "Authorization: Bearer $(cat token)"
 ```
