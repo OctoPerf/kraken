@@ -8,9 +8,10 @@ dependencies {
     implementation project(':commons:runtime:runtime-client-properties')
 
     implementation project(':commons:tools:environment')
-    implementation project(':commons:tools:sse')
+    implementation project(':commons:tools:sse-api')
+    implementation project(':commons:tools:sse-entity')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:tools:sse', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:sse-entity', configuration: 'testArtifacts')
 }

@@ -1,8 +1,7 @@
-package com.kraken.tools.sse;
+package sse;
 
 import org.springframework.http.codec.ServerSentEvent;
 import reactor.core.publisher.Flux;
-import reactor.util.function.Tuple2;
 
 import java.util.Map;
 

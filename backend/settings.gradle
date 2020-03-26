@@ -56,7 +56,6 @@ include ':commons:storage:storage-client-properties'
 include ':commons:storage:storage-server'
 
 include ':commons:tools:configuration'
-include ':commons:tools:sse'
 include ':commons:tools:reactor-utils'
 include ':commons:tools:unique-id'
 include ':commons:tools:environment'
@@ -64,6 +63,9 @@ include ':commons:tools:properties'
 include ':commons:tools:event-bus'
 include ':commons:tools:obfuscation'
 include ':commons:tools:application'
+include ':commons:tools:sse-entity'
+include ':commons:tools:sse-api'
+include ':commons:tools:sse-spring'
 include ':commons:tools:sse-server'
 
 include ':commons:parser:har-parser'
@@ -103,3 +105,4 @@ findProject(':applications:sse')?.name = 'app-sse'
 
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
+

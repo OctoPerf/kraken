@@ -4,6 +4,7 @@ dependencies {
     implementation project(':commons:storage:storage-entity')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 
-    implementation project(':commons:tools:sse')
+    implementation project(':commons:tools:sse-api')
+    implementation project(':commons:tools:sse-entity')
     implementation project(':commons:tools:configuration')
 }

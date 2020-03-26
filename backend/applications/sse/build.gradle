@@ -1,4 +1,5 @@
 dependencies {
+    implementation project(':commons:tools:sse-spring')
     implementation project(':commons:tools:sse-server')
     implementation project(':commons:tools:configuration')
 }
