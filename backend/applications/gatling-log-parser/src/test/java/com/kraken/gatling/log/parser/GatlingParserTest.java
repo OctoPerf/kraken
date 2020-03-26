@@ -34,6 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @RunWith(MockitoJUnitRunner.class)
@@ -58,6 +59,8 @@ public class GatlingParserTest {
 
   @Before
   public void before() {
+    when(gatling.getHome()).thenReturn(".");
+    when(gatling.getDebugLog()).thenReturn(".");
     container = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
     parser = new GatlingParser(logParser,
         runtimeClient,
