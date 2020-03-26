@@ -1,17 +1,24 @@
 package com.kraken.runtime.client.properties;
 
-import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
+
+import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static org.junit.Assert.assertNotNull;
 
 public class RuntimeClientPropertiesTest {
 
   public static final RuntimeClientProperties RUNTIME_PROPERTIES = RuntimeClientProperties.builder()
-      .runtimeUrl("runtimeUrl")
+      .url("runtimeUrl")
       .build();
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(RUNTIME_PROPERTIES);
+    shouldPassAll(RUNTIME_PROPERTIES);
   }
 
+  @Test
+  public void shouldPostConstruct() {
+    RUNTIME_PROPERTIES.postConstruct();
+    assertNotNull(RUNTIME_PROPERTIES);
+  }
 }

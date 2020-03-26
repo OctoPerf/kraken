@@ -45,7 +45,6 @@ public interface KrakenEnvironmentAtValues {
   String $KRAKEN_GATLING_SIMULATION_CLASS = "${kraken.gatling.simulation-class:#{environment.KRAKEN_GATLING_SIMULATION_CLASS}}";
   String $KRAKEN_GATLING_JAVA_OPTS = "${kraken.gatling.java-opts:#{environment.KRAKEN_GATLING_JAVA_OPTS}}";
 
-  String $KRAKEN_RUNTIME_URL = "${kraken.runtime.url:#{environment.KRAKEN_RUNTIME_URL}}";
   String $KRAKEN_RUNTIME_CONFIGURATION_PATH = "${kraken.runtime.configuration-path:#{environment.KRAKEN_RUNTIME_CONFIGURATION_PATH}}";
 
   String $KRAKEN_STORAGE_URL = "${kraken.storage.url:#{environment.KRAKEN_STORAGE_URL}}";

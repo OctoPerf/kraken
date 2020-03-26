@@ -1,5 +1,6 @@
 package com.kraken.grafana.client.properties;
 
+import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 @Builder
 @ConstructorBinding
 @ConfigurationProperties(prefix = "kraken.grafana")
+@ExcludeFromObfuscation
 public class GrafanaClientProperties {
   @NonNull String url;
   @NonNull String dashboard;

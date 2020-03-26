@@ -7,7 +7,6 @@ import lombok.Value;
 @Value
 @Builder
 public class RuntimeServerProperties {
-
   @NonNull
   String version;
   @NonNull
