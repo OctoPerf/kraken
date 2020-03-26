@@ -1,4 +1,4 @@
-package com.kraken.storage.configuration;
+package com.kraken.security.confioguration;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;

@@ -1,6 +1,8 @@
-package com.kraken.storage.configuration;
+package com.kraken.security.confioguration;
 
 
+import com.kraken.security.configuration.AuthenticatedUserProvider;
+import com.kraken.security.configuration.entity.KrakenUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -11,7 +13,7 @@ import reactor.core.publisher.Mono;
 @Component
 class JwtAuthenticatedUserProvider implements AuthenticatedUserProvider {
 
-  public Mono<String> getAuthenticatedUser() {
+  public Mono<KrakenUser> getAuthenticatedUser() {
     return ReactiveSecurityContextHolder.getContext()
         .map(SecurityContext::getAuthentication)
         .map(authentication -> {
@@ -20,7 +22,8 @@ class JwtAuthenticatedUserProvider implements AuthenticatedUserProvider {
           log.info("" + authentication.getCredentials());
           log.info("" + authentication.getDetails());
           log.info("" + authentication.getPrincipal());
-          return authentication.getName();
+//          TODO return Kraken User
+          return null;
         });
   }
 
