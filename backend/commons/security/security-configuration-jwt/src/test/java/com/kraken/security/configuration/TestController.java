@@ -1,4 +1,4 @@
-package com.kraken.storage.configuration;
+package com.kraken.security.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

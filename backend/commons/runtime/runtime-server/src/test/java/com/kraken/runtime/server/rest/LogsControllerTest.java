@@ -1,16 +1,9 @@
 package com.kraken.runtime.server.rest;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.backend.api.TaskService;
 import com.kraken.runtime.entity.log.LogTest;
-import com.kraken.runtime.entity.task.Task;
-import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.runtime.logs.LogsService;
-import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.tools.sse.SSEWrapper;
-import com.kraken.tools.sse.SSEWrapperTest;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;

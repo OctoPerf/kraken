@@ -1,4 +1,4 @@
-package com.kraken.storage.configuration;
+package com.kraken.security.configuration;
 
 // https://blog.ineat-group.com/2019/01/securiser-vos-apis-spring-webflux-avec-keycloak-et-oauth2/
 
