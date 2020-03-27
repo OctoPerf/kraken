@@ -13,5 +13,6 @@ public class KrakenUser {
   String userId;
   List<String> roles;
   List<String> groups;
-//   Todo add current group?
+  String currentGroup;
+
 }
