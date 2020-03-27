@@ -20,3 +20,4 @@ out/
 
 data/*
 analysis/*
+keycloak/postgres/data/*
