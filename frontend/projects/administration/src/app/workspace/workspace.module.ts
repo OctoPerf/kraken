@@ -17,6 +17,7 @@ import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
+import {SecurityModule} from 'projects/security/src/lib/security.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module'
       []
     ),
     RuntimeHostModule,
+    SecurityModule,
   ],
   providers: [
     NotificationService,
