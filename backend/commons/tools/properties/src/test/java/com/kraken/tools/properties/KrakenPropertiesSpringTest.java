@@ -11,10 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class ApplicationPropertiesSpringTest {
+public class KrakenPropertiesSpringTest {
 
   @Autowired
-  ApplicationProperties properties;
+  KrakenProperties properties;
 
   @Test
   public void shouldCreateProperties() {

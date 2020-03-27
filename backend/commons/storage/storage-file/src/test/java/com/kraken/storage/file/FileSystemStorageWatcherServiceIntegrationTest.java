@@ -4,7 +4,7 @@ import com.google.common.base.Charsets;
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +31,14 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
   @Autowired
   StorageWatcherService service;
   @Autowired
-  ApplicationProperties applicationProperties;
+  KrakenProperties krakenProperties;
 
   @Test
   public void shouldWatchTestDir() throws IOException, InterruptedException {
     final var watch = service.watch();
     final var events = new ArrayList<StorageWatcherEvent>();
     final var subscription = watch.subscribe(events::add);
-    final var data = Paths.get(applicationProperties.getData());
+    final var data = Paths.get(krakenProperties.getData());
     final var currentPath = data.resolve("test/toto");
     final var file = currentPath.toFile();
     assertThat(file.mkdirs()).isTrue();
@@ -108,7 +108,7 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
 
   @Test
   public void shouldWatchSubDir() throws IOException, InterruptedException {
-    final var data = Paths.get(applicationProperties.getData());
+    final var data = Paths.get(krakenProperties.getData());
     final var root = data.resolve("test2");
     final var otherPath = root.resolve("other");
     final var currentPath = root.resolve("toto");

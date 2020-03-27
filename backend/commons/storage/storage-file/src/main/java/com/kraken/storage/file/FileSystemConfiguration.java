@@ -2,7 +2,7 @@ package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryChangeListener;
 import io.methvin.watcher.DirectoryWatcher;
@@ -23,13 +23,13 @@ public class FileSystemConfiguration {
 
   @Bean
   Flux<StorageWatcherEvent> watcherEventFlux(
-      final ApplicationProperties application,
+      final KrakenProperties kraken,
       final Function<Path, StorageNode> toStorageNode
   ) {
     return Flux.<StorageWatcherEvent>create(emitter -> {
       try {
         final var watcher = DirectoryWatcher.builder()
-            .path(Paths.get(application.getData()))
+            .path(Paths.get(kraken.getData()))
             .listener(new DirectoryChangeListener() {
               @Override
               public void onEvent(DirectoryChangeEvent event) {

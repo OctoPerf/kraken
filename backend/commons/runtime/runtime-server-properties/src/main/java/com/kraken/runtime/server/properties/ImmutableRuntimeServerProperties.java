@@ -11,10 +11,8 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Value
 @Builder
 @ConstructorBinding
-@ConfigurationProperties("kraken.runtime")
+@ConfigurationProperties("kraken.runtime.server")
 public class ImmutableRuntimeServerProperties implements RuntimeServerProperties {
-  @NonNull
-  String version;
   @NonNull
   String configurationPath;
 }

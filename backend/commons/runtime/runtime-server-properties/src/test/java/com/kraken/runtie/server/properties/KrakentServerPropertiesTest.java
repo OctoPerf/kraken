@@ -8,7 +8,6 @@ public class KrakentServerPropertiesTest {
 
   public static final ImmutableRuntimeServerProperties RUNTIME_SERVER_PROPERTIES = ImmutableRuntimeServerProperties.builder()
       .configurationPath("tasks/docker/configuration.yaml")
-      .version("1.3.0")
       .build();
 
   @Test

@@ -14,9 +14,11 @@ import javax.annotation.PostConstruct;
 @Builder
 @ConstructorBinding
 @ConfigurationProperties("kraken")
-final class ImmutableApplicationProperties implements ApplicationProperties {
+final class ImmutableKrakenProperties implements KrakenProperties {
   @NonNull
   String data;
+  @NonNull
+  String version;
 
   @PostConstruct
   void log() {

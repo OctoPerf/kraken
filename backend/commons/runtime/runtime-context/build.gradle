@@ -9,10 +9,12 @@ dependencies {
     implementation project(':commons:storage:storage-client')
     implementation project(':commons:template:template-api')
     implementation project(':commons:tools:unique-id')
+    implementation project(':commons:tools:properties')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-client-properties', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-tasks-configuration-entity', configuration: 'testArtifacts')
 }

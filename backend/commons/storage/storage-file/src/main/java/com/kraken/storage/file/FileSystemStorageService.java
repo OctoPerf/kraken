@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -45,7 +45,7 @@ import static reactor.core.publisher.Mono.just;
 final class FileSystemStorageService implements StorageService {
 
   @NonNull
-  ApplicationProperties application;
+  KrakenProperties kraken;
 
   @NonNull
   Function<Path, StorageNode> toStorageNode;
@@ -53,7 +53,7 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageNode> list() {
     try {
-      final var data = Paths.get(application.getData());
+      final var data = Paths.get(kraken.getData());
       return fromStream(Files.walk(data).map(toStorageNode)).filter(StorageNode::notRoot);
     } catch (Exception e) {
       return error(e);
@@ -284,7 +284,7 @@ final class FileSystemStorageService implements StorageService {
   private Path stringToPath(final String path) throws IllegalArgumentException {
     checkArgument(!path.contains(".."), "Cannot store file with relative path outside current directory "
         + path);
-    return Paths.get(application.getData()).resolve(path);
+    return Paths.get(kraken.getData()).resolve(path);
   }
 
 }

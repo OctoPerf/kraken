@@ -10,7 +10,7 @@ import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -36,7 +36,7 @@ class HarParserService {
   @NonNull DebugEntryWriter writer;
   @NonNull ContainerProperties container;
   @NonNull HarParserProperties harParser;
-  @NonNull ApplicationProperties application;
+  @NonNull KrakenProperties kraken;
 
   @PostConstruct
   public void init() {
@@ -50,7 +50,7 @@ class HarParserService {
     final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
     final var setStatusRunning = runtime.setStatus(me, ContainerStatus.RUNNING);
     final var listFiles = commands.execute(Command.builder()
-        .path(application.getData())
+        .path(kraken.getData())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());

@@ -18,6 +18,6 @@ public class RuntimeServerPropertiesConfigurationTest {
 
   @Test
   public void shouldCreateProperties() {
-    assertThat(runtimeServerProperties.getVersion()).isNotNull();
+    assertThat(runtimeServerProperties.getConfigurationPath()).isNotNull();
   }
 }

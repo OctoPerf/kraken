@@ -2,7 +2,7 @@ package com.kraken.storage.file;
 
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class PathToStorageNodeTest {
   Function<Path, StorageNode> service;
 
   @Autowired
-  ApplicationProperties applicationProperties;
+  KrakenProperties krakenProperties;
 
   @Test
   public void shouldPassTestUtils() {
@@ -35,7 +35,7 @@ public class PathToStorageNodeTest {
 
   @Test
   public void shouldConvertExistingPath() {
-    final var data = Paths.get(applicationProperties.getData()).resolve("README.md");
+    final var data = Paths.get(krakenProperties.getData()).resolve("README.md");
     Assert.assertEquals(StorageNode.builder()
         .path("README.md")
         .type(FILE)

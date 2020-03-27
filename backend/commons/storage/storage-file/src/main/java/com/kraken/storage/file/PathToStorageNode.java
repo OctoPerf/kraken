@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.KrakenProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -20,7 +20,7 @@ import static java.nio.file.Paths.get;
 final class PathToStorageNode implements Function<Path, StorageNode> {
 
   @NonNull
-  ApplicationProperties applicationProperties;
+  KrakenProperties kraken;
 
   @Override
   public StorageNode apply(final Path path) {
@@ -29,7 +29,7 @@ final class PathToStorageNode implements Function<Path, StorageNode> {
     if (file.exists()) {
       type = file.isDirectory() ? DIRECTORY : FILE;
     }
-    final var relative = get(applicationProperties.getData()).relativize(path);
+    final var relative = get(kraken.getData()).relativize(path);
     return StorageNode.builder()
         .path(relative.toString())
         .type(type)
