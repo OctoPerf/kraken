@@ -27,7 +27,7 @@ kraken:
       remote: gatling/user-files
     lib:
       local: ${kraken.gatling.home}/lib
-      lib: gatling/lib
+      remote: gatling/lib
     results:
       local: ${kraken.gatling.home}/results
       remote: gatling/results
