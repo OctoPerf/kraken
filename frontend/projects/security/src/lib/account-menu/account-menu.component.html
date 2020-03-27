@@ -1,0 +1,15 @@
+<button mat-button [matMenuTriggerFor]="accountMenu">
+  <lib-icon [icon]="menuIcon"></lib-icon>
+  {{security.username}}
+</button>
+
+<mat-menu #accountMenu="matMenu">
+  <button mat-menu-item (click)="security.accountManagement().subscribe()" matTooltip="Open Account Management">
+    <lib-icon [icon]="accountIcon"></lib-icon>
+    My Account
+  </button>
+  <button mat-menu-item (click)="security.logout().subscribe()" matTooltip="Login From Kraken">
+    <lib-icon [icon]="logoutIcon"></lib-icon>
+    Logout
+  </button>
+</mat-menu>
