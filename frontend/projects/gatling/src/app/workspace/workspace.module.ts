@@ -22,6 +22,7 @@ import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/ru
 import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
+import {SecurityModule} from 'projects/security/src/lib/security.module';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.se
     SimulationsModule,
     ResultsModule,
     RuntimeModule,
+    SecurityModule,
   ],
   providers: [
     NotificationService,

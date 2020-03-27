@@ -33,6 +33,10 @@ export class SecurityService {
     return from(this.kcInstance.logout({redirectUri: document.baseURI}));
   }
 
+  public accountManagement(): Observable<void> {
+    return from(this.kcInstance.accountManagement());
+  }
+
   public get token(): Observable<string> {
     return from(this.kcInstance.updateToken(30)).pipe(
       map(() => this.kcInstance.token)
@@ -43,4 +47,7 @@ export class SecurityService {
     return this.kcInstance && !!this.kcInstance.authenticated;
   }
 
+  public get username(): string {
+    return (this.kcInstance.tokenParsed as any).preferred_username;
+  }
 }

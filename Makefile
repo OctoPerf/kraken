@@ -50,7 +50,7 @@ git-pull:
 	$(MAKE) git-pull-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
 
 git-pull-submodule:
-	cd $(SUBMODULE);git checkout BRANCH=$(BRANCH)
+	cd $(SUBMODULE);git checkout $(BRANCH)
 	cd $(SUBMODULE);git fetch --progress --prune --recurse-submodules=no origin
 	cd $(SUBMODULE);git pull
 
@@ -94,10 +94,10 @@ git-commit-push:
 	-$(MAKE) git-commit-push-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
 	-$(MAKE) git-commit-push-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
 	-$(MAKE) git-commit-push-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
+	-git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
 
 git-commit-push-submodule:
-	cd $(SUBMODULE);git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
+	cd $(SUBMODULE);git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
 
 git-branch-finish:
 	-$(MAKE) git-branch-finish-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)

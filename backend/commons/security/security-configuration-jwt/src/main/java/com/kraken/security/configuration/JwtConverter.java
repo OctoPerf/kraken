@@ -6,12 +6,15 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,15 +31,21 @@ class JwtConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> 
         .map(Object::toString)
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toSet());
-    final var token = new JwtAuthenticationToken(jwt, authorities);
+
+    final var userId = jwt.getSubject();
     final var user = KrakenUser.builder()
         .roles(roles.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
         .groups(groups.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
-        .userId(jwt.getSubject())
+        .userId(userId)
         .username(jwt.getClaimAsString("preferred_username"))
+        .currentGroup(Optional.ofNullable(jwt.getClaimAsString("current_group")).orElse(""))
         .build();
-    token.setDetails(user);
     log.info(user.toString());
+    if (!user.getCurrentGroup().isEmpty() && user.getGroups().stream().noneMatch(group -> group.equals(user.getCurrentGroup()))) {
+      return Mono.error(new AuthenticationServiceException("The current_group does not belong to the connected user"));
+    }
+    final var token = new JwtAuthenticationToken(jwt, authorities);
+    token.setDetails(user);
     return Mono.just(token);
   }
 }

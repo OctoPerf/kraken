@@ -19,7 +19,7 @@ describe('EventSourceService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ToolsModule]
+      imports: []
     });
     service = TestBed.inject(EventSourceService);
   });

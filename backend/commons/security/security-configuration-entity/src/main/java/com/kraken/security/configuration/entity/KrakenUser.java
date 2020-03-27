@@ -1,6 +1,7 @@
 package com.kraken.security.configuration.entity;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 import java.util.List;
@@ -9,9 +10,10 @@ import java.util.List;
 @Builder
 public class KrakenUser {
 
-  String username;
-  String userId;
-  List<String> roles;
-  List<String> groups;
-//   Todo add current group?
+  @NonNull String username;
+  @NonNull String userId;
+  @NonNull List<String> roles;
+  @NonNull List<String> groups;
+  @NonNull String currentGroup;
+
 }
