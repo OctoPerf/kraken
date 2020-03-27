@@ -3,6 +3,8 @@ package com.kraken.gatling.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
+import com.kraken.gatling.properties.api.GatlingLocalRemote;
+import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -12,8 +14,6 @@ import com.kraken.runtime.container.properties.ContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
-import com.kraken.runtime.gatling.api.GatlingLocalRemote;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
@@ -47,7 +47,7 @@ public class GatlingRunnerTest {
   ContainerProperties containerProperties;
 
   @Mock
-  GatlingExecutionProperties gatling;
+  GatlingProperties gatling;
   @Mock
   GatlingLocalRemote gatlingLocalRemote;
 

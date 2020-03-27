@@ -13,8 +13,8 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.properties.KrakenProperties;
-import com.kraken.tools.properties.KrakenPropertiesTest;
+import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.ApplicationPropertiesTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class HarParserServiceTest {
   HarParser harParser;
   ContainerProperties containerProperties;
   HarParserProperties harParserProperties;
-  KrakenProperties krakenProperties;
+  ApplicationProperties krakenProperties;
 
   HarParserService parser;
 
@@ -55,7 +55,7 @@ public class HarParserServiceTest {
   public void before() {
     containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     harParserProperties = HarParserPropertiesTest.HAR_PROPERTIES;
-    krakenProperties = KrakenPropertiesTest.APPLICATION_PROPERTIES;
+    krakenProperties = ApplicationPropertiesTest.APPLICATION_PROPERTIES;
     parser = new HarParserService(harParser,
         runtimeClient,
         storageClient,

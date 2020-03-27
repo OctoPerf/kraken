@@ -1,25 +1,26 @@
 package com.kraken.runtime.client;
 
 import com.kraken.Application;
-import org.assertj.core.api.Assertions;
+import com.kraken.runtime.client.properties.ClientProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.reactive.function.client.WebClient;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class RuntimeClientConfigurationTest {
-
-  @Qualifier("webClientRuntime")
   @Autowired
-  WebClient runtimeWebClient;
+  RuntimeClient client;
+  @MockBean
+  ClientProperties properties;
 
   @Test
   public void shouldCreateWebClients() {
-    Assertions.assertThat(runtimeWebClient).isNotNull();
+    assertThat(client).isNotNull();
   }
 }

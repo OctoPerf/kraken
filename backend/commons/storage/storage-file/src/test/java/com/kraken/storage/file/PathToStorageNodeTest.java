@@ -2,7 +2,7 @@ package com.kraken.storage.file;
 
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class PathToStorageNodeTest {
   Function<Path, StorageNode> service;
 
   @Autowired
-  KrakenProperties krakenProperties;
+  ApplicationProperties krakenProperties;
 
   @Test
   public void shouldPassTestUtils() {

@@ -1,6 +1,6 @@
 package com.kraken.storage.configuration;
 
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class StaticResourcesConfiguration implements WebFluxConfigurer {
 
-  @NonNull KrakenProperties kraken;
+  @NonNull ApplicationProperties kraken;
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {

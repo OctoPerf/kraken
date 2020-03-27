@@ -6,7 +6,7 @@ import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.kraken.tools.properties.KrakenPropertiesTest;
+import com.kraken.tools.properties.ApplicationPropertiesTest;
 import org.junit.Before;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
@@ -28,7 +28,7 @@ public class EnvironmentIntegrationTest {
     publishers = ImmutableList.of(
         new ContextPublisher(),
         new HostIdsPublisher(),
-        new KrakenVersionPublisher(KrakenPropertiesTest.APPLICATION_PROPERTIES),
+        new KrakenVersionPublisher(ApplicationPropertiesTest.APPLICATION_PROPERTIES),
         new RuntimeUrlPublisher(ImmutableClientPropertiesTest.RUNTIME_PROPERTIES)
     );
     checker = new BaseChecker();

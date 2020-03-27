@@ -4,5 +4,23 @@ public interface GatlingProperties {
 
   String getHome();
 
-  String getDebugLog();
+  String getBin();
+
+  GatlingLog getLogs();
+
+  GatlingLocalRemote getUserFiles();
+
+  GatlingLocalRemote getConf();
+
+  GatlingLocalRemote getLib();
+
+  GatlingLocalRemote getResults();
+
+  GatlingLocalRemote getHarPath();
+
+  GatlingSimulation getSimulation();
+
+  String getDescription();
+
+  String getJavaOpts();
 }

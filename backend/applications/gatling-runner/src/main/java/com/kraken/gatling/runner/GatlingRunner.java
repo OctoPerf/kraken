@@ -2,12 +2,12 @@ package com.kraken.gatling.runner;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
-import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
 import com.kraken.storage.client.StorageClient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ final class GatlingRunner {
   @NonNull RuntimeClient runtime;
   @NonNull CommandService commands;
   @NonNull ContainerProperties container;
-  @NonNull GatlingExecutionProperties gatling;
+  @NonNull GatlingProperties gatling;
   @NonNull Supplier<Command> newCommand;
 
   @PostConstruct

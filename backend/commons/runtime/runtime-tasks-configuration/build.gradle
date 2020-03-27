@@ -3,9 +3,8 @@ dependencies {
     implementation project(':commons:runtime:runtime-tasks-configuration-entity')
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:storage:storage-client')
-    implementation project(':commons:runtime:runtime-server-properties')
+    implementation project(':commons:runtime:runtime-properties-server')
 
     testImplementation project(':commons:tools:configuration')
-    testImplementation project(path: ':commons:runtime:runtime-server-properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-tasks-configuration-entity', configuration: 'testArtifacts')
 }

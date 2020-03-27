@@ -1,8 +1,7 @@
 package com.kraken.runtime.tasks.configuration;
 
-import com.kraken.runtie.server.properties.KrakentServerPropertiesTest;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.runtime.server.properties.ImmutableRuntimeServerProperties;
+import com.kraken.runtime.server.properties.ServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfigurationTest;
@@ -16,26 +15,26 @@ import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SpringTaskConfigurationServiceTest {
   @Mock
   StorageClient storageClient;
-
-
-  ImmutableRuntimeServerProperties serverProperties;
+  @Mock
+  ServerProperties serverProperties;
 
   SpringTaskConfigurationService service;
 
   @Before
   public void before() {
-    serverProperties = KrakentServerPropertiesTest.RUNTIME_SERVER_PROPERTIES;
+    when(serverProperties.getConfigPath()).thenReturn("configPath");
     service = new SpringTaskConfigurationService(serverProperties, storageClient);
   }
 
   @Test
   public void shouldReturnTasksConfiguration() {
-    given(storageClient.getYamlContent(serverProperties.getConfigurationPath(), TasksConfiguration.class)).willReturn(Mono.just(TasksConfigurationTest.TASKS_CONFIGURATION));
+    given(storageClient.getYamlContent(serverProperties.getConfigPath(), TasksConfiguration.class)).willReturn(Mono.just(TasksConfigurationTest.TASKS_CONFIGURATION));
     final var result = service.getConfiguration(TaskType.GATLING_RUN).block();
     assertThat(result).isNotNull();
     assertThat(result).isEqualTo(TaskConfigurationTest.TASK_CONFIGURATION);

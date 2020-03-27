@@ -60,7 +60,7 @@ public class GatlingParserTest {
   @Before
   public void before() {
     when(gatling.getHome()).thenReturn(".");
-    when(gatling.getDebugLog()).thenReturn(".");
+    when(gatling.getLogs().getDebug()).thenReturn(".");
     container = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     parser = new GatlingParser(logParser,
         runtimeClient,

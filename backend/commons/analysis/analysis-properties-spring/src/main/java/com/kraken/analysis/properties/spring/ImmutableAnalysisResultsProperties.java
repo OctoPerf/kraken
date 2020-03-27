@@ -1,6 +1,7 @@
 package com.kraken.analysis.properties.spring;
 
 import com.kraken.analysis.properties.api.AnalysisResultsProperties;
+import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 @Value
 @Builder
 @ConstructorBinding
+@ExcludeFromObfuscation
 @ConfigurationProperties("kraken.analysis.results")
 public class ImmutableAnalysisResultsProperties implements AnalysisResultsProperties {
   @NonNull

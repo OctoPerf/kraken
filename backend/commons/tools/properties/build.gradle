@@ -1,6 +1,0 @@
-dependencies {
-    implementation project(':commons:tools:environment')
-    implementation project(':commons:tools:obfuscation')
-
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
-}

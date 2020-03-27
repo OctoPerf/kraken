@@ -6,7 +6,6 @@ dependencies {
     implementation project(':commons:runtime:runtime-context-entity')
 
     testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 }

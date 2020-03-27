@@ -53,7 +53,7 @@ class GatlingParser {
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
-    final var parse = writer.write(parser.parse(Paths.get(gatling.getDebugLog())));
+    final var parse = writer.write(parser.parse(Paths.get(gatling.getLogs().getDebug())));
     final var setStatusDone = runtimeClient.setStatus(me, ContainerStatus.DONE);
 
     setStatusReady.block();

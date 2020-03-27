@@ -5,7 +5,7 @@ import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -20,7 +20,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class KrakenVersionPublisher implements EnvironmentPublisher {
 
-  @NonNull KrakenProperties kraken;
+  @NonNull ApplicationProperties kraken;
 
   @Override
   public boolean test(final TaskType taskType) {

@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -20,7 +20,7 @@ import static java.nio.file.Paths.get;
 final class PathToStorageNode implements Function<Path, StorageNode> {
 
   @NonNull
-  KrakenProperties kraken;
+  ApplicationProperties kraken;
 
   @Override
   public StorageNode apply(final Path path) {

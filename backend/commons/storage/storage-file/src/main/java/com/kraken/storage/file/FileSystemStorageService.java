@@ -1,8 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.KrakenProperties;
-import lombok.AccessLevel;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -31,6 +30,8 @@ import java.util.zip.ZipOutputStream;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
 import static org.zeroturnaround.zip.ZipUtil.unpack;
 import static reactor.core.publisher.Flux.error;
@@ -40,13 +41,11 @@ import static reactor.core.publisher.Mono.just;
 
 @Slf4j
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 final class FileSystemStorageService implements StorageService {
-
   @NonNull
-  KrakenProperties kraken;
-
+  ApplicationProperties kraken;
   @NonNull
   Function<Path, StorageNode> toStorageNode;
 

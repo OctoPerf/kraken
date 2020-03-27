@@ -4,7 +4,7 @@ import com.google.common.base.Charsets;
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class FileSystemStorageWatcherServiceIntegrationTest {
   @Autowired
   StorageWatcherService service;
   @Autowired
-  KrakenProperties krakenProperties;
+  ApplicationProperties krakenProperties;
 
   @Test
   public void shouldWatchTestDir() throws IOException, InterruptedException {

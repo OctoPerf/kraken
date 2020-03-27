@@ -13,11 +13,10 @@ dependencies {
     implementation project(':commons:parser:debug-entry-writer')
 
     implementation project(':commons:tools:obfuscation')
-    implementation project(':commons:tools:properties')
+    implementation project(':commons:tools:properties-kraken')
 
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:tools:properties', configuration: 'testArtifacts')
 }

@@ -10,7 +10,7 @@ import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.properties.KrakenProperties;
+import com.kraken.tools.properties.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -36,7 +36,7 @@ class HarParserService {
   @NonNull DebugEntryWriter writer;
   @NonNull ContainerProperties container;
   @NonNull HarParserProperties harParser;
-  @NonNull KrakenProperties kraken;
+  @NonNull ApplicationProperties kraken;
 
   @PostConstruct
   public void init() {
