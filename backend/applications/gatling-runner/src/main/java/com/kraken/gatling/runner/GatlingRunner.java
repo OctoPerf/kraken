@@ -7,7 +7,7 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
-import com.kraken.runtime.gatling.GatlingExecutionProperties;
+import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
 import com.kraken.storage.client.StorageClient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static com.google.common.base.Strings.nullToEmpty;
 import static java.nio.file.Paths.get;
 
 @Slf4j
@@ -42,9 +43,9 @@ final class GatlingRunner {
     final var me = findMe.block();
     final var setStatusFailed = runtime.setFailedStatus(me);
     final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storage.downloadFolder(get(gatling.getLocalConf()), gatling.getRemoteConf());
-    final var downloadUserFiles = storage.downloadFolder(get(gatling.getLocalUserFiles()), gatling.getRemoteUserFiles());
-    final var downloadLib = storage.downloadFolder(get(gatling.getLocalLib()), gatling.getRemoteLib());
+    final var downloadConfiguration = storage.downloadFolder(get(gatling.getConf().getLocal()), getRemoteConf());
+    final var downloadUserFiles = storage.downloadFolder(get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote());
+    final var downloadLib = storage.downloadFolder(get(gatling.getLib().getLocal()), gatling.getLib().getRemote());
     final var setStatusReady = runtime.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commands.execute(Command.builder()
@@ -57,8 +58,8 @@ final class GatlingRunner {
     final var setStatusStopping = runtime.setStatus(me, ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtime.waitForStatus(me, ContainerStatus.STOPPING);
     final var uploadResult = storage.uploadFile(
-        get(gatling.getLocalResult()),
-      get(gatling.getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
+        get(gatling.getResults().getLocal()),
+      get(getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
     );
     final var setStatusDone = runtime.setStatus(me, ContainerStatus.DONE);
 
@@ -85,4 +86,11 @@ final class GatlingRunner {
     setStatusDone.block();
   }
 
+  private String getRemoteResult() {
+    return get(nullToEmpty(gatling.getResults().getRemote())).resolve(container.getTaskId()).toString();
+  }
+
+  private String getRemoteConf() {
+    return get(nullToEmpty(gatling.getConf().getRemote())).resolve(container.getTaskType().toString()).toString();
+  }
 }

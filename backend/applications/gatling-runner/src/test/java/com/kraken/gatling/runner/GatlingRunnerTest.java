@@ -12,8 +12,8 @@ import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.gatling.GatlingExecutionProperties;
-import com.kraken.runtime.gatling.ImmutableGatlingExecutionPropertiesTest;
+import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
+import com.kraken.runtime.gatling.api.GatlingLocalRemote;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
@@ -31,8 +31,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.kraken.runtime.entity.task.FlatContainerTest.CONTAINER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GatlingRunnerTest {
@@ -46,15 +45,25 @@ public class GatlingRunnerTest {
   @Mock
   Supplier<Command> commandSupplier;
   RuntimeContainerProperties containerProperties;
+
+  @Mock
   GatlingExecutionProperties gatling;
+  @Mock
+  GatlingLocalRemote gatlingLocalRemote;
 
   GatlingRunner runner;
 
   @Before
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
+    when(gatling.getHome()).thenReturn("gatlingHome");
+    when(gatling.getConf()).thenReturn(gatlingLocalRemote);
+    when(gatling.getUserFiles()).thenReturn(gatlingLocalRemote);
+    when(gatling.getLib()).thenReturn(gatlingLocalRemote);
+    when(gatling.getResults()).thenReturn(gatlingLocalRemote);
+    when(gatlingLocalRemote.getLocal()).thenReturn("local");
+    when(gatlingLocalRemote.getRemote()).thenReturn("remote");
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatling = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
     runner = new GatlingRunner(storageClient,
         runtimeClient,
         commandService,

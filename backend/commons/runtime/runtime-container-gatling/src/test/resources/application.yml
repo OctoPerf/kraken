@@ -1,30 +1,36 @@
 kraken:
   runtime:
     url: http://localhost:8082
-    task:
-      id: taskId
-      type: RUN
-    container:
-      id: containerId
+    task-id: taskId
+    task-type: GATLING_RUN
+    container-name: containerId
+    host-id: hostId
   storage:
     url: http://localhost:8080
   gatling:
     home: /home/ubuntu/softs/gatling
-    simulation: computerdatabase.BasicSimulation
-    simulation-class: BasicSimulation
-    simulation-package: computerdatabase
-    description: Dev test
     bin: ${kraken.gatling.home}/bin
+    description: Dev test
     java-opts: -Dfoo="bar"
-    har-path-local: ${kraken.gatling.home}/import.har
-    har-path-remote: /path/to/har
-    local-conf: ${kraken.gatling.home}/conf
-    remote-conf: gatling/conf
-    local-user-files: ${kraken.gatling.home}/user-files
-    remote-user-file: gatling/user-files
-    local-lib: ${kraken.gatling.home}/lib
-    remote-lib: gatling/lib
-    local-result: ${kraken.gatling.home}/results
-    remote-result: gatling/results
-    info-log: ${kraken.gatling.result.local}/info.log
-    debug-log: ${kraken.gatling.result.local}/debug.log
+    simulation:
+      name: computerdatabase.BasicSimulation
+      class-name: BasicSimulation
+      package-name: computerdatabase
+    har-path:
+      local: ${kraken.gatling.home}/import.har
+      remote: /path/to/har
+    conf:
+      local: ${kraken.gatling.home}/conf
+      remote: gatling/conf
+    user-files:
+      local: ${kraken.gatling.home}/user-files
+      remote: gatling/user-files
+    lib:
+      local: ${kraken.gatling.home}/lib
+      lib: gatling/lib
+    results:
+      local: ${kraken.gatling.home}/results
+      remote: gatling/results
+    logs:
+      info: ${kraken.gatling.result.local}/info.log
+      debug: ${kraken.gatling.result.local}/debug.log

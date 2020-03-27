@@ -7,7 +7,7 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.properties.RuntimeContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
-import com.kraken.runtime.gatling.GatlingExecutionProperties;
+import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeType;
@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static com.google.common.base.Strings.nullToEmpty;
 import static java.nio.file.Paths.get;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
@@ -45,56 +46,60 @@ final class GatlingRecorder {
     final var me = findMe.block();
     final var setStatusFailed = runtime.setFailedStatus(me);
     final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storage.downloadFolder(get(gatling.getLocalConf()), gatling.getRemoteConf());
-    final var downloadHAR = storage.downloadFile(get(gatling.getLocalHarPath()), gatling.getRemoteHarPath());
+    final var downloadConfiguration = storage.downloadFolder(get(gatling.getConf().getLocal()), getRemoteConf());
+    final var downloadHAR = storage.downloadFile(get(gatling.getHarPath().getLocal()), gatling.getHarPath().getRemote());
     final var setStatusReady = runtime.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commands.execute(Command.builder()
-        .path(gatling.getHome())
-        .command(ImmutableList.of("ls", "-lR"))
-        .environment(ImmutableMap.of())
-        .build());
+      .path(gatling.getHome())
+      .command(ImmutableList.of("ls", "-lR"))
+      .environment(ImmutableMap.of())
+      .build());
     final var setStatusRunning = runtime.setStatus(me, ContainerStatus.RUNNING);
     final var startGatling = commands.execute(newCommands.get());
     final var setStatusStopping = runtime.setStatus(me, ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtime.waitForStatus(me, ContainerStatus.STOPPING);
-    final var uploadSimulation = storage.uploadFile(get(gatling.getLocalUserFiles()), gatling.getRemoteUserFiles());
+    final var uploadSimulation = storage.uploadFile(get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote());
     final var setStatusDone = runtime.setStatus(me, ContainerStatus.DONE);
 
     setStatusPreparing.block();
     downloadConfiguration
-        .onErrorResume(throwable -> setStatusFailed.then())
-        .block();
+      .onErrorResume(throwable -> setStatusFailed.then())
+      .block();
     downloadHAR
-        .onErrorResume(throwable -> setStatusFailed.then())
-        .block();
+      .onErrorResume(throwable -> setStatusFailed.then())
+      .block();
     setStatusReady.block();
     waitForStatusReady.map(Object::toString).block();
     Optional.ofNullable(listFiles
-        .doOnError(t -> log.error("Failed to list files", t))
-        .collectList()
-        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
-        .block()).orElse(Collections.emptyList()).forEach(log::info);
+      .doOnError(t -> log.error("Failed to list files", t))
+      .collectList()
+      .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
+      .block()).orElse(Collections.emptyList()).forEach(log::info);
     setStatusRunning.block();
     startGatling
-        .doOnError(t -> log.error("Failed to start gatling", t))
-        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to start gatling"))
-        .doOnNext(log::info).blockLast();
+      .doOnError(t -> log.error("Failed to start gatling", t))
+      .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to start gatling"))
+      .doOnNext(log::info).blockLast();
     setStatusStopping.block();
     waitForStatusStopping.block();
     uploadSimulation
-        .doOnError(t -> log.error("Failed to upload simulation", t))
-        .onErrorResume(throwable -> setStatusFailed.map(s -> StorageNode.builder()
-            .path("Failed")
-            .depth(0)
-            .lastModified(0L)
-            .length(0L)
-            .type(StorageNodeType.NONE)
-            .build()))
-        .block();
+      .doOnError(t -> log.error("Failed to upload simulation", t))
+      .onErrorResume(throwable -> setStatusFailed.map(s -> StorageNode.builder()
+        .path("Failed")
+        .depth(0)
+        .lastModified(0L)
+        .length(0L)
+        .type(StorageNodeType.NONE)
+        .build()))
+      .block();
     setStatusDone.map(Object::toString)
-        .doOnError(t -> log.error("Failed to set status DONE", t))
-        .doOnNext(log::info).block();
+      .doOnError(t -> log.error("Failed to set status DONE", t))
+      .doOnNext(log::info).block();
   }
 
+  private String getRemoteConf() {
+    return get(nullToEmpty(gatling.getConf().getRemote()))
+      .resolve(container.getTaskType().toString()).toString();
+  }
 }

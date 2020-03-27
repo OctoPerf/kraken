@@ -3,7 +3,7 @@ package com.kraken.gatling.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.command.Command;
-import com.kraken.runtime.gatling.GatlingExecutionProperties;
+import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -26,15 +26,15 @@ final class CommandSupplier implements Supplier<Command> {
     return Command.builder()
         .path(gatling.getBin())
         .environment(ImmutableMap.of(
-          KRAKEN_GATLING_INFOLOG, gatling.getInfoLog(),
-          KRAKEN_GATLING_DEBUGLOG, gatling.getDebugLog(),
+          KRAKEN_GATLING_LOGS_INFO, gatling.getLogs().getInfo(),
+          KRAKEN_GATLING_LOGS_DEBUG, gatling.getLogs().getDebug(),
             JAVA_OPTS, gatling.getJavaOpts())
         )
         .command(ImmutableList.of(
             "./gatling.sh",
-            "-s", gatling.getSimulation(),
+            "-s", gatling.getSimulation().getName(),
             "-rd", gatling.getDescription(),
-            "-rf", gatling.getLocalResult()))
+            "-rf", gatling.getResults().getLocal()))
         .build();
   }
 }

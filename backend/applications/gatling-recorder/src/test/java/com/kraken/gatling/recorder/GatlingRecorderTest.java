@@ -12,8 +12,8 @@ import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.gatling.GatlingExecutionProperties;
-import com.kraken.runtime.gatling.ImmutableGatlingExecutionPropertiesTest;
+import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
+import com.kraken.runtime.gatling.api.GatlingLocalRemote;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.storage.entity.StorageNodeTest;
 import org.junit.Before;
@@ -32,6 +32,7 @@ import static com.kraken.runtime.entity.task.FlatContainerTest.CONTAINER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GatlingRecorderTest {
@@ -45,15 +46,24 @@ public class GatlingRecorderTest {
   @Mock
   Supplier<Command> commandSupplier;
   RuntimeContainerProperties containerProperties;
+
+  @Mock
   GatlingExecutionProperties gatling;
+  @Mock
+  GatlingLocalRemote gatlingLocalRemote;
 
   GatlingRecorder recorder;
 
   @Before
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
+    when(gatling.getHome()).thenReturn("gatlingHome");
+    when(gatling.getConf()).thenReturn(gatlingLocalRemote);
+    when(gatling.getHarPath()).thenReturn(gatlingLocalRemote);
+    when(gatling.getUserFiles()).thenReturn(gatlingLocalRemote);
+    when(gatlingLocalRemote.getLocal()).thenReturn("local");
+    when(gatlingLocalRemote.getRemote()).thenReturn("remote");
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatling = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
     recorder = new GatlingRecorder(storageClient,
         runtimeClient,
         commandService,
