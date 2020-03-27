@@ -6,7 +6,6 @@ dependencies {
     implementation project(':commons:runtime:runtime-command')
     implementation project(':commons:storage:storage-client')
     implementation project(':commons:tools:reactor-utils')
-    implementation project(':commons:tools:obfuscation')
 
     testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')

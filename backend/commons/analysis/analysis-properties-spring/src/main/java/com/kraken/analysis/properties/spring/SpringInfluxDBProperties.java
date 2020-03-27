@@ -1,7 +1,6 @@
 package com.kraken.analysis.properties.spring;
 
 import com.kraken.analysis.properties.api.InfluxDBProperties;
-import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -11,7 +10,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Value
 @Builder
 @ConstructorBinding
-@ExcludeFromObfuscation
 @ConfigurationProperties("kraken.influxdb")
 final class SpringInfluxDBProperties implements InfluxDBProperties {
   @NonNull String url;

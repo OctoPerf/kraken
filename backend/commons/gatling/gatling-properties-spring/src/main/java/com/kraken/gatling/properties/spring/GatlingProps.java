@@ -3,7 +3,6 @@ package com.kraken.gatling.properties.spring;
 import com.kraken.gatling.properties.api.GatlingLog;
 import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.gatling.properties.api.GatlingSimulation;
-import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import com.kraken.tools.properties.api.LocalRemoteProperties;
 import lombok.Builder;
 import lombok.Value;
@@ -19,7 +18,6 @@ import static java.util.Optional.ofNullable;
 @Value
 @Builder
 @ConstructorBinding
-@ExcludeFromObfuscation
 @ConfigurationProperties("kraken.gatling")
 final class GatlingProps implements GatlingProperties {
   String home;
