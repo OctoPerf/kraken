@@ -42,7 +42,7 @@ git-help:
 git-pull:
 	git checkout $(BRANCH)
 	git fetch --progress --prune --recurse-submodules=no origin
-	git pull
+	git pull origin $(BRANCH)
 	git submodule update
 	$(MAKE) git-pull-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
 	$(MAKE) git-pull-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
@@ -52,7 +52,7 @@ git-pull:
 git-pull-submodule:
 	cd $(SUBMODULE);git checkout $(BRANCH)
 	cd $(SUBMODULE);git fetch --progress --prune --recurse-submodules=no origin
-	cd $(SUBMODULE);git pull
+	cd $(SUBMODULE);git pull origin $(BRANCH)
 
 git-push:
 	git push origin $(BRANCH)
