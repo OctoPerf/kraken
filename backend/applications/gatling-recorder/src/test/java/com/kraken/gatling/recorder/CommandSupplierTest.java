@@ -24,8 +24,8 @@ public class CommandSupplierTest {
   public void shouldConvert() {
     assertThat(commandSupplier.get()).isEqualTo(Command.builder()
         .path("gatlingBin")
-        .environment(ImmutableMap.of(KRAKEN_GATLING_RESULT_INFO_LOG, "infoLog",
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, "debugLog",
+        .environment(ImmutableMap.of(KRAKEN_GATLING_INFOLOG, "infoLog",
+          KRAKEN_GATLING_DEBUGLOG, "debugLog",
             JAVA_OPTS, "-Dfoo=\"bar\""))
         .command(of(
             "./recorder.sh",

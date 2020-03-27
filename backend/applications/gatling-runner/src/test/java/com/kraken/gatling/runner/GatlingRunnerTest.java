@@ -46,7 +46,7 @@ public class GatlingRunnerTest {
   @Mock
   Supplier<Command> commandSupplier;
   RuntimeContainerProperties containerProperties;
-  GatlingExecutionProperties gatlingExecutionProperties;
+  GatlingExecutionProperties gatling;
 
   GatlingRunner runner;
 
@@ -54,12 +54,12 @@ public class GatlingRunnerTest {
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatlingExecutionProperties = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
+    gatling = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
     runner = new GatlingRunner(storageClient,
         runtimeClient,
         commandService,
         containerProperties,
-        gatlingExecutionProperties,
+      gatling,
         commandSupplier);
   }
 
@@ -82,7 +82,7 @@ public class GatlingRunnerTest {
     verify(storageClient, times(3)).downloadFolder(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
-        .path(gatlingExecutionProperties.getGatlingHome().toString())
+        .path(gatling.getHome())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());

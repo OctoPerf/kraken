@@ -23,20 +23,20 @@ final class CommandSupplier implements Supplier<Command> {
   @Override
   public Command get() {
     return Command.builder()
-        .path(gatling.getGatlingBin().toString())
-        .environment(ImmutableMap.of(
-            KRAKEN_GATLING_RESULT_INFO_LOG, gatling.getInfoLog().toString(),
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, gatling.getDebugLog().toString(),
-            JAVA_OPTS, gatling.getJavaOpts())
-        )
-        .command(ImmutableList.of(
-            "./recorder.sh",
-            "--headless", "true",
-            "--mode", "Har",
-            "--har-file", gatling.getLocalHarPath().toString(),
-            "--package", gatling.getSimulationPackage(),
-            "--class-name", gatling.getSimulationClass()
-        ))
-        .build();
+      .path(gatling.getBin())
+      .environment(ImmutableMap.of(
+        KRAKEN_GATLING_INFOLOG, gatling.getInfoLog(),
+        KRAKEN_GATLING_DEBUGLOG, gatling.getDebugLog(),
+        JAVA_OPTS, gatling.getJavaOpts())
+      )
+      .command(ImmutableList.of(
+        "./recorder.sh",
+        "--headless", "true",
+        "--mode", "Har",
+        "--har-file", gatling.getLocalHarPath(),
+        "--package", gatling.getSimulationPackage(),
+        "--class-name", gatling.getSimulationClass()
+      ))
+      .build();
   }
 }

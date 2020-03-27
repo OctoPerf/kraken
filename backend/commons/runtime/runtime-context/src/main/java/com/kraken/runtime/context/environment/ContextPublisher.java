@@ -26,10 +26,10 @@ class ContextPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_ID).value(context.getTaskId()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASKID).value(context.getTaskId()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_DESCRIPTION).value(context.getDescription()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_APPLICATION_ID).value(context.getApplicationId()).build(),
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASK_TYPE).value(context.getTaskType().toString()).build(),
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_TASKTYPE).value(context.getTaskType().toString()).build(),
         ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_EXPECTED_COUNT).value(context.getContainersCount().toString()).build()
     ));
   }

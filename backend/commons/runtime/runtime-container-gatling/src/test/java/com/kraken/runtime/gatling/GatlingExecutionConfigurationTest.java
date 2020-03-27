@@ -16,15 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class GatlingExecutionConfigurationTest {
-
   @Autowired
   GatlingExecutionProperties properties;
 
   @Test
   public void shouldCreateProperties() {
-    assertThat(properties.getGatlingHome()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling"));
-    assertThat(properties.getGatlingBin()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling/bin"));
+    assertThat(properties.getHome()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling"));
+    assertThat(properties.getBin()).isEqualTo(Paths.get("/home/ubuntu/softs/gatling/bin"));
   }
 }
-
-

@@ -10,9 +10,9 @@ import static org.junit.Assert.assertNotNull;
 public class ImmutableGatlingExecutionPropertiesTest {
 
   public static final GatlingExecutionProperties GATLING_PROPERTIES = ImmutableGatlingExecutionProperties.builder()
-    .containerProperties(RUNTIME_PROPERTIES)
-    .gatlingHome("gatlingHome")
-    .gatlingBin("gatlingBin")
+    .container(RUNTIME_PROPERTIES)
+    .home("gatlingHome")
+    .bin("gatlingBin")
     .localUserFiles("localUserFiles")
     .localConf("localConf")
     .localLib("localLib")

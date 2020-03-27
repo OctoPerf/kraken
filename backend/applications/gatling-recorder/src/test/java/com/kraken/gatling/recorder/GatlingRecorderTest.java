@@ -45,7 +45,7 @@ public class GatlingRecorderTest {
   @Mock
   Supplier<Command> commandSupplier;
   RuntimeContainerProperties containerProperties;
-  GatlingExecutionProperties gatlingExecutionProperties;
+  GatlingExecutionProperties gatling;
 
   GatlingRecorder recorder;
 
@@ -53,12 +53,12 @@ public class GatlingRecorderTest {
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
-    gatlingExecutionProperties = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
+    gatling = ImmutableGatlingExecutionPropertiesTest.GATLING_PROPERTIES;
     recorder = new GatlingRecorder(storageClient,
         runtimeClient,
         commandService,
         containerProperties,
-        gatlingExecutionProperties,
+      gatling,
         commandSupplier);
   }
 
@@ -84,7 +84,7 @@ public class GatlingRecorderTest {
     verify(storageClient).downloadFile(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
-        .path(gatlingExecutionProperties.getGatlingHome().toString())
+        .path(gatling.getHome())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());

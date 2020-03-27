@@ -14,7 +14,7 @@ class JavaOptsChecker implements EnvironmentChecker {
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(environment,
-        KRAKEN_GATLING_JAVA_OPTS);
+      KRAKEN_GATLING_JAVAOPTS);
   }
 
   @Override

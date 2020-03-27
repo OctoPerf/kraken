@@ -30,7 +30,7 @@ class KrakenVersionPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_VERSION).value(server.getVersion()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_RUNTIME_VERSION).value(server.getVersion()).build()
     ));
   }
 }

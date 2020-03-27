@@ -35,7 +35,7 @@ public class JavaOptsCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_JAVA_OPTS, "value")
+        .put(KRAKEN_GATLING_JAVAOPTS, "value")
         .build();
     checker.accept(env);
   }

@@ -10,17 +10,12 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
-import reactor.util.function.Tuples;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
@@ -71,7 +66,7 @@ class JavaOptsPublisher implements EnvironmentPublisher {
     return ExecutionEnvironmentEntry.builder()
         .from(USER)
         .scope(hostId)
-        .key(KRAKEN_GATLING_JAVA_OPTS)
+        .key(KRAKEN_GATLING_JAVAOPTS)
         .value(entries
             .stream()
             .map(entry -> String.format("-D%s=%s", entry.getKey(), entry.getValue()))

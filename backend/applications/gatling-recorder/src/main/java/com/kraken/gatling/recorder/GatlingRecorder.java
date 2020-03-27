@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static java.nio.file.Paths.get;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -44,12 +45,12 @@ final class GatlingRecorder {
     final var me = findMe.block();
     final var setStatusFailed = runtime.setFailedStatus(me);
     final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storage.downloadFolder(gatling.getLocalConf(), gatling.getRemoteConf());
-    final var downloadHAR = storage.downloadFile(gatling.getLocalHarPath(), gatling.getRemoteHarPath());
+    final var downloadConfiguration = storage.downloadFolder(get(gatling.getLocalConf()), gatling.getRemoteConf());
+    final var downloadHAR = storage.downloadFile(get(gatling.getLocalHarPath()), gatling.getRemoteHarPath());
     final var setStatusReady = runtime.setStatus(me, ContainerStatus.READY);
     final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
     final var listFiles = commands.execute(Command.builder()
-        .path(gatling.getGatlingHome().toString())
+        .path(gatling.getHome())
         .command(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
@@ -57,7 +58,7 @@ final class GatlingRecorder {
     final var startGatling = commands.execute(newCommands.get());
     final var setStatusStopping = runtime.setStatus(me, ContainerStatus.STOPPING);
     final var waitForStatusStopping = runtime.waitForStatus(me, ContainerStatus.STOPPING);
-    final var uploadSimulation = storage.uploadFile(gatling.getLocalUserFiles(), gatling.getRemoteUserFiles());
+    final var uploadSimulation = storage.uploadFile(get(gatling.getLocalUserFiles()), gatling.getRemoteUserFiles());
     final var setStatusDone = runtime.setStatus(me, ContainerStatus.DONE);
 
     setStatusPreparing.block();

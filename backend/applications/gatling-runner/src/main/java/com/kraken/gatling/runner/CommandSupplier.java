@@ -19,22 +19,22 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class CommandSupplier implements Supplier<Command> {
-  @NonNull GatlingExecutionProperties properties;
+  @NonNull GatlingExecutionProperties gatling;
 
   @Override
   public Command get() {
     return Command.builder()
-        .path(properties.getGatlingBin().toString())
+        .path(gatling.getBin())
         .environment(ImmutableMap.of(
-            KRAKEN_GATLING_RESULT_INFO_LOG, properties.getInfoLog().toString(),
-            KRAKEN_GATLING_RESULT_DEBUG_LOG, properties.getDebugLog().toString(),
-            JAVA_OPTS, properties.getJavaOpts())
+          KRAKEN_GATLING_INFOLOG, gatling.getInfoLog(),
+          KRAKEN_GATLING_DEBUGLOG, gatling.getDebugLog(),
+            JAVA_OPTS, gatling.getJavaOpts())
         )
         .command(ImmutableList.of(
             "./gatling.sh",
-            "-s", properties.getSimulation(),
-            "-rd", properties.getDescription(),
-            "-rf", properties.getLocalResult().toString()))
+            "-s", gatling.getSimulation(),
+            "-rd", gatling.getDescription(),
+            "-rf", gatling.getLocalResult()))
         .build();
   }
 }

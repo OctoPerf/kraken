@@ -1,19 +1,18 @@
 package com.kraken.tools.sse;
 
-import com.kraken.tools.environment.KrakenEnvironmentAtValues;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import static java.time.Duration.ofSeconds;
+import static java.util.stream.Collectors.toUnmodifiableList;
 import static lombok.AccessLevel.PRIVATE;
+import static reactor.core.publisher.Flux.interval;
 
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -21,19 +20,30 @@ final class SpringSSEService implements SSEService {
 
   long delay;
 
-  @Autowired
-  SpringSSEService(@Value(KrakenEnvironmentAtValues.$KRAKEN_SSE_KEEP_ALIVE_DELAY) final Long delay) {
+  SpringSSEService(@Value("${kraken.sse.keep-alive:15}") final Long delay) {
+    super();
     this.delay = delay;
   }
 
   @Override
-  public <T> Flux<ServerSentEvent<T>> keepAlive(Flux<T> flux) {
-    return Flux.merge(flux.map(t -> ServerSentEvent.builder(t).build()), Flux.interval(Duration.ofSeconds(this.delay)).map(aLong -> ServerSentEvent.<T>builder().comment("keep alive").build()));
+  public <T> Flux<ServerSentEvent<T>> keepAlive(final Flux<T> flux) {
+    return Flux
+      .merge(
+        flux
+          .map(t -> ServerSentEvent.builder(t).build()), interval(ofSeconds(this.delay))
+          .map(aLong -> ServerSentEvent.<T>builder().comment("keep alive")
+            .build()
+          )
+      );
   }
 
   @Override
   public Flux<SSEWrapper> merge(final Map<String, Flux<? extends Object>> fluxMap) {
-    final List<Flux<SSEWrapper>> asEvents = fluxMap.entrySet().stream().map(entry -> wrap(entry.getKey(), entry.getValue())).collect(Collectors.toUnmodifiableList());
+    final List<Flux<SSEWrapper>> asEvents = fluxMap
+      .entrySet()
+      .stream()
+      .map(entry -> wrap(entry.getKey(), entry.getValue()))
+      .collect(toUnmodifiableList());
     return Flux.merge(asEvents);
   }
 

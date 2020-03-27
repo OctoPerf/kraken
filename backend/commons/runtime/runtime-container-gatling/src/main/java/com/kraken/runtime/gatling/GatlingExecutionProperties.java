@@ -1,24 +1,22 @@
 package com.kraken.runtime.gatling;
 
-import java.nio.file.Path;
-
 public interface GatlingExecutionProperties {
 
-  Path getGatlingHome();
+  String getHome();
 
-  Path getGatlingBin();
+  String getBin();
 
-  Path getLocalUserFiles();
+  String getLocalUserFiles();
 
-  Path getLocalConf();
+  String getLocalConf();
 
-  Path getLocalLib();
+  String getLocalLib();
 
-  Path getLocalResult();
+  String getLocalResult();
 
-  Path getInfoLog();
+  String getInfoLog();
 
-  Path getDebugLog();
+  String getDebugLog();
 
   String getRemoteUserFiles();
 
@@ -28,7 +26,7 @@ public interface GatlingExecutionProperties {
 
   String getRemoteResult();
 
-  Path getLocalHarPath();
+  String getLocalHarPath();
 
   String getRemoteHarPath();
 
