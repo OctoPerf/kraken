@@ -6,7 +6,6 @@ import {ConfigurationModule} from 'projects/commons/src/lib/config/configuration
 import {environment} from 'projects/administration/src/environments/environment';
 import {AppRoutingModule} from 'projects/administration/src/app/app-routing.module';
 import {SecurityModule} from 'projects/security/src/lib/security.module';
-import {RouterProgressComponent} from 'projects/components/src/lib/router-progress/router-progress.component';
 import {RouterProgressModule} from 'projects/components/src/lib/router-progress/router-progress.module';
 import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
 

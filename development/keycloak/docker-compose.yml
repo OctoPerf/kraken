@@ -23,8 +23,10 @@ services:
       DB_PASSWORD: password
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: kraken
+      KEYCLOAK_WELCOME_THEME: kraken
     volumes:
       - ./keycloak/imports:/opt/jboss/keycloak/imports
+      - ./keycloak/themes/kraken:/opt/jboss/keycloak/themes/kraken
     ports:
       - 9080:8080
     expose:
