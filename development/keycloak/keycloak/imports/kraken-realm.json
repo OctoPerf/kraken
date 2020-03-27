@@ -380,6 +380,9 @@
     "enabled" : true,
     "totp" : false,
     "emailVerified" : true,
+    "attributes" : {
+      "current_group" : [ "/default-kraken" ]
+    },
     "credentials" : [ {
       "id" : "8de7ac37-e921-4e0e-bfa0-caed595d0cdf",
       "type" : "password",
@@ -608,6 +611,20 @@
     "fullScopeAllowed" : true,
     "nodeReRegistrationTimeout" : -1,
     "protocolMappers" : [ {
+      "id" : "1f0f2db5-bf9a-46ac-be98-a2fa1f23c498",
+      "name" : "current_group",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usermodel-attribute-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "userinfo.token.claim" : "true",
+        "user.attribute" : "current_group",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "current_group",
+        "jsonType.label" : "String"
+      }
+    }, {
       "id" : "f1bdbef8-8bf5-4d1a-9d23-b73d5e7f9d98",
       "name" : "username",
       "protocol" : "openid-connect",

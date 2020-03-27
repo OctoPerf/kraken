@@ -38,14 +38,14 @@ class JwtConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> 
         .groups(groups.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
         .userId(userId)
         .username(jwt.getClaimAsString("preferred_username"))
-        .currentGroup(Optional.ofNullable(jwt.getClaimAsString("current_group")).orElse(userId))
+        .currentGroup(Optional.ofNullable(jwt.getClaimAsString("current_group")).orElse(""))
         .build();
-    if (!user.getCurrentGroup().equals(user.getUserId()) && !user.getGroups().contains(user.getCurrentGroup())){
+    log.info(user.toString());
+    if (!user.getCurrentGroup().isEmpty() && user.getGroups().stream().noneMatch(group -> group.equals(user.getCurrentGroup()))) {
       return Mono.error(new AuthenticationServiceException("The current_group does not belong to the connected user"));
     }
     final var token = new JwtAuthenticationToken(jwt, authorities);
     token.setDetails(user);
-    log.debug(user.toString());
     return Mono.just(token);
   }
 }
