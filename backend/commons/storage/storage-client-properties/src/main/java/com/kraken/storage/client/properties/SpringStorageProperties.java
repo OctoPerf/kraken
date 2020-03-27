@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 @ConstructorBinding
 @ExcludeFromObfuscation
 @ConfigurationProperties("kraken.storage")
-final class ImmutableStorageClientProperties implements StorageClientProperties {
+final class SpringStorageProperties implements StorageProperties {
   @NonNull
   String url;
 

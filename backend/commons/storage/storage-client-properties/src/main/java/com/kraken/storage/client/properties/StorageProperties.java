@@ -1,7 +1,7 @@
 package com.kraken.storage.client.properties;
 
 @FunctionalInterface
-public interface StorageClientProperties {
+public interface StorageProperties {
 
   String getUrl();
 }

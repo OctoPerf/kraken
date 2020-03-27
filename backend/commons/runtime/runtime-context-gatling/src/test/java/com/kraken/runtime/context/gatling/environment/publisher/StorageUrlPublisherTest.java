@@ -4,7 +4,7 @@ import com.kraken.Application;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.storage.client.properties.StorageClientProperties;
+import com.kraken.storage.client.properties.StorageProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class StorageUrlPublisherTest {
   @Autowired
   StorageUrlPublisher publisher;
   @MockBean
-  StorageClientProperties properties;
+  StorageProperties properties;
 
   @Before
   public void setUp() {

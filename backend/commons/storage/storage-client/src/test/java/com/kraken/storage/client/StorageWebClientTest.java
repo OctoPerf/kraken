@@ -6,7 +6,7 @@ import com.google.common.base.Charsets;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.entity.ResultTest;
-import com.kraken.storage.client.properties.StorageClientProperties;
+import com.kraken.storage.client.properties.StorageProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEventTest;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
@@ -57,7 +57,7 @@ public class StorageWebClientTest {
   ObjectMapper jsonMapper;
 
   @MockBean
-  StorageClientProperties properties;
+  StorageProperties properties;
 
   @Before
   public void before() {

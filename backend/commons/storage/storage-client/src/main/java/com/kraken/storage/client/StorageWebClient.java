@@ -1,7 +1,7 @@
 package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kraken.storage.client.properties.StorageClientProperties;
+import com.kraken.storage.client.properties.StorageProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import lombok.NonNull;
@@ -53,7 +53,7 @@ class StorageWebClient implements StorageClient {
   ObjectMapper yamlMapper;
 
   StorageWebClient(
-    final StorageClientProperties properties,
+    final StorageProperties properties,
     final ObjectMapper mapper,
     @Qualifier("yamlObjectMapper") final ObjectMapper yamlMapper) {
     this.webClient = WebClient

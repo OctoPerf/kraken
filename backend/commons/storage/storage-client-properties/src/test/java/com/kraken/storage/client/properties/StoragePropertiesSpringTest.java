@@ -11,9 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class StorageClientPropertiesSpringTest {
+public class StoragePropertiesSpringTest {
   @Autowired
-  StorageClientProperties properties;
+  StorageProperties properties;
 
   @Test
   public void shouldCreateProperties() {
