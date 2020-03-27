@@ -15,6 +15,7 @@ import {IconModule} from 'projects/icon/src/lib/icon.module';
 import { LazyIfDirective } from './lazy-if.directive';
 import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-overlay-selection/table-overlay-selection.component';
 import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clipboard.directive';
+import {RouterProgressModule} from 'projects/components/src/lib/router-progress/router-progress.module';
 
 @NgModule({
   imports: [
@@ -24,11 +25,11 @@ import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clip
     EventModule,
     ColorModule,
     IconModule,
+    RouterProgressModule,
   ],
   declarations: [
     FullPageComponent,
     LoadingIconComponent,
-    RouterProgressComponent,
     HeaderComponent,
     TableOverlayComponent,
     TableOverlaySelectionComponent,
@@ -40,7 +41,6 @@ import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clip
   exports: [
     FullPageComponent,
     LoadingIconComponent,
-    RouterProgressComponent,
     HeaderComponent,
     TableOverlayComponent,
     TableOverlaySelectionComponent,
@@ -48,6 +48,7 @@ import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clip
     MessageComponent,
     LazyIfDirective,
     CopyToClipboardDirective,
+    RouterProgressModule,
   ],
 })
 export class ComponentsModule {

@@ -13,7 +13,7 @@ import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.p
   ],
   declarations: [PrettyStringPipe, FileSizePipe, MarkdownToHtmlPipe, QueryParamsToStringPipe, PathToNamePipe, PathToParentPathPipe],
   exports: [PrettyStringPipe, FileSizePipe, MarkdownToHtmlPipe, QueryParamsToStringPipe, PathToNamePipe, PathToParentPathPipe],
-  providers: [QueryParamsToStringPipe, PathToNamePipe, PathToParentPathPipe]
+  providers: [PrettyStringPipe, FileSizePipe, MarkdownToHtmlPipe, QueryParamsToStringPipe, PathToNamePipe, PathToParentPathPipe]
 })
 export class ToolsModule {
 }

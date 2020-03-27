@@ -16,6 +16,7 @@ import {RuntimeHostModule} from 'projects/runtime/src/lib/runtime-host/runtime-h
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
+import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.se
     CommonModule,
     WorkspaceRoutingModule,
     ComponentsModule,
+    HighlightModule,
     VendorsModule,
     WorkspacesModule,
     NotificationModule,

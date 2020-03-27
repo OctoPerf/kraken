@@ -9,6 +9,7 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module';
+import {RouterProgressModule} from 'projects/components/src/lib/router-progress/router-progress.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import {HighlightModule} from 'projects/help/src/lib/highlight/highlight.module'
     CoreModule,
     ConfigurationModule.forRoot(environment),
     AppRoutingModule,
-    ComponentsModule,
+    RouterProgressModule,
     HighlightModule,
   ],
   bootstrap: [AppComponent],

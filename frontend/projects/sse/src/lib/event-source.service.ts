@@ -11,7 +11,7 @@ const EventSource = NativeEventSource || EventSourcePolyfill;
 })
 export class EventSourceService {
 
-  constructor(private paramsToString: QueryParamsToStringPipe) {
+  constructor() {
   }
 
   newEventSource(path: string): EventSource {
@@ -26,7 +26,7 @@ export class EventSourceService {
       converter: _.identity,
     });
     return new Observable(observer => {
-      const eventSource = this.newEventSource(path + this.paramsToString.transform(options.params));
+      const eventSource = this.newEventSource(path + new QueryParamsToStringPipe().transform(options.params));
       eventSource.onmessage = event => {
         observer.next(options.converter(event.data));
       };
