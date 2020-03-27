@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class ImmutableClientPropertiesSpringTest {
+public class SpringClientPropertiesSpringTest {
 
   @Autowired
   ClientProperties properties;

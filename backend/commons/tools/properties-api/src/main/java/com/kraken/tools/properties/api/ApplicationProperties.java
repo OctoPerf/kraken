@@ -1,6 +1,4 @@
-package com.kraken.tools.properties;
-
-import com.kraken.tools.properties.api.KrakenProperties;
+package com.kraken.tools.properties.api;
 
 public interface ApplicationProperties extends KrakenProperties {
 

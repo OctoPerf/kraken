@@ -1,12 +1,13 @@
 package com.kraken.analysis.properties.spring;
 
+import com.kraken.analysis.properties.api.GrafanaProperties;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 
 public class GrafanaPropertiesTest {
 
-  public static final ImmutableGrafanaProperties GRAFANA_CLIENT_PROPERTIES = ImmutableGrafanaProperties
+  public static final GrafanaProperties GRAFANA_CLIENT_PROPERTIES = SpringGrafanaProperties
     .builder()
     .url("grafanaUrl")
     .user("grafanaUser")
@@ -17,10 +18,5 @@ public class GrafanaPropertiesTest {
   @Test
   public void shouldPassTestUtils() {
     shouldPassAll(GRAFANA_CLIENT_PROPERTIES);
-  }
-
-  @Test
-  public void shouldPostConstruct() {
-    GRAFANA_CLIENT_PROPERTIES.log();
   }
 }

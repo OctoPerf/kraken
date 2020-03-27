@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class ContainerPropertiesTest {
 
-  public static final ImmutableContainerProperties RUNTIME_PROPERTIES = ImmutableContainerProperties.builder()
+  public static final SpringContainerProperties RUNTIME_PROPERTIES = SpringContainerProperties.builder()
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .name("containerName")
@@ -15,7 +15,6 @@ public class ContainerPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    RUNTIME_PROPERTIES.postConstruct();
     TestUtils.shouldPassAll(RUNTIME_PROPERTIES);
   }
 

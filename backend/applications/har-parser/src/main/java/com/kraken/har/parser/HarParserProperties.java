@@ -1,8 +1,8 @@
 package com.kraken.har.parser;
 
-public interface HarParserProperties {
+import com.kraken.tools.properties.api.KrakenProperties;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
 
-  String getLocal();
+public interface HarParserProperties extends LocalRemoteProperties, KrakenProperties {
 
-  String getRemote();
 }

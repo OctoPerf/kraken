@@ -7,7 +7,7 @@ import static com.kraken.test.utils.TestUtils.shouldPassToString;
 
 public class HarParserPropertiesTest {
 
-  public static final ImmutableHarParserProperties HAR_PROPERTIES = ImmutableHarParserProperties.builder()
+  public static final SpringHarParserProperties HAR_PROPERTIES = SpringHarParserProperties.builder()
       .local("localHarPath")
       .remote("remoteHarPath")
       .build();

@@ -3,7 +3,7 @@ package com.kraken.gatling.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.gatling.properties.api.GatlingLocalRemote;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
 import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
@@ -49,7 +49,7 @@ public class GatlingRunnerTest {
   @Mock
   GatlingProperties gatling;
   @Mock
-  GatlingLocalRemote gatlingLocalRemote;
+  LocalRemoteProperties gatlingLocalRemote;
 
   GatlingRunner runner;
 

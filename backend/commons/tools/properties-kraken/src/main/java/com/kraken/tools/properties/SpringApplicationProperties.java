@@ -1,5 +1,6 @@
 package com.kraken.tools.properties;
 
+import com.kraken.tools.properties.api.ApplicationProperties;
 import lombok.Builder;
 import lombok.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

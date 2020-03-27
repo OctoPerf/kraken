@@ -1,7 +1,7 @@
 package com.kraken.telegraf;
 
-public interface TelegrafProperties {
-  String getLocal();
+import com.kraken.tools.properties.api.KrakenProperties;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
 
-  String getRemote();
+public interface TelegrafProperties extends LocalRemoteProperties, KrakenProperties {
 }

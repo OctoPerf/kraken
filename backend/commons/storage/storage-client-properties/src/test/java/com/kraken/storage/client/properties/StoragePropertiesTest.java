@@ -11,7 +11,6 @@ public class StoragePropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    STORAGE_PROPERTIES.log();
     TestUtils.shouldPassAll(STORAGE_PROPERTIES);
   }
 

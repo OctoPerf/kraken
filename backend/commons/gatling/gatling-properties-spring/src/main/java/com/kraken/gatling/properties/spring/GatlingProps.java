@@ -1,17 +1,14 @@
 package com.kraken.gatling.properties.spring;
 
-import com.kraken.gatling.properties.api.GatlingProperties;
-import com.kraken.gatling.properties.api.GatlingLocalRemote;
 import com.kraken.gatling.properties.api.GatlingLog;
+import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.gatling.properties.api.GatlingSimulation;
 import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
 import lombok.Builder;
 import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-
-import javax.annotation.PostConstruct;
 
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.kraken.gatling.properties.spring.GatlingLocalRemoteProp.DEFAULT_LOCAL_REMOTE;
@@ -19,7 +16,6 @@ import static com.kraken.gatling.properties.spring.GatlingLogProp.DEFAULT_LOG;
 import static com.kraken.gatling.properties.spring.GatlingSimulationProps.DEFAULT_SIMULATION;
 import static java.util.Optional.ofNullable;
 
-@Slf4j
 @Value
 @Builder
 @ConstructorBinding
@@ -30,12 +26,12 @@ final class GatlingProps implements GatlingProperties {
   String bin;
   String description;
   String javaOpts;
-  GatlingLocalRemote conf;
-  GatlingLocalRemote lib;
-  GatlingLocalRemote userFiles;
-  GatlingLocalRemote results;
+  LocalRemoteProperties conf;
+  LocalRemoteProperties lib;
+  LocalRemoteProperties userFiles;
+  LocalRemoteProperties results;
   GatlingLog logs;
-  GatlingLocalRemote harPath;
+  LocalRemoteProperties harPath;
   GatlingSimulation simulation;
 
   GatlingProps(
@@ -43,12 +39,12 @@ final class GatlingProps implements GatlingProperties {
     final String bin,
     final String description,
     final String javaOpts,
-    final GatlingLocalRemote conf,
-    final GatlingLocalRemote lib,
-    final GatlingLocalRemote userFiles,
-    final GatlingLocalRemote results,
+    final LocalRemoteProperties conf,
+    final LocalRemoteProperties lib,
+    final LocalRemoteProperties userFiles,
+    final LocalRemoteProperties results,
     final GatlingLog logs,
-    final GatlingLocalRemote harPath,
+    final LocalRemoteProperties harPath,
     final GatlingSimulation simulation) {
     super();
     this.home = nullToEmpty(home);
@@ -62,11 +58,6 @@ final class GatlingProps implements GatlingProperties {
     this.logs = ofNullable(logs).orElse(DEFAULT_LOG);
     this.harPath = ofNullable(harPath).orElse(DEFAULT_LOCAL_REMOTE);
     this.simulation = ofNullable(simulation).orElse(DEFAULT_SIMULATION);
-  }
-
-  @PostConstruct
-  void log() {
-    log.info(toString());
   }
 }
 

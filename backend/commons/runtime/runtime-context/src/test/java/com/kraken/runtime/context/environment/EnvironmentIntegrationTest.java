@@ -1,14 +1,17 @@
 package com.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.client.properties.ImmutableClientPropertiesTest;
+import com.kraken.runtime.client.properties.ClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.kraken.tools.properties.ApplicationPropertiesTest;
+import com.kraken.tools.properties.api.ApplicationProperties;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -16,11 +19,17 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class EnvironmentIntegrationTest {
 
   List<EnvironmentPublisher> publishers;
   BaseChecker checker;
   ExecutionContextBuilder contextBuilder;
+
+  @Mock
+  ApplicationProperties application;
+  @Mock
+  ClientProperties client;
 
   @Before
   public void before() {
@@ -28,8 +37,8 @@ public class EnvironmentIntegrationTest {
     publishers = ImmutableList.of(
         new ContextPublisher(),
         new HostIdsPublisher(),
-        new KrakenVersionPublisher(ApplicationPropertiesTest.APPLICATION_PROPERTIES),
-        new RuntimeUrlPublisher(ImmutableClientPropertiesTest.RUNTIME_PROPERTIES)
+        new KrakenVersionPublisher(application),
+        new RuntimeUrlPublisher(client)
     );
     checker = new BaseChecker();
   }

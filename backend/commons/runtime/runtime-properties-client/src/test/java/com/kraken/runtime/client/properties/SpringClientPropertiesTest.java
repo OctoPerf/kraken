@@ -5,9 +5,9 @@ import org.junit.Test;
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 import static org.junit.Assert.assertNotNull;
 
-public class ImmutableClientPropertiesTest {
+public class SpringClientPropertiesTest {
 
-  public static final ImmutableClientProperties RUNTIME_PROPERTIES = ImmutableClientProperties.builder()
+  public static final SpringClientProperties RUNTIME_PROPERTIES = SpringClientProperties.builder()
       .url("runtimeUrl")
       .build();
 
@@ -18,7 +18,6 @@ public class ImmutableClientPropertiesTest {
 
   @Test
   public void shouldPostConstruct() {
-    RUNTIME_PROPERTIES.log();
     assertNotNull(RUNTIME_PROPERTIES);
   }
 }

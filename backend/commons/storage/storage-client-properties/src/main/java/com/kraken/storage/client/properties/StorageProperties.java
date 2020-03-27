@@ -1,7 +1,9 @@
 package com.kraken.storage.client.properties;
 
-@FunctionalInterface
-public interface StorageProperties {
+import com.kraken.tools.properties.api.KrakenProperties;
+import com.kraken.tools.properties.api.UrlProperty;
 
-  String getUrl();
+@FunctionalInterface
+public interface StorageProperties extends UrlProperty, KrakenProperties {
+
 }

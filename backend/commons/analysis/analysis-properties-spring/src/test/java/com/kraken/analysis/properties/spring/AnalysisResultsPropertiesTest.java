@@ -1,5 +1,6 @@
 package com.kraken.analysis.properties.spring;
 
+import com.kraken.analysis.properties.api.AnalysisResultsProperties;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -9,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnalysisResultsPropertiesTest {
 
-  public static final ImmutableAnalysisResultsProperties ANALYSIS_PROPERTIES = ImmutableAnalysisResultsProperties.builder()
+  public static final AnalysisResultsProperties ANALYSIS_PROPERTIES = SpringAnalysisResultsProperties.builder()
       .root("resultsRoot")
       .build();
 
@@ -20,7 +21,6 @@ public class AnalysisResultsPropertiesTest {
 
   @Test
   public void shouldReturn() {
-    ANALYSIS_PROPERTIES.log();
     assertThat(ANALYSIS_PROPERTIES.getResultPath("testId")).isEqualTo(Paths.get("resultsRoot", "testId"));
   }
 

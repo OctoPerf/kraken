@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class TelegrafPropertiesTest {
 
-  public static final ImmutableTelegrafProperties TELEGRAF_PROPERTIES = ImmutableTelegrafProperties
+  public static final SpringTelegrafProperties TELEGRAF_PROPERTIES = SpringTelegrafProperties
     .builder()
     .local("localConf")
     .remote("remoteConf")
@@ -13,7 +13,6 @@ public class TelegrafPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TELEGRAF_PROPERTIES.log();
     TestUtils.shouldPassAll(TELEGRAF_PROPERTIES);
   }
 }

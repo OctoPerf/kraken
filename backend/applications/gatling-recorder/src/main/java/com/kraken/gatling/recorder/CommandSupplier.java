@@ -2,7 +2,7 @@ package com.kraken.gatling.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.kraken.gatling.properties.api.GatlingLocalRemote;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
 import com.kraken.gatling.properties.api.GatlingLog;
 import com.kraken.gatling.properties.api.GatlingProperties;
 import com.kraken.gatling.properties.api.GatlingSimulation;
@@ -27,7 +27,7 @@ final class CommandSupplier implements Supplier<Command> {
   public Command get() {
     final GatlingLog logs = gatling.getLogs();
     final GatlingSimulation simulation = gatling.getSimulation();
-    final GatlingLocalRemote harPath = gatling.getHarPath();
+    final LocalRemoteProperties harPath = gatling.getHarPath();
 
     return Command.builder()
       .path(gatling.getBin())

@@ -1,12 +1,13 @@
 package com.kraken.analysis.properties.spring;
 
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 
 public class InfluxDBPropertiesTest {
 
-  public static final ImmutableInfluxDBProperties INFLUX_DB_CLIENT_PROPERTIES = ImmutableInfluxDBProperties.builder()
+  public static final InfluxDBProperties INFLUX_DB_CLIENT_PROPERTIES = SpringInfluxDBProperties.builder()
       .url("influxdbUrl")
       .user("influxdbUser")
       .password("influxdbPassword")
@@ -15,7 +16,6 @@ public class InfluxDBPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    INFLUX_DB_CLIENT_PROPERTIES.log();
     shouldPassAll(INFLUX_DB_CLIENT_PROPERTIES);
   }
 

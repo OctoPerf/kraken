@@ -1,6 +1,9 @@
 package com.kraken.gatling.properties.api;
 
-public interface GatlingProperties {
+import com.kraken.tools.properties.api.KrakenProperties;
+import com.kraken.tools.properties.api.LocalRemoteProperties;
+
+public interface GatlingProperties extends KrakenProperties {
 
   String getHome();
 
@@ -8,15 +11,15 @@ public interface GatlingProperties {
 
   GatlingLog getLogs();
 
-  GatlingLocalRemote getUserFiles();
+  LocalRemoteProperties getUserFiles();
 
-  GatlingLocalRemote getConf();
+  LocalRemoteProperties getConf();
 
-  GatlingLocalRemote getLib();
+  LocalRemoteProperties getLib();
 
-  GatlingLocalRemote getResults();
+  LocalRemoteProperties getResults();
 
-  GatlingLocalRemote getHarPath();
+  LocalRemoteProperties getHarPath();
 
   GatlingSimulation getSimulation();
 

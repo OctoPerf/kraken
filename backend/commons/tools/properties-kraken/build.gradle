@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':commons:tools:properties-api')
+    api project(':commons:tools:properties-api')
 
     implementation project(':commons:tools:environment')
     implementation project(':commons:tools:obfuscation')

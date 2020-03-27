@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(':commons:analysis:analysis-properties-api')
+    api project(':commons:analysis:analysis-properties-api')
     implementation project(':commons:runtime:runtime-entity')
     implementation project(':commons:runtime:runtime-client')
     implementation project(':commons:runtime:runtime-container')

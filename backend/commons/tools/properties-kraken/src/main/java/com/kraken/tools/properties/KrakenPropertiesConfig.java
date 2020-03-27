@@ -1,5 +1,6 @@
-package com.kraken.tools.properties.api;
+package com.kraken.tools.properties;
 
+import com.kraken.tools.properties.api.KrakenProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 

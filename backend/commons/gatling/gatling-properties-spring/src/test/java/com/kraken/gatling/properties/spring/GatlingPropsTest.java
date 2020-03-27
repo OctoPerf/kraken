@@ -22,7 +22,6 @@ public class GatlingPropsTest {
 
   @Test
   public void shouldCreate() {
-    GATLING_PROPERTIES.log();
     assertNotNull(GATLING_PROPERTIES);
   }
 }

@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TestPropertiesConfig.class, ImmutableHarParserProperties.class})
+@SpringBootTest(classes = {TestPropertiesConfig.class, SpringHarParserProperties.class})
 public class HarParserConfigurationTest {
   @Autowired
   HarParserProperties properties;

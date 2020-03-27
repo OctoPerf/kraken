@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {CommandSupplier.class, TestPropertiesConfig.class, ImmutableTelegrafProperties.class})
+@SpringBootTest(classes = {CommandSupplier.class, TestPropertiesConfig.class, SpringTelegrafProperties.class})
 public class CommandSupplierTest {
   @Autowired
   CommandSupplier commandSupplier;

@@ -13,8 +13,7 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.properties.ApplicationProperties;
-import com.kraken.tools.properties.ApplicationPropertiesTest;
+import com.kraken.tools.properties.api.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +29,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @RunWith(MockitoJUnitRunner.class)
@@ -47,15 +47,16 @@ public class HarParserServiceTest {
   HarParser harParser;
   ContainerProperties containerProperties;
   HarParserProperties harParserProperties;
-  ApplicationProperties krakenProperties;
+  @Mock
+  ApplicationProperties application;
 
   HarParserService parser;
 
   @Before
   public void before() {
+    when(application.getData()).thenReturn("data");
     containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     harParserProperties = HarParserPropertiesTest.HAR_PROPERTIES;
-    krakenProperties = ApplicationPropertiesTest.APPLICATION_PROPERTIES;
     parser = new HarParserService(harParser,
         runtimeClient,
         storageClient,
@@ -63,7 +64,7 @@ public class HarParserServiceTest {
         writer,
         containerProperties,
         harParserProperties,
-      krakenProperties);
+      application);
   }
 
   @Test

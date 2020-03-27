@@ -1,6 +1,6 @@
 package com.kraken.storage.configuration;
 
-import com.kraken.tools.properties.ApplicationProperties;
+import com.kraken.tools.properties.api.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

@@ -1,4 +1,4 @@
-package com.kraken.analysis.properties.api;
+package com.kraken.tools.properties.api;
 
 public interface AuthenticationProperties {
 

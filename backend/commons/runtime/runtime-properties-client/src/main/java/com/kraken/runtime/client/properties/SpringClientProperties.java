@@ -1,4 +1,4 @@
-package com.kraken.storage.client.properties;
+package com.kraken.runtime.client.properties;
 
 import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Builder
 @ConstructorBinding
 @ExcludeFromObfuscation
-@ConfigurationProperties("kraken.storage")
-final class SpringStorageProperties implements StorageProperties {
-  @NonNull
-  String url;
+@ConfigurationProperties("kraken.client")
+final class SpringClientProperties implements ClientProperties {
+  @NonNull String url;
 }

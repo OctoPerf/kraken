@@ -48,7 +48,7 @@ public class TelegrafRunnerTest {
 
   ContainerProperties containerProperties;
 
-  ImmutableTelegrafProperties telegrafProperties;
+  SpringTelegrafProperties telegrafProperties;
 
   TelegrafRunner runner;
 

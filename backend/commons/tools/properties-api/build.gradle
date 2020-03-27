@@ -1,5 +1,3 @@
 dependencies {
     implementation project(':commons:tools:obfuscation')
-
-    testImplementation project(':commons:tools:application')
 }
