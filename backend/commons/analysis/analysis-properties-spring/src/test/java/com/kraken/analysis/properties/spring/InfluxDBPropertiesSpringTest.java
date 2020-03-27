@@ -1,7 +1,7 @@
 package com.kraken.analysis.properties.spring;
 
 import com.kraken.Application;
-import com.kraken.analysis.properties.api.GrafanaClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class GrafanaClientPropertiesSpringTest {
+public class InfluxDBPropertiesSpringTest {
+
   @Autowired
-  GrafanaClientProperties properties;
+  InfluxDBProperties properties;
 
   @Test
   public void shouldCreateProperties() {
     assertThat(properties.getUrl()).isNotNull();
   }
+
 }

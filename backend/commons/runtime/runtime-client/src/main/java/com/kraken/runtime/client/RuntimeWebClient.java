@@ -1,7 +1,7 @@
 package com.kraken.runtime.client;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.client.properties.RuntimeClientProperties;
+import com.kraken.runtime.client.properties.ClientProperties;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
@@ -34,7 +34,7 @@ class RuntimeWebClient implements RuntimeClient {
   WebClient webClient;
   AtomicReference<ContainerStatus> lastStatus;
 
-  RuntimeWebClient(final RuntimeClientProperties properties) {
+  RuntimeWebClient(final ClientProperties properties) {
     this.webClient = WebClient
       .builder()
       .baseUrl(properties.getUrl())

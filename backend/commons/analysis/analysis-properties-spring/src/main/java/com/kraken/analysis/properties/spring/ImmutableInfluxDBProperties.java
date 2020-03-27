@@ -1,5 +1,6 @@
-package com.kraken.runtime.client.properties;
+package com.kraken.analysis.properties.spring;
 
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
@@ -15,9 +16,12 @@ import javax.annotation.PostConstruct;
 @Builder
 @ConstructorBinding
 @ExcludeFromObfuscation
-@ConfigurationProperties("kraken.runtime")
-final class ImmutableRuntimeClientProperties implements RuntimeClientProperties {
+@ConfigurationProperties("kraken.influxdb")
+final class ImmutableInfluxDBProperties implements InfluxDBProperties {
   @NonNull String url;
+  @NonNull String user;
+  @NonNull String password;
+  @NonNull String database;
 
   @PostConstruct
   void log() {

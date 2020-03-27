@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 
-public class InfluxDBClientPropertiesTest {
+public class InfluxDBPropertiesTest {
 
-  public static final ImmutableInfluxDBClientProperties INFLUX_DB_CLIENT_PROPERTIES = ImmutableInfluxDBClientProperties.builder()
+  public static final ImmutableInfluxDBProperties INFLUX_DB_CLIENT_PROPERTIES = ImmutableInfluxDBProperties.builder()
       .url("influxdbUrl")
       .user("influxdbUser")
       .password("influxdbPassword")

@@ -2,7 +2,7 @@ package com.kraken.analysis.server.service;
 
 import com.kraken.analysis.entity.*;
 import com.kraken.analysis.properties.api.AnalysisResultsProperties;
-import com.kraken.analysis.properties.api.GrafanaClientProperties;
+import com.kraken.analysis.properties.api.GrafanaProperties;
 import com.kraken.grafana.client.GrafanaClient;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
@@ -45,7 +45,7 @@ public class AnalysisServiceTest {
   @Mock
   AnalysisResultsProperties analysisResults;
   @Mock
-  GrafanaClientProperties grafana;
+  GrafanaProperties grafana;
 
   private AnalysisService service;
 

@@ -3,7 +3,7 @@ package com.kraken.telegraf;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.analysis.properties.api.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import com.kraken.runtime.command.Command;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class CommandSupplierTest {
   @Autowired
   CommandSupplier commandSupplier;
   @MockBean
-  InfluxDBClientProperties properties;
+  InfluxDBProperties properties;
 
   @Before
   public void setUp() {

@@ -1,12 +1,8 @@
 package com.kraken.analysis.properties.api;
 
-public interface InfluxDBClientProperties {
-
-  String getUrl();
+public interface AuthenticationProperties {
 
   String getUser();
 
   String getPassword();
-
-  String getDatabase();
 }

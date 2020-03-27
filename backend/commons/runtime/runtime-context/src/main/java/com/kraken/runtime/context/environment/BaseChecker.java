@@ -19,7 +19,7 @@ class BaseChecker implements EnvironmentChecker {
       KRAKEN_TASKTYPE,
         KRAKEN_EXPECTED_COUNT,
         KRAKEN_APPLICATION_ID,
-        KRAKEN_RUNTIME_URL,
+      KRAKEN_CLIENT_URL,
       KRAKEN_HOSTID);
   }
 

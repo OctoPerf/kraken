@@ -5,9 +5,9 @@ import org.junit.Test;
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 import static org.junit.Assert.assertNotNull;
 
-public class ImmutableRuntimeClientPropertiesTest {
+public class ImmutableClientPropertiesTest {
 
-  public static final ImmutableRuntimeClientProperties RUNTIME_PROPERTIES = ImmutableRuntimeClientProperties.builder()
+  public static final ImmutableClientProperties RUNTIME_PROPERTIES = ImmutableClientProperties.builder()
       .url("runtimeUrl")
       .build();
 

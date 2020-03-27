@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 @Builder
 @ConstructorBinding
 @ExcludeFromObfuscation
-@ConfigurationProperties("kraken.analysis")
+@ConfigurationProperties("kraken.analysis.client")
 final class ImmutableAnalysisClientProperties implements AnalysisClientProperties {
   @NonNull String url;
 

@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.kraken.Application;
-import com.kraken.analysis.properties.api.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ public class InfluxDBClientSpringTest {
   @Autowired
   InfluxDBClient client;
   @MockBean
-  InfluxDBClientProperties properties;
+  InfluxDBProperties properties;
 
   @Before
   public void setUp() {

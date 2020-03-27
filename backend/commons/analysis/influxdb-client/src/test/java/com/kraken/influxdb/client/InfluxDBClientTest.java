@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.google.common.base.Charsets;
-import com.kraken.analysis.properties.api.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -27,7 +27,7 @@ public class InfluxDBClientTest {
   private InfluxDBClient client;
 
   @Mock
-  InfluxDBClientProperties properties;
+  InfluxDBProperties properties;
 
   @Before
   public void before() {

@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.google.common.base.Charsets;
-import com.kraken.analysis.properties.api.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ import static org.springframework.web.reactive.function.BodyInserters.fromFormDa
 class InfluxDBWebClient implements InfluxDBClient {
 
   WebClient client;
-  InfluxDBClientProperties influxdb;
+  InfluxDBProperties influxdb;
 
-  InfluxDBWebClient(final InfluxDBClientProperties properties) {
+  InfluxDBWebClient(final InfluxDBProperties properties) {
     super();
     final var credentials = properties.getUser() + ":" + properties.getPassword();
     final var encoded = Base64.getEncoder().encodeToString(credentials.getBytes(Charsets.UTF_8));

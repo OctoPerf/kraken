@@ -13,12 +13,14 @@ class RecordChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
-    requireEnv(environment,
-      KRAKEN_GATLING_SIMULATIONCLASS,
-      KRAKEN_GATLING_SIMULATIONPACKAGE,
-      KRAKEN_GATLING_HARPATHREMOTE,
-        KRAKEN_ANALYSIS_URL,
-        KRAKEN_STORAGE_URL);
+    requireEnv(
+      environment,
+      KRAKEN_GATLING_SIMULATION_CLASSNAME,
+      KRAKEN_GATLING_SIMULATION_PACKAGENAME,
+      KRAKEN_GATLING_HARPATH_REMOTE,
+      KRAKEN_ANALYSIS_URL,
+      KRAKEN_STORAGE_URL
+    );
   }
 
   @Override

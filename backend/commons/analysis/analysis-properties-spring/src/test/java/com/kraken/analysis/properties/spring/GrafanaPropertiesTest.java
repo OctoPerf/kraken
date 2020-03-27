@@ -4,9 +4,9 @@ import org.junit.Test;
 
 import static com.kraken.test.utils.TestUtils.shouldPassAll;
 
-public class GrafanaClientPropertiesTest {
+public class GrafanaPropertiesTest {
 
-  public static final ImmutableGrafanaClientProperties GRAFANA_CLIENT_PROPERTIES = ImmutableGrafanaClientProperties
+  public static final ImmutableGrafanaProperties GRAFANA_CLIENT_PROPERTIES = ImmutableGrafanaProperties
     .builder()
     .url("grafanaUrl")
     .user("grafanaUser")

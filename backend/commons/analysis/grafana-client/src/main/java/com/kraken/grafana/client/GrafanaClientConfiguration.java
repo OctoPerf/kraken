@@ -1,6 +1,6 @@
 package com.kraken.grafana.client;
 
-import com.kraken.analysis.properties.api.GrafanaClientProperties;
+import com.kraken.analysis.properties.api.GrafanaProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ class GrafanaClientConfiguration {
 
   @Bean("webClientGrafana")
   @Autowired
-  WebClient grafanaWebClient(final GrafanaClientProperties grafana) {
+  WebClient grafanaWebClient(final GrafanaProperties grafana) {
     final var credentials = grafana.getUser() + ":" + grafana.getPassword();
     final var encoded = Base64.getEncoder().encodeToString(credentials.getBytes(UTF_8));
     return WebClient

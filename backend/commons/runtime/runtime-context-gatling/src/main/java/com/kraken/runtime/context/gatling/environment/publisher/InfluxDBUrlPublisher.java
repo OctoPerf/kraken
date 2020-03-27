@@ -1,6 +1,6 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.kraken.analysis.properties.api.InfluxDBClientProperties;
+import com.kraken.analysis.properties.api.InfluxDBProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.task.TaskType;
@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 class InfluxDBUrlPublisher implements EnvironmentPublisher {
 
-  @NonNull InfluxDBClientProperties properties;
+  @NonNull InfluxDBProperties properties;
 
   @Override
   public boolean test(final TaskType taskType) {

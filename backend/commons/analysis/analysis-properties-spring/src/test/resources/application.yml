@@ -1,6 +1,7 @@
 kraken:
   analysis:
-    url: http://localhost:8081
+    client:
+      url: http://localhost:8081
     results:
       root: data
   grafana:

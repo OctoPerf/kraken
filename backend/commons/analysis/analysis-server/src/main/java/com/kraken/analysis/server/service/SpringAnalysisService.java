@@ -5,7 +5,7 @@ import com.kraken.analysis.entity.HttpHeader;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.analysis.properties.api.AnalysisResultsProperties;
-import com.kraken.analysis.properties.api.GrafanaClientProperties;
+import com.kraken.analysis.properties.api.GrafanaProperties;
 import com.kraken.grafana.client.GrafanaClient;
 import com.kraken.influxdb.client.InfluxDBClient;
 import com.kraken.storage.client.StorageClient;
@@ -32,7 +32,7 @@ class SpringAnalysisService implements AnalysisService {
   private static final String RESULT_JSON = "result.json";
 
   @NonNull AnalysisResultsProperties properties;
-  @NonNull GrafanaClientProperties grafana;
+  @NonNull GrafanaProperties grafana;
 
   @NonNull StorageClient storageClient;
   @NonNull GrafanaClient grafanaClient;

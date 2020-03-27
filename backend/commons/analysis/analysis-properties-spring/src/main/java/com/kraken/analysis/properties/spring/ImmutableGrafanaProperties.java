@@ -1,6 +1,6 @@
 package com.kraken.analysis.properties.spring;
 
-import com.kraken.analysis.properties.api.GrafanaClientProperties;
+import com.kraken.analysis.properties.api.GrafanaProperties;
 import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
 @ConstructorBinding
 @ExcludeFromObfuscation
 @ConfigurationProperties(prefix = "kraken.grafana")
-final class ImmutableGrafanaClientProperties implements GrafanaClientProperties {
+final class ImmutableGrafanaProperties implements GrafanaProperties {
   @NonNull String url;
   @NonNull String dashboard;
   @NonNull String user;
