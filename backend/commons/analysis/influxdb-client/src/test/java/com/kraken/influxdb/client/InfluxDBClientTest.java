@@ -33,6 +33,9 @@ public class InfluxDBClientTest {
   public void before() {
     server = new MockWebServer();
     when(properties.getUrl()).thenReturn(server.url("/").toString());
+    when(properties.getDatabase()).thenReturn("influxdbDatabase");
+    when(properties.getUser()).thenReturn("root");
+    when(properties.getPassword()).thenReturn("admin");
     client = new InfluxDBWebClient(properties);
   }
 

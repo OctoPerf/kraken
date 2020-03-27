@@ -18,20 +18,19 @@ import static lombok.AccessLevel.PRIVATE;
 @Slf4j
 @RestController()
 @RequestMapping("/result")
-@FieldDefaults(level = PRIVATE, makeFinal = true)
 @AllArgsConstructor(access = PACKAGE)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 class AnalysisController {
-
   @NonNull
   AnalysisService service;
 
-  @PostMapping()
+  @PostMapping
   public Mono<StorageNode> create(@RequestBody() final Result result) {
     log.info(String.format("Create result %s", result));
     return service.create(result);
   }
 
-  @DeleteMapping()
+  @DeleteMapping
   public Mono<String> delete(@RequestParam("resultId") final String resultId) {
     log.info(String.format("Delete result %s", resultId));
     return service.delete(resultId);

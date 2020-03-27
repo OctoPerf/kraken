@@ -22,14 +22,13 @@ import reactor.core.publisher.Mono;
 import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static com.kraken.test.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {AnalysisController.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(classes = {AnalysisController.class})
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @EnableAutoConfiguration
 public class AnalysisControllerTest {
-
   @Autowired
   WebTestClient webTestClient;
   @MockBean
