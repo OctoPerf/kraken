@@ -6,8 +6,8 @@ import com.kraken.debug.entry.writer.DebugEntryWriter;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
+import com.kraken.runtime.container.properties.ContainerProperties;
+import com.kraken.runtime.container.properties.ContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
@@ -45,7 +45,7 @@ public class HarParserServiceTest {
   CommandService commandService;
   @Mock
   HarParser harParser;
-  RuntimeContainerProperties containerProperties;
+  ContainerProperties containerProperties;
   HarParserProperties harParserProperties;
   ApplicationProperties applicationProperties;
 
@@ -53,7 +53,7 @@ public class HarParserServiceTest {
 
   @Before
   public void before() {
-    containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+    containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     harParserProperties = HarParserPropertiesTest.HAR_PROPERTIES;
     applicationProperties = ApplicationPropertiesTest.APPLICATION_PROPERTIES;
     parser = new HarParserService(harParser,
@@ -68,7 +68,7 @@ public class HarParserServiceTest {
 
   @Test
   public void shouldInit() {
-    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
     given(harParser.parse(any())).willReturn(Flux.empty());

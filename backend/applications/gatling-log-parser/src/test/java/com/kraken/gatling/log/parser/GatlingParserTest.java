@@ -10,8 +10,8 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.predicate.TaskPredicate;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
+import com.kraken.runtime.container.properties.ContainerProperties;
+import com.kraken.runtime.container.properties.ContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
@@ -51,7 +51,7 @@ public class GatlingParserTest {
   @Mock
   TaskPredicate taskPredicate;
 
-  RuntimeContainerProperties container;
+  ContainerProperties container;
   @Mock
   GatlingProperties gatling;
 
@@ -61,7 +61,7 @@ public class GatlingParserTest {
   public void before() {
     when(gatling.getHome()).thenReturn(".");
     when(gatling.getDebugLog()).thenReturn(".");
-    container = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+    container = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     parser = new GatlingParser(logParser,
         runtimeClient,
         writer,
@@ -73,7 +73,7 @@ public class GatlingParserTest {
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.find(container.getTaskId(), container.getContainerName())).willReturn(Mono.just(CONTAINER));
+    given(runtimeClient.find(container.getTaskId(), container.getName())).willReturn(Mono.just(CONTAINER));
     given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));

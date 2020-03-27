@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class RuntimeContainerPropertiesSpringTest {
+public class ContainerPropertiesSpringTest {
   @Autowired
-  RuntimeContainerProperties properties;
+  ContainerProperties properties;
 
   @Test
   public void shouldCreateProperties() {
     assertThat(properties.getTaskId()).isNotNull();
-    assertThat(properties.getContainerName()).isNotNull();
+    assertThat(properties.getName()).isNotNull();
     assertThat(properties.getHostId()).isNotNull();
   }
 

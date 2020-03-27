@@ -6,7 +6,7 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.predicate.TaskPredicate;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.storage.client.StorageClient;
 import lombok.AccessLevel;
@@ -35,14 +35,14 @@ final class TelegrafRunner {
   @NonNull RuntimeClient client;
   @NonNull CommandService commands;
   @NonNull StorageClient storage;
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
   @NonNull TelegrafProperties telegraf;
   @NonNull Supplier<Command> newCommand;
   @NonNull TaskPredicate tasks;
 
   @PostConstruct
   public void init() throws InterruptedException {
-    final var findMe = client.find(container.getTaskId(), container.getContainerName());
+    final var findMe = client.find(container.getTaskId(), container.getName());
     final var me = findMe.block();
     final var setStatusFailed = client.setFailedStatus(me);
     final var setStatusPreparing = client.setStatus(me, ContainerStatus.PREPARING);

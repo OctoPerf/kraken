@@ -7,8 +7,8 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.command.CommandTest;
 import com.kraken.runtime.container.predicate.TaskPredicate;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
+import com.kraken.runtime.container.properties.ContainerProperties;
+import com.kraken.runtime.container.properties.ContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
@@ -46,7 +46,7 @@ public class TelegrafRunnerTest {
   @Mock
   TaskPredicate taskPredicate;
 
-  RuntimeContainerProperties containerProperties;
+  ContainerProperties containerProperties;
 
   ImmutableTelegrafProperties telegrafProperties;
 
@@ -55,7 +55,7 @@ public class TelegrafRunnerTest {
   @Before
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
-    containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+    containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     telegrafProperties = TelegrafPropertiesTest.TELEGRAF_PROPERTIES;
     runner = new TelegrafRunner(
         runtimeClient,
@@ -69,7 +69,7 @@ public class TelegrafRunnerTest {
 
   @Test
   public void shouldInit() throws InterruptedException {
-    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getName())).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     final var entries = ImmutableList.builder();
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));

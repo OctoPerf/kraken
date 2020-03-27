@@ -16,12 +16,12 @@ import javax.annotation.PostConstruct;
 @Builder
 @ConstructorBinding
 @ExcludeFromObfuscation
-@ConfigurationProperties("kraken.runtime")
-final class ImmutableRuntimeContainerProperties implements RuntimeContainerProperties {
+@ConfigurationProperties("kraken.container")
+final class ImmutableContainerProperties implements ContainerProperties {
+  @NonNull String name;
+  @NonNull String hostId;
   @NonNull String taskId;
   @NonNull TaskType taskType;
-  @NonNull String containerName;
-  @NonNull String hostId;
 
   @PostConstruct
   void postConstruct() {

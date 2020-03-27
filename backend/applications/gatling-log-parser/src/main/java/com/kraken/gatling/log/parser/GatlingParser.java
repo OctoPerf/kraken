@@ -9,7 +9,7 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.predicate.TaskPredicate;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -35,14 +35,14 @@ class GatlingParser {
   @NonNull LogParser parser;
   @NonNull RuntimeClient runtimeClient;
   @NonNull DebugEntryWriter writer;
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
   @NonNull GatlingProperties gatling;
   @NonNull TaskPredicate taskPredicate;
   @NonNull CommandService commandService;
 
   @PostConstruct
   public void init() throws InterruptedException {
-    final var findMe = runtimeClient.find(container.getTaskId(), container.getContainerName());
+    final var findMe = runtimeClient.find(container.getTaskId(), container.getName());
     final var me = findMe.block();
     final var setStatusFailed = runtimeClient.setFailedStatus(me);
     final var setStatusReady = runtimeClient.setStatus(me, ContainerStatus.READY);

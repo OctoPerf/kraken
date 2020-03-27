@@ -1,6 +1,6 @@
 kraken:
-  runtime:
-    container-name: containerName
+  container:
+    name: containerName
     task-id: taskId
     task-type: GATLING_DEBUG
     host-id: hostId

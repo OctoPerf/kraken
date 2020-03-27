@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.gatling.api.GatlingExecutionProperties;
 import com.kraken.storage.client.StorageClient;
@@ -36,13 +36,13 @@ final class GatlingRecorder {
   @NonNull StorageClient storage;
   @NonNull RuntimeClient runtime;
   @NonNull CommandService commands;
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
   @NonNull GatlingExecutionProperties gatling;
   @NonNull Supplier<Command> newCommands;
 
   @PostConstruct
   public void init() {
-    final var findMe = runtime.find(container.getTaskId(), container.getContainerName());
+    final var findMe = runtime.find(container.getTaskId(), container.getName());
     final var me = findMe.block();
     final var setStatusFailed = runtime.setFailedStatus(me);
     final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);

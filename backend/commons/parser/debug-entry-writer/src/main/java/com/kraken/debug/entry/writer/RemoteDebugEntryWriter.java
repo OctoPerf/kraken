@@ -2,7 +2,7 @@ package com.kraken.debug.entry.writer;
 
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.DebugEntry;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 class RemoteDebugEntryWriter implements DebugEntryWriter {
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
   @NonNull AnalysisClient client;
 
   @Override

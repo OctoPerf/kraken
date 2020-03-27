@@ -1,6 +1,6 @@
 package com.kraken.runtime.container.predicate;
 
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.Task;
 import lombok.AccessLevel;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 final class OtherContainersStoppingPredicate implements TaskPredicate {
 
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
 
   @Override
   public boolean test(Task task) {
@@ -22,7 +22,7 @@ final class OtherContainersStoppingPredicate implements TaskPredicate {
         && task.getContainers()
         .stream()
         .filter(container -> container.getHostId().equals(this.container.getHostId()))
-        .allMatch(container -> container.getName().equals(this.container.getContainerName()) // Me
+        .allMatch(container -> container.getName().equals(this.container.getName()) // Me
             || container.getStatus().ordinal() > ContainerStatus.RUNNING.ordinal() // Or finished running
         );
   }

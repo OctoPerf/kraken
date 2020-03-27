@@ -7,7 +7,7 @@ import com.kraken.debug.entry.writer.DebugEntryWriter;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.storage.client.StorageClient;
 import com.kraken.tools.properties.ApplicationProperties;
@@ -34,13 +34,13 @@ class HarParserService {
   @NonNull StorageClient storage;
   @NonNull CommandService commands;
   @NonNull DebugEntryWriter writer;
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
   @NonNull HarParserProperties harParser;
   @NonNull ApplicationProperties application;
 
   @PostConstruct
   public void init() {
-    final var findMe = runtime.find(container.getTaskId(), container.getContainerName());
+    final var findMe = runtime.find(container.getTaskId(), container.getName());
     final var me = findMe.block();
     final var setStatusFailed = runtime.setFailedStatus(me);
     final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);

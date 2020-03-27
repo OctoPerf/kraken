@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.properties.api.InfluxDBClientProperties;
 import com.kraken.runtime.command.Command;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -21,7 +21,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 final class CommandSupplier implements Supplier<Command> {
 
   @NonNull InfluxDBClientProperties properties;
-  @NonNull RuntimeContainerProperties container;
+  @NonNull ContainerProperties container;
 
   @Override
   public Command get() {

@@ -4,12 +4,12 @@ import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Test;
 
-public class RuntimeContainerPropertiesTest {
+public class ContainerPropertiesTest {
 
-  public static final ImmutableRuntimeContainerProperties RUNTIME_PROPERTIES = ImmutableRuntimeContainerProperties.builder()
+  public static final ImmutableContainerProperties RUNTIME_PROPERTIES = ImmutableContainerProperties.builder()
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
-      .containerName("containerName")
+      .name("containerName")
       .hostId("hostId")
       .build();
 

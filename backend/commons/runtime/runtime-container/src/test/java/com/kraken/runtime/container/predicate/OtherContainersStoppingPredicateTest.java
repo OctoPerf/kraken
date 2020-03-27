@@ -2,7 +2,7 @@ package com.kraken.runtime.container.predicate;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.Application;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.runtime.entity.task.Container;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.Task;
@@ -26,12 +26,12 @@ public class OtherContainersStoppingPredicateTest {
   @Autowired
   OtherContainersStoppingPredicate taskPredicate;
   @MockBean
-  RuntimeContainerProperties container;
+  ContainerProperties container;
 
   @Before
   public void setUp() {
     when(container.getTaskId()).thenReturn("vzkziobanr");
-    when(container.getContainerName()).thenReturn("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf");
+    when(container.getName()).thenReturn("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf");
     when(container.getHostId()).thenReturn("n0usmshdr0");
     when(container.getTaskType()).thenReturn(GATLING_RUN);
   }
@@ -55,7 +55,7 @@ public class OtherContainersStoppingPredicateTest {
                 .id("id")
                 .hostId(container.getHostId())
                 .label("label")
-                .name(container.getContainerName())
+                .name(container.getName())
                 .startDate(0L)
                 .status(ContainerStatus.RUNNING)
                 .build(),
@@ -100,7 +100,7 @@ public class OtherContainersStoppingPredicateTest {
                 .id("id")
                 .hostId(container.getHostId())
                 .label("label")
-                .name(container.getContainerName())
+                .name(container.getName())
                 .startDate(0L)
                 .status(ContainerStatus.RUNNING)
                 .build(),

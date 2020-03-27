@@ -7,8 +7,8 @@ import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.command.CommandTest;
-import com.kraken.runtime.container.properties.RuntimeContainerProperties;
-import com.kraken.runtime.container.properties.RuntimeContainerPropertiesTest;
+import com.kraken.runtime.container.properties.ContainerProperties;
+import com.kraken.runtime.container.properties.ContainerPropertiesTest;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskTest;
@@ -45,7 +45,7 @@ public class GatlingRecorderTest {
   CommandService commandService;
   @Mock
   Supplier<Command> commandSupplier;
-  RuntimeContainerProperties containerProperties;
+  ContainerProperties containerProperties;
 
   @Mock
   GatlingExecutionProperties gatling;
@@ -63,7 +63,7 @@ public class GatlingRecorderTest {
     when(gatling.getUserFiles()).thenReturn(gatlingLocalRemote);
     when(gatlingLocalRemote.getLocal()).thenReturn("local");
     when(gatlingLocalRemote.getRemote()).thenReturn("remote");
-    containerProperties = RuntimeContainerPropertiesTest.RUNTIME_PROPERTIES;
+    containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
     recorder = new GatlingRecorder(storageClient,
         runtimeClient,
         commandService,
@@ -74,7 +74,7 @@ public class GatlingRecorderTest {
 
   @Test
   public void shouldInit() {
-    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getContainerName())).willReturn(Mono.just(CONTAINER));
+    given(runtimeClient.find(containerProperties.getTaskId(), containerProperties.getName())).willReturn(Mono.just(CONTAINER));
     given(runtimeClient.setStatus(any(FlatContainer.class), any(ContainerStatus.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.setFailedStatus(any(FlatContainer.class))).willReturn(Mono.fromCallable(() -> null));
     given(runtimeClient.waitForStatus(any(), any(ContainerStatus.class))).willReturn(Mono.just(TaskTest.TASK));
