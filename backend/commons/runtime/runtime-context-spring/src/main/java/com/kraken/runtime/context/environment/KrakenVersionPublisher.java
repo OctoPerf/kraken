@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_RUNTIME_VERSION;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 
 @Component
 @AllArgsConstructor
@@ -30,7 +30,7 @@ class KrakenVersionPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_RUNTIME_VERSION).value(kraken.getVersion()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_VERSION).value(kraken.getVersion()).build()
     ));
   }
 }

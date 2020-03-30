@@ -14,7 +14,7 @@ kraken:
     results:
       local: ${kraken.gatling.home}/results
       remote: gatling/results
-    log:
+    logs:
       info: ${kraken.gatling.results.local}/info.log
       debug: ${kraken.gatling.results.local}/debug.log
 

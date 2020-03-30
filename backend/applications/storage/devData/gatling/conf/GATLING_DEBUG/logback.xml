@@ -29,7 +29,7 @@
     </appender>
 
     <appender name="FILE_INFO" class="ch.qos.logback.core.FileAppender">
-        <file>${KRAKEN_GATLING_RESULT_INFO_LOG}</file>
+        <file>${KRAKEN_GATLING_LOGS_INFO}</file>
         <append>false</append>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>TRACE</level>
@@ -57,7 +57,7 @@
     </appender>
 
     <appender name="FILE_DEBUG" class="ch.qos.logback.core.FileAppender">
-        <file>${KRAKEN_GATLING_RESULT_DEBUG_LOG}</file>
+        <file>${KRAKEN_GATLING_LOGS_DEBUG}</file>
         <append>false</append>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>TRACE</level>

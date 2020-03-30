@@ -10,10 +10,10 @@ kraken:
     url: http://localhost:8081
   gatling:
     home: /home/ubuntu/softs/gatling
-    results:
-      local: ${kraken.gatling.home}/results
-    log:
-      debug: ${kraken.gatling.results.local}/debug.log
+  results:
+    local: ${kraken.gatling.home}/results
+  logs:
+    debug: ${kraken.gatling.results.local}/debug.log
 
 logging:
   level:

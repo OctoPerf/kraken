@@ -13,7 +13,7 @@ class BaseChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
-    requireEnv(environment, KRAKEN_RUNTIME_VERSION,
+    requireEnv(environment, KRAKEN_VERSION,
         KRAKEN_DESCRIPTION,
         KRAKEN_TASKID,
         KRAKEN_TASKTYPE,

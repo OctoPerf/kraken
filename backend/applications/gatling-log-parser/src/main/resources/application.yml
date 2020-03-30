@@ -3,7 +3,7 @@ kraken:
     home: /kraken/gatling
     results:
       local: ${kraken.gatling.home}/results
-    log:
+    logs:
       debug: ${kraken.gatling.results.local}/debug.log
 
 logging:
