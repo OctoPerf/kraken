@@ -33,10 +33,12 @@ git-help:
 	@echo "git-init : Install git-flow, initialise repositories."
 	@echo "git-pull BRANCH=branch_name : Checkout the branch, fetch it and pull it, for submodules too."
 	@echo "git-push BRANCH=branch_name : Push the branch and the branch on submodules."
-	@echo "git-branch-start BRANCH=branch_name : Create a branch."
-	@echo "git-commit-push MESSAGE=message_txt BRANCH=branch_name : Commit and push."
-	@echo "git-squash BRANCH=branch_name MESSAGE=\"message_txt\" : Replace all commits on a branch by new message and push the branch."
-	@echo "git-branch-finish BRANCH=branch_name : Merge the branch in develop but not push. You must run : make git-push BRANCH=develop"
+	@echo "git-branch-start FEATURE=feature_name : Create a branch."
+	@echo "git-commit-push MESSAGE=message_txt FEATURE=feature_name : Commit and push."
+	@echo "git-squash FEATURE=feature_name MESSAGE=\"message_txt\" : Replace all commits on a branch by new message and push the branch."
+	@echo "git-branch-finish FEATURE=feature_name : Merge the branch in develop but not push. You must run : make git-push BRANCH=develop"
+	@echo "git-rebase FROM=from_branch_name TO=to_branch_name : rebase the branch 'FROM' on the branch 'TO' for current and submodules."
+	@echo "git-pull-force FEATURE=feature_name : Checkout the branch, fetch it and reset hard it, for submodules too."
 
 #list_submodules := backend/commons/ee backend/applications/ee deployment documentation
 #cmd_pull_submodule = $(foreach submodule,$(list_submodules),$(MAKE) git-pull-submodule SUBMODULE=$(submodule))
@@ -81,42 +83,62 @@ git-init-submodule:
 	cd $(SUBMODULE);git flow init -d
 
 git-branch-start:
-	$(MAKE) git-pull BRANCH=develop
-	git flow feature start $(BRANCH)
-	$(MAKE) git-branch-start-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
-	$(MAKE) git-branch-start-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
-	$(MAKE) git-branch-start-submodule SUBMODULE=deployment BRANCH=$(BRANCH)
-	$(MAKE) git-branch-start-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
+	$(MAKE) git-pull FEATURE=develop
+	git flow feature start $(FEATURE)
+	$(MAKE) git-branch-start-submodule SUBMODULE=backend/commons/ee FEATURE=$(FEATURE)
+	$(MAKE) git-branch-start-submodule SUBMODULE=backend/applications/ee FEATURE=$(FEATURE)
+	$(MAKE) git-branch-start-submodule SUBMODULE=deployment FEATURE=$(FEATURE)
+	$(MAKE) git-branch-start-submodule SUBMODULE=documentation FEATURE=$(FEATURE)
 
 git-branch-start-submodule:
-	cd $(SUBMODULE);git flow feature start $(BRANCH)
+	cd $(SUBMODULE);git flow feature start $(FEATURE)
 
 git-commit-push:
-	-$(MAKE) git-commit-push-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-commit-push-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-commit-push-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-commit-push-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
+	-$(MAKE) git-commit-push-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-commit-push-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-commit-push-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-commit-push-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(FEATURE)
 
 git-commit-push-submodule:
-	cd $(SUBMODULE);git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(BRANCH)
+	cd $(SUBMODULE);git add -A; git commit -a -m "$(MESSAGE)"; git flow feature publish $(FEATURE)
 
 git-branch-finish:
-	-$(MAKE) git-branch-finish-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
-	-$(MAKE) git-branch-finish-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
-	-$(MAKE) git-branch-finish-submodule SUBMODULE=deployment BRANCH=$(BRANCH)
-	-$(MAKE) git-branch-finish-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
-	git flow feature finish $(BRANCH)
+	-$(MAKE) git-branch-finish-submodule SUBMODULE=backend/commons/ee FEATURE=$(FEATURE)
+	-$(MAKE) git-branch-finish-submodule SUBMODULE=backend/applications/ee FEATURE=$(FEATURE)
+	-$(MAKE) git-branch-finish-submodule SUBMODULE=deployment FEATURE=$(FEATURE)
+	-$(MAKE) git-branch-finish-submodule SUBMODULE=documentation FEATURE=$(FEATURE)
+	git flow feature finish $(FEATURE)
 
 git-branch-finish-submodule:
-	cd $(SUBMODULE);git flow feature finish $(BRANCH)
+	cd $(SUBMODULE);git flow feature finish $(FEATURE)
 
 git-squash:
-	-$(MAKE) git-squash-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-squash-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-squash-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	-$(MAKE) git-squash-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
-	git checkout feature/$(BRANCH);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(BRANCH)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(BRANCH)
+	-$(MAKE) git-squash-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-squash-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-squash-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	-$(MAKE) git-squash-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" FEATURE=$(FEATURE)
+	git checkout feature/$(FEATURE);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(FEATURE)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(FEATURE)
 	
 git-squash-submodule:
-	cd $(SUBMODULE);git checkout feature/$(BRANCH);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(BRANCH)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(BRANCH)
+	cd $(SUBMODULE);git checkout feature/$(FEATURE);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(FEATURE)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(FEATURE)
+
+git-rebase:
+	-$(MAKE) git-rebase-submodule SUBMODULE=backend/commons/ee FROM=$(FROM) TO=$(TO)
+	-$(MAKE) git-rebase-submodule SUBMODULE=backend/applications/ee FROM=$(FROM) TO=$(TO)
+	-$(MAKE) git-rebase-submodule SUBMODULE=deployment FROM=$(FROM) TO=$(TO)
+	-$(MAKE) git-rebase-submodule SUBMODULE=documentation FROM=$(FROM) TO=$(TO)
+	git checkout $(FROM);git rebase origin/$(TO) $(FROM);git push origin $(FROM) --force
+	
+git-rebase-submodule:
+	cd $(SUBMODULE);git checkout $(FROM);git rebase origin/$(TO) $(FROM);git push origin $(FROM) --force
+
+git-pull-force:
+	-$(MAKE) git-pull-force-submodule SUBMODULE=backend/commons/ee FEATURE=$(FEATURE)
+	-$(MAKE) git-pull-force-submodule SUBMODULE=backend/applications/ee FEATURE=$(FEATURE)
+	-$(MAKE) git-pull-force-submodule SUBMODULE=deployment FEATURE=$(FEATURE)
+	-$(MAKE) git-pull-force-submodule SUBMODULE=documentation FEATURE=$(FEATURE)
+	git checkout feature/$(FEATURE); git fetch origin feature/$(FEATURE); git reset --hard origin/feature/$(FEATURE)
+
+git-pull-force-submodule:
+	cd $(SUBMODULE);git checkout feature/$(FEATURE); git fetch origin feature/$(FEATURE); git reset --hard origin/feature/$(FEATURE)
