@@ -81,7 +81,7 @@ git-init-submodule:
 	cd $(SUBMODULE);git flow init -d
 
 git-branch-start:
-	$(MAKE) git-pull develop
+	$(MAKE) git-pull BRANCH=develop
 	git flow feature start $(BRANCH)
 	$(MAKE) git-branch-start-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
 	$(MAKE) git-branch-start-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
