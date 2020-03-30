@@ -5,18 +5,18 @@ kraken:
     conf:
       local: ${kraken.gatling.home}/conf
       remote: gatling/conf
-    user-files:
+    userfiles:
       local: ${kraken.gatling.home}/user-files
       remote: gatling/user-files
     lib:
       local: ${kraken.gatling.home}/lib
       remote: gatling/lib
-    result:
+    results:
       local: ${kraken.gatling.home}/results
       remote: gatling/results
-      log:
-        info: ${kraken.gatling.result.local}/info.log
-        debug: ${kraken.gatling.result.local}/debug.log
+    log:
+      info: ${kraken.gatling.results.local}/info.log
+      debug: ${kraken.gatling.results.local}/debug.log
 
 logging:
   level:
@@ -34,17 +34,18 @@ spring:
 
 kraken:
   runtime:
-    url: http://localhost:8082
-    task:
-      id: taskId
-      type: RUN
-    container:
-      id: containerId
+    url: test
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
   storage:
-    url: http://localhost:8080
+    url: test
   gatling:
     home: /home/ubuntu/softs/gatling
-    simulation: computerdatabase.BasicSimulation
+    simulation:
+      name: computerdatabase.BasicSimulation
     description: Dev test
 
 logging:

@@ -15,6 +15,7 @@ subprojects {
     dependencies {
         implementation project(':commons:tools:application')
         implementation project(':commons:tools:environment')
+        implementation project(':commons:tools:properties-kraken')
         testImplementation project(path: ':test-utils', configuration: 'testArtifacts')
     }
 
@@ -22,3 +23,4 @@ subprojects {
         mainClassName = 'com.kraken.Application'
     }
 }
+

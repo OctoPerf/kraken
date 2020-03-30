@@ -1,8 +1,7 @@
 kraken:
   data: /home/kraken
-  gatling:
-    har-path:
-      local: ${kraken.data}/import.har
+  harparser:
+    local: ${kraken.data}/import.har
 
 logging:
   level:
@@ -20,19 +19,18 @@ spring:
 
 kraken:
   runtime:
-    url: http://localhost:8082
-    task:
-      id: taskId
-      type: RUN
-    container:
-      id: containerId
+    url: url
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
   analysis:
-    url: http://localhost:8081
+    url: url
   storage:
-    url: http://localhost:8080
-  gatling:
-    har-path:
-      remote: hars/my-app.har
+    url: url
+  harparser:
+    remote: hars/my-app.har
 
 logging:
   level:

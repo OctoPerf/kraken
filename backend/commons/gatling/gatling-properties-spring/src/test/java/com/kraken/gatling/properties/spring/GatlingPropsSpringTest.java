@@ -20,5 +20,7 @@ public class GatlingPropsSpringTest {
   public void shouldCreateProperties() {
     assertThat(properties.getHome()).isEqualTo("gatlingHome");
     assertThat(properties.getBin()).isEqualTo("gatlingBin");
+    assertThat(properties.getLogs().getInfo()).isEqualTo("gatlingHome/results/info.log");
+    assertThat(properties.getConf().getRemote()).isEqualTo("gatling/conf");
   }
 }

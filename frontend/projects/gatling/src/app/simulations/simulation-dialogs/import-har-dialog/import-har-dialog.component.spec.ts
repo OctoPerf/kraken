@@ -61,9 +61,9 @@ describe('ImportHarDialogComponent', () => {
       'Import har .',
       ['local'],
       [
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASS', ''),
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGE', ''),
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HAR_PATH_REMOTE', 'harPath'),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASSNAME', ''),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGENAME', ''),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HARPATH_REMOTE', 'harPath'),
       ]));
   });
 

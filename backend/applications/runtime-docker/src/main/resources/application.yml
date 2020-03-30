@@ -1,6 +1,7 @@
 kraken:
   runtime:
-    configuration-path: tasks/docker/configuration.yaml
+    server:
+      configpath: tasks/docker/configuration.yaml
   influxdb:
     user: admin
     password: kraken

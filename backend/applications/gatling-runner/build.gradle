@@ -1,14 +1,10 @@
 dependencies {
-    implementation project(':commons:storage:storage-entity')
-    implementation project(':commons:storage:storage-client')
-    implementation project(':commons:runtime:runtime-entity')
-    implementation project(':commons:runtime:runtime-client')
-    implementation project(':commons:runtime:runtime-command')
-    implementation project(':commons:runtime:runtime-container')
-    implementation project(':commons:gatling:gatling-properties-api')
-
-    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-command', configuration: 'testArtifacts')
+    implementation project(':commons:gatling:container:gatling-runner')
+    implementation project(':commons:runtime:runtime-client-web')
+    implementation project(':commons:runtime:runtime-client-properties-spring')
+    implementation project(':commons:runtime:runtime-container-spring')
+    implementation project(':commons:runtime:runtime-command-zt')
+    implementation project(':commons:storage:storage-client-web')
+    implementation project(':commons:storage:storage-client-properties-spring')
+    implementation project(':commons:gatling:gatling-properties-spring')
 }

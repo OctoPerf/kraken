@@ -3,6 +3,7 @@ package com.kraken.debug.entry.writer;
 import com.kraken.Application;
 import com.kraken.analysis.client.AnalysisClient;
 import com.kraken.analysis.entity.DebugEntry;
+import com.kraken.runtime.container.properties.ContainerProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

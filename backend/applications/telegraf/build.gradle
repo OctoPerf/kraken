@@ -1,14 +1,11 @@
 dependencies {
-    api project(':commons:analysis:analysis-properties-api')
-    implementation project(':commons:runtime:runtime-entity')
-    implementation project(':commons:runtime:runtime-client')
-    implementation project(':commons:runtime:runtime-container')
-    implementation project(':commons:runtime:runtime-command')
-    implementation project(':commons:storage:storage-client')
-    implementation project(':commons:tools:reactor-utils')
-
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-container', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-command', configuration: 'testArtifacts')
+    implementation project(':commons:analysis:container:telegraf')
+    implementation project(':commons:analysis:influxdb-client-web')
+    implementation project(':commons:analysis:influxdb-client-properties-spring')
+    implementation project(':commons:runtime:runtime-container-spring')
+    implementation project(':commons:runtime:runtime-client-web')
+    implementation project(':commons:runtime:runtime-client-properties-spring')
+    implementation project(':commons:runtime:runtime-command-zt')
+    implementation project(':commons:storage:storage-client-web')
+    implementation project(':commons:storage:storage-client-properties-spring')
 }

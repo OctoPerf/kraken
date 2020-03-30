@@ -1,4 +1,0 @@
-kraken:
-  runtime:
-    server:
-      configuration-path: tasks/docker/configuration.yaml

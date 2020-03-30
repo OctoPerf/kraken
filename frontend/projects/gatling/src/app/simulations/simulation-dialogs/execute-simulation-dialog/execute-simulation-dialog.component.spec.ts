@@ -68,7 +68,7 @@ describe('ExecuteSimulationDialogComponent', () => {
       'description',
       ['local'],
       [new ExecutionEnvironmentEntry('', 'USER', 'Foo', 'Bar'),
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION', 'simulationPackage.simulationClass')]
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_NAME', 'simulationPackage.simulationClass')]
     ));
   });
 });

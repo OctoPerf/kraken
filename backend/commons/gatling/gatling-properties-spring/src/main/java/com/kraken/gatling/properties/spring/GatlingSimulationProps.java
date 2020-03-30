@@ -11,7 +11,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 @Builder
 @ConstructorBinding
 final class GatlingSimulationProps implements GatlingSimulation {
-  static final GatlingSimulation DEFAULT_SIMULATION = builder().build();
+  static final GatlingSimulationProps DEFAULT_SIMULATION = builder().build();
 
   String name;
   String className;

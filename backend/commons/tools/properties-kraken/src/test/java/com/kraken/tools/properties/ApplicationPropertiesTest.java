@@ -12,6 +12,7 @@ public class ApplicationPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(APPLICATION_PROPERTIES);
+    TestUtils.shouldPassEquals(APPLICATION_PROPERTIES.getClass());
+    TestUtils.shouldPassToString(APPLICATION_PROPERTIES);
   }
 }

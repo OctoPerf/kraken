@@ -1,8 +1,0 @@
-dependencies {
-    api project(':commons:tools:properties-api')
-    
-    implementation project(':commons:runtime:runtime-entity')
-
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
-}

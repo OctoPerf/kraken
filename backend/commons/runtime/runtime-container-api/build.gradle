@@ -1,0 +1,4 @@
+dependencies {
+    api project(':commons:tools:properties-api')
+    api project(':commons:runtime:runtime-entity')
+}

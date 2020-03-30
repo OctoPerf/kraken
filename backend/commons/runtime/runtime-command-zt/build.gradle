@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(':commons:runtime:runtime-command-api')
+
+    // Used to execute docker-compose commands
+    implementation 'org.zeroturnaround:zt-exec:1.11'
+
+    testImplementation project(':commons:tools:reactor-utils')
+}

@@ -1,0 +1,4 @@
+kraken:
+  analysis:
+    results:
+      root: data

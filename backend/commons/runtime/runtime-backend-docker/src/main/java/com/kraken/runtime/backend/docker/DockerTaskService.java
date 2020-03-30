@@ -29,7 +29,7 @@ import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_APPLICATION_ID;
-import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
 
 @Slf4j
 @Component
@@ -77,7 +77,7 @@ final class DockerTaskService implements TaskService {
   public Mono<CancelContext> remove(final CancelContext context) {
     return Mono.fromCallable(() -> Command.builder()
         .path(this.createCommandFolder(context.getTaskId()).toString())
-        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())))
+        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASKID, context.getTaskId())))
         .environment(ImmutableMap.of())
         .build()).flatMap(command -> commandService.execute(command).collectList())
         .map(str -> context);
@@ -89,7 +89,7 @@ final class DockerTaskService implements TaskService {
     commandBuilder.add("docker",
         "ps",
         "-a",
-        "--filter", String.format("label=%s", COM_KRAKEN_TASK_ID));
+        "--filter", String.format("label=%s", COM_KRAKEN_TASKID));
     applicationId.ifPresent(appId -> commandBuilder.add("--filter", String.format("label=%s=%s", COM_KRAKEN_APPLICATION_ID, appId)));
     commandBuilder.add("--format", StringToFlatContainer.FORMAT);
 

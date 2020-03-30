@@ -23,13 +23,14 @@ spring:
   profiles: dev
 
 kraken:
+  container:
+    taskid: taskid
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
   influxdb:
-    url: http://localhost:8086
-
----
-spring:
-  profiles: docker
-
-kraken:
-  influxdb:
-    url: http://kraken-influxdb:8086
+    url: url
+  runtime:
+    url: url
+  storage:
+    url: url

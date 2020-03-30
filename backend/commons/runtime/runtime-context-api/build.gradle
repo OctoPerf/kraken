@@ -1,4 +1,4 @@
 dependencies {
-    implementation project(':commons:runtime:runtime-context-entity')
-    implementation project(':commons:runtime:runtime-entity')
+    api project(':commons:runtime:runtime-context-entity')
+    api project(':commons:runtime:runtime-entity')
 }

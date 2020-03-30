@@ -9,7 +9,7 @@ clean-all:
 	./gradlew clean
 
 test-all:
-	./gradlew jacocoRootReport
+	./gradlew jacocoRootReport -Dorg.gradle.parallel=false
 
 check: test-all
 	./gradlew check --warning-mode=all
@@ -40,8 +40,6 @@ serve-analysis:
 
 serve-runtime-docker:
 	$(MAKE) serve APP=:applications:app-runtime-docker
-
-serve-runtime-kubernetes: serve-runtime-k8s
 
 serve-runtime-k8s: export KRAKEN_STORAGE_URL := http://$(IP):8080
 serve-runtime-k8s: export KRAKEN_ANALYSIS_URL := http://$(IP):8081

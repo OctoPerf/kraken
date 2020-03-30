@@ -21,7 +21,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_CONTAINER_NAME;
-import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
 
 @Slf4j
 @Component
@@ -83,7 +83,7 @@ final class DockerContainerService implements ContainerService {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", String.format("label=%s=%s", COM_KRAKEN_TASK_ID, taskId),
+            "--filter", String.format("label=%s=%s", COM_KRAKEN_TASKID, taskId),
             "--filter", String.format("label=%s=%s", COM_KRAKEN_CONTAINER_NAME, containerName),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))

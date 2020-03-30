@@ -1,6 +1,7 @@
 package com.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableMap;
+import com.kraken.Application;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.entity.task.FlatContainerTest;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestConfiguration.class}, initializers = {ConfigFileApplicationContextInitializer.class})
+@SpringBootTest(classes = Application.class)
 @EnableAutoConfiguration
 public class DockerTaskServiceIntegrationTest {
 

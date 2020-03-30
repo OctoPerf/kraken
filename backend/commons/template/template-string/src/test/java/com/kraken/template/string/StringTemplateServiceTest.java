@@ -25,7 +25,7 @@ public class StringTemplateServiceTest {
     final var replaced = ResourceUtils.getResourceContent("replaced.yml");
     assertThat(service.replaceAll(input, ImmutableMap.of(
         "KRAKEN_VERSION", "version",
-        "KRAKEN_TASK_ID", "task-id",
+        "KRAKEN_TASKID", "task-id",
         "XMX", "256m"
     )).block()).isEqualTo(replaced);
   }

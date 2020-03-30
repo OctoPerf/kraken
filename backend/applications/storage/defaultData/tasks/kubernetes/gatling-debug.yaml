@@ -5,16 +5,16 @@ metadata:
     com.kraken/description: "${KRAKEN_DESCRIPTION}"
     com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
   labels:
-    com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
-    com.kraken/hostId: "${KRAKEN_HOST_ID}"
-    com.kraken/taskId: "${KRAKEN_TASK_ID}"
+    com.kraken/taskType: "${KRAKEN_TASKTYPE}"
+    com.kraken/hostId: "${KRAKEN_HOSTID}"
+    com.kraken/taskId: "${KRAKEN_TASKID}"
     com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
-  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
+  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASKID}-${KRAKEN_HOSTID}"
 spec:
   containers:
     -
       image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASKID}-${KRAKEN_HOSTID}-${KRAKEN_GATLING_CONTAINER_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_GATLING_CPU_LIMIT}"
@@ -28,29 +28,29 @@ spec:
       env:
         - name: JAVA_OPTS
           value: "-Dspring.profiles.active=kubernetes -Xmx${KRAKEN_GATLING_XMX}"
-        - name: KRAKEN_TASK_ID
-          value: "${KRAKEN_TASK_ID}"
-        - name: KRAKEN_TASK_TYPE
-          value: "${KRAKEN_TASK_TYPE}"
-        - name: KRAKEN_HOST_ID
-          value: "${KRAKEN_HOST_ID}"
+        - name: KRAKEN_CONTAINER_TASKID
+          value: "${KRAKEN_TASKID}"
+        - name: KRAKEN_CONTAINER_TASKTYPE
+          value: "${KRAKEN_TASKTYPE}"
+        - name: KRAKEN_CONTAINER_HOSTID
+          value: "${KRAKEN_HOSTID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASKID}-${KRAKEN_HOSTID}-${KRAKEN_GATLING_CONTAINER_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_CONTAINER_LABEL}"
-        - name: KRAKEN_GATLING_JAVA_OPTS
-          value: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
+        - name: KRAKEN_GATLING_JAVAOPTS
+          value: "${KRAKEN_GATLING_JAVAOPTS} -Xmx${KRAKEN_GATLING_XMX}"
         - name: KRAKEN_STORAGE_URL
           value: "${KRAKEN_STORAGE_URL}"
         - name: KRAKEN_RUNTIME_URL
           value: "${KRAKEN_RUNTIME_URL}"
-        - name: KRAKEN_GATLING_SIMULATION
-          value: "${KRAKEN_GATLING_SIMULATION}"
+        - name: KRAKEN_GATLING_SIMULATION_NAME
+          value: "${KRAKEN_GATLING_SIMULATION_NAME}"
         - name: KRAKEN_GATLING_DESCRIPTION
           value: "${KRAKEN_DESCRIPTION}"
     -
       image: "octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASKID}-${KRAKEN_HOSTID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
@@ -64,14 +64,14 @@ spec:
       env:
         - name: JAVA_OPTS
           value: "-Dspring.profiles.active=kubernetes -Xmx${KRAKEN_SIDEKICK_XMX}"
-        - name: KRAKEN_TASK_ID
-          value: "${KRAKEN_TASK_ID}"
-        - name: KRAKEN_TASK_TYPE
-          value: "${KRAKEN_TASK_TYPE}"
-        - name: KRAKEN_HOST_ID
-          value: "${KRAKEN_HOST_ID}"
+        - name: KRAKEN_CONTAINER_TASKID
+          value: "${KRAKEN_TASKID}"
+        - name: KRAKEN_CONTAINER_TASKTYPE
+          value: "${KRAKEN_TASKTYPE}"
+        - name: KRAKEN_CONTAINER_HOSTID
+          value: "${KRAKEN_HOSTID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASKID}-${KRAKEN_HOSTID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
         - name: KRAKEN_STORAGE_URL
@@ -81,7 +81,7 @@ spec:
         - name: KRAKEN_ANALYSIS_URL
           value: "${KRAKEN_ANALYSIS_URL}"
   nodeSelector:
-    com.kraken/hostId: "${KRAKEN_HOST_ID}"
+    com.kraken/hostId: "${KRAKEN_HOSTID}"
   restartPolicy: Never
   terminationGracePeriodSeconds: 5
   volumes:

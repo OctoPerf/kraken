@@ -52,7 +52,7 @@ export class ExecuteSimulationDialogComponent {
       this.data.type,
       this.descriptionInput.description.value,
       this.hostsSelector.hostIds,
-      this.envVarList.entries.concat(new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION', this.simulationName.value))
+      this.envVarList.entries.concat(new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_NAME', this.simulationName.value))
     );
     this.dialogRef.close(context);
   }

@@ -17,10 +17,10 @@ import java.util.function.Function;
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
   public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",
-      EnvironmentLabels.COM_KRAKEN_TASK_ID,
-      EnvironmentLabels.COM_KRAKEN_TASK_TYPE,
+      EnvironmentLabels.COM_KRAKEN_TASKID,
+      EnvironmentLabels.COM_KRAKEN_TASKTYPE,
       EnvironmentLabels.COM_KRAKEN_CONTAINER_NAME,
-      EnvironmentLabels.COM_KRAKEN_HOST_ID,
+      EnvironmentLabels.COM_KRAKEN_HOSTID,
       EnvironmentLabels.COM_KRAKEN_EXPECTED_COUNT,
       EnvironmentLabels.COM_KRAKEN_LABEL,
       EnvironmentLabels.COM_KRAKEN_APPLICATION_ID,

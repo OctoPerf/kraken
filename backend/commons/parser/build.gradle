@@ -1,0 +1,2 @@
+// Prevents the creation of the src/ directory
+project.jar { onlyIf { false } }

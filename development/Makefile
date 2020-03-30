@@ -9,14 +9,16 @@ KRAKEN_DATA := /home/kraken/data
 default: up
 
 up:
-	mkdir -p keycloak/postgres
-	cd keycloak && docker-compose up --abort-on-container-exit
+	mkdir -p analysis/grafana analysis/influxdb
+	mkdir -p postgres
+	docker-compose up --abort-on-container-exit
 
 down:
-	cd keycloak && docker-compose down
-	sudo rm -rf keycloak/postgres/data/
+	docker-compose down
+	sudo rm -rf postgres/
+	sudo rm -rf analysis/
 
-export:
+export-kc:
 	docker exec -it kraken-keycloak-dev /opt/jboss/keycloak/bin/standalone.sh \
 	-Djboss.socket.binding.port-offset=100 \
 	-Dkeycloak.migration.action=export \

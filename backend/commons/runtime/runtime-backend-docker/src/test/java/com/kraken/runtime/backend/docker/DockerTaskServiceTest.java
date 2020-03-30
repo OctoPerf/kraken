@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASK_ID;
+import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -114,7 +114,7 @@ public class DockerTaskServiceTest {
     verify(commandService).execute(commandCaptor.capture());
 
     final var executed = commandCaptor.getValue();
-    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())));
+    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASKID, context.getTaskId())));
   }
 
   @Test
@@ -126,7 +126,7 @@ public class DockerTaskServiceTest {
     verify(commandService).execute(commandCaptor.capture());
 
     final var executed = commandCaptor.getValue();
-    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASK_ID, context.getTaskId())));
+    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASKID, context.getTaskId())));
   }
 
   @Test

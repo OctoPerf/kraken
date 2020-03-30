@@ -3,7 +3,7 @@ version: '3.5'
 services:
   kraken-gatling-runner:
     image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
-    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
+    container_name: "${KRAKEN_TASKID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
     network_mode: host
     deploy:
       resources:
@@ -14,29 +14,29 @@ services:
           cpus: "${KRAKEN_GATLING_CPU_REQUEST}"
           memory: "${KRAKEN_GATLING_MEMORY_REQUEST}"
     labels:
-      com.kraken/taskId: "${KRAKEN_TASK_ID}"
-      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
-      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
-      com.kraken/hostId: "${KRAKEN_HOST_ID}"
+      com.kraken/taskId: "${KRAKEN_TASKID}"
+      com.kraken/taskType: "${KRAKEN_TASKTYPE}"
+      com.kraken/containerName: "${KRAKEN_TASKID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      com.kraken/hostId: "${KRAKEN_HOSTID}"
       com.kraken/label: "${KRAKEN_GATLING_CONTAINER_LABEL}"
       com.kraken/description: "${KRAKEN_DESCRIPTION}"
       com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
       com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
     environment:
-      KRAKEN_TASK_ID: "${KRAKEN_TASK_ID}"
-      KRAKEN_TASK_TYPE: "${KRAKEN_TASK_TYPE}"
-      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
-      KRAKEN_HOST_ID: "${KRAKEN_HOST_ID}"
-      KRAKEN_GATLING_SIMULATION: "${KRAKEN_GATLING_SIMULATION}"
+      KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASKID}"
+      KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASKTYPE}"
+      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASKID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      KRAKEN_CONTAINER_HOSTID: "${KRAKEN_HOSTID}"
+      KRAKEN_GATLING_SIMULATION_NAME: "${KRAKEN_GATLING_SIMULATION_NAME}"
       KRAKEN_GATLING_DESCRIPTION: "${KRAKEN_DESCRIPTION}"
-      KRAKEN_GATLING_JAVA_OPTS: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
+      KRAKEN_GATLING_JAVAOPTS: "${KRAKEN_GATLING_JAVAOPTS} -Xmx${KRAKEN_GATLING_XMX}"
       KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
       KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_GATLING_XMX}"
 
   kraken-gatling-telegraf:
     image: "octoperf/kraken-telegraf:${KRAKEN_VERSION}"
-    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
+    container_name: "${KRAKEN_TASKID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
     network_mode: host
     deploy:
       resources:
@@ -47,19 +47,19 @@ services:
           cpus: "${KRAKEN_SIDEKICK_CPU_REQUEST}"
           memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
     labels:
-      com.kraken/taskId: "${KRAKEN_TASK_ID}"
-      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
-      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
-      com.kraken/hostId: "${KRAKEN_HOST_ID}"
+      com.kraken/taskId: "${KRAKEN_TASKID}"
+      com.kraken/taskType: "${KRAKEN_TASKTYPE}"
+      com.kraken/containerName: "${KRAKEN_TASKID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      com.kraken/hostId: "${KRAKEN_HOSTID}"
       com.kraken/label: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
       com.kraken/description: "${KRAKEN_DESCRIPTION}"
       com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
       com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
     environment:
-      KRAKEN_TASK_ID: "${KRAKEN_TASK_ID}"
-      KRAKEN_TASK_TYPE: "${KRAKEN_TASK_TYPE}"
-      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
-      KRAKEN_HOST_ID: "${KRAKEN_HOST_ID}"
+      KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASKID}"
+      KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASKTYPE}"
+      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASKID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      KRAKEN_CONTAINER_HOSTID: "${KRAKEN_HOSTID}"
       KRAKEN_INFLUXDB_URL: "${KRAKEN_INFLUXDB_URL}"
       KRAKEN_INFLUXDB_DATABASE: "${KRAKEN_INFLUXDB_DATABASE}"
       KRAKEN_INFLUXDB_USER: "${KRAKEN_INFLUXDB_USER}"

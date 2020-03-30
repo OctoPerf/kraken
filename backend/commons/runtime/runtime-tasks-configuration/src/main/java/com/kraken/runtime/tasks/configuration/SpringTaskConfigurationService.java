@@ -1,7 +1,7 @@
 package com.kraken.runtime.tasks.configuration;
 
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.runtime.server.properties.ServerProperties;
+import com.kraken.runtime.server.properties.RuntimeServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.kraken.storage.client.StorageClient;
@@ -24,7 +24,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class SpringTaskConfigurationService implements TaskConfigurationService {
-  @NonNull ServerProperties server;
+  @NonNull RuntimeServerProperties server;
   @NonNull StorageClient storageClient;
 
   public Mono<TaskConfiguration> getConfiguration(final TaskType taskType) {

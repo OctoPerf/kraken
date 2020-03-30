@@ -2,6 +2,11 @@ kraken:
   gatling:
     results:
       root: gatling/results
+  container:
+    name: name
+    host-id: hostId
+    task-id: taskId
+    task-type: GATLING_DEBUG
 
 logging:
   level:

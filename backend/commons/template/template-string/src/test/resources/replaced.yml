@@ -14,5 +14,5 @@ services:
     labels:
       com.kraken/taskId: "task-id"
     environment:
-      KRAKEN_TASK_ID: task-id
+      KRAKEN_TASKID: task-id
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx=256m"

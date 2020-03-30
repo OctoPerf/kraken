@@ -11,7 +11,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 @Builder
 @ConstructorBinding
 final class GatlingLogProp implements GatlingLog {
-  static final GatlingLog DEFAULT_LOG = builder().build();
+  static final GatlingLogProp DEFAULT_LOG = builder().build();
 
   String info;
   String debug;

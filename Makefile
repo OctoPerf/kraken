@@ -1,6 +1,6 @@
 launch-docker:
 	#start grafana and influxdb
-	gnome-terminal --tab -- /bin/sh -c 'cd development; ./up.sh'
+	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
 	
 	#start backend
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
@@ -17,7 +17,7 @@ launch-k8s:
 	$(MAKE) -C deployment/k8s kind-serve
 	
 	#start grafana and influxdb
-	gnome-terminal --tab -- /bin/sh -c 'cd development; ./up.sh'
+	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
 
 	#start backend
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
@@ -30,12 +30,13 @@ launch-k8s:
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
 
 git-help:
-	@echo "git-init"
-	@echo "git-pull BRANCH=branch_name"
-	@echo "git-push BRANCH=branch_name"
-	@echo "git-branch-start BRANCH=branch_name"
-	@echo "git-commit-push MESSAGE=message_txt BRANCH=branch_name"
-	@echo "git-branch-finish BRANCH=branch_name"
+	@echo "git-init : Install git-flow, initialise repositories."
+	@echo "git-pull BRANCH=branch_name : Checkout the branch, fetch it and pull it, for submodules too."
+	@echo "git-push BRANCH=branch_name : Push the branch and the branch on submodules."
+	@echo "git-branch-start BRANCH=branch_name : Create a branch."
+	@echo "git-commit-push MESSAGE=message_txt BRANCH=branch_name : Commit and push."
+	@echo "git-squash BRANCH=branch_name MESSAGE=\"message_txt\" : Replace all commits on a branch by new message and push the branch."
+	@echo "git-branch-finish BRANCH=branch_name : Merge the branch in develop but not push. You must run : make git-push BRANCH=develop"
 
 #list_submodules := backend/commons/ee backend/applications/ee deployment documentation
 #cmd_pull_submodule = $(foreach submodule,$(list_submodules),$(MAKE) git-pull-submodule SUBMODULE=$(submodule))
@@ -80,6 +81,7 @@ git-init-submodule:
 	cd $(SUBMODULE);git flow init -d
 
 git-branch-start:
+	$(MAKE) git-pull develop
 	git flow feature start $(BRANCH)
 	$(MAKE) git-branch-start-submodule SUBMODULE=backend/commons/ee BRANCH=$(BRANCH)
 	$(MAKE) git-branch-start-submodule SUBMODULE=backend/applications/ee BRANCH=$(BRANCH)
@@ -108,3 +110,13 @@ git-branch-finish:
 
 git-branch-finish-submodule:
 	cd $(SUBMODULE);git flow feature finish $(BRANCH)
+
+git-squash:
+	-$(MAKE) git-squash-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
+	-$(MAKE) git-squash-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
+	-$(MAKE) git-squash-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
+	-$(MAKE) git-squash-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" BRANCH=$(BRANCH)
+	git checkout feature/$(BRANCH);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(BRANCH)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(BRANCH)
+	
+git-squash-submodule:
+	cd $(SUBMODULE);git checkout feature/$(BRANCH);git reset $$(git merge-base develop $$(git rev-parse --abbrev-ref feature/$(BRANCH)));git add -A;git commit -m "$(MESSAGE)";git push -f origin feature/$(BRANCH)

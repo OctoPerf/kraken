@@ -1,5 +1,9 @@
 dependencies {
-    implementation project(':commons:tools:sse-spring')
-    implementation project(':commons:tools:sse-server')
+    implementation project(':commons:sse:sse-spring')
+    implementation project(':commons:sse:sse-server')
     implementation project(':commons:tools:configuration')
+    implementation project(':commons:runtime:runtime-client-web')
+    implementation project(':commons:runtime:runtime-client-properties-spring')
+    implementation project(':commons:storage:storage-client-web')
+    implementation project(':commons:storage:storage-client-properties-spring')
 }
