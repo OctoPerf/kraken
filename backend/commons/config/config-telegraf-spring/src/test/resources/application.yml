@@ -1,0 +1,5 @@
+kraken:
+  telegraf:
+    conf:
+      local: /etc/telegraf/telegraf.conf
+      remote: telegraf/telegraf.conf

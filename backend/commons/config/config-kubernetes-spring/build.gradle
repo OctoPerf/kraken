@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:config:config-kubernetes-api')
+
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+}

@@ -2,6 +2,8 @@ package com.kraken.parser.har;
 
 import com.google.common.testing.NullPointerTester;
 import com.kraken.analysis.entity.DebugEntryTest;
+import com.kraken.config.api.ApplicationProperties;
+import com.kraken.config.har.parser.api.HarParserProperties;
 import com.kraken.debug.entry.writer.DebugEntryWriter;
 import com.kraken.har.parser.HarParser;
 import com.kraken.runtime.client.RuntimeClient;
@@ -14,7 +16,6 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.StorageClient;
-import com.kraken.tools.properties.api.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,7 @@ public class HarParserServiceTest {
   @Mock
   HarParser harParser;
   ContainerProperties containerProperties;
+  @Mock
   HarParserProperties harParserProperties;
   @Mock
   ApplicationProperties application;
@@ -57,7 +59,6 @@ public class HarParserServiceTest {
   public void before() {
     when(application.getData()).thenReturn("data");
     containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
-    harParserProperties = HarParserPropertiesTest.HAR_PROPERTIES;
     parser = new HarParserService(harParser,
         runtimeClient,
         storageClient,
@@ -77,6 +78,8 @@ public class HarParserServiceTest {
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(writer.write(any())).willReturn(Flux.just(DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
+    given(harParserProperties.getLocal()).willReturn("localHarPath");
+    given(harParserProperties.getRemote()).willReturn("remoteHarPath");
     parser.init();
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.PREPARING);
     verify(runtimeClient).setStatus(FlatContainerTest.CONTAINER, ContainerStatus.READY);

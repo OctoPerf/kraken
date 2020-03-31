@@ -1,5 +1,5 @@
 dependencies {
-    api project(':commons:tools:event-bus')
+    api project(':commons:tools:tools-event-bus')
     api project(':commons:runtime:runtime-entity')
     api project(':commons:runtime:runtime-context-api')
     api project(':commons:runtime:runtime-context-entity')

@@ -1,7 +1,7 @@
 package com.kraken.runtime.client;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.client.properties.RuntimeClientProperties;
+import com.kraken.config.runtime.client.api.RuntimeClientProperties;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;

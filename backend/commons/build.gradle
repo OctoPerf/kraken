@@ -1,6 +1,6 @@
 subprojects {
     dependencies {
-        testImplementation project(path: ':test-utils', configuration: 'testArtifacts')
+        testImplementation project(path: ':tests:tests-utils', configuration: 'testArtifacts')
     }
 }
 

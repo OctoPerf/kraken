@@ -166,6 +166,7 @@ task jacocoRootReport(type: JacocoReport) {
 }
 
 project(':').jar { onlyIf { false } }
+project(':tests').jar { onlyIf { false } }
 project(':applications').jar { onlyIf { false } }
 project(':applications:ee').jar { onlyIf { false } }
 project(':commons').jar { onlyIf { false } }
@@ -173,7 +174,6 @@ project(':commons:analysis').jar { onlyIf { false } }
 project(':commons:analysis:container').jar { onlyIf { false } }
 project(':commons:ee').jar { onlyIf { false } }
 project(':commons:gatling').jar { onlyIf { false } }
-project(':commons:gatling:container').jar { onlyIf { false } }
 project(':commons:parser').jar { onlyIf { false } }
 project(':commons:parser:container').jar { onlyIf { false } }
 project(':commons:runtime').jar { onlyIf { false } }
@@ -182,3 +182,4 @@ project(':commons:sse').jar { onlyIf { false } }
 project(':commons:storage').jar { onlyIf { false } }
 project(':commons:template').jar { onlyIf { false } }
 project(':commons:tools').jar { onlyIf { false } }
+project(':commons:config').jar { onlyIf { false } }

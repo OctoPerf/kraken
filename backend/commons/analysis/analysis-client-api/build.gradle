@@ -1,5 +1,5 @@
 dependencies {
     api project(':commons:storage:storage-entity')
     api project(':commons:analysis:analysis-entity')
-    api project(':commons:analysis:analysis-client-properties-api')
+    api project(':commons:config:config-analysis-client-api')
 }

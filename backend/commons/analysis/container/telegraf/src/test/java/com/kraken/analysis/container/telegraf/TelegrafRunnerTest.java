@@ -2,6 +2,7 @@ package com.kraken.analysis.container.telegraf;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
+import com.kraken.config.telegraf.api.TelegrafProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
@@ -31,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TelegrafRunnerTest {
@@ -48,7 +50,8 @@ public class TelegrafRunnerTest {
 
   ContainerProperties containerProperties;
 
-  SpringTelegrafProperties telegrafProperties;
+  @Mock
+  TelegrafProperties telegrafProperties;
 
   TelegrafRunner runner;
 
@@ -56,7 +59,8 @@ public class TelegrafRunnerTest {
   public void before() {
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);
     containerProperties = ContainerPropertiesTest.RUNTIME_PROPERTIES;
-    telegrafProperties = TelegrafPropertiesTest.TELEGRAF_PROPERTIES;
+    when(telegrafProperties.getLocal()).thenReturn("localPath");
+    when(telegrafProperties.getRemote()).thenReturn("remotePath");
     runner = new TelegrafRunner(
         runtimeClient,
         commandService,

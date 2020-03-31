@@ -26,6 +26,6 @@ class HostIdsPublisher implements EnvironmentPublisher {
 
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
-    return context.addEntries(context.getHostIds().stream().map(hostId -> ExecutionEnvironmentEntry.builder().from(BACKEND).scope(hostId).key(KRAKEN_HOSTID).value(hostId).build()).collect(Collectors.toUnmodifiableList()));
+    return context.addEntries(context.getHostIds().stream().map(hostId -> ExecutionEnvironmentEntry.builder().from(BACKEND).scope(hostId).key(KRAKEN_HOSTID.name()).value(hostId).build()).collect(Collectors.toUnmodifiableList()));
   }
 }

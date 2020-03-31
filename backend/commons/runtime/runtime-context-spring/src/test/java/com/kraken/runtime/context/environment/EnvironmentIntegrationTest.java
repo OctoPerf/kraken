@@ -1,12 +1,12 @@
 package com.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.client.properties.RuntimeClientProperties;
+import com.kraken.config.runtime.client.api.RuntimeClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.kraken.tools.properties.api.ApplicationProperties;
+import com.kraken.config.api.ApplicationProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

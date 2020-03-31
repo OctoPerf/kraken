@@ -1,11 +1,11 @@
 dependencies {
     implementation project(':commons:analysis:analysis-server')
-    implementation project(':commons:tools:configuration')
-    implementation project(':commons:analysis:analysis-server-properties-spring')
-    implementation project(':commons:analysis:grafana-client-properties-spring')
+    implementation project(':commons:tools:tools-configuration')
+    implementation project(':commons:config:config-analysis-server-spring')
+    implementation project(':commons:config:config-grafana-spring')
     implementation project(':commons:analysis:grafana-client-web')
-    implementation project(':commons:analysis:influxdb-client-properties-spring')
+    implementation project(':commons:config:config-influxdb-spring')
     implementation project(':commons:analysis:influxdb-client-web')
-    implementation project(':commons:storage:storage-client-properties-spring')
+    implementation project(':commons:config:config-storage-spring')
     implementation project(':commons:storage:storage-client-web')
 }

@@ -2,7 +2,7 @@ dependencies {
     api project(':commons:analysis:analysis-client-api')
     api project(':commons:runtime:runtime-container-api')
 
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-container-spring', configuration: 'testArtifacts')
 }

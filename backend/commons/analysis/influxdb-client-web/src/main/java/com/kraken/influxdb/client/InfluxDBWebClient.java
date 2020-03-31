@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.google.common.base.Charsets;
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

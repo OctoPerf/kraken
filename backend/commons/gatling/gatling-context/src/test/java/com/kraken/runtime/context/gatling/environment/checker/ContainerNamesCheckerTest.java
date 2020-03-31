@@ -34,10 +34,10 @@ public class ContainerNamesCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_CONTAINER_NAME, "value")
-        .put(KRAKEN_GATLING_CONTAINER_LABEL, "value")
-        .put(KRAKEN_GATLING_SIDEKICK_NAME, "value")
-        .put(KRAKEN_GATLING_SIDEKICK_LABEL, "value")
+        .put(KRAKEN_GATLING_CONTAINER_NAME.name(), "value")
+        .put(KRAKEN_GATLING_CONTAINER_LABEL.name(), "value")
+        .put(KRAKEN_GATLING_SIDEKICK_NAME.name(), "value")
+        .put(KRAKEN_GATLING_SIDEKICK_LABEL.name(), "value")
         .build();
     checker.accept(env);
   }

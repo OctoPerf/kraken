@@ -1,7 +1,7 @@
 package com.kraken.runtime.tasks.configuration;
 
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.runtime.server.properties.RuntimeServerProperties;
+import com.kraken.config.runtime.server.api.RuntimeServerProperties;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfigurationTest;

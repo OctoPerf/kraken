@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(':commons:gatling:gatling-properties-api')
-
-    testImplementation project(':commons:tools:application')
-}

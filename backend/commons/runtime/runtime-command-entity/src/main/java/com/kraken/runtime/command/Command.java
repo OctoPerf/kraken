@@ -1,5 +1,6 @@
 package com.kraken.runtime.command;
 
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -14,7 +15,7 @@ public class Command {
   @NonNull
   List<String> command;
   @NonNull
-  Map<String, String> environment;
+  Map<KrakenEnvironmentKeys, String> environment;
   @NonNull
   String path;
 

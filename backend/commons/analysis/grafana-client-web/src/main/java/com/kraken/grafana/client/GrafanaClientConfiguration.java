@@ -1,6 +1,6 @@
 package com.kraken.grafana.client;
 
-import com.kraken.analysis.properties.api.GrafanaProperties;
+import com.kraken.config.grafana.api.GrafanaProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

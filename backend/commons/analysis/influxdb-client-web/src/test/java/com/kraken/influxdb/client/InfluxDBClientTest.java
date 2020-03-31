@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.google.common.base.Charsets;
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;

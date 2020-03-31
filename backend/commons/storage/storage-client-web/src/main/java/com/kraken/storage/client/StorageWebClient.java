@@ -1,7 +1,7 @@
 package com.kraken.storage.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kraken.storage.client.properties.StorageProperties;
+import com.kraken.config.storage.api.StorageProperties;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import lombok.NonNull;

@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:config:config-gatling-api')
+
+    testImplementation project(':commons:tools:tools-application')
+}

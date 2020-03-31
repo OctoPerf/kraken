@@ -1,0 +1,12 @@
+dependencies {
+    implementation project(':commons:storage:storage-client-api')
+    implementation project(':commons:runtime:runtime-client-api')
+    implementation project(':commons:runtime:runtime-command-api')
+    implementation project(':commons:runtime:runtime-container-api')
+    implementation project(':commons:config:config-gatling-api')
+
+    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-command-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-container-spring', configuration: 'testArtifacts')
+}

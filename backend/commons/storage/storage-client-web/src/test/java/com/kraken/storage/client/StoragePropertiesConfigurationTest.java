@@ -1,6 +1,6 @@
 package com.kraken.storage.client;
 
-import com.kraken.storage.client.properties.StorageProperties;
+import com.kraken.config.storage.api.StorageProperties;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;

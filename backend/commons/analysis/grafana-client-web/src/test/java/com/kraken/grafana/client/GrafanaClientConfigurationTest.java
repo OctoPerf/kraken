@@ -1,7 +1,7 @@
 package com.kraken.grafana.client;
 
 import com.kraken.Application;
-import com.kraken.analysis.properties.api.GrafanaProperties;
+import com.kraken.config.grafana.api.GrafanaProperties;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
 dependencies {
     api project(':commons:runtime:runtime-entity')
-    testImplementation project(':commons:tools:configuration')
+    testImplementation project(':commons:tools:tools-configuration')
 }

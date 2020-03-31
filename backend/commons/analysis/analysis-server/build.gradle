@@ -1,6 +1,6 @@
 dependencies {
     implementation project(':commons:analysis:analysis-entity')
-    implementation project(':commons:analysis:analysis-server-properties-api')
+    implementation project(':commons:config:config-analysis-server-api')
     implementation project(':commons:analysis:grafana-client-api')
     implementation project(':commons:analysis:influxdb-client-api')
     implementation project(':commons:storage:storage-client-api')

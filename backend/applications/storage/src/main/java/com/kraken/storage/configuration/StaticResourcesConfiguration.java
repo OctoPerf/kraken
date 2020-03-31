@@ -1,6 +1,6 @@
 package com.kraken.storage.configuration;
 
-import com.kraken.tools.properties.api.ApplicationProperties;
+import com.kraken.config.api.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
+import static lombok.AccessLevel.PACKAGE;
+
 @Slf4j
 @Configuration
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class StaticResourcesConfiguration implements WebFluxConfigurer {
 

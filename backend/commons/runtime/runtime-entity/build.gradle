@@ -1,3 +1,3 @@
 dependencies {
-    testImplementation project(':commons:tools:configuration')
+    testImplementation project(':commons:tools:tools-configuration')
 }

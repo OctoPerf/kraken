@@ -35,9 +35,9 @@ public class DebugCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_SIMULATION_NAME, "value")
-        .put(KRAKEN_ANALYSIS_URL, "value")
-        .put(KRAKEN_STORAGE_URL, "value")
+        .put(KRAKEN_GATLING_SIMULATION_NAME.name(), "value")
+        .put(KRAKEN_ANALYSIS_URL.name(), "value")
+        .put(KRAKEN_STORAGE_URL.name(), "value")
         .build();
     checker.accept(env);
   }

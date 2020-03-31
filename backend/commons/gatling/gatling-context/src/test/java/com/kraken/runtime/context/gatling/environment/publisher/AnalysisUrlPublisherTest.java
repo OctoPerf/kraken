@@ -1,6 +1,6 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.kraken.analysis.properties.api.AnalysisClientProperties;
+import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;

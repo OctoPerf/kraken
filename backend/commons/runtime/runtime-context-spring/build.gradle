@@ -1,12 +1,12 @@
 dependencies {
     implementation project(':commons:runtime:runtime-context-api')
     implementation project(':commons:runtime:runtime-tasks-configuration-api')
-    implementation project(':commons:runtime:runtime-client-properties-api')
-    implementation project(':commons:runtime:runtime-server-properties-api')
+    implementation project(':commons:config:config-runtime-client-api')
+    implementation project(':commons:config:config-runtime-server-api')
     implementation project(':commons:storage:storage-client-api')
     implementation project(':commons:template:template-api')
-    implementation project(':commons:tools:unique-id')
-    implementation project(':commons:tools:properties-kraken')
+    implementation project(':commons:tools:tools-unique-id')
+    implementation project(':commons:config:config-kraken')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')

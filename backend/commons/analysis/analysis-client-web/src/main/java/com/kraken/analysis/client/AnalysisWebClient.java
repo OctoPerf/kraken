@@ -3,7 +3,7 @@ package com.kraken.analysis.client;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.analysis.entity.Result;
 import com.kraken.analysis.entity.ResultStatus;
-import com.kraken.analysis.properties.api.AnalysisClientProperties;
+import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.storage.entity.StorageNode;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

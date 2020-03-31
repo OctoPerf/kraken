@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.debug.entry.writer.DebugEntryWriter;
 import com.kraken.gatling.log.parser.LogParser;
-import com.kraken.gatling.properties.api.GatlingProperties;
+import com.kraken.config.gatling.api.GatlingProperties;
 import com.kraken.runtime.client.RuntimeClient;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;

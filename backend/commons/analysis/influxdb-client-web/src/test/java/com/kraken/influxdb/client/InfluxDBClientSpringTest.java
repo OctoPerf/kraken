@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client;
 
 import com.kraken.Application;
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

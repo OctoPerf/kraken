@@ -1,7 +1,7 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableSet;
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.test.utils.TestUtils;

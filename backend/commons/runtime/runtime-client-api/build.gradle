@@ -1,4 +1,4 @@
 dependencies {
     api project(':commons:runtime:runtime-entity')
-    api project(':commons:runtime:runtime-client-properties-api')
+    api project(':commons:config:config-runtime-client-api')
 }

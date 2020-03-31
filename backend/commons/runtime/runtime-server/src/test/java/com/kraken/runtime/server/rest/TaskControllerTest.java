@@ -14,7 +14,6 @@ import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.server.service.TaskListService;
 import com.kraken.test.utils.TestUtils;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
 import org.junit.Test;
@@ -35,6 +34,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_DESCRIPTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -98,7 +98,7 @@ public class TaskControllerTest {
   @Test
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    final var env = ImmutableMap.<String, String>of(KrakenEnvironmentKeys.KRAKEN_DESCRIPTION, "description");
+    final var env = ImmutableMap.of(KRAKEN_DESCRIPTION.name(), "description");
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task")
             .build())

@@ -1,10 +1,10 @@
 dependencies {
-    implementation project(':commons:gatling:container:gatling-recorder')
+    implementation project(':commons:gatling:gatling-recorder-spring')
     implementation project(':commons:runtime:runtime-client-web')
-    implementation project(':commons:runtime:runtime-client-properties-spring')
+    implementation project(':commons:config:config-runtime-client-spring')
     implementation project(':commons:runtime:runtime-container-spring')
     implementation project(':commons:runtime:runtime-command-zt')
     implementation project(':commons:storage:storage-client-web')
-    implementation project(':commons:storage:storage-client-properties-spring')
-    implementation project(':commons:gatling:gatling-properties-spring')
+    implementation project(':commons:config:config-storage-spring')
+    implementation project(':commons:config:config-gatling-spring')
 }

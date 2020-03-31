@@ -3,7 +3,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-event')
     implementation project(':commons:runtime:runtime-server')
     implementation project(':commons:analysis:analysis-client-api')
-    implementation project(':commons:tools:event-bus')
+    implementation project(':commons:tools:tools-event-bus')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')

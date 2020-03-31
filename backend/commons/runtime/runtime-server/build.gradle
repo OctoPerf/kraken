@@ -4,7 +4,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-context-api')
     implementation project(':commons:runtime:runtime-logs-api')
     implementation project(':commons:sse:sse-api')
-    implementation project(':commons:tools:event-bus')
+    implementation project(':commons:tools:tools-event-bus')
     implementation project(':commons:storage:storage-entity')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')

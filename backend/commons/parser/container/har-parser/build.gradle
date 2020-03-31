@@ -1,9 +1,10 @@
 dependencies {
-    implementation project(':commons:tools:properties-kraken')
+    implementation project(':commons:config:config-kraken')
     implementation project(':commons:storage:storage-client-api')
     implementation project(':commons:runtime:runtime-client-api')
     implementation project(':commons:runtime:runtime-container-api')
     implementation project(':commons:runtime:runtime-command-api')
+    implementation project(':commons:config:config-har-parser-api')
     implementation project(':commons:parser:parser-har')
     implementation project(':commons:parser:debug-entry-writer')
 

@@ -1,7 +1,7 @@
 dependencies {
     implementation project(':commons:analysis:grafana-client-api')
 
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
     testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
     testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
 }

@@ -35,12 +35,12 @@ public class RunCheckerTest {
   @Test
   public void shouldSucceed() {
     final var env = ImmutableMap.<String, String>builder()
-        .put(KRAKEN_GATLING_SIMULATION_NAME, "value")
-        .put(KRAKEN_INFLUXDB_URL, "value")
-        .put(KRAKEN_INFLUXDB_DATABASE, "value")
-        .put(KRAKEN_INFLUXDB_USER, "value")
-        .put(KRAKEN_INFLUXDB_PASSWORD, "value")
-        .put(KRAKEN_STORAGE_URL, "value")
+        .put(KRAKEN_GATLING_SIMULATION_NAME.name(), "value")
+        .put(KRAKEN_INFLUXDB_URL.name(), "value")
+        .put(KRAKEN_INFLUXDB_DATABASE.name(), "value")
+        .put(KRAKEN_INFLUXDB_USER.name(), "value")
+        .put(KRAKEN_INFLUXDB_PASSWORD.name(), "value")
+        .put(KRAKEN_STORAGE_URL.name(), "value")
         .build();
     checker.accept(env);
   }

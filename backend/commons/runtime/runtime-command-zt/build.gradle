@@ -4,5 +4,5 @@ dependencies {
     // Used to execute docker-compose commands
     implementation 'org.zeroturnaround:zt-exec:1.11'
 
-    testImplementation project(':commons:tools:reactor-utils')
+    testImplementation project(':commons:tools:tools-reactor-utils')
 }

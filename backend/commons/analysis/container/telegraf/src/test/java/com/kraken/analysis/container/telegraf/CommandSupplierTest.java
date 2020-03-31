@@ -3,10 +3,10 @@ package com.kraken.analysis.container.telegraf;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.container.properties.ContainerProperties;
-import org.assertj.core.api.Assertions;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,7 @@ public class CommandSupplierTest {
     assertThat(commandSupplier.get()).isEqualTo(
         Command.builder()
             .path(".")
-            .environment(ImmutableMap.<String, String>builder()
+            .environment(ImmutableMap.<KrakenEnvironmentKeys, String>builder()
                 .put(KRAKEN_INFLUXDB_URL, "url")
                 .put(KRAKEN_INFLUXDB_DATABASE, "database")
                 .put(KRAKEN_INFLUXDB_USER, "user")

@@ -1,5 +1,5 @@
 dependencies {
     api project(':commons:storage:storage-entity')
-    api project(':commons:storage:storage-client-properties-api')
-    api project(':commons:tools:configuration')
+    api project(':commons:config:config-storage-api')
+    api project(':commons:tools:tools-configuration')
 }

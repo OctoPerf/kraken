@@ -1,11 +1,11 @@
 dependencies {
     implementation project(':commons:runtime:runtime-client-api')
     implementation project(':commons:runtime:runtime-container-api')
-    implementation project(':commons:tools:reactor-utils')
+    implementation project(':commons:tools:tools-reactor-utils')
     implementation project(':commons:runtime:runtime-command-api')
     implementation project(':commons:parser:parser-gatling-log')
     implementation project(':commons:parser:debug-entry-writer')
-    implementation project(':commons:gatling:gatling-properties-api')
+    implementation project(':commons:config:config-gatling-api')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')

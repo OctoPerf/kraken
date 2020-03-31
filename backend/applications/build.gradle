@@ -13,10 +13,9 @@ subprojects {
     apply plugin: 'org.springframework.boot'
 
     dependencies {
-        implementation project(':commons:tools:application')
-        implementation project(':commons:tools:environment')
-        implementation project(':commons:tools:properties-kraken')
-        testImplementation project(path: ':test-utils', configuration: 'testArtifacts')
+        implementation project(':commons:tools:tools-application')
+        implementation project(':commons:tools:tools-environment')
+        implementation project(':commons:config:config-kraken')
     }
 
     springBoot {

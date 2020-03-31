@@ -1,6 +1,6 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.kraken.analysis.properties.api.AnalysisClientProperties;
+import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
@@ -32,7 +32,7 @@ class AnalysisUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(of(
-        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_ANALYSIS_URL).value(properties.getUrl()).build()
+        ExecutionEnvironmentEntry.builder().from(BACKEND).scope("").key(KRAKEN_ANALYSIS_URL.name()).value(properties.getUrl()).build()
     ));
   }
 }

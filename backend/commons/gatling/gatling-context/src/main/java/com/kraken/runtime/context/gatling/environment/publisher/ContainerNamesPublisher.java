@@ -41,10 +41,10 @@ class ContainerNamesPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(ImmutableList.of(
-      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_CONTAINER_NAME).value("gatling").build(),
-      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_CONTAINER_LABEL).value("Gatling").build(),
-      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_SIDEKICK_NAME).value(SIDEKICK_NAMES.get(context.getTaskType())).build(),
-      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_SIDEKICK_LABEL).value(SIDEKICK_LABELS.get(context.getTaskType())).build()
+      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_CONTAINER_NAME.name()).value("gatling").build(),
+      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_CONTAINER_LABEL.name()).value("Gatling").build(),
+      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_SIDEKICK_NAME.name()).value(SIDEKICK_NAMES.get(context.getTaskType())).build(),
+      builder().from(BACKEND).scope("").key(KRAKEN_GATLING_SIDEKICK_LABEL.name()).value(SIDEKICK_LABELS.get(context.getTaskType())).build()
     ));
   }
 }

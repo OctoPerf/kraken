@@ -1,11 +1,10 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.analysis.properties.api.AnalysisClientProperties;
+import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.test.utils.TestUtils;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

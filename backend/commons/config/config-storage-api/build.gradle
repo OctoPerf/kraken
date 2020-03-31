@@ -1,0 +1,5 @@
+dependencies {
+    api project(':commons:config:config-api')
+
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+}

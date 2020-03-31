@@ -4,7 +4,7 @@ import com.google.common.base.Charsets;
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
-import com.kraken.tools.properties.api.ApplicationProperties;
+import com.kraken.config.api.ApplicationProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

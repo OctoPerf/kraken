@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:config:config-telegraf-api')
+
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+}

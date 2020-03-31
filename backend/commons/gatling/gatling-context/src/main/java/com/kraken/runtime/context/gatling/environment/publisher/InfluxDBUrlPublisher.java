@@ -1,6 +1,6 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.kraken.analysis.properties.api.InfluxDBProperties;
+import com.kraken.config.influxdb.api.InfluxDBProperties;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.task.TaskType;
@@ -31,10 +31,10 @@ class InfluxDBUrlPublisher implements EnvironmentPublisher {
   @Override
   public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
     return context.addEntries(of(
-        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_URL).value(properties.getUrl()).build(),
-        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE).value(properties.getDatabase()).build(),
-        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_USER).value(properties.getUser()).build(),
-        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD).value(properties.getPassword()).build()
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getUrl()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE.name()).value(properties.getDatabase()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_USER.name()).value(properties.getUser()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD.name()).value(properties.getPassword()).build()
     ));
   }
 }

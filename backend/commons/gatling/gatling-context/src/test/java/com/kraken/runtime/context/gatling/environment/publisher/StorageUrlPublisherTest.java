@@ -3,7 +3,7 @@ package com.kraken.runtime.context.gatling.environment.publisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.storage.client.properties.StorageProperties;
+import com.kraken.config.storage.api.StorageProperties;
 import com.kraken.test.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,11 +1,11 @@
 dependencies {
     implementation project(':commons:storage:storage-client-api')
-    implementation project(':commons:tools:configuration')
+    implementation project(':commons:tools:tools-configuration')
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: ztZipVersion
 
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:storage:storage-client-properties-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:config:config-api', configuration: 'testArtifacts')
     testImplementation project(':commons:analysis:analysis-entity')
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
 

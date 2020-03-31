@@ -2,7 +2,7 @@ package com.kraken.storage.file;
 
 import com.kraken.Application;
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.api.ApplicationProperties;
+import com.kraken.config.api.ApplicationProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

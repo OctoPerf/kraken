@@ -1,8 +1,8 @@
 dependencies {
     implementation project(':commons:runtime:runtime-tasks-configuration-api')
     implementation project(':commons:storage:storage-client-api')
-    implementation project(':commons:runtime:runtime-server-properties-api')
+    implementation project(':commons:config:config-runtime-server-api')
 
-    testImplementation project(':commons:tools:configuration')
+    testImplementation project(':commons:tools:tools-configuration')
     testImplementation project(path: ':commons:runtime:runtime-tasks-configuration-entity', configuration: 'testArtifacts')
 }

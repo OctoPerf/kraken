@@ -1,0 +1,10 @@
+kraken:
+  data: /home/kraken
+  har-parser:
+    local: ${kraken.data}/import.har
+    remote: hars/my-app.har
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name

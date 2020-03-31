@@ -1,7 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.tools.properties.api.ApplicationProperties;
+import com.kraken.config.api.ApplicationProperties;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;

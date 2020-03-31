@@ -1,0 +1,7 @@
+dependencies {
+    api project(':commons:config:config-api')
+
+    implementation project(':commons:tools:tools-environment')
+
+    testImplementation project(':commons:tools:tools-application')
+}

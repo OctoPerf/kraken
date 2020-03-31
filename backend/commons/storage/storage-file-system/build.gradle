@@ -4,8 +4,8 @@ dependencies {
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: ztZipVersion
 
     implementation project(':commons:storage:storage-file-api')
-    implementation project(':commons:tools:properties-kraken')
+    implementation project(':commons:config:config-kraken')
 
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }

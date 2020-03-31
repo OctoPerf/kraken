@@ -1,6 +1,5 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilder;
@@ -16,8 +15,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVAOPTS;
 
 @Component
 @AllArgsConstructor
@@ -35,13 +35,13 @@ class JavaOptsPublisher implements EnvironmentPublisher {
         .filter(entry -> entry.getFrom() == USER)
         .collect(Collectors.toUnmodifiableList());
 
-    Preconditions.checkArgument(userEntries.isEmpty() || userEntries
+    checkArgument(userEntries.isEmpty() || userEntries
         .stream()
         .map(ExecutionEnvironmentEntry::getKey)
         .allMatch(key -> key.matches("[a-zA-Z_]+[a-zA-Z0-9_]*")), "Environment variable names must match the regular expression [a-zA-Z_]{1,}[a-zA-Z0-9_]{0,}");
 
     // Reason for this: https://stackoverflow.com/questions/38349325/throws-error-when-passing-argument-with-space-in-java-opts-in-linux-os
-    Preconditions.checkArgument(userEntries.isEmpty() || userEntries
+    checkArgument(userEntries.isEmpty() || userEntries
         .stream()
         .map(ExecutionEnvironmentEntry::getValue)
         .allMatch(value -> value.matches("\\S+")), "Environment variable values cannot contain spaces.");
@@ -66,7 +66,7 @@ class JavaOptsPublisher implements EnvironmentPublisher {
     return ExecutionEnvironmentEntry.builder()
         .from(USER)
         .scope(hostId)
-        .key(KRAKEN_GATLING_JAVAOPTS)
+        .key(KRAKEN_GATLING_JAVAOPTS.name())
         .value(entries
             .stream()
             .map(entry -> String.format("-D%s=%s", entry.getKey(), entry.getValue()))

@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:config:config-har-parser-api')
+
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+}

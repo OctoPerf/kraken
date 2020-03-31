@@ -1,10 +1,10 @@
 dependencies {
     implementation project(':commons:runtime:runtime-context-api')
-    implementation project(':commons:storage:storage-client-properties-api')
-    implementation project(':commons:analysis:analysis-client-properties-api')
-    implementation project(':commons:analysis:influxdb-client-properties-api')
+    implementation project(':commons:config:config-storage-api')
+    implementation project(':commons:config:config-analysis-client-api')
+    implementation project(':commons:config:config-influxdb-api')
 
-    testImplementation project(path: ':commons:tools:application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
 }
