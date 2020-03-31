@@ -5,4 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface AuthenticatedUserProvider {
   Mono<KrakenUser> getAuthenticatedUser();
+  Mono<String> getAuthorizationHeader();
 }

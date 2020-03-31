@@ -43,7 +43,7 @@ public class AnalysisUrlPublisherTest {
   @Test
   public void shouldGet() {
     final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
-    assertThat(env.getEntries().stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_ANALYSIS_URL))).isTrue();
+    assertThat(env.getEntries().stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_ANALYSIS_URL.toString()))).isTrue();
   }
 
   @Test

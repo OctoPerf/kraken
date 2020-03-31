@@ -2,6 +2,8 @@ package com.kraken.config.kubernetes.api;
 
 import com.kraken.config.api.KrakenProperties;
 
+import java.util.Optional;
+
 public interface KubernetesProperties extends KrakenProperties {
 
   String getNamespace();
@@ -14,5 +16,5 @@ public interface KubernetesProperties extends KrakenProperties {
 
   KubernetesClientBuilderType getBuilderType();
 
-  java.util.Optional<String> getConfigPath();
+  Optional<String> getConfigPath();
 }

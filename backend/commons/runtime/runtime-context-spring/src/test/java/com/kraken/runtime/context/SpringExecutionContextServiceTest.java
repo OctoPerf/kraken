@@ -109,7 +109,7 @@ public class SpringExecutionContextServiceTest {
             .add(ExecutionEnvironmentEntry.builder().scope("").from(TASK_CONFIGURATION).key("key").value("value").build()
             ).build()).build());
     verify(toMap).apply("hostId", ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().scope("").from(USER).key("foo").value("bar").build(),
+        ExecutionEnvironmentEntry.builder().scope("").from(USER).key("KRAKEN_VERSION").value("bar").build(),
         ExecutionEnvironmentEntry.builder().scope("").from(BACKEND).key("hello").value("world").build()
     ));
     verify(templateService, times(2)).replaceAll("template", ImmutableMap.of("hello", "toMap"));

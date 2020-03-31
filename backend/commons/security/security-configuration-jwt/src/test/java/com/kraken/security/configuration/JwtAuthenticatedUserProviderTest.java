@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import reactor.core.publisher.Mono;
 
@@ -26,10 +25,10 @@ public class JwtAuthenticatedUserProviderTest {
   @Test
   public void shouldGetAuthenticatedUser() {
     given(securityContext.getAuthentication()).willReturn(authentication);
-    given(authentication.getDetails()).willReturn(KrakenUserTest.USER);
+    given(authentication.getDetails()).willReturn(KrakenUserTest.KRAKEN_USER);
     final var provider = new JwtAuthenticatedUserProvider(Mono.just(securityContext));
     final var user = provider.getAuthenticatedUser().block();
     assertThat(user).isNotNull();
-    assertThat(user).isEqualTo(KrakenUserTest.USER);
+    assertThat(user).isEqualTo(KrakenUserTest.KRAKEN_USER);
   }
 }

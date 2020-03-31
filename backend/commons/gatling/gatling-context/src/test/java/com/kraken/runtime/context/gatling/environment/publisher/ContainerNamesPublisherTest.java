@@ -38,7 +38,7 @@ public class ContainerNamesPublisherTest {
         .stream()
         .map(ExecutionEnvironmentEntry::getKey)
         .collect(toUnmodifiableSet())).isEqualTo(ImmutableSet.of(
-        KRAKEN_GATLING_CONTAINER_NAME, KRAKEN_GATLING_CONTAINER_LABEL, KRAKEN_GATLING_SIDEKICK_NAME, KRAKEN_GATLING_SIDEKICK_LABEL, "foo"
+        KRAKEN_GATLING_CONTAINER_NAME.name(), KRAKEN_GATLING_CONTAINER_LABEL.name(), KRAKEN_GATLING_SIDEKICK_NAME.name(), KRAKEN_GATLING_SIDEKICK_LABEL.name(), KRAKEN_VERSION.name()
     ));
   }
 

@@ -1,5 +1,6 @@
 package com.kraken.security.configuration;
 
+import com.kraken.security.configuration.entity.KrakenRole;
 import com.kraken.security.configuration.entity.KrakenUser;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,7 @@ class JwtConverter implements Converter<Jwt, Mono<AbstractAuthenticationToken>> 
 
     final var userId = jwt.getSubject();
     final var user = KrakenUser.builder()
-        .roles(roles.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
+        .roles(roles.stream().map(Object::toString).filter(role -> Arrays.stream(KrakenRole.values()).anyMatch(krakenRole -> krakenRole.toString().equals(role))).map(KrakenRole::valueOf).collect(Collectors.toUnmodifiableList()))
         .groups(groups.stream().map(Object::toString).collect(Collectors.toUnmodifiableList()))
         .userId(userId)
         .username(jwt.getClaimAsString("preferred_username"))

@@ -11,9 +11,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.ImmutableList.of;
+import static com.kraken.security.configuration.entity.KrakenRole.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JwtConverterTest {
@@ -27,23 +30,8 @@ public class JwtConverterTest {
 
   @Test
   public void shouldConvertNoGroup() {
-    final var roles = new JSONArray();
-    roles.appendElement("USER");
-    final var realmAccess = new JSONObject();
-    realmAccess.appendField("roles", roles);
-    final var groups = new JSONArray();
-    groups.appendElement("/default-kraken");
-
-    final var jwt = Jwt.withTokenValue("token")
-        .claim("preferred_username", "username")
-        .claim("user_groups", groups)
-        .claim("realm_access", realmAccess)
-        .subject("userId")
-        .issuedAt(Instant.EPOCH)
-        .expiresAt(Instant.EPOCH.plusMillis(1))
-        .header("foo", "bar")
-        .build();
-
+    final var jwt = JwtFactory.JWT_FACTORY.create(ImmutableList.of("USER"),
+        ImmutableList.of("/default-kraken"), Optional.empty());
     final var result = converter.convert(jwt);
     assertThat(result).isNotNull();
     final var token = result.block();
@@ -54,29 +42,14 @@ public class JwtConverterTest {
         .currentGroup("")
         .username("username")
         .groups(of("/default-kraken"))
-        .roles(of("USER"))
+        .roles(of(USER))
         .build());
   }
 
   @Test
   public void shouldConvertWithGroup() {
-    final var roles = new JSONArray();
-    roles.appendElement("USER");
-    final var realmAccess = new JSONObject();
-    realmAccess.appendField("roles", roles);
-    final var groups = new JSONArray();
-    groups.appendElement("/default-kraken");
-
-    final var jwt = Jwt.withTokenValue("token")
-        .claim("preferred_username", "username")
-        .claim("user_groups", groups)
-        .claim("realm_access", realmAccess)
-        .claim("current_group", "/default-kraken")
-        .subject("userId")
-        .issuedAt(Instant.EPOCH)
-        .expiresAt(Instant.EPOCH.plusMillis(1))
-        .header("foo", "bar")
-        .build();
+    final var jwt = JwtFactory.JWT_FACTORY.create(ImmutableList.of("USER"),
+        ImmutableList.of("/default-kraken"), Optional.of("/default-kraken"));
 
     final var result = converter.convert(jwt);
     assertThat(result).isNotNull();
@@ -88,29 +61,14 @@ public class JwtConverterTest {
         .currentGroup("/default-kraken")
         .username("username")
         .groups(of("/default-kraken"))
-        .roles(of("USER"))
+        .roles(of(USER))
         .build());
   }
 
   @Test(expected = AuthenticationServiceException.class)
   public void shouldNotConvertGroupMismatch() {
-    final var roles = new JSONArray();
-    roles.appendElement("USER");
-    final var realmAccess = new JSONObject();
-    realmAccess.appendField("roles", roles);
-    final var groups = new JSONArray();
-    groups.appendElement("/default-kraken");
-
-    final var jwt = Jwt.withTokenValue("token")
-        .claim("preferred_username", "username")
-        .claim("user_groups", groups)
-        .claim("realm_access", realmAccess)
-        .claim("current_group", "other group")
-        .subject("userId")
-        .issuedAt(Instant.EPOCH)
-        .expiresAt(Instant.EPOCH.plusMillis(1))
-        .header("foo", "bar")
-        .build();
+    final var jwt = JwtFactory.JWT_FACTORY.create(ImmutableList.of("USER"),
+        ImmutableList.of("/default-kraken"), Optional.of("other group"));
 
     final var result = converter.convert(jwt);
     assertThat(result).isNotNull();

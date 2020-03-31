@@ -7,6 +7,7 @@ import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.config.api.ApplicationProperties;
+import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntryTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
@@ -36,7 +39,12 @@ public class EnvironmentIntegrationTest {
   public void before() {
     given(application.getVersion()).willReturn("version");
     given(client.getUrl()).willReturn("url");
-    contextBuilder = ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER;
+    contextBuilder = ExecutionContextBuilderTest.WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder()
+        .scope("")
+        .from(USER)
+        .key("foo")
+        .value("bar")
+        .build()));
     publishers = ImmutableList.of(
         new ContextPublisher(),
         new HostIdsPublisher(),

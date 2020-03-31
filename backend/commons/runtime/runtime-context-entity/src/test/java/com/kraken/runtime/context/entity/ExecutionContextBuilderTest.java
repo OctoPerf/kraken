@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExecutionContextBuilderTest {
 
-  public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WithEntries = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
+  public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WITH_ENTRIES = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
       .applicationId("application")
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
@@ -27,7 +27,7 @@ public class ExecutionContextBuilderTest {
       .entries(entries)
       .build();
 
-  public static final ExecutionContextBuilder EXECUTION_CONTEXT_BUILDER = WithEntries.apply(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY));
+  public static final ExecutionContextBuilder EXECUTION_CONTEXT_BUILDER = WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY));
 
   @Test
   public void shouldPassTestUtils() {

@@ -2,6 +2,7 @@ package com.kraken.runtime.command;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.kraken.tools.reactor.utils.ReactorUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -24,6 +25,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 import static com.kraken.tools.reactor.utils.ReactorUtils.waitFor;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,8 +45,8 @@ public class ZtCommandServiceTest {
   public void shouldEchoEnvData() {
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("/bin/sh", "-c", "echo $FOO"))
-        .environment(ImmutableMap.of("FOO", "BAR"))
+        .command(Arrays.asList("/bin/sh", "-c", "echo $KRAKEN_VERSION"))
+        .environment(ImmutableMap.of(KRAKEN_VERSION, "BAR"))
         .build();
     final var result = service.execute(command).take(1).collectList().block();
     assertThat(result).isNotNull();
@@ -57,7 +59,7 @@ public class ZtCommandServiceTest {
     final var command = Command.builder()
         .path(".")
         .command(Arrays.asList("/bin/sh", "-c", "printenv"))
-        .environment(ImmutableMap.of("FOO", "BAR"))
+        .environment(ImmutableMap.of(KRAKEN_VERSION, "BAR"))
         .build();
     final var result = service.execute(command).collectList().block();
     assertThat(result).isNotNull();

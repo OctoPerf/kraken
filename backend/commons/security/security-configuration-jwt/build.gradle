@@ -1,9 +1,11 @@
 dependencies {
     api project(':commons:security:security-configuration-api')
+    api project(':commons:config:config-api')
 
     api group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
     api group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: springSecurityVersion
     api group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: springSecurityVersion
 
     testImplementation project(path: ':commons:security:security-configuration-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application')
 }

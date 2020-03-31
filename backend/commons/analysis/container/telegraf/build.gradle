@@ -2,6 +2,7 @@ dependencies {
     implementation project(':commons:runtime:runtime-client-api')
     implementation project(':commons:runtime:runtime-container-api')
     implementation project(':commons:runtime:runtime-command-api')
+    implementation project(':commons:runtime:runtime-command-entity')
 
     implementation project(':commons:config:config-influxdb-api')
     implementation project(':commons:config:config-telegraf-api')

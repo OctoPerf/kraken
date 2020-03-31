@@ -12,7 +12,7 @@ public class KrakenUser {
 
   @NonNull String username;
   @NonNull String userId;
-  @NonNull List<String> roles;
+  @NonNull List<KrakenRole> roles;
   @NonNull List<String> groups;
   @NonNull String currentGroup;
 

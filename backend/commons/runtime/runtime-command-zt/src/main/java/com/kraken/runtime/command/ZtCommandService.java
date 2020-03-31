@@ -15,10 +15,12 @@ import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -37,7 +39,8 @@ final class ZtCommandService implements CommandService {
       final var errors = ImmutableList.<String>builder();
       final var process = new ProcessExecutor().command(command.getCommand())
           .directory(file)
-          .environment(command.getEnvironment())
+          .environment(command.getEnvironment().entrySet().stream()
+              .collect(Collectors.toMap(e -> e.getKey().name(), Map.Entry::getValue)))
           .redirectErrorStream(true)
           .redirectOutput(new LogOutputStream() {
             @Override

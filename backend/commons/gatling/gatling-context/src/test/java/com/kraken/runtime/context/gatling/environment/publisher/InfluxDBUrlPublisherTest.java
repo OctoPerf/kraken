@@ -52,7 +52,7 @@ public class InfluxDBUrlPublisherTest {
         .stream()
         .map(ExecutionEnvironmentEntry::getKey)
         .collect(Collectors.toUnmodifiableSet())).isEqualTo(ImmutableSet.of(
-        KRAKEN_INFLUXDB_URL, KRAKEN_INFLUXDB_DATABASE, KRAKEN_INFLUXDB_USER, KRAKEN_INFLUXDB_PASSWORD, "foo"
+        KRAKEN_INFLUXDB_URL.name(), KRAKEN_INFLUXDB_DATABASE.name(), KRAKEN_INFLUXDB_USER.name(), KRAKEN_INFLUXDB_PASSWORD.name(), KRAKEN_VERSION.name()
     ));
   }
 
