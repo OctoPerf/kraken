@@ -2,7 +2,7 @@ package com.kraken.config.runtime.client.spring;
 
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 import static org.junit.Assert.assertNotNull;
 
 public class SpringRuntimeClientPropertiesTest {

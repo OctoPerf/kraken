@@ -28,7 +28,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   readonly setIdIcon = RENAME_ICON;
   readonly attachIcon = new IconFa(faLink);
   readonly detachIcon = new IconFa(faUnlink);
-  readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'cpu', 'memory', 'buttons'];
+  readonly displayedColumns: string[] = ['id', 'name', 'addresses', 'cpu', 'memory', 'owner', 'buttons'];
   readonly _selection: MonoSelectionWrapper<Host> = new MonoSelectionWrapper<Host>(this._match.bind(this));
 
   private keyBindings: KeyBinding[] = [];
@@ -71,23 +71,13 @@ export class HostsTableComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  public setId(host: Host) {
-    this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {
-      title: `Set Host ID for '${host.name}'`,
-      initialId: host.id
-    })
-      .subscribe(id => {
-        this.hostService.attach(host, id).subscribe();
-      });
-  }
-
   public attach(host: Host) {
     this.dialogs.open(AttachHostDialogComponent, DialogSize.SIZE_MD, {
       title: `Attach Host '${host.name}'`,
-      initialId: ''
+      host,
     })
-      .subscribe(id => {
-        this.hostService.attach(host, id).subscribe();
+      .subscribe(attached => {
+        this.hostService.attach(host, attached).subscribe();
       });
   }
 
@@ -101,11 +91,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   _onEnter($event: KeyboardEvent): boolean {
     if (this._selection.hasSelection) {
       const host = this._selection.selection;
-      if (host.id) {
-        this.setId(host);
-      } else {
-        this.attach(host);
-      }
+      this.attach(host);
       return true;
     }
     return false;

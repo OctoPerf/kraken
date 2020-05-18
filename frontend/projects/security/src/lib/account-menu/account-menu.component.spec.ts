@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AccountMenuComponent } from './account-menu.component';
+import {AccountMenuComponent} from './account-menu.component';
+import {SecurityService} from 'projects/security/src/lib/security.service';
+import {securityServiceSpy} from 'projects/security/src/lib/security.service.spec';
 
 describe('AccountMenuComponent', () => {
   let component: AccountMenuComponent;
@@ -8,9 +10,13 @@ describe('AccountMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountMenuComponent ]
+      declarations: [AccountMenuComponent],
+      providers: [
+        {provide: SecurityService, useValue: securityServiceSpy()},
+      ]
     })
-    .compileComponents();
+      .overrideTemplate(AccountMenuComponent, '')
+      .compileComponents();
   }));
 
   beforeEach(() => {

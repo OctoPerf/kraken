@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-class StringCleaner implements Function<String, String> {
+final class StringCleaner implements Function<String, String> {
 
   @Override
   public String apply(String s) {

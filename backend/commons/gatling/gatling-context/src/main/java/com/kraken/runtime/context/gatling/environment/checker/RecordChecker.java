@@ -9,17 +9,17 @@ import java.util.Map;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
-class RecordChecker implements EnvironmentChecker {
+final class RecordChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(
-      environment,
-      KRAKEN_GATLING_SIMULATION_CLASSNAME,
-      KRAKEN_GATLING_SIMULATION_PACKAGENAME,
-      KRAKEN_GATLING_HARPATH_REMOTE,
-      KRAKEN_ANALYSIS_URL,
-      KRAKEN_STORAGE_URL
+        environment,
+        KRAKEN_GATLING_SIMULATION_CLASS_NAME,
+        KRAKEN_GATLING_SIMULATION_PACKAGE_NAME,
+        KRAKEN_GATLING_HAR_PATH_REMOTE,
+        KRAKEN_ANALYSIS_URL,
+        KRAKEN_STORAGE_URL
     );
   }
 

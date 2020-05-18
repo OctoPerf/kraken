@@ -6,4 +6,5 @@ public enum ExecutionEnvironmentEntrySource {
   TASK_CONFIGURATION,
   FRONTEND,
   USER,
+  SECURITY,
 }

@@ -2,8 +2,8 @@ package com.kraken.config.har.parser.spring;
 
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassEquals;
-import static com.kraken.test.utils.TestUtils.shouldPassToString;
+import static com.kraken.tests.utils.TestUtils.shouldPassEquals;
+import static com.kraken.tests.utils.TestUtils.shouldPassToString;
 
 public class HarParserPropertiesTest {
 

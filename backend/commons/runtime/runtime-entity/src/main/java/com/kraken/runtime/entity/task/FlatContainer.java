@@ -2,15 +2,18 @@ package com.kraken.runtime.entity.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kraken.security.entity.owner.Owned;
+import com.kraken.security.entity.owner.Owner;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
-public class FlatContainer {
+@Builder(toBuilder = true)
+public class FlatContainer implements Owned {
   String id;
   String name;
   String hostId;
@@ -22,32 +25,32 @@ public class FlatContainer {
   @With
   ContainerStatus status;
   Integer expectedCount;
-  String applicationId;
+  Owner owner;
 
   @JsonCreator
   FlatContainer(
-      @JsonProperty("id") final String id,
-      @JsonProperty("name") final String name,
-      @JsonProperty("hostId") final String hostId,
-      @JsonProperty("taskId") final String taskId,
-      @JsonProperty("taskType") final TaskType taskType,
-      @JsonProperty("label") final String label,
-      @JsonProperty("description") final String description,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final ContainerStatus status,
-      @JsonProperty("expectedCount") final Integer expectedCount,
-      @JsonProperty("applicationId") final String applicationId) {
+      @NonNull @JsonProperty("id") final String id,
+      @NonNull @JsonProperty("name") final String name,
+      @NonNull @JsonProperty("hostId") final String hostId,
+      @NonNull @JsonProperty("taskId") final String taskId,
+      @NonNull @JsonProperty("taskType") final TaskType taskType,
+      @NonNull @JsonProperty("label") final String label,
+      @NonNull @JsonProperty("description") final String description,
+      @NonNull @JsonProperty("startDate") final Long startDate,
+      @NonNull @JsonProperty("status") final ContainerStatus status,
+      @NonNull @JsonProperty("expectedCount") final Integer expectedCount,
+      @NonNull @JsonProperty("owner") final Owner owner) {
     super();
-    this.id = requireNonNull(id);
-    this.name = requireNonNull(name);
-    this.hostId = requireNonNull(hostId);
-    this.taskId = requireNonNull(taskId);
-    this.taskType = requireNonNull(taskType);
-    this.startDate = requireNonNull(startDate);
-    this.status = requireNonNull(status);
-    this.label = requireNonNull(label);
-    this.description = requireNonNull(description);
-    this.expectedCount = requireNonNull(expectedCount);
-    this.applicationId = requireNonNull(applicationId);
+    this.id = id;
+    this.name = name;
+    this.hostId = hostId;
+    this.taskId = taskId;
+    this.taskType = taskType;
+    this.startDate = startDate;
+    this.status = status;
+    this.label = label;
+    this.description = description;
+    this.expectedCount = expectedCount;
+    this.owner = owner;
   }
 }

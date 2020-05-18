@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken.har-parser")
 public class SpringHarParserProperties implements HarParserProperties {

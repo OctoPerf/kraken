@@ -1,6 +1,0 @@
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:9080/auth/realms/kraken

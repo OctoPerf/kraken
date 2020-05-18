@@ -1,0 +1,25 @@
+<span [formGroup]="formGroup">
+<mat-form-field class="block-filler-x">
+  <mat-label>Owner Type</mat-label>
+  <mat-select formControlName="type" [multiple]="false" (selectionChange)="typeSelected($event.value)">
+    <mat-option value="PUBLIC">Public</mat-option>
+    <mat-option value="APPLICATION">Application</mat-option>
+    <mat-option value="USER">User</mat-option>
+  </mat-select>
+  <mat-error *ngIf="type.hasError('required')">
+    Please select a type.
+  </mat-error>
+</mat-form-field>
+<mat-form-field class="block-filler-x" *ngIf="applicationId">
+  <input matInput placeholder="Application ID" formControlName="applicationId" required>
+  <mat-error *ngIf="applicationId.hasError('required')">
+    Application ID is required.
+  </mat-error>
+</mat-form-field>
+<mat-form-field class="block-filler-x" *ngIf="userId">
+  <input matInput placeholder="User ID" formControlName="userId" required>
+  <mat-error *ngIf="userId.hasError('required')">
+    User ID is required.
+  </mat-error>
+</mat-form-field>
+</span>

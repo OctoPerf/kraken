@@ -4,8 +4,8 @@ import com.google.common.testing.NullPointerTester;
 import org.junit.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
-import static com.kraken.test.utils.TestUtils.shouldPassEquals;
-import static com.kraken.test.utils.TestUtils.shouldPassToString;
+import static com.kraken.tests.utils.TestUtils.shouldPassEquals;
+import static com.kraken.tests.utils.TestUtils.shouldPassToString;
 
 public class StorageWatcherEventTest {
 

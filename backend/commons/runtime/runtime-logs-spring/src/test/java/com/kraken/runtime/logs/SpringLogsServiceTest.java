@@ -3,6 +3,8 @@ package com.kraken.runtime.logs;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.log.LogStatus;
 import com.kraken.runtime.entity.log.LogType;
+import com.kraken.security.entity.owner.ApplicationOwner;
+import com.kraken.security.entity.owner.PublicOwner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,9 +35,9 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldPushAndListenForLogs() {
-    final var applicationId0 = "applicationId0";
-    final var applicationId1 = "applicationId1";
-    final var applicationId2 = "applicationId2";
+    final var applicationId0 = ApplicationOwner.builder().applicationId("applicationId0").build();
+    final var applicationId1 = ApplicationOwner.builder().applicationId("applicationId1").build();
+    final var applicationId2 = ApplicationOwner.builder().applicationId("applicationId2").build();
     final var log0 = "log0";
     final var log1 = "log1";
     final var log2 = "log2";
@@ -79,7 +81,7 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldCancelLogs() throws InterruptedException {
-    final var applicationId0 = "applicationId0";
+    final var applicationId0 = ApplicationOwner.builder().applicationId("applicationId0").build();
     final var log0 = "log0";
     final var logsEmitter0 = Flux.interval(Duration.ofMillis(100)).map(aLong -> log0 + " at " + 100 * (aLong + 1));
     service.push(applicationId0, log0, LogType.CONTAINER, logsEmitter0);
@@ -97,7 +99,7 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldListenAfterPushingLogs() throws InterruptedException {
-    final var applicationId0 = "applicationId0";
+    final var applicationId0 = ApplicationOwner.builder().applicationId("applicationId0").build();
     final var log0 = "log0";
     final var logsEmitter0 = Flux.interval(Duration.ofMillis(100)).map(aLong -> log0 + " at " + 100 * (aLong + 1));
     final var app0Logs = new ArrayList<Log>();
@@ -123,15 +125,15 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldCancelNope() {
-    assertThat(service.dispose("nope","nope", LogType.CONTAINER)).isFalse();
+    assertThat(service.dispose(PublicOwner.INSTANCE,"nope", LogType.CONTAINER)).isFalse();
   }
 
 
   @Test
   public void shouldAdd() {
-    final var appId = "appId";
+    final var appId = ApplicationOwner.builder().applicationId("appId").build();
     final var id = "id";
-    final var log = Log.builder().applicationId(appId).id(id).text("text").type(LogType.TASK).status(LogStatus.RUNNING).build();
+    final var log = Log.builder().owner(appId).id(id).text("text").type(LogType.TASK).status(LogStatus.RUNNING).build();
     new Thread(() -> {
       try {
         Thread.sleep(100);
@@ -146,9 +148,9 @@ public class SpringLogsServiceTest {
 
   @Test
   public void shouldNotAdd() {
-    final var appId = "appId";
+    final var appId = ApplicationOwner.builder().applicationId("appId").build();
     final var id = "id";
-    final var log = Log.builder().applicationId(appId).id(id).text("text").status(LogStatus.RUNNING).type(LogType.TASK).build();
+    final var log = Log.builder().owner(appId).id(id).text("text").status(LogStatus.RUNNING).type(LogType.TASK).build();
     // Won't do anything
     service.add(log);
     final var result = service.listen(appId).take(Duration.ofMillis(100)).blockFirst();

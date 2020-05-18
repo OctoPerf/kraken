@@ -2,12 +2,11 @@ package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableSet;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -33,12 +32,13 @@ public class ContainerNamesPublisherTest {
 
   @Test
   public void shouldApply() {
-    final var env = publisher.apply(EXECUTION_CONTEXT_BUILDER);
-    assertThat(env.getEntries()
+    final var env = publisher.apply(EXECUTION_CONTEXT_BUILDER).block();
+    assertThat(env).isNotNull();
+    assertThat(env
         .stream()
         .map(ExecutionEnvironmentEntry::getKey)
         .collect(toUnmodifiableSet())).isEqualTo(ImmutableSet.of(
-        KRAKEN_GATLING_CONTAINER_NAME.name(), KRAKEN_GATLING_CONTAINER_LABEL.name(), KRAKEN_GATLING_SIDEKICK_NAME.name(), KRAKEN_GATLING_SIDEKICK_LABEL.name(), KRAKEN_VERSION.name()
+        KRAKEN_GATLING_CONTAINER_NAME.name(), KRAKEN_GATLING_CONTAINER_LABEL.name(), KRAKEN_GATLING_SIDEKICK_NAME.name(), KRAKEN_GATLING_SIDEKICK_LABEL.name()
     ));
   }
 

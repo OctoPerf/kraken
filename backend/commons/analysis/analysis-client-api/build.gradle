@@ -2,4 +2,5 @@ dependencies {
     api project(':commons:storage:storage-entity')
     api project(':commons:analysis:analysis-entity')
     api project(':commons:config:config-analysis-client-api')
+    api project(':commons:security:security-authentication-client-api')
 }

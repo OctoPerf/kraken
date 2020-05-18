@@ -8,14 +8,19 @@ import com.kraken.runtime.context.api.ExecutionContextService;
 import com.kraken.runtime.context.entity.CancelContextTest;
 import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
+import com.kraken.runtime.entity.host.Host;
+import com.kraken.runtime.entity.host.HostTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
-import com.kraken.runtime.event.TaskCancelledEvent;
-import com.kraken.runtime.event.TaskExecutedEvent;
+import com.kraken.runtime.event.*;
 import com.kraken.runtime.server.service.TaskListService;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.security.entity.owner.ApplicationOwner;
+import com.kraken.security.entity.owner.UserOwner;
+import com.kraken.tests.security.AuthControllerTest;
+import com.kraken.tests.utils.TestUtils;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
+import com.kraken.tools.sse.SSEWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,36 +38,15 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_DESCRIPTION;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {TaskController.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
-public class TaskControllerTest {
-
-  @Autowired
-  WebTestClient webTestClient;
-
-  @MockBean
-  TaskService taskService;
-
-  @MockBean
-  TaskListService taskListService;
-
-  @MockBean
-  ExecutionContextService contextService;
-
-  @MockBean
-  EventBus eventBus;
-
-  @MockBean
-  SSEService sse;
+public class TaskControllerTest extends RuntimeControllerTest {
 
   @Test
   public void shouldPassTestUtils() {
@@ -72,18 +56,17 @@ public class TaskControllerTest {
   @Test
   public void shouldRun() {
     final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
+    final var hosts = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT.getHostIds().stream().map(hostId -> HostTest.HOST.toBuilder().owner(userOwner()).id(hostId).build()).collect(Collectors.toUnmodifiableList());
     final var context = ExecutionContextTest.EXECUTION_CONTEXT;
-    final var applicationId = context.getApplicationId();
     final var taskId = context.getTaskId();
 
-    given(contextService.newExecuteContext(applicationId, env)).willReturn(Mono.just(context));
-    given(taskService.execute(context))
-        .willReturn(Mono.just(context));
+    given(contextService.newExecuteContext(userOwner(), env)).willReturn(Mono.just(context));
+    given(taskService.execute(context)).willReturn(Mono.just(context));
+    given(hostService.list(userOwner())).willReturn(Flux.fromIterable(hosts));
 
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/task")
-            .build())
-        .header("ApplicationId", applicationId)
+        .uri(uriBuilder -> uriBuilder.path("/task").build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(env))
         .exchange()
         .expectStatus().isOk()
@@ -96,12 +79,28 @@ public class TaskControllerTest {
   }
 
   @Test
+  public void shouldRunIllegal() {
+    final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
+    final var hosts = ImmutableList.of(HostTest.HOST);
+    final var context = ExecutionContextTest.EXECUTION_CONTEXT;
+
+    given(hostService.list(userOwner())).willReturn(Flux.fromIterable(hosts));
+
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/task").build())
+        .header("Authorization", "Bearer user-token")
+        .body(BodyInserters.fromValue(env))
+        .exchange()
+        .expectStatus().is5xxServerError();
+  }
+
+  @Test
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     final var env = ImmutableMap.of(KRAKEN_DESCRIPTION.name(), "description");
     webTestClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/task")
-            .build())
+        .uri(uriBuilder -> uriBuilder.path("/task").build())
+        .header("Authorization", "Bearer user-token")
         .header("ApplicationId", applicationId)
         .body(BodyInserters.fromValue(env))
         .exchange()
@@ -111,11 +110,10 @@ public class TaskControllerTest {
   @Test
   public void shouldCancel() {
     final var context = CancelContextTest.CANCEL_CONTEXT;
-    final var applicationId = context.getApplicationId();
     final var taskId = context.getTaskId();
     final var taskType = context.getTaskType();
 
-    given(contextService.newCancelContext(applicationId, taskId, taskType)).willReturn(Mono.just(context));
+    given(contextService.newCancelContext(userOwner(), taskId, taskType)).willReturn(Mono.just(context));
 
     given(taskService.cancel(context))
         .willReturn(Mono.just(context));
@@ -125,7 +123,7 @@ public class TaskControllerTest {
             .pathSegment(taskType.toString())
             .queryParam("taskId", taskId)
             .build())
-        .header("ApplicationId", applicationId)
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
 
@@ -137,11 +135,10 @@ public class TaskControllerTest {
   @Test
   public void shouldRemove() {
     final var context = CancelContextTest.CANCEL_CONTEXT;
-    final var applicationId = context.getApplicationId();
     final var taskId = context.getTaskId();
     final var taskType = context.getTaskType();
 
-    given(contextService.newCancelContext(applicationId, taskId, taskType)).willReturn(Mono.just(context));
+    given(contextService.newCancelContext(userOwner(), taskId, taskType)).willReturn(Mono.just(context));
 
     given(taskService.remove(context))
         .willReturn(Mono.just(context));
@@ -151,7 +148,7 @@ public class TaskControllerTest {
             .pathSegment(taskType.toString())
             .queryParam("taskId", taskId)
             .build())
-        .header("ApplicationId", applicationId)
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
 
@@ -166,6 +163,7 @@ public class TaskControllerTest {
             .pathSegment("GATLING_RUN")
             .queryParam("taskId", "taskId")
             .build())
+        .header("Authorization", "Bearer user-token")
         .header("ApplicationId", applicationId)
         .exchange()
         .expectStatus().is5xxServerError();
@@ -174,12 +172,12 @@ public class TaskControllerTest {
   @Test
   public void shouldList() {
     final var tasksFlux = Flux.just(TaskTest.TASK);
-    given(taskListService.list(Optional.of("app")))
+    given(taskListService.list(userOwner()))
         .willReturn(tasksFlux);
 
     webTestClient.get()
         .uri("/task/list")
-        .header("ApplicationId", "app")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectBodyList(Task.class)
@@ -191,11 +189,12 @@ public class TaskControllerTest {
     final List<Task> list = ImmutableList.of(TaskTest.TASK, TaskTest.TASK);
     final Flux<List<Task>> tasksFlux = Flux.just(list, list);
     final Flux<ServerSentEvent<List<Task>>> eventsFlux = Flux.just(ServerSentEvent.builder(list).build(), ServerSentEvent.builder(list).build());
-    given(taskListService.watch(Optional.of("app"))).willReturn(tasksFlux);
+    given(taskListService.watch(userOwner())).willReturn(tasksFlux);
     given(sse.keepAlive(tasksFlux)).willReturn(eventsFlux);
 
     final var result = webTestClient.get()
-        .uri("/task/watch/app")
+        .uri("/task/watch")
+        .header("Authorization", "Bearer user-token")
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
         .expectStatus().isOk()
@@ -203,10 +202,44 @@ public class TaskControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
+    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
         "\n" +
-        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"applicationId\":\"app\"}]\n" +
+        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
         "\n");
   }
 
+  @Test
+  public void shouldEventsFail() {
+    webTestClient.get()
+        .uri("/task/events")
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().is4xxClientError();
+  }
+
+  @Test
+  public void shouldEvents() {
+    given(eventBus.of(TaskExecutedEvent.class)).willReturn(Flux.just(TaskExecutedEventTest.TASK_EXECUTED_EVENT));
+    given(eventBus.of(TaskCreatedEvent.class)).willReturn(Flux.just(TaskCreatedEventTest.TASK_CREATED_EVENT));
+    given(eventBus.of(TaskStatusUpdatedEvent.class)).willReturn(Flux.just(TaskStatusUpdatedEventTest.TASK_STATUS_UPDATED_EVENT));
+    given(eventBus.of(TaskCancelledEvent.class)).willReturn(Flux.just(TaskCancelledEventTest.TASK_CANCELLED_EVENT));
+    given(eventBus.of(TaskRemovedEvent.class)).willReturn(Flux.just(TaskRemovedEventTest.TASK_REMOVED_EVENT));
+    final var wrapped = Flux.just(SSEWrapper.builder().type("TaskExecutedEvent").value(TaskExecutedEventTest.TASK_EXECUTED_EVENT).build());
+    given(sse.merge(any())).willReturn(wrapped);
+    final Flux<ServerSentEvent<SSEWrapper>> eventsFlux = wrapped.map(sseWrapper -> ServerSentEvent.<SSEWrapper>builder().data(sseWrapper).build());
+    given(sse.keepAlive(wrapped)).willReturn(eventsFlux);
+
+    final var result = webTestClient.get()
+        .uri("/task/events")
+        .header("Authorization", "Bearer api-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().contentType(MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8")
+        .expectBody()
+        .returnResult();
+
+    final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
+    assertThat(body).isEqualTo("data:{\"type\":\"TaskExecutedEvent\",\"value\":{\"context\":{\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"},\"taskId\":\"taskId\",\"taskType\":\"GATLING_RUN\",\"description\":\"description\",\"templates\":{\"hostId\":\"template\"}}}}\n" +
+        "\n");
+  }
 }

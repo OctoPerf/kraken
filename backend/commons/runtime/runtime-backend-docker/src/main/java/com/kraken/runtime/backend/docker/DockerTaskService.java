@@ -10,6 +10,7 @@ import com.kraken.runtime.context.entity.ExecutionContext;
 import com.kraken.runtime.entity.log.LogType;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.logs.LogsService;
+import com.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -24,11 +25,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_APPLICATION_ID;
 import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
 
 @Slf4j
@@ -41,6 +41,7 @@ final class DockerTaskService implements TaskService {
   @NonNull CommandService commandService;
   @NonNull LogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
+  @NonNull Function<Owner, List<String>> ownerToFilters;
 
   @Override
   public Mono<ExecutionContext> execute(final ExecutionContext context) {
@@ -63,7 +64,7 @@ final class DockerTaskService implements TaskService {
 
       // Automatically display logs stream
       final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(path));
-      logsService.push(context.getApplicationId(), context.getTaskId(), LogType.TASK, logs);
+      logsService.push(context.getOwner(), context.getTaskId(), LogType.TASK, logs);
       return context;
     });
   }
@@ -75,22 +76,34 @@ final class DockerTaskService implements TaskService {
 
   @Override
   public Mono<CancelContext> remove(final CancelContext context) {
-    return Mono.fromCallable(() -> Command.builder()
-        .path(this.createCommandFolder(context.getTaskId()).toString())
-        .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q -f label=%s=%s)", COM_KRAKEN_TASKID, context.getTaskId())))
-        .environment(ImmutableMap.of())
-        .build()).flatMap(command -> commandService.execute(command).collectList())
+    return Mono.fromCallable(() -> {
+      final var listCommandBuilder = ImmutableList.<String>builder();
+      listCommandBuilder.add("docker",
+          "ps",
+          "-a",
+          "-q",
+          "--filter", String.format("label=%s=%s", COM_KRAKEN_TASKID, context.getTaskId()));
+      listCommandBuilder.addAll(ownerToFilters.apply(context.getOwner()));
+      final var listCommand = String.join(" ", listCommandBuilder.build());
+
+      return Command.builder()
+          .path(this.createCommandFolder(context.getTaskId()).toString())
+          .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
+          .environment(ImmutableMap.of())
+          .build();
+    })
+        .flatMap(command -> commandService.execute(command).collectList())
         .map(str -> context);
   }
 
   @Override
-  public Flux<FlatContainer> list(Optional<String> applicationId) {
+  public Flux<FlatContainer> list(final Owner owner) {
     final var commandBuilder = ImmutableList.<String>builder();
     commandBuilder.add("docker",
         "ps",
         "-a",
         "--filter", String.format("label=%s", COM_KRAKEN_TASKID));
-    applicationId.ifPresent(appId -> commandBuilder.add("--filter", String.format("label=%s=%s", COM_KRAKEN_APPLICATION_ID, appId)));
+    commandBuilder.addAll(ownerToFilters.apply(owner));
     commandBuilder.add("--format", StringToFlatContainer.FORMAT);
 
     final var command = Command.builder()

@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:security:security-entity-functions-api')
+
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
+}

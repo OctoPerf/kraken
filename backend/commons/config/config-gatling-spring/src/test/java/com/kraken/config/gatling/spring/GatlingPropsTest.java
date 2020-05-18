@@ -1,6 +1,6 @@
 package com.kraken.config.gatling.spring;
 
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class GatlingPropsTest {
   private static final GatlingProps GATLING_PROPERTIES = GatlingProps.builder().build();
 
   @Test
-  public void shouldPassTestUtils() {
+  public void shouldPassToString() {
     TestUtils.shouldPassToString(GATLING_PROPERTIES);
   }
 

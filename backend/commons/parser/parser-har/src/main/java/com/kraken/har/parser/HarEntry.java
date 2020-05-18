@@ -6,7 +6,7 @@ import lombok.Value;
 import lombok.With;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 final class HarEntry {
 
   @NonNull

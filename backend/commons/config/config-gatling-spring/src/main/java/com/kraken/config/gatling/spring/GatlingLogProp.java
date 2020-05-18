@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import static com.google.common.base.Strings.nullToEmpty;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 final class GatlingLogProp implements GatlingLog {
   static final GatlingLogProp DEFAULT_LOG = builder().build();

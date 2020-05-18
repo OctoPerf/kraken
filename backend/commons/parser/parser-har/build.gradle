@@ -1,3 +1,5 @@
 dependencies {
     api project(':commons:analysis:analysis-entity')
+
+    testImplementation project(path: ':commons:tools:tools-application')
 }

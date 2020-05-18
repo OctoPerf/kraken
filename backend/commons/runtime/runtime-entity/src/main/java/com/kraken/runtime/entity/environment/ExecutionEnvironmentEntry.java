@@ -9,7 +9,7 @@ import lombok.Value;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class ExecutionEnvironmentEntry {
   @NonNull String scope; // "" for global or a host ID
   @NonNull ExecutionEnvironmentEntrySource from;

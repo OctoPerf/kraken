@@ -1,24 +1,40 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.kraken.config.influxdb.api.InfluxDBProperties;
+import com.kraken.influxdb.client.api.InfluxDBUser;
+import com.kraken.influxdb.client.api.InfluxDBUserConverter;
+import com.kraken.influxdb.client.api.InfluxDBUserTest;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.security.admin.client.api.SecurityAdminClient;
+import com.kraken.security.entity.functions.api.OwnerToUserId;
+import com.kraken.security.entity.user.KrakenUserTest;
+import com.kraken.tests.utils.TestUtils;
+import lombok.NonNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry.builder;
+import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
+import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.SECURITY;
 import static com.kraken.runtime.entity.task.TaskType.*;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -27,15 +43,25 @@ import static org.mockito.Mockito.when;
 public class InfluxDBUrlPublisherTest {
   @MockBean
   InfluxDBProperties properties;
+  @MockBean
+  InfluxDBUserConverter influxDBUserConverter;
+  @MockBean
+  OwnerToUserId toUserId;
+  @MockBean
+  SecurityAdminClient securityAdminClient;
+
   @Autowired
   InfluxDBUrlPublisher publisher;
 
   @Before
   public void setUp() {
-    when(properties.getUser()).thenReturn("user");
-    when(properties.getPassword()).thenReturn("password");
-    when(properties.getDatabase()).thenReturn("database");
-    when(properties.getUrl()).thenReturn("url");
+    given(properties.getUser()).willReturn("user");
+    given(properties.getPassword()).willReturn("password");
+    given(properties.getDatabase()).willReturn("database");
+    given(properties.getUrl()).willReturn("url");
+    given(toUserId.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER.getOwner())).willReturn(Optional.of("userId"));
+    given(securityAdminClient.getUser("userId")).willReturn(Mono.just(KrakenUserTest.KRAKEN_USER));
+    given(influxDBUserConverter.apply(KrakenUserTest.KRAKEN_USER)).willReturn(InfluxDBUserTest.INFLUX_DB_USER);
   }
 
   @Test
@@ -47,12 +73,13 @@ public class InfluxDBUrlPublisherTest {
 
   @Test
   public void shouldGet() {
-    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
-    assertThat(env.getEntries()
-        .stream()
-        .map(ExecutionEnvironmentEntry::getKey)
-        .collect(Collectors.toUnmodifiableSet())).isEqualTo(ImmutableSet.of(
-        KRAKEN_INFLUXDB_URL.name(), KRAKEN_INFLUXDB_DATABASE.name(), KRAKEN_INFLUXDB_USER.name(), KRAKEN_INFLUXDB_PASSWORD.name(), KRAKEN_VERSION.name()
+    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER).block();
+    assertThat(env).isNotNull();
+    assertThat(env).isEqualTo(ImmutableList.of(
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getUrl()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getDatabase()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_USER.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getUsername()).build(),
+        builder().from(BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getPassword()).build()
     ));
   }
 

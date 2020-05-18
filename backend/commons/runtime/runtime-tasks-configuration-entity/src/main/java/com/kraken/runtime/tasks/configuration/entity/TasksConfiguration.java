@@ -11,7 +11,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class TasksConfiguration {
 
   @NonNull List<TaskConfiguration> tasks;

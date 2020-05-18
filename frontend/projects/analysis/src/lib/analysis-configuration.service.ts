@@ -18,10 +18,6 @@ export class AnalysisConfigurationService {
     return this.configuration.url('analysisApiUrl', `/result${path}`);
   }
 
-  grafanaUrl(path: string): string {
-    return this.configuration.url('grafanaUrl', path);
-  }
-
   get analysisRootNode(): StorageNode {
     return this.configuration.value('analysisRootNode');
   }

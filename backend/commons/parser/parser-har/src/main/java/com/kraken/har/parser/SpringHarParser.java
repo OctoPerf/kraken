@@ -27,7 +27,7 @@ import java.util.function.Function;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Slf4j
-class SpringHarParser implements HarParser {
+final class SpringHarParser implements HarParser {
 
   private static final String ENTRIES = "entries";
 

@@ -5,7 +5,7 @@ import com.kraken.config.gatling.api.GatlingLog;
 import com.kraken.config.gatling.api.GatlingProperties;
 import com.kraken.config.gatling.api.GatlingSimulation;
 import com.kraken.runtime.command.Command;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import com.kraken.config.api.LocalRemoteProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;

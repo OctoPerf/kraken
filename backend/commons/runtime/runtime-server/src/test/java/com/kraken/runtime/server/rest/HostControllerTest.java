@@ -1,18 +1,9 @@
 package com.kraken.runtime.server.rest;
 
-import com.kraken.runtime.backend.api.HostService;
 import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.host.HostTest;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,18 +11,7 @@ import reactor.core.publisher.Mono;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {HostController.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
-public class HostControllerTest {
-
-  @Autowired
-  WebTestClient webTestClient;
-
-  @MockBean
-  HostService hostService;
+public class HostControllerTest  extends RuntimeControllerTest {
 
   @Test
   public void shouldPassTestUtils() {
@@ -42,16 +22,27 @@ public class HostControllerTest {
   @Test
   public void shouldList() {
     final var hostsFlux = Flux.just(HostTest.HOST);
-    given(hostService.list())
+    given(hostService.list(userOwner()))
         .willReturn(hostsFlux);
 
     webTestClient.get()
         .uri("/host/list")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectBodyList(Host.class)
         .contains(HostTest.HOST);
   }
+
+  @Test
+  public void shouldListAdmin() {
+    webTestClient.get()
+        .uri("/host/list")
+        .header("Authorization", "Bearer admin-token")
+        .exchange()
+        .expectStatus().is4xxClientError();
+  }
+
 
   @Test
   public void shouldListAll() {
@@ -61,10 +52,20 @@ public class HostControllerTest {
 
     webTestClient.get()
         .uri("/host/all")
+        .header("Authorization", "Bearer admin-token")
         .exchange()
         .expectStatus().isOk()
         .expectBodyList(Host.class)
         .contains(HostTest.HOST);
+  }
+
+  @Test
+  public void shouldListAllForbidden() {
+    webTestClient.get()
+        .uri("/host/all")
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().is4xxClientError();
   }
 
   @Test
@@ -76,6 +77,7 @@ public class HostControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/host/attach")
             .build())
+        .header("Authorization", "Bearer admin-token")
         .body(BodyInserters.fromValue(host))
         .exchange()
         .expectStatus().isOk()
@@ -94,6 +96,7 @@ public class HostControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/host/detach")
             .build())
+        .header("Authorization", "Bearer admin-token")
         .body(BodyInserters.fromValue(host))
         .exchange()
         .expectStatus().isOk()

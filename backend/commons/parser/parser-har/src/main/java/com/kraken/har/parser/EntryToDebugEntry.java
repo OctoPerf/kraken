@@ -22,7 +22,7 @@ import java.util.function.Function;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Slf4j
-class EntryToDebugEntry implements BiFunction<JsonNode, String, DebugEntry> {
+final class EntryToDebugEntry implements BiFunction<JsonNode, String, DebugEntry> {
 
   @NonNull
   ObjectMapper mapper;

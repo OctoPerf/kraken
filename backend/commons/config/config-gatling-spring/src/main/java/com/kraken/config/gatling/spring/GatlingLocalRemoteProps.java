@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import static com.google.common.base.Strings.nullToEmpty;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 final class GatlingLocalRemoteProps implements LocalRemoteProperties {
   static final GatlingLocalRemoteProps DEFAULT_LOCAL_REMOTE = builder().build();

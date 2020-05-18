@@ -9,7 +9,7 @@ import lombok.With;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Container {
   String id;
   String name;

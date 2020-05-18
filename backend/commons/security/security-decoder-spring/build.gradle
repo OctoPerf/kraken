@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':commons:security:security-decoder-api')
+
+    testImplementation project(':commons:tools:tools-configuration')
+    testImplementation project(':commons:tools:tools-application')
+}

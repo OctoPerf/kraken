@@ -3,6 +3,7 @@ package com.kraken.runtime.server.service;
 import com.kraken.runtime.backend.api.TaskService;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.Task;
+import com.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
-public class SpringTaskListService implements TaskListService {
+final class SpringTaskListService implements TaskListService {
 
   final static Duration WATCH_TASKS_DELAY = Duration.ofSeconds(2);
 
@@ -27,14 +28,14 @@ public class SpringTaskListService implements TaskListService {
   @NonNull TaskService taskService;
 
   @Override
-  public Flux<Task> list(final Optional<String> applicationId) {
-    return taskService.list(applicationId).groupBy(FlatContainer::getTaskId).flatMap(toTask);
+  public Flux<Task> list(final Owner owner) {
+    return taskService.list(owner).groupBy(FlatContainer::getTaskId).flatMap(toTask);
   }
 
   @Override
-  public Flux<List<Task>> watch(final Optional<String> applicationId) {
+  public Flux<List<Task>> watch(final Owner owner) {
     return Flux.interval(WATCH_TASKS_DELAY)
-        .flatMap(aLong -> this.list(applicationId).collectList())
+        .flatMap(aLong -> this.list(owner).collectList())
         .distinctUntilChanged();
   }
 }

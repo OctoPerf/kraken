@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:security:security-user-events-listener')
+
+    implementation project(':commons:config:config-kraken')
+}

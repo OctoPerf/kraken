@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Component
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class PathToLines implements Function<Path, Flux<String>> {
+final class PathToLines implements Function<Path, Flux<String>> {
 
   long pointer = 0;
   boolean running = true;

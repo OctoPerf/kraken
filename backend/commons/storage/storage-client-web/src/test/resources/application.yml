@@ -1,3 +1,9 @@
 kraken:
   storage:
     url: http://localhost:8080
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    api:
+      id: kraken-api
+      secret: c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4

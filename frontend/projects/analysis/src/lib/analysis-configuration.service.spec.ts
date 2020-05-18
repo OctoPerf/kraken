@@ -10,12 +10,10 @@ import {configurationServiceSpy} from 'projects/commons/src/lib/config/configura
 export const analysisConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('AnalysisConfigurationService', [
     'analysisApiUrl',
-    'grafanaUrl',
     'staticApiUrl',
   ]);
   spy.staticApiUrl.and.callFake((path) => 'staticApiUrl' + path);
   spy.analysisApiUrl.and.callFake((path = '') => `analysisApiUrl/result${path}`);
-  spy.grafanaUrl.and.callFake((path) => 'grafanaUrl' + path);
   spy.analysisRootNode = {
     'path': 'gatling/results',
     'type': 'DIRECTORY',
@@ -52,11 +50,6 @@ describe('AnalysisConfigurationService', () => {
   it('should return analysisApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.analysisApiUrl('path')).toBe('url');
-  });
-
-  it('should return grafanaUrl', () => {
-    configuration.url.and.returnValue('url');
-    expect(service.grafanaUrl('path')).toBe('url');
   });
 
   it('should return analysisRootNode', () => {

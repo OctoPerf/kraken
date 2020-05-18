@@ -1,0 +1,5 @@
+dependencies {
+    api project(':commons:runtime:runtime-event-entity')
+    api project(':commons:config:config-runtime-client-api')
+    api project(':commons:security:security-authentication-client-api')
+}

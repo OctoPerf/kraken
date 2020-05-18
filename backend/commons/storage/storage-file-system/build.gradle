@@ -6,6 +6,6 @@ dependencies {
     implementation project(':commons:storage:storage-file-api')
     implementation project(':commons:config:config-kraken')
 
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
 }

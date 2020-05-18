@@ -3,8 +3,8 @@ package com.kraken.analysis.container.telegraf;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.config.influxdb.api.InfluxDBProperties;
+import com.kraken.config.runtime.container.api.ContainerProperties;
 import com.kraken.runtime.command.Command;
-import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -34,8 +34,8 @@ final class CommandSupplier implements Supplier<Command> {
             .put(KRAKEN_INFLUXDB_DATABASE, influxDb.getDatabase())
             .put(KRAKEN_INFLUXDB_USER, influxDb.getUser())
             .put(KRAKEN_INFLUXDB_PASSWORD, influxDb.getPassword())
-            .put(KRAKEN_TASKID, container.getTaskId())
-            .put(KRAKEN_HOSTID, container.getHostId())
+            .put(KRAKEN_TASK_ID, container.getTaskId())
+            .put(KRAKEN_HOST_ID, container.getHostId())
             .build()
         )
         .command(ImmutableList.of("telegraf"))

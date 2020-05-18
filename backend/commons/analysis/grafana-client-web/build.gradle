@@ -1,7 +1,14 @@
 dependencies {
     implementation project(':commons:analysis:grafana-client-api')
+    implementation project(':commons:security:security-authentication-client-spring')
+    implementation project(':commons:tools:tools-unique-id')
+    implementation project(':commons:template:template-api')
 
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
-    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
-    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
+    testImplementation project(path: ':commons:tools:tools-application')
+    testImplementation project(path: ':commons:config:config-grafana-spring')
+    testImplementation project(path: ':tests:tests-web-client')
+    testImplementation project(path: ':commons:analysis:grafana-client-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:analysis:influxdb-client-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:template:template-string')
 }

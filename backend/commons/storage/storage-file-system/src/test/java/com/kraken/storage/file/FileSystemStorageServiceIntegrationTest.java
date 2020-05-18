@@ -2,6 +2,9 @@ package com.kraken.storage.file;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.Application;
+import com.kraken.security.entity.owner.PublicOwner;
+import com.kraken.security.entity.owner.UserOwner;
+import com.kraken.security.entity.token.KrakenRole;
 import com.kraken.storage.entity.StorageNode;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -37,6 +41,8 @@ import static reactor.test.StepVerifier.create;
 public class FileSystemStorageServiceIntegrationTest {
 
   @Autowired
+  StorageServiceBuilder serviceBuilder;
+
   StorageService service;
 
   @MockBean
@@ -48,6 +54,27 @@ public class FileSystemStorageServiceIntegrationTest {
       Files.write(invocation.getArgument(0), "file content".getBytes(UTF_8));
       return empty();
     });
+    service = serviceBuilder.build(PublicOwner.INSTANCE);
+  }
+
+  @Test
+  public void shouldInit() throws IOException {
+    final var path = Path.of("testDir", "users", "user", "gatling", "README.md");
+    assertThat(path.toFile().exists()).isFalse();
+
+    serviceBuilder.build(UserOwner.builder().applicationId("gatling")
+        .userId("user")
+        .roles(ImmutableList.of(KrakenRole.ADMIN))
+        .build());
+    assertThat(path.toFile().exists()).isFalse();
+
+    serviceBuilder.build(UserOwner.builder().applicationId("gatling")
+        .userId("user")
+        .roles(ImmutableList.of(KrakenRole.USER))
+        .build());
+    assertThat(path.toFile().exists()).isTrue();
+
+    FileSystemUtils.deleteRecursively(Path.of("testDir", "users"));
   }
 
   @Test
@@ -146,12 +173,12 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
-  public void shouldSetZip() throws IOException{
+  public void shouldSetZip() throws IOException {
     final var filename = "kraken.zip";
     final var destPath = "zipDir/dest";
     given(part.filename()).willReturn(filename);
     given(part.transferTo(any(Path.class))).will(invocation -> {
-      Files.copy(Path.of("testDir/zipDir/kraken.zip"), (Path) invocation.getArgument(0));
+      Files.copy(Path.of("testDir/public/zipDir/kraken.zip"), (Path) invocation.getArgument(0));
       return empty();
     });
     create(service.setZip(destPath, Mono.just(part)))
@@ -207,7 +234,7 @@ public class FileSystemStorageServiceIntegrationTest {
         .expectNext(true)
         .expectComplete()
         .verify();
-    Files.delete(Path.of("testDir/visitorTest/someOther"));
+    Files.delete(Path.of("testDir/public/visitorTest/someOther"));
   }
 
   @Test
@@ -255,7 +282,7 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldGetRootFileName() {
     final var filename = service.getFileName("");
-    assertThat(filename).isEqualTo("testDir.zip");
+    assertThat(filename).isEqualTo("public.zip");
   }
 
   @Test

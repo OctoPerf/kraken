@@ -4,3 +4,9 @@ kraken:
     dashboard: grafana/grafana-gatling-dashboard.json
     user: admin
     password: kraken
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO

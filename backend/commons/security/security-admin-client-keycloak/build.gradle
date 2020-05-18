@@ -1,0 +1,13 @@
+dependencies {
+    implementation project(':commons:security:security-admin-client-api')
+    implementation project(':commons:security:security-authentication-client-spring')
+
+    testImplementation project(path: ':commons:tools:tools-application')
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:security:security-decoder-spring')
+    testImplementation project(path: ':commons:security:security-authentication-service-account')
+    testImplementation project(path: ':commons:security:security-authentication-noop')
+    testImplementation project(path: ':commons:security:security-client-keycloak')
+    testImplementation project(path: ':commons:config:config-security-client-spring')
+    testImplementation project(path: ':tests:tests-web-client')
+}

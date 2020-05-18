@@ -7,30 +7,32 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken/taskId: ${KRAKEN_TASKID}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
       com.kraken/taskType: GATLING_RECORD
-      com.kraken/containerName: ${KRAKEN_TASKID}-container-one
+      com.kraken/containerName: ${KRAKEN_TASK_ID}-container-one
       com.kraken/hostId: hostId
       com.kraken/label: Container One
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
       com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
-    container_name: ${KRAKEN_TASKID}-container-one_STARTING
+      com.kraken/userId: ${KRAKEN_USER_ID}
+    container_name: ${KRAKEN_TASK_ID}-container-one_STARTING
     image: ${KRAKEN_IMAGE}
     networks:
       - kraken
 
   kraken-container-two:
     labels:
-      com.kraken/taskId: ${KRAKEN_TASKID}
+      com.kraken/taskId: ${KRAKEN_TASK_ID}
       com.kraken/taskType: GATLING_RECORD
-      com.kraken/containerName: ${KRAKEN_TASKID}-container-two
+      com.kraken/containerName: ${KRAKEN_TASK_ID}-container-two
       com.kraken/hostId: hostId
       com.kraken/label: Container Two
       com.kraken/description: ${KRAKEN_DESCRIPTION}
       com.kraken/expectedCount: ${KRAKEN_EXPECTED_COUNT}
       com.kraken/applicationId: ${KRAKEN_APPLICATION_ID}
-    container_name: ${KRAKEN_TASKID}-container-two_STARTING
+      com.kraken/userId: ${KRAKEN_USER_ID}
+    container_name: ${KRAKEN_TASK_ID}-container-two_STARTING
     image: ${KRAKEN_IMAGE}
     networks:
       - kraken

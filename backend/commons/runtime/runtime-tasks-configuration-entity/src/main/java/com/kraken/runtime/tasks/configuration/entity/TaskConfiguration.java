@@ -12,7 +12,7 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class TaskConfiguration {
   @NonNull TaskType type;
   @NonNull String file;

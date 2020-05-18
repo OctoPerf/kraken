@@ -11,7 +11,7 @@ import java.time.Duration;
 public class ReactorUtilsTest {
 
   @Test
-  public void shouldWaitFor() throws InterruptedException {
+  public void shouldWaitFor() {
     final var logsBuilder = ImmutableList.<String>builder();
     final var flux = Flux.interval(Duration.ofMillis(100)).map(aLong -> "=> " + aLong).doOnNext(logsBuilder::add);
     final var wait = Mono.just("Done");

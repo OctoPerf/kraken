@@ -4,7 +4,7 @@ import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +42,9 @@ public class AnalysisUrlPublisherTest {
 
   @Test
   public void shouldGet() {
-    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
-    assertThat(env.getEntries().stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_ANALYSIS_URL.toString()))).isTrue();
+    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER).block();
+    assertThat(env).isNotNull();
+    assertThat(env.stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_ANALYSIS_URL.toString()))).isTrue();
   }
 
   @Test

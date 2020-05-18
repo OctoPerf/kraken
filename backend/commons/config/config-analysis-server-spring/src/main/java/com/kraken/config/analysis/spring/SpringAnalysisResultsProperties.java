@@ -11,10 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken.analysis.results")
-public class SpringAnalysisResultsProperties implements AnalysisResultsProperties {
+final class SpringAnalysisResultsProperties implements AnalysisResultsProperties {
   @NonNull
   String root;
 

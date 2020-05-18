@@ -9,18 +9,18 @@ import java.util.Map;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
-class BaseChecker implements EnvironmentChecker {
+final class BaseChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(environment, KRAKEN_VERSION,
         KRAKEN_DESCRIPTION,
-        KRAKEN_TASKID,
-        KRAKEN_TASKTYPE,
+        KRAKEN_TASK_ID,
+        KRAKEN_TASK_TYPE,
         KRAKEN_EXPECTED_COUNT,
         KRAKEN_APPLICATION_ID,
         KRAKEN_RUNTIME_URL,
-        KRAKEN_HOSTID);
+        KRAKEN_HOST_ID);
   }
 
   @Override

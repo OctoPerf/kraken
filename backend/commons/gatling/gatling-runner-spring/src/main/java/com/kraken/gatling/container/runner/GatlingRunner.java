@@ -3,12 +3,11 @@ package com.kraken.gatling.container.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.config.gatling.api.GatlingProperties;
-import com.kraken.runtime.client.RuntimeClient;
+import com.kraken.config.runtime.container.api.ContainerProperties;
 import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
-import com.kraken.runtime.container.properties.ContainerProperties;
-import com.kraken.runtime.entity.task.ContainerStatus;
-import com.kraken.storage.client.StorageClient;
+import com.kraken.runtime.container.executor.ContainerExecutor;
+import com.kraken.storage.client.api.StorageClient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -23,6 +22,7 @@ import java.util.function.Supplier;
 
 import static com.google.common.base.Strings.nullToEmpty;
 import static java.nio.file.Paths.get;
+import static java.util.Optional.of;
 import static lombok.AccessLevel.PACKAGE;
 
 @Slf4j
@@ -32,59 +32,42 @@ import static lombok.AccessLevel.PACKAGE;
 final class GatlingRunner {
 
   @NonNull StorageClient storage;
-  @NonNull RuntimeClient runtime;
   @NonNull CommandService commands;
   @NonNull ContainerProperties container;
   @NonNull GatlingProperties gatling;
   @NonNull Supplier<Command> newCommand;
+  @NonNull ContainerExecutor executor;
 
   @PostConstruct
   public void init() {
-    final var findMe = runtime.find(container.getTaskId(), container.getName());
-    final var me = findMe.block();
-    final var setStatusFailed = runtime.setFailedStatus(me);
-    final var setStatusPreparing = runtime.setStatus(me, ContainerStatus.PREPARING);
-    final var downloadConfiguration = storage.downloadFolder(get(gatling.getConf().getLocal()), getRemoteConf());
-    final var downloadUserFiles = storage.downloadFolder(get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote());
-    final var downloadLib = storage.downloadFolder(get(gatling.getLib().getLocal()), gatling.getLib().getRemote());
-    final var setStatusReady = runtime.setStatus(me, ContainerStatus.READY);
-    final var waitForStatusReady = runtime.waitForStatus(me, ContainerStatus.READY);
-    final var listFiles = commands.execute(Command.builder()
-        .path(gatling.getHome())
-        .command(ImmutableList.of("ls", "-lR"))
-        .environment(ImmutableMap.of())
-        .build());
-    final var setStatusRunning = runtime.setStatus(me, ContainerStatus.RUNNING);
-    final var startGatling = commands.execute(newCommand.get());
-    final var setStatusStopping = runtime.setStatus(me, ContainerStatus.STOPPING);
-    final var waitForStatusStopping = runtime.waitForStatus(me, ContainerStatus.STOPPING);
-    final var uploadResult = storage.uploadFile(
-        get(gatling.getResults().getLocal()),
-      get(getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
-    );
-    final var setStatusDone = runtime.setStatus(me, ContainerStatus.DONE);
-
-    setStatusPreparing.block();
-    downloadConfiguration.block();
-    downloadUserFiles.block();
-    downloadLib.block();
-    setStatusReady.block();
-    waitForStatusReady.map(Object::toString).block();
-    Optional.ofNullable(listFiles
-        .doOnError(t -> log.error("Failed to list files", t))
-        .collectList()
-        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> ImmutableList.of()))
-        .block()).orElse(Collections.emptyList())
-        .forEach(log::info);
-    setStatusRunning.block();
-    startGatling
-        .doOnError(t -> log.error("Failed to start gatling", t))
-        .onErrorResume(throwable -> setStatusFailed.map(aVoid -> "Failed to start gatling"))
-        .doOnNext(log::info).blockLast();
-    setStatusStopping.block();
-    waitForStatusStopping.block();
-    uploadResult.block();
-    setStatusDone.block();
+    executor.execute(of(me -> {
+      // Download configuration
+      storage.downloadFolder(get(gatling.getConf().getLocal()), getRemoteConf()).block();
+      // Download user files
+      storage.downloadFolder(get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote()).block();
+      // Download lib folder
+      storage.downloadFolder(get(gatling.getLib().getLocal()), gatling.getLib().getRemote()).block();
+      // List files
+      final var listFiles = commands.execute(Command.builder()
+          .path(gatling.getHome())
+          .command(ImmutableList.of("ls", "-lR"))
+          .environment(ImmutableMap.of())
+          .build());
+      Optional.ofNullable(listFiles
+          .collectList()
+          .block()).orElse(Collections.emptyList())
+          .forEach(log::info);
+    }), me -> {
+      // Start gatling
+      commands.execute(newCommand.get())
+          .doOnNext(log::info).blockLast();
+    }, of(me -> {
+      // Upload result
+      storage.uploadFile(
+          get(gatling.getResults().getLocal()),
+          get(getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
+      ).block();
+    }));
   }
 
   private String getRemoteResult() {

@@ -1,6 +1,7 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
+import com.kraken.storage.entity.StorageWatcherEvent;
 import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -43,5 +44,7 @@ public interface StorageService {
   Flux<StorageNode> filterExisting(List<StorageNode> nodes);
 
   Mono<StorageNode> extractZip(String path);
+
+  Flux<StorageWatcherEvent> watch(String path);
 
 }

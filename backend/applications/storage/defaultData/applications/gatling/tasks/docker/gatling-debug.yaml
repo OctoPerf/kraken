@@ -1,0 +1,114 @@
+version: '3.5'
+
+networks:
+  kraken:
+    name: kraken
+    external: true
+
+services:
+  kraken-gatling-debugger:
+    image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
+    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
+    networks:
+      - kraken
+    deploy:
+      resources:
+        limits:
+          cpus: "${KRAKEN_GATLING_CPU_LIMIT}"
+          memory: "${KRAKEN_GATLING_MEMORY_LIMIT}"
+        reservations:
+          cpus: "${KRAKEN_GATLING_CPU_REQUEST}"
+          memory: "${KRAKEN_GATLING_MEMORY_REQUEST}"
+    labels:
+      com.kraken/taskId: "${KRAKEN_TASK_ID}"
+      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
+      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      com.kraken/hostId: "${KRAKEN_HOST_ID}"
+      com.kraken/label: "${KRAKEN_GATLING_CONTAINER_LABEL}"
+      com.kraken/description: "${KRAKEN_DESCRIPTION}"
+      com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
+      com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
+      com.kraken/userId: "${KRAKEN_USER_ID}"
+    environment:
+      KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASK_ID}"
+      KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASK_TYPE}"
+      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      KRAKEN_CONTAINER_HOSTID: "${KRAKEN_HOST_ID}"
+      KRAKEN_CONTAINER_USERID: "${KRAKEN_USER_ID}"
+      KRAKEN_CONTAINER_APPLICATIONID: "${KRAKEN_APPLICATION_ID}"
+      KRAKEN_GATLING_SIMULATION_NAME: "${KRAKEN_GATLING_SIMULATION_NAME}"
+      KRAKEN_GATLING_DESCRIPTION: "${KRAKEN_DESCRIPTION}"
+      KRAKEN_GATLING_JAVAOPTS: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
+      KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
+      KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
+      JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_GATLING_XMX}"
+      KRAKEN_SECURITY_URL: "${KRAKEN_SECURITY_URL}"
+      KRAKEN_SECURITY_WEB_ID: "${KRAKEN_SECURITY_WEB_ID}"
+      KRAKEN_SECURITY_CONTAINER_ID: "${KRAKEN_SECURITY_CONTAINER_ID}"
+      KRAKEN_SECURITY_CONTAINER_SECRET: "${KRAKEN_SECURITY_CONTAINER_SECRET}"
+      KRAKEN_SECURITY_REALM: "${KRAKEN_SECURITY_REALM}"
+      KRAKEN_SECURITY_ACCESSTOKEN: "${KRAKEN_SECURITY_ACCESS_TOKEN}"
+      KRAKEN_SECURITY_REFRESHTOKEN: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
+      KRAKEN_SECURITY_EXPIRESIN: "${KRAKEN_SECURITY_EXPIRES_IN}"
+      KRAKEN_SECURITY_REFRESHEXPIRESIN: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+    volumes:
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
+
+  kraken-gatling-log-parser:
+    image: "octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}"
+    container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
+    networks:
+      - kraken
+    deploy:
+      resources:
+        limits:
+          cpus: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_LIMIT}"
+        reservations:
+          cpus: "${KRAKEN_SIDEKICK_CPU_REQUEST}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
+    labels:
+      com.kraken/taskId: "${KRAKEN_TASK_ID}"
+      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
+      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      com.kraken/hostId: "${KRAKEN_HOST_ID}"
+      com.kraken/label: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
+      com.kraken/description: "${KRAKEN_DESCRIPTION}"
+      com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
+      com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
+      com.kraken/userId: "${KRAKEN_USER_ID}"
+    environment:
+      KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASK_ID}"
+      KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASK_TYPE}"
+      KRAKEN_CONTAINER_NAME: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      KRAKEN_CONTAINER_HOSTID: "${KRAKEN_HOST_ID}"
+      KRAKEN_CONTAINER_USERID: "${KRAKEN_USER_ID}"
+      KRAKEN_CONTAINER_APPLICATIONID: "${KRAKEN_APPLICATION_ID}"
+      KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
+      KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
+      KRAKEN_ANALYSIS_URL: "${KRAKEN_ANALYSIS_URL}"
+      JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_SIDEKICK_XMX}"
+      KRAKEN_SECURITY_URL: "${KRAKEN_SECURITY_URL}"
+      KRAKEN_SECURITY_WEB_ID: "${KRAKEN_SECURITY_WEB_ID}"
+      KRAKEN_SECURITY_CONTAINER_ID: "${KRAKEN_SECURITY_CONTAINER_ID}"
+      KRAKEN_SECURITY_CONTAINER_SECRET: "${KRAKEN_SECURITY_CONTAINER_SECRET}"
+      KRAKEN_SECURITY_REALM: "${KRAKEN_SECURITY_REALM}"
+      KRAKEN_SECURITY_ACCESSTOKEN: "${KRAKEN_SECURITY_ACCESS_TOKEN}"
+      KRAKEN_SECURITY_REFRESHTOKEN: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
+      KRAKEN_SECURITY_EXPIRESIN: "${KRAKEN_SECURITY_EXPIRES_IN}"
+      KRAKEN_SECURITY_REFRESHEXPIRESIN: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+    volumes:
+      - type: volume
+        source: gatling-volume
+        target: /kraken/gatling/results
+        read_only: true
+        volume:
+          nocopy: true
+    depends_on:
+      - kraken-gatling-debugger
+
+volumes:
+  gatling-volume:
+    name: ${KRAKEN_TASK_ID}-gatling-volume

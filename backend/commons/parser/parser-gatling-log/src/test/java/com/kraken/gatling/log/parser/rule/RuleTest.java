@@ -2,7 +2,7 @@ package com.kraken.gatling.log.parser.rule;
 
 import com.kraken.gatling.log.parser.context.ParserContext;
 import com.kraken.gatling.log.mock.RulesTestConfiguration;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

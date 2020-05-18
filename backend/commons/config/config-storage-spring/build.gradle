@@ -1,5 +1,0 @@
-dependencies {
-    api project(':commons:config:config-storage-api')
-
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
-}

@@ -3,8 +3,8 @@ package com.kraken.storage.entity;
 import org.junit.Test;
 
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
-import static com.kraken.test.utils.TestUtils.shouldPassToString;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassToString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StorageNodeTest {

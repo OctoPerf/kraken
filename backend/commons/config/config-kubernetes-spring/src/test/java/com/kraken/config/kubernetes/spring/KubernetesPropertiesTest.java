@@ -4,8 +4,8 @@ import com.kraken.config.kubernetes.api.KubernetesClientBuilderType;
 import com.kraken.config.kubernetes.api.KubernetesProperties;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassEquals;
-import static com.kraken.test.utils.TestUtils.shouldPassToString;
+import static com.kraken.tests.utils.TestUtils.shouldPassEquals;
+import static com.kraken.tests.utils.TestUtils.shouldPassToString;
 
 public class KubernetesPropertiesTest {
 

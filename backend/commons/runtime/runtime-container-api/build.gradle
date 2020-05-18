@@ -1,4 +1,5 @@
 dependencies {
     api project(':commons:config:config-api')
     api project(':commons:runtime:runtime-entity')
+    api project(':commons:runtime:runtime-client-api')
 }

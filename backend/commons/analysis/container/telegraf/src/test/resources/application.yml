@@ -13,7 +13,6 @@ kraken:
     url: influxDbUrl
     user: influxDbUser
     password: influxDbPassword
-    database: influxDbDatabase
   storage:
     url: http://localhost:8080
 

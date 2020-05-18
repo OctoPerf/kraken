@@ -1,13 +1,14 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
+import * as _ from 'lodash';
 import {HostsSelectorComponent} from './hosts-selector.component';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {of} from 'rxjs';
-import {testHosts} from 'projects/runtime/src/lib/entities/host.spec';
+import {testHost, testHosts} from 'projects/runtime/src/lib/entities/host.spec';
+import {MatTableDataSource} from '@angular/material/table';
 import SpyObj = jasmine.SpyObj;
 
 describe('HostsSelectorComponent', () => {
@@ -43,34 +44,71 @@ describe('HostsSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load hosts', () => {
+  it('should load hosts', async(() => {
     const hosts = testHosts();
+    const ids = _.map(hosts, 'id');
     hostService.hosts.and.returnValue(of(hosts));
-    storage.getItem.and.returnValue([hosts[0].id]);
+    storage.getItem.and.returnValue(ids);
     component.ngOnInit();
-    expect(component.hosts.value).toEqual([hosts[0].id]);
-  });
+    expect(component.hosts.value).toEqual(ids);
+  }));
 
-  it('should load host', () => {
+  it('should load host', async(() => {
     const hosts = testHosts();
+    const ids = _.map(hosts, 'id');
     hostService.hosts.and.returnValue(of(hosts));
-    storage.getItem.and.returnValue([]);
+    storage.getItem.and.returnValue(ids);
     component.multiple = false;
     component.ngOnInit();
-    expect(component.hosts.value).toBe(hosts[0].id);
+    expect(component.hosts.value).toBe(ids[0]);
+  }));
+
+  it('should get hostIds multiple', () => {
+    const hosts = testHosts();
+    const ids = _.map(hosts, 'id');
+    component.hosts.setValue(ids);
+    expect(component.hostIds).toEqual(ids);
   });
 
   it('should get hostIds', () => {
-    expect(component.hostIds).toEqual([]);
-    const ids = ['id0', 'id1'];
-    component.formGroup.addControl('hosts', new FormControl(ids, []));
-    expect(component.hostIds).toBe(ids);
+    component.multiple = false;
+    component.hosts.setValue('id');
+    expect(component.hostIds).toEqual(['id']);
   });
 
   it('should get hostId', () => {
-    expect(component.hostId).toBeNull();
-    const id = 'id';
-    component.formGroup.addControl('hosts', new FormControl(id, []));
-    expect(component.hostId).toBe(id);
+    component.multiple = false;
+    component.hosts.setValue('id');
+    expect(component.hostId).toBe('id');
+  });
+
+  it('should isAllSelected', () => {
+    const hosts = testHosts();
+    component.selection.select(...hosts);
+    component.dataSource = new MatTableDataSource(hosts);
+    expect(component.isAllSelected()).toBeTrue();
+  });
+
+  it('should not isAllSelected', () => {
+    const hosts = testHosts();
+    component.selection.select(...hosts);
+    component.dataSource = new MatTableDataSource([testHost()]);
+    expect(component.isAllSelected()).toBeFalse();
+  });
+
+  it('should masterToggle clear', () => {
+    const hosts = testHosts();
+    component.selection.select(...hosts);
+    component.dataSource = new MatTableDataSource(hosts);
+    component.masterToggle();
+    expect(component.selection.selected.length).toBe(0);
+  });
+
+  it('should masterToggle select all', () => {
+    const hosts = testHosts();
+    component.selection.clear();
+    component.dataSource = new MatTableDataSource(hosts);
+    component.masterToggle();
+    expect(component.selection.selected.length).toBe(hosts.length);
   });
 });

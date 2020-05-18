@@ -1,0 +1,5 @@
+dependencies {
+    api project(':commons:config:config-storage-client-api')
+
+    testImplementation project(path: ':commons:tools:tools-application')
+}

@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':commons:config:config-security-client-api')
+
+    testImplementation project(path: ':commons:tools:tools-application')
+}

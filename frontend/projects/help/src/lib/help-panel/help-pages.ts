@@ -12,6 +12,8 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_HOSTS_TABLE: '/administration/hosts-table/',
   GATLING_RESOURCES: '/gatling/#resources-tree',
   GATLING_SIMULATIONS: '/gatling/#simulations-tree',
+  // TODO update doc
+  GATLING_CONFIGURATION: '/gatling/#TODO',
   GATLING_EXECUTIONS: '/gatling/#gatling-executions',
   GATLING_RESULTS_TABLE: '/gatling/#gatling-test-results',
   GATLING_DEBUG_ENTRIES_TABLE: '/gatling/#debug-entries-table',

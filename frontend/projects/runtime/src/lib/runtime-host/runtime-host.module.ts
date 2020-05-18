@@ -11,6 +11,8 @@ import {CommonModule} from '@angular/common';
 import {EnvironmentVariablesListComponent} from './environment-variables-list/environment-variables-list.component';
 import {HostIdToHostPipe} from 'projects/runtime/src/lib/runtime-host/host-id-to-host.pipe';
 import {RuntimeHostDialogsModule} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/runtime-host-dialogs.module';
+import {SecurityModule} from 'projects/security/src/lib/security.module';
+import { HostCapacityComponent } from './host-capacity/host-capacity.component';
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import {RuntimeHostDialogsModule} from 'projects/runtime/src/lib/runtime-host/ru
     VendorsModule,
     IconModule,
     RuntimeHostDialogsModule,
+    SecurityModule,
   ],
   declarations: [
     HostsSelectorComponent,
@@ -27,6 +30,7 @@ import {RuntimeHostDialogsModule} from 'projects/runtime/src/lib/runtime-host/ru
     HostToDescriptionPipe,
     HostIdToHostPipe,
     EnvironmentVariablesListComponent,
+    HostCapacityComponent,
   ],
   exports: [
     HostsTableComponent,

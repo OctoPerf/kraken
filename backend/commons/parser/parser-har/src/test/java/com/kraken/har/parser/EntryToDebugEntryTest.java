@@ -2,7 +2,7 @@ package com.kraken.har.parser;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kraken.test.utils.ResourceUtils;
+import com.kraken.tests.utils.ResourceUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

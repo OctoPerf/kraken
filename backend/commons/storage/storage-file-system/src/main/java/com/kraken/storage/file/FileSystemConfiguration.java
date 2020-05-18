@@ -1,8 +1,7 @@
 package com.kraken.storage.file;
 
-import com.kraken.storage.entity.StorageNode;
-import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.config.api.ApplicationProperties;
+import com.kraken.storage.entity.StorageWatcherEvent;
 import io.methvin.watcher.DirectoryChangeEvent;
 import io.methvin.watcher.DirectoryChangeListener;
 import io.methvin.watcher.DirectoryWatcher;
@@ -12,32 +11,25 @@ import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.function.Function;
 
 @Slf4j
 @Configuration
-public class FileSystemConfiguration {
+class FileSystemConfiguration {
 
   @Bean
-  Flux<StorageWatcherEvent> watcherEventFlux(
-      final ApplicationProperties kraken,
-      final Function<Path, StorageNode> toStorageNode
+  Flux<DirectoryChangeEvent> watcherEventFlux(
+      final ApplicationProperties applicationProperties
   ) {
-    return Flux.<StorageWatcherEvent>create(emitter -> {
+    return Flux.<DirectoryChangeEvent>create(emitter -> {
       try {
         final var watcher = DirectoryWatcher.builder()
-            .path(Paths.get(kraken.getData()))
+            .path(Paths.get(applicationProperties.getData()))
             .listener(new DirectoryChangeListener() {
               @Override
               public void onEvent(DirectoryChangeEvent event) {
-                final var fileEvent = StorageWatcherEvent.builder()
-                    .node(toStorageNode.apply(event.path()))
-                    .event(event.eventType().toString())
-                    .build();
-                emitter.next(fileEvent);
+                emitter.next(event);
               }
 
               @Override

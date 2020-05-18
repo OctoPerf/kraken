@@ -10,16 +10,20 @@ import {configurationServiceMock} from 'projects/commons/src/lib/config/configur
 import {RetriesService} from 'projects/tools/src/lib/retries.service';
 import {retriesServiceSpy} from 'projects/tools/src/lib/retries.service.spec';
 import {DurationToStringPipe} from 'projects/date/src/lib/duration-to-string.pipe';
-import {QueryParamsToStringPipe} from 'projects/tools/src/lib/query-params-to-string.pipe';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {testLog} from 'projects/runtime/src/lib/entities/log.spec';
-import {eventSourceSpy} from 'projects/sse/src/lib/event-source.service.spec';
+import {eventSourceServiceSpy, eventSourceSpy} from 'projects/sse/src/lib/event-source.service.spec';
 import {SSEConfigurationService} from 'projects/sse/src/lib/sse-configuration.service';
 import {sseConfigurationServiceSpy} from 'projects/sse/src/lib/sse-configuration.service.spec';
 import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
 import {SSEWrapper} from 'projects/sse/src/lib/entities/sse-wrapper';
 import {EventEmitter} from '@angular/core';
+import {SecurityService} from 'projects/security/src/lib/security.service';
+import {securityServiceSpy} from 'projects/security/src/lib/security.service.spec';
+import SpyObj = jasmine.SpyObj;
+import {of} from 'rxjs';
+import {EventSourceService} from 'projects/sse/src/lib/event-source.service';
 
 export const sseServiceSpy = () => {
   const spy = jasmine.createSpyObj('SSEService', [
@@ -34,9 +38,14 @@ describe('SSEService', () => {
   let httpTestingController: HttpTestingController;
   let eventBus: EventBusService;
   let eventSource: EventSource;
+  let eventSourceService: SpyObj<EventSourceService>;
+  let security: SpyObj<SecurityService>;
 
   beforeEach(() => {
     eventSource = eventSourceSpy();
+    eventSourceService = eventSourceServiceSpy();
+    security = securityServiceSpy();
+    (security as any).token = of('token');
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       providers: [
@@ -44,9 +53,10 @@ describe('SSEService', () => {
         {provide: ConfigurationService, useValue: configurationServiceMock()},
         {provide: SSEConfigurationService, useValue: sseConfigurationServiceSpy()},
         {provide: RetriesService, useValue: retriesServiceSpy()},
+        {provide: SecurityService, useValue: security},
+        {provide: EventSourceService, useValue: eventSourceService},
         SSEService,
         DurationToStringPipe,
-        QueryParamsToStringPipe,
       ]
     });
     eventBus = TestBed.inject(EventBusService);

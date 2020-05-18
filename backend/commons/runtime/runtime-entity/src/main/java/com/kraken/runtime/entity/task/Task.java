@@ -2,16 +2,17 @@ package com.kraken.runtime.entity.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kraken.security.entity.owner.Owned;
+import com.kraken.security.entity.owner.Owner;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
-@Builder
-public class Task {
+@Builder(toBuilder = true)
+public class Task implements Owned {
   String id;
   Long startDate;
   ContainerStatus status;
@@ -19,27 +20,27 @@ public class Task {
   List<Container> containers;
   Integer expectedCount;
   String description;
-  String applicationId;
+  Owner owner;
 
   @JsonCreator
   Task(
-      @JsonProperty("id") final String id,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final ContainerStatus status,
-      @JsonProperty("type") final TaskType   type,
-      @JsonProperty("containers") final List<Container> containers,
-      @JsonProperty("expectedCount") final Integer expectedCount,
-      @JsonProperty("description") final String description,
-      @JsonProperty("applicationId") final String applicationId
+      @NonNull @JsonProperty("id") final String id,
+      @NonNull @JsonProperty("startDate") final Long startDate,
+      @NonNull @JsonProperty("status") final ContainerStatus status,
+      @NonNull @JsonProperty("type") final TaskType type,
+      @NonNull @JsonProperty("containers") final List<Container> containers,
+      @NonNull @JsonProperty("expectedCount") final Integer expectedCount,
+      @NonNull @JsonProperty("description") final String description,
+      @NonNull @JsonProperty("owner") final Owner owner
   ) {
     super();
-    this.id = requireNonNull(id);
-    this.startDate = requireNonNull(startDate);
-    this.status = requireNonNull(status);
-    this.type = requireNonNull(type);
-    this.containers = requireNonNull(containers);
-    this.expectedCount = requireNonNull(expectedCount);
-    this.description = requireNonNull(description);
-    this.applicationId = requireNonNull(applicationId);
+    this.id = id;
+    this.startDate = startDate;
+    this.status = status;
+    this.type = type;
+    this.containers = containers;
+    this.expectedCount = expectedCount;
+    this.description = description;
+    this.owner = owner;
   }
 }

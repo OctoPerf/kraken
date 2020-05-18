@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':commons:storage:storage-client-api')
+    implementation project(':commons:config:config-runtime-container-api')
+}

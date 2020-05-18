@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class SpringSortExecutionEnvironmentEntries implements SortExecutionEnvironmentEntries {
+final class SpringSortExecutionEnvironmentEntries implements SortExecutionEnvironmentEntries {
 
   @Override
   public List<ExecutionEnvironmentEntry> apply(List<ExecutionEnvironmentEntry> entries) {

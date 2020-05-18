@@ -9,7 +9,13 @@ kraken:
   influxdb:
     user: admin
     password: kraken
-    database: gatling
+  security:
+    realm: kraken
+    web:
+      id: kraken-web
+    api:
+      id: kraken-api
+      secret: c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4
 
 spring:
   servlet:
@@ -17,8 +23,8 @@ spring:
       enabled: true # Whether to enable support of multipart uploads.
       file-size-threshold: 0B # Threshold after which files are written to disk.
       location: # Intermediate location of uploaded files.
-      max-file-size: 1MB # Max file size.
-      max-request-size: 10MB # Max request size.
+      max-file-size: 500MB # Max file size.
+      max-request-size: 500MB # Max request size.
       resolve-lazily: false # Whether to resolve the multipart request lazily at the time of file or parameter access.
 
 logging:
@@ -36,23 +42,40 @@ server:
 ---
 spring:
   profiles: dev
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://kraken.local:9080/auth/realms/kraken
 kraken:
   storage:
-    url: http://localhost:8080
+    url: http://kraken.local:8080
+  runtime:
+    url: http://kraken.local:8082
   grafana:
-    url: http://localhost:3000
+    url: http://kraken.local:3000
   influxdb:
-    url: http://localhost:8086
+    url: http://kraken.local:8086
+  security:
+    url: http://kraken.local:9080
 
 ---
 spring:
   profiles: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://kraken-keycloak:9080/auth/realms/kraken
 
 kraken:
   storage:
     url: http://kraken-storage:8080
+  runtime:
+    url: http://kraken-runtime:8082
   grafana:
     url: http://kraken-grafana:3000
   influxdb:
     url: http://kraken-influxdb:8086
+  security:
+    url: http://kraken-keycloak:9080

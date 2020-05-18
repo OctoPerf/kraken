@@ -21,7 +21,6 @@
     "length": 0,
     "lastModified": 0
   },
-  "grafanaUrl": "/grafana/d",
   "gatlingSimulationsRootNode": {
     "path": "gatling/user-files/simulations",
     "type": "DIRECTORY",
@@ -40,5 +39,6 @@
     "url": "/api/keycloak",
     "realm": "kraken",
     "clientId": "kraken-web"
-  }
+  },
+  "expectedRoles": ["USER"]
 }

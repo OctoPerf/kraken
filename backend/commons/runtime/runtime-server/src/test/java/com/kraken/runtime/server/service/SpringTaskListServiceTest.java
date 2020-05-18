@@ -3,6 +3,7 @@ package com.kraken.runtime.server.service;
 import com.kraken.runtime.backend.api.TaskService;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
+import com.kraken.security.entity.owner.PublicOwner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,18 +35,18 @@ public class SpringTaskListServiceTest {
 
   @Test
   public void shouldList() {
-    given(taskService.list(Optional.empty())).willReturn(Flux.just(FlatContainerTest.CONTAINER));
+    given(taskService.list(PublicOwner.INSTANCE)).willReturn(Flux.just(FlatContainerTest.CONTAINER));
     given(toTask.apply(any())).willReturn(Mono.just(TaskTest.TASK));
 
-    assertThat(taskListService.list(Optional.empty()).blockFirst()).isEqualTo(TaskTest.TASK);
+    assertThat(taskListService.list(PublicOwner.INSTANCE).blockFirst()).isEqualTo(TaskTest.TASK);
   }
 
   @Test
   public void shouldWatch() {
-    given(taskService.list(Optional.empty())).willReturn(Flux.just(FlatContainerTest.CONTAINER));
+    given(taskService.list(PublicOwner.INSTANCE)).willReturn(Flux.just(FlatContainerTest.CONTAINER));
     given(toTask.apply(any())).willReturn(Mono.just(TaskTest.TASK));
 
-    final var tasks = taskListService.watch(Optional.empty()).take(SpringTaskListService.WATCH_TASKS_DELAY.multipliedBy(3)).collectList().block();
+    final var tasks = taskListService.watch(PublicOwner.INSTANCE).take(SpringTaskListService.WATCH_TASKS_DELAY.multipliedBy(3)).collectList().block();
     assertThat(tasks).isNotNull();
     assertThat(tasks.size()).isEqualTo(1);
   }

@@ -1,17 +1,21 @@
 package com.kraken.runtime.server.rest;
 
+import com.google.common.collect.ImmutableMap;
+import com.kraken.runtime.backend.api.HostService;
 import com.kraken.runtime.backend.api.TaskService;
+import com.kraken.runtime.context.api.ExecutionContextService;
 import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.context.entity.ExecutionContext;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
+import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.runtime.event.TaskCancelledEvent;
-import com.kraken.runtime.event.TaskExecutedEvent;
+import com.kraken.runtime.event.*;
 import com.kraken.runtime.server.service.TaskListService;
+import com.kraken.security.authentication.api.UserProvider;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.sse.SSEService;
-import com.kraken.runtime.context.api.ExecutionContextService;
+import com.kraken.tools.sse.SSEWrapper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -22,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -40,14 +45,25 @@ public class TaskController {
   @NonNull EventBus eventBus;
   @NonNull TaskService taskService;
   @NonNull TaskListService taskListService;
+  @NonNull HostService hostService;
   @NonNull ExecutionContextService executionContextService;
   @NonNull SSEService sse;
+  @NonNull UserProvider userProvider;
 
   @PostMapping(produces = TEXT_PLAIN_VALUE)
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                           @RequestBody() final ExecutionEnvironment environment) {
     log.info(String.format("Execute %s task", environment.getTaskType().toString()));
-    return executionContextService.newExecuteContext(applicationId, environment)
+    return userProvider.getOwner(applicationId)
+        .flatMap(owner -> hostService.list(owner).map(Host::getId).collectList().map(hosts -> Tuples.of(owner, hosts)))
+        .flatMap(t2 -> {
+              if (environment.getHostIds().stream().anyMatch(hostId -> !t2.getT2().contains(hostId))) {
+                return Mono.error(new IllegalArgumentException("Illegal access to hosts."));
+              }
+              return Mono.just(t2.getT1());
+            }
+        )
+        .flatMap(owner -> executionContextService.newExecuteContext(owner, environment))
         .flatMap(taskService::execute)
         .doOnNext(_context -> eventBus.publish(TaskExecutedEvent.builder().context(_context).build()))
         .map(ExecutionContext::getTaskId);
@@ -58,7 +74,8 @@ public class TaskController {
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
-    return executionContextService.newCancelContext(applicationId, taskId, type)
+    return userProvider.getOwner(applicationId)
+        .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::cancel)
         .doOnNext(context -> eventBus.publish(TaskCancelledEvent.builder().context(context).build()))
         .map(CancelContext::getTaskId);
@@ -69,19 +86,32 @@ public class TaskController {
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Remove task %s", taskId));
-    return executionContextService.newCancelContext(applicationId, taskId, type)
+    return userProvider.getOwner(applicationId)
+        .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::remove)
         .map(CancelContext::getTaskId);
   }
 
-  @GetMapping(value = "/watch/{applicationId}")
-  public Flux<ServerSentEvent<List<Task>>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+  @GetMapping(value = "/watch")
+  public Flux<ServerSentEvent<List<Task>>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
     log.info("Watch tasks lists");
-    return sse.keepAlive(taskListService.watch(of(applicationId)));
+    return userProvider.getOwner(applicationId).flatMapMany(owner -> sse.keepAlive(taskListService.watch(owner)));
   }
 
   @GetMapping(value = "/list")
   public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return taskListService.list(of(applicationId));
+    return userProvider.getOwner(applicationId).flatMapMany(taskListService::list);
+  }
+
+  @GetMapping(value = "/events")
+  public Flux<ServerSentEvent<SSEWrapper>> events() {
+    log.info("Watch tasks events");
+    return sse.keepAlive(sse.merge(ImmutableMap.of(
+        "TaskExecutedEvent", eventBus.of(TaskExecutedEvent.class),
+        "TaskCreatedEvent", eventBus.of(TaskCreatedEvent.class),
+        "TaskStatusUpdatedEvent", eventBus.of(TaskStatusUpdatedEvent.class),
+        "TaskCancelledEvent", eventBus.of(TaskCancelledEvent.class),
+        "TaskRemovedEvent", eventBus.of(TaskRemovedEvent.class)
+    )));
   }
 }

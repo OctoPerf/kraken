@@ -5,7 +5,10 @@ import com.google.common.testing.NullPointerTester;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntryTest;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.security.entity.owner.Owner;
+import com.kraken.security.entity.owner.PublicOwnerTest;
+import com.kraken.security.entity.owner.UserOwnerTest;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExecutionContextBuilderTest {
 
   public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WITH_ENTRIES = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
-      .applicationId("application")
+      .owner(UserOwnerTest.USER_OWNER)
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .description("description")
@@ -30,9 +33,19 @@ public class ExecutionContextBuilderTest {
   public static final ExecutionContextBuilder EXECUTION_CONTEXT_BUILDER = WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY));
 
   @Test
-  public void shouldPassTestUtils() {
+  public void shouldPassEquals() {
     TestUtils.shouldPassEquals(EXECUTION_CONTEXT_BUILDER.getClass());
-    new NullPointerTester().setDefault(ExecutionEnvironmentEntry.class, ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY).testConstructors(EXECUTION_CONTEXT_BUILDER.getClass(), PACKAGE);
+  }
+
+  @Test
+  public void shouldPassNPE() {
+    new NullPointerTester()
+        .setDefault(ExecutionEnvironmentEntry.class, ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY)
+        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .testConstructors(EXECUTION_CONTEXT_BUILDER.getClass(), PACKAGE);
+  }
+  @Test
+  public void shouldPassToString() {
     TestUtils.shouldPassToString(EXECUTION_CONTEXT_BUILDER);
   }
 

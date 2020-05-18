@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
+  "id": ${ID},
   "iteration": 1553247999574,
   "links": [],
   "panels": [
@@ -30,10 +30,11 @@
       "id": 28,
       "panels": [],
       "title": "General",
-      "type": "row"
+      "type": "row",
+      "datasource": "${DATASOURCE_NAME}"
     }
   ],
-  "refresh": false,
+  "refresh": "${REFRESH}",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -48,15 +49,15 @@
             "$__all"
           ]
         },
-        "datasource": "Gatling",
-        "definition": "SHOW TAG VALUES ON \"gatling\" WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
+        "datasource": "${DATASOURCE_NAME}",
+        "definition": "SHOW TAG VALUES ON \"${DATABASE_NAME}\" WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": true,
         "name": "request",
         "options": [],
-        "query": "SHOW TAG VALUES ON \"gatling\" WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
+        "query": "SHOW TAG VALUES ON \"${DATABASE_NAME}\" WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -69,8 +70,8 @@
       },
       {
         "current": {
-          "text": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
-          "value": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c"
+          "text": "${TEST_ID}",
+          "value": "${TEST_ID}"
         },
         "hide": 2,
         "label": null,
@@ -78,22 +79,22 @@
         "options": [
           {
             "selected": true,
-            "text": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
-            "value": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c"
+            "text": "${TEST_ID}",
+            "value": "${TEST_ID}"
           }
         ],
-        "query": "daebc21d-d16a-46ae-b5ab-2eb1e74a032c",
+        "query": "${TEST_ID}",
         "skipUrlSync": false,
         "type": "constant"
       }
     ]
   },
   "time": {
-    "from": "2019-03-22T10:01:00.000Z",
-    "to": "2019-03-22T10:02:49.486Z"
+    "from": "${START_DATE}",
+    "to": "${END_DATE}"
   },
   "timepicker": {
-    "hidden": false,
+    "hidden": ${TIME_PICKER_HIDDEN},
     "now": true,
     "refresh_intervals": [
       "1s",
@@ -120,8 +121,8 @@
       "30d"
     ]
   },
-  "timezone": "browser",
-  "title": "Gatling Report",
-  "uid": "test_id",
-  "version": 8
+  "timezone": "${TIMEZONE}",
+  "title": "${TITLE}",
+  "uid": "${TEST_ID}",
+  "version": ${VERSION}
 }

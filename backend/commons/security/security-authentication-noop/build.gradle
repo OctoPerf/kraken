@@ -1,0 +1,3 @@
+dependencies {
+    implementation project(':commons:security:security-authentication-api')
+}

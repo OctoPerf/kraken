@@ -13,7 +13,7 @@ import static com.kraken.config.gatling.spring.GatlingSimulationProps.DEFAULT_SI
 import static java.util.Optional.ofNullable;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken.gatling")
 final class GatlingProps implements GatlingProperties {

@@ -6,6 +6,7 @@ import com.kraken.runtime.command.Command;
 import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskType;
+import com.kraken.security.entity.owner.PublicOwner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class DockerTaskServiceIntegrationTest {
 
   @Test
   public void shouldListFlatContainers() {
-    final var flatContainers = taskService.list(Optional.of("app")).collectList().block();
+    final var flatContainers = taskService.list(PublicOwner.INSTANCE).collectList().block();
     assertThat(flatContainers).isNotNull();
     System.out.println(flatContainers);
     assertThat(flatContainers.size()).isEqualTo(3);

@@ -6,23 +6,17 @@ import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.storage.file.StorageService;
-import com.kraken.storage.file.StorageWatcherService;
-import com.kraken.tools.configuration.jackson.MediaTypes;
+import com.kraken.storage.file.StorageServiceBuilder;
+import com.kraken.tests.security.AuthControllerTest;
 import com.kraken.tools.sse.SSEService;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -34,28 +28,24 @@ import java.util.Optional;
 
 import static com.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
-import static com.kraken.test.utils.TestUtils.shouldPassNPE;
+import static com.kraken.tests.utils.TestUtils.shouldPassNPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(
-    classes = {StorageController.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
-public class StorageControllerTest {
-
-  @Autowired
-  WebTestClient webTestClient;
+public class StorageControllerTest extends AuthControllerTest {
 
   @MockBean
   StorageService service;
-
   @MockBean
-  StorageWatcherService watcher;
-
+  StorageServiceBuilder builder;
   @MockBean
   SSEService sse;
+
+  @Before
+  public void setUp() throws IOException{
+    super.setUp();
+    given(builder.build(userOwner())).willReturn(service);
+  }
 
   @Test
   public void shouldPassTestUtils() {
@@ -70,11 +60,21 @@ public class StorageControllerTest {
 
     webTestClient.get()
         .uri("/files/list")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
         .expectBody()
         .jsonPath("$[0].path").isEqualTo(path);
+  }
+
+  @Test
+  public void shouldListNodesForbidden() {
+    webTestClient.get()
+        .uri("/files/list")
+        .header("Authorization", "Bearer no-role-token")
+        .exchange()
+        .expectStatus().is4xxClientError();
   }
 
   @Test
@@ -87,6 +87,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/get")
             .queryParam("path", filename)
             .build())
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -103,6 +104,7 @@ public class StorageControllerTest {
     webTestClient.post()
         .uri("/files/delete")
         .body(BodyInserters.fromValue(paths))
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
   }
@@ -115,6 +117,7 @@ public class StorageControllerTest {
 
     webTestClient.post()
         .uri("/files/delete")
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().is5xxServerError();
@@ -130,6 +133,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/file")
             .queryParam("path", path)
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/testupload.txt")))
         .exchange()
         .expectStatus().isOk()
@@ -148,6 +152,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/zip")
             .queryParam("path", path)
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromMultipartData("file", new UrlResource("file", "testDir/kraken.zip")))
         .exchange()
         .expectStatus().isOk()
@@ -166,6 +171,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/directory")
             .queryParam("path", path)
             .build())
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -183,6 +189,7 @@ public class StorageControllerTest {
 
     webTestClient.get()
         .uri("/files/get/file")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().valueEquals(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"test.txt\"")
@@ -203,6 +210,7 @@ public class StorageControllerTest {
             .queryParam("oldName", oldName)
             .queryParam("newName", newName)
             .build())
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -220,6 +228,7 @@ public class StorageControllerTest {
 
     webTestClient.get()
         .uri("/files/get/file?path=")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().valueEquals(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"test.zip\"")
@@ -238,6 +247,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/set/content")
             .queryParam("path", path)
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(content))
         .exchange()
         .expectStatus().isOk()
@@ -258,6 +268,7 @@ public class StorageControllerTest {
             .build())
         .accept(MediaType.TEXT_PLAIN)
         .header("Content-type", MediaType.TEXT_PLAIN_VALUE)
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType("text/plain;charset=UTF-8")
@@ -277,6 +288,7 @@ public class StorageControllerTest {
             .queryParam("path", path)
             .build())
         .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "Bearer user-token")
         .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
         .exchange()
         .expectStatus().isOk()
@@ -295,6 +307,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/list/json")
             .build())
         .body(BodyInserters.fromValue(paths))
+        .header("Authorization", "Bearer user-token")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus().isOk()
@@ -309,13 +322,14 @@ public class StorageControllerTest {
     final var flux = Flux.just(STORAGE_WATCHER_EVENT, STORAGE_WATCHER_EVENT);
     final var sseFlux = Flux.just(ServerSentEvent.builder(STORAGE_WATCHER_EVENT).build(), ServerSentEvent.<StorageWatcherEvent>builder().comment("keep alive").build(), ServerSentEvent.builder(STORAGE_WATCHER_EVENT).build());
 
-    given(watcher.watch())
+    given(service.watch(""))
         .willReturn(flux);
 
     given(sse.keepAlive(flux)).willReturn(sseFlux);
 
     final var result = webTestClient.get()
         .uri("/files/watch")
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8")
@@ -339,6 +353,7 @@ public class StorageControllerTest {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/find")
             .build())
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
@@ -357,6 +372,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/copy")
             .queryParam("destination", destination)
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().isOk()
@@ -376,6 +392,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/move")
             .queryParam("destination", destination)
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(paths))
         .exchange()
         .expectStatus().isOk()
@@ -409,6 +426,7 @@ public class StorageControllerTest {
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/filter/existing")
             .build())
+        .header("Authorization", "Bearer user-token")
         .body(BodyInserters.fromValue(nodes))
         .exchange()
         .expectStatus().isOk()
@@ -429,6 +447,7 @@ public class StorageControllerTest {
         .uri(uriBuilder -> uriBuilder.path("/files/extract/zip")
             .queryParam("path", path)
             .build())
+        .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)

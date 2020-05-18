@@ -1,7 +1,7 @@
 {
   "version": "gatling-test-1",
   "applicationId": "gatling",
-  "storageApiUrl": "http://localhost:8080",
+  "storageApiUrl": "http://kraken.local:8080",
   "readmeNode": {
     "path": "gatling/README.md",
     "type": "FILE",
@@ -9,11 +9,11 @@
     "length": 0,
     "lastModified": 0
   },
-  "runtimeApiUrl": "http://localhost:8082",
-  "sseApiUrl": "http://localhost:8083",
-  "docUrl": "http://localhost:8000",
-  "staticApiUrl": "http://localhost:8080/static",
-  "analysisApiUrl": "http://localhost:8081",
+  "runtimeApiUrl": "http://kraken.local:8082",
+  "sseApiUrl": "http://kraken.local:8083",
+  "docUrl": "http://kraken.local:8000",
+  "staticApiUrl": "http://kraken.local:8080/static",
+  "analysisApiUrl": "http://kraken.local:8081",
   "analysisRootNode": {
     "path": "gatling/results",
     "type": "DIRECTORY",
@@ -21,7 +21,6 @@
     "length": 0,
     "lastModified": 0
   },
-  "grafanaUrl": "http://localhost:3000/d",
   "gatlingSimulationsRootNode": {
     "path": "gatling/user-files/simulations",
     "type": "DIRECTORY",
@@ -37,8 +36,9 @@
     "lastModified": 0
   },
   "keycloakConfiguration": {
-    "url": "http://localhost:9080/auth",
+    "url": "http://kraken.local:9080/auth",
     "realm": "kraken",
     "clientId": "kraken-web"
-  }
+  },
+  "expectedRoles": ["USER"]
 }

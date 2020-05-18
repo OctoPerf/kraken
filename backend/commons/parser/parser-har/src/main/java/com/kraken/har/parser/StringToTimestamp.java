@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-class StringToTimestamp implements Function<String, Long> {
+final class StringToTimestamp implements Function<String, Long> {
 
   SimpleDateFormat format;
 

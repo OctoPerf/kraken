@@ -169,7 +169,7 @@ public class ZtCommandServiceTest {
   }
 
   @Test
-  public void shouldAwait() throws InterruptedException {
+  public void shouldAwait() {
     final var path = Paths.get("testDir/echo").toAbsolutePath().toString();
     final var up = Command.builder()
         .path(path)

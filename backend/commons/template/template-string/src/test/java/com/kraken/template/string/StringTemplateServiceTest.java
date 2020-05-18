@@ -1,8 +1,7 @@
 package com.kraken.template.string;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.test.utils.ResourceUtils;
-import org.assertj.core.api.Assertions;
+import com.kraken.tests.utils.ResourceUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class StringTemplateServiceTest {
     final var replaced = ResourceUtils.getResourceContent("replaced.yml");
     assertThat(service.replaceAll(input, ImmutableMap.of(
         "KRAKEN_VERSION", "version",
-        "KRAKEN_TASKID", "task-id",
+        "KRAKEN_TASK_ID", "task-id",
         "XMX", "256m"
     )).block()).isEqualTo(replaced);
   }

@@ -1,7 +1,7 @@
 package com.kraken.analysis.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

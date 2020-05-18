@@ -4,4 +4,10 @@ dependencies {
     implementation project(':commons:tools:tools-configuration')
 
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
+
+    // Security
+    implementation project(':commons:security:security-authentication-api')
+    implementation project(':commons:dependencies:dependencies-security-spring')
+    testImplementation project(path: ':tests:tests-web-security')
+    testImplementation project(path: ':tests:tests-web-security', configuration: 'testArtifacts')
 }

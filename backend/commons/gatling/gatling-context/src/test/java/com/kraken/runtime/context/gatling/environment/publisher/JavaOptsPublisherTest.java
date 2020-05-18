@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.kraken.runtime.context.entity.ExecutionContextBuilderTest.WITH_ENTRIES;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVAOPTS;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVA_OPTS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -46,15 +46,16 @@ public class JavaOptsPublisherTest {
     final var result = publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(
         ExecutionEnvironmentEntry.builder().scope("hostId").from(USER).key("foo").value("bar").build(),
         ExecutionEnvironmentEntry.builder().scope("").from(USER).key("test").value("someValue").build(),
-        ExecutionEnvironmentEntry.builder().scope("other").from(USER).key("KRAKEN_VERSION").value("1.3.0").build())));
-    final var hostIdJavaOpts = result.getEntries()
-        .stream().filter(entry -> entry.getScope().equals("hostId") && entry.getKey().equals(KRAKEN_GATLING_JAVAOPTS.name()))
+        ExecutionEnvironmentEntry.builder().scope("other").from(USER).key("KRAKEN_VERSION").value("1.3.0").build()))).block();
+    assertThat(result).isNotNull();
+    final var hostIdJavaOpts = result
+        .stream().filter(entry -> entry.getScope().equals("hostId") && entry.getKey().equals(KRAKEN_GATLING_JAVA_OPTS.name()))
         .findFirst();
-    final var otherJavaOpts = result.getEntries()
-        .stream().filter(entry -> entry.getScope().equals("other") && entry.getKey().equals(KRAKEN_GATLING_JAVAOPTS.name()))
+    final var otherJavaOpts = result
+        .stream().filter(entry -> entry.getScope().equals("other") && entry.getKey().equals(KRAKEN_GATLING_JAVA_OPTS.name()))
         .findFirst();
 
-    assertThat(result.getEntries().stream().anyMatch(entry -> entry.getScope().equals("") && entry.getKey().equals(KRAKEN_GATLING_JAVAOPTS.name()))).isFalse();
+    assertThat(result.stream().anyMatch(entry -> entry.getScope().equals("") && entry.getKey().equals(KRAKEN_GATLING_JAVA_OPTS.name()))).isFalse();
     assertThat(hostIdJavaOpts.isPresent()).isTrue();
     assertThat(hostIdJavaOpts.get().getValue()).isEqualTo("-Dtest=someValue -Dfoo=bar");
     assertThat(otherJavaOpts.isPresent()).isTrue();
@@ -63,9 +64,11 @@ public class JavaOptsPublisherTest {
 
   @Test
   public void shouldGenerateEmptyOpts() {
-    final var javaOptsEntry = publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(
-    ))).getEntries()
-        .stream().filter(entry -> entry.getKey().equals(KRAKEN_GATLING_JAVAOPTS.name()))
+    final var entries = publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(
+    ))).block();
+    assertThat(entries).isNotNull();
+    final var javaOptsEntry = entries
+        .stream().filter(entry -> entry.getKey().equals(KRAKEN_GATLING_JAVA_OPTS.name()))
         .findFirst();
 
     assertThat(javaOptsEntry.isPresent()).isTrue();
@@ -73,23 +76,23 @@ public class JavaOptsPublisherTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldFail1(){
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("4foo").value("bar").build())));
+  public void shouldFail1() {
+    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("4foo").value("bar").build()))).block();
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldFail2(){
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo o").value("bar").build())));
+  public void shouldFail2() {
+    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo o").value("bar").build()))).block();
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldFail3(){
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo-o").value("bar").build())));
+  public void shouldFail3() {
+    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo-o").value("bar").build()))).block();
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldFail4(){
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("foo").value("joe bar").build())));
+  public void shouldFail4() {
+    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("foo").value("joe bar").build()))).block();
   }
 
   @Test

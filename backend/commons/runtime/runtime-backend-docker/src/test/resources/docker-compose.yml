@@ -15,6 +15,7 @@ services:
       com.kraken/description: description
       com.kraken/expectedCount: 2
       com.kraken/applicationId: test
+      com.kraken/userId: user
     container_name: taskId-container-one_STARTING
     image: nginx
     networks:
@@ -30,6 +31,7 @@ services:
       com.kraken/description: description
       com.kraken/expectedCount: 2
       com.kraken/applicationId: test
+      com.kraken/userId: user
     container_name: taskId-container-two_STARTING
     image: nginx
     networks:

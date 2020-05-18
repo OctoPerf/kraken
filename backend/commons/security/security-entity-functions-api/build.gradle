@@ -1,0 +1,3 @@
+dependencies {
+    api project(':commons:security:security-entity')
+}

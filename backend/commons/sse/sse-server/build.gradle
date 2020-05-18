@@ -5,6 +5,13 @@ dependencies {
     implementation project(':commons:sse:sse-api')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:sse:sse-entity', configuration: 'testArtifacts')
+
+    // Security
+    implementation project(':commons:security:security-authentication-api')
+    implementation project(':commons:dependencies:dependencies-security-spring')
+    testImplementation project(path: ':tests:tests-web-security')
+    testImplementation project(path: ':tests:tests-web-security', configuration: 'testArtifacts')
 }

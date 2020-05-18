@@ -1,33 +1,62 @@
-launch-docker:
-	#start grafana and influxdb
-	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
-	
-	#start backend
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-docker'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
-	
-	#start frontend
+.EXPORT_ALL_VARIABLES:
+
+# HOST
+
+IPS := $(shell hostname -I)
+IP = $(word 1, $(IPS))
+
+update-hosts-current-ip:
+	-./hosts.sh remove kraken.local
+	./hosts.sh add kraken.local $(IP)
+
+update-hosts-localhost:
+	-./hosts.sh remove kraken.local
+	./hosts.sh add kraken.local 127.0.0.1
+
+# LAUNCH
+
+launch-frontend:
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
+
+launch-backend-docker:
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-docker'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
+
+
+launch-backend-k8s:
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-k8s'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
+	sleep 1	
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
+
+
+launch-dev:
+	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
+	
+launch-docker:
+	$(MAKE) launch-dev
+	sleep 1
+	$(MAKE) launch-backend-docker
+	$(MAKE) launch-frontend
 
 launch-k8s:
 	#start kind
 	$(MAKE) -C deployment/k8s kind-serve
-	
-	#start grafana and influxdb
-	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
+	$(MAKE) launch-dev
+	sleep 10
+	$(MAKE) launch-backend-k8s
+	$(MAKE) launch-frontend
 
-	#start backend
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-kubernetes'
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
-	
-	#start frontend
-	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
-	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
+# GIT
 
 git-help:
 	@echo "git-init : Install git-flow, initialise repositories."

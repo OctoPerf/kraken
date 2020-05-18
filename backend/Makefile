@@ -1,7 +1,5 @@
 .EXPORT_ALL_VARIABLES:
 
-IPS := $(shell hostname -I)
-IP = $(word 1, $(IPS))
 VERSION := $(shell cat ../version.txt)
 KRAKEN_VERSION := $(VERSION)
 
@@ -19,8 +17,6 @@ scan:
 
 dependencies:
 	./gradlew $(APP):dependencies
-
-
 
 # Runs tests continuously for a project
 # Example: make test APP=:commons:runtime:docker:docker-client
@@ -41,10 +37,6 @@ serve-analysis:
 serve-runtime-docker:
 	$(MAKE) serve APP=:applications:app-runtime-docker
 
-serve-runtime-k8s: export KRAKEN_STORAGE_URL := http://$(IP):8080
-serve-runtime-k8s: export KRAKEN_ANALYSIS_URL := http://$(IP):8081
-serve-runtime-k8s: export KRAKEN_RUNTIME_URL := http://$(IP):8082
-serve-runtime-k8s: export KRAKEN_INFLUXDB_URL := http://$(IP):8086
 serve-runtime-k8s:
 	$(MAKE) serve APP=:applications:ee:app-runtime-kubernetes
 
@@ -53,9 +45,6 @@ serve-storage:
 
 serve-sse:
 	$(MAKE) serve APP=:applications:app-sse
-
-serve-security-test:
-	$(MAKE) serve APP=:applications:security-configuration-test
 
 clean:
 	./gradlew $(APP):clean

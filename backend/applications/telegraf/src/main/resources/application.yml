@@ -6,7 +6,6 @@ kraken:
   influxdb:
     user: admin
     password: kraken
-    database: gatling
 
 logging:
   level:
@@ -34,3 +33,11 @@ kraken:
     url: url
   storage:
     url: url
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken

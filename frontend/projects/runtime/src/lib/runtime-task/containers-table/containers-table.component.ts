@@ -42,7 +42,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.hosts.all().subscribe();
+    this.hosts.hosts().subscribe();
   }
 
   ngOnDestroy() {

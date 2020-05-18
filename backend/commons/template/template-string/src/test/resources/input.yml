@@ -8,11 +8,11 @@ networks:
 services:
   kraken-har-parser:
     image: octoperf/kraken-har-parser:${KRAKEN_VERSION}
-    container_name: ${KRAKEN_TASKID}-har-parser_STARTING
+    container_name: ${KRAKEN_TASK_ID}-har-parser_STARTING
     networks:
       - kraken
     labels:
-      com.kraken/taskId: "${KRAKEN_TASKID}"
+      com.kraken/taskId: "${KRAKEN_TASK_ID}"
     environment:
-      KRAKEN_TASKID: ${KRAKEN_TASKID}
+      KRAKEN_TASKID: ${KRAKEN_TASK_ID}
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx=${XMX}"

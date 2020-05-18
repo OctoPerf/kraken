@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import com.kraken.config.influxdb.api.InfluxDBProperties;
+import com.kraken.config.runtime.container.api.ContainerProperties;
 import com.kraken.runtime.command.Command;
-import com.kraken.runtime.container.properties.ContainerProperties;
 import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +50,8 @@ public class CommandSupplierTest {
                 .put(KRAKEN_INFLUXDB_DATABASE, "database")
                 .put(KRAKEN_INFLUXDB_USER, "user")
                 .put(KRAKEN_INFLUXDB_PASSWORD, "password")
-                .put(KRAKEN_TASKID, "taskId")
-                .put(KRAKEN_HOSTID, "hostId")
+                .put(KRAKEN_TASK_ID, "taskId")
+                .put(KRAKEN_HOST_ID, "hostId")
                 .build()
             )
             .command(ImmutableList.of("telegraf"))

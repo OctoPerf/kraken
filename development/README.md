@@ -20,6 +20,12 @@ Create a new database ?
 curl -XPOST 'http://localhost:8086/query' --data-urlencode 'q=CREATE DATABASE mydb'
 ```
 
+```
+curl --user admin:kraken http://localhost:8086/query --data-urlencode "q=SHOW USERS"
+curl --user admin:kraken http://localhost:8086/query --data-urlencode "q=CREATE USER kojiro.sazaki WITH PASSWORD 'pwd'"
+
+```
+
 Open client
 
 ```
@@ -56,7 +62,7 @@ Available at [http://127.0.0.1:3000](http://127.0.0.1:3000) admin/kraken
 To generate a configuration file:
 
 ```
-docker run -d -p 3000:3000 --rm --name=grafana grafana/grafana
+docker run -d -p 3000:3000 --rm --name=grafana grafana/grafana:6.7.1
 docker cp grafana:/etc/grafana/grafana.ini grafana.ini
 docker stop grafana
 ```
@@ -64,22 +70,3 @@ docker stop grafana
 ## Provisioning
 [Blog post](https://ops.tips/blog/initialize-grafana-with-preconfigured-dashboards/#configuring-grafana)
 [Documentation](http://docs.grafana.org/administration/provisioning/)
-
-
-## Keycloak tests
-
-
-User
-```
-curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'username=kraken-user&password=kraken&grant_type=password' -d 'client_id=kraken-web' "http://localhost:9080/auth/realms/kraken/protocol/openid-connect/token" | jq -r '.access_token' > token
-```
-
-Admin
-```
-curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'username=kraken-admin&password=kraken&grant_type=password' -d 'client_id=kraken-web' "http://localhost:9080/auth/realms/kraken/protocol/openid-connect/token" | jq -r '.access_token' > token
-```
-
-List files
-```
-curl --verbose -X GET http://localhost:8080/test/user -H "Authorization: Bearer $(cat token)"
-```

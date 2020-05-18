@@ -2,7 +2,7 @@ package com.kraken.runtime.context.gatling.environment.checker;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

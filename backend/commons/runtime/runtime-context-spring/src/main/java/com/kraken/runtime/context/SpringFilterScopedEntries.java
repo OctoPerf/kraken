@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class SpringFilterScopedEntries implements FilterScopedEntries {
+final class SpringFilterScopedEntries implements FilterScopedEntries {
 
   @Override
   public List<ExecutionEnvironmentEntry> apply(final String hostId, final List<ExecutionEnvironmentEntry> entries) {

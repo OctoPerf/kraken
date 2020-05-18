@@ -5,6 +5,5 @@ import com.kraken.config.api.KrakenProperties;
 import com.kraken.config.api.UrlProperty;
 
 public interface GrafanaProperties extends UrlProperty, AuthenticationProperties, KrakenProperties {
-
   String getDashboard();
 }

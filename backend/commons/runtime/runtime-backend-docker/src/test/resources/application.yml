@@ -12,4 +12,3 @@ kraken:
     url: influxdbUrl
     user: influxdbUser
     password: influxdbPassword
-    database: influxdbDatabase

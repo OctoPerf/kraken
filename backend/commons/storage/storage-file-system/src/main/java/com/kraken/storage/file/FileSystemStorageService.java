@@ -1,13 +1,13 @@
 package com.kraken.storage.file;
 
 import com.kraken.storage.entity.StorageNode;
-import com.kraken.config.api.ApplicationProperties;
+import com.kraken.storage.entity.StorageWatcherEvent;
+import io.methvin.watcher.DirectoryChangeEvent;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +15,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,13 +24,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
@@ -40,20 +40,50 @@ import static reactor.core.publisher.Mono.fromCallable;
 import static reactor.core.publisher.Mono.just;
 
 @Slf4j
-@Service
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class FileSystemStorageService implements StorageService {
-  @NonNull
-  ApplicationProperties kraken;
-  @NonNull
-  Function<Path, StorageNode> toStorageNode;
+
+  @NonNull Path root;
+  @NonNull PathToStorageNode toStorageNode;
+  @NonNull Flux<DirectoryChangeEvent> watcherEventFlux;
+
+  public void init(final Path applicationPath) {
+    synchronized (applicationPath.toString().intern()) {
+      final var rootFile = root.toFile();
+      if (!rootFile.exists()) {
+        if (!rootFile.mkdirs()) {
+          throw new RuntimeException("Failed to create directory " + root);
+        }
+        try (final var stream = Files.walk(applicationPath)) {
+          stream.forEach(subFile -> {
+            try {
+              Files.copy(subFile, root.resolve(applicationPath.relativize(subFile)), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+              throw new RuntimeException(e.getMessage(), e);
+            }
+          });
+        } catch (IOException e) {
+          throw new RuntimeException(e.getMessage(), e);
+        }
+      }
+    }
+  }
+
+  @Override
+  public Flux<StorageWatcherEvent> watch(final String path) {
+    return Flux.from(watcherEventFlux)
+        .filter(event -> event.path().startsWith(stringToPath(path).toString()))
+        .map(event -> StorageWatcherEvent.builder()
+            .node(toStorageNode.apply(event.path()))
+            .event(event.eventType().toString())
+            .build());
+  }
 
   @Override
   public Flux<StorageNode> list() {
     try {
-      final var data = Paths.get(kraken.getData());
-      return fromStream(Files.walk(data).map(toStorageNode)).filter(StorageNode::notRoot);
+      return fromStream(Files.walk(root).map(toStorageNode)).filter(StorageNode::notRoot);
     } catch (Exception e) {
       return error(e);
     }
@@ -230,14 +260,15 @@ final class FileSystemStorageService implements StorageService {
         destination,
         (path, dest) -> Mono.fromCallable(() -> {
           final var folder = Files.copy(path, dest, StandardCopyOption.REPLACE_EXISTING);
-          Files.walk(path)
-              .forEach(subFile -> {
-                try {
-                  Files.copy(subFile, dest.resolve(path.relativize(subFile)), StandardCopyOption.REPLACE_EXISTING);
-                } catch (Exception e) {
-                  throw new RuntimeException(e.getMessage(), e);
-                }
-              });
+          try (final var stream = Files.walk(path)) {
+            stream.forEach(subFile -> {
+              try {
+                Files.copy(subFile, dest.resolve(path.relativize(subFile)), StandardCopyOption.REPLACE_EXISTING);
+              } catch (Exception e) {
+                throw new RuntimeException(e.getMessage(), e);
+              }
+            });
+          }
           return folder;
         })
     );
@@ -283,7 +314,6 @@ final class FileSystemStorageService implements StorageService {
   private Path stringToPath(final String path) throws IllegalArgumentException {
     checkArgument(!path.contains(".."), "Cannot store file with relative path outside current directory "
         + path);
-    return Paths.get(kraken.getData()).resolve(path);
+    return root.resolve(path);
   }
-
 }

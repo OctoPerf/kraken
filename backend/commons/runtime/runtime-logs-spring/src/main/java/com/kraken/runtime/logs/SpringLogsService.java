@@ -3,6 +3,7 @@ package com.kraken.runtime.logs;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.entity.log.LogStatus;
 import com.kraken.runtime.entity.log.LogType;
+import com.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ final class SpringLogsService implements LogsService {
   private static final Duration INTERVAL = Duration.ofMillis(100);
 
   ConcurrentLinkedQueue<Log> logs = new ConcurrentLinkedQueue<>();
-  ConcurrentMap<String, FluxSink<Log>> listeners = new ConcurrentHashMap<>();
+  ConcurrentMap<Owner, FluxSink<Log>> listeners = new ConcurrentHashMap<>();
   ConcurrentMap<String, Disposable> subscriptions = new ConcurrentHashMap<>();
 
   @PostConstruct
@@ -44,8 +45,8 @@ final class SpringLogsService implements LogsService {
   private void sendLogs(Long timestamp) {
     Log current;
     while ((current = logs.poll()) != null) {
-      for (Map.Entry<String, FluxSink<Log>> listener : this.listeners.entrySet()) {
-        if (listener.getKey().equals(current.getApplicationId())) {
+      for (Map.Entry<Owner, FluxSink<Log>> listener : this.listeners.entrySet()) {
+        if (listener.getKey().equals(current.getOwner())) {
           listener.getValue().next(current);
         }
       }
@@ -53,15 +54,15 @@ final class SpringLogsService implements LogsService {
   }
 
   @Override
-  public Flux<Log> listen(final String applicationId) {
-    return Flux.<Log>create(fluxSink -> this.listeners.put(applicationId, fluxSink))
-        .doOnTerminate(() -> this.listeners.remove(applicationId));
+  public Flux<Log> listen(final Owner owner) {
+    return Flux.<Log>create(fluxSink -> this.listeners.put(owner, fluxSink))
+        .doOnTerminate(() -> this.listeners.remove(owner));
   }
 
   @Override
-  public boolean dispose(final String applicationId, final String id, final LogType type) {
+  public boolean dispose(final Owner owner, final String id, final LogType type) {
     if (this.subscriptions.containsKey(id)) {
-      this.add(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build());
+      this.add(Log.builder().owner(owner).id(id).type(type).text("").status(LogStatus.CLOSED).build());
       final var subscription = this.subscriptions.get(id);
       subscription.dispose();
       return true;
@@ -77,12 +78,12 @@ final class SpringLogsService implements LogsService {
   }
 
   @Override
-  public Disposable push(final String applicationId, final String id, final LogType type, final Flux<String> stringFlux) {
+  public Disposable push(final Owner owner, final String id, final LogType type, final Flux<String> stringFlux) {
     final var subscription = stringFlux
         .windowTimeout(MAX_LOGS_SIZE, MAX_LOGS_TIMEOUT_MS)
         .flatMap(window -> window.reduce((o, o2) -> o + LINE_SEP + o2))
-        .map(text -> Log.builder().applicationId(applicationId).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
-        .concatWith(Flux.just(Log.builder().applicationId(applicationId).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
+        .map(text -> Log.builder().owner(owner).id(id).type(type).text(text).status(LogStatus.RUNNING).build())
+        .concatWith(Flux.just(Log.builder().owner(owner).id(id).type(type).text("").status(LogStatus.CLOSED).build()))
         .doOnTerminate(() -> subscriptions.remove(id))
         .subscribeOn(Schedulers.elastic())
         .subscribe(this::add);

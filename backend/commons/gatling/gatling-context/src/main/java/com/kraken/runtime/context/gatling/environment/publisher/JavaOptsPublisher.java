@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.function.Function;
@@ -17,12 +18,12 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVAOPTS;
+import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVA_OPTS;
 
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class JavaOptsPublisher implements EnvironmentPublisher {
+final class JavaOptsPublisher implements EnvironmentPublisher {
 
   @Override
   public boolean test(final TaskType taskType) {
@@ -30,7 +31,7 @@ class JavaOptsPublisher implements EnvironmentPublisher {
   }
 
   @Override
-  public ExecutionContextBuilder apply(final ExecutionContextBuilder context) {
+  public Mono<List<ExecutionEnvironmentEntry>> apply(final ExecutionContextBuilder context) {
     final var userEntries = context.getEntries().stream()
         .filter(entry -> entry.getFrom() == USER)
         .collect(Collectors.toUnmodifiableList());
@@ -59,14 +60,14 @@ class JavaOptsPublisher implements EnvironmentPublisher {
         .map(hostId -> newJavaOptsEntry(hostId, ImmutableList.<ExecutionEnvironmentEntry>builder().addAll(globalUserEntries).addAll(hostEntries.apply(hostId)).build()))
         .collect(Collectors.toUnmodifiableList());
 
-    return context.addEntries(javaOptsEntries);
+    return Mono.just(javaOptsEntries);
   }
 
   private ExecutionEnvironmentEntry newJavaOptsEntry(final String hostId, final List<ExecutionEnvironmentEntry> entries) {
     return ExecutionEnvironmentEntry.builder()
         .from(USER)
         .scope(hostId)
-        .key(KRAKEN_GATLING_JAVAOPTS.name())
+        .key(KRAKEN_GATLING_JAVA_OPTS.name())
         .value(entries
             .stream()
             .map(entry -> String.format("-D%s=%s", entry.getKey(), entry.getValue()))

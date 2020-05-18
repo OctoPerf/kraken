@@ -3,6 +3,7 @@ package com.kraken.runtime.server.rest;
 import com.kraken.runtime.entity.log.Log;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.runtime.server.service.TaskListService;
+import com.kraken.security.authentication.api.UserProvider;
 import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
 import lombok.AccessLevel;
@@ -12,10 +13,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import javax.validation.constraints.Pattern;
@@ -32,12 +30,13 @@ import static java.util.Optional.of;
 public class LogsController {
 
   @NonNull LogsService logsService;
+  @NonNull UserProvider userProvider;
 
   @NonNull
   SSEService sse;
 
-  @GetMapping(value = "/watch/{applicationId}")
-  public Flux<ServerSentEvent<Log>> watch(@PathVariable("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return sse.keepAlive(logsService.listen(applicationId));
+  @GetMapping(value = "/watch")
+  public Flux<ServerSentEvent<Log>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+    return userProvider.getOwner(applicationId).flatMapMany(owner -> sse.keepAlive(logsService.listen(owner)));
   }
 }

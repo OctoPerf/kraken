@@ -3,6 +3,7 @@ package com.kraken.analysis.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class DebugEntry {
 
   String id;
@@ -33,32 +34,32 @@ public class DebugEntry {
 
   @JsonCreator
   DebugEntry(
-      @JsonProperty("id") final String id,
-      @JsonProperty("resultId") final String resultId,
-      @JsonProperty("date") final Long date,
-      @JsonProperty("requestName") final String requestName,
-      @JsonProperty("requestStatus") final String requestStatus,
-      @JsonProperty("session") final String session,
-      @JsonProperty("requestUrl") final String requestUrl,
-      @JsonProperty("requestHeaders") final List<HttpHeader> requestHeaders,
-      @JsonProperty("requestCookies") final List<String> requestCookies,
-      @JsonProperty("requestBodyFile") final String requestBodyFile,
-      @JsonProperty("responseStatus") final String responseStatus,
-      @JsonProperty("responseHeaders") final List<HttpHeader> responseHeaders,
-      @JsonProperty("responseBodyFile") final String responseBodyFile) {
+      @NonNull @JsonProperty("id") final String id,
+      @NonNull @JsonProperty("resultId") final String resultId,
+      @NonNull @JsonProperty("date") final Long date,
+      @NonNull @JsonProperty("requestName") final String requestName,
+      @NonNull @JsonProperty("requestStatus") final String requestStatus,
+      @NonNull @JsonProperty("session") final String session,
+      @NonNull @JsonProperty("requestUrl") final String requestUrl,
+      @NonNull @JsonProperty("requestHeaders") final List<HttpHeader> requestHeaders,
+      @NonNull @JsonProperty("requestCookies") final List<String> requestCookies,
+      @NonNull @JsonProperty("requestBodyFile") final String requestBodyFile,
+      @NonNull @JsonProperty("responseStatus") final String responseStatus,
+      @NonNull @JsonProperty("responseHeaders") final List<HttpHeader> responseHeaders,
+      @NonNull @JsonProperty("responseBodyFile") final String responseBodyFile) {
     super();
-    this.id = requireNonNull(id);
-    this.resultId = requireNonNull(resultId);
-    this.date = requireNonNull(date);
-    this.requestName = requireNonNull(requestName);
-    this.requestStatus = requireNonNull(requestStatus);
-    this.session = requireNonNull(session);
-    this.requestUrl = requireNonNull(requestUrl);
-    this.requestHeaders = requireNonNull(requestHeaders);
-    this.requestCookies = requireNonNull(requestCookies);
-    this.requestBodyFile = requireNonNull(requestBodyFile);
-    this.responseStatus = requireNonNull(responseStatus);
-    this.responseHeaders = requireNonNull(responseHeaders);
-    this.responseBodyFile = requireNonNull(responseBodyFile);
+    this.id = id;
+    this.resultId = resultId;
+    this.date = date;
+    this.requestName = requestName;
+    this.requestStatus = requestStatus;
+    this.session = session;
+    this.requestUrl = requestUrl;
+    this.requestHeaders = requestHeaders;
+    this.requestCookies = requestCookies;
+    this.requestBodyFile = requestBodyFile;
+    this.responseStatus = responseStatus;
+    this.responseHeaders = responseHeaders;
+    this.responseBodyFile = responseBodyFile;
   }
 }

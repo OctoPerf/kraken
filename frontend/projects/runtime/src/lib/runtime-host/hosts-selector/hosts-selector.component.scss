@@ -1,5 +1,26 @@
 @import 'app-filler';
+@import 'app-table';
+@import 'app-margin';
+@import 'app-padding';
 
 :host {
   @include block-filler-x();
+  @include m-b();
+}
+
+table {
+  @include table-filler();
+}
+
+.mat-column-name, .mat-column-addresses, .mat-column-cpu, .mat-column-memory {
+  @include column-text-ellipsis(100px);
+}
+
+.mat-column-select {
+  overflow: initial;
+  @include column-width(50px);
+}
+
+mat-error {
+  @include p-h();
 }

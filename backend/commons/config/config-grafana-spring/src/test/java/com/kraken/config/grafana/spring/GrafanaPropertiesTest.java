@@ -1,10 +1,9 @@
 package com.kraken.config.grafana.spring;
 
 import com.kraken.config.grafana.api.GrafanaProperties;
-import com.kraken.config.grafana.spring.SpringGrafanaProperties;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 
 public class GrafanaPropertiesTest {
 

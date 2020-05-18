@@ -1,10 +1,15 @@
 dependencies {
     implementation project(':commons:analysis:analysis-client-api')
+    implementation project(':commons:security:security-authentication-client-spring')
 
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application')
     testImplementation project(path: ':commons:storage:storage-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
-
-    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
-    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
+    testImplementation project(path: ':commons:security:security-authentication-noop')
+    testImplementation project(path: ':tests:tests-web-client')
+    testImplementation project(path: ':commons:config:config-analysis-client-spring')
+    testImplementation project(path: ':commons:security:security-client-keycloak')
+    testImplementation project(path: ':commons:security:security-decoder-spring')
+    testImplementation project(path: ':commons:security:security-authentication-impersonate')
+    testImplementation project(path: ':commons:config:config-security-client-spring')
 }

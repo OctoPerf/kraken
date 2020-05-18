@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.task.TaskType;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 
 public class TaskConfigurationTest {
 

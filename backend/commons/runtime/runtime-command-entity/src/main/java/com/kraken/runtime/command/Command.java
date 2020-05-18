@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class Command {
 
   @NonNull

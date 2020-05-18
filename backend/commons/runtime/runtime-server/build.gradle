@@ -1,5 +1,6 @@
 dependencies {
-    implementation project(':commons:runtime:runtime-event')
+    implementation project(':commons:runtime:runtime-entity')
+    implementation project(':commons:runtime:runtime-event-entity')
     implementation project(':commons:runtime:runtime-backend-api')
     implementation project(':commons:runtime:runtime-context-api')
     implementation project(':commons:runtime:runtime-logs-api')
@@ -8,8 +9,15 @@ dependencies {
     implementation project(':commons:storage:storage-entity')
 
     testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
-    testImplementation project(path: ':commons:runtime:runtime-event', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:runtime:runtime-event-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-api', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:runtime:runtime-context-entity', configuration: 'testArtifacts')
     testImplementation project(path: ':commons:sse:sse-entity', configuration: 'testArtifacts')
+
+    // Security
+    implementation project(':commons:security:security-authentication-api')
+    implementation project(':commons:dependencies:dependencies-security-spring')
+    testImplementation project(path: ':tests:tests-web-security')
+    testImplementation project(path: ':tests:tests-web-security', configuration: 'testArtifacts')
 }

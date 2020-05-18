@@ -31,6 +31,14 @@ kraken:
     url: url
   harparser:
     remote: hars/my-app.har
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken
 
 logging:
   level:

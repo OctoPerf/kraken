@@ -47,6 +47,14 @@ kraken:
     simulation:
       name: computerdatabase.BasicSimulation
     description: Dev test
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken
 
 logging:
   level:

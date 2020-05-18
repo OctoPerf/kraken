@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    com.kraken/description: "${KRAKEN_DESCRIPTION}"
+    com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
+  labels:
+    com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
+    com.kraken/hostId: "${KRAKEN_HOST_ID}"
+    com.kraken/taskId: "${KRAKEN_TASK_ID}"
+    com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
+    com.kraken/userId: "${KRAKEN_USER_ID}"
+  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
+spec:
+  containers:
+    -
+      image: "octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      resources:
+        limits:
+          cpu: "${KRAKEN_GATLING_CPU_LIMIT}"
+          memory: "${KRAKEN_GATLING_MEMORY_LIMIT}"
+        requests:
+          cpu: "${KRAKEN_GATLING_CPU_REQUEST}"
+          memory: "${KRAKEN_GATLING_MEMORY_REQUEST}"
+      env:
+        - name: JAVA_OPTS
+          value: "-Dspring.profiles.active=kubernetes -Xmx${KRAKEN_GATLING_XMX}"
+        - name: KRAKEN_CONTAINER_TASKID
+          value: "${KRAKEN_TASK_ID}"
+        - name: KRAKEN_CONTAINER_TASKTYPE
+          value: "${KRAKEN_TASK_TYPE}"
+        - name: KRAKEN_CONTAINER_HOSTID
+          value: "${KRAKEN_HOST_ID}"
+        - name: KRAKEN_CONTAINER_USERID
+          value: "${KRAKEN_USER_ID}"
+        - name: KRAKEN_CONTAINER_APPLICATIONID
+          value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_NAME
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+        - name: KRAKEN_CONTAINER_LABEL
+          value: "${KRAKEN_GATLING_CONTAINER_LABEL}"
+        - name: KRAKEN_GATLING_JAVAOPTS
+          value: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
+        - name: KRAKEN_STORAGE_URL
+          value: "${KRAKEN_STORAGE_URL}"
+        - name: KRAKEN_RUNTIME_URL
+          value: "${KRAKEN_RUNTIME_URL}"
+        - name: KRAKEN_GATLING_SIMULATION_CLASSNAME
+          value: "${KRAKEN_GATLING_SIMULATION_CLASS_NAME}"
+        - name: KRAKEN_GATLING_SIMULATION_PACKAGENAME
+          value: "${KRAKEN_GATLING_SIMULATION_PACKAGE_NAME}"
+        - name: KRAKEN_GATLING_HARPATH_REMOTE
+          value: "${KRAKEN_GATLING_HAR_PATH_REMOTE}"
+        - name: KRAKEN_SECURITY_URL
+          value: "${KRAKEN_SECURITY_URL}"
+        - name: KRAKEN_SECURITY_WEB_ID
+          value: "${KRAKEN_SECURITY_WEB_ID}"
+        - name: KRAKEN_SECURITY_CONTAINER_ID
+          value: "${KRAKEN_SECURITY_CONTAINER_ID}"
+        - name: KRAKEN_SECURITY_CONTAINER_SECRET
+          value: "${KRAKEN_SECURITY_CONTAINER_SECRET}"
+        - name: KRAKEN_SECURITY_REALM
+          value: "${KRAKEN_SECURITY_REALM}"
+        - name: KRAKEN_SECURITY_ACCESSTOKEN
+          value: "${KRAKEN_SECURITY_ACCESS_TOKEN}"
+        - name: KRAKEN_SECURITY_REFRESHTOKEN
+          value: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
+        - name: KRAKEN_SECURITY_EXPIRESIN
+          value: "${KRAKEN_SECURITY_EXPIRES_IN}"
+        - name: KRAKEN_SECURITY_REFRESHEXPIRESIN
+          value: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+    -
+      image: "octoperf/kraken-har-parser:${KRAKEN_VERSION}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      resources:
+        limits:
+          cpu: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_LIMIT}"
+        requests:
+          cpu: "${KRAKEN_SIDEKICK_CPU_REQUEST}"
+          memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
+      env:
+        - name: JAVA_OPTS
+          value: "-Dspring.profiles.active=kubernetes -Xmx${KRAKEN_SIDEKICK_XMX}"
+        - name: KRAKEN_CONTAINER_TASKID
+          value: "${KRAKEN_TASK_ID}"
+        - name: KRAKEN_CONTAINER_TASKTYPE
+          value: "${KRAKEN_TASK_TYPE}"
+        - name: KRAKEN_CONTAINER_HOSTID
+          value: "${KRAKEN_HOST_ID}"
+        - name: KRAKEN_CONTAINER_USERID
+          value: "${KRAKEN_USER_ID}"
+        - name: KRAKEN_CONTAINER_APPLICATIONID
+          value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_NAME
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+        - name: KRAKEN_CONTAINER_LABEL
+          value: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
+        - name: KRAKEN_STORAGE_URL
+          value: "${KRAKEN_STORAGE_URL}"
+        - name: KRAKEN_RUNTIME_URL
+          value: "${KRAKEN_RUNTIME_URL}"
+        - name: KRAKEN_ANALYSIS_URL
+          value: "${KRAKEN_ANALYSIS_URL}"
+        - name: KRAKEN_HARPARSER_REMOTE
+          value: "${KRAKEN_GATLING_HAR_PATH_REMOTE}"
+        - name: KRAKEN_SECURITY_URL
+          value: "${KRAKEN_SECURITY_URL}"
+        - name: KRAKEN_SECURITY_WEB_ID
+          value: "${KRAKEN_SECURITY_WEB_ID}"
+        - name: KRAKEN_SECURITY_CONTAINER_ID
+          value: "${KRAKEN_SECURITY_CONTAINER_ID}"
+        - name: KRAKEN_SECURITY_CONTAINER_SECRET
+          value: "${KRAKEN_SECURITY_CONTAINER_SECRET}"
+        - name: KRAKEN_SECURITY_REALM
+          value: "${KRAKEN_SECURITY_REALM}"
+        - name: KRAKEN_SECURITY_ACCESSTOKEN
+          value: "${KRAKEN_SECURITY_ACCESS_TOKEN}"
+        - name: KRAKEN_SECURITY_REFRESHTOKEN
+          value: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
+        - name: KRAKEN_SECURITY_EXPIRESIN
+          value: "${KRAKEN_SECURITY_EXPIRES_IN}"
+        - name: KRAKEN_SECURITY_REFRESHEXPIRESIN
+          value: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+  hostAliases:
+    - hostnames:
+        - kraken.local
+      ip: ${KRAKEN_LOCAL_IP}
+  nodeSelector:
+    com.kraken/hostId: "${KRAKEN_HOST_ID}"
+  restartPolicy: Never
+  terminationGracePeriodSeconds: 5

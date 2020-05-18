@@ -1,8 +1,14 @@
 package com.kraken.runtime.entity.task;
 
+import com.google.common.testing.NullPointerTester;
+import com.kraken.security.entity.owner.Owner;
+import com.kraken.security.entity.owner.PublicOwnerTest;
+import com.kraken.security.entity.owner.UserOwnerTest;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FlatContainerTest {
@@ -18,13 +24,25 @@ public class FlatContainerTest {
       .taskType(TaskType.GATLING_RUN)
       .description("description")
       .expectedCount(2)
-      .applicationId("app")
+      .owner(UserOwnerTest.USER_OWNER)
       .build();
 
 
+
   @Test
-  public void shouldPassTestUtils() {
-    shouldPassAll(CONTAINER);
+  public void shouldPassEquals() {
+    TestUtils.shouldPassEquals(CONTAINER.getClass());
+  }
+
+  @Test
+  public void shouldPassNPE() {
+    new NullPointerTester()
+        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .testConstructors(CONTAINER.getClass(), PACKAGE);
+  }
+  @Test
+  public void shouldPassToString() {
+    TestUtils.shouldPassToString(CONTAINER);
   }
 
   @Test

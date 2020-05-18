@@ -1,3 +1,4 @@
 dependencies {
     api project(':commons:storage:storage-entity')
+    api project(':commons:security:security-entity')
 }

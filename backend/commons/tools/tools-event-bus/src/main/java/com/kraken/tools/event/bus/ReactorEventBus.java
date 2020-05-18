@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxProcessor;
 import reactor.core.publisher.ReplayProcessor;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class ReactorEventBus implements EventBus {
 
-  ReplayProcessor<BusEvent> rp = ReplayProcessor.create();
+  FluxProcessor<BusEvent, BusEvent> rp = DirectProcessor.create();
 
   @Override
   public void publish(BusEvent event) {

@@ -1,12 +1,11 @@
 package com.kraken.runtime.command;
 
 import com.google.common.collect.ImmutableMap;
-import com.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 
 public class CommandTest {

@@ -2,6 +2,7 @@ package com.kraken.runtime.backend.api;
 
 import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
+import com.kraken.security.entity.owner.Owner;
 import reactor.core.publisher.Mono;
 
 public interface ContainerService {
@@ -10,11 +11,11 @@ public interface ContainerService {
     return String.format("%s-%s-%s", taskId, containerId, containerName);
   }
 
-  Mono<String> attachLogs(String applicationId, String taskId, String containerId, String containerName);
+  Mono<String> attachLogs(Owner owner, String taskId, String containerId, String containerName);
 
-  Mono<Void> detachLogs(String applicationId, String id);
+  Mono<Void> detachLogs(Owner owner, String id);
 
-  Mono<Void> setStatus(String taskId, String containerId, String containerName, ContainerStatus status);
+  Mono<Void> setStatus(Owner owner, String taskId, String containerId, String containerName, ContainerStatus status);
 
-  Mono<FlatContainer> find(String taskId, String containerName);
+  Mono<FlatContainer> find(Owner owner, String taskId, String containerName);
 }

@@ -1,5 +1,5 @@
 dependencies {
     implementation project(':commons:config:config-grafana-api')
 
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:tools:tools-application')
 }

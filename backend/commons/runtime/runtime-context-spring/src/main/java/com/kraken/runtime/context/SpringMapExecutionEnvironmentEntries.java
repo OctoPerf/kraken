@@ -23,7 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Slf4j
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-class SpringMapExecutionEnvironmentEntries implements MapExecutionEnvironmentEntries {
+final class SpringMapExecutionEnvironmentEntries implements MapExecutionEnvironmentEntries {
   @NonNull FilterScopedEntries filter;
   @NonNull SortExecutionEnvironmentEntries sort;
 

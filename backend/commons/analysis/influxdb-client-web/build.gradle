@@ -1,7 +1,9 @@
 dependencies {
     implementation project(':commons:analysis:influxdb-client-api')
+    implementation project(':commons:tools:tools-unique-id')
 
-    testImplementation project(path: ':commons:tools:tools-application', configuration: 'testArtifacts')
-    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
-    testImplementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
+    testImplementation project(path: ':commons:tools:tools-application')
+    testImplementation project(path: ':tests:tests-web-client')
+    testImplementation project(path: ':commons:analysis:influxdb-client-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
 }

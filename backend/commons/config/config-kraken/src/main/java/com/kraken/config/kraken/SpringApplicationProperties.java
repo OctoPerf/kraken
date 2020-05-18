@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import static com.google.common.base.Strings.nullToEmpty;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken")
 final class SpringApplicationProperties implements ApplicationProperties {

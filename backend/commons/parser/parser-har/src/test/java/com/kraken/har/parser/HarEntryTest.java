@@ -1,6 +1,6 @@
 package com.kraken.har.parser;
 
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

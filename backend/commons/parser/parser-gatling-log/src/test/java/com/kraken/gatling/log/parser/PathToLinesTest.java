@@ -1,6 +1,6 @@
 package com.kraken.gatling.log.parser;
 
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.Before;

@@ -5,6 +5,7 @@ import com.kraken.runtime.backend.docker.DockerHostService;
 import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.host.HostCapacity;
 import com.kraken.runtime.entity.host.HostTest;
+import com.kraken.security.entity.owner.PublicOwner;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class DockerHostServiceTest {
 
   @Test
   public void shouldList() {
-    final var list = service.list().collectList().block();
+    final var list = service.list(PublicOwner.INSTANCE).collectList().block();
     assertThat(list).isNotNull();
     assertThat(list.size()).isEqualTo(1);
     assertThat(list.get(0)).isEqualTo(Host.builder()
@@ -30,6 +31,7 @@ public class DockerHostServiceTest {
         .capacity(HostCapacity.builder().cpu("-").memory("-").build())
         .allocatable(HostCapacity.builder().cpu("-").memory("-").build())
         .addresses(ImmutableList.of())
+        .owner(PublicOwner.INSTANCE)
         .build());
   }
 

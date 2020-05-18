@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class GatlingLogParser implements LogParser {
+final class GatlingLogParser implements LogParser {
 
   @NonNull
   Function<Path, Flux<String>> pathToLines;

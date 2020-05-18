@@ -9,7 +9,7 @@ import lombok.Value;
 import static java.util.Objects.requireNonNull;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 @ExcludeFromObfuscation
 public class SSEWrapper {
   String type;

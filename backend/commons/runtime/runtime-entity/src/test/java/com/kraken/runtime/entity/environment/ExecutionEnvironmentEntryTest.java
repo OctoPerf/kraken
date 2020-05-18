@@ -3,7 +3,7 @@ package com.kraken.runtime.entity.environment;
 import org.junit.Test;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
-import static com.kraken.test.utils.TestUtils.shouldPassAll;
+import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 
 public class ExecutionEnvironmentEntryTest {

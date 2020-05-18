@@ -1,8 +1,7 @@
 package com.kraken.config.analysis.client.spring;
 
 import com.kraken.config.analysis.client.api.AnalysisClientProperties;
-import com.kraken.config.analysis.client.spring.SpringAnalysisClientProperties;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
 public class AnalysisClientPropertiesTest {

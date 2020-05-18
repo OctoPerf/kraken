@@ -9,12 +9,12 @@ import java.util.Map;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 
 @Component
-class JavaOptsChecker implements EnvironmentChecker {
+final class JavaOptsChecker implements EnvironmentChecker {
 
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(environment,
-      KRAKEN_GATLING_JAVAOPTS);
+        KRAKEN_GATLING_JAVA_OPTS);
   }
 
   @Override

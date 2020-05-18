@@ -1,6 +1,6 @@
 package com.kraken.config.kraken;
 
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Test;
 
 public class ApplicationPropertiesTest {

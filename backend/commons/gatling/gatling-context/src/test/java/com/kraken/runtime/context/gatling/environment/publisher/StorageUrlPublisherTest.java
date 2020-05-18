@@ -3,8 +3,8 @@ package com.kraken.runtime.context.gatling.environment.publisher;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
-import com.kraken.config.storage.api.StorageProperties;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.config.storage.client.api.StorageClientProperties;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class StorageUrlPublisherTest {
   @Autowired
   StorageUrlPublisher publisher;
   @MockBean
-  StorageProperties properties;
+  StorageClientProperties properties;
 
   @Before
   public void setUp() {
@@ -40,12 +40,13 @@ public class StorageUrlPublisherTest {
 
   @Test
   public void shouldApply() {
-    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER);
-    assertThat(env.getEntries().stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_STORAGE_URL.name()))).isTrue();
+    final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER).block();
+    assertThat(env).isNotNull();
+    assertThat(env.stream().map(ExecutionEnvironmentEntry::getKey).anyMatch(key -> key.equals(KRAKEN_STORAGE_URL.name()))).isTrue();
   }
 
   @Test
-  public void shouldTestUtils(){
+  public void shouldTestUtils() {
     TestUtils.shouldPassNPE(StorageUrlPublisher.class);
   }
 }

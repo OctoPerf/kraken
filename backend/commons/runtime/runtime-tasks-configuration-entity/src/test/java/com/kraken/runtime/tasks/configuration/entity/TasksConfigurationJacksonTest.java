@@ -1,7 +1,7 @@
 package com.kraken.runtime.tasks.configuration.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kraken.test.utils.ResourceUtils;
+import com.kraken.tests.utils.ResourceUtils;
 import com.kraken.tools.configuration.jackson.JacksonConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;

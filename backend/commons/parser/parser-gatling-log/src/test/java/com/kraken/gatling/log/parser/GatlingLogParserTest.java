@@ -1,7 +1,7 @@
 package com.kraken.gatling.log.parser;
 
 import com.kraken.analysis.entity.DebugEntryTest;
-import com.kraken.test.utils.TestUtils;
+import com.kraken.tests.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
