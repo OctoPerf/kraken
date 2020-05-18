@@ -7,6 +7,7 @@ import com.kraken.runtime.event.TaskStatusUpdatedEvent;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.event.bus.EventBusListener;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Component
@@ -26,11 +26,11 @@ final class UpdateResultOnTaskStatusUpdated extends EventBusListener<TaskStatusU
 
   @Autowired
   UpdateResultOnTaskStatusUpdated(final EventBus eventBus,
-                                  final AnalysisService analysisService,
-                                  final Function<ContainerStatus, ResultStatus> taskStatusToResultStatus) {
+                                  @NonNull final AnalysisService analysisService,
+                                  @NonNull final Function<ContainerStatus, ResultStatus> taskStatusToResultStatus) {
     super(eventBus, TaskStatusUpdatedEvent.class);
-    this.analysisService = requireNonNull(analysisService);
-    this.taskStatusToResultStatus = requireNonNull(taskStatusToResultStatus);
+    this.analysisService = analysisService;
+    this.taskStatusToResultStatus = taskStatusToResultStatus;
   }
 
   @Override

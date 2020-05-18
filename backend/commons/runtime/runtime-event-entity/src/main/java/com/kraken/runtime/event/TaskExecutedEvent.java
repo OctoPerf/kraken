@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class TaskExecutedEvent implements TaskEvent {
@@ -16,9 +14,9 @@ public class TaskExecutedEvent implements TaskEvent {
 
   @JsonCreator
   TaskExecutedEvent(
-      @JsonProperty("context") final ExecutionContext context
+      @NonNull @JsonProperty("context") final ExecutionContext context
   ) {
     super();
-    this.context = requireNonNull(context);
+    this.context = context;
   }
 }

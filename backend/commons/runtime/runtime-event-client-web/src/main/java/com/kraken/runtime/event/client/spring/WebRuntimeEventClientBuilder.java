@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
 @Component
@@ -23,9 +22,9 @@ final class WebRuntimeEventClientBuilder extends AbstractAuthenticatedClientBuil
 
   public WebRuntimeEventClientBuilder(final List<ExchangeFilterFactory> exchangeFilterFactories,
                                       final RuntimeClientProperties properties,
-                                      final ObjectMapper mapper) {
+                                      @NonNull final ObjectMapper mapper) {
     super(exchangeFilterFactories, properties);
-    this.mapper = requireNonNull(mapper);
+    this.mapper = mapper;
   }
 
   @Override

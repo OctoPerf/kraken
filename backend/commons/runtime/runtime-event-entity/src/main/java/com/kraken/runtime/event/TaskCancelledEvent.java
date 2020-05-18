@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class TaskCancelledEvent implements TaskEvent {
@@ -16,9 +14,9 @@ public class TaskCancelledEvent implements TaskEvent {
 
   @JsonCreator
   TaskCancelledEvent(
-      @JsonProperty("context") final CancelContext context
+      @NonNull @JsonProperty("context") final CancelContext context
   ) {
     super();
-    this.context = requireNonNull(context);
+    this.context = context;
   }
 }

@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class ExecutionEnvironmentEntry {
@@ -18,14 +16,14 @@ public class ExecutionEnvironmentEntry {
 
   @JsonCreator
   ExecutionEnvironmentEntry(
-      @JsonProperty("scope") final String scope,
-      @JsonProperty("from") final ExecutionEnvironmentEntrySource from,
-      @JsonProperty("key") final String key,
-      @JsonProperty("value") final String value) {
+      @NonNull @JsonProperty("scope") final String scope,
+      @NonNull @JsonProperty("from") final ExecutionEnvironmentEntrySource from,
+      @NonNull @JsonProperty("key") final String key,
+      @NonNull @JsonProperty("value") final String value) {
     super();
-    this.scope = requireNonNull(scope);
-    this.from = requireNonNull(from);
-    this.key = requireNonNull(key);
-    this.value = requireNonNull(value);
+    this.scope = scope;
+    this.from = from;
+    this.key = key;
+    this.value = value;
   }
 }

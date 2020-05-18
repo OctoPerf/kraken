@@ -2,10 +2,10 @@ package com.kraken.config.security.client.spring;
 
 import com.kraken.config.security.client.api.SecurityClientCredentialsProperties;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 @Value
@@ -16,9 +16,9 @@ final class SpringSecurityClientCredentialsProperties implements SecurityClientC
   String id;
   String secret;
 
-  SpringSecurityClientCredentialsProperties(final String id,
+  SpringSecurityClientCredentialsProperties(@NonNull final String id,
                                             final String secret) {
-    this.id = requireNonNull(id);
+    this.id = id;
     this.secret = ofNullable(secret).orElse("");
   }
 }

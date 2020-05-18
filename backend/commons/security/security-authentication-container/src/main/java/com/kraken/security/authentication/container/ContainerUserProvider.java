@@ -17,8 +17,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.function.Function;
 
-import static java.util.Objects.requireNonNull;
-
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class ContainerUserProvider extends AtomicUserProvider {

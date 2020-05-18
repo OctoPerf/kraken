@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
 
 @FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)

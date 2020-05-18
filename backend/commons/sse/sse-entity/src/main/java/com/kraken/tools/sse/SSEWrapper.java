@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
-
-import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder(toBuilder = true)
@@ -17,10 +16,10 @@ public class SSEWrapper {
 
   @JsonCreator
   SSEWrapper(
-      @JsonProperty("type") final String type,
-      @JsonProperty("value") final Object value) {
+      @NonNull @JsonProperty("type") final String type,
+      @NonNull @JsonProperty("value") final Object value) {
     super();
-    this.type = requireNonNull(type);
-    this.value = requireNonNull(value);
+    this.type = type;
+    this.value = value;
   }
 }

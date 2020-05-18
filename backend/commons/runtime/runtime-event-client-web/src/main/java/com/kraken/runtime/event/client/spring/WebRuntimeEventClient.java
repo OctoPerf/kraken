@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.event.*;
 import com.kraken.runtime.event.client.api.RuntimeEventClient;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
@@ -26,10 +26,10 @@ final class WebRuntimeEventClient implements RuntimeEventClient {
   ObjectMapper mapper;
   Map<String, Class<? extends TaskEvent>> eventClasses;
 
-  WebRuntimeEventClient(final WebClient webClient,
-                        final ObjectMapper mapper) {
-    this.webClient = requireNonNull(webClient);
-    this.mapper = requireNonNull(mapper);
+  WebRuntimeEventClient(@NonNull final WebClient webClient,
+                        @NonNull final ObjectMapper mapper) {
+    this.webClient = webClient;
+    this.mapper = mapper;
 
     this.eventClasses = ImmutableList.of(
         TaskCreatedEvent.class,

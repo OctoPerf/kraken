@@ -9,8 +9,6 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class FlatContainer implements Owned {

@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class Log implements Owned {

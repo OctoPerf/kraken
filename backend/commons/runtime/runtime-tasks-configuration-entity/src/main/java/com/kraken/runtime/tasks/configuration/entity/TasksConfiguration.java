@@ -8,7 +8,6 @@ import lombok.Value;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder(toBuilder = true)
@@ -18,8 +17,8 @@ public class TasksConfiguration {
 
   @JsonCreator
   TasksConfiguration(
-      @JsonProperty("tasks") final List<TaskConfiguration> tasks) {
+      @NonNull @JsonProperty("tasks") final List<TaskConfiguration> tasks) {
     super();
-    this.tasks = requireNonNull(tasks);
+    this.tasks = tasks;
   }
 }

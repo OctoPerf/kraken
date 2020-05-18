@@ -9,8 +9,6 @@ import lombok.Value;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class ExecutionEnvironment {
@@ -21,14 +19,14 @@ public class ExecutionEnvironment {
 
   @JsonCreator
   ExecutionEnvironment(
-      @JsonProperty("taskType") final TaskType taskType,
-      @JsonProperty("description") final String description,
-      @JsonProperty("hostIds") final List<String> hostIds,
-      @JsonProperty("entries") final List<ExecutionEnvironmentEntry> entries) {
+      @NonNull @JsonProperty("taskType") final TaskType taskType,
+      @NonNull @JsonProperty("description") final String description,
+      @NonNull @JsonProperty("hostIds") final List<String> hostIds,
+      @NonNull @JsonProperty("entries") final List<ExecutionEnvironmentEntry> entries) {
     super();
-    this.description = requireNonNull(description);
-    this.taskType = requireNonNull(taskType);
-    this.hostIds = requireNonNull(hostIds);
-    this.entries = requireNonNull(entries);
+    this.description = description;
+    this.taskType = taskType;
+    this.hostIds = hostIds;
+    this.entries = entries;
   }
 }

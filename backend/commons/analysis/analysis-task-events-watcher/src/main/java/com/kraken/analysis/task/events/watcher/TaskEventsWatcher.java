@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import reactor.util.retry.Retry;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
@@ -26,7 +27,7 @@ final class TaskEventsWatcher {
   @PostConstruct
   public void watch() {
     this.clientBuilder.mode(SERVICE_ACCOUNT).build().events()
-        .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
+        .retryWhen(Retry.backoff(Integer.MAX_VALUE, Duration.ofSeconds(5)))
         .onErrorContinue((throwable, o) -> log.error("Failed to list task events " + o, throwable))
         .subscribe(eventBus::publish);
   }

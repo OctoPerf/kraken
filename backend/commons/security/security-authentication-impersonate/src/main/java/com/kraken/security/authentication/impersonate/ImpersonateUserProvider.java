@@ -6,11 +6,10 @@ import com.kraken.security.client.api.SecurityClient;
 import com.kraken.security.decoder.api.TokenDecoder;
 import com.kraken.security.entity.token.KrakenToken;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -20,14 +19,14 @@ class ImpersonateUserProvider extends AtomicUserProvider {
   SecurityClient client;
   String userId;
 
-  public ImpersonateUserProvider(final SecurityClientProperties clientProperties,
+  public ImpersonateUserProvider(@NonNull final SecurityClientProperties clientProperties,
                                  final TokenDecoder decoder,
-                                 final SecurityClient client,
-                                 final String userId) {
+                                 @NonNull final SecurityClient client,
+                                 @NonNull final String userId) {
     super(decoder, 60L);
-    this.clientProperties = requireNonNull(clientProperties);
-    this.client = requireNonNull(client);
-    this.userId = requireNonNull(userId);;
+    this.clientProperties = clientProperties;
+    this.client = client;
+    this.userId = userId;
   }
 
   @Override

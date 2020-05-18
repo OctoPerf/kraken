@@ -3,9 +3,8 @@ package com.kraken.storage.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
-
-import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder(toBuilder = true)
@@ -16,11 +15,11 @@ public class StorageWatcherEvent {
 
   @JsonCreator
   StorageWatcherEvent(
-    @JsonProperty("node") final StorageNode node,
-    @JsonProperty("event") final String event) {
+      @NonNull @JsonProperty("node") final StorageNode node,
+      @NonNull @JsonProperty("event") final String event) {
     super();
-    this.node = requireNonNull(node);
-    this.event = requireNonNull(event);
+    this.node = node;
+    this.event = event;
   }
 
 }

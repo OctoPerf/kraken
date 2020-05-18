@@ -18,9 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Objects.requireNonNull;
-
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -28,8 +25,8 @@ final class FileSystemOwnerToPath implements OwnerToPath {
 
   private static final Map<OwnerType, Function<Owner, Path>> MAPPERS = ImmutableMap.of(
       OwnerType.PUBLIC, (final Owner owner) -> Path.of("public"),
-      OwnerType.APPLICATION, (final Owner owner) -> Path.of("applications", ((ApplicationOwner) owner).getApplicationId()),
-      OwnerType.USER, (final Owner owner) -> {
+      OwnerType.APPLICATION, (@NonNull final Owner owner) -> Path.of("applications", ((ApplicationOwner) owner).getApplicationId()),
+      OwnerType.USER, (@NonNull final Owner owner) -> {
         final UserOwner userOwner = ((UserOwner) owner);
         if (userOwner.getRoles().contains(KrakenRole.ADMIN)) {
           // Admin users can edit default files for every application

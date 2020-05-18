@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
+import reactor.util.retry.Retry;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -51,8 +52,8 @@ class FileSystemConfiguration {
         emitter.complete();
       }
     }).share() // Avoids creating a watcher for every subscriber
-      .retryBackoff(Integer.MAX_VALUE, Duration.ofSeconds(5))
-      .onErrorContinue((throwable, o) -> log.error("Failed to watch file " + o, throwable));
+        .retryWhen(Retry.backoff(Integer.MAX_VALUE, Duration.ofSeconds(5)))
+        .onErrorContinue((throwable, o) -> log.error("Failed to watch file " + o, throwable));
   }
 
 }

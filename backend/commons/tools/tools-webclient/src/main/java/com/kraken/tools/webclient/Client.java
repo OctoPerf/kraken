@@ -5,6 +5,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.util.Base64;
@@ -17,14 +18,14 @@ public interface Client {
   Duration FIRST_BACKOFF = Duration.ofMillis(100);
 
   default <T> Mono<T> retry(final Mono<T> mono, final Logger log) {
-    return mono.retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+    return mono.retryWhen(Retry.backoff(NUM_RETRIES, FIRST_BACKOFF))
         .doOnError(throwable -> throwable.getCause() instanceof WebClientResponseException, throwable -> {
           log.info(((WebClientResponseException) throwable.getCause()).getResponseBodyAsString());
         });
   }
 
   default <T> Flux<T> retry(final Flux<T> flux, final Logger log) {
-    return flux.retryBackoff(NUM_RETRIES, FIRST_BACKOFF)
+    return flux.retryWhen(Retry.backoff(NUM_RETRIES, FIRST_BACKOFF))
         .doOnError(throwable -> throwable.getCause() instanceof WebClientResponseException, throwable -> {
           log.info(((WebClientResponseException) throwable.getCause()).getResponseBodyAsString());
         });

@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import static com.kraken.security.authentication.api.AuthenticationMode.CONTAINER;
-import static java.util.Objects.requireNonNull;
 
 @Slf4j
 @Component

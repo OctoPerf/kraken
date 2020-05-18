@@ -3,10 +3,9 @@ package com.kraken.runtime.entity.task;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
-
-import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder(toBuilder = true)
@@ -21,18 +20,18 @@ public class Container {
 
   @JsonCreator
   Container(
-      @JsonProperty("id") final String id,
-      @JsonProperty("name") final String name,
-      @JsonProperty("hostId") final String hostId,
-      @JsonProperty("label") final String label,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("status") final ContainerStatus status) {
+      @NonNull @JsonProperty("id") final String id,
+      @NonNull @JsonProperty("name") final String name,
+      @NonNull @JsonProperty("hostId") final String hostId,
+      @NonNull @JsonProperty("label") final String label,
+      @NonNull @JsonProperty("startDate") final Long startDate,
+      @NonNull @JsonProperty("status") final ContainerStatus status) {
     super();
-    this.id = requireNonNull(id);
-    this.hostId = requireNonNull(hostId);
-    this.startDate = requireNonNull(startDate);
-    this.status = requireNonNull(status);
-    this.label = requireNonNull(label);
-    this.name = requireNonNull(name);
+    this.id = id;
+    this.hostId = hostId;
+    this.startDate = startDate;
+    this.status = status;
+    this.label = label;
+    this.name = name;
   }
 }

@@ -9,8 +9,6 @@ import lombok.With;
 
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 public class DebugEntry {

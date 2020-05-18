@@ -3,10 +3,9 @@ package com.kraken.analysis.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 import lombok.With;
-
-import static java.util.Objects.requireNonNull;
 
 @Value
 @Builder(toBuilder = true)
@@ -22,19 +21,19 @@ public class Result {
 
   @JsonCreator
   Result(
-      @JsonProperty("id") final String id,
-      @JsonProperty("startDate") final Long startDate,
-      @JsonProperty("endDate") final Long endDate,
-      @JsonProperty("status") final ResultStatus status,
-      @JsonProperty("description") final String description,
-      @JsonProperty("type") final ResultType type) {
+      @NonNull @JsonProperty("id") final String id,
+      @NonNull @JsonProperty("startDate") final Long startDate,
+      @NonNull @JsonProperty("endDate") final Long endDate,
+      @NonNull @JsonProperty("status") final ResultStatus status,
+      @NonNull @JsonProperty("description") final String description,
+      @NonNull @JsonProperty("type") final ResultType type) {
     super();
-    this.id = requireNonNull(id);
-    this.startDate = requireNonNull(startDate);
-    this.endDate = requireNonNull(endDate);
-    this.status = requireNonNull(status);
-    this.description = requireNonNull(description);
-    this.type = requireNonNull(type);
+    this.id = id;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.status = status;
+    this.description = description;
+    this.type = type;
   }
 
 }

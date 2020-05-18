@@ -9,14 +9,13 @@ import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.event.bus.EventBusListener;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.function.Function;
-
-import static java.util.Objects.requireNonNull;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -27,11 +26,11 @@ final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEven
 
   @Autowired
   CreateResultOnTaskExecuted(final EventBus eventBus,
-                             final AnalysisService analysisService,
-                             final Function<TaskType, ResultType> taskTypeToResultType) {
+                             @NonNull final AnalysisService analysisService,
+                             @NonNull final Function<TaskType, ResultType> taskTypeToResultType) {
     super(eventBus, TaskExecutedEvent.class);
-    this.analysisService = requireNonNull(analysisService);
-    this.taskTypeToResultType = requireNonNull(taskTypeToResultType);
+    this.analysisService = analysisService;
+    this.taskTypeToResultType = taskTypeToResultType;
   }
 
   @Override

@@ -8,22 +8,20 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
-import static java.util.Objects.requireNonNull;
-
 @Value
 @Builder(toBuilder = true)
 
 public class TaskStatusUpdatedEvent implements TaskEvent {
-  @NonNull Task task;
-  @NonNull ContainerStatus previousStatus;
+  Task task;
+  ContainerStatus previousStatus;
 
   @JsonCreator
   TaskStatusUpdatedEvent(
-      @JsonProperty("task") final Task task,
-      @JsonProperty("previousStatus") final ContainerStatus previousStatus
+      @NonNull @JsonProperty("task") final Task task,
+      @NonNull @JsonProperty("previousStatus") final ContainerStatus previousStatus
   ) {
     super();
-    this.task = requireNonNull(task);
-    this.previousStatus = requireNonNull(previousStatus);
+    this.task = task;
+    this.previousStatus = previousStatus;
   }
 }

@@ -6,11 +6,10 @@ import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.tools.event.bus.EventBus;
 import com.kraken.tools.event.bus.EventBusListener;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static java.util.Objects.requireNonNull;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -20,9 +19,9 @@ final class UpdateResultOnTaskCancelled extends EventBusListener<TaskCancelledEv
 
   @Autowired
   UpdateResultOnTaskCancelled(final EventBus eventBus,
-                              final AnalysisService analysisService) {
+                              @NonNull final AnalysisService analysisService) {
     super(eventBus, TaskCancelledEvent.class);
-    this.analysisService = requireNonNull(analysisService);
+    this.analysisService = analysisService;
   }
 
   @Override
