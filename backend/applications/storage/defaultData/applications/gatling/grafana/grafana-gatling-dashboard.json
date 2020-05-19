@@ -21,6 +21,7 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -165,6 +166,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -269,6 +271,7 @@
       "circleBackground": false,
       "colorBackground": false,
       "colorValue": false,
+      "datasource": null,
       "decimals": 2,
       "defaultColor": "rgb(117, 117, 117)",
       "format": "percent",
@@ -455,6 +458,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#bf1b00"
       ],
+      "datasource": null,
       "format": "ms",
       "gauge": {
         "maxValue": 100,
@@ -572,13 +576,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 9,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 7
       },
+      "hiddenSeries": false,
       "id": 26,
       "legend": {
         "avg": false,
@@ -593,6 +600,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -691,6 +701,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -707,13 +718,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 23,
       "legend": {
         "avg": false,
@@ -728,6 +742,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -881,13 +898,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 24
       },
+      "hiddenSeries": false,
       "id": 24,
       "legend": {
         "avg": false,
@@ -902,6 +922,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1073,13 +1096,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 24
       },
+      "hiddenSeries": false,
       "id": 62,
       "legend": {
         "avg": false,
@@ -1094,6 +1120,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1213,26 +1242,32 @@
       "dashes": false,
       "datasource": "${DATASOURCE_NAME}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 20,
       "legend": {
-        "avg": false,
+        "alignAsTable": true,
+        "avg": true,
         "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
+        "max": true,
+        "min": true,
+        "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1299,7 +1334,7 @@
         "buckets": null,
         "mode": "series",
         "name": null,
-        "show": true,
+        "show": false,
         "values": [
           "max"
         ]
@@ -1334,26 +1369,32 @@
       "dashes": false,
       "datasource": "${DATASOURCE_NAME}",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 12,
         "y": 32
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
-        "avg": false,
+        "alignAsTable": true,
+        "avg": true,
         "current": false,
-        "max": false,
-        "min": false,
-        "show": false,
+        "max": true,
+        "min": true,
+        "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1420,7 +1461,7 @@
         "buckets": null,
         "mode": "series",
         "name": null,
-        "show": true,
+        "show": false,
         "values": [
           "max"
         ]
@@ -1450,6 +1491,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1572,6 +1614,7 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1588,6 +1631,7 @@
         },
         {
           "alias": "Request",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1605,6 +1649,7 @@
         },
         {
           "alias": "OK",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1619,6 +1664,7 @@
         },
         {
           "alias": "KO",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1756,12 +1802,14 @@
       "datasource": "${DATASOURCE_NAME}",
       "decimals": 0,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 51
       },
+      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 14,
       "legend": {
@@ -1777,6 +1825,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -1930,6 +1981,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2027,7 +2079,6 @@
       ],
       "timeFrom": null,
       "title": "Request Status",
-      "transparent": false,
       "type": "grafana-piechart-panel",
       "valueName": "current"
     },
@@ -2036,13 +2087,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 9,
         "x": 6,
         "y": 59
       },
+      "hiddenSeries": false,
       "id": 36,
       "legend": {
         "avg": false,
@@ -2057,6 +2111,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2225,13 +2282,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 9,
         "x": 15,
         "y": 59
       },
+      "hiddenSeries": false,
       "id": 33,
       "legend": {
         "avg": false,
@@ -2246,6 +2306,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2378,6 +2441,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2398,6 +2462,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": null,
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -2498,13 +2563,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 10,
         "x": 4,
         "y": 66
       },
+      "hiddenSeries": false,
       "id": 51,
       "legend": {
         "avg": false,
@@ -2519,6 +2587,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2684,13 +2755,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 10,
         "x": 14,
         "y": 66
       },
+      "hiddenSeries": false,
       "id": 55,
       "legend": {
         "avg": false,
@@ -2705,6 +2779,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -2856,6 +2933,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": null,
       "format": "decbytes",
       "gauge": {
         "maxValue": 100,
@@ -2962,13 +3040,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 10,
         "x": 4,
         "y": 72
       },
+      "hiddenSeries": false,
       "id": 52,
       "legend": {
         "avg": false,
@@ -2983,6 +3064,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3094,13 +3178,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 10,
         "x": 14,
         "y": 72
       },
+      "hiddenSeries": false,
       "id": 58,
       "legend": {
         "avg": false,
@@ -3115,6 +3202,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3244,13 +3334,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 0,
         "y": 78
       },
+      "hiddenSeries": false,
       "id": 60,
       "legend": {
         "avg": false,
@@ -3265,6 +3358,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3394,13 +3490,16 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 12,
         "y": 78
       },
+      "hiddenSeries": false,
       "id": 61,
       "legend": {
         "avg": false,
@@ -3415,6 +3514,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 5,
       "points": false,
@@ -3550,12 +3652,15 @@
         "allValue": "",
         "current": {
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "${DATASOURCE_NAME}",
         "definition": "SHOW TAG VALUES ON $database WITH KEY = \"request\" WHERE  \"test\" =~ /^$test$/ AND \"request\" != 'allRequests' AND \"status\" = 'all'",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": null,
         "multi": true,
         "name": "request",
@@ -3615,12 +3720,15 @@
         "allValue": "",
         "current": {
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "${DATASOURCE_NAME}",
         "definition": "SHOW TAG VALUES ON $database WITH KEY = \"injector\" WHERE  \"test\" =~ /^$test$/",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": null,
         "multi": true,
         "name": "injector",
@@ -3673,5 +3781,8 @@
   "timezone": "${TIMEZONE}",
   "title": "${TITLE}",
   "uid": "${TEST_ID}",
+  "variables": {
+    "list": []
+  },
   "version": ${VERSION}
 }
