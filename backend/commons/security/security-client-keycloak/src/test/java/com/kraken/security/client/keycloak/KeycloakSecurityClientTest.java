@@ -7,12 +7,13 @@ import com.kraken.config.security.client.api.SecurityClientProperties;
 import com.kraken.security.entity.token.KrakenToken;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -21,7 +22,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class KeycloakSecurityClientTest {
 
   private ObjectMapper mapper;
@@ -30,17 +31,17 @@ public class KeycloakSecurityClientTest {
   private String tokenStr;
   private KrakenToken krakenToken;
 
-  @Mock
+  @Mock(lenient = true)
   SecurityClientProperties securityClientProperties;
-  @Mock
+  @Mock(lenient = true)
   SecurityClientCredentialsProperties apiCredentials;
-  @Mock
+  @Mock(lenient = true)
   SecurityClientCredentialsProperties webCredentials;
-  @Mock
+  @Mock(lenient = true)
   SecurityClientCredentialsProperties containerCredentials;
 
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     server = new MockWebServer();
     mapper = new ObjectMapper();
@@ -67,12 +68,13 @@ public class KeycloakSecurityClientTest {
         .build();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }
 
-  @Test(timeout = 5000)
+  @Test
+  @Timeout(5)
   public void shouldUserLogin() throws InterruptedException {
     System.out.println("test");
 
@@ -93,7 +95,8 @@ public class KeycloakSecurityClientTest {
     assertThat(request.getBody().readUtf8()).isEqualTo("username=username&password=password&grant_type=password&client_id=kraken-web");
   }
 
-  @Test(timeout = 5000)
+  @Test
+  @Timeout(5)
   public void shouldClientLogin() throws InterruptedException {
     server.enqueue(
         new MockResponse()
@@ -112,7 +115,8 @@ public class KeycloakSecurityClientTest {
     assertThat(request.getBody().readUtf8()).isEqualTo("client_id=kraken-api&client_secret=api-secret&grant_type=client_credentials");
   }
 
-  @Test(timeout = 5000)
+  @Test
+  @Timeout(5)
   public void shouldExchangeToken() throws InterruptedException {
     server.enqueue(
         new MockResponse()
@@ -131,7 +135,8 @@ public class KeycloakSecurityClientTest {
     assertThat(request.getBody().readUtf8()).isEqualTo("client_id=kraken-container&client_secret=container-secret&grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange&subject_token=accessToken&requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Arefresh_token&audience=kraken-container");
   }
 
-  @Test(timeout = 5000)
+  @Test
+  @Timeout(5)
   public void shouldRefreshToken() throws InterruptedException {
     server.enqueue(
         new MockResponse()

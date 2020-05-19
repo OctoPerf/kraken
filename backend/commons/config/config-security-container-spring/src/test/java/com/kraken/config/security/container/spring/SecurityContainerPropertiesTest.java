@@ -3,7 +3,7 @@ package com.kraken.config.security.container.spring;
 import com.kraken.config.security.container.api.SecurityContainerProperties;
 import com.kraken.tests.utils.TestUtils;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertNotNull;
 

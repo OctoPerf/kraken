@@ -5,17 +5,19 @@ import com.kraken.analysis.client.api.AnalysisClient;
 import com.kraken.analysis.client.api.AnalysisClientBuilder;
 import com.kraken.analysis.entity.ResultTest;
 import com.kraken.security.authentication.api.AuthenticationMode;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Ignore("start keycloak and make serve-storage/runtime-docker/analysis before running")
-@RunWith(SpringRunner.class)
+
+// start keycloak and make serve-storage/runtime-docker/analysis before running
+@Tag("integration")
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Application.class})
 @SpringBootTest
 public class WebAnalysisClientIntegrationTest {
@@ -25,7 +27,7 @@ public class WebAnalysisClientIntegrationTest {
 
   AnalysisClient analysisClient;
 
-  @Before
+  @BeforeEach
   public void setUp(){
     analysisClient = analysisClientBuilder.applicationId("gatling").mode(AuthenticationMode.IMPERSONATE, "kraken-user").build();
   }

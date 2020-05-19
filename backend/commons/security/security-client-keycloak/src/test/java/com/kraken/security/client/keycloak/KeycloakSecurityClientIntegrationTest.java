@@ -4,22 +4,21 @@ import com.kraken.Application;
 import com.kraken.config.security.client.api.SecurityClientProperties;
 import com.kraken.security.client.api.SecurityClient;
 import com.kraken.security.decoder.api.TokenDecoder;
-import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-//@Ignore("Start keycloak before running")
+// Start keycloak before running
+@Tag("integration")
 public class KeycloakSecurityClientIntegrationTest {
 
   @Autowired

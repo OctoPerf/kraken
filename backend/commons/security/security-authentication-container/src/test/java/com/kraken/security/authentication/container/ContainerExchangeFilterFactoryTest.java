@@ -3,18 +3,19 @@ package com.kraken.security.authentication.container;
 import com.kraken.security.authentication.utils.DefaultExchangeFilter;
 import com.kraken.tests.utils.TestUtils;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.kraken.security.authentication.api.AuthenticationMode.CONTAINER;
 import static com.kraken.security.authentication.api.AuthenticationMode.SERVICE_ACCOUNT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ContainerExchangeFilterFactoryTest {
   @Mock
   ContainerUserProviderFactory userProviderFactory;
@@ -23,7 +24,7 @@ public class ContainerExchangeFilterFactoryTest {
 
   ContainerExchangeFilterFactory exchangeFilterFactory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     exchangeFilterFactory = new ContainerExchangeFilterFactory(userProviderFactory);
   }

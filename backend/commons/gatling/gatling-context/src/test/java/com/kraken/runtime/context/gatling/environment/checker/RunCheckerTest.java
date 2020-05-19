@@ -3,16 +3,18 @@ package com.kraken.runtime.context.gatling.environment.checker;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RunChecker.class})
 public class RunCheckerTest {
 
@@ -27,9 +29,11 @@ public class RunCheckerTest {
   }
 
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void shouldFailCheck() {
-    checker.accept(ImmutableMap.of());
+    Assertions.assertThrows(NullPointerException.class, () -> {
+      checker.accept(ImmutableMap.of());
+    });
   }
 
   @Test

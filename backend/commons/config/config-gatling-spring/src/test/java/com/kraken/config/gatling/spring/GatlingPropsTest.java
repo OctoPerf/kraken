@@ -2,26 +2,26 @@ package com.kraken.config.gatling.spring;
 
 import com.kraken.tests.utils.TestUtils;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class GatlingPropsTest {
+class GatlingPropsTest {
 
   private static final GatlingProps GATLING_PROPERTIES = GatlingProps.builder().build();
 
   @Test
-  public void shouldPassToString() {
+  void shouldPassToString() {
     TestUtils.shouldPassToString(GATLING_PROPERTIES);
   }
 
   @Test
-  public void shouldPassEqualsVerifier() {
+  void shouldPassEqualsVerifier() {
     EqualsVerifier.forClass(GatlingProps.class).verify();
   }
 
   @Test
-  public void shouldCreate() {
+  void shouldCreate() {
     assertNotNull(GATLING_PROPERTIES);
   }
 }

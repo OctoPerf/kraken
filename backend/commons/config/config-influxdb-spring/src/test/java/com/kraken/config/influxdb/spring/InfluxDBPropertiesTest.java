@@ -2,7 +2,7 @@ package com.kraken.config.influxdb.spring;
 
 import com.kraken.config.influxdb.api.InfluxDBProperties;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 

@@ -3,12 +3,8 @@ package com.kraken.security.entity.user;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.tests.utils.TestUtils;
-import lombok.With;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-
-import java.util.List;
-import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 public class KrakenUserTest {
 

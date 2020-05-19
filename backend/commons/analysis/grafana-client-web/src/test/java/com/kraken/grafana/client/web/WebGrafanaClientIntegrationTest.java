@@ -9,15 +9,15 @@ import com.kraken.grafana.client.api.GrafanaUserClientBuilder;
 import com.kraken.influxdb.client.api.InfluxDBUser;
 import com.kraken.tests.utils.ResourceUtils;
 import com.kraken.tools.unique.id.IdGenerator;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -25,8 +25,9 @@ import java.time.Instant;
 
 import static org.mockito.BDDMockito.given;
 
-//@Ignore("Start grafana before running")
-@RunWith(SpringRunner.class)
+// Start grafana before running
+@Tag("integration")
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Application.class})
 @SpringBootTest
 public class WebGrafanaClientIntegrationTest {
@@ -46,7 +47,7 @@ public class WebGrafanaClientIntegrationTest {
   GrafanaUser grafanaUser;
   Mono<GrafanaUserClient> grafanaUserClient;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(dbProperties.getUrl()).willReturn("http://localhost:8086");
     given(idGenerator.generate()).willReturn("password", "datasourceName");

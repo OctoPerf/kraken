@@ -9,13 +9,14 @@ import com.kraken.runtime.event.TaskExecutedEvent;
 import com.kraken.runtime.event.TaskExecutedEventTest;
 import com.kraken.tools.event.bus.EventBus;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,7 +28,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CreateResultOnTaskExecutedTest {
 
   @Mock
@@ -44,7 +45,7 @@ public class CreateResultOnTaskExecutedTest {
 
   CreateResultOnTaskExecuted listener;
 
-  @Before
+  @BeforeEach
   public void before(){
     given(eventBus.of(TaskExecutedEvent.class)).willReturn(Flux.empty());
     listener = new CreateResultOnTaskExecuted(eventBus, analysisService, taskTypeToResultType);

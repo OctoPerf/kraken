@@ -1,7 +1,7 @@
 package com.kraken.security.entity.token;
 
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 

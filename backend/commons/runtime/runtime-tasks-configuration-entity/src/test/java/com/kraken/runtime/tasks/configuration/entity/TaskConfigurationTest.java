@@ -2,7 +2,7 @@ package com.kraken.runtime.tasks.configuration.entity;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.entity.task.TaskType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 

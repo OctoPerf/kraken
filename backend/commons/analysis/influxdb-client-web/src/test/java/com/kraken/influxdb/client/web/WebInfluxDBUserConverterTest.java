@@ -4,18 +4,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.security.entity.user.KrakenUserTest;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import static com.kraken.influxdb.client.api.InfluxDBUser.*;
 import static com.kraken.influxdb.client.api.InfluxDBUserTest.INFLUX_DB_USER;
 import static com.kraken.security.entity.user.KrakenUserTest.KRAKEN_USER;
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = WebInfluxDBUserConverter.class)
 public class WebInfluxDBUserConverterTest {
 

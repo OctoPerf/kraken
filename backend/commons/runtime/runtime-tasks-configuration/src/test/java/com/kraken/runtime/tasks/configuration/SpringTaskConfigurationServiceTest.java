@@ -1,7 +1,7 @@
 package com.kraken.runtime.tasks.configuration;
 
-import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.config.runtime.server.api.RuntimeServerProperties;
+import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.kraken.runtime.tasks.configuration.entity.TasksConfigurationTest;
@@ -10,11 +10,11 @@ import com.kraken.security.entity.functions.api.OwnerToApplicationId;
 import com.kraken.security.entity.owner.PublicOwner;
 import com.kraken.storage.client.api.StorageClient;
 import com.kraken.storage.client.api.StorageClientBuilder;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -22,23 +22,22 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SpringTaskConfigurationServiceTest {
 
   @Mock
   StorageClientBuilder storageClientBuilder;
   @Mock
   StorageClient storageClient;
-  @Mock
+  @Mock(lenient = true)
   RuntimeServerProperties serverProperties;
   @Mock
   OwnerToApplicationId toApplicationId;
 
   SpringTaskConfigurationService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     given(toApplicationId.apply(any())).willReturn(Optional.of("app"));
     given(storageClientBuilder.applicationId(any())).willReturn(storageClientBuilder);

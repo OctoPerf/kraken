@@ -5,12 +5,13 @@ import com.kraken.config.api.UrlProperty;
 import com.kraken.security.authentication.api.ExchangeFilter;
 import com.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.kraken.security.authentication.client.api.AuthenticatedClient;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import static com.kraken.security.authentication.api.AuthenticationMode.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AbstractAuthenticatedClientBuilderTest {
 
   private static class TestAuthenticatedClient implements AuthenticatedClient {
@@ -43,20 +44,20 @@ public class AbstractAuthenticatedClientBuilderTest {
     }
   }
 
-  @Mock
+  @Mock(lenient = true)
   UrlProperty property;
-  @Mock
+  @Mock(lenient = true)
   ExchangeFilterFactory noopFilterFactory;
   @Mock
   ExchangeFilter noopExchangeFilter;
-  @Mock
+  @Mock(lenient = true)
   ExchangeFilterFactory webFilterFactory;
   @Mock
   ExchangeFilter webExchangeFilter;
 
   TestAuthenticatedClientBuilder factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(noopFilterFactory.getMode()).willReturn(NOOP);
     given(noopFilterFactory.create(Mockito.anyString())).willReturn(noopExchangeFilter);
@@ -84,8 +85,10 @@ public class AbstractAuthenticatedClientBuilderTest {
     verify(webFilterFactory).create("userId");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldCreateImpersonateFail() {
-    factory.mode(IMPERSONATE);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      factory.mode(IMPERSONATE);
+    });
   }
 }

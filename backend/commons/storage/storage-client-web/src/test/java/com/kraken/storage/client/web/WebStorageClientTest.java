@@ -20,17 +20,18 @@ import okhttp3.mockwebserver.RecordedRequest;
 import okio.Buffer;
 import okio.Okio;
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
@@ -46,7 +47,7 @@ import static com.kraken.storage.entity.StorageNodeType.FILE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes =  Application.class)
 public class WebStorageClientTest {
 
@@ -65,7 +66,7 @@ public class WebStorageClientTest {
   @MockBean
   StorageClientProperties properties;
 
-  @Before
+  @BeforeEach
   public void before() {
     server = new MockWebServer();
     final String baseUrl = server.url("/").toString();
@@ -73,7 +74,7 @@ public class WebStorageClientTest {
     client = new WebStorageClientBuilder(filterFactories, properties, jsonMapper, yamlMapper).mode(AuthenticationMode.NOOP).build();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

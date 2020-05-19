@@ -1,8 +1,8 @@
 package com.kraken.gatling.log.parser.rule;
 
 import com.kraken.analysis.entity.DebugEntryTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class DelimiterEndRuleTest extends RuleTest<DelimiterEndRule> {
   @Autowired
   DelimiterEndRule rule;
 
-  @Before
+  @BeforeEach
   public void before() {
     super.before(0, rule);
   }

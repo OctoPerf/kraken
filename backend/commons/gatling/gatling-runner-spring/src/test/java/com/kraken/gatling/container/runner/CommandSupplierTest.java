@@ -7,19 +7,20 @@ import com.kraken.config.gatling.api.GatlingSimulation;
 import com.kraken.runtime.command.Command;
 import com.kraken.tests.utils.TestUtils;
 import com.kraken.config.api.LocalRemoteProperties;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import static com.google.common.collect.ImmutableList.of;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {CommandSupplier.class})
 public class CommandSupplierTest {
 

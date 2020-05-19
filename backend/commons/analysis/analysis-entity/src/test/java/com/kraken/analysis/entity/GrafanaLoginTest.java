@@ -1,6 +1,6 @@
 package com.kraken.analysis.entity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.tests.utils.TestUtils.shouldPassAll;
 

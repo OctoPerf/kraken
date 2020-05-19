@@ -10,11 +10,12 @@ import com.kraken.runtime.event.TaskStatusUpdatedEvent;
 import com.kraken.security.entity.owner.ApplicationOwnerTest;
 import com.kraken.security.entity.owner.PublicOwner;
 import com.kraken.tools.event.bus.EventBus;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import java.util.Optional;
@@ -22,7 +23,7 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SpringTaskUpdateHandlerTest {
 
   @Mock
@@ -33,7 +34,7 @@ public class SpringTaskUpdateHandlerTest {
 
   SpringTaskUpdateHandler updater;
 
-  @Before
+  @BeforeEach
   public void before() {
     this.updater = new SpringTaskUpdateHandler(taskListService, eventBus);
   }

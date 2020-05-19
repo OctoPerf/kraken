@@ -3,8 +3,8 @@ package com.kraken.gatling.log.parser;
 import com.kraken.tests.utils.TestUtils;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class PathToLinesTest {
   PathToLines pathToLines;
   int count;
 
-  @Before
+  @BeforeEach
   public void before() {
     pathToLines = new PathToLines();
     count = 0;

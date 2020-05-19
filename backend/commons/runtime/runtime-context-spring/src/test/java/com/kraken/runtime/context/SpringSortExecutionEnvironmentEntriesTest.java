@@ -2,8 +2,8 @@ package com.kraken.runtime.context;
 
 import com.google.common.collect.ImmutableList;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,7 +12,7 @@ public class SpringSortExecutionEnvironmentEntriesTest {
 
   private SpringSortExecutionEnvironmentEntries sort;
 
-  @Before
+  @BeforeEach
   public void before() {
     this.sort = new SpringSortExecutionEnvironmentEntries();
   }

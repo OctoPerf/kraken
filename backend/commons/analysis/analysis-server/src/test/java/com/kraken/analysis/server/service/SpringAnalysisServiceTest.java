@@ -19,12 +19,12 @@ import com.kraken.storage.client.api.StorageClient;
 import com.kraken.storage.client.api.StorageClientBuilder;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseCookie;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -40,41 +40,41 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SpringAnalysisServiceTest {
 
-  @Mock
+  @Mock(lenient = true)
   StorageClientBuilder storageClientBuilder;
-  @Mock
+  @Mock(lenient = true)
   StorageClient storageClient;
-  @Mock
+  @Mock(lenient = true)
   GrafanaUserClientBuilder grafanaUserClientBuilder;
   @Mock
   GrafanaUserClient grafanaUserClient;
-  @Mock
+  @Mock(lenient = true)
   GrafanaUserConverter grafanaUserConverter;
   @Mock
   InfluxDBClient influxdbClient;
-  @Mock
+  @Mock(lenient = true)
   InfluxDBUserConverter influxDBUserConverter;
-  @Mock
+  @Mock(lenient = true)
   HeadersToExtension headersToExtension;
-  @Mock
+  @Mock(lenient = true)
   StatusToEndDate statusToEndDate;
-  @Mock
+  @Mock(lenient = true)
   AnalysisResultsProperties analysisResultsProperties;
-  @Mock
+  @Mock(lenient = true)
   GrafanaProperties grafanaProperties;
-  @Mock
+  @Mock(lenient = true)
   OwnerToUserId toUserId;
-  @Mock
+  @Mock(lenient = true)
   OwnerToApplicationId toApplicationId;
-  @Mock
+  @Mock(lenient = true)
   SecurityAdminClient securityAdminClient;
 
   private AnalysisService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     given(headersToExtension.apply(anyList())).willReturn(".txt");
     given(statusToEndDate.apply(any(ResultStatus.class))).willReturn(0L);

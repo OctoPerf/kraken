@@ -1,15 +1,16 @@
 plugins {
-    id 'java-library'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    // Required by lombok
-    id 'net.ltgt.apt' version '0.21'
-    id 'com.github.spotbugs' version '4.0.4'
 //    Uncomment only to get license info : https://github.com/hierynomus/license-gradle-plugin/issues/161
 //    id 'com.github.hierynomus.license-report' version '0.15.0'
-
 //    https://github.com/ben-manes/gradle-versions-plugin
-    id "com.github.ben-manes.versions" version "0.27.0"
-    id "io.freefair.lombok" version "5.0.0"
+//    id "com.github.ben-manes.versions" version "0.27.0"
+
+    id 'io.freefair.lombok' version '5.1.0'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'java-library'
+    id 'com.github.spotbugs' version '4.0.4'
+    id 'idea'
 }
 
 allprojects {
@@ -20,6 +21,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        // TODO A supprimer
         maven {
             url "https://www.license4j.com/maven/"
         }
@@ -53,7 +55,6 @@ subprojects {
         springBootVersion = '2.2.6.RELEASE'
         springReactorVersion = '3.3.5.RELEASE'
         springSecurityVersion = '5.3.1.RELEASE'
-        lombokVersion = '1.18.12'
         guavaVersion = '28.2-jre'
         equalsVerifierVersion = '3.1.12'
         ztZipVersion = '1.14'
@@ -63,24 +64,18 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'java-library'
-    apply plugin: 'idea'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'net.ltgt.apt'
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'io.freefair.lombok'
 
-    sourceCompatibility = 11
+    sourceCompatibility = 14
 
     dependencies {
-        // Spring boot
-        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux
-        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: springBootVersion
-        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
-        testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
-        // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-        testImplementation group: 'io.projectreactor', name: 'reactor-test', version: springReactorVersion
-        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
-        testImplementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+        testImplementation 'io.projectreactor:reactor-test'
 
         // https://mvnrepository.com/artifact/com.google.guava/guava
         implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
@@ -97,15 +92,21 @@ subprojects {
         imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
     }
 
+    test {
+        useJUnitPlatform {
+            excludeTags 'integration'
+        }
+    }
+
     configurations {
         testArtifacts.extendsFrom testRuntime
     }
-    
+
     task testJar(type: Jar) {
         archiveClassifier.set('test')
         from sourceSets.test.output
     }
-    
+
     artifacts {
         testArtifacts testJar
     }
@@ -119,7 +120,6 @@ subprojects {
     }
 
     check.dependsOn jacocoTestReport
-
 
     spotbugsMain {
         excludeFilter = file("$rootProject.projectDir/spotbugs-exclude.xml")

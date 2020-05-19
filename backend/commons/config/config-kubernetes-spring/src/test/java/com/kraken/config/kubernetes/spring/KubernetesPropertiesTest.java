@@ -2,7 +2,7 @@ package com.kraken.config.kubernetes.spring;
 
 import com.kraken.config.kubernetes.api.KubernetesClientBuilderType;
 import com.kraken.config.kubernetes.api.KubernetesProperties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.tests.utils.TestUtils.shouldPassEquals;
 import static com.kraken.tests.utils.TestUtils.shouldPassToString;

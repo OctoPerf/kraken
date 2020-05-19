@@ -8,11 +8,12 @@ import com.kraken.security.entity.token.KrakenRole;
 import com.kraken.security.entity.token.KrakenToken;
 import com.kraken.security.entity.token.KrakenTokenUser;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.time.Instant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AtomicUserProviderTest {
 
   private static class TestAtomicUserProvider extends AtomicUserProvider {
@@ -49,7 +50,7 @@ public class AtomicUserProviderTest {
 
   TestAtomicUserProvider userProvider;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     userProvider = new TestAtomicUserProvider(decoder, 60L);
   }

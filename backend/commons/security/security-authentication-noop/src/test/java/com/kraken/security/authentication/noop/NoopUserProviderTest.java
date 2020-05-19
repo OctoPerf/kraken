@@ -1,28 +1,30 @@
 package com.kraken.security.authentication.noop;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import reactor.core.Exceptions;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NoopUserProviderTest {
 
   NoopUserProvider userProvider;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     userProvider = new NoopUserProvider();
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void shouldReturnToken() {
-    userProvider.getTokenValue().block();
+    Assertions.assertThrows(RuntimeException.class, () -> {
+      userProvider.getTokenValue().block();
+    });
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void shouldReturnUser() {
-    userProvider.getAuthenticatedUser().block();
+    Assertions.assertThrows(RuntimeException.class, () -> {
+      userProvider.getAuthenticatedUser().block();
+    });
   }
 
 }

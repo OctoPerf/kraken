@@ -1,7 +1,7 @@
 package com.kraken.influxdb.client.api;
 
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InfluxDBUserTest {
   public static final InfluxDBUser INFLUX_DB_USER = InfluxDBUser.builder()

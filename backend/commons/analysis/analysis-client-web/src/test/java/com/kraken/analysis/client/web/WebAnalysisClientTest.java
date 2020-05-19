@@ -15,16 +15,17 @@ import com.kraken.storage.entity.StorageNodeTest;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class WebAnalysisClientTest {
 
@@ -45,7 +46,7 @@ public class WebAnalysisClientTest {
   @MockBean
   AnalysisClientProperties properties;
 
-  @Before
+  @BeforeEach
   public void before() {
     mapper = new ObjectMapper();
     server = new MockWebServer();
@@ -55,7 +56,7 @@ public class WebAnalysisClientTest {
     client = new WebAnalysisClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

@@ -11,11 +11,12 @@ import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.security.entity.owner.Owner;
 import com.kraken.security.entity.owner.PublicOwner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DockerContainerFindServiceTest {
 
   @Mock
@@ -39,7 +40,7 @@ public class DockerContainerFindServiceTest {
 
   DockerContainerFindService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     this.service = new DockerContainerFindService(commandService, stringToFlatContainer, ownerToFilters);
   }

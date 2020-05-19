@@ -5,14 +5,15 @@ import com.kraken.config.analysis.client.api.AnalysisClientProperties;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.kraken.runtime.context.entity.ExecutionContextBuilderTest.WITH_ENTRIES;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
@@ -20,7 +21,7 @@ import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JavaOptsPublisher.class})
 @EnableAutoConfiguration
 public class JavaOptsPublisherTest {
@@ -29,7 +30,7 @@ public class JavaOptsPublisherTest {
   @MockBean
   AnalysisClientProperties properties;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     when(properties.getUrl()).thenReturn("url");
   }
@@ -75,24 +76,32 @@ public class JavaOptsPublisherTest {
     assertThat(javaOptsEntry.get().getValue()).isEqualTo("");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldFail1() {
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("4foo").value("bar").build()))).block();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("4foo").value("bar").build()))).block();
+    });
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldFail2() {
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo o").value("bar").build()))).block();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo o").value("bar").build()))).block();
+    });
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldFail3() {
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo-o").value("bar").build()))).block();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("fo-o").value("bar").build()))).block();
+    });
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldFail4() {
-    publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("foo").value("joe bar").build()))).block();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      publisher.apply(WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder().scope("").from(USER).key("foo").value("joe bar").build()))).block();
+    });
   }
 
   @Test

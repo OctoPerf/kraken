@@ -1,6 +1,6 @@
 package com.kraken.gatling.log.parser.rule;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.gatling.log.parser.context.LogParserState.AFTER_DELIMITER;
 import static com.kraken.gatling.log.parser.context.LogParserState.VOID;

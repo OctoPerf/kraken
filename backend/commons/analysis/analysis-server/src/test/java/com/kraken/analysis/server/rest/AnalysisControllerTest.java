@@ -10,7 +10,7 @@ import com.kraken.storage.client.api.StorageClient;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageNodeTest;
 import com.kraken.tests.security.AuthControllerTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;

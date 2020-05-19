@@ -3,8 +3,8 @@ package com.kraken.tools.event.bus;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ReactorEventBusTest {
     }
   }
 
-  @Before
+  @BeforeEach
   public void before() {
     eventBus = new ReactorEventBus();
     one = new ArrayList<>();

@@ -13,16 +13,17 @@ import com.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.kraken.security.entity.owner.ApplicationOwner;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class WebRuntimeClientTest {
 
@@ -43,7 +44,7 @@ public class WebRuntimeClientTest {
   @MockBean
   RuntimeClientProperties properties;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     server = new MockWebServer();
     mapper = new ObjectMapper();
@@ -52,7 +53,7 @@ public class WebRuntimeClientTest {
     client = new WebRuntimeClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build();
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

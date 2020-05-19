@@ -2,7 +2,7 @@ package com.kraken.runtime.entity.task;
 
 import com.kraken.runtime.entity.task.ContainerStatus;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ContainerStatusTest {
 

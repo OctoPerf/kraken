@@ -49,9 +49,6 @@ serve-sse:
 clean:
 	./gradlew $(APP):clean
 
-ip:
-	hostname -I
-
 # Creates a Spring boot application jar
 # Example: make build APP=:applications:analysis
 bootJar:
@@ -59,4 +56,3 @@ bootJar:
 
 echo:
 	@echo $(VERSION)
-	@echo $(IP)

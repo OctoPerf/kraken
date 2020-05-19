@@ -3,7 +3,7 @@ package com.kraken.security.entity.owner;
 import com.google.common.collect.ImmutableList;
 import com.kraken.security.entity.token.KrakenRole;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UserOwnerTest {
 

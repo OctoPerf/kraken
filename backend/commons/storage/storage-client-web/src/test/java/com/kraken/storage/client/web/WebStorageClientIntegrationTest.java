@@ -6,22 +6,23 @@ import com.kraken.security.authentication.api.AuthenticationMode;
 import com.kraken.storage.client.api.StorageClient;
 import com.kraken.storage.client.api.StorageClientBuilder;
 import com.kraken.tests.utils.ResourceUtils;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore("start keycloak and make serve-storage before running")
-@RunWith(SpringRunner.class)
+// Start keycloak and make serve-storage before running
+@Tag("integration")
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Application.class})
 @SpringBootTest
 public class WebStorageClientIntegrationTest {
@@ -31,7 +32,7 @@ public class WebStorageClientIntegrationTest {
 
   StorageClient storageClient;
 
-  @Before
+  @BeforeEach
   public void setUp(){
     storageClient = storageClientBuilder.applicationId("gatling").mode(AuthenticationMode.IMPERSONATE, "kraken-user").build();
   }

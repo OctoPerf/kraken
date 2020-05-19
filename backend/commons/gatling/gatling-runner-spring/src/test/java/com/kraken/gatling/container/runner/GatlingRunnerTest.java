@@ -11,8 +11,8 @@ import com.kraken.runtime.command.CommandTest;
 import com.kraken.runtime.container.executor.AbstractContainerExecutorTest;
 import com.kraken.storage.client.api.StorageClient;
 import com.kraken.storage.entity.StorageNodeTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -31,17 +31,17 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
   StorageClient storageClient;
   @Mock
   CommandService commandService;
-  @Mock
+  @Mock(lenient = true)
   Supplier<Command> commandSupplier;
 
-  @Mock
+  @Mock(lenient = true)
   GatlingProperties gatlingProperties;
-  @Mock
+  @Mock(lenient = true)
   LocalRemoteProperties gatlingLocalRemote;
 
   GatlingRunner runner;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);

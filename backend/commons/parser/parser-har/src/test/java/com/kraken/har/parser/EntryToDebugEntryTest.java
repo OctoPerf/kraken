@@ -3,19 +3,20 @@ package com.kraken.har.parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kraken.tests.utils.ResourceUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {EntryToDebugEntry.class, StringToTimestamp.class}, initializers = {ConfigFileApplicationContextInitializer.class})
 @EnableAutoConfiguration
 public class EntryToDebugEntryTest {

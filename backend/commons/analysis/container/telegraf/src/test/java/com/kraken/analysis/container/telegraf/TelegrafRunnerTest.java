@@ -11,8 +11,8 @@ import com.kraken.runtime.container.predicate.TaskPredicate;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.storage.client.api.StorageClient;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -34,17 +34,17 @@ public class TelegrafRunnerTest extends AbstractContainerExecutorTest {
   CommandService commandService;
   @Mock
   StorageClient storageClient;
-  @Mock
+  @Mock(lenient = true)
   Supplier<Command> commandSupplier;
   @Mock
   TaskPredicate taskPredicate;
 
-  @Mock
+  @Mock(lenient = true)
   TelegrafProperties telegrafProperties;
 
   TelegrafRunner runner;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     super.setUp();
     given(commandSupplier.get()).willReturn(CommandTest.SHELL_COMMAND);

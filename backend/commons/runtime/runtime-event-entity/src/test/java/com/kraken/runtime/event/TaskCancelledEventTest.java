@@ -4,7 +4,7 @@ import com.google.common.testing.NullPointerTester;
 import com.kraken.runtime.context.entity.CancelContext;
 import com.kraken.runtime.context.entity.CancelContextTest;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 

@@ -1,13 +1,13 @@
 package com.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableList;
-import com.kraken.runtime.backend.docker.DockerHostService;
 import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.host.HostCapacity;
 import com.kraken.runtime.entity.host.HostTest;
 import com.kraken.security.entity.owner.PublicOwner;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +15,7 @@ public class DockerHostServiceTest {
 
   DockerHostService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     service = new DockerHostService();
   }
@@ -42,14 +42,18 @@ public class DockerHostServiceTest {
     assertThat(list.size()).isEqualTo(0);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void shouldNotDetach() {
-    service.detach(HostTest.HOST).block();
+    Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+      service.detach(HostTest.HOST).block();
+    });
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void shouldNotAttach() {
-    service.attach(HostTest.HOST).block();
+    Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+      service.attach(HostTest.HOST).block();
+    });
   }
 
 }

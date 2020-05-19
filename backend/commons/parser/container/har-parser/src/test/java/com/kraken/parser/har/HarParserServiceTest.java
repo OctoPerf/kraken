@@ -11,8 +11,8 @@ import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.executor.AbstractContainerExecutorTest;
 import com.kraken.storage.client.api.StorageClient;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -38,12 +38,12 @@ public class HarParserServiceTest extends AbstractContainerExecutorTest {
   HarParser harParser;
   @Mock
   HarParserProperties harParserProperties;
-  @Mock
+  @Mock(lenient = true)
   ApplicationProperties application;
 
   HarParserService parser;
 
-  @Before
+  @BeforeEach
   public void before() {
     when(application.getData()).thenReturn("data");
     parser = new HarParserService(harParser,

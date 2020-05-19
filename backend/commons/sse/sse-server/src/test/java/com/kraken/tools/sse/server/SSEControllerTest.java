@@ -16,8 +16,8 @@ import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
 import com.kraken.tools.sse.SSEWrapperTest;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -45,7 +45,7 @@ public class SSEControllerTest extends AuthControllerTest {
   @MockBean
   StorageClient storageClient;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     super.setUp();
     given(runtimeClientBuilder.mode(AuthenticationMode.SESSION)).willReturn(runtimeClientBuilder);

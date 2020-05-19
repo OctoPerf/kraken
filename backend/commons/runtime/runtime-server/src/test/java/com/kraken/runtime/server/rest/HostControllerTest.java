@@ -3,7 +3,7 @@ package com.kraken.runtime.server.rest;
 import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.host.HostTest;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

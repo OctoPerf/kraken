@@ -10,15 +10,16 @@ import com.kraken.tools.unique.id.IdGenerator;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class WebGrafanaAdminClientTest {
 
@@ -43,7 +44,7 @@ public class WebGrafanaAdminClientTest {
   @MockBean
   IdGenerator idGenerator;
 
-  @Before
+  @BeforeEach
   public void before() {
     mapper = new ObjectMapper();
     server = new MockWebServer();
@@ -52,7 +53,7 @@ public class WebGrafanaAdminClientTest {
     client = new WebGrafanaAdminClient(grafanaProperties, idGenerator, mapper);
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

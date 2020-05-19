@@ -1,7 +1,7 @@
 package com.kraken.security.authentication.session;
 
 import com.kraken.tests.security.AuthControllerTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SecurityConfigurationTest extends AuthControllerTest {
 

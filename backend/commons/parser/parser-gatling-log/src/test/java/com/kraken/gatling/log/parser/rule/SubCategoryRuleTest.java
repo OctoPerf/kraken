@@ -2,7 +2,7 @@ package com.kraken.gatling.log.parser.rule;
 
 
 import com.kraken.gatling.log.parser.context.LogParserState;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

@@ -5,9 +5,9 @@ import com.kraken.runtime.entity.log.LogStatus;
 import com.kraken.runtime.entity.log.LogType;
 import com.kraken.security.entity.owner.ApplicationOwner;
 import com.kraken.security.entity.owner.PublicOwner;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -21,13 +21,13 @@ public class SpringLogsServiceTest {
 
   SpringLogsService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     service = new SpringLogsService();
     service.init();
   }
 
-  @After
+  @AfterEach
   public void after() throws InterruptedException {
     service.clear();
     Thread.sleep(5000);

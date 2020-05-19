@@ -5,11 +5,12 @@ import com.kraken.analysis.server.service.AnalysisService;
 import com.kraken.runtime.event.TaskCancelledEvent;
 import com.kraken.runtime.event.TaskCancelledEventTest;
 import com.kraken.tools.event.bus.EventBus;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UpdateResultOnTaskCancelledTest {
 
   @Mock
@@ -28,7 +29,7 @@ public class UpdateResultOnTaskCancelledTest {
 
   UpdateResultOnTaskCancelled listener;
 
-  @Before
+  @BeforeEach
   public void before(){
     given(eventBus.of(TaskCancelledEvent.class)).willReturn(Flux.empty());
     listener = new UpdateResultOnTaskCancelled(eventBus, analysisService);

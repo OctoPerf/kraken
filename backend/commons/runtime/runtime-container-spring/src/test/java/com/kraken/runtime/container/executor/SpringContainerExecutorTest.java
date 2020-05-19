@@ -9,14 +9,15 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.FlatContainerTest;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.security.authentication.api.AuthenticationMode;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import reactor.core.publisher.Mono;
 
 import static java.util.Optional.empty;
@@ -25,7 +26,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class SpringContainerExecutorTest {
 
@@ -42,7 +43,7 @@ public class SpringContainerExecutorTest {
 
   FlatContainer me;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     me = FlatContainerTest.CONTAINER;
     setUp = Mockito.mock(ContainerExecutorStep.class);

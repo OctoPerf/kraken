@@ -2,7 +2,7 @@ package com.kraken.analysis.task.events.watcher;
 
 import com.kraken.analysis.entity.ResultStatus;
 import com.kraken.runtime.entity.task.ContainerStatus;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 

@@ -5,16 +5,17 @@ import com.kraken.runtime.client.api.RuntimeClient;
 import com.kraken.runtime.client.api.RuntimeClientBuilder;
 import com.kraken.security.authentication.api.AuthenticationMode;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class RuntimeClientContainerConfigurationTest {
 
   @Mock
@@ -26,7 +27,7 @@ public class RuntimeClientContainerConfigurationTest {
 
   RuntimeClientContainerConfiguration configuration;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(properties.getApplicationId()).willReturn("applicationId");
     given(clientBuilder.mode(AuthenticationMode.CONTAINER)).willReturn(clientBuilder);

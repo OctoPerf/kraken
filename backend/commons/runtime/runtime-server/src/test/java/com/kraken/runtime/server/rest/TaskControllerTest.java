@@ -2,36 +2,18 @@ package com.kraken.runtime.server.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.kraken.runtime.backend.api.TaskService;
-import com.kraken.runtime.context.api.ExecutionContextService;
 import com.kraken.runtime.context.entity.CancelContextTest;
 import com.kraken.runtime.context.entity.ExecutionContextTest;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
-import com.kraken.runtime.entity.host.Host;
 import com.kraken.runtime.entity.host.HostTest;
 import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.runtime.event.*;
-import com.kraken.runtime.server.service.TaskListService;
-import com.kraken.security.entity.owner.ApplicationOwner;
-import com.kraken.security.entity.owner.UserOwner;
-import com.kraken.tests.security.AuthControllerTest;
 import com.kraken.tests.utils.TestUtils;
-import com.kraken.tools.event.bus.EventBus;
-import com.kraken.tools.sse.SSEService;
 import com.kraken.tools.sse.SSEWrapper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_DESCRIPTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -82,7 +63,6 @@ public class TaskControllerTest extends RuntimeControllerTest {
   public void shouldRunIllegal() {
     final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     final var hosts = ImmutableList.of(HostTest.HOST);
-    final var context = ExecutionContextTest.EXECUTION_CONTEXT;
 
     given(hostService.list(userOwner())).willReturn(Flux.fromIterable(hosts));
 
@@ -97,7 +77,7 @@ public class TaskControllerTest extends RuntimeControllerTest {
   @Test
   public void shouldFailToRun() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
-    final var env = ImmutableMap.of(KRAKEN_DESCRIPTION.name(), "description");
+    final var env = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/task").build())
         .header("Authorization", "Bearer user-token")

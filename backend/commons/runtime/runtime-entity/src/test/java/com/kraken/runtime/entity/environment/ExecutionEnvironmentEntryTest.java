@@ -1,6 +1,6 @@
 package com.kraken.runtime.entity.environment;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
 import static com.kraken.tests.utils.TestUtils.shouldPassAll;

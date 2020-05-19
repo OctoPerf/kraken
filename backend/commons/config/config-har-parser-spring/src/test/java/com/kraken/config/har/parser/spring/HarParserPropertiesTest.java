@@ -1,6 +1,6 @@
 package com.kraken.config.har.parser.spring;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.tests.utils.TestUtils.shouldPassEquals;
 import static com.kraken.tests.utils.TestUtils.shouldPassToString;

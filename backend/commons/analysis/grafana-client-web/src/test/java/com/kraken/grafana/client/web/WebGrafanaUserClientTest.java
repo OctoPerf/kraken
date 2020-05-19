@@ -14,27 +14,24 @@ import com.kraken.tests.utils.ResourceUtils;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class WebGrafanaUserClientTest {
 
@@ -52,7 +49,7 @@ public class WebGrafanaUserClientTest {
   @MockBean
   InfluxDBProperties influxDBProperties;
 
-  @Before
+  @BeforeEach
   public void before() throws InterruptedException {
     grafanaUser = GrafanaUserTest.GRAFANA_USER;
     influxDBUser = InfluxDBUserTest.INFLUX_DB_USER;
@@ -76,7 +73,7 @@ public class WebGrafanaUserClientTest {
     assertThat(loginRequest.getBody().readUtf8()).isEqualTo("{\"user\":\"email\",\"password\":\"password\",\"email\":\"email\"}");
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

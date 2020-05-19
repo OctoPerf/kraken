@@ -4,7 +4,7 @@ import com.kraken.runtime.entity.task.ContainerStatus;
 import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.security.entity.owner.ApplicationOwnerTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,8 +1,8 @@
 package com.kraken.security.entity.functions.spring;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -14,7 +14,7 @@ public class SpringOwnerToApplicationIdTest {
 
   SpringOwnerToApplicationId toApplicationId;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     toApplicationId = new SpringOwnerToApplicationId();
   }

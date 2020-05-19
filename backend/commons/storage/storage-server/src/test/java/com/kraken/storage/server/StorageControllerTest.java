@@ -10,8 +10,8 @@ import com.kraken.storage.file.StorageServiceBuilder;
 import com.kraken.tests.security.AuthControllerTest;
 import com.kraken.tools.sse.SSEService;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +41,7 @@ public class StorageControllerTest extends AuthControllerTest {
   @MockBean
   SSEService sse;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException{
     super.setUp();
     given(builder.build(userOwner())).willReturn(service);

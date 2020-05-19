@@ -6,19 +6,19 @@ import com.kraken.security.client.api.SecurityClient;
 import com.kraken.security.decoder.api.TokenDecoder;
 import com.kraken.security.entity.token.KrakenTokenTest;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ServiceAccountUserProviderTest {
-  @Mock
+  @Mock(lenient = true)
   SecurityClientProperties clientProperties;
   @Mock
   SecurityClientCredentialsProperties credentialsProperties;
@@ -29,7 +29,7 @@ public class ServiceAccountUserProviderTest {
 
   ServiceAccountUserProvider userProvider;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(clientProperties.getApi()).willReturn(credentialsProperties);
     userProvider = new ServiceAccountUserProvider(clientProperties, decoder, client);

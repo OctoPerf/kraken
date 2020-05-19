@@ -1,43 +1,34 @@
 package com.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.kraken.config.influxdb.api.InfluxDBProperties;
-import com.kraken.influxdb.client.api.InfluxDBUser;
 import com.kraken.influxdb.client.api.InfluxDBUserConverter;
 import com.kraken.influxdb.client.api.InfluxDBUserTest;
 import com.kraken.runtime.context.entity.ExecutionContextBuilderTest;
-import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.security.admin.client.api.SecurityAdminClient;
 import com.kraken.security.entity.functions.api.OwnerToUserId;
 import com.kraken.security.entity.user.KrakenUserTest;
 import com.kraken.tests.utils.TestUtils;
-import lombok.NonNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry.builder;
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.BACKEND;
-import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.SECURITY;
 import static com.kraken.runtime.entity.task.TaskType.*;
 import static com.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = InfluxDBUrlPublisher.class)
 @EnableAutoConfiguration
 public class InfluxDBUrlPublisherTest {
@@ -53,7 +44,7 @@ public class InfluxDBUrlPublisherTest {
   @Autowired
   InfluxDBUrlPublisher publisher;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(properties.getUser()).willReturn("user");
     given(properties.getPassword()).willReturn("password");

@@ -2,7 +2,7 @@ package com.kraken.config.runtime.container.spring;
 
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SpringContainerPropertiesTest {
   public static final SpringContainerProperties RUNTIME_PROPERTIES = SpringContainerProperties.builder()

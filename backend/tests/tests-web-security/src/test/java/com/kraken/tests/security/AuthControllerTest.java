@@ -5,13 +5,14 @@ import com.kraken.Application;
 import com.kraken.security.decoder.api.TokenDecoder;
 import com.kraken.security.entity.owner.UserOwner;
 import com.kraken.security.entity.token.KrakenTokenUserTest;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +23,7 @@ import static com.kraken.security.entity.token.KrakenRole.ADMIN;
 import static com.kraken.security.entity.token.KrakenRole.USER;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AuthControllerTest {
 
@@ -36,7 +37,7 @@ public abstract class AuthControllerTest {
 
   protected String applicationId = "app";
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     // User
     given(jwtDecoder.decode("user-token")).willReturn(Mono.just(JwtTestFactory.JWT_FACTORY.create("user-token", ImmutableList.of(USER.name()),

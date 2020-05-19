@@ -4,15 +4,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.kraken.Application;
 import com.kraken.security.admin.client.api.SecurityAdminClient;
-import com.kraken.security.admin.client.api.SecurityAdminClientBuilder;
-import com.kraken.security.authentication.api.AuthenticationMode;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Map;
@@ -20,9 +17,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-@Ignore("Start keycloak before running")
+// Start keycloak before running
+@Tag("integration")
 public class KeycloakSecurityAdminClientIntegrationTest {
 
   @Autowired

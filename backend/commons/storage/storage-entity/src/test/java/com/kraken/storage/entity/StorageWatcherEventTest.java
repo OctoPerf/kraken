@@ -1,7 +1,7 @@
 package com.kraken.storage.entity;
 
 import com.google.common.testing.NullPointerTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.kraken.tests.utils.TestUtils.shouldPassEquals;

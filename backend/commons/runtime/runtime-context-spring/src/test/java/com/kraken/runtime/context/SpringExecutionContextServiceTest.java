@@ -5,23 +5,25 @@ import com.google.common.collect.ImmutableMap;
 import com.kraken.runtime.context.api.MapExecutionEnvironmentEntries;
 import com.kraken.runtime.context.api.environment.EnvironmentChecker;
 import com.kraken.runtime.context.api.environment.EnvironmentPublisher;
-import com.kraken.runtime.context.entity.*;
+import com.kraken.runtime.context.entity.CancelContext;
+import com.kraken.runtime.context.entity.ExecutionContext;
+import com.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.kraken.runtime.entity.environment.ExecutionEnvironmentTest;
 import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.tasks.configuration.TaskConfigurationService;
-import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
+import com.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
 import com.kraken.security.entity.owner.PublicOwner;
 import com.kraken.storage.client.api.StorageClient;
 import com.kraken.template.api.TemplateService;
 import com.kraken.tools.unique.id.IdGenerator;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import static com.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.*;
@@ -32,7 +34,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SpringExecutionContextServiceTest {
 
   @Mock
@@ -55,10 +57,22 @@ public class SpringExecutionContextServiceTest {
 
   private SpringExecutionContextService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     executionEnvironment = ExecutionEnvironmentTest.EXECUTION_ENVIRONMENT;
     taskConfiguration = TaskConfigurationTest.TASK_CONFIGURATION;
+    this.service = new SpringExecutionContextService(
+        configurationService,
+        idGenerator,
+        ImmutableList.of(publisher),
+        ImmutableList.of(checker),
+        templateService,
+        toMap
+    );
+  }
+
+  @Test
+  public void shouldCreateExecutionContext() {
     given(configurationService.getConfiguration(any(), any())).willReturn(Mono.just(taskConfiguration));
     given(configurationService.getTemplate(any(), any())).willReturn(Mono.just("template"));
     given(idGenerator.generate()).willReturn("taskId");
@@ -74,18 +88,7 @@ public class SpringExecutionContextServiceTest {
     given(checker.test(any())).willReturn(true);
     given(templateService.replaceAll(anyString(), any())).willReturn(Mono.just("replaced"));
     given(toMap.apply(anyString(), any())).willReturn(ImmutableMap.of("hello", "toMap"));
-    this.service = new SpringExecutionContextService(
-        configurationService,
-        idGenerator,
-        ImmutableList.of(publisher),
-        ImmutableList.of(checker),
-        templateService,
-        toMap
-    );
-  }
 
-  @Test
-  public void shouldCreateExecutionContext() {
     final var context = this.service.newExecuteContext(PublicOwner.INSTANCE, executionEnvironment).block();
     assertThat(context).isEqualTo(ExecutionContext.builder()
         .owner(PublicOwner.INSTANCE)

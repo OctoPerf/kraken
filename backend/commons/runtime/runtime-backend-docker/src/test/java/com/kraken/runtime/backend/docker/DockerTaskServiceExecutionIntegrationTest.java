@@ -13,12 +13,13 @@ import com.kraken.runtime.entity.task.TaskType;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.security.entity.owner.UserOwner;
 import com.kraken.tests.utils.ResourceUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 import static com.kraken.security.entity.token.KrakenRole.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class DockerTaskServiceExecutionIntegrationTest {
 
@@ -40,7 +41,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   @Autowired
   CommandService commandService;
 
-  @Before
+  @BeforeEach
   public void before() {
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())

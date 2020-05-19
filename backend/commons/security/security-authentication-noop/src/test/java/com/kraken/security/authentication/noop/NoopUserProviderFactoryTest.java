@@ -1,7 +1,7 @@
 package com.kraken.security.authentication.noop;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static com.kraken.security.authentication.api.AuthenticationMode.NOOP;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +10,7 @@ public class NoopUserProviderFactoryTest {
 
   NoopUserProviderFactory factory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     factory = new NoopUserProviderFactory();
   }

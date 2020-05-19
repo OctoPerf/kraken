@@ -6,17 +6,18 @@ import com.kraken.security.entity.functions.api.OwnerToUserId;
 import com.kraken.security.entity.owner.*;
 import com.kraken.tests.utils.TestUtils;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OwnerToFiltersTest {
 
   @Mock
@@ -26,7 +27,7 @@ public class OwnerToFiltersTest {
 
   OwnerToFilters ownerToFilters;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     ownerToFilters = new OwnerToFilters(toApplicationId, toUserId);
   }

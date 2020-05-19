@@ -5,17 +5,18 @@ import com.kraken.runtime.event.client.api.RuntimeEventClient;
 import com.kraken.runtime.event.client.api.RuntimeEventClientBuilder;
 import com.kraken.security.authentication.api.AuthenticationMode;
 import com.kraken.tools.event.bus.EventBus;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class TaskEventsWatcherTest {
 
   @Mock
@@ -28,7 +29,7 @@ public class TaskEventsWatcherTest {
 
   TaskEventsWatcher watcher;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     watcher = new TaskEventsWatcher(clientBuilder, eventBus);
   }

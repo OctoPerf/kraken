@@ -5,11 +5,12 @@ import com.kraken.analysis.client.api.AnalysisClientBuilder;
 import com.kraken.analysis.entity.DebugEntry;
 import com.kraken.config.runtime.container.api.ContainerProperties;
 import com.kraken.security.authentication.api.AuthenticationMode;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class RemoteDebugEntryWriterTest {
 
   @Mock
@@ -31,7 +32,7 @@ public class RemoteDebugEntryWriterTest {
 
   DebugEntryWriter writer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(containerProperties.getApplicationId()).willReturn("app");
     given(containerProperties.getTaskId()).willReturn("taskId");

@@ -10,19 +10,20 @@ import com.kraken.runtime.entity.task.Task;
 import com.kraken.runtime.entity.task.TaskTest;
 import com.kraken.security.entity.owner.PublicOwner;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import static com.kraken.runtime.entity.task.TaskType.GATLING_RUN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class OtherContainersStoppingPredicateTest {
   @Autowired
@@ -32,7 +33,7 @@ public class OtherContainersStoppingPredicateTest {
   @MockBean
   RuntimeClient client;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     when(container.getTaskId()).thenReturn("vzkziobanr");
     when(container.getName()).thenReturn("shell-run-vzkziobanr-n0usmshdr0-gatling-telegraf");

@@ -15,14 +15,14 @@ import com.kraken.runtime.logs.LogsService;
 import com.kraken.security.entity.owner.ApplicationOwner;
 import com.kraken.security.entity.owner.Owner;
 import com.kraken.security.entity.owner.PublicOwner;
-import lombok.NonNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Flux;
 
@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static com.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
@@ -40,7 +39,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DockerTaskServiceTest {
 
   @Mock
@@ -49,7 +48,7 @@ public class DockerTaskServiceTest {
   LogsService logsService;
   @Mock
   Function<String, FlatContainer> stringToFlatContainer;
-  @Mock
+  @Mock(lenient = true)
   Function<Owner, List<String>> ownerToFilters;
 
   @Captor
@@ -57,7 +56,7 @@ public class DockerTaskServiceTest {
 
   DockerTaskService service;
 
-  @Before
+  @BeforeEach
   public void before() throws IOException {
     service = new DockerTaskService(
         commandService,
@@ -88,30 +87,34 @@ public class DockerTaskServiceTest {
         "--no-color"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldExecuteFail() {
-    final var context = ExecutionContext.builder()
-        .owner(ApplicationOwner.builder().applicationId("applicationId").build())
-        .taskId("taskId")
-        .taskType(TaskType.GATLING_RUN)
-        .templates(ImmutableMap.of())
-        .description("description")
-        .build();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      final var context = ExecutionContext.builder()
+          .owner(ApplicationOwner.builder().applicationId("applicationId").build())
+          .taskId("taskId")
+          .taskType(TaskType.GATLING_RUN)
+          .templates(ImmutableMap.of())
+          .description("description")
+          .build();
 
-    service.execute(context).block();
+      service.execute(context).block();
+    });
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void shouldExecuteFailTooManyHosts() {
-    final var context = ExecutionContext.builder()
-        .owner(ApplicationOwner.builder().applicationId("applicationId").build())
-        .taskId("taskId")
-        .taskType(TaskType.GATLING_RUN)
-        .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
-        .description("description")
-        .build();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      final var context = ExecutionContext.builder()
+          .owner(ApplicationOwner.builder().applicationId("applicationId").build())
+          .taskId("taskId")
+          .taskType(TaskType.GATLING_RUN)
+          .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
+          .description("description")
+          .build();
 
-    service.execute(context).block();
+      service.execute(context).block();
+    });
   }
 
   @Test

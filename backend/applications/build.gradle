@@ -1,8 +1,3 @@
-plugins {
-    // TODO Cannot use ${springBootVersion} here ... why? FUUUUUUUUUUUAAAAA
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
-}
-
 subprojects {
     buildscript {
         dependencies {

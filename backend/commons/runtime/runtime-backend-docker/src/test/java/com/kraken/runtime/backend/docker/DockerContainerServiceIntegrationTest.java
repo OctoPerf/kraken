@@ -11,13 +11,14 @@ import com.kraken.runtime.entity.task.FlatContainer;
 import com.kraken.runtime.logs.LogsService;
 import com.kraken.security.entity.owner.Owner;
 import com.kraken.security.entity.owner.UserOwner;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.Arrays;
 import static com.kraken.security.entity.token.KrakenRole.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class DockerContainerServiceIntegrationTest {
 
@@ -39,7 +40,7 @@ public class DockerContainerServiceIntegrationTest {
   @Autowired
   CommandService commandService;
 
-  @Before
+  @BeforeEach
   public void before() {
     final var up = Command.builder()
         .path("./testDir")
@@ -49,7 +50,7 @@ public class DockerContainerServiceIntegrationTest {
     commandService.execute(up).blockLast();
   }
 
-  @After
+  @AfterEach
   public void after() {
     final var down = Command.builder()
         .path("./testDir")

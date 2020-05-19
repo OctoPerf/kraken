@@ -3,11 +3,11 @@ package com.kraken.security.authentication.session;
 
 import com.kraken.security.entity.token.KrakenTokenUserTest;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,19 +16,19 @@ import reactor.core.publisher.Mono;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SessionUserProviderTest {
 
   @Mock
   Authentication authentication;
-  @Mock
+  @Mock(lenient = true)
   SecurityContext securityContext;
   @Mock
   Jwt jwt;
 
   SessionUserProvider provider;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(securityContext.getAuthentication()).willReturn(authentication);
     provider = new SessionUserProvider(Mono.just(securityContext));

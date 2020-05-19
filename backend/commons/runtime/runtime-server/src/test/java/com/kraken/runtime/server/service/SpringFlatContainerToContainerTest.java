@@ -2,7 +2,7 @@ package com.kraken.runtime.server.service;
 
 import com.kraken.runtime.entity.task.Container;
 import com.kraken.runtime.entity.task.FlatContainerTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

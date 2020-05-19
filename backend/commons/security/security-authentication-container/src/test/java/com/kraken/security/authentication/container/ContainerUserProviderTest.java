@@ -7,11 +7,11 @@ import com.kraken.security.client.api.SecurityClient;
 import com.kraken.security.decoder.api.TokenDecoder;
 import com.kraken.security.entity.token.KrakenTokenTest;
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -23,13 +23,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ContainerUserProviderTest {
-  @Mock
+  @Mock(lenient = true)
   SecurityClientProperties clientProperties;
   @Mock
   SecurityClientCredentialsProperties credentialsProperties;
-  @Mock
+  @Mock(lenient = true)
   SecurityContainerProperties containerProperties;
   @Mock
   TokenDecoder decoder;
@@ -40,7 +40,7 @@ public class ContainerUserProviderTest {
 
   ContainerUserProvider userProvider;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     given(containerProperties.getAccessToken()).willReturn("accessToken");
     given(containerProperties.getRefreshToken()).willReturn("refreshToken");

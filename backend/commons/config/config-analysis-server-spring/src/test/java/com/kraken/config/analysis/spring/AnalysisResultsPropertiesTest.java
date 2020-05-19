@@ -1,7 +1,7 @@
 package com.kraken.config.analysis.spring;
 
 import com.kraken.config.grafana.api.AnalysisResultsProperties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 

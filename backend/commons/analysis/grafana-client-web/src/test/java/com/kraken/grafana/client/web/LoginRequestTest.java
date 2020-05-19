@@ -1,7 +1,7 @@
 package com.kraken.grafana.client.web;
 
 import com.kraken.tests.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LoginRequestTest {
 

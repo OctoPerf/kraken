@@ -1,7 +1,7 @@
 package com.kraken.gatling.log.parser.rule;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.kraken.gatling.log.parser.context.LogParserState.HTTP_RESPONSE;
@@ -17,7 +17,7 @@ public class ResponseHeaderRuleTest extends RuleTest<ResponseHeaderRule> {
   @Autowired
   ResponseHeaderRule rule;
 
-  @Before
+  @BeforeEach
   public void before() {
     super.before(3, rule);
   }

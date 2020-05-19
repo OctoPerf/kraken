@@ -3,7 +3,7 @@ package com.kraken.runtime.server.rest;
 import com.google.common.base.Charsets;
 import com.kraken.runtime.entity.log.LogTest;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import reactor.core.publisher.Flux;

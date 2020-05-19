@@ -13,8 +13,8 @@ import com.kraken.runtime.command.CommandService;
 import com.kraken.runtime.container.executor.AbstractContainerExecutorTest;
 import com.kraken.runtime.container.predicate.TaskPredicate;
 import com.kraken.runtime.entity.task.TaskTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -41,14 +41,14 @@ public class GatlingParserTest extends AbstractContainerExecutorTest {
   LogParser logParser;
   @Mock
   TaskPredicate taskPredicate;
-  @Mock
+  @Mock(lenient = true)
   GatlingLog log;
-  @Mock
+  @Mock(lenient = true)
   GatlingProperties gatling;
 
   GatlingParser parser;
 
-  @Before
+  @BeforeEach
   public void before() {
     when(gatling.getHome()).thenReturn(".");
     when(gatling.getLogs()).thenReturn(log);

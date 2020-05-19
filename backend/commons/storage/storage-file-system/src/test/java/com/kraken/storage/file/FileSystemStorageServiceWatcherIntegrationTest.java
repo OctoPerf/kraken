@@ -6,11 +6,12 @@ import com.kraken.security.entity.owner.PublicOwner;
 import com.kraken.storage.entity.StorageNode;
 import com.kraken.storage.entity.StorageWatcherEvent;
 import com.kraken.config.api.ApplicationProperties;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +27,7 @@ import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.FileSystemUtils.deleteRecursively;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class FileSystemStorageServiceWatcherIntegrationTest {
   @Autowired

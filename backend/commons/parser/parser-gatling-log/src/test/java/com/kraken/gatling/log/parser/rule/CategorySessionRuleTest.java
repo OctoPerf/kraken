@@ -1,7 +1,7 @@
 package com.kraken.gatling.log.parser.rule;
 
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CategorySessionRuleTest extends CategoryRuleTest {
@@ -9,7 +9,7 @@ public class CategorySessionRuleTest extends CategoryRuleTest {
   @Autowired
   CategorySessionRule rule;
 
-  @Before
+  @BeforeEach
   public void before() {
     super.before(rule);
   }

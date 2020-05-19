@@ -1,8 +1,8 @@
 package com.kraken.tools.sse;
 
 import com.google.common.collect.ImmutableMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 import reactor.util.function.Tuple2;
@@ -13,7 +13,7 @@ public class SpringSSEServiceTest {
 
   SSEService service;
 
-  @Before
+  @BeforeEach
   public void before(){
     this.service = new SpringSSEService(1L);
   }

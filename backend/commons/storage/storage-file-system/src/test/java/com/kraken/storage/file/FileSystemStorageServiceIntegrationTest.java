@@ -7,14 +7,15 @@ import com.kraken.security.entity.owner.UserOwner;
 import com.kraken.security.entity.token.KrakenRole;
 import com.kraken.storage.entity.StorageNode;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import org.springframework.util.FileSystemUtils;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +37,7 @@ import static reactor.core.publisher.Mono.empty;
 import static reactor.core.publisher.Mono.just;
 import static reactor.test.StepVerifier.create;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public class FileSystemStorageServiceIntegrationTest {
 
@@ -48,7 +49,7 @@ public class FileSystemStorageServiceIntegrationTest {
   @MockBean
   FilePart part;
 
-  @Before
+  @BeforeEach
   public void before() {
     given(part.transferTo(any(Path.class))).will(invocation -> {
       Files.write(invocation.getArgument(0), "file content".getBytes(UTF_8));

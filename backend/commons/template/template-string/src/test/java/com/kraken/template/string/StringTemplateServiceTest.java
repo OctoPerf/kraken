@@ -2,8 +2,8 @@ package com.kraken.template.string;
 
 import com.google.common.collect.ImmutableMap;
 import com.kraken.tests.utils.ResourceUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ public class StringTemplateServiceTest {
 
   private StringTemplateService service;
 
-  @Before
+  @BeforeEach
   public void before() {
     service = new StringTemplateService();
   }

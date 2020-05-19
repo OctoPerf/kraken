@@ -9,13 +9,14 @@ import com.kraken.tools.unique.id.IdGenerator;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -25,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class WebInfluxDBClientTest {
 
   private MockWebServer server;
@@ -37,7 +38,7 @@ public class WebInfluxDBClientTest {
   @Mock
   IdGenerator idGenerator;
 
-  @Before
+  @BeforeEach
   public void before() {
     server = new MockWebServer();
     when(properties.getUrl()).thenReturn(server.url("/").toString());
@@ -46,7 +47,7 @@ public class WebInfluxDBClientTest {
     client = new WebInfluxDBClient(properties, idGenerator);
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
   }

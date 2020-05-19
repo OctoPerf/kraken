@@ -6,8 +6,8 @@ import com.kraken.gatling.log.parser.rule.ParserRule;
 import com.kraken.tests.utils.TestUtils;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class SpringRulesApplierTest {
   ParserRule rule1;
   ParserRule rule2;
 
-  @Before
+  @BeforeEach
   public void before() {
     rule1 = mock(ParserRule.class);
     rule2 = mock(ParserRule.class);
