@@ -68,6 +68,9 @@ git-help:
 	@echo "git-branch-finish FEATURE=feature_name : Merge the branch in develop but not push. You must run : make git-push BRANCH=develop"
 	@echo "git-rebase FROM=from_branch_name TO=to_branch_name : rebase the branch 'FROM' on the branch 'TO' for current and submodules."
 	@echo "git-pull-force FEATURE=feature_name : Checkout the branch, fetch it and reset hard it, for submodules too."
+	@echo "git-release-start RELEASE=release_name : Create a release."
+	@echo "git-release-finish RELEASE=release_name : Finish a release."
+	@echo "git-commit-release-push MESSAGE=message_txt RELEASE=release_name : Commit and push for a release."
 
 #list_submodules := backend/commons/ee backend/applications/ee deployment documentation
 #cmd_pull_submodule = $(foreach submodule,$(list_submodules),$(MAKE) git-pull-submodule SUBMODULE=$(submodule))
@@ -171,3 +174,39 @@ git-pull-force:
 
 git-pull-force-submodule:
 	cd $(SUBMODULE);git checkout feature/$(FEATURE); git fetch origin feature/$(FEATURE); git reset --hard origin/feature/$(FEATURE)
+
+git-release-start:
+	$(MAKE) git-pull BRANCH=develop
+	git flow release start $(RELEASE)
+	git flow release publish $(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=backend/commons/ee FEATURE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=backend/applications/ee FEATURE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=deployment FEATURE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=documentation FEATURE=$(RELEASE)
+
+git-release-start-submodule:
+	cd $(SUBMODULE);git flow release start $(RELEASE)
+	cd $(SUBMODULE);git flow release publish $(RELEASE)
+
+git-release-finish:
+	$(MAKE) git-pull BRANCH=develop
+	git flow release finish $(RELEASE)
+	git push origin --tags
+	$(MAKE) git-release-finish-submodule SUBMODULE=backend/commons/ee FEATURE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=backend/applications/ee FEATURE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=deployment FEATURE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=documentation FEATURE=$(RELEASE)
+
+git-release-finish-submodule:
+	cd $(SUBMODULE);git flow release finish $(RELEASE)
+	cd $(SUBMODULE);git push origin --tags
+
+git-commit-release-push:
+	-$(MAKE) git-commit-release-push-submodule SUBMODULE=backend/commons/ee MESSAGE="$(MESSAGE)" RELEASE=$(RELEASE)
+	-$(MAKE) git-commit-release-push-submodule SUBMODULE=backend/applications/ee MESSAGE="$(MESSAGE)" RELEASE=$(RELEASE)
+	-$(MAKE) git-commit-release-push-submodule SUBMODULE=deployment MESSAGE="$(MESSAGE)" RELEASE=$(RELEASE)
+	-$(MAKE) git-commit-release-push-submodule SUBMODULE=documentation MESSAGE="$(MESSAGE)" RELEASE=$(RELEASE)
+	-git add -A; git commit -a -m "$(MESSAGE)"; git flow release publish $(RELEASE)
+
+git-commit-release-push-submodule:
+	cd $(SUBMODULE);git add -A; git commit -a -m "$(MESSAGE)"; git flow release publish $(RELEASE)
