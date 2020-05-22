@@ -97,7 +97,7 @@ git-push:
 	$(MAKE) git-push-submodule SUBMODULE=documentation BRANCH=$(BRANCH)
 
 git-push-submodule:
-	git push origin $(BRANCH)
+	cd $(SUBMODULE);git push origin $(BRANCH)
 
 git-init:
 	sudo apt-get update -y
