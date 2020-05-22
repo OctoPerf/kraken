@@ -15,7 +15,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -174,7 +173,7 @@ final class FileSystemStorageService implements StorageService {
       if (!parent.exists() && !parent.mkdirs()) {
         throw new IOException("Failed to create directory " + parent.getPath());
       }
-      Files.write(completePath, content.getBytes(UTF_8));
+      Files.writeString(completePath, content);
       return this.toStorageNode.apply(completePath);
     });
   }

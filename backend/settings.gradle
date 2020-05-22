@@ -140,8 +140,8 @@ include ':commons:dependencies:dependencies-security-container'
 include ':commons:dependencies:dependencies-security-spring'
 
 include ':commons:ee:license-api'
-include ':commons:ee:license-l4j'
 include ':commons:ee:license-mock'
+include ':commons:ee:license-jwt'
 include ':commons:ee:runtime-backend-kubernetes'
 
 include ':tests:tests-utils'
@@ -169,4 +169,5 @@ findProject(':applications:sse')?.name = 'app-sse'
 
 include 'applications:ee:runtime-kubernetes'
 findProject(':applications:ee:runtime-kubernetes')?.name = 'app-runtime-kubernetes'
+
 
