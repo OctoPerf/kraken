@@ -1,6 +1,0 @@
-dependencies {
-    api project(':commons:config:config-grafana-api')
-    api project(':commons:security:security-entity')
-    api project(':commons:analysis:influxdb-client-api')
-    api project(':commons:tools:tools-webclient')
-}

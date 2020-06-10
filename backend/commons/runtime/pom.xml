@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>runtime</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>runtime-backend-api</module>
+        <module>runtime-backend-docker</module>
+        <module>runtime-backend-spring</module>
+        <module>runtime-client-api</module>
+        <module>runtime-client-spring</module>
+        <module>runtime-client-web</module>
+        <module>runtime-command-api</module>
+        <module>runtime-command-entity</module>
+        <module>runtime-command-zt</module>
+        <module>runtime-container-api</module>
+        <module>runtime-container-spring</module>
+        <module>runtime-container-test</module>
+        <module>runtime-context-api</module>
+        <module>runtime-context-entity</module>
+        <module>runtime-context-spring</module>
+        <module>runtime-entity</module>
+        <module>runtime-event-client-api</module>
+        <module>runtime-event-client-web</module>
+        <module>runtime-event-entity</module>
+        <module>runtime-logs-api</module>
+        <module>runtime-logs-spring</module>
+        <module>runtime-server</module>
+        <module>runtime-tasks-configuration-spring</module>
+        <module>runtime-tasks-configuration-api</module>
+        <module>runtime-tasks-configuration-entity</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-environment</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

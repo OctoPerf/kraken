@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(':commons:config:config-security-container-api')
-
-    testImplementation project(path: ':commons:tools:tools-application')
-}

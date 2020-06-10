@@ -1,5 +1,0 @@
-dependencies {
-    api project(':commons:config:config-influxdb-api')
-    api project(':commons:security:security-entity')
-    api project(':commons:tools:tools-webclient')
-}

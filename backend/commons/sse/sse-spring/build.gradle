@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(':commons:sse:sse-api')
-    implementation project(':commons:tools:tools-environment')
-    implementation project(':commons:tools:tools-obfuscation')
-}

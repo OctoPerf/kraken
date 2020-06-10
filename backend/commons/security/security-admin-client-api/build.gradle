@@ -1,5 +1,0 @@
-dependencies {
-    api project(':commons:config:config-security-client-api')
-    api project(':commons:security:security-authentication-client-api')
-    api project(':commons:security:security-entity')
-}

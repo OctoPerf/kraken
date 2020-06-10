@@ -44,7 +44,7 @@ class EventClient {
     final Response response = eventTarget.request(MediaType.APPLICATION_FORM_URLENCODED)
         .header("Authorization", this.authHeader(accessToken))
         .post(handler.toEntity(event));
-    response.readEntity(String.class);
+    System.out.println(response.readEntity(String.class));
     response.close();
     client.close();
   }
@@ -60,7 +60,7 @@ class EventClient {
     final Response response = adminTarget.request(MediaType.APPLICATION_FORM_URLENCODED)
         .header(HttpHeaders.AUTHORIZATION, this.authHeader(accessToken))
         .post(handler.toEntity(event));
-    response.readEntity(String.class);
+    System.out.println(response.readEntity(String.class));
     response.close();
     client.close();
   }

@@ -26,12 +26,10 @@ public class KrakenEventListenerProvider implements EventListenerProvider {
 
   @Override
   public void onEvent(final Event event) {
-//    System.out.println("Event Occurred:" + toString(event));
+    System.out.println("Event Occurred:" + toString(event));
     for (final EventClient eventClient : eventClients) {
       if (eventClient.filterEvent(event)) {
-        System.out.println("Filter OK");
         this.executor.submit(() -> {
-          System.out.println("Execute");
           eventClient.sendEvent(this.keycloakClient.getAccessToken(), event);
           return null;
         });

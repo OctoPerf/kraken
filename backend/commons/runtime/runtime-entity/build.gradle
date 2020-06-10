@@ -1,6 +1,0 @@
-dependencies {
-    api project(':commons:security:security-entity')
-
-    testImplementation project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
-    testImplementation project(':commons:tools:tools-configuration')
-}

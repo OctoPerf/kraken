@@ -1,0 +1,681 @@
+13:53:06.166 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@705bc7f6),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/
+Date: Wed, 10 Jun 2020 13:53:06 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:06.288 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@705bc7f6),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Content-Length: 0
+Date: Wed, 10 Jun 2020 13:53:06 GMT
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:06.340 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_1 Redirect 2: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@705bc7f6, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers),0,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2525
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:06 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/381">ACE</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/330">Acer Extensa</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/331">Acer Extensa 5220</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/543">Acer Iconia</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/152">Acorn Archimedes</a></td><td>-</td><td>-</td><td>Acorn computer</td></tr><tr><td><a href="/computers/418">Acorn Electron</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/46">Acorn System 2</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/542">Alex eReader</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/57">Altair 8800</a></td><td>19 Dec 1974</td><td>-</td><td>Micro Instrumentation and Telemetry Systems</td></tr><tr><td><a href="/computers/70">Amiga</a></td><td>01 Jan 1985</td><td>-</td><td>Amiga Corporation</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev disabled"><a>? Previous</a></li><li class="current"><a>Displaying 1 to 10 of 574</a></li><li class="next"><a href="/computers?p=1&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:13.364 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_2: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@406af91c, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers),20,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?f=macbook
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?f=macbook
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers?f=macbook
+Date: Wed, 10 Jun 2020 13:53:13 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:13.397 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_2 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@406af91c, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?f=macbook),20,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers?f=macbook
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?f=macbook
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2730
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:13 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>10 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="macbook" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc&amp;f=macbook">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc&amp;f=macbook">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc&amp;f=macbook">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc&amp;f=macbook">Company</a></th></thead><tbody><tr><td><a href="/computers/89">MacBook</a></td><td>16 May 2006</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/517">MacBook 13-inch Core 2 Duo 2.13GHz (MC240LL/A) DDR2 Model</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/518">MacBook 13-inch Core 2 Duo 2.13GHz (MC240T/A) DDR2 Model</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/519">MacBook 13-inch Core 2 Duo 2.13GHz (MC240X/A) DDR2 Model</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/520">MacBook 13-inch Core 2 Duo 2.26GHz (Unibody MC207LL/A) DDR3 Model</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/273">MacBook Air</a></td><td>15 Jan 2008</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/473">MacBook Family</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/516">MacBook Parts</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/6">MacBook Pro</a></td><td>10 Jan 2006</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/1">MacBook Pro 15.4 inch</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev disabled"><a>? Previous</a></li><li class="current"><a>Displaying 1 to 10 of 10</a></li><li class="next disabled"><a>Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:15.423 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_3: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@3ba63a77, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?f=macbook),26,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/6
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers/6
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers/6
+Date: Wed, 10 Jun 2020 13:53:15 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:15.455 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_3 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@3ba63a77, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers/6),26,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers/6
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers/6
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 3344
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:15 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>Edit computer</h1><form action="/computers/6" method="POST"><fieldset><div class="clearfix "><label for="name">Computer name</label><div class="input"><input type="text" id="name" name="name" value="MacBook Pro" /> <span class="help-inline">Required</span></div></div><div class="clearfix "><label for="introduced">Introduced</label><div class="input"><input type="text" id="introduced" name="introduced" value="2006-01-10" /> <span class="help-inline">Date ('yyyy-MM-dd')</span></div></div><div class="clearfix "><label for="discontinued">Discontinued</label><div class="input"><input type="text" id="discontinued" name="discontinued" value="" /> <span class="help-inline">Date ('yyyy-MM-dd')</span></div></div><div class="clearfix"><label for="company">Company</label><div class="input"><select id="company" name="company"><option class="blank" value="">-- Choose a company --</option><option value="1" selected="">Apple Inc.</option><option value="2">Thinking Machines</option><option value="3">RCA</option><option value="4">Netronics</option><option value="5">Tandy Corporation</option><option value="6">Commodore International</option><option value="7">MOS Technology</option><option value="8">Micro Instrumentation and Telemetry Systems</option><option value="9">IMS Associates, Inc.</option><option value="10">Digital Equipment Corporation</option><option value="11">Lincoln Laboratory</option><option value="12">Moore School of Electrical Engineering</option><option value="13">IBM</option><option value="14">Amiga Corporation</option><option value="15">Canon</option><option value="16">Nokia</option><option value="17">Sony</option><option value="18">OQO</option><option value="19">NeXT</option><option value="20">Atari</option><option value="21">Acorn computer</option><option value="22">Timex Sinclair</option><option value="23">Nintendo</option><option value="24">Sinclair Research Ltd</option><option value="25">Xerox</option><option value="26">Hewlett-Packard</option><option value="27">Zemmix</option><option value="28">ACVS</option><option value="29">Sanyo</option><option value="30">Cray</option><option value="31">Evans &amp; Sutherland</option><option value="32">E.S.R. Inc.</option><option value="33">OMRON</option><option value="34">BBN Technologies</option><option value="35">Lenovo Group</option><option value="36">ASUS</option><option value="37">Amstrad</option><option value="38">Sun Microsystems</option><option value="39">Texas Instruments</option><option value="40">HTC Corporation</option><option value="41">Research In Motion</option><option value="42">Samsung Electronics</option></select></div></div></fieldset><div class="actions"><input type="submit" value="Save this computer" class="btn primary" /> or <a href="/computers" class="btn">Cancel</a></div></form><form class="topRight" action="/computers/6/delete" method="POST"><input type="submit" value="Delete this computer" class="btn danger" /></form></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:18.466 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@3ba63a77, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers/6),14,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Content-Length: 0
+Date: Wed, 10 Jun 2020 13:53:18 GMT
+Location: /computers
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:18.497 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_4 Redirect 2: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@3ba63a77, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers),14,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2525
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:18 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/381">ACE</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/330">Acer Extensa</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/331">Acer Extensa 5220</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/543">Acer Iconia</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/152">Acorn Archimedes</a></td><td>-</td><td>-</td><td>Acorn computer</td></tr><tr><td><a href="/computers/418">Acorn Electron</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/46">Acorn System 2</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/542">Alex eReader</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/57">Altair 8800</a></td><td>19 Dec 1974</td><td>-</td><td>Micro Instrumentation and Telemetry Systems</td></tr><tr><td><a href="/computers/70">Amiga</a></td><td>01 Jan 1985</td><td>-</td><td>Amiga Corporation</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev disabled"><a>? Previous</a></li><li class="current"><a>Displaying 1 to 10 of 574</a></li><li class="next"><a href="/computers?p=1&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:20.524 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_5: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@413a89d9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers),19,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=1
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=1
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers?p=1
+Date: Wed, 10 Jun 2020 13:53:20 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:20.555 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_5 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@413a89d9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=1),19,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers?p=1
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=1
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2659
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:20 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/71">Amiga 1000</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/129">Amiga 1200</a></td><td>01 Oct 1992</td><td>01 Jan 1996</td><td>Commodore International</td></tr><tr><td><a href="/computers/448">Amiga 1500</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/74">Amiga 2000</a></td><td>01 Jan 1986</td><td>01 Jan 1990</td><td>Commodore International</td></tr><tr><td><a href="/computers/348">Amiga 2000 Model A</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/349">Amiga 2000 Model B</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/350">Amiga 2000 Model C</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/124">Amiga 2500</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/123">Amiga 2500</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/75">Amiga 3000</a></td><td>-</td><td>-</td><td>Commodore International</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=asc">? Previous</a></li><li class="current"><a>Displaying 11 to 20 of 574</a></li><li class="next"><a href="/computers?p=2&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:21.246 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_6: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@630d567d, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=1),15,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=2
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=2
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers?p=2
+Date: Wed, 10 Jun 2020 13:53:21 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:21.278 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_6 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@630d567d, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=2),15,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers?p=2
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=2
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2647
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:21 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/127">Amiga 3000T</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/126">Amiga 3000UX</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/125">Amiga 4000</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/128">Amiga 4000T</a></td><td>-</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/72">Amiga 500</a></td><td>01 Jan 1987</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/73">Amiga 500+</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/76">Amiga 600</a></td><td>01 Mar 1992</td><td>-</td><td>Commodore International</td></tr><tr><td><a href="/computers/411">Amstrad CPC</a></td><td>-</td><td>-</td><td>Amstrad</td></tr><tr><td><a href="/computers/414">Amstrad CPC 464</a></td><td>-</td><td>-</td><td>Amstrad</td></tr><tr><td><a href="/computers/412">Amstrad CPC 6128</a></td><td>-</td><td>-</td><td>Amstrad</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev"><a href="/computers?p=1&amp;n=10&amp;s=name&amp;d=asc">? Previous</a></li><li class="current"><a>Displaying 21 to 30 of 574</a></li><li class="next"><a href="/computers?p=3&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:21.936 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_7: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@69f2ade9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=2),20,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=3
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=3
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers?p=3
+Date: Wed, 10 Jun 2020 13:53:21 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:21.966 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_7 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@69f2ade9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=3),20,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers?p=3
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=3
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2580
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:21 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/413">Amstrad CPC 664</a></td><td>-</td><td>-</td><td>Amstrad</td></tr><tr><td><a href="/computers/501">AN/FSQ-32</a></td><td>01 Jan 1960</td><td>-</td><td>IBM</td></tr><tr><td><a href="/computers/500">AN/FSQ-7</a></td><td>01 Jan 1958</td><td>-</td><td>IBM</td></tr><tr><td><a href="/computers/365">Analytical engine</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/388">APEXC</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/55">Apple I</a></td><td>01 Apr 1976</td><td>01 Oct 1977</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/16">Apple II</a></td><td>01 Apr 1977</td><td>01 Oct 1993</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/11">Apple II Plus</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/8">Apple IIc</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/10">Apple IIc Plus</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev"><a href="/computers?p=2&amp;n=10&amp;s=name&amp;d=asc">? Previous</a></li><li class="current"><a>Displaying 31 to 40 of 574</a></li><li class="next"><a href="/computers?p=4&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:22.724 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_8: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@7c13854f, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=3),21,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers?p=4
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=4
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers?p=4
+Date: Wed, 10 Jun 2020 13:53:22 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:22.758 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_8 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@7c13854f, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=4),21,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers?p=4
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers?p=4
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2584
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:22 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>574 computers found</h1><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/7">Apple IIe</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/9">Apple IIGS</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/12">Apple III</a></td><td>01 May 1980</td><td>01 Apr 1984</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/17">Apple III Plus</a></td><td>01 Dec 1983</td><td>01 Apr 1984</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/13">Apple Lisa</a></td><td>-</td><td>-</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/403">Apple Network Server</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/298">Apple Newton</a></td><td>01 Jan 1993</td><td>01 Jan 1998</td><td>Apple Inc.</td></tr><tr><td><a href="/computers/240">Apple PenLite</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/544">Archos 101</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/355">ARRA</a></td><td>-</td><td>-</td><td>-</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev"><a href="/computers?p=3&amp;n=10&amp;s=name&amp;d=asc">? Previous</a></li><li class="current"><a>Displaying 41 to 50 of 574</a></li><li class="next"><a href="/computers?p=5&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:27.785 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_9: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@4f07b6b9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers?p=4),26,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET http://computer-database.gatling.io/computers/new
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers/new
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+301 Moved Permanently
+headers= 
+Location: https://computer-database.gatling.io/computers/new
+Date: Wed, 10 Jun 2020 13:53:27 GMT
+Content-Length: 17
+Content-Type: text/plain; charset=utf-8
+
+body=
+Moved Permanently
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:27.814 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_9 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@4f07b6b9, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers/new),26,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers/new
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers/new
+host: computer-database.gatling.io
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 3168
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:27 GMT
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>Add a computer</h1><form action="/computers" method="POST"><fieldset><div class="clearfix "><label for="name">Computer name</label><div class="input"><input type="text" id="name" name="name" value="" /> <span class="help-inline">Required</span></div></div><div class="clearfix "><label for="introduced">Introduced</label><div class="input"><input type="text" id="introduced" name="introduced" value="" /> <span class="help-inline">Date ('yyyy-MM-dd')</span></div></div><div class="clearfix "><label for="discontinued">Discontinued</label><div class="input"><input type="text" id="discontinued" name="discontinued" value="" /> <span class="help-inline">Date ('yyyy-MM-dd')</span></div></div><div class="clearfix"><label for="company">Company</label><div class="input"><select id="company" name="company"><option class="blank" value="">-- Choose a company --</option><option value="1">Apple Inc.</option><option value="2">Thinking Machines</option><option value="3">RCA</option><option value="4">Netronics</option><option value="5">Tandy Corporation</option><option value="6">Commodore International</option><option value="7">MOS Technology</option><option value="8">Micro Instrumentation and Telemetry Systems</option><option value="9">IMS Associates, Inc.</option><option value="10">Digital Equipment Corporation</option><option value="11">Lincoln Laboratory</option><option value="12">Moore School of Electrical Engineering</option><option value="13">IBM</option><option value="14">Amiga Corporation</option><option value="15">Canon</option><option value="16">Nokia</option><option value="17">Sony</option><option value="18">OQO</option><option value="19">NeXT</option><option value="20">Atari</option><option value="21">Acorn computer</option><option value="22">Timex Sinclair</option><option value="23">Nintendo</option><option value="24">Sinclair Research Ltd</option><option value="25">Xerox</option><option value="26">Hewlett-Packard</option><option value="27">Zemmix</option><option value="28">ACVS</option><option value="29">Sanyo</option><option value="30">Cray</option><option value="31">Evans &amp; Sutherland</option><option value="32">E.S.R. Inc.</option><option value="33">OMRON</option><option value="34">BBN Technologies</option><option value="35">Lenovo Group</option><option value="36">ASUS</option><option value="37">Amstrad</option><option value="38">Sun Microsystems</option><option value="39">Texas Instruments</option><option value="40">HTC Corporation</option><option value="41">Research In Motion</option><option value="42">Samsung Electronics</option></select></div></div></fieldset><div class="actions"><input type="submit" value="Create this computer" class="btn primary" /> or <a href="/computers" class="btn">Cancel</a></div></form></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:28.840 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@4fe953a5, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers/new),23,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+POST http://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: http://computer-database.gatling.io/computers
+origin: http://computer-database.gatling.io
+host: computer-database.gatling.io
+content-type: application/x-www-form-urlencoded
+formBody=
+name: Beautiful Computer
+introduced: 2012-05-30
+discontinued: 
+company: 37
+=========================
+HTTP response:
+status=
+308 Permanent Redirect
+headers= 
+Location: https://computer-database.gatling.io/computers
+Date: Wed, 10 Jun 2020 13:53:28 GMT
+Content-Length: 18
+Content-Type: text/plain; charset=utf-8
+
+body=
+Permanent Redirect
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:28.876 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10 Redirect 1: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@4fe953a5, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers/new, gatling.http.cookies -> CookieJar(Map(CookieKey(http4s-flash,computer-database.gatling.io,/) -> StoredCookie(http4s-flash=Q29tcHV0ZXIgQmVhdXRpZnVsIENvbXB1dGVyIGhhcyBiZWVuIGNyZWF0ZWQ=, path=/,true,false,1591797208869)))),23,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+POST https://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/computers
+cookie: http4s-flash=Q29tcHV0ZXIgQmVhdXRpZnVsIENvbXB1dGVyIGhhcyBiZWVuIGNyZWF0ZWQ=
+host: computer-database.gatling.io
+formBody=
+name: Beautiful Computer
+introduced: 2012-05-30
+discontinued: 
+company: 37
+=========================
+HTTP response:
+status=
+303 See Other
+headers= 
+Content-Length: 0
+Date: Wed, 10 Jun 2020 13:53:28 GMT
+Location: /computers
+Set-Cookie: http4s-flash=Q29tcHV0ZXIgQmVhdXRpZnVsIENvbXB1dGVyIGhhcyBiZWVuIGNyZWF0ZWQ=; Path=/; SameSite=Lax
+
+<<<<<<<<<<<<<<<<<<<<<<<<<
+13:53:28.907 [TRACE] i.g.h.e.r.DefaultStatsProcessor - 
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+Request:
+request_10 Redirect 2: OK 
+=========================
+Session:
+Session(Scenario Name,1,1591797186044,Map(gatling.http.cache.baseUrl -> http://computer-database.gatling.io, gatling.http.cache.dns -> io.gatling.http.cache.DnsCacheSupport$$anon$1@6c4835e3, gatling.http.cache.redirects -> io.gatling.core.util.cache.Cache@4fe953a5, gatling.http.ssl.sslContexts -> SslContexts(io.netty.handler.ssl.ReferenceCountedOpenSslClientContext@436c4d71,None), gatling.http.referer -> https://computer-database.gatling.io/computers, gatling.http.cookies -> CookieJar(Map())),23,OK,List(),io.gatling.core.protocol.ProtocolComponentsRegistry$$Lambda$527/0x0000000801041040@58e633d)
+=========================
+HTTP request:
+GET https://computer-database.gatling.io/computers
+headers=
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+DNT: 1
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0
+Referer: https://computer-database.gatling.io/computers
+cookie: http4s-flash=Q29tcHV0ZXIgQmVhdXRpZnVsIENvbXB1dGVyIGhhcyBiZWVuIGNyZWF0ZWQ=
+host: computer-database.gatling.io
+cookies=
+http4s-flash=Q29tcHV0ZXIgQmVhdXRpZnVsIENvbXB1dGVyIGhhcyBiZWVuIGNyZWF0ZWQ=, path=/
+=========================
+HTTP response:
+status=
+200 OK
+headers= 
+Content-Length: 2635
+Content-Type: text/html; charset=UTF-8
+Date: Wed, 10 Jun 2020 13:53:28 GMT
+Set-Cookie: http4s-flash=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax
+
+body=
+<!DOCTYPE html><html><head><title>Computers database</title><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/bootstrap.min.css" /><link rel="stylesheet" type="text/css" media="screen" href="/assets/css/main.css" /></head><body><header class="topbar"><h1 class="fill"><a class="fill" href="/computers">Computer database</a></h1></header><section id="main"><h1>575 computers found</h1><div class="alert-message warning"><strong>Done !  </strong>Computer Beautiful Computer has been created</div><div id="actions"><form action="/computers" method="GET"><input type="search" id="searchbox" name="f" value="" placeholder="Filter by computer name..." />  <input type="submit" id="searchsubmit" value="Filter by name" class="btn primary" /><a class="btn success" id="add" href="/computers/new">Add a new computer</a></form></div><table class="computers zebra-striped"><thead><th class="col-name header headerSortUp"><a href="/computers?p=0&amp;n=10&amp;s=name&amp;d=desc">Computer name</a></th><th class="col-introduced header "><a href="/computers?p=0&amp;n=10&amp;s=introduced&amp;d=asc">Introduced</a></th><th class="col-discontinued header "><a href="/computers?p=0&amp;n=10&amp;s=discontinued&amp;d=asc">Discontinued</a></th><th class="col-company header "><a href="/computers?p=0&amp;n=10&amp;s=companyName&amp;d=asc">Company</a></th></thead><tbody><tr><td><a href="/computers/381">ACE</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/330">Acer Extensa</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/331">Acer Extensa 5220</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/543">Acer Iconia</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/152">Acorn Archimedes</a></td><td>-</td><td>-</td><td>Acorn computer</td></tr><tr><td><a href="/computers/418">Acorn Electron</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/46">Acorn System 2</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/542">Alex eReader</a></td><td>-</td><td>-</td><td>-</td></tr><tr><td><a href="/computers/57">Altair 8800</a></td><td>19 Dec 1974</td><td>-</td><td>Micro Instrumentation and Telemetry Systems</td></tr><tr><td><a href="/computers/70">Amiga</a></td><td>01 Jan 1985</td><td>-</td><td>Amiga Corporation</td></tr></tbody></table><div id="pagination" class="pagination"><ul><li class="prev disabled"><a>? Previous</a></li><li class="current"><a>Displaying 1 to 10 of 575</a></li><li class="next"><a href="/computers?p=1&amp;n=10&amp;s=name&amp;d=asc">Next ?</a></li></ul></div></section></body></html>
+<<<<<<<<<<<<<<<<<<<<<<<<<

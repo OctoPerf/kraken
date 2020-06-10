@@ -3,8 +3,8 @@
 package:
 	mvn package
 
-deploy-dev: package
-	cp target/kraken-keycloak-event-listener.jar ../development/keycloak/deployments/kraken-keycloak-event-listener.jar
+deploy: package
+	cp target/kraken-keycloak-event-listener.jar ../deployment/keycloak/deployments/kraken-keycloak-event-listener.jar
 
 test:
 	mvn test

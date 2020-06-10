@@ -1,7 +1,0 @@
-subprojects {
-    dependencies {
-        implementation project(':commons:tools:tools-environment')
-        testImplementation project(path: ':tests:tests-utils', configuration: 'testArtifacts')
-    }
-}
-

@@ -1,0 +1,11 @@
+kraken:
+  cors:
+    allowed-origins:
+      - "*"
+    allowed-methods:
+      - GET
+      - POST
+    allowed-headers:
+      - "*"
+    allow-credentials: true
+    max-age: 1h

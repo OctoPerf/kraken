@@ -1,0 +1,6 @@
+kraken:
+  data: test
+  host:
+    data: hostData
+    uid: 1001
+    gid: 1001

@@ -1,4 +1,0 @@
-dependencies {
-    api group: 'com.squareup.okhttp3', name: 'mockwebserver', version: okhttpVersion
-    api group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
-}

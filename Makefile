@@ -3,21 +3,24 @@
 # HOST
 
 IPS := $(shell hostname -I)
-IP = $(word 1, $(IPS))
+IP := $(word 1, $(IPS))
 
 update-hosts-current-ip:
-	-./hosts.sh remove kraken.local
-	./hosts.sh add kraken.local $(IP)
+	-./hosts.sh remove kraken-local
+	./hosts.sh add kraken-local $(IP)
 
 update-hosts-localhost:
-	-./hosts.sh remove kraken.local
-	./hosts.sh add kraken.local 127.0.0.1
+	-./hosts.sh remove kraken-local
+	./hosts.sh add kraken-local 127.0.0.1
 
 # LAUNCH
 
 launch-frontend:
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
+
+launch-documentation:
+	gnome-terminal --tab -- /bin/sh -c 'cd documentation; make serve'
 
 launch-backend-docker:
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
@@ -39,22 +42,24 @@ launch-backend-k8s:
 	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
 
 
-launch-dev:
-	gnome-terminal --tab -- /bin/sh -c 'cd development; make up'
+launch-dev-docker:
+	gnome-terminal --tab -- /bin/sh -c 'cd development/compose; make up'
 	
 launch-docker:
-	$(MAKE) launch-dev
-	sleep 1
+	$(MAKE) launch-dev-docker
+	sleep 10
 	$(MAKE) launch-backend-docker
 	$(MAKE) launch-frontend
+	$(MAKE) launch-documentation
 
 launch-k8s:
-	#start kind
+	#start kind TODO Fix this to use the development configuration
 	$(MAKE) -C deployment/k8s kind-serve
 	$(MAKE) launch-dev
 	sleep 10
 	$(MAKE) launch-backend-k8s
 	$(MAKE) launch-frontend
+	$(MAKE) launch-documentation
 
 # GIT
 

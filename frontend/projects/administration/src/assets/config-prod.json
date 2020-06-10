@@ -13,7 +13,7 @@
     "lastModified": 0
   },
   "keycloakConfiguration": {
-    "url": "/api/keycloak",
+    "url": "/auth",
     "realm": "kraken",
     "clientId": "kraken-web"
   },

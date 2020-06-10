@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>analysis</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>analysis-client-api</module>
+        <module>analysis-client-container-builder</module>
+        <module>analysis-client-web</module>
+        <module>analysis-entity</module>
+        <module>analysis-server</module>
+        <module>analysis-task-events-watcher</module>
+        <module>analysis-telegraf</module>
+        <module>analysis-grafana-client-api</module>
+        <module>analysis-grafana-client-web</module>
+        <module>analysis-influxdb-client-api</module>
+        <module>analysis-influxdb-client-web</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-environment</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,44 @@
+kraken:
+  data: /home/kraken
+  telegraf:
+    conf:
+      local: /etc/telegraf/telegraf.conf
+      remote: telegraf/telegraf.conf
+  influxdb:
+    user: admin
+    password: kraken
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  container:
+    taskid: taskid
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
+  influxdb:
+    url: url
+  runtime:
+    url: url
+  storage:
+    url: url
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken

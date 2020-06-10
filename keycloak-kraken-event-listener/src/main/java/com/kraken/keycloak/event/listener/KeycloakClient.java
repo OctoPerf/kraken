@@ -58,12 +58,13 @@ class KeycloakClient {
       // Access token
       final String accessToken = node.get("access_token").asText();
       this.accessToken.set(accessToken);
+      System.out.println(accessToken);
 
       // Expires In
       final long expiresIn = node.get("expires_in").asLong();
       this.expired.set(now.plusSeconds(expiresIn).minusSeconds(60L));
+      System.out.println(expiresIn);
     }
-//    System.out.println("Access token: " + this.accessToken.get());
     return this.accessToken.get();
   }
 

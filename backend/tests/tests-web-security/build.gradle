@@ -1,9 +1,0 @@
-dependencies {
-    api project(':commons:security:security-authentication-api')
-    api project(':commons:security:security-authentication-session')
-    api project(path: ':commons:security:security-decoder-api')
-    api project(path: ':commons:security:security-entity')
-    api project(path: ':commons:tools:tools-application')
-    api project(path: ':commons:security:security-entity', configuration: 'testArtifacts')
-    api project(path: ':commons:dependencies:dependencies-security-spring')
-}

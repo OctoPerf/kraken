@@ -1,5 +1,0 @@
-dependencies {
-    api project(':commons:analysis:analysis-entity')
-    api project(':commons:parser:debug-entry-writer')
-    testImplementation project(path: ':commons:analysis:analysis-entity', configuration: 'testArtifacts')
-}

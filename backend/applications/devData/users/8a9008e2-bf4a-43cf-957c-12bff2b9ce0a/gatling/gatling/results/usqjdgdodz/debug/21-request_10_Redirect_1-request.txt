@@ -1,0 +1,4 @@
+name: Beautiful Computer
+introduced: 2012-05-30
+discontinued: 
+company: 37

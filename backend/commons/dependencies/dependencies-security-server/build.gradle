@@ -1,9 +1,0 @@
-dependencies {
-    implementation project(':commons:security:security-decoder-spring')
-    implementation project(':commons:security:security-authentication-session')
-    implementation project(':commons:security:security-authentication-service-account')
-    implementation project(':commons:security:security-authentication-impersonate')
-    implementation project(':commons:security:security-client-keycloak')
-    implementation project(':commons:config:config-security-client-spring')
-    implementation project(':commons:security:security-entity-functions-spring')
-}

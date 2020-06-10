@@ -1,0 +1,101 @@
+kraken:
+  cors:
+    allowed-origins:
+      - "*"
+    allowed-methods:
+      - "*"
+    allowed-headers:
+      - "*"
+    allow-credentials: true
+    max-age: 1h
+  data: /home/kraken/data
+  runtime:
+    server:
+      configpath: tasks/docker/configuration.yaml
+  influxdb:
+    user: admin
+    password: kraken
+  security:
+    realm: kraken
+    web:
+      id: kraken-web
+    container:
+      id: kraken-container
+      secret: 6caa811c-5a41-4a53-aa5d-51c575330146
+    api:
+      id: kraken-api
+      secret: c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4
+  analysis:
+    results:
+      root: gatling/results
+  grafana:
+    dashboard: grafana/grafana-gatling-dashboard.json
+    user: admin
+    password: kraken
+
+spring:
+  servlet:
+    multipart:
+      enabled: true # Whether to enable support of multipart uploads.
+      file-size-threshold: 0B # Threshold after which files are written to disk.
+      location: # Intermediate location of uploaded files.
+      max-file-size: 500MB # Max file size.
+      max-request-size: 500MB # Max request size.
+      resolve-lazily: false # Whether to resolve the multipart request lazily at the time of file or parameter access.
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+server:
+  port: 8080
+  error:
+    include-stacktrace: always
+
+---
+spring:
+  profiles: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://kraken-local:9080/auth/realms/kraken
+kraken:
+  data: ../devData/
+  storage:
+    url: http://kraken-local:8080
+  analysis:
+    url: http://kraken-local:8080
+  runtime:
+    url: http://kraken-local:8080
+  influxdb:
+    url: http://kraken-influxdb-dev:8086
+  grafana:
+    url: http://kraken-local:3000
+  security:
+    url: http://kraken-local:9080
+
+---
+spring:
+  profiles: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://kraken-local/auth/realms/kraken
+
+kraken:
+  storage:
+    url: http://kraken-backend:8080
+  analysis:
+    url: http://kraken-backend:8080
+  runtime:
+    url: http://kraken-backend:8080
+  influxdb:
+    url: http://kraken-influxdb:8086
+  grafana:
+    url: http://kraken-grafana:3000
+  security:
+    url: http://kraken-local

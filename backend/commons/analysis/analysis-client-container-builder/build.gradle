@@ -1,4 +1,0 @@
-dependencies {
-    implementation project(':commons:analysis:analysis-client-api')
-    implementation project(':commons:config:config-runtime-container-api')
-}

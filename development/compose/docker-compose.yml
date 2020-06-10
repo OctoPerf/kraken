@@ -1,0 +1,83 @@
+version: '3.7'
+
+networks:
+  kraken:
+    name: "kraken"
+
+services:
+  kraken-influxdb-dev:
+    image: influxdb:1.7.4
+    container_name: kraken-influxdb-dev
+    networks:
+      - kraken
+    ports:
+      - "8086:8086"
+    expose:
+      - "8086"
+    env_file:
+      - 'influxdb/env.influxdb'
+    volumes:
+      - ./data/analysis/influxdb:/var/lib/influxdb
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+
+  kraken-grafana-dev:
+    user: ${KRAKEN_HOST_UID}:${KRAKEN_HOST_GID}
+    image: grafana/grafana:6.7.1
+    container_name: kraken-grafana-dev
+    networks:
+      - kraken
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    env_file:
+      - 'grafana/env.grafana'
+    volumes:
+      - ./data/analysis/grafana:/var/lib/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+
+  kraken-postgres-dev:
+    image: postgres:12.2
+    container_name: kraken-postgres-dev
+    networks:
+      - kraken
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+
+  kraken-keycloak-dev:
+    image: octoperf/kraken-keycloak
+    container_name: kraken-keycloak-dev
+    networks:
+      - kraken
+    environment:
+      DB_VENDOR: "POSTGRES"
+      DB_ADDR: "kraken-postgres-dev"
+      DB_DATABASE: "keycloak"
+      DB_USER: "keycloak"
+      DB_SCHEMA: "public"
+      DB_PASSWORD: "password"
+      KEYCLOAK_USER: "admin"
+      KEYCLOAK_PASSWORD: "kraken"
+      KEYCLOAK_WELCOME_THEME: "kraken"
+      KRAKEN_SECURITY_URL: "http://kraken-local:9080"
+      KRAKEN_URLS: "http://kraken-backend:8080/user-events"
+      KRAKEN_SECURITY_API_ID: "kraken-api"
+      KRAKEN_SECURITY_API_SECRET: "c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4"
+      KRAKEN_SECURITY_REALM: "kraken"
+    volumes:
+      - ./keycloak/imports:/opt/jboss/keycloak/imports
+    ports:
+      - "9080:9080"
+    expose:
+      - 9080
+    depends_on:
+      - kraken-postgres-dev
+    extra_hosts:
+      - "kraken-local:127.0.0.1"
+      - "kraken-backend:${KRAKEN_LOCAL_IP}"
+    command:
+      - "-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0 -Djboss.socket.binding.port-offset=1000 -Dkeycloak.profile=preview -Dkeycloak.import=/opt/jboss/keycloak/imports/kraken-realm.json"
