@@ -2,6 +2,7 @@
 
 VERSION := $(shell cat ../version.txt)
 KRAKEN_VERSION := $(VERSION)
+KRAKEN_LICENSE_ENTERPRISE := ../ee/license.jwt
 SPRING_PROFILES_ACTIVE := dev
 
 clean-all:
@@ -41,6 +42,7 @@ serve-docker-all:
 	$(MAKE) serve APP=applications/application-docker-all
 
 serve-kubernetes-all:
+
 	$(MAKE) serve APP=applications/ee/application-kubernetes-all
 
 # Creates a Spring boot application jar
