@@ -40,7 +40,7 @@ describe('AnalysisService', () => {
   it('should delete test', () => {
     const resultId = 'resultId';
     service.deleteTest(resultId).subscribe(value => expect(value).toBe(resultId), () => fail('delete failed'));
-    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/result');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/result');
     expect(req.request.method).toBe('DELETE');
     expect(req.request.params.get('resultId')).toEqual('resultId');
     req.flush(resultId);

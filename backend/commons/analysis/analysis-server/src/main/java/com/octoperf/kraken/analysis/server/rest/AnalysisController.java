@@ -64,7 +64,7 @@ class AnalysisController {
     return userProvider.getOwner(applicationId).flatMap(analysisService::grafanaLogin)
         .map(responseCookie -> GrafanaLogin.builder()
             .session(responseCookie.getValue())
-            .url(String.format("%s/d/%s", grafanaProperties.getUrl(), resultId))
+            .url(String.format("%s/d/%s", grafanaProperties.getPublishedUrl(), resultId))
             .build());
   }
 }

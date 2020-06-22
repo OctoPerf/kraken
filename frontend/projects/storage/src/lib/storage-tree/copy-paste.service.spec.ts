@@ -104,7 +104,7 @@ describe('CopyPasteService', () => {
   it('should copy / paste', () => {
     service.copy([fileNode]);
     service.paste(testStorageRootNode());
-    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'storageApiUrl/files/copy');
+    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'backendApiUrl/files/copy');
     expect(req.request.params.get('destination')).toEqual('');
     expect(req.request.body).toEqual([fileNode.path]);
     req.flush('');
@@ -114,7 +114,7 @@ describe('CopyPasteService', () => {
   it('should cut / paste', () => {
     service.cut([fileNode]);
     service.paste(directoryNode);
-    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'storageApiUrl/files/move');
+    const req = httpTestingController.expectOne(request => request.method === 'POST' && request.url === 'backendApiUrl/files/move');
     expect(req.request.params.get('destination')).toEqual(directoryNode.path);
     expect(req.request.body).toEqual([fileNode.path]);
     req.flush('');

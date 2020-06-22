@@ -9,7 +9,6 @@ import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
 import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
 import com.octoperf.kraken.security.entity.user.KrakenUserTest;
-import com.octoperf.kraken.tests.utils.TestUtils;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
@@ -18,11 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -51,7 +46,7 @@ public class InfluxDBUrlPublisherTest {
     given(properties.getUser()).willReturn("user");
     given(properties.getPassword()).willReturn("password");
     given(properties.getDatabase()).willReturn("database");
-    given(properties.getUrl()).willReturn("url");
+    given(properties.getPublishedUrl()).willReturn("url");
     given(toUserId.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER.getOwner())).willReturn(Optional.of("userId"));
     given(securityAdminClient.getUser("userId")).willReturn(Mono.just(KrakenUserTest.KRAKEN_USER));
     given(influxDBUserConverter.apply(KrakenUserTest.KRAKEN_USER)).willReturn(InfluxDBUserTest.INFLUX_DB_USER);
@@ -71,7 +66,7 @@ public class InfluxDBUrlPublisherTest {
     final var env = publisher.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER).block();
     assertThat(env).isNotNull();
     assertThat(env).isEqualTo(ImmutableList.of(
-        ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getUrl()).build(),
+        ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getPublishedUrl()).build(),
         ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getDatabase()).build(),
         ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_USER.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getUsername()).build(),
         ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD.name()).value(InfluxDBUserTest.INFLUX_DB_USER.getPassword()).build()

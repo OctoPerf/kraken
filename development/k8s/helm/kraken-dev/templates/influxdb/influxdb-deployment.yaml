@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}-influxdb
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}-influxdb
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}-influxdb
+    spec:
+      containers:
+        - image: "{{ .Values.influxdb.image.repository }}:{{ .Values.influxdb.image.tag }}"
+          imagePullPolicy: {{ .Values.influxdb.image.pullPolicy }}
+          name: {{ template "name" . }}-influxdb
+          ports:
+            - containerPort: {{ .Values.influxdb.port }}
+          env:
+            - name: INFLUXDB_CONFIG_PATH
+              value: /etc/influxdb/influxdb.conf
+            - name: INFLUXDB_ADMIN_USER
+              value: {{ .Values.influxdb.admin.username }}
+            - name: INFLUXDB_ADMIN_PASSWORD
+              value: {{ .Values.influxdb.admin.password }}
+          volumeMounts:
+            - name: influxdb-conf
+              mountPath: "/etc/influxdb/influxdb.conf"
+              subPath: "influxdb.conf"
+              readOnly: true
+            - name: influxdb-data
+              mountPath: "/var/lib/influxdb"
+      volumes:
+        - name: influxdb-conf
+          secret:
+            secretName: {{ template "name" . }}-influxdb
+        - name: influxdb-data
+          persistentVolumeClaim:
+            claimName: {{ template "name" . }}-influxdb-data

@@ -2,6 +2,7 @@ package com.octoperf.kraken.storage.file;
 
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
+import org.springframework.core.io.Resource;
 import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,7 +26,9 @@ public interface StorageService {
 
   Mono<StorageNode> setZip(String path, Mono<FilePart> file);
 
-  Mono<InputStream> getFile(String path);
+  Mono<InputStream> getFileInputStream(String path);
+
+  Mono<Resource> getFileResource(String path);
 
   String getFileName(String path);
 

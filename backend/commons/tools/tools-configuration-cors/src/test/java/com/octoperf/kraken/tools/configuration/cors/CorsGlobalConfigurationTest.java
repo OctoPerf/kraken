@@ -26,7 +26,8 @@ class CorsGlobalConfigurationTest {
   ServerWebExchange exchange;
 
   @Test
-  void getCorsConfiguration() {
+  void shouldGetCorsConfiguration() {
+    given(corsProperties.getEnabled()).willReturn(true);
     given(corsProperties.getAllowCredentials()).willReturn(true);
     given(corsProperties.getAllowedHeaders()).willReturn(ImmutableList.of("*"));
     given(corsProperties.getAllowedMethods()).willReturn(ImmutableList.of("*"));
@@ -41,5 +42,14 @@ class CorsGlobalConfigurationTest {
     assertThat(cors.getAllowedMethods()).isEqualTo(ImmutableList.of("*"));
     assertThat(cors.getAllowedOrigins()).isEqualTo(ImmutableList.of("*"));
     assertThat(cors.getMaxAge()).isEqualTo(60L);
+  }
+
+  @Test
+  void shouldNotGetCorsConfiguration() {
+    given(corsProperties.getEnabled()).willReturn(false);
+
+    final var config = new CorsGlobalConfiguration(corsProperties);
+    final var cors = config.getCorsConfiguration(exchange);
+    assertThat(cors).isNull();
   }
 }

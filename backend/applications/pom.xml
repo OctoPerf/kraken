@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-analysis-client-spring</artifactId>
+            <artifactId>config-backend-client-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -43,22 +43,12 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-runtime-client-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
             <artifactId>config-runtime-server-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>config-security-client-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-storage-client-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -201,11 +191,6 @@
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>storage-client-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>storage-configuration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

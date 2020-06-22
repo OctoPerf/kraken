@@ -46,7 +46,7 @@ public class KeycloakSecurityAdminClientTest {
   public void setUp() {
     server = new MockWebServer();
     mapper = new ObjectMapper();
-    final String url = server.url("/").toString();
+    final String url = server.url("/auth").toString();
     given(properties.getUrl()).willReturn(url);
     given(properties.getRealm()).willReturn("kraken");
     client = (SecurityAdminClient) new KeycloakSecurityAdminClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build().block();

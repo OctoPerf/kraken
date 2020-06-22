@@ -41,8 +41,6 @@ public class RecordCheckerTest {
         .put(KRAKEN_GATLING_SIMULATION_CLASS_NAME.name(), "value")
         .put(KRAKEN_GATLING_SIMULATION_PACKAGE_NAME.name(), "value")
         .put(KRAKEN_GATLING_HAR_PATH_REMOTE.name(), "value")
-        .put(KRAKEN_ANALYSIS_URL.name(), "value")
-        .put(KRAKEN_STORAGE_URL.name(), "value")
         .build();
     checker.accept(env);
   }

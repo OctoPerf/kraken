@@ -10,7 +10,7 @@ export class SSEConfigurationService {
   }
 
   sseApiUrl(path: string = ''): string {
-    return this.configuration.url('sseApiUrl', `${path}`);
+    return this.configuration.url('backendApiUrl', `/sse${path}`);
   }
 
 }

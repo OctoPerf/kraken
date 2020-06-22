@@ -80,7 +80,7 @@ public class WebGrafanaUserClientTest {
 
   @Test
   public void shouldCreateDatasource() throws InterruptedException {
-    given(influxDBProperties.getUrl()).willReturn("url");
+    given(influxDBProperties.getPublishedUrl()).willReturn("url");
 
     server.enqueue(
         new MockResponse()

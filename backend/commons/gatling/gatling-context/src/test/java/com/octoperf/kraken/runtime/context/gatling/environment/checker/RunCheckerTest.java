@@ -44,7 +44,6 @@ public class RunCheckerTest {
         .put(KRAKEN_INFLUXDB_DATABASE.name(), "value")
         .put(KRAKEN_INFLUXDB_USER.name(), "value")
         .put(KRAKEN_INFLUXDB_PASSWORD.name(), "value")
-        .put(KRAKEN_STORAGE_URL.name(), "value")
         .build();
     checker.accept(env);
   }

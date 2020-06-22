@@ -40,7 +40,7 @@ lint:
 	ng lint --fix
 
 serve:
-	npm run ng-high-memory -- serve --open --project=$(APP) --baseHref /$(APP)/ --host kraken-local
+	npm run ng-high-memory -- serve --open --project=$(APP) --baseHref /$(APP)/ --host 0.0.0.0 --publicHost kraken-local:80 --servePath=/$(APP)/ --liveReload=false --open=false
 
 # You may need to update the property "sourceMap": true, in the angular.json file
 serve-prod:

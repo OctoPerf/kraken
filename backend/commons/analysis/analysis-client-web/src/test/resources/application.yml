@@ -1,6 +1,6 @@
 kraken:
-  analysis:
-    url: http://localhost:8081
+  backend:
+    url: http://localhost:8080
   security:
     url: http://localhost:9080
     realm: kraken

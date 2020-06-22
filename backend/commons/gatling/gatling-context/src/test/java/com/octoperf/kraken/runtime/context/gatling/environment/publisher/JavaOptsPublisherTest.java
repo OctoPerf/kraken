@@ -1,25 +1,21 @@
 package com.octoperf.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.config.analysis.client.api.AnalysisClientProperties;
+import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.tests.utils.TestUtils;
-import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
-import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_JAVA_OPTS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {JavaOptsPublisher.class})
@@ -27,13 +23,6 @@ import static org.mockito.Mockito.when;
 public class JavaOptsPublisherTest {
   @Autowired
   JavaOptsPublisher publisher;
-  @MockBean
-  AnalysisClientProperties properties;
-
-  @BeforeEach
-  public void setUp() {
-    when(properties.getUrl()).thenReturn("url");
-  }
 
   @Test
   public void shouldTest() {

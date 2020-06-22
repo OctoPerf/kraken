@@ -24,11 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-analysis-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
             <artifactId>security-authentication-client-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

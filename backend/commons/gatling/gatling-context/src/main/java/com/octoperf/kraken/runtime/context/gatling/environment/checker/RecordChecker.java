@@ -17,9 +17,7 @@ final class RecordChecker implements EnvironmentChecker {
         environment,
         KRAKEN_GATLING_SIMULATION_CLASS_NAME,
         KRAKEN_GATLING_SIMULATION_PACKAGE_NAME,
-        KRAKEN_GATLING_HAR_PATH_REMOTE,
-        KRAKEN_ANALYSIS_URL,
-        KRAKEN_STORAGE_URL
+        KRAKEN_GATLING_HAR_PATH_REMOTE
     );
   }
 

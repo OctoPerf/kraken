@@ -45,6 +45,6 @@ final class KeycloakSecurityAdminClient implements SecurityAdminClient {
   }
 
   private String getUserUrl(final String userId) {
-    return String.format("/auth/admin/realms/%s/users/%s", this.properties.getRealm(), userId);
+    return String.format("/admin/realms/%s/users/%s", this.properties.getRealm(), userId);
   }
 }

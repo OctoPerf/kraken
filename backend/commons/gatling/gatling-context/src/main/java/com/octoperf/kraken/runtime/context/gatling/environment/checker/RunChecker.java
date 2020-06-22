@@ -18,8 +18,7 @@ final class RunChecker implements EnvironmentChecker {
         KRAKEN_INFLUXDB_URL,
         KRAKEN_INFLUXDB_DATABASE,
         KRAKEN_INFLUXDB_USER,
-        KRAKEN_INFLUXDB_PASSWORD,
-        KRAKEN_STORAGE_URL);
+        KRAKEN_INFLUXDB_PASSWORD);
   }
 
   @Override

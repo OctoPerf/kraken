@@ -3,7 +3,7 @@ package com.octoperf.kraken.runtime.event.client.spring;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.config.runtime.client.api.RuntimeClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.event.TaskCreatedEvent;
 import com.octoperf.kraken.runtime.event.TaskCreatedEventTest;
 import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEvent;
@@ -45,7 +45,7 @@ public class WebRuntimeEventClientTest {
   @Autowired
   ObjectMapper objectMapper;
   @MockBean
-  RuntimeClientProperties properties;
+  BackendClientProperties properties;
 
   @BeforeEach
   public void before() {

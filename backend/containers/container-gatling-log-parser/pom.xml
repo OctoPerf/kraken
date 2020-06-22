@@ -47,11 +47,6 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-analysis-client-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
             <artifactId>analysis-client-container-builder</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

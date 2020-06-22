@@ -34,7 +34,7 @@ final class SecurityEnvironmentPublisher implements EnvironmentPublisher {
     return userProvider.getTokenValue()
         .flatMap(token -> clientBuilder.build().flatMap(client -> client.exchangeToken(clientProperties.getContainer(), token)))
         .map(krakenToken -> of(
-            ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.SECURITY).scope("").key(KRAKEN_SECURITY_URL.name()).value(clientProperties.getUrl()).build(),
+            ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.SECURITY).scope("").key(KRAKEN_SECURITY_URL.name()).value(clientProperties.getPublishedUrl()).build(),
             ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.SECURITY).scope("").key(KRAKEN_SECURITY_CONTAINER_ID.name()).value(clientProperties.getContainer().getId()).build(),
             ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.SECURITY).scope("").key(KRAKEN_SECURITY_CONTAINER_SECRET.name()).value(clientProperties.getContainer().getSecret()).build(),
             ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.SECURITY).scope("").key(KRAKEN_SECURITY_WEB_ID.name()).value(clientProperties.getWeb().getId()).build(),

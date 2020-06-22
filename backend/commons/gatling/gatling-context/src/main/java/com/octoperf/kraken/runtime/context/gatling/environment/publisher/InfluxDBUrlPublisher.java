@@ -48,7 +48,7 @@ final class InfluxDBUrlPublisher implements EnvironmentPublisher {
         .map(influxDBUserConverter)
         .map(user ->
             ImmutableList.of(
-                ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getUrl()).build(),
+                ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_URL.name()).value(properties.getPublishedUrl()).build(),
                 ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_DATABASE.name()).value(user.getDatabase()).build(),
                 ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_USER.name()).value(user.getUsername()).build(),
                 ExecutionEnvironmentEntry.builder().from(ExecutionEnvironmentEntrySource.BACKEND).scope("").key(KRAKEN_INFLUXDB_PASSWORD.name()).value(user.getPassword()).build()

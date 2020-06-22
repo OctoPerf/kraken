@@ -2,7 +2,7 @@ package com.octoperf.kraken.analysis.client.web;
 
 import com.octoperf.kraken.analysis.client.api.AnalysisClient;
 import com.octoperf.kraken.analysis.client.api.AnalysisClientBuilder;
-import com.octoperf.kraken.config.analysis.client.api.AnalysisClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;
 import lombok.experimental.FieldDefaults;
@@ -15,10 +15,10 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-final class WebAnalysisClientBuilder extends WebAuthenticatedClientBuilder<AnalysisClient, AnalysisClientProperties> implements AnalysisClientBuilder {
+final class WebAnalysisClientBuilder extends WebAuthenticatedClientBuilder<AnalysisClient, BackendClientProperties> implements AnalysisClientBuilder {
 
   public WebAnalysisClientBuilder(final List<ExchangeFilterFactory> exchangeFilterFactories,
-                                  final AnalysisClientProperties properties) {
+                                  final BackendClientProperties properties) {
     super(exchangeFilterFactories, properties);
   }
 

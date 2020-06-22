@@ -115,9 +115,9 @@ public class ZtCommandServiceTest {
         .path("./testDir")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken/id",
+            "--filter", "label=com.octoperf/id",
             "--filter", "status=running",
-            "--format", "\"{{.ID}};{{.Names}};{{.Label \"com.kraken/id\"}}\""))
+            "--format", "\"{{.ID}};{{.Names}};{{.Label \"com.octoperf/id\"}}\""))
         .environment(ImmutableMap.of())
         .build();
     final var rename = Command.builder()

@@ -4,10 +4,8 @@ kraken:
     tasktype: GATLING_RUN
     hostid: hostid
     name: containerId
-  runtime:
-    url: http://localhost:8082
-  analysis:
-    url: http://localhost:8081
+  backend:
+    url: http://localhost:8080
   gatling:
     home: /home/ubuntu/softs/gatling
   results:

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -150,13 +152,18 @@ final class FileSystemStorageService implements StorageService {
   }
 
   @Override
-  public Mono<InputStream> getFile(final String path) {
+  public Mono<InputStream> getFileInputStream(final String path) {
     try {
       final var currentPath = this.stringToPath(path);
       return just(currentPath.toFile().isDirectory() ? this.downloadFolderZip(currentPath) : this.downloadFile(currentPath));
     } catch (IOException e) {
       return Mono.error(e);
     }
+  }
+
+  @Override
+  public Mono<Resource> getFileResource(final String path) {
+    return Mono.just(new FileSystemResource(this.stringToPath(path)));
   }
 
   @Override

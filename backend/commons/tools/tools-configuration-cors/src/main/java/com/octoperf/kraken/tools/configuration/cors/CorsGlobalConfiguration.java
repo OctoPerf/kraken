@@ -19,12 +19,15 @@ class CorsGlobalConfiguration implements CorsConfigurationSource {
 
   @Override
   public CorsConfiguration getCorsConfiguration(final ServerWebExchange exchange) {
-    final var cors = new CorsConfiguration();
-    cors.setAllowedOrigins(corsProperties.getAllowedOrigins());
-    cors.setAllowedMethods(corsProperties.getAllowedMethods());
-    cors.setAllowedHeaders(corsProperties.getAllowedHeaders());
-    cors.setAllowCredentials(corsProperties.getAllowCredentials());
-    cors.setMaxAge(corsProperties.getMaxAge());
-    return cors;
+    if (corsProperties.getEnabled()) {
+      final var cors = new CorsConfiguration();
+      cors.setAllowedOrigins(corsProperties.getAllowedOrigins());
+      cors.setAllowedMethods(corsProperties.getAllowedMethods());
+      cors.setAllowedHeaders(corsProperties.getAllowedHeaders());
+      cors.setAllowCredentials(corsProperties.getAllowCredentials());
+      cors.setMaxAge(corsProperties.getMaxAge());
+      return cors;
+    }
+    return null;
   }
 }

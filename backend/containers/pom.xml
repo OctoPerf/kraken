@@ -30,7 +30,7 @@
         <!--Config-->
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-runtime-client-spring</artifactId>
+            <artifactId>config-backend-client-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

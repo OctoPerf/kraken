@@ -47,8 +47,8 @@ public class DockerContainerFindServiceTest {
         .path(".")
         .command(Arrays.asList("docker",
             "ps",
-            "--filter", "label=com.kraken/taskId=" + container.getTaskId(),
-            "--filter", "label=com.kraken/containerName=" + container.getName(),
+            "--filter", "label=com.octoperf/taskId=" + container.getTaskId(),
+            "--filter", "label=com.octoperf/containerName=" + container.getName(),
             "--format", StringToFlatContainer.FORMAT,
             "--latest"))
         .environment(ImmutableMap.of())

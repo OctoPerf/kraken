@@ -1,10 +1,8 @@
 {
   "version": "administration-test-1",
   "applicationId": "administration",
-  "storageApiUrl": "http://kraken-local:8080",
-  "runtimeApiUrl": "http://kraken-local:8080",
-  "sseApiUrl": "http://kraken-local:8080",
-  "docUrl": "http://kraken-local:8000",
+  "backendApiUrl": "/api",
+  "docUrl": "/doc",
   "readmeNode": {
     "path": "README.md",
     "type": "FILE",
@@ -13,7 +11,7 @@
     "lastModified": 0
   },
   "keycloakConfiguration": {
-    "url": "http://kraken-local:9080/auth",
+    "url": "/auth",
     "realm": "kraken",
     "clientId": "kraken-web"
   },

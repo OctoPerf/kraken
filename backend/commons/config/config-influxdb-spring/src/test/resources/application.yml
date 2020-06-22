@@ -1,6 +1,7 @@
 kraken:
   influxdb:
     url: http://localhost:8086
+    containerUrl: http://kraken-influxdb:8086
     user: admin
     password: kraken
     database: gatling

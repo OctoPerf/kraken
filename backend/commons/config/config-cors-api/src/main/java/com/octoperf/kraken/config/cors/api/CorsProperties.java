@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 public interface CorsProperties  {
+  Boolean getEnabled();
   List<String> getAllowedOrigins();
   List<String> getAllowedMethods();
   List<String> getAllowedHeaders();

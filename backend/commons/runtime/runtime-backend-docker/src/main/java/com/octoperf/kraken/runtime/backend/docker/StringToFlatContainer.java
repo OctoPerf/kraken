@@ -21,15 +21,15 @@ import static com.octoperf.kraken.security.entity.token.KrakenRole.USER;
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
   public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",
-      EnvironmentLabels.COM_KRAKEN_TASKID,
-      EnvironmentLabels.COM_KRAKEN_TASKTYPE,
-      EnvironmentLabels.COM_KRAKEN_CONTAINER_NAME,
-      EnvironmentLabels.COM_KRAKEN_HOSTID,
-      EnvironmentLabels.COM_KRAKEN_EXPECTED_COUNT,
-      EnvironmentLabels.COM_KRAKEN_LABEL,
-      EnvironmentLabels.COM_KRAKEN_APPLICATION_ID,
-      EnvironmentLabels.COM_KRAKEN_USER_ID,
-      EnvironmentLabels.COM_KRAKEN_DESCRIPTION);
+      EnvironmentLabels.COM_OCTOPERF_TASKID,
+      EnvironmentLabels.COM_OCTOPERF_TASKTYPE,
+      EnvironmentLabels.COM_OCTOPERF_CONTAINER_NAME,
+      EnvironmentLabels.COM_OCTOPERF_HOSTID,
+      EnvironmentLabels.COM_OCTOPERF_EXPECTED_COUNT,
+      EnvironmentLabels.COM_OCTOPERF_LABEL,
+      EnvironmentLabels.COM_OCTOPERF_APPLICATION_ID,
+      EnvironmentLabels.COM_OCTOPERF_USER_ID,
+      EnvironmentLabels.COM_OCTOPERF_DESCRIPTION);
   private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override

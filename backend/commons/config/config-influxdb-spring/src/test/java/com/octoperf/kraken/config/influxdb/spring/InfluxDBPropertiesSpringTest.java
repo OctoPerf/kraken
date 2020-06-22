@@ -22,6 +22,7 @@ public class InfluxDBPropertiesSpringTest {
   @Test
   public void shouldCreateProperties() {
     Assertions.assertThat(properties.getUrl()).isNotNull();
+    Assertions.assertThat(properties.getPublishedUrl()).isEqualTo("http://kraken-influxdb:8086");
   }
 
 }

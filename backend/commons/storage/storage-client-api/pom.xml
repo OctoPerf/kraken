@@ -22,10 +22,5 @@
             <artifactId>security-authentication-client-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-storage-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 </project>

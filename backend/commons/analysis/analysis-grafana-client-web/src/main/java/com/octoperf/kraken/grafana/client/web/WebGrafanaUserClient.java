@@ -89,7 +89,7 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
     return Mono.fromCallable(() -> {
       final JsonNode responseNode = mapper.readTree(datasource);
       final ObjectNode datasourceNode = (ObjectNode) responseNode.get("datasource");
-      datasourceNode.put("url", dbProperties.getUrl());
+      datasourceNode.put("url", dbProperties.getPublishedUrl());
       datasourceNode.put("user", influxDBUser.getUsername());
       datasourceNode.put("database", influxDBUser.getDatabase());
 

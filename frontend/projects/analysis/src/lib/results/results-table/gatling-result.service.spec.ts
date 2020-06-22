@@ -26,6 +26,7 @@ import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {CookieService} from 'ngx-cookie-service';
 import {HttpTestingController} from '@angular/common/http/testing';
+import {cookiesServiceSpy} from 'projects/commons/src/lib/mock/cookies.mock.spec';
 
 
 export const gatlingResultServiceSpy = () => {
@@ -39,8 +40,6 @@ export const gatlingResultServiceSpy = () => {
   ]);
   return spy;
 };
-
-export const cookiesServiceSpy = () => jasmine.createSpyObj('CookiesService', ['set', 'delete']);
 
 describe('GatlingResultService', () => {
   let service: GatlingResultService;
@@ -104,7 +103,7 @@ describe('GatlingResultService', () => {
   it('should openGrafanaReport', () => {
     window.open.and.callFake(url => url.subscribe(value => expect(value).toBe('url')));
     service.openGrafanaReport(result);
-    const req = httpTestingController.expectOne(request => request.url === 'analysisApiUrl/result/grafana/login');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/result/grafana/login');
     expect(req.request.method).toBe('GET');
     expect(req.request.params.get('resultId')).toEqual(result.id);
     req.flush({session: 'sessionId', url: 'url'});

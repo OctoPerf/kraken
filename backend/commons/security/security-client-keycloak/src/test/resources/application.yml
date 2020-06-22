@@ -1,6 +1,6 @@
 kraken:
   security:
-    url: http://localhost:9080
+    url: http://localhost:9080/auth
     realm: kraken
     web:
       id: kraken-web

@@ -7,7 +7,7 @@ networks:
 services:
   hello:
     labels:
-      com.kraken/id: "some-kraken-id"
+      com.octoperf/id: "some-kraken-id"
     container_name: "test-nginx-STARTING"
     image: nginx
     networks:

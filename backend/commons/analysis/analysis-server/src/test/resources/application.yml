@@ -2,7 +2,7 @@ kraken:
   analysis:
     results:
       root: data
-  storage:
+  backend:
     url: http://localhost:8080
   grafana:
     url: http://localhost:3000

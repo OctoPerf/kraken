@@ -13,18 +13,20 @@ import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysi
 import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
+import {storageStaticServiceSpy} from 'projects/storage/src/lib/storage-static.service.spec';
 
 describe('OpenGatlingReportsDialogComponent', () => {
   let component: OpenGatlingReportsDialogComponent;
   let fixture: ComponentFixture<OpenGatlingReportsDialogComponent>;
   let storage: SpyObj<StorageService>;
   let analysisConfiguration: SpyObj<AnalysisConfigurationService>;
-  let window: SpyObj<WindowService>;
+  let storageStatic: SpyObj<StorageStaticService>;
 
   beforeEach(async(() => {
     storage = storageServiceSpy();
     analysisConfiguration = analysisConfigurationServiceSpy();
-    window = windowSpy();
+    storageStatic = storageStaticServiceSpy();
 
     TestBed.configureTestingModule({
       declarations: [OpenGatlingReportsDialogComponent],
@@ -33,7 +35,7 @@ describe('OpenGatlingReportsDialogComponent', () => {
         {provide: MatDialogRef, useValue: dialogRefSpy()},
         {provide: StorageService, useValue: storage},
         {provide: AnalysisConfigurationService, useValue: analysisConfiguration},
-        {provide: WindowService, useValue: window},
+        {provide: StorageStaticService, useValue: storageStatic},
       ]
     })
       .overrideTemplate(OpenGatlingReportsDialogComponent, '')
@@ -68,8 +70,7 @@ describe('OpenGatlingReportsDialogComponent', () => {
 
   it('should openGatlingReport', () => {
     const node = testStorageFileNode();
-    window.open.and.callFake(url => url.subscribe(val => expect(val).toBe('staticApiUrl/spotbugs/main.html'), err => fail(err)));
     component.openGatlingReport(node);
-    expect(window.open).toHaveBeenCalled();
+    expect(storageStatic.openStaticPage).toHaveBeenCalledWith('spotbugs/main.html');
   });
 });

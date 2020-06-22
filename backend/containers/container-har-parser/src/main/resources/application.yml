@@ -18,17 +18,13 @@ spring:
   profiles: dev
 
 kraken:
-  runtime:
+  backend:
     url: url
   container:
     taskid: taskId
     tasktype: GATLING_RUN
     hostid: hostid
     name: name
-  analysis:
-    url: url
-  storage:
-    url: url
   harparser:
     remote: hars/my-app.har
   security:

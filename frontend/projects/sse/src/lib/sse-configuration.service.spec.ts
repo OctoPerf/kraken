@@ -10,7 +10,7 @@ export const sseConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('SSEConfigurationService', [
     'sseApiUrl',
   ]);
-  spy.sseApiUrl.and.callFake((path = '') => `sseApiUrl${path}`);
+  spy.sseApiUrl.and.callFake((path = '') => `backendApiUrl/sse${path}`);
   return spy;
 };
 
@@ -40,12 +40,12 @@ describe('SSEConfigurationService', () => {
   it('should return sseApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.sseApiUrl('/path')).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('sseApiUrl', '/path');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/sse/path');
   });
 
   it('should return sseApiUrl no param', () => {
     configuration.url.and.returnValue('url');
     expect(service.sseApiUrl()).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('sseApiUrl', '');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/sse');
   });
 });

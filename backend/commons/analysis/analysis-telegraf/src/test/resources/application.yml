@@ -3,8 +3,9 @@ kraken:
     conf:
       local: /etc/telegraf/telegraf.conf
       remote: telegraf/telegraf.conf
+  backend:
+    url: http://localhost:8080
   runtime:
-    url: http://localhost
     task-id: taskId
     task-type: GATLING_RUN
     container-name: containerName
@@ -13,8 +14,6 @@ kraken:
     url: influxDbUrl
     user: influxDbUser
     password: influxDbPassword
-  storage:
-    url: http://localhost:8080
 
 logging:
   level:

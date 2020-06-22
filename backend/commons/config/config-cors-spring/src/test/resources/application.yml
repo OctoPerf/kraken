@@ -1,5 +1,6 @@
 kraken:
   cors:
+    enabled: true
     allowed-origins:
       - "*"
     allowed-methods:

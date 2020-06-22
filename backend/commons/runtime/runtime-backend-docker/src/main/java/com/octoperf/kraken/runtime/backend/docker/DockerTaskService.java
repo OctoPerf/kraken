@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_KRAKEN_TASKID;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_TASKID;
 
 @Slf4j
 @Component
@@ -82,7 +82,7 @@ final class DockerTaskService implements TaskService {
           "ps",
           "-a",
           "-q",
-          "--filter", String.format("label=%s=%s", COM_KRAKEN_TASKID, context.getTaskId()));
+          "--filter", String.format("label=%s=%s", COM_OCTOPERF_TASKID, context.getTaskId()));
       listCommandBuilder.addAll(ownerToFilters.apply(context.getOwner()));
       final var listCommand = String.join(" ", listCommandBuilder.build());
 
@@ -102,7 +102,7 @@ final class DockerTaskService implements TaskService {
     commandBuilder.add("docker",
         "ps",
         "-a",
-        "--filter", String.format("label=%s", COM_KRAKEN_TASKID));
+        "--filter", String.format("label=%s", COM_OCTOPERF_TASKID));
     commandBuilder.addAll(ownerToFilters.apply(owner));
     commandBuilder.add("--format", StringToFlatContainer.FORMAT);
 

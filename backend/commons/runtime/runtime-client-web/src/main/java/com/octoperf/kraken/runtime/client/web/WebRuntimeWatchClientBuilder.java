@@ -1,6 +1,6 @@
 package com.octoperf.kraken.runtime.client.web;
 
-import com.octoperf.kraken.config.runtime.client.api.RuntimeClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
@@ -15,10 +15,10 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-final class WebRuntimeWatchClientBuilder extends WebAuthenticatedClientBuilder<RuntimeWatchClient, RuntimeClientProperties> implements RuntimeWatchClientBuilder {
+final class WebRuntimeWatchClientBuilder extends WebAuthenticatedClientBuilder<RuntimeWatchClient, BackendClientProperties> implements RuntimeWatchClientBuilder {
 
   public WebRuntimeWatchClientBuilder(final List<ExchangeFilterFactory> exchangeFilterFactories,
-                                      final RuntimeClientProperties properties) {
+                                      final BackendClientProperties properties) {
     super(exchangeFilterFactories, properties);
   }
 

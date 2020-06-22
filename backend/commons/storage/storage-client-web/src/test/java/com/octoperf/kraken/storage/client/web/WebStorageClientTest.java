@@ -7,7 +7,7 @@ import com.octoperf.kraken.Application;
 import com.octoperf.kraken.analysis.entity.Result;
 import com.octoperf.kraken.analysis.entity.ResultStatus;
 import com.octoperf.kraken.analysis.entity.ResultTest;
-import com.octoperf.kraken.config.storage.client.api.StorageClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.storage.client.api.StorageClient;
@@ -48,7 +48,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes =  Application.class)
+@SpringBootTest(classes = Application.class)
 public class WebStorageClientTest {
 
   private MockWebServer server;
@@ -63,7 +63,7 @@ public class WebStorageClientTest {
   @Autowired
   ObjectMapper jsonMapper;
   @MockBean
-  StorageClientProperties properties;
+  BackendClientProperties properties;
 
   @BeforeEach
   public void before() {

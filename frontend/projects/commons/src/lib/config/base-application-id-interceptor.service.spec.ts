@@ -21,7 +21,7 @@ describe('RuntimeApplicationIdService', () => {
   });
 
   it('should intercept', () => {
-    const req = new HttpRequest('GET', configuration.runtimeApiUrl + '/path');
+    const req = new HttpRequest('GET', configuration.backendApiUrl + '/path');
     const intercepted = req.clone({
       headers: req.headers.set('ApplicationId', configuration.applicationId)
     });
@@ -30,7 +30,7 @@ describe('RuntimeApplicationIdService', () => {
   });
 
   it('should intercept storage', () => {
-    const req = new HttpRequest('GET', configuration.storageApiUrl + '/path');
+    const req = new HttpRequest('GET', configuration.backendApiUrl + '/path');
     const intercepted = req.clone({
       headers: req.headers.set('ApplicationId', configuration.applicationId)
     });

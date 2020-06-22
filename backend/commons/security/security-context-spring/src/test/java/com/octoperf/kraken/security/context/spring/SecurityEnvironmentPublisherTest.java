@@ -55,7 +55,7 @@ public class SecurityEnvironmentPublisherTest {
 
   @Test
   public void shouldGet() {
-    given(clientProperties.getUrl()).willReturn("url");
+    given(clientProperties.getPublishedUrl()).willReturn("url");
     given(clientProperties.getRealm()).willReturn("realm");
     given(clientProperties.getWeb()).willReturn(webProperties);
     given(clientProperties.getContainer()).willReturn(containerProperties);

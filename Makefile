@@ -23,27 +23,17 @@ launch-documentation:
 	gnome-terminal --tab -- /bin/sh -c 'cd documentation; make serve'
 
 launch-backend-docker:
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-docker'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
-
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-docker-all'
 
 launch-backend-k8s:
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-storage'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-runtime-k8s'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-analysis'
-	sleep 1	
-	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-sse'
-
+	gnome-terminal --tab -- /bin/sh -c 'cd backend; make serve-kubernetes-all'
 
 launch-dev-docker:
 	gnome-terminal --tab -- /bin/sh -c 'cd development/compose; make up'
+
+launch-dev-k8s:
+	$(MAKE) -C development/k8s/kind kind-serve
+	$(MAKE) -C development/k8s/helm install
 	
 launch-docker:
 	$(MAKE) launch-dev-docker
@@ -53,9 +43,7 @@ launch-docker:
 	$(MAKE) launch-documentation
 
 launch-k8s:
-	#start kind TODO Fix this to use the development configuration
-	$(MAKE) -C deployment/k8s kind-serve
-	$(MAKE) launch-dev
+	$(MAKE) launch-dev-k8s
 	sleep 10
 	$(MAKE) launch-backend-k8s
 	$(MAKE) launch-frontend

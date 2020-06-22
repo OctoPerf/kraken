@@ -1,7 +1,7 @@
 package com.octoperf.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.config.runtime.client.api.RuntimeClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
@@ -39,14 +39,16 @@ public class EnvironmentIntegrationTest {
   @Mock
   OwnerToUserId toUserId;
   @Mock
-  RuntimeClientProperties client;
+  BackendClientProperties properties;
 
   @BeforeEach
   public void before() {
     given(toApplicationId.apply(any())).willReturn(Optional.of("app"));
     given(toUserId.apply(any())).willReturn(Optional.of("user"));
     given(application.getVersion()).willReturn("version");
-    given(client.getUrl()).willReturn("url");
+    given(properties.getPublishedUrl()).willReturn("url");
+    given(properties.getHostname()).willReturn("localhost");
+    given(properties.getIp()).willReturn("ip");
     contextBuilder = ExecutionContextBuilderTest.WITH_ENTRIES.apply(ImmutableList.of(ExecutionEnvironmentEntry.builder()
         .scope("")
         .from(USER)
@@ -57,7 +59,7 @@ public class EnvironmentIntegrationTest {
         new ContextPublisher(toApplicationId, toUserId),
         new HostIdsPublisher(),
         new KrakenVersionPublisher(application),
-        new RuntimeUrlPublisher(client)
+        new BackendUrlPublisher(properties)
     );
     checker = new BaseChecker();
   }

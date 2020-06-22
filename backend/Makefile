@@ -8,6 +8,9 @@ clean-all:
 	./mvnw clean
 
 test-all:
+	./mvnw clean test -fn
+
+test-all-fast:
 	./mvnw -T 1C clean test -fn
 
 dependencies:

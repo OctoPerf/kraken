@@ -19,7 +19,6 @@
         <module>storage-file-system</module>
         <module>storage-server</module>
         <module>storage-user-events-listener</module>
-        <module>storage-configuration</module>
     </modules>
 
     <dependencies>

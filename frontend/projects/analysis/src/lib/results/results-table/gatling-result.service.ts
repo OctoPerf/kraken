@@ -38,6 +38,7 @@ export class GatlingResultService {
     }).pipe(tap((value: any) => {
       console.log(value);
       this.cookieService.delete('grafana_session');
+      // TODO Try with secured cookie
       this.cookieService.set('grafana_session', value.session, null, '/grafana/', null, false, 'Lax');
     }), map((value: any) => value.url));
     this.window.open(grafanaLogin);

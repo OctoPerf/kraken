@@ -19,12 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-storage-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-analysis-client-api</artifactId>
+            <artifactId>config-backend-client-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

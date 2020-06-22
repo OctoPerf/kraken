@@ -101,6 +101,6 @@ final class KeycloakSecurityClient implements SecurityClient {
   }
 
   private String getOpenIdTokenUrl() {
-    return String.format("/auth/realms/%s/protocol/openid-connect/token", this.properties.getRealm());
+    return String.format("/realms/%s/protocol/openid-connect/token", this.properties.getRealm());
   }
 }

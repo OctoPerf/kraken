@@ -28,7 +28,7 @@ describe('StorageResolverService', () => {
 
   it('should list', () => {
     service.resolve(null, null).subscribe(value => expect(value).toEqual(testStorageNodes()), () => fail('list failed'));
-    const req = httpTestingController.expectOne('storageApiUrl/files/list');
+    const req = httpTestingController.expectOne('backendApiUrl/files/list');
     expect(req.request.method).toEqual('GET');
     req.flush(testStorageNodes());
   });

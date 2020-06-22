@@ -16,6 +16,7 @@ public class GrafanaPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(GRAFANA_CLIENT_PROPERTIES);
+    TestUtils.shouldPassEquals(GRAFANA_CLIENT_PROPERTIES.getClass());
+    TestUtils.shouldPassToString(GRAFANA_CLIENT_PROPERTIES);
   }
 }

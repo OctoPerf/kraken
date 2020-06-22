@@ -22,17 +22,13 @@ spring:
   profiles: dev
 
 kraken:
-  runtime:
-    url: url
-  analysis:
-    url: url
+  backend:
+    url: http://localhost:8080
   container:
     taskid: taskId
     tasktype: GATLING_RUN
     hostid: hostid
     name: name
-  storage:
-    url: http://localhost:8080
   gatling:
     home: /home/ubuntu/softs/gatling
     description: Dev test

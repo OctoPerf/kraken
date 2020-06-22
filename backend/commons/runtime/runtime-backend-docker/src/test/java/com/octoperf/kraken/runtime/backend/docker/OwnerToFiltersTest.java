@@ -45,7 +45,7 @@ public class OwnerToFiltersTest {
     given(toApplicationId.apply(owner)).willAnswer(invocation -> Optional.of(((ApplicationOwner) invocation.getArgument(0)).getApplicationId()));
     given(toUserId.apply(owner)).willReturn(Optional.empty());
     Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of(
-        "--filter", "label=com.kraken/applicationId=applicationId"
+        "--filter", "label=com.octoperf/applicationId=applicationId"
     ));
   }
 
@@ -55,8 +55,8 @@ public class OwnerToFiltersTest {
     given(toApplicationId.apply(owner)).willAnswer(invocation -> Optional.of(((UserOwner) invocation.getArgument(0)).getApplicationId()));
     given(toUserId.apply(owner)).willAnswer(invocation -> Optional.of(((UserOwner) invocation.getArgument(0)).getUserId()));
     Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of(
-        "--filter", "label=com.kraken/applicationId=applicationId",
-        "--filter", "label=com.kraken/userId=userId"
+        "--filter", "label=com.octoperf/applicationId=applicationId",
+        "--filter", "label=com.octoperf/userId=userId"
     ));
   }
 

@@ -10,17 +10,27 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +53,22 @@ class StorageController {
 
   private Mono<StorageService> getService(final String applicationId) {
     return this.userProvider.getOwner(applicationId).map(serviceBuilder::build);
+  }
+
+  @GetMapping("/static/**")
+  public Mono<ResponseEntity<Resource>> getStatic(final ServerWebExchange payload) {
+    final var split = payload.getRequest().getPath().value().split("/", 5);
+    final var applicationId = split[3];
+    final var path = URLDecoder.decode(applicationId + "/"+ split[4], Charset.defaultCharset());
+    log.info(String.format("Get static file %s", path));
+    return this.getService(applicationId)
+        .flatMap(service -> service.getFileResource(path))
+        .flatMap(fileSystemResource -> Mono.fromCallable(() ->
+            ResponseEntity.ok()
+                .contentLength(fileSystemResource.contentLength())
+                .contentType(MediaType.valueOf(Files.probeContentType(Path.of(fileSystemResource.getFilename()))))
+                .body(fileSystemResource)
+        ));
   }
 
   @GetMapping("/list")
@@ -111,7 +137,7 @@ class StorageController {
                                                            @RequestParam(value = "path", required = false) final String path) {
     log.info(String.format("Get file %s", path));
     final var optionalPath = nullToEmpty(path);
-    return this.getService(applicationId).flatMap(service -> service.getFile(optionalPath).map(is -> ResponseEntity.ok()
+    return this.getService(applicationId).flatMap(service -> service.getFileInputStream(optionalPath).map(is -> ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=\"%s\"", service.getFileName(optionalPath)))
         .body(new InputStreamResource(is)))
     );

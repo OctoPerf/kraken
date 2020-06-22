@@ -28,8 +28,8 @@ final class OwnerToFilters implements Function<Owner, List<String>> {
     final var listBuilder = ImmutableList.<String>builder();
     final var applicationId = toApplicationId.apply(owner);
     final var userId = toUserId.apply(owner);
-    applicationId.ifPresent(appId -> listBuilder.add("--filter", String.format("label=%s=%s", COM_KRAKEN_APPLICATION_ID, appId)));
-    userId.ifPresent(uId -> listBuilder.add("--filter", String.format("label=%s=%s", COM_KRAKEN_USER_ID, uId)));
+    applicationId.ifPresent(appId -> listBuilder.add("--filter", String.format("label=%s=%s", COM_OCTOPERF_APPLICATION_ID, appId)));
+    userId.ifPresent(uId -> listBuilder.add("--filter", String.format("label=%s=%s", COM_OCTOPERF_USER_ID, uId)));
     return listBuilder.build();
   }
 

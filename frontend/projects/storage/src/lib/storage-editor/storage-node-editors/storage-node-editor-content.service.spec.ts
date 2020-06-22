@@ -84,7 +84,7 @@ describe('StorageNodeEditorContentService', () => {
     service._contentSubject.next('content');
     service._node = fileNode;
     service.save();
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/set/content');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/files/set/content');
     expect(req.request.method).toBe('POST');
     expect(req.request.params.get('path')).toEqual(fileNode.path);
     expect(req.request.body).toEqual('content');
@@ -98,7 +98,7 @@ describe('StorageNodeEditorContentService', () => {
     const fileNode = testStorageFileNode();
     service._node = fileNode;
     service._nodeModified(new NodeModifiedEvent(fileNode));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/content');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/files/get/content');
     expect(req.request.method).toBe('GET');
     expect(req.request.params.get('path')).toEqual(fileNode.path);
     req.flush('content');
@@ -125,7 +125,7 @@ describe('StorageNodeEditorContentService', () => {
     service._node = testStorageFileNode();
     eventBus.publish(new NodeModifiedEvent(_.assign(testStorageFileNode(), {lastModified: 99999})));
     tick(StorageNodeEditorContentService.DEBOUNCE_DELAY);
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/get/content');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/files/get/content');
     expect(req.request.method).toBe('GET');
     req.flush('content');
     httpTestingController.verify();
@@ -146,7 +146,7 @@ describe('StorageNodeEditorContentService', () => {
     const node = testStorageFileNode();
     service._node = node;
     eventBus.publish(new SaveNodeEvent(node));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/set/content');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/files/set/content');
     expect(req.request.method).toBe('POST');
     req.flush(node);
     httpTestingController.verify();
@@ -171,7 +171,7 @@ describe('StorageNodeEditorContentService', () => {
     service._contentSubject.next('content');
     tick(StorageNodeEditorContentService.DEBOUNCE_DELAY);
     expect(eventBus.publish).toHaveBeenCalledWith(new NodePendingSaveEvent(node, true));
-    const req = httpTestingController.expectOne(request => request.url === 'storageApiUrl/files/set/content');
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/files/set/content');
     expect(req.request.method).toBe('POST');
     req.flush(node);
     httpTestingController.verify();

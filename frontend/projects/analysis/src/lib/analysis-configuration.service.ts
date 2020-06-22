@@ -10,12 +10,8 @@ export class AnalysisConfigurationService {
   constructor(private configuration: ConfigurationService) {
   }
 
-  staticApiUrl(path: string): string {
-    return this.configuration.url('staticApiUrl', path);
-  }
-
   analysisApiUrl(path: string = ''): string {
-    return this.configuration.url('analysisApiUrl', `/result${path}`);
+    return this.configuration.url('backendApiUrl', `/result${path}`);
   }
 
   get analysisRootNode(): StorageNode {

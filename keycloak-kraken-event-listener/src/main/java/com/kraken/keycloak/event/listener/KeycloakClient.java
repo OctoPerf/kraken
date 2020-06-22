@@ -43,7 +43,7 @@ class KeycloakClient {
     final Instant now = Instant.now();
     if (this.expired.get().isBefore(now)) {
       final ResteasyClient client = new ResteasyClientBuilder().build();
-      final ResteasyWebTarget target = client.target(String.format("%s/auth/realms/%s/protocol/openid-connect/token", keycloakUrl, realm));
+      final ResteasyWebTarget target = client.target(String.format("%s/realms/%s/protocol/openid-connect/token", keycloakUrl, realm));
       final Form form = new Form();
       form.param("client_id", clientId)
           .param("client_secret", clientSecret)

@@ -1,7 +1,7 @@
 package com.octoperf.kraken.storage.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.octoperf.kraken.config.storage.client.api.StorageClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
@@ -18,13 +18,13 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-final class WebStorageClientBuilder extends WebAuthenticatedClientBuilder<StorageClient, StorageClientProperties> implements StorageClientBuilder {
+final class WebStorageClientBuilder extends WebAuthenticatedClientBuilder<StorageClient, BackendClientProperties> implements StorageClientBuilder {
 
   ObjectMapper mapper;
   ObjectMapper yamlMapper;
 
   public WebStorageClientBuilder(final List<ExchangeFilterFactory> exchangeFilterFactories,
-                                 final StorageClientProperties properties,
+                                 final BackendClientProperties properties,
                                  @NonNull final ObjectMapper mapper,
                                  @NonNull @Qualifier("yamlObjectMapper") final ObjectMapper yamlMapper) {
     super(exchangeFilterFactories, properties);

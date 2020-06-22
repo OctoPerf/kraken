@@ -42,11 +42,6 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-storage-client-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
             <artifactId>storage-client-container-builder</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

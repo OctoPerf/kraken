@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.config.runtime.client.api.RuntimeClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.client.api.RuntimeClient;
 import com.octoperf.kraken.runtime.entity.log.LogTest;
 import com.octoperf.kraken.runtime.entity.task.*;
@@ -42,7 +42,7 @@ public class WebRuntimeClientTest {
   @Autowired
   List<ExchangeFilterFactory> filterFactories;
   @MockBean
-  RuntimeClientProperties properties;
+  BackendClientProperties properties;
 
   @BeforeEach
   public void setUp() {

@@ -34,6 +34,7 @@ class EventClient {
   }
 
   public void sendEvent(final String accessToken, final Event event) {
+    System.out.println(String.format("Send event to %s", url));
     final EventHandler handler = this.eventHandlers
         .stream()
         .filter(eventHandler -> eventHandler.test(event))

@@ -10,8 +10,6 @@
     <artifactId>config</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>config-analysis-client-api</module>
-        <module>config-analysis-client-spring</module>
         <module>config-analysis-server-api</module>
         <module>config-analysis-server-spring</module>
         <module>config-api</module>
@@ -26,8 +24,6 @@
         <module>config-kraken</module>
         <module>config-kubernetes-api</module>
         <module>config-kubernetes-spring</module>
-        <module>config-runtime-client-api</module>
-        <module>config-runtime-client-spring</module>
         <module>config-runtime-container-api</module>
         <module>config-runtime-container-spring</module>
         <module>config-runtime-server-api</module>
@@ -36,12 +32,12 @@
         <module>config-security-client-spring</module>
         <module>config-security-container-api</module>
         <module>config-security-container-spring</module>
-        <module>config-storage-client-api</module>
-        <module>config-storage-client-spring</module>
         <module>config-telegraf-api</module>
         <module>config-telegraf-spring</module>
         <module>config-cors-api</module>
         <module>config-cors-spring</module>
+        <module>config-backend-client-api</module>
+        <module>config-backend-client-spring</module>
     </modules>
 
     <dependencies>

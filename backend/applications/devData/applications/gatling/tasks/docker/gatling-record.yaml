@@ -1,10 +1,16 @@
 version: '3.5'
 
+networks:
+  kraken:
+    name: kraken
+    external: true
+
 services:
   kraken-gatling-recorder:
     image: "octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:
@@ -14,15 +20,15 @@ services:
           cpus: "${KRAKEN_GATLING_CPU_REQUEST}"
           memory: "${KRAKEN_GATLING_MEMORY_REQUEST}"
     labels:
-      com.kraken/taskId: "${KRAKEN_TASK_ID}"
-      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
-      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
-      com.kraken/hostId: "${KRAKEN_HOST_ID}"
-      com.kraken/label: "${KRAKEN_GATLING_CONTAINER_LABEL}"
-      com.kraken/description: "${KRAKEN_DESCRIPTION}"
-      com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
-      com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
-      com.kraken/userId: "${KRAKEN_USER_ID}"
+      com.octoperf/taskId: "${KRAKEN_TASK_ID}"
+      com.octoperf/taskType: "${KRAKEN_TASK_TYPE}"
+      com.octoperf/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      com.octoperf/hostId: "${KRAKEN_HOST_ID}"
+      com.octoperf/label: "${KRAKEN_GATLING_CONTAINER_LABEL}"
+      com.octoperf/description: "${KRAKEN_DESCRIPTION}"
+      com.octoperf/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
+      com.octoperf/applicationId: "${KRAKEN_APPLICATION_ID}"
+      com.octoperf/userId: "${KRAKEN_USER_ID}"
     environment:
       KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASK_ID}"
       KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASK_TYPE}"
@@ -34,8 +40,7 @@ services:
       KRAKEN_GATLING_SIMULATION_PACKAGENAME: "${KRAKEN_GATLING_SIMULATION_PACKAGE_NAME}"
       KRAKEN_GATLING_HARPATH_REMOTE: "${KRAKEN_GATLING_HAR_PATH_REMOTE}"
       KRAKEN_GATLING_JAVAOPTS: "${KRAKEN_GATLING_JAVA_OPTS} -Xmx${KRAKEN_GATLING_XMX}"
-      KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
-      KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
+      KRAKEN_BACKEND_URL: "${KRAKEN_BACKEND_URL}"
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_GATLING_XMX}"
       KRAKEN_SECURITY_URL: "${KRAKEN_SECURITY_URL}"
       KRAKEN_SECURITY_WEB_ID: "${KRAKEN_SECURITY_WEB_ID}"
@@ -46,11 +51,14 @@ services:
       KRAKEN_SECURITY_REFRESHTOKEN: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
       KRAKEN_SECURITY_EXPIRESIN: "${KRAKEN_SECURITY_EXPIRES_IN}"
       KRAKEN_SECURITY_REFRESHEXPIRESIN: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+    extra_hosts:
+      - "${KRAKEN_HOSTNAME}:${KRAKEN_IP}"
 
   kraken-har-parser:
     image: "octoperf/kraken-har-parser:${KRAKEN_VERSION}"
     container_name: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}_STARTING"
-    network_mode: host
+    networks:
+      - kraken
     deploy:
       resources:
         limits:
@@ -60,15 +68,15 @@ services:
           cpus: "${KRAKEN_SIDEKICK_CPU_REQUEST}"
           memory: "${KRAKEN_SIDEKICK_MEMORY_REQUEST}"
     labels:
-      com.kraken/taskId: "${KRAKEN_TASK_ID}"
-      com.kraken/taskType: "${KRAKEN_TASK_TYPE}"
-      com.kraken/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
-      com.kraken/hostId: "${KRAKEN_HOST_ID}"
-      com.kraken/label: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
-      com.kraken/description: "${KRAKEN_DESCRIPTION}"
-      com.kraken/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
-      com.kraken/applicationId: "${KRAKEN_APPLICATION_ID}"
-      com.kraken/userId: "${KRAKEN_USER_ID}"
+      com.octoperf/taskId: "${KRAKEN_TASK_ID}"
+      com.octoperf/taskType: "${KRAKEN_TASK_TYPE}"
+      com.octoperf/containerName: "${KRAKEN_TASK_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      com.octoperf/hostId: "${KRAKEN_HOST_ID}"
+      com.octoperf/label: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
+      com.octoperf/description: "${KRAKEN_DESCRIPTION}"
+      com.octoperf/expectedCount: "${KRAKEN_EXPECTED_COUNT}"
+      com.octoperf/applicationId: "${KRAKEN_APPLICATION_ID}"
+      com.octoperf/userId: "${KRAKEN_USER_ID}"
     environment:
       KRAKEN_CONTAINER_TASKID: "${KRAKEN_TASK_ID}"
       KRAKEN_CONTAINER_TASKTYPE: "${KRAKEN_TASK_TYPE}"
@@ -76,9 +84,7 @@ services:
       KRAKEN_CONTAINER_HOSTID: "${KRAKEN_HOST_ID}"
       KRAKEN_CONTAINER_USERID: "${KRAKEN_USER_ID}"
       KRAKEN_CONTAINER_APPLICATIONID: "${KRAKEN_APPLICATION_ID}"
-      KRAKEN_RUNTIME_URL: "${KRAKEN_RUNTIME_URL}"
-      KRAKEN_STORAGE_URL: "${KRAKEN_STORAGE_URL}"
-      KRAKEN_ANALYSIS_URL: "${KRAKEN_ANALYSIS_URL}"
+      KRAKEN_BACKEND_URL: "${KRAKEN_BACKEND_URL}"
       KRAKEN_HARPARSER_REMOTE: "${KRAKEN_GATLING_HAR_PATH_REMOTE}"
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx${KRAKEN_SIDEKICK_XMX}"
       KRAKEN_SECURITY_URL: "${KRAKEN_SECURITY_URL}"
@@ -90,3 +96,5 @@ services:
       KRAKEN_SECURITY_REFRESHTOKEN: "${KRAKEN_SECURITY_REFRESH_TOKEN}"
       KRAKEN_SECURITY_EXPIRESIN: "${KRAKEN_SECURITY_EXPIRES_IN}"
       KRAKEN_SECURITY_REFRESHEXPIRESIN: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+    extra_hosts:
+      - "${KRAKEN_HOSTNAME}:${KRAKEN_IP}"

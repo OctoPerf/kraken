@@ -1,5 +1,5 @@
 kraken:
-  storage:
+  backend:
     url: http://localhost:8080
   security:
     url: http://localhost:9080

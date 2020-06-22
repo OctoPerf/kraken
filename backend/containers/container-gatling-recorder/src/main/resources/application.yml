@@ -35,15 +35,13 @@ spring:
   profiles: dev
 
 kraken:
-  runtime:
+  backend:
     url: test
   container:
     taskid: taskId
     tasktype: GATLING_RUN
     hostid: hostid
     name: name
-  storage:
-    url: test
   gatling:
     home: /home/ubuntu/softs/gatling
     simulation:

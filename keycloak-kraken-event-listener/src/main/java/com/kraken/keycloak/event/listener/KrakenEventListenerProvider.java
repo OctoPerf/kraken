@@ -26,7 +26,7 @@ public class KrakenEventListenerProvider implements EventListenerProvider {
 
   @Override
   public void onEvent(final Event event) {
-    System.out.println("Event Occurred:" + toString(event));
+    System.out.println(String.format("Event Occurred: %s - clients: %s", toString(event), eventClients.size()));
     for (final EventClient eventClient : eventClients) {
       if (eventClient.filterEvent(event)) {
         this.executor.submit(() -> {
@@ -39,7 +39,7 @@ public class KrakenEventListenerProvider implements EventListenerProvider {
 
   @Override
   public void onEvent(final AdminEvent event, boolean bool) {
-    System.out.println("Admin Event Occurred:" + toString(event));
+    System.out.println(String.format("Admin Event Occurred: %s - clients: %s", toString(event), eventClients.size()));
     for (final EventClient eventClient : eventClients) {
       if (eventClient.filterAdminEvent(event)) {
         this.executor.submit(() -> {

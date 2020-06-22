@@ -10,10 +10,8 @@ import {configurationServiceSpy} from 'projects/commons/src/lib/config/configura
 export const analysisConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('AnalysisConfigurationService', [
     'analysisApiUrl',
-    'staticApiUrl',
   ]);
-  spy.staticApiUrl.and.callFake((path) => 'staticApiUrl' + path);
-  spy.analysisApiUrl.and.callFake((path = '') => `analysisApiUrl/result${path}`);
+  spy.analysisApiUrl.and.callFake((path = '') => `backendApiUrl/result${path}`);
   spy.analysisRootNode = {
     'path': 'gatling/results',
     'type': 'DIRECTORY',
@@ -56,10 +54,5 @@ describe('AnalysisConfigurationService', () => {
     const node = testStorageFileNode();
     configuration.value.and.returnValue(node);
     expect(service.analysisRootNode).toEqual(node);
-  });
-
-  it('should return staticApiUrl', () => {
-    configuration.url.and.returnValue('url');
-    expect(service.staticApiUrl('path')).toBe('url');
   });
 });

@@ -4,81 +4,147 @@
 
 default:
   - &default_tag 3.0.0-rc1
-  - &default_admin_pwd kraken
+  - &default_pull_policy IfNotPresent
+  - &default_admin_username "admin"
+  - &default_admin_password "kraken"
+  - &kraken_local_ip 192.168.1.13
+  - &kraken_hostname "kraken-local"
+    ## Storage data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+  # storageClass: "-"
+  - &default_storage_class null
+  - &default_storage_class_name null
 
+admin:
+  username: *default_admin_username
+  password: *default_admin_password
 
-rbac:
-  create: true
+dependencies:
+  deployGrafana: true
+  deployInfluxdb: false
+  deplyKubernetes: false
 
 ingress:
   enabled: true
-  annotations: {}
-#    kubernetes.io/ingress.global-static-ip-name: web-static-ip
+  host: *kraken_hostname
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+backend:
+  ip: *kraken_local_ip
+  host: *kraken_hostname
+  port: 8080
+  service:
+    port: 80
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /api(/|$)(.*)
+
+frontend:
+  administration:
+    port: 4200
+    ip: *kraken_local_ip
+    service:
+      port: 4200
+    ingress:
+      path: /administration
+  gatling:
+    port: 4222
+    ip: *kraken_local_ip
+    service:
+      port: 4222
+    ingress:
+      path: /gatling
+
+documentation:
+  port: 8000
+  service:
+    port: 8000
+  ip: *kraken_local_ip
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /doc(/|$)(.*)
+
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: 6.7.1
+    pullPolicy: *default_pull_policy
+  port: 3000
+  service:
+    port: 80
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /grafana(/|$)(.*)
+
+influxdb:
+  image:
+    repository: influxdb
+    tag: 1.7.4
+    pullPolicy: *default_pull_policy
+  port: 8086
+  service:
+    port: 80
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /influxdb(/|$)(.*)
+
+postgres:
+  image:
+    repository: postgres
+    tag: 12.2
+    pullPolicy: *default_pull_policy
+  port: 5432
+  service:
+    port: 5432
+  admin:
+    database: keycloak
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
 
 keycloak:
+  ip: *kraken_local_ip
+  host: *kraken_hostname
   image:
     repository: octoperf/kraken-keycloak
     tag: *default_tag
-  username: admin
-  password: *default_admin_pwd
-  ingress:
-    enabled: true
-  persistence:
-    deployPostgres: true
-  extraEnv: |
-    - name: KEYCLOAK_WELCOME_THEME
-      value: "kraken"
-    - name: KRAKEN_SECURITY_URL
-      value: "http://kraken.local:9080"
-    - name: KRAKEN_URLS
-      value: "http://kraken.local:8080/user-events,http://kraken.local:8081/user-events"
-    - name: KRAKEN_SECURITY_API_ID
-      value: "kraken-api"
-    - name: KRAKEN_SECURITY_API_SECRET
-      value: "c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4"
-    - name: KRAKEN_SECURITY_REALM
-      value: "kraken"
-  # TODO
-  extraVolumes: |
-    - name: realm-secret
-      secret:
-        secretName: realm-secret
-  extraVolumeMounts: |
-    - name: realm-secret
-      mountPath: "/realm/"
-      readOnly: true
-  extraArgs: -Dkeycloak.import=/realm/realm.json
-
-grafana:
-  fullnameOverride: kraken-grafana
+    pullPolicy: *default_pull_policy
+  port: 9080 #Do not change without updating the command in keycloak-deployment.yaml
   service:
     port: 80
-  rbac:
-    namespaced: true
-  persistence:
-    enabled: true
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
   ingress:
-    # Use grafana/grafana-ingress.yaml instead (does not work with the one of the Grafana helm chart)
-    enabled: false
-  plugins:
-    - grafana-piechart-panel
-    - blackmirror1-singlestat-math-panel
-  adminPassword: *default_admin_pwd
-  grafana.ini:
-    server:
-      protocol: "http"
-      domain: "localhost"
-      root_url: "%(protocol)s://%(domain)s/grafana/"
-# TODO reprendre les autres modifications qui sont faites sur grafana.ini
-
-# Service name is .Release.Name-influxdb
-influxdb:
-  fullnameOverride: kraken-influxdb
-  env:
-    - name: INFLUXDB_ADMIN_USER
-      value: admin
-    - name: INFLUXDB_ADMIN_PASSWORD
-      value: *default_admin_pwd
-  config:
-    http:
-      bind_address: 8086
+    path: /auth

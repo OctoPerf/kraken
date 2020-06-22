@@ -251,7 +251,7 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldGetFolder() {
     final var filename = "getFile.zip";
-    service.getFile("").subscribe(inputStream -> {
+    service.getFileInputStream("").subscribe(inputStream -> {
       try {
         Files.copy(inputStream, Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException e) {
@@ -267,7 +267,7 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldGetFile() {
     final var filename = "getFile.md";
-    service.getFile("visitorTest/dir1/file1.md").subscribe(inputStream -> {
+    service.getFileInputStream("visitorTest/dir1/file1.md").subscribe(inputStream -> {
       try {
         Files.copy(inputStream, Paths.get(filename), StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException e) {
@@ -278,6 +278,14 @@ public class FileSystemStorageServiceIntegrationTest {
     final var file = Paths.get(filename).toFile();
     Assert.assertTrue(file.exists());
     file.deleteOnExit();
+  }
+
+  @Test
+  public void shouldGetFileResource() {
+    final var resource = service.getFileResource("visitorTest/dir1/file1.md").block();
+    assertThat(resource).isNotNull();
+    assertThat(resource.exists()).isTrue();
+    assertThat(resource.getFilename()).isEqualTo("file1.md");
   }
 
   @Test

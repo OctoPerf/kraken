@@ -162,7 +162,7 @@ object Search {
     service.uploadHar();
     expect(dialogs.open).toHaveBeenCalledWith(FileUploadDialogComponent,
       DialogSize.SIZE_MD, {
-        endpoint: 'storageApiUrl/files/set/file?path=gatling/user-files/simulations',
+        endpoint: 'backendApiUrl/files/set/file?path=gatling/user-files/simulations',
         multiple: false,
         accept: '.har',
         title: 'Upload HAR File'
@@ -175,7 +175,7 @@ object Search {
     dialogs.open.and.returnValue(of(context));
     tasks.execute.and.returnValue(of('taskId'));
     service.importHar({path: 'gatling/user-files/simulations/test.har'} as any);
-    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_MD, {harPath: 'gatling/user-files/simulations/test.har'});
+    expect(dialogs.open).toHaveBeenCalledWith(ImportHarDialogComponent, DialogSize.SIZE_LG, {harPath: 'gatling/user-files/simulations/test.har'});
     expect(tasks.execute).toHaveBeenCalledWith(context);
   });
 

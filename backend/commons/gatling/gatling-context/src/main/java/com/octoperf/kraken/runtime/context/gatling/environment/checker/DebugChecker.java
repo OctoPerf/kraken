@@ -14,9 +14,7 @@ final class DebugChecker implements EnvironmentChecker {
   @Override
   public void accept(final Map<String, String> environment) {
     requireEnv(environment,
-        KRAKEN_GATLING_SIMULATION_NAME,
-        KRAKEN_ANALYSIS_URL,
-        KRAKEN_STORAGE_URL);
+        KRAKEN_GATLING_SIMULATION_NAME);
   }
 
   @Override

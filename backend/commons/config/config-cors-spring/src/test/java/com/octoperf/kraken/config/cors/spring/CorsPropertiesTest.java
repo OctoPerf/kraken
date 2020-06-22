@@ -11,6 +11,7 @@ class CorsPropertiesTest {
 
   public static final CorsProperties CORS_PROPERTIES = SpringCorsProperties
       .builder()
+      .enabled(true)
       .allowedOrigins(ImmutableList.of("*"))
       .allowedHeaders(ImmutableList.of("*"))
       .allowedMethods(ImmutableList.of("*"))
@@ -20,6 +21,7 @@ class CorsPropertiesTest {
 
   @Test
   public void shouldPassTestUtils() {
-    TestUtils.shouldPassAll(CORS_PROPERTIES);
+    TestUtils.shouldPassEquals(CORS_PROPERTIES.getClass());
+    TestUtils.shouldPassToString(CORS_PROPERTIES);
   }
 }

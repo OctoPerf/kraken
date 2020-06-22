@@ -1,0 +1,22 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "name" . }}-influxdb-data
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  accessModes:
+    - {{ .Values.influxdb.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.influxdb.persistence.size | quote }}
+  {{- if .Values.influxdb.persistence.storageClass }}
+  {{- if (eq "-" .Values.influxdb.persistence.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: "{{ .Values.influxdb.persistence.storageClass }}"
+  {{- end }}
+  {{- end }}

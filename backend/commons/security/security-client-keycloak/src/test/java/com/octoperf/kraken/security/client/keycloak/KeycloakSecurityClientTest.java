@@ -45,7 +45,7 @@ public class KeycloakSecurityClientTest {
   public void setUp() throws IOException {
     server = new MockWebServer();
     mapper = new ObjectMapper();
-    final String url = server.url("/").toString();
+    final String url = server.url("/auth").toString();
     given(securityClientProperties.getUrl()).willReturn(url);
     given(securityClientProperties.getRealm()).willReturn("kraken");
     given(webCredentials.getId()).willReturn("kraken-web");

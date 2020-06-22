@@ -12,7 +12,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 @Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken")
-final class SpringApplicationProperties implements ApplicationProperties {
+class SpringApplicationProperties implements ApplicationProperties {
   String data;
   String version;
 

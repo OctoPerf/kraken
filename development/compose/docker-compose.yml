@@ -5,40 +5,40 @@ networks:
     name: "kraken"
 
 services:
-  kraken-influxdb-dev:
+  kraken-dev-influxdb:
     image: influxdb:1.7.4
-    container_name: kraken-influxdb-dev
+    container_name: kraken-dev-influxdb
     networks:
       - kraken
     ports:
-      - "8086:8086"
+      - 8086:8086
     expose:
-      - "8086"
+      - 8086
     env_file:
       - 'influxdb/env.influxdb'
     volumes:
       - ./data/analysis/influxdb:/var/lib/influxdb
       - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro
 
-  kraken-grafana-dev:
+  kraken-dev-grafana:
     user: ${KRAKEN_HOST_UID}:${KRAKEN_HOST_GID}
     image: grafana/grafana:6.7.1
-    container_name: kraken-grafana-dev
+    container_name: kraken-dev-grafana
     networks:
       - kraken
     ports:
-      - "3000:3000"
+      - 3000:3000
     expose:
-      - "3000"
+      - 3000
     env_file:
       - 'grafana/env.grafana'
     volumes:
       - ./data/analysis/grafana:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
 
-  kraken-postgres-dev:
+  kraken-dev-postgres:
     image: postgres:12.2
-    container_name: kraken-postgres-dev
+    container_name: kraken-dev-postgres
     networks:
       - kraken
     volumes:
@@ -48,14 +48,14 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
 
-  kraken-keycloak-dev:
-    image: octoperf/kraken-keycloak
-    container_name: kraken-keycloak-dev
+  kraken-dev-keycloak:
+    image: octoperf/kraken-keycloak:latest
+    container_name: kraken-dev-keycloak-dev
     networks:
       - kraken
     environment:
       DB_VENDOR: "POSTGRES"
-      DB_ADDR: "kraken-postgres-dev"
+      DB_ADDR: "kraken-dev-postgres"
       DB_DATABASE: "keycloak"
       DB_USER: "keycloak"
       DB_SCHEMA: "public"
@@ -63,21 +63,39 @@ services:
       KEYCLOAK_USER: "admin"
       KEYCLOAK_PASSWORD: "kraken"
       KEYCLOAK_WELCOME_THEME: "kraken"
-      KRAKEN_SECURITY_URL: "http://kraken-local:9080"
-      KRAKEN_URLS: "http://kraken-backend:8080/user-events"
+      KRAKEN_SECURITY_URL: "http://kraken-local/auth"
+      KRAKEN_URLS: "http://kraken-dev-backend:8080/user-events"
       KRAKEN_SECURITY_API_ID: "kraken-api"
       KRAKEN_SECURITY_API_SECRET: "c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4"
       KRAKEN_SECURITY_REALM: "kraken"
     volumes:
       - ./keycloak/imports:/opt/jboss/keycloak/imports
     ports:
-      - "9080:9080"
+      - 9080:9080
     expose:
       - 9080
     depends_on:
-      - kraken-postgres-dev
+      - kraken-dev-postgres
     extra_hosts:
-      - "kraken-local:127.0.0.1"
-      - "kraken-backend:${KRAKEN_LOCAL_IP}"
+      - "kraken-local:${KRAKEN_LOCAL_IP}"
+      - "kraken-dev-backend:${KRAKEN_LOCAL_IP}"
     command:
       - "-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0 -Djboss.socket.binding.port-offset=1000 -Dkeycloak.profile=preview -Dkeycloak.import=/opt/jboss/keycloak/imports/kraken-realm.json"
+
+  kraken-dev-haproxy:
+    image: haproxy:1.9.5-alpine
+    container_name: kraken-dev-haproxy
+    networks:
+      - kraken
+    ports:
+      - 80:80
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    extra_hosts:
+      - "kraken-dev-gatling-ui:${KRAKEN_LOCAL_IP}"
+      - "kraken-dev-administration-ui:${KRAKEN_LOCAL_IP}"
+      - "kraken-dev-backend:${KRAKEN_LOCAL_IP}"
+      - "kraken-dev-documentation:${KRAKEN_LOCAL_IP}"
+    depends_on:
+      - kraken-dev-keycloak
+      - kraken-dev-grafana

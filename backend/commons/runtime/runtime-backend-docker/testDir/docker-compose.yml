@@ -7,15 +7,15 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken/taskId: taskId
-      com.kraken/taskType: GATLING_DEBUG
-      com.kraken/containerName: containerOneId
-      com.kraken/hostId: hostId
-      com.kraken/label: Container One
-      com.kraken/description: Debug Task
-      com.kraken/expectedCount: 2
-      com.kraken/applicationId: app
-      com.kraken/userId: user
+      com.octoperf/taskId: taskId
+      com.octoperf/taskType: GATLING_DEBUG
+      com.octoperf/containerName: containerOneId
+      com.octoperf/hostId: hostId
+      com.octoperf/label: Container One
+      com.octoperf/description: Debug Task
+      com.octoperf/expectedCount: 2
+      com.octoperf/applicationId: app
+      com.octoperf/userId: user
     container_name: containerOneId_READY
     image: nginx
     networks:
@@ -23,15 +23,15 @@ services:
 
   kraken-container-two:
     labels:
-      com.kraken/taskId: taskId
-      com.kraken/taskType: GATLING_DEBUG
-      com.kraken/containerName: containerTwoId
-      com.kraken/hostId: hostId
-      com.kraken/label: Container Two
-      com.kraken/description: Debug Task
-      com.kraken/expectedCount: 2
-      com.kraken/applicationId: app
-      com.kraken/userId: user
+      com.octoperf/taskId: taskId
+      com.octoperf/taskType: GATLING_DEBUG
+      com.octoperf/containerName: containerTwoId
+      com.octoperf/hostId: hostId
+      com.octoperf/label: Container Two
+      com.octoperf/description: Debug Task
+      com.octoperf/expectedCount: 2
+      com.octoperf/applicationId: app
+      com.octoperf/userId: user
     container_name: containerTwoId_DONE
     image: nginx
     networks:
@@ -39,15 +39,15 @@ services:
 
   kraken-container-three:
     labels:
-      com.kraken/taskId: taskIdBis
-      com.kraken/taskType: GATLING_RUN
-      com.kraken/containerName: containerThreeId
-      com.kraken/hostId: hostId
-      com.kraken/label: Container Three
-      com.kraken/description: Run Task
-      com.kraken/expectedCount: 1
-      com.kraken/applicationId: app
-      com.kraken/userId: user
+      com.octoperf/taskId: taskIdBis
+      com.octoperf/taskType: GATLING_RUN
+      com.octoperf/containerName: containerThreeId
+      com.octoperf/hostId: hostId
+      com.octoperf/label: Container Three
+      com.octoperf/description: Run Task
+      com.octoperf/expectedCount: 1
+      com.octoperf/applicationId: app
+      com.octoperf/userId: user
     container_name: containerThreeId_STARTING
     image: octoperf/kraken-echo:latest
     networks:

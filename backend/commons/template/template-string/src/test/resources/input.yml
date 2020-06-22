@@ -12,7 +12,7 @@ services:
     networks:
       - kraken
     labels:
-      com.kraken/taskId: "${KRAKEN_TASK_ID}"
+      com.octoperf/taskId: "${KRAKEN_TASK_ID}"
     environment:
       KRAKEN_TASKID: ${KRAKEN_TASK_ID}
       JAVA_OPTS: "-Dspring.profiles.active=docker -Xmx=${XMX}"

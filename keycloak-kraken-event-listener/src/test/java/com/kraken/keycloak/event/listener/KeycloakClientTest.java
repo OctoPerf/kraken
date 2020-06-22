@@ -51,7 +51,7 @@ class KeycloakClientTest {
     Assertions.assertEquals(1, server.getRequestCount());
 
     final RecordedRequest request = server.takeRequest();
-    Assertions.assertEquals("/auth/realms/kraken/protocol/openid-connect/token", request.getPath());
+    Assertions.assertEquals("/realms/kraken/protocol/openid-connect/token", request.getPath());
     Assertions.assertEquals("client_id=clientId&client_secret=clientSecret&grant_type=client_credentials", request.getUtf8Body());
   }
 }

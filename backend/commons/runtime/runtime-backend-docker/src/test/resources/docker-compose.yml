@@ -7,15 +7,15 @@ networks:
 services:
   kraken-container-one:
     labels:
-      com.kraken/taskId: taskId
-      com.kraken/taskType: GATLING_RECORD
-      com.kraken/containerName: taskId-container-one
-      com.kraken/hostId: hostId
-      com.kraken/label: Container One
-      com.kraken/description: description
-      com.kraken/expectedCount: 2
-      com.kraken/applicationId: test
-      com.kraken/userId: user
+      com.octoperf/taskId: taskId
+      com.octoperf/taskType: GATLING_RECORD
+      com.octoperf/containerName: taskId-container-one
+      com.octoperf/hostId: hostId
+      com.octoperf/label: Container One
+      com.octoperf/description: description
+      com.octoperf/expectedCount: 2
+      com.octoperf/applicationId: test
+      com.octoperf/userId: user
     container_name: taskId-container-one_STARTING
     image: nginx
     networks:
@@ -23,15 +23,15 @@ services:
 
   kraken-container-two:
     labels:
-      com.kraken/taskId: taskId
-      com.kraken/taskType: GATLING_RECORD
-      com.kraken/containerName: taskId-container-two
-      com.kraken/hostId: hostId
-      com.kraken/label: Container Two
-      com.kraken/description: description
-      com.kraken/expectedCount: 2
-      com.kraken/applicationId: test
-      com.kraken/userId: user
+      com.octoperf/taskId: taskId
+      com.octoperf/taskType: GATLING_RECORD
+      com.octoperf/containerName: taskId-container-two
+      com.octoperf/hostId: hostId
+      com.octoperf/label: Container Two
+      com.octoperf/description: description
+      com.octoperf/expectedCount: 2
+      com.octoperf/applicationId: test
+      com.octoperf/userId: user
     container_name: taskId-container-two_STARTING
     image: nginx
     networks:

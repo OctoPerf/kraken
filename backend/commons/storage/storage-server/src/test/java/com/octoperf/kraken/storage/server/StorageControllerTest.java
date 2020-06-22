@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -50,6 +51,44 @@ public class StorageControllerTest extends AuthControllerTest {
   @Test
   public void shouldPassTestUtils() {
     TestUtils.shouldPassNPE(StorageController.class);
+  }
+
+  @Test
+  public void shouldGetStaticTxt() {
+    given(service.getFileResource(applicationId + "/sub/static.txt"))
+        .willReturn(Mono.just(new FileSystemResource("testDir/sub/static.txt")));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/static")
+            .pathSegment(applicationId)
+            .pathSegment("sub/static.txt")
+            .build())
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_LENGTH, "16")
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_TYPE, "text/plain")
+        .expectBody(String.class)
+        .isEqualTo("Spring Framework");
+  }
+
+  @Test
+  public void shouldGetStaticImage() {
+    given(service.getFileResource(applicationId + "/sub/static.svg"))
+        .willReturn(Mono.just(new FileSystemResource("testDir/sub/static.svg")));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/static")
+            .pathSegment(applicationId)
+            .pathSegment("sub/static.svg")
+            .build())
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_LENGTH, "11")
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_TYPE, "image/svg+xml")
+        .expectBody(String.class)
+        .isEqualTo("<svg></svg>");
   }
 
   @Test
@@ -182,7 +221,7 @@ public class StorageControllerTest extends AuthControllerTest {
   @Test
   public void shouldGetFile() {
     final var content = "File getContent";
-    given(service.getFile(""))
+    given(service.getFileInputStream(""))
         .willReturn(Mono.just(new ByteArrayInputStream(content.getBytes(Charsets.UTF_8))));
     given(service.getFileName(""))
         .willReturn("test.txt");
@@ -221,7 +260,7 @@ public class StorageControllerTest extends AuthControllerTest {
   @Test
   public void shouldGetDirectory() {
     final var content = "File getContent";
-    given(service.getFile(""))
+    given(service.getFileInputStream(""))
         .willReturn(Mono.just(new ByteArrayInputStream(content.getBytes(Charsets.UTF_8))));
     given(service.getFileName(""))
         .willReturn("test.zip");

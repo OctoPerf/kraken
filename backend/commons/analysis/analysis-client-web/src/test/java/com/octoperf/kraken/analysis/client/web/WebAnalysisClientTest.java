@@ -8,7 +8,7 @@ import com.octoperf.kraken.analysis.client.api.AnalysisClient;
 import com.octoperf.kraken.analysis.entity.DebugEntryTest;
 import com.octoperf.kraken.analysis.entity.ResultStatus;
 import com.octoperf.kraken.analysis.entity.ResultTest;
-import com.octoperf.kraken.config.analysis.client.api.AnalysisClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.storage.entity.StorageNodeTest;
@@ -44,7 +44,7 @@ public class WebAnalysisClientTest {
   @Autowired
   List<ExchangeFilterFactory> filterFactories;
   @MockBean
-  AnalysisClientProperties properties;
+  BackendClientProperties properties;
 
   @BeforeEach
   public void before() {

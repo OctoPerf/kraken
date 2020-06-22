@@ -1,7 +1,7 @@
 package com.octoperf.kraken.runtime.event.client.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.octoperf.kraken.config.runtime.client.api.RuntimeClientProperties;
+import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.event.client.api.RuntimeEventClient;
 import com.octoperf.kraken.runtime.event.client.api.RuntimeEventClientBuilder;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
@@ -17,12 +17,12 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-final class WebRuntimeEventClientBuilder extends WebAuthenticatedClientBuilder<RuntimeEventClient, RuntimeClientProperties> implements RuntimeEventClientBuilder {
+final class WebRuntimeEventClientBuilder extends WebAuthenticatedClientBuilder<RuntimeEventClient, BackendClientProperties> implements RuntimeEventClientBuilder {
 
   @NonNull ObjectMapper mapper;
 
   public WebRuntimeEventClientBuilder(final List<ExchangeFilterFactory> exchangeFilterFactories,
-                                      final RuntimeClientProperties properties,
+                                      final BackendClientProperties properties,
                                       @NonNull final ObjectMapper mapper) {
     super(exchangeFilterFactories, properties);
     this.mapper = mapper;

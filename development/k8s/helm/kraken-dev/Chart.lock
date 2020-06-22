@@ -1,12 +1,9 @@
 dependencies:
-- name: influxdb
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 3.1.1
 - name: grafana
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 4.3.2
 - name: keycloak
   repository: https://codecentric.github.io/helm-charts/
   version: 8.2.2
-digest: sha256:7f595ce85166843cd4ce80d2f318d10565218d510697a092bbb84ad2f1e91c80
-generated: "2020-05-26T15:55:08.204199913+02:00"
+digest: sha256:0f87a00b8c6355cdcfc09d8a6edc0ecf48214dc30b73ab8f92a87de8a3fba632
+generated: "2020-06-18T10:38:04.605174567+02:00"

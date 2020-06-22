@@ -72,7 +72,7 @@ public class SSEControllerTest extends AuthControllerTest {
     given(storageClient.watch()).willReturn(Flux.just(StorageWatcherEventTest.STORAGE_WATCHER_EVENT));
 
     final var result = webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/watch").build())
+        .uri(uriBuilder -> uriBuilder.path("/sse/watch").build())
         .header("Authorization", "Bearer user-token")
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()
@@ -89,7 +89,7 @@ public class SSEControllerTest extends AuthControllerTest {
   public void shouldFailToWatchHeader() {
     final var applicationId = "applicationId"; // Should match [a-z0-9]*
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/watch").build())
+        .uri(uriBuilder -> uriBuilder.path("/sse/watch").build())
         .header("Authorization", "Bearer user-token")
         .header("ApplicationId", applicationId)
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
@@ -100,7 +100,7 @@ public class SSEControllerTest extends AuthControllerTest {
   @Test
   public void shouldFailToWatchForbidden() {
     webTestClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/watch").build())
+        .uri(uriBuilder -> uriBuilder.path("/sse/watch").build())
         .header("Authorization", "Bearer no-role-token")
         .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
         .exchange()

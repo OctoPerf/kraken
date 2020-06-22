@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken.runtime.server")
-final class SpringServerProperties implements RuntimeServerProperties {
+class SpringServerProperties implements RuntimeServerProperties {
   @NonNull
   String configPath;
 }
