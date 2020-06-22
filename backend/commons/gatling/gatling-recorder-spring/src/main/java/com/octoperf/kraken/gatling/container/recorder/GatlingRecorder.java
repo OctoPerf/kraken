@@ -43,10 +43,11 @@ final class GatlingRecorder {
   @PostConstruct
   public void init() {
     executor.execute(of((runtimeClient, me) -> {
-      storageClientMono.flatMap(storage ->
-          Mono.zip(storage.downloadFolder(Paths.get(gatling.getConf().getLocal()), getRemoteConf()),
-              storage.downloadFile(Paths.get(gatling.getHarPath().getLocal()), gatling.getHarPath().getRemote()))
-      ).block();
+      // Warning: Do NOT Mono.zip these calls!
+      // Download configuration
+      storageClientMono.flatMap(storage -> storage.downloadFolder(Paths.get(gatling.getConf().getLocal()), getRemoteConf())).block();
+      // Download HAR
+      storageClientMono.flatMap(storage -> storage.downloadFile(Paths.get(gatling.getHarPath().getLocal()), gatling.getHarPath().getRemote())).block();
       // List files
       final var listFiles = commands.execute(Command.builder()
           .path(gatling.getHome())

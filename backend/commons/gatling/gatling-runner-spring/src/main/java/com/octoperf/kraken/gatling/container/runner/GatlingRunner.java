@@ -43,14 +43,16 @@ final class GatlingRunner {
   @PostConstruct
   public void init() {
     executor.execute(of((runtimeClient, me) -> {
-      storageClientMono.flatMap(storage -> Mono.zip(
+      // Warning: Do NOT Mono.zip these calls!
+      storageClientMono.flatMap(storage ->
           // Download configuration
-          storage.downloadFolder(Paths.get(gatling.getConf().getLocal()), getRemoteConf()),
+          storage.downloadFolder(Paths.get(gatling.getConf().getLocal()), getRemoteConf())).block();
+      storageClientMono.flatMap(storage ->
           // Download user files
-          storage.downloadFolder(Paths.get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote()),
+          storage.downloadFolder(Paths.get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote())).block();
+      storageClientMono.flatMap(storage ->
           // Download lib folder
-          storage.downloadFolder(Paths.get(gatling.getLib().getLocal()), gatling.getLib().getRemote())
-      )).block();
+          storage.downloadFolder(Paths.get(gatling.getLib().getLocal()), gatling.getLib().getRemote())).block();
 
       // List files
       final var listFiles = commands.execute(Command.builder()

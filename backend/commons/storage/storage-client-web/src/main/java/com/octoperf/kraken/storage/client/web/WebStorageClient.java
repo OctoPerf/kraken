@@ -157,6 +157,7 @@ final class WebStorageClient implements StorageClient {
           , log)
           .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
+            ZipUtil.iterate(zipPath.toFile(), (inputStream, zipEntry) -> log.info(zipEntry.getName()));
             try {
               Files.delete(zipPath);
             } catch (IOException e) {
