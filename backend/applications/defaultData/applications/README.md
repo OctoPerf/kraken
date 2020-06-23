@@ -1,7 +1,5 @@
 # Administration
 
-![Logo](/api/storage/static/applications/kraken.svg "Logo")
-
 The Kraken Administration application:
 
 * Manages all other applications files,
