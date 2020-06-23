@@ -162,7 +162,7 @@ public class AnalysisControllerTest extends AuthControllerTest {
   @Test
   public void shouldGrafanaLogin() {
     final var grafanaUrl = "url";
-    given(grafanaProperties.getUrl()).willReturn(grafanaUrl);
+    given(grafanaProperties.getPublishedUrl()).willReturn(grafanaUrl);
     given(analysisService.grafanaLogin(userOwner())).willReturn(Mono.just(ResponseCookie.from("grafana_session", "sessionId").build()));
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/result/grafana/login")
