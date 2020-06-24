@@ -76,24 +76,3 @@ kraken:
     publishedUrl: http://kraken-local/grafana
   security:
     url: http://kraken-local/auth
-
----
-spring:
-  profiles: docker
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://kraken-local/auth/realms/kraken
-
-kraken:
-  backend:
-    url: http://kraken-backend:8080
-  influxdb:
-    url: http://kraken-influxdb:8086
-    publishedUrl: http://kraken-influxdb:8086
-  grafana:
-    url: http://kraken-grafana:3000
-    publishedUrl: http://kraken-local/grafana
-  security:
-    url: http://kraken-local/auth

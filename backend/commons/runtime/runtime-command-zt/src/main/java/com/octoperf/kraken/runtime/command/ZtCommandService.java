@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.zeroturnaround.exec.InvalidExitValueException;
 import org.zeroturnaround.exec.ProcessExecutor;
 import org.zeroturnaround.exec.stream.LogOutputStream;
 import reactor.core.publisher.Flux;
@@ -33,7 +34,9 @@ final class ZtCommandService implements CommandService {
       log.debug(String.format("Executing command %s in path %s", String.join(" ", command.getCommand()), command.getPath()));
       final var file = Paths.get(command.getPath()).toFile();
       final var errors = ImmutableList.<String>builder();
-      final var process = new ProcessExecutor().command(command.getCommand())
+      final var process = new ProcessExecutor()
+          .exitValueNormal()
+          .command(command.getCommand())
           .directory(file)
           .environment(command.getEnvironment().entrySet().stream()
               .collect(Collectors.toMap(e -> e.getKey().name(), Map.Entry::getValue)))
@@ -46,19 +49,15 @@ final class ZtCommandService implements CommandService {
             }
           });
       try {
-        final var exitValue = process.execute().getExitValue();
-        if (exitValue != 0) {
-          emitter.error(new IllegalArgumentException("Command returned with code != 0"));
-        } else {
-          emitter.complete();
-        }
-      } catch (InterruptedException | TimeoutException | IOException e) {
+        process.execute();
+      } catch (InvalidExitValueException | InterruptedException | TimeoutException | IOException e) {
         log.error("Command execution failed", e);
         log.error(String.join("\n", errors.build()));
         emitter.error(e);
       }
+      emitter.complete();
     })
-        .map(stringCleaner);
+    .map(stringCleaner);
   }
 
 }
