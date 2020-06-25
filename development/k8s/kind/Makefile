@@ -36,7 +36,7 @@ kind-docker-copy-all:
 	kind load docker-image octoperf/kraken-documentation:$(VERSION)
 	kind load docker-image octoperf/kraken-gatling-ui:$(VERSION)
 	kind load docker-image octoperf/kraken-administration-ui:$(VERSION)
-	kind load docker-image octoperf/kraken-echo:$(VERSION)
+	-kind load docker-image octoperf/kraken-echo:$(VERSION)
 
 kind-clean:
 	-kind delete cluster
