@@ -172,10 +172,10 @@ git-release-start:
 	$(MAKE) git-pull BRANCH=develop
 	git flow release start $(RELEASE)
 	git flow release publish $(RELEASE)
-	$(MAKE) git-release-start-submodule SUBMODULE=backend/commons/ee FEATURE=$(RELEASE)
-	$(MAKE) git-release-start-submodule SUBMODULE=backend/applications/ee FEATURE=$(RELEASE)
-	$(MAKE) git-release-start-submodule SUBMODULE=deployment FEATURE=$(RELEASE)
-	$(MAKE) git-release-start-submodule SUBMODULE=documentation FEATURE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=backend/commons/ee RELEASE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=backend/applications/ee RELEASE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=deployment RELEASE=$(RELEASE)
+	$(MAKE) git-release-start-submodule SUBMODULE=documentation RELEASE=$(RELEASE)
 
 git-release-start-submodule:
 	cd $(SUBMODULE);git flow release start $(RELEASE)
@@ -185,10 +185,10 @@ git-release-finish:
 	$(MAKE) git-pull BRANCH=develop
 	git flow release finish $(RELEASE)
 	git push origin --tags
-	$(MAKE) git-release-finish-submodule SUBMODULE=backend/commons/ee FEATURE=$(RELEASE)
-	$(MAKE) git-release-finish-submodule SUBMODULE=backend/applications/ee FEATURE=$(RELEASE)
-	$(MAKE) git-release-finish-submodule SUBMODULE=deployment FEATURE=$(RELEASE)
-	$(MAKE) git-release-finish-submodule SUBMODULE=documentation FEATURE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=backend/commons/ee RELEASE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=backend/applications/ee RELEASE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=deployment RELEASE=$(RELEASE)
+	$(MAKE) git-release-finish-submodule SUBMODULE=documentation RELEASE=$(RELEASE)
 
 git-release-finish-submodule:
 	cd $(SUBMODULE);git flow release finish $(RELEASE)
