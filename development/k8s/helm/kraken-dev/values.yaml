@@ -7,7 +7,7 @@ default:
   - &default_pull_policy IfNotPresent
   - &default_admin_username "admin"
   - &default_admin_password "kraken"
-  - &kraken_local_ip 192.168.2.44
+  - &kraken_local_ip 192.168.1.17
   - &kraken_hostname "kraken-local"
     ## Storage data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>

@@ -8,11 +8,15 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   EDITOR_DEBUG: '/editors/debug-request-response/',
   ADMIN_FILE_EDITOR: '/administration/files-editor-usage/',
 
+  'administration-storage': '/administration/files-manager-usage/',
   ADMIN_CONFIGURATION: '/administration/files-manager-usage/',
   ADMIN_HOSTS_TABLE: '/administration/hosts-table/',
+  'resources-tree': '/gatling/#resources-tree',
   GATLING_RESOURCES: '/gatling/#resources-tree',
+  'simulations-tree': '/gatling/#simulations-tree',
   GATLING_SIMULATIONS: '/gatling/#simulations-tree',
   // TODO update doc
+  'gatling-files-tree': '/gatling/#TODO',
   GATLING_CONFIGURATION: '/gatling/#TODO',
   GATLING_EXECUTIONS: '/gatling/#gatling-executions',
   GATLING_RESULTS_TABLE: '/gatling/#gatling-test-results',
