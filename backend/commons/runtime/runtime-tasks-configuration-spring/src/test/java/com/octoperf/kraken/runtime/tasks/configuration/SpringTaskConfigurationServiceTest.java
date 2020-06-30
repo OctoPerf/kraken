@@ -7,6 +7,7 @@ import com.octoperf.kraken.runtime.tasks.configuration.entity.TasksConfiguration
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TasksConfigurationTest;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.entity.functions.api.OwnerToApplicationId;
+import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
 import com.octoperf.kraken.security.entity.owner.PublicOwner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
@@ -34,17 +35,20 @@ public class SpringTaskConfigurationServiceTest {
   RuntimeServerProperties serverProperties;
   @Mock
   OwnerToApplicationId toApplicationId;
+  @Mock
+  OwnerToUserId toUserId;
 
   SpringTaskConfigurationService service;
 
   @BeforeEach
   public void before() {
     given(toApplicationId.apply(any())).willReturn(Optional.of("app"));
+    given(toUserId.apply(any())).willReturn(Optional.of("userId"));
     given(storageClientBuilder.applicationId(any())).willReturn(storageClientBuilder);
-    given(storageClientBuilder.mode(AuthenticationMode.SESSION)).willReturn(storageClientBuilder);
+    given(storageClientBuilder.mode(AuthenticationMode.SERVICE_ACCOUNT, "userId")).willReturn(storageClientBuilder);
     given(storageClientBuilder.build()).willReturn(Mono.just(storageClient));
     given(serverProperties.getConfigPath()).willReturn("configPath");
-    service = new SpringTaskConfigurationService(serverProperties, storageClientBuilder, toApplicationId);
+    service = new SpringTaskConfigurationService(serverProperties, storageClientBuilder, toApplicationId, toUserId);
   }
 
   @Test
