@@ -21,7 +21,6 @@ export class HelpService implements OnDestroy {
     this.subscription = eventBus.of<HelpEvent>(OpenHelpEvent.CHANNEL, SelectHelpEvent.CHANNEL)
       .pipe(filter(event => !!event.pageId))
       .subscribe(event => {
-        console.log(event);
         this.lastPage.next(event.pageId);
       });
   }
