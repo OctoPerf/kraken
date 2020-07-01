@@ -15,9 +15,8 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   GATLING_RESOURCES: '/gatling/#resources-tree',
   'simulations-tree': '/gatling/#simulations-tree',
   GATLING_SIMULATIONS: '/gatling/#simulations-tree',
-  // TODO update doc
-  'gatling-files-tree': '/gatling/#TODO',
-  GATLING_CONFIGURATION: '/gatling/#TODO',
+  'gatling-files-tree': '/gatling/advanced-configuration-files/',
+  GATLING_CONFIGURATION: '/gatling/advanced-configuration-files/',
   GATLING_EXECUTIONS: '/gatling/#gatling-executions',
   GATLING_RESULTS_TABLE: '/gatling/#gatling-test-results',
   GATLING_DEBUG_ENTRIES_TABLE: '/gatling/#debug-entries-table',
@@ -36,5 +35,5 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_DELETE_IMAGE: '/administration/docker-images-table/#delete-docker-image',
   ADMIN_UPLOAD_FILE: '/administration/files-manager-usage/#files-upload',
   ADMIN_DOWNLOAD_FILE: '/administration/files-manager-usage/#files-and-folders-download',
-  ADMIN_ATTACH_HOST: '/administration/hosts-table/', // TODO update when doc is done
+  ADMIN_ATTACH_HOST: '/administration/hosts-table/',
 };
