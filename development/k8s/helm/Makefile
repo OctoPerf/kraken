@@ -26,8 +26,3 @@ install: update-ip update-version
 clean:
 	-helm delete $(CHART) --namespace $(NAMESPACE)
 	-kubectl delete namespace $(NAMESPACE)
-	-kubectl delete ClusterRole kraken-runtime
-	-kubectl delete ClusterRoleBinding kraken-runtime
-	-kubectl delete PodSecurityPolicy kraken-grafana kraken-grafana-test
-	-kubectl delete ClusterRole kraken-grafana-clusterrole
-	-kubectl delete ClusterRoleBinding kraken-grafana-clusterrolebinding

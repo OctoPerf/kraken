@@ -44,6 +44,8 @@ public class SecurityConfiguration {
         // Test only
         .pathMatchers("/test/user/**").hasAnyAuthority(USER.name())
         .pathMatchers("/test/admin/**").hasAnyAuthority(ADMIN.name())
+        // Actuator
+        .pathMatchers("/actuator/**").permitAll()
         .anyExchange().denyAll()
         .and()
         .oauth2ResourceServer(oAuth2Spec ->

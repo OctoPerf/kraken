@@ -34,6 +34,25 @@ spring:
       max-request-size: 500MB # Max request size.
       resolve-lazily: false # Whether to resolve the multipart request lazily at the time of file or parameter access.
 
+# Actuator endpoints
+management:
+  endpoint:
+    health:
+      enabled: true
+  health:
+    defaults:
+      enabled: false
+    probes:
+      enabled: true
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+  security:
+    enabled: false
+
 logging:
   level:
     root: INFO
