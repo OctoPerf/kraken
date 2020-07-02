@@ -15,26 +15,8 @@ type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 3.0.0-rc1
+version: 1.0.0-dev
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 3.0.0-rc1
-
-#dependencies:
-#  - name: influxdb
-#    version: 3.1.1
-#    repository: https://kubernetes-charts.storage.googleapis.com/
-#    condition: kraken.dependencies.deployInfluxdb
-#  - name: grafana
-#    version: 4.3.2
-#    repository: https://kubernetes-charts.storage.googleapis.com/
-#    condition: kraken.dependencies.deployGrafana
-#  - name: postgresql
-#    version: 8.9.5
-#    repository: https://charts.bitnami.com/bitnami
-#    condition: kraken.dependencies.deployKeycloak
-#  - name: keycloak
-#    version: 8.2.2
-#    repository: https://codecentric.github.io/helm-charts/
-#    condition: kraken.dependencies.deployKeycloak
+appVersion: 1.0.0-dev
