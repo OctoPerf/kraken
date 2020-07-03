@@ -1,5 +1,6 @@
 package com.octoperf.kraken.grafana.client.api;
 
+import com.octoperf.kraken.tools.obfuscation.ExcludeFromObfuscation;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -9,6 +10,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 @Value
 @Builder(toBuilder = true)
+@ExcludeFromObfuscation
 public class GrafanaUser {
 
   public static String EMAIL_ATTRIBUTE = "dashboardEmail";
