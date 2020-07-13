@@ -22,7 +22,8 @@ kind-start:
 
 # https://kind.sigs.k8s.io/docs/user/ingress/
 kind-ingress:
-	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/9aa1a59e1d3e3e948ef7f91311013008a0be7c7f/deploy/static/provider/kind/deploy.yaml
+# 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 	kubectl wait --namespace ingress-nginx --for=condition=ready pod --selector=app.kubernetes.io/component=controller --timeout=90s
 
 kind-docker-copy-all:
