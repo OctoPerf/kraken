@@ -19,6 +19,7 @@ kind-serve: kind-clean kind-start kind-ingress kind-docker-copy-all
 
 kind-start:
 	kind create cluster --config kind-config.yaml
+	kubectl label nodes kind-worker com.octoperf/node-name=kraken-1
 
 # https://kind.sigs.k8s.io/docs/user/ingress/
 kind-ingress:
