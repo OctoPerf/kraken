@@ -16,5 +16,23 @@ nodes:
       - containerPort: 443
         hostPort: 443
   - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "com.octoperf/node-name=kraken-1"
   - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "com.octoperf/node-name=kraken-2"
   - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "com.octoperf/node-name=kraken-3"
