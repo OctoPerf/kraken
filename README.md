@@ -13,12 +13,12 @@ As such, Kraken provides a complete development environment to software programm
 
 ### Documentation
 
-* [Getting Started](https://kraken.octoperf.com/)
-* [Download](https://kraken.octoperf.com/download/)
-* [Install - Docker](https://kraken.octoperf.com/install/linux/)
-* [Install - Kubernetes](https://kraken.octoperf.com/install/kubernetes-prerequisites/)
-* [Gatling Integration](https://kraken.octoperf.com/gatling/)
-* [Administration](https://kraken.octoperf.com/administration/)
+* [Getting Started](https://kraken.octoperf.com/doc/)
+* [Download](https://kraken.octoperf.com/doc/download/)
+* [Install - Docker](https://kraken.octoperf.com/doc/install/linux/)
+* [Install - Kubernetes](https://kraken.octoperf.com/doc/install/kubernetes-prerequisites/)
+* [Gatling Integration](https://kraken.octoperf.com/doc/gatling/)
+* [Administration](https://kraken.octoperf.com/doc/administration/)
 
 ### Blog
 
