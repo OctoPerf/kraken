@@ -23,11 +23,6 @@ admin:
   username: *default_admin_username
   password: *default_admin_password
 
-dependencies:
-  deployGrafana: true
-  deployInfluxdb: false
-  deplyKubernetes: false
-
 ingress:
   enabled: true
   host: *kraken_hostname

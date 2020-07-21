@@ -1,7 +1,5 @@
 # Kraken - The Load Testing IDE
 
-![Kraken Gatling](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-preview.gif "Kraken Gatling")
-
 Kraken is a load testing IDE based on Gatling.
 
 As such, Kraken provides a complete development environment to software programmers and load testers that seek to make the most out of Gatling:
@@ -15,13 +13,12 @@ As such, Kraken provides a complete development environment to software programm
 
 ### Documentation
 
-* [Getting Started](https://kraken.octoperf.com/)
-* [Download](https://kraken.octoperf.com/download/)
-* [Install - Docker](https://kraken.octoperf.com/install/linux/)
-* [Install - Kubernetes](https://kraken.octoperf.com/install/kubernetes/)
-* [Helm Chart](https://github.com/OctoPerf/helm-charts/tree/master/kraken)
-* [Gatling Integration](https://kraken.octoperf.com/gatling/)
-* [Administration](https://kraken.octoperf.com/administration/)
+* [Getting Started](https://kraken.octoperf.com/doc/)
+* [Download](https://kraken.octoperf.com/doc/download/)
+* [Install - Docker](https://kraken.octoperf.com/doc/install/linux/)
+* [Install - Kubernetes](https://kraken.octoperf.com/doc/install/kubernetes-prerequisites/)
+* [Gatling Integration](https://kraken.octoperf.com/doc/gatling/)
+* [Administration](https://kraken.octoperf.com/doc/administration/)
 
 ### Blog
 
@@ -68,8 +65,6 @@ To run Kraken from the source code, execute one of the following commands from t
 
 Open the [Makefile](https://github.com/OctoPerf/kraken/blob/master/Makefile) to know in detail what each of these tasks does.
   
-![Kraken Dev Architecture](https://raw.githubusercontent.com/OctoPerf/kraken/master/kraken-dev-architecture.png "Kraken Dev Architecture")
-
 ### Tests and bug finders
 
 #### Frontend

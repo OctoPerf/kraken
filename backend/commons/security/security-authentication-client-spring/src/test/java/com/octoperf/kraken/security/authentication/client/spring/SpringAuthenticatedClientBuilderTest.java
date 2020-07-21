@@ -76,9 +76,12 @@ public class SpringAuthenticatedClientBuilderTest {
 
   @Test
   public void shouldCreateServiceAccount() {
-    final var client = factory.mode(SERVICE_ACCOUNT).build().block();
+    final var client = factory.mode(SERVICE_ACCOUNT, "userId")
+        .applicationId("applicationId").build().block();
     assertNotNull(client);
-    assertEquals(client.owner, PublicOwner.INSTANCE);
+    assertEquals(client.owner, UserOwner.builder().userId("userId")
+        .applicationId("applicationId")
+        .roles(ImmutableList.of(KrakenRole.ADMIN, KrakenRole.API)).build());
   }
 
   @Test

@@ -67,6 +67,11 @@ public abstract class SpringAuthenticatedClientBuilder<T extends AuthenticatedCl
             .userId(userId.orElseThrow())
             .applicationId(applicationId.orElseThrow())
             .roles(ImmutableList.of(KrakenRole.USER)).build());
+      case SERVICE_ACCOUNT:
+        return Mono.just(UserOwner.builder()
+            .userId(userId.orElseThrow())
+            .applicationId(applicationId.orElseThrow())
+            .roles(ImmutableList.of(KrakenRole.ADMIN, KrakenRole.API)).build());
       default:
         return Mono.just(PublicOwner.INSTANCE);
     }

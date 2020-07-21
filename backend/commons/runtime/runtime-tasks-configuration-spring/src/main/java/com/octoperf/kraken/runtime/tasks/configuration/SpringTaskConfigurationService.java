@@ -6,7 +6,9 @@ import com.octoperf.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.entity.functions.api.OwnerToApplicationId;
+import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
 import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -29,9 +31,10 @@ final class SpringTaskConfigurationService implements TaskConfigurationService {
   @NonNull RuntimeServerProperties server;
   @NonNull StorageClientBuilder storageClientBuilder;
   @NonNull OwnerToApplicationId toApplicationId;
+  @NonNull OwnerToUserId toUserId;
 
   public Mono<TaskConfiguration> getConfiguration(final Owner owner, final TaskType taskType) {
-    return storageClientBuilder.applicationId(toApplicationId.apply(owner).orElseThrow()).mode(AuthenticationMode.SESSION).build()
+    return this.ownerToStorageClient(owner)
         .flatMap(storageClient -> storageClient.getYamlContent(server.getConfigPath(), TasksConfiguration.class))
         .map(config -> config.getTasks()
             .stream()
@@ -43,8 +46,13 @@ final class SpringTaskConfigurationService implements TaskConfigurationService {
 
   @Override
   public Mono<String> getTemplate(final Owner owner, final String file) {
-    return storageClientBuilder.applicationId(toApplicationId.apply(owner).orElseThrow()).mode(AuthenticationMode.SESSION).build()
-        .flatMap(storageClient -> storageClient.getContent(file));
+    return this.ownerToStorageClient(owner).flatMap(storageClient -> storageClient.getContent(file));
+  }
 
+  private Mono<StorageClient> ownerToStorageClient(final Owner owner) {
+    return storageClientBuilder
+        .applicationId(toApplicationId.apply(owner).orElseThrow())
+        .mode(AuthenticationMode.SERVICE_ACCOUNT, toUserId.apply(owner).orElseThrow())
+        .build();
   }
 }

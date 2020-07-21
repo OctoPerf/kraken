@@ -8,6 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import org.zeroturnaround.exec.InvalidExitValueException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import reactor.test.StepVerifier;
@@ -100,7 +101,7 @@ public class ZtCommandServiceTest {
         .build();
     StepVerifier.create(service.execute(command))
         .expectNext("cat: doesnotexist.txt: Aucun fichier ou dossier de ce type")
-        .expectError(IllegalArgumentException.class)
+        .expectError(InvalidExitValueException.class)
         .verify();
   }
 
