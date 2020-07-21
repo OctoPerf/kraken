@@ -1,3 +1,0 @@
-dependencies {
-    api project(':commons:analysis:grafana-client-properties-api')
-}

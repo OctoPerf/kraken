@@ -1,6 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
-import {AddressesToStringPipe} from 'projects/runtime/src/lib/runtime-host/addresses-to-string.pipe';
 import {Host} from 'projects/runtime/src/lib/entities/host';
 
 @Pipe({

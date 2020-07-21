@@ -10,18 +10,18 @@ export class RuntimeConfigurationService {
   }
 
   hostApiUrl(path: string = ''): string {
-    return this.configuration.url('runtimeApiUrl', `/host${path}`);
+    return this.configuration.url('backendApiUrl', `/host${path}`);
   }
 
   runtimeApiUrl(path: string = ''): string {
-    return this.configuration.url('runtimeApiUrl', `/runtime${path}`);
+    return this.configuration.url('backendApiUrl', `/runtime${path}`);
   }
 
   taskApiUrl(path: string = ''): string {
-    return this.configuration.url('runtimeApiUrl', `/task${path}`);
+    return this.configuration.url('backendApiUrl', `/task${path}`);
   }
 
   containerApiUrl(path: string = ''): string {
-    return this.configuration.url('runtimeApiUrl', `/container${path}`);
+    return this.configuration.url('backendApiUrl', `/container${path}`);
   }
 }

@@ -11,7 +11,7 @@ export const storageConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageConfigurationService', [
     'storageApiUrl',
   ]);
-  spy.storageApiUrl.and.callFake((path = '') => `storageApiUrl/files${path}`);
+  spy.storageApiUrl.and.callFake((path = '') => `backendApiUrl/files${path}`);
   spy.readmeNode = {
     'path': 'gatling/README.md',
     'type': 'FILE',
@@ -45,7 +45,7 @@ describe('StorageConfigurationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return staticApiUrl', () => {
+  it('should return backendStaticUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.storageApiUrl('path')).toBe('url');
   });

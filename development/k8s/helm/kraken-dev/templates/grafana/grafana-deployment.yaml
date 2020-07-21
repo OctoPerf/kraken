@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}-grafana
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}-grafana
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}-grafana
+    spec:
+      containers:
+        - image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
+          imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
+          name: {{ template "name" . }}-grafana
+          ports:
+            - containerPort: {{ .Values.grafana.port }}
+          env:
+            - name: GF_INSTALL_PLUGINS
+              value: grafana-piechart-panel, blackmirror1-singlestat-math-panel
+            - name: GF_SECURITY_ADMIN_USER
+              value: {{ .Values.grafana.admin.username }}
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: {{ .Values.grafana.admin.password }}
+          volumeMounts:
+            - name: grafana-ini
+              mountPath: "/etc/grafana/grafana.ini"
+              subPath: "grafana.ini"
+              readOnly: true
+            - name: grafana-data
+              mountPath: "/var/lib/grafana"
+      volumes:
+        - name: grafana-ini
+          secret:
+            secretName: {{ template "name" . }}-grafana
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: {{ template "name" . }}-grafana-data

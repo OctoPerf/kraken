@@ -1,7 +1,0 @@
-subprojects {
-    dependencies {
-        implementation project(':commons:tools:environment')
-        testImplementation project(':commons:tools:application')
-    }
-}
-

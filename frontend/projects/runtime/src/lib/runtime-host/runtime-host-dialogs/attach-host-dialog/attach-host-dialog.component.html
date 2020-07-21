@@ -20,6 +20,7 @@
         Host ID must begin and end with an alphanumeric character ([a-z0-9]) with dashes (-) and alphanumerics between.
       </mat-error>
     </mat-form-field>
+    <lib-owner-selector #ownerSelector [formGroup]="hostForm" [owner]="data.host.owner"></lib-owner-selector>
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>

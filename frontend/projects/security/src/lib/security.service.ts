@@ -9,45 +9,53 @@ import {map, tap} from 'rxjs/operators';
 })
 export class SecurityService {
 
-  private kcInstance: kc.KeycloakInstance;
+  _kcInstance: kc.KeycloakInstance;
 
   constructor(private configuration: SecurityConfigurationService) {
   }
 
   public init(): Observable<boolean> {
-    if (this.kcInstance) {
+    if (this._kcInstance) {
       return of(this.authenticated);
     }
     const kcInstance: kc.KeycloakInstance = kc(this.configuration.keycloakConfiguration);
     return from(kcInstance.init({onLoad: 'check-sso', checkLoginIframe: false}))
-      .pipe(tap(() => this.kcInstance = kcInstance), map(() => this.authenticated));
+      .pipe(tap(() => this._kcInstance = kcInstance), map(() => this.authenticated));
   }
 
   public login(): Observable<void> {
-    return from(this.kcInstance.login()).pipe(
-      tap(() => console.log(this.kcInstance.tokenParsed))
-    );
+    return from(this._kcInstance.login());
   }
 
   public logout(): Observable<void> {
-    return from(this.kcInstance.logout({redirectUri: document.baseURI}));
+    return from(this._kcInstance.logout({redirectUri: document.baseURI}));
   }
 
   public accountManagement(): Observable<void> {
-    return from(this.kcInstance.accountManagement());
+    return from(this._kcInstance.accountManagement());
   }
 
   public get token(): Observable<string> {
-    return from(this.kcInstance.updateToken(30)).pipe(
-      map(() => this.kcInstance.token)
+    return from(this._kcInstance.updateToken(30)).pipe(
+      // tap(() => console.log(this._kcInstance.token)),
+      map(() => this._kcInstance.token)
     );
   }
 
   public get authenticated(): boolean {
-    return this.kcInstance && !!this.kcInstance.authenticated;
+    return this._kcInstance && !!this._kcInstance.authenticated;
   }
 
   public get username(): string {
-    return (this.kcInstance.tokenParsed as any).preferred_username;
+    if (this._kcInstance && this._kcInstance.tokenParsed) {
+      return (this._kcInstance.tokenParsed as any).preferred_username;
+    }
   }
+
+  public get roles(): string[] {
+    if (this._kcInstance && this._kcInstance.tokenParsed) {
+      return this._kcInstance.tokenParsed.realm_access.roles;
+    }
+  }
+
 }

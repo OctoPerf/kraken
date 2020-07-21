@@ -1,7 +1,6 @@
 export interface Configuration {
   version: string;
   applicationId: string;
-  runtimeApiUrl: string;
-  storageApiUrl: string;
+  backendApiUrl: string;
   docUrl: string;
 }

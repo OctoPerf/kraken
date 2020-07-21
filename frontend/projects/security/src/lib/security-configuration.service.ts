@@ -13,4 +13,8 @@ export class SecurityConfigurationService {
   get keycloakConfiguration(): KeycloakConfig {
     return this.configuration.value('keycloakConfiguration');
   }
+
+  get expectedRole(): string[] {
+    return this.configuration.value('expectedRoles');
+  }
 }

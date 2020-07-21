@@ -1,9 +1,7 @@
 {
   "version": "administration-1",
   "applicationId": "administration",
-  "storageApiUrl": "/api/storage",
-  "runtimeApiUrl": "/api/runtime",
-  "sseApiUrl": "/api/sse",
+  "backendApiUrl": "/api",
   "docUrl": "/doc",
   "readmeNode": {
     "path": "README.md",
@@ -13,8 +11,9 @@
     "lastModified": 0
   },
   "keycloakConfiguration": {
-    "url": "/api/keycloak",
+    "url": "/auth",
     "realm": "kraken",
     "clientId": "kraken-web"
-  }
+  },
+  "expectedRoles": ["ADMIN"]
 }

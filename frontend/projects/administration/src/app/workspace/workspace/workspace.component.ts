@@ -19,7 +19,7 @@ import {faFolderOpen} from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import {StorageEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-editor/storage-editor.component';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notifications-event';
-import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {HostsTableComponent} from 'projects/runtime/src/lib/runtime-host/hosts-table/hosts-table.component';
@@ -50,24 +50,15 @@ export class WorkspaceComponent implements OnInit {
   ngOnInit() {
     this.center = new ComponentPortal<StorageEditorComponent>(StorageEditorComponent);
 
-
-    const treeRoot: StorageNode = {
-      path: '',
-      type: 'DIRECTORY',
-      depth: -1,
-      length: 0,
-      lastModified: 0,
-    };
-
     const adminTree = new ComponentPortal(StorageTreeComponent,
       null,
       new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, treeRoot],
+        [STORAGE_ROOT_NODE, ROOT_NODE],
       ])));
 
     this.left = new SideConfiguration(
       new TabsConfiguration(
-        [new Tab(adminTree, 'Configuration',
+        [new Tab(adminTree, 'Applications',
           new IconDynamic(new IconFa(faFolder), {'selected': new IconFa(faFolderOpen)}),
           'ADMIN_CONFIGURATION',
           false,
@@ -98,7 +89,7 @@ export class WorkspaceComponent implements OnInit {
           new Tab(new ComponentPortal(HostsTableComponent), 'Hosts', new IconFa(faServer), 'ADMIN_HOSTS_TABLE', true, []),
         ],
         0,
-        50
+        70
       ),
       new TabsConfiguration(
         [
@@ -111,7 +102,7 @@ export class WorkspaceComponent implements OnInit {
             NotificationsTabHeaderComponent),
         ],
         -1,
-        50
+        30
       ),
       40
     );

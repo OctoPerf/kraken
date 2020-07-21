@@ -21,6 +21,8 @@ import SpyObj = jasmine.SpyObj;
 import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 import {resultsTableServiceSpy} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
+import {storageStaticServiceSpy} from 'projects/storage/src/lib/storage-static.service.spec';
 
 export const debugEditorContentServiceSpy = () => {
   const spy = jasmine.createSpyObj('DebugEditorContentService', [
@@ -38,7 +40,7 @@ describe('DebugEditorContentService', () => {
   let httpTestingController: HttpTestingController;
   let eventBus: EventBusService;
   let storage: SpyObj<StorageService>;
-  let window: SpyObj<WindowService>;
+  let storageStatic: SpyObj<StorageStaticService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,7 +48,7 @@ describe('DebugEditorContentService', () => {
       providers: [
         {provide: StorageConfigurationService, useValue: storageConfigurationServiceSpy()},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
-        {provide: WindowService, useValue: windowSpy()},
+        {provide: StorageStaticService, useValue: storageStaticServiceSpy()},
         {provide: StorageService, useValue: storageServiceSpy()},
         {provide: ResultsTableService, useValue: resultsTableServiceSpy()},
         DebugEditorContentService,
@@ -55,7 +57,7 @@ describe('DebugEditorContentService', () => {
     });
     service = TestBed.inject(DebugEditorContentService);
     storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
-    window = TestBed.inject(WindowService) as SpyObj<WindowService>;
+    storageStatic = TestBed.inject(StorageStaticService) as SpyObj<StorageStaticService>;
     httpTestingController = TestBed.inject(HttpTestingController);
     eventBus = TestBed.inject(EventBusService);
   });
@@ -70,9 +72,8 @@ describe('DebugEditorContentService', () => {
     storage.getContent.and.returnValue(of('content'));
     service.load(testStorageFileNode());
 
-    window.open.and.callFake(url => url.subscribe((value) => expect(value).toEqual('staticApiUrl/gatling/results/debug-uuid/debug/responseBodyFile')));
     service.openResponseBody();
-    expect(window.open).toHaveBeenCalled();
+    expect(storageStatic.openStaticPage).toHaveBeenCalledWith('gatling/results/debug-uuid/debug/responseBodyFile');
   });
 
   it('should not load entry', () => {

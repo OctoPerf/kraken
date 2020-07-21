@@ -24,6 +24,9 @@ import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysi
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {CookieService} from 'ngx-cookie-service';
+import {HttpTestingController} from '@angular/common/http/testing';
+import {cookiesServiceSpy} from 'projects/commons/src/lib/mock/cookies.mock.spec';
 
 
 export const gatlingResultServiceSpy = () => {
@@ -45,6 +48,8 @@ describe('GatlingResultService', () => {
   let window: SpyObj<WindowService>;
   let analysis: SpyObj<AnalysisService>;
   let dialogs: SpyObj<DialogService>;
+  let cookies: SpyObj<CookieService>;
+  let httpTestingController: HttpTestingController;
 
   let resultsRootNode: StorageNode;
   let resultNode: StorageNode;
@@ -55,24 +60,32 @@ describe('GatlingResultService', () => {
     resultNode = testResultNode();
     result = testResult();
 
+    analysis = analysisServiceSpy();
+    storage = storageServiceSpy();
+    events = eventBusSpy();
+    window = windowSpy();
+    dialogs = dialogsServiceSpy();
+    cookies = cookiesServiceSpy();
+
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       providers: [
-        {provide: StorageService, useValue: storageServiceSpy()},
-        {provide: EventBusService, useValue: eventBusSpy()},
-        {provide: WindowService, useValue: windowSpy()},
+        {provide: StorageService, useValue: storage},
+        {provide: EventBusService, useValue: events},
+        {provide: WindowService, useValue: window},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
-        {provide: AnalysisService, useValue: analysisServiceSpy()},
-        {provide: DialogService, useValue: dialogsServiceSpy()},
+        {provide: AnalysisService, useValue: analysis},
+        {provide: DialogService, useValue: dialogs},
+        {provide: CookieService, useValue: cookies},
         GatlingResultService,
       ]
     });
     service = TestBed.inject(GatlingResultService);
-    analysis = TestBed.inject(AnalysisService) as SpyObj<AnalysisService>;
-    storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
-    events = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
-    window = TestBed.inject(WindowService) as SpyObj<WindowService>;
-    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   it('should be created', () => {
@@ -88,9 +101,15 @@ describe('GatlingResultService', () => {
   });
 
   it('should openGrafanaReport', () => {
-    window.open.and.callFake(url => url.subscribe(value => expect(value).toBe('grafanaUrl/uuid')));
+    window.open.and.callFake(url => url.subscribe(value => expect(value).toBe('url')));
     service.openGrafanaReport(result);
+    const req = httpTestingController.expectOne(request => request.url === 'backendApiUrl/result/grafana/login');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.params.get('resultId')).toEqual(result.id);
+    req.flush({session: 'sessionId', url: 'url'});
     expect(window.open).toHaveBeenCalled();
+    expect(cookies.delete).toHaveBeenCalledWith('grafana_session');
+    expect(cookies.set).toHaveBeenCalledWith('grafana_session', 'sessionId', null, '/grafana/', null, false, 'Lax');
   });
 
   it('should canOpenGrafanaReport', () => {

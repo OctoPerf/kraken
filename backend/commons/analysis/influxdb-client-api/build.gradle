@@ -1,3 +1,0 @@
-dependencies {
-    api project(':commons:analysis:influxdb-client-properties-api')
-}

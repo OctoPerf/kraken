@@ -1,0 +1,146 @@
+# Default values for kraken.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+default:
+  - &default_tag 3.0.0-beta
+  - &default_pull_policy IfNotPresent
+  - &default_admin_username "admin"
+  - &default_admin_password "kraken"
+  - &kraken_local_ip 192.168.2.44
+  - &kraken_hostname "kraken-local"
+    ## Storage data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+  # storageClass: "-"
+  - &default_storage_class null
+  - &default_storage_class_name null
+
+admin:
+  username: *default_admin_username
+  password: *default_admin_password
+
+ingress:
+  enabled: true
+  host: *kraken_hostname
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "12h"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+backend:
+  ip: *kraken_local_ip
+  host: *kraken_hostname
+  port: 8080
+  service:
+    port: 80
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+      nginx.ingress.kubernetes.io/proxy-body-size: "200m"
+    path: /api(/|$)(.*)
+
+frontend:
+  administration:
+    port: 4200
+    ip: *kraken_local_ip
+    service:
+      port: 4200
+    ingress:
+      path: /administration
+  gatling:
+    port: 4222
+    ip: *kraken_local_ip
+    service:
+      port: 4222
+    ingress:
+      path: /gatling
+
+documentation:
+  port: 8000
+  service:
+    port: 8000
+  ip: *kraken_local_ip
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /doc(/|$)(.*)
+
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: 6.7.1
+    pullPolicy: *default_pull_policy
+  port: 3000
+  service:
+    port: 80
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /grafana(/|$)(.*)
+
+influxdb:
+  image:
+    repository: influxdb
+    tag: 1.7.4
+    pullPolicy: *default_pull_policy
+  port: 8086
+  service:
+    port: 80
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    path: /influxdb(/|$)(.*)
+
+postgres:
+  image:
+    repository: postgres
+    tag: 12.2
+    pullPolicy: *default_pull_policy
+  port: 5432
+  service:
+    port: 5432
+  admin:
+    database: keycloak
+    username: *default_admin_username
+    password: *default_admin_password
+  persistence:
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    storageClass: *default_storage_class
+    storageClassName: *default_storage_class_name
+
+keycloak:
+  ip: *kraken_local_ip
+  host: *kraken_hostname
+  image:
+    repository: octoperf/kraken-keycloak
+    tag: *default_tag
+    pullPolicy: *default_pull_policy
+  port: 9080 #Do not change without updating the command in keycloak-deployment.yaml
+  service:
+    port: 80
+  admin:
+    username: *default_admin_username
+    password: *default_admin_password
+  ingress:
+    path: /auth

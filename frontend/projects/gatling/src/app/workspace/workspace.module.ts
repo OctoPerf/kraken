@@ -20,9 +20,9 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {RuntimeWatcherService} from 'projects/runtime/src/lib/runtime-watcher/runtime-watcher.service';
 import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {SecurityModule} from 'projects/security/src/lib/security.module';
+import {SSEService} from 'projects/sse/src/lib/sse.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,8 @@ export class WorkspaceModule {
               results: ResultsTableService,
               hostService: RuntimeHostService,
               runtimeWatcherService: RuntimeWatcherService,
-              storageWatcherService: StorageWatcherService) {
+              storageWatcherService: StorageWatcherService,
+              sseService: SSEService) {
     // inject services to force initialization
     results.init();
     hostService.hosts().subscribe();

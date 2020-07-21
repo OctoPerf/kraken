@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" . }}-documentation
+spec:
+  ports:
+    - port: {{ .Values.documentation.service.port }}
+      targetPort: {{ .Values.documentation.port }}
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ template "name" . }}-documentation
+subsets:
+  - addresses:
+      - ip: {{ .Values.documentation.ip }}
+    ports:
+      - port: {{ .Values.documentation.port }}

@@ -12,6 +12,7 @@ const routes: Routes = [
   {
     path: 'workspace',
     canActivate: [SecurityGuard],
+    canLoad: [SecurityGuard],
     loadChildren: () => import('./workspace/workspace.module').then(m => m.WorkspaceModule),
   },
 ];

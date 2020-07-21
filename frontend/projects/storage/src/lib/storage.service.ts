@@ -28,10 +28,6 @@ export class StorageService {
               private toName: StorageNodeToNamePipe) {
   }
 
-  public list(): Observable<StorageNode[]> {
-    return this.http.get<StorageNode[]>(this.configuration.storageApiUrl('/list'));
-  }
-
   public edit(node: StorageNode) {
     this.eventBus.publish(new OpenNodeEvent(node));
   }

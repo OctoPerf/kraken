@@ -15,7 +15,7 @@ export class SecurityInterceptor implements HttpInterceptor {
       return this.security.token.pipe(
         flatMap((token) => {
           const withAuth = request.clone({
-            headers: request.headers.set('Authorization', `Bearer ${this.security.token}`)
+            headers: request.headers.set('Authorization', `Bearer ${token}`)
           });
           return next.handle(withAuth);
         }));

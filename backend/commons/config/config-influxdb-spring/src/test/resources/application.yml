@@ -1,0 +1,7 @@
+kraken:
+  influxdb:
+    url: http://localhost:8086
+    publishedUrl: http://kraken-influxdb:8086
+    user: admin
+    password: kraken
+    database: gatling

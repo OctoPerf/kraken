@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}-keycloak
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}-keycloak
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}-keycloak
+    spec:
+      containers:
+        - image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
+          imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
+          name: {{ template "name" . }}-keycloak
+          ports:
+            - containerPort: {{ .Values.keycloak.port }}
+          args:
+            - "-Djboss.bind.address.private=127.0.0.1"
+            - "-Djboss.bind.address=0.0.0.0"
+            - "-Djboss.socket.binding.port-offset=1000"
+            - "-Dkeycloak.profile=preview"
+            - "-Dkeycloak.import=/opt/jboss/keycloak/imports/kraken-realm.json"
+          env:
+            - name: DB_VENDOR
+              value: "POSTGRES"
+            - name: DB_ADDR
+              value: {{ template "name" . }}-postgres
+            - name: DB_DATABASE
+              value: {{ .Values.postgres.admin.database }}
+            - name: DB_USER
+              value: {{ .Values.postgres.admin.username }}
+            - name: DB_SCHEMA
+              value: "public"
+            - name: DB_PASSWORD
+              value: {{ .Values.postgres.admin.password }}
+            - name: KEYCLOAK_USER
+              value: {{ .Values.keycloak.admin.username }}
+            - name: KEYCLOAK_PASSWORD
+              value: {{ .Values.keycloak.admin.password }}
+            - name: KEYCLOAK_WELCOME_THEME
+              value: "kraken"
+            - name: KRAKEN_SECURITY_URL
+              value: "http://{{ .Values.keycloak.host }}/auth"
+            - name: KRAKEN_URLS
+              value: "http://{{ template "name" . }}-backend:{{ .Values.backend.service.port }}/user-events"
+            - name: KRAKEN_SECURITY_API_ID
+              value: "kraken-api"
+            - name: KRAKEN_SECURITY_API_SECRET
+              value: "c1ab32c0-0ba7-4289-b6c9-0ea1aa5ad1d4"
+            - name: KRAKEN_SECURITY_REALM
+              value: "kraken"
+          volumeMounts:
+            - name: kraken-realm
+              mountPath: "/opt/jboss/keycloak/imports/kraken-realm.json"
+              subPath: "kraken-realm.json"
+              readOnly: true
+      volumes:
+        - name: kraken-realm
+          secret:
+            secretName: {{ template "name" . }}-keycloak
+      hostAliases:
+        - hostnames:
+          - {{ .Values.keycloak.host }}
+          ip: {{ .Values.keycloak.ip }}

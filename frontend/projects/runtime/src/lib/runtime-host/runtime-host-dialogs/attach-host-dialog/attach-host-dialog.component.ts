@@ -1,10 +1,14 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Host} from 'projects/runtime/src/lib/entities/host';
+import * as _ from 'lodash';
+import {HostsSelectorComponent} from 'projects/runtime/src/lib/runtime-host/hosts-selector/hosts-selector.component';
+import {OwnerSelectorComponent} from 'projects/security/src/lib/owner-selector/owner-selector.component';
 
 export interface AttachHostDialogData {
   title: string;
-  initialId: string;
+  host: Host;
 }
 
 @Component({
@@ -15,11 +19,14 @@ export class AttachHostDialogComponent {
 
   hostForm: FormGroup;
 
+  @ViewChild('ownerSelector', {static: true})
+  ownerSelector: OwnerSelectorComponent;
+
   constructor(public dialogRef: MatDialogRef<AttachHostDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AttachHostDialogData,
               private fb: FormBuilder) {
     this.hostForm = this.fb.group({
-      hostId: [data.initialId, [
+      hostId: [data.host.id, [
         Validators.required,
         Validators.maxLength(63),
         Validators.minLength(4),
@@ -33,7 +40,10 @@ export class AttachHostDialogComponent {
   }
 
   attach() {
-    this.dialogRef.close(this.hostId.value);
+    const host = _.cloneDeep(this.data.host);
+    host.id = this.hostId.value;
+    host.owner = this.ownerSelector.owner;
+    this.dialogRef.close(host);
   }
 
 }

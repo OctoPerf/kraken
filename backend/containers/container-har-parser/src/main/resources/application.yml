@@ -1,0 +1,43 @@
+kraken:
+  data: /home/kraken
+  harparser:
+    local: ${kraken.data}/import.har
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  backend:
+    url: url
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
+  harparser:
+    remote: hars/my-app.har
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO

@@ -18,6 +18,5 @@ build/
 *.ipr
 out/
 
-data/*
-analysis/*
-keycloak/postgres/data/*
+compose/data/*
+k8s/helm/debug.log

@@ -1,0 +1,10 @@
+kraken:
+  k8s:
+    namespace: kraken
+    pretty: true
+    debug: false
+    builder-type: STANDARD
+    # kind get kubeconfig-path
+    #config-path: ~/.kube/kind-config-kind
+    patch-hosts: true
+    config-path: tasks/kubernetes/configuration.yaml

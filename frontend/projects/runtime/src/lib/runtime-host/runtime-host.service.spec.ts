@@ -77,7 +77,7 @@ describe('HostService', () => {
     const host = testHost();
     const updated = testHost();
     updated.id = newId;
-    service.attach(host, newId).subscribe(value => expect(value).toEqual(updated), () => fail('attach failed'));
+    service.attach(host, updated).subscribe(value => expect(value).toEqual(updated), () => fail('attach failed'));
     const request = httpTestingController.expectOne(req => req.url === 'hostApiUrl/host/attach');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(updated);

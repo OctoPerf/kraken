@@ -1,0 +1,27 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+{{- with .Values.ingress.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.frontend.gatling.ingress.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+  name: {{ template "name" . }}-gatling-ui
+  labels:
+    app: {{ template "name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              serviceName: {{ template "name" . }}-gatling-ui
+              servicePort: {{ .Values.frontend.gatling.service.port }}
+            path: {{ .Values.frontend.gatling.ingress.path }}
+      host: {{ .Values.ingress.host }}
+{{- end }}

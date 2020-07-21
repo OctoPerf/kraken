@@ -1,0 +1,61 @@
+kraken:
+  gatling:
+    home: /kraken/gatling
+    bin: ${kraken.gatling.home}/bin
+    conf:
+      local: ${kraken.gatling.home}/conf
+      remote: gatling/conf
+    userfiles:
+      local: ${kraken.gatling.home}/user-files
+      remote: gatling/user-files
+    lib:
+      local: ${kraken.gatling.home}/lib
+      remote: gatling/lib
+    results:
+      local: ${kraken.gatling.home}/results
+      remote: gatling/results
+    logs:
+      info: ${kraken.gatling.results.local}/info.log
+      debug: ${kraken.gatling.results.local}/debug.log
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  backend:
+    url: test
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: name
+  gatling:
+    home: /home/ubuntu/softs/gatling
+    simulation:
+      name: computerdatabase.BasicSimulation
+    description: Dev test
+  security:
+    url: http://localhost:9080
+    realm: kraken
+    container:
+      id: kraken-container
+      secret: secret
+    access-token: accessToken
+    refresh-token: refreshToken
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO

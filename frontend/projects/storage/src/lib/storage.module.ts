@@ -14,6 +14,7 @@ import {StorageDialogsModule} from 'projects/storage/src/lib/storage-dialogs/sto
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ComponentType} from '@angular/cdk/portal';
 import {SSEModule} from 'projects/sse/src/lib/sse.module';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {SSEModule} from 'projects/sse/src/lib/sse.module';
   ],
   providers: [
     StorageService,
+    StorageStaticService,
     StorageWatcherService,
   ],
 })
