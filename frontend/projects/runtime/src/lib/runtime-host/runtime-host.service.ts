@@ -35,10 +35,8 @@ export class RuntimeHostService {
     }));
   }
 
-  public attach(host: Host, id: string): Observable<Host> {
-    const withId = _.cloneDeep(host);
-    withId.id = id;
-    return this.http.post<Host>(this.runtimeConfiguration.hostApiUrl('/attach'), withId).pipe(tap(updated => {
+  public attach(host: Host, attached: Host): Observable<Host> {
+    return this.http.post<Host>(this.runtimeConfiguration.hostApiUrl('/attach'), attached).pipe(tap(updated => {
       this.updateHost(host, updated);
     }));
   }

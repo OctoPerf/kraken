@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import * as _ from 'lodash';
-import {QueryParamsToStringPipe} from 'projects/tools/src/lib/query-params-to-string.pipe';
-import {NativeEventSource, EventSourcePolyfill} from 'event-source-polyfill';
-
-const EventSource = NativeEventSource || EventSourcePolyfill;
+import {EventSourcePolyfill} from 'event-source-polyfill';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +11,20 @@ export class EventSourceService {
   constructor() {
   }
 
-  newEventSource(path: string): EventSource {
-    return new EventSource(path);
+  newEventSource(url: string, headers?: { [key in string]: string }): EventSource {
+    return new EventSourcePolyfill(url, {headers});
   }
 
-  newObservable<R>(path: string,
-                   options: { errorMessage?: string, params?: { [key in string]: string }, converter?: (data: string) => R }
+  newObservable<R>(url: string,
+                   options: { errorMessage?: string, headers?: { [key in string]: string }, converter?: (data: string) => R }
                      = {}): Observable<R> {
     options = _.defaults(options, {
       errorMessage: '',
       converter: _.identity,
+      headers: {}
     });
     return new Observable(observer => {
-      const eventSource = this.newEventSource(path + new QueryParamsToStringPipe().transform(options.params));
+      const eventSource = this.newEventSource(url, options.headers);
       eventSource.onmessage = event => {
         observer.next(options.converter(event.data));
       };

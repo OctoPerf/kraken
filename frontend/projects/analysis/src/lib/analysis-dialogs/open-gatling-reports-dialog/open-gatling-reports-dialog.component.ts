@@ -10,6 +10,7 @@ import {WindowService} from 'projects/tools/src/lib/window.service';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faFileInvoice} from '@fortawesome/free-solid-svg-icons/faFileInvoice';
 import {library} from '@fortawesome/fontawesome-svg-core';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
 
 library.add(faFileInvoice);
 
@@ -32,7 +33,7 @@ export class OpenGatlingReportsDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: OpenGatlingReportsDialogData,
               private storage: StorageService,
               private analysisConfiguration: AnalysisConfigurationService,
-              private window: WindowService) {
+              private storageStaticService: StorageStaticService) {
   }
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class OpenGatlingReportsDialogComponent implements OnInit {
   }
 
   openGatlingReport(reportNode: StorageNode) {
-    this.window.open(of(this.analysisConfiguration.staticApiUrl('/' + reportNode.path)));
+    this.storageStaticService.openStaticPage(reportNode.path);
   }
 
 }

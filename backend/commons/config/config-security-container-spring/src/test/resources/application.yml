@@ -1,0 +1,6 @@
+kraken:
+  security:
+    access-token: accessToken
+    refresh-token: refreshToken
+    expires-in: 300
+    refresh-expires-in: 1800

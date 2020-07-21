@@ -8,7 +8,7 @@
       <lib-icon [icon]="closeIcon" [state]="selected ? 'selected' : ''"></lib-icon>
     </button>
     <button mat-icon-button *ngIf="log.type === 'CONTAINER' && log.status === 'RUNNING'" class="command-button" (click)="stop.emit()"
-            matTooltip="Stop Command">
+            matTooltip="Stop Logs">
       <lib-icon [icon]="stopIcon" [state]="selected ? 'selected' : ''"></lib-icon>
     </button>
   </div>

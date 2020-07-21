@@ -6,7 +6,6 @@ import {NodeCreatedEvent} from 'projects/storage/src/lib/events/node-created-eve
 import {NodeDeletedEvent} from 'projects/storage/src/lib/events/node-deleted-event';
 import {NodeModifiedEvent} from 'projects/storage/src/lib/events/node-modified-event';
 import {testStorageDirectoryNode} from 'projects/storage/src/lib/entities/storage-node.spec';
-import {EventEmitter} from '@angular/core';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
 import {StorageWatcherEvent} from 'projects/storage/src/lib/entities/storage-watcher-event';

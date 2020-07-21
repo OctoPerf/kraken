@@ -12,10 +12,10 @@ import {SSEConfigurationService} from 'projects/sse/src/lib/sse-configuration.se
 import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 import {SSEWrapper} from 'projects/sse/src/lib/entities/sse-wrapper';
 import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
+import {SecurityService} from 'projects/security/src/lib/security.service';
+import {flatMap} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SSEService implements OnDestroy, Observer<SSEWrapper> {
 
   _subscription: Subscription;
@@ -27,6 +27,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
               private sseConfiguration: SSEConfigurationService,
               private eventBus: EventBusService,
               private eventSourceService: EventSourceService,
+              private security: SecurityService,
               retries: RetriesService) {
     this._retry = retries.get();
     this.watch();
@@ -41,8 +42,13 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    this._subscription = this.eventSourceService.newObservable(this.sseConfiguration.sseApiUrl(`/watch/${this.configuration.applicationId}`), {converter: JSON.parse})
-      .subscribe(this);
+    this._subscription = this.security.token.pipe(flatMap(token => this.eventSourceService.newObservable(this.sseConfiguration.sseApiUrl(`/watch`), {
+      converter: JSON.parse,
+      headers: {
+        'ApplicationId': this.configuration.applicationId,
+        'Authorization': `Bearer ${token}`
+      }
+    }))).subscribe(this);
   }
 
   next(sseWrapper: SSEWrapper) {

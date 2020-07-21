@@ -36,7 +36,7 @@ describe('ContainersTableComponent', () => {
     hostsService = TestBed.inject(RuntimeHostService) as SpyObj<RuntimeHostService>;
     eventBus = TestBed.inject(EventBusService);
 
-    hostsService.all.and.returnValue(of(null));
+    hostsService.hosts.and.returnValue(of(null));
   }));
 
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('ContainersTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(hostsService.all).toHaveBeenCalled();
+    expect(hostsService.hosts).toHaveBeenCalled();
   });
 
   it('should handle task selection', () => {

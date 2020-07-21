@@ -1,4 +1,0 @@
-dependencies {
-    api project(':commons:runtime:runtime-entity')
-    testImplementation project(path: ':commons:runtime:runtime-entity', configuration: 'testArtifacts')
-}

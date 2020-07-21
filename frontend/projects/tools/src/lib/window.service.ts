@@ -25,6 +25,6 @@ export class WindowService {
 
   open(url: Observable<string>) {
     const tab = this.window.open();
-    url.subscribe((tabLocation) => tab.location.href = tabLocation, () => tab.close());
+    url.subscribe((tabLocation) => tab.location.href = encodeURI(tabLocation), () => tab.close());
   }
 }

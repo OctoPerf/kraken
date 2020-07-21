@@ -1,0 +1,42 @@
+kraken:
+  telegraf:
+    conf:
+      local: /etc/telegraf/telegraf.conf
+      remote: telegraf/telegraf.conf
+  backend:
+    url: http://localhost:8080
+  runtime:
+    task-id: taskId
+    task-type: GATLING_RUN
+    container-name: containerName
+    host-id: hostId
+  influxdb:
+    url: influxDbUrl
+    user: influxDbUser
+    password: influxDbPassword
+
+logging:
+  level:
+    root: INFO
+  com:
+    kraken: INFO
+
+spring:
+  main:
+    web-application-type: NONE
+
+---
+spring:
+  profiles: dev
+
+kraken:
+  influxdb:
+    url: http://localhost:8086
+
+---
+spring:
+  profiles: docker
+
+kraken:
+  influxdb:
+    url: http://kraken-influxdb:8086

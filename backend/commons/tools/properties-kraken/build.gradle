@@ -1,7 +1,0 @@
-dependencies {
-    api project(':commons:tools:properties-api')
-
-    implementation project(':commons:tools:environment')
-
-    testImplementation project(':commons:tools:application')
-}

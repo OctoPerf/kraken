@@ -8,10 +8,15 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   EDITOR_DEBUG: '/editors/debug-request-response/',
   ADMIN_FILE_EDITOR: '/administration/files-editor-usage/',
 
+  'administration-storage': '/administration/files-manager-usage/',
   ADMIN_CONFIGURATION: '/administration/files-manager-usage/',
   ADMIN_HOSTS_TABLE: '/administration/hosts-table/',
+  'resources-tree': '/gatling/#resources-tree',
   GATLING_RESOURCES: '/gatling/#resources-tree',
+  'simulations-tree': '/gatling/#simulations-tree',
   GATLING_SIMULATIONS: '/gatling/#simulations-tree',
+  'gatling-files-tree': '/gatling/advanced-configuration-files/',
+  GATLING_CONFIGURATION: '/gatling/advanced-configuration-files/',
   GATLING_EXECUTIONS: '/gatling/#gatling-executions',
   GATLING_RESULTS_TABLE: '/gatling/#gatling-test-results',
   GATLING_DEBUG_ENTRIES_TABLE: '/gatling/#debug-entries-table',
@@ -30,5 +35,5 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_DELETE_IMAGE: '/administration/docker-images-table/#delete-docker-image',
   ADMIN_UPLOAD_FILE: '/administration/files-manager-usage/#files-upload',
   ADMIN_DOWNLOAD_FILE: '/administration/files-manager-usage/#files-and-folders-download',
-  ADMIN_ATTACH_HOST: '/administration/hosts-table/', // TODO update when doc is done
+  ADMIN_ATTACH_HOST: '/administration/hosts-table/',
 };

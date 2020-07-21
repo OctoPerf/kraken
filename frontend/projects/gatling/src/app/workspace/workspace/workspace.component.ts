@@ -45,8 +45,10 @@ import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
 import {ContainersTableComponent} from 'projects/runtime/src/lib/runtime-task/containers-table/containers-table.component';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
+import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {faCogs} from '@fortawesome/free-solid-svg-icons/faCogs';
 
-library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker);
+library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker, faCogs);
 
 @Component({
   selector: 'app-workspace',
@@ -86,6 +88,14 @@ export class WorkspaceComponent implements OnInit {
         [STORAGE_CONTEXTUAL_MENU, SimulationContextualMenuComponent]
       ])));
 
+    const configurationTree = new ComponentPortal(StorageTreeComponent,
+      null,
+      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
+        [STORAGE_ROOT_NODE, ROOT_NODE],
+        [STORAGE_ID, 'gatling-files-tree'],
+        [STORAGE_TREE_LABEL, 'Configuration'],
+      ])));
+
     const resourcesTree = new ComponentPortal(StorageTreeComponent,
       null,
       new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
@@ -96,12 +106,18 @@ export class WorkspaceComponent implements OnInit {
 
     this.left = new SideConfiguration(
       new TabsConfiguration(
-        [new Tab(simulationsTree, 'Simulations',
-          new IconFa(faCode),
-          'GATLING_SIMULATIONS',
-          false,
-          [OpenStorageTreeEvent.CHANNEL])],
-        0,
+        [
+          new Tab(configurationTree, 'Configuration',
+            new IconFa(faCogs),
+            'GATLING_CONFIGURATION',
+            false),
+          new Tab(simulationsTree, 'Simulations',
+            new IconFa(faCode),
+            'GATLING_SIMULATIONS',
+            false,
+            [OpenStorageTreeEvent.CHANNEL]),
+        ],
+        1,
         60,
       ),
       new TabsConfiguration(
@@ -132,13 +148,6 @@ export class WorkspaceComponent implements OnInit {
         50
       ),
 
-      // new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-      //         [STORAGE_ROOT_NODE, this.gatlingConfiguration.simulationsRootNode],
-      //         [STORAGE_ID, 'simulations-tree'],
-      //         [STORAGE_TREE_LABEL, 'Simulations'],
-      //         [STORAGE_NODE_BUTTONS, SimulationNodeButtonsComponent],
-      //         [STORAGE_CONTEXTUAL_MENU, SimulationContextualMenuComponent]
-      //       ])));
       new TabsConfiguration(
         [
           new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', DEBUG_ICON,

@@ -7,3 +7,11 @@ export interface StorageNode {
   length: number;
   lastModified: number;
 }
+
+export const ROOT_NODE: StorageNode = {
+  path: '',
+  type: 'DIRECTORY',
+  depth: -1,
+  length: 0,
+  lastModified: 0,
+};

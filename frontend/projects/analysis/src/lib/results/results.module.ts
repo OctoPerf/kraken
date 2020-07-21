@@ -16,6 +16,7 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage-pipes.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 import {AnalysisDialogsModule} from 'projects/analysis/src/lib/analysis-dialogs/analysis-dialogs.module';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [ResultsTableComponent, IsDebugEntryStorageNodePipe],
@@ -38,6 +39,7 @@ import {AnalysisDialogsModule} from 'projects/analysis/src/lib/analysis-dialogs/
     ResultsTableService,
     StorageListService,
     IsDebugEntryStorageNodePipe,
+    CookieService,
   ]
 })
 export class ResultsModule {

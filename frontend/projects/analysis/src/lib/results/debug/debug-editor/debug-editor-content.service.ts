@@ -8,9 +8,8 @@ import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {of, zip} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {WindowService} from 'projects/tools/src/lib/window.service';
-import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
 
 @Injectable()
 export class DebugEditorContentService extends StorageNodeEditorContentService {
@@ -37,8 +36,7 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
               storage: StorageService,
               http: HttpClient,
               eventBus: EventBusService,
-              private analysisConfiguration: AnalysisConfigurationService,
-              private window: WindowService,
+              private storageStaticService: StorageStaticService,
               private toPath: DebugEntryToPathPipe) {
     super(configuration, storage, http, eventBus);
   }
@@ -97,8 +95,7 @@ export class DebugEditorContentService extends StorageNodeEditorContentService {
   }
 
   public openResponseBody() {
-    const url = of(this.analysisConfiguration.staticApiUrl('/' + this._responseBodyPath));
-    this.window.open(url);
+    this.storageStaticService.openStaticPage(this._responseBodyPath);
   }
 
 }

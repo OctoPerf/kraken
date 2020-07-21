@@ -46,8 +46,7 @@ describe('ConfigurationService', () => {
     const testConf: Configuration = {
       version: 'version',
       applicationId: 'application',
-      runtimeApiUrl: 'runtimeApiUrl',
-      storageApiUrl: 'storageApiUrl',
+      backendApiUrl: 'backendApiUrl',
       docUrl: 'docUrl'
     };
     service.load().then(config => expect(config).toBeDefined(), () => fail('load failed'));
@@ -68,20 +67,12 @@ describe('ConfigurationService', () => {
     expect(service.applicationId).toBe('application');
   });
 
-  it('should return runtime API URL', () => {
-    expect(service.runtimeApiUrl).toBe('runtimeApiUrl');
-  });
-
   it('should return value', () => {
     expect(service.value('docUrl')).toBe('docUrl');
   });
 
-  it('should return storage API URL', () => {
-    expect(service.storageApiUrl).toBe('storageApiUrl');
-  });
-
-  it('should return runtime API URL', () => {
-    expect(service.runtimeApiUrl).toBe('runtimeApiUrl');
+  it('should return backend API URL', () => {
+    expect(service.backendApiUrl).toBe('backendApiUrl');
   });
 
   it('should return Doc URL', () => {

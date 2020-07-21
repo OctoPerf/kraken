@@ -11,7 +11,7 @@ describe('ApplicationIdHeaderInterceptor', () => {
 
   beforeEach(() => {
     configuration = configurationServiceMock();
-    interceptor = new ApplicationIdHeaderInterceptor(configuration, () => [configuration.runtimeApiUrl]);
+    interceptor = new ApplicationIdHeaderInterceptor(configuration, () => [configuration.backendApiUrl]);
     next = jasmine.createSpyObj('next', ['handle']);
   });
 
@@ -20,7 +20,7 @@ describe('ApplicationIdHeaderInterceptor', () => {
   });
 
   it('should intercept', () => {
-    const req = new HttpRequest('GET', configuration.runtimeApiUrl + '/path');
+    const req = new HttpRequest('GET', configuration.backendApiUrl + '/path');
     const intercepted = req.clone({
       headers: req.headers.set('ApplicationId', configuration.applicationId)
     });

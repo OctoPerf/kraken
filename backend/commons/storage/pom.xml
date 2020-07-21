@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>storage</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>storage-client-api</module>
+        <module>storage-client-container-builder</module>
+        <module>storage-client-spring</module>
+        <module>storage-client-web</module>
+        <module>storage-entity</module>
+        <module>storage-file-api</module>
+        <module>storage-file-system</module>
+        <module>storage-server</module>
+        <module>storage-user-events-listener</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

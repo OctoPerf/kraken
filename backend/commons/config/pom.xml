@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>config</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>config-analysis-server-api</module>
+        <module>config-analysis-server-spring</module>
+        <module>config-api</module>
+        <module>config-gatling-api</module>
+        <module>config-gatling-spring</module>
+        <module>config-grafana-api</module>
+        <module>config-grafana-spring</module>
+        <module>config-har-parser-api</module>
+        <module>config-har-parser-spring</module>
+        <module>config-influxdb-api</module>
+        <module>config-influxdb-spring</module>
+        <module>config-kraken</module>
+        <module>config-kubernetes-api</module>
+        <module>config-kubernetes-spring</module>
+        <module>config-runtime-container-api</module>
+        <module>config-runtime-container-spring</module>
+        <module>config-runtime-server-api</module>
+        <module>config-runtime-server-spring</module>
+        <module>config-security-client-api</module>
+        <module>config-security-client-spring</module>
+        <module>config-security-container-api</module>
+        <module>config-security-container-spring</module>
+        <module>config-telegraf-api</module>
+        <module>config-telegraf-spring</module>
+        <module>config-cors-api</module>
+        <module>config-cors-spring</module>
+        <module>config-backend-client-api</module>
+        <module>config-backend-client-spring</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

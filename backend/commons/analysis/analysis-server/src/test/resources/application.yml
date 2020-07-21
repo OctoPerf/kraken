@@ -2,7 +2,7 @@ kraken:
   analysis:
     results:
       root: data
-  storage:
+  backend:
     url: http://localhost:8080
   grafana:
     url: http://localhost:3000
@@ -13,7 +13,6 @@ kraken:
     url: http://localhost:8086
     user: admin
     password: kraken
-    database: gatling
 
 spring:
   servlet:
@@ -21,8 +20,8 @@ spring:
       enabled: true # Whether to enable support of multipart uploads.
       file-size-threshold: 0B # Threshold after which files are written to disk.
       location: # Intermediate location of uploaded files.
-      max-file-size: 1MB # Max file size.
-      max-request-size: 10MB # Max request size.
+      max-file-size: 500MB # Max file size.
+      max-request-size: 500MB # Max request size.
       resolve-lazily: false # Whether to resolve the multipart request lazily at the time of file or parameter access.
 
 logging:

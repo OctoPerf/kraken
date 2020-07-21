@@ -16,8 +16,7 @@ export class ConfigurationService {
   _config = new BehaviorSubject<Configuration>({
     version: 'version',
     applicationId: 'application',
-    runtimeApiUrl: 'runtimeApiUrl',
-    storageApiUrl: 'storageApiUrl',
+    backendApiUrl: 'backendApiUrl',
     docUrl: 'docUrl'
   });
 
@@ -39,12 +38,8 @@ export class ConfigurationService {
     return this._config.value.applicationId;
   }
 
-  get runtimeApiUrl(): string {
-    return this.value('runtimeApiUrl');
-  }
-
-  get storageApiUrl(): string {
-    return this.value('storageApiUrl');
+  get backendApiUrl(): string {
+    return this.value('backendApiUrl');
   }
 
   docUrl(path: string): string {

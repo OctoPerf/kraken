@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>tools</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>tools-application</module>
+        <module>tools-configuration-cors</module>
+        <module>tools-configuration-jackson</module>
+        <module>tools-configuration-reactive</module>
+        <module>tools-configuration-webflux</module>
+        <module>tools-environment</module>
+        <module>tools-event-bus</module>
+        <module>tools-obfuscation</module>
+        <module>tools-reactor-utils</module>
+        <module>tools-unique-id</module>
+        <module>tools-webclient</module>
+    </modules>
+</project>

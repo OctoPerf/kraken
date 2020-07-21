@@ -11,7 +11,7 @@ export class StorageConfigurationService {
   }
 
   storageApiUrl(path: string = ''): string {
-    return this.configuration.url('storageApiUrl', `/files${path}`);
+    return this.configuration.url('backendApiUrl', `/files${path}`);
   }
 
   get readmeNode(): StorageNode {

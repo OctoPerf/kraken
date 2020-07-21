@@ -46,48 +46,48 @@ describe('RuntimeConfigurationService', () => {
   it('should return hostApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.hostApiUrl('/path')).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/host/path');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/host/path');
   });
 
   it('should return hostApiUrl no param', () => {
     configuration.url.and.returnValue('url');
     expect(service.hostApiUrl()).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/host');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/host');
   });
 
   it('should return runtimeApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.runtimeApiUrl('/path')).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/runtime/path');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/runtime/path');
   });
 
   it('should return runtimeApiUrl no param', () => {
     configuration.url.and.returnValue('url');
     expect(service.runtimeApiUrl()).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/runtime');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/runtime');
   });
 
   it('should return taskApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.taskApiUrl('/path')).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/task/path');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/task/path');
   });
 
   it('should return taskApiUrl no param', () => {
     configuration.url.and.returnValue('url');
     expect(service.taskApiUrl()).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/task');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/task');
   });
 
   it('should return containerApiUrl', () => {
     configuration.url.and.returnValue('url');
     expect(service.containerApiUrl('/path')).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/container/path');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/container/path');
   });
 
   it('should return containerApiUrl no param', () => {
     configuration.url.and.returnValue('url');
     expect(service.containerApiUrl()).toBe('url');
-    expect(configuration.url).toHaveBeenCalledWith('runtimeApiUrl', '/container');
+    expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/container');
   });
 });

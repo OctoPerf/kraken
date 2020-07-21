@@ -1,73 +1,54 @@
 .EXPORT_ALL_VARIABLES:
 
-IPS := $(shell hostname -I)
-IP = $(word 1, $(IPS))
 VERSION := $(shell cat ../version.txt)
 KRAKEN_VERSION := $(VERSION)
+KRAKEN_LICENSE_ENTERPRISE := ../ee/license.jwt
+SPRING_PROFILES_ACTIVE := dev
 
 clean-all:
-	./gradlew clean
+	./mvnw clean
 
 test-all:
-	./gradlew jacocoRootReport -Dorg.gradle.parallel=false
+	./mvnw clean test -fn
 
-check: test-all
-	./gradlew check --warning-mode=all
-
-scan:
-	./gradlew build --scan
+test-all-fast:
+	./mvnw -T 1C clean test -fn
 
 dependencies:
-	./gradlew $(APP):dependencies
+	./mvnw dependency:analyze
+
+build-fast:
+	./mvnw -T 1C install -DskipTests
 
 
+# Tslint
+# ./mvnw dependency:analyze
 
-# Runs tests continuously for a project
-# Example: make test APP=:commons:runtime:docker:docker-client
-test:
-	./gradlew $(APP):test --continuous
+# Compile all with tests
+# ./mvnw -T 1C clean install -fn
+
+# Rebuild fast
+# ./mvnw -T 1C install -DskipTests
+# Serve app
+# SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run -pl applications/application-docker-all
+
 
 # Runs a Spring boot application (add --info in case of error)
-# Example: make serve APP=:applications:app-analysis
-serve:
-	./gradlew $(APP):bootRun --args='--spring.profiles.active=dev'
+# Example: make serve APP=applications/application-docker-all
+serve: build-fast
+	./mvnw spring-boot:run -pl $(APP)
 
-serve-gatling-runner:
-	$(MAKE) serve APP=:applications:app-gatling-runner
+serve-docker-all:
+	$(MAKE) serve APP=applications/application-docker-all
 
-serve-analysis:
-	$(MAKE) serve APP=:applications:app-analysis
+serve-kubernetes-all:
 
-serve-runtime-docker:
-	$(MAKE) serve APP=:applications:app-runtime-docker
-
-serve-runtime-k8s: export KRAKEN_STORAGE_URL := http://$(IP):8080
-serve-runtime-k8s: export KRAKEN_ANALYSIS_URL := http://$(IP):8081
-serve-runtime-k8s: export KRAKEN_RUNTIME_URL := http://$(IP):8082
-serve-runtime-k8s: export KRAKEN_INFLUXDB_URL := http://$(IP):8086
-serve-runtime-k8s:
-	$(MAKE) serve APP=:applications:ee:app-runtime-kubernetes
-
-serve-storage:
-	$(MAKE) serve APP=:applications:app-storage
-
-serve-sse:
-	$(MAKE) serve APP=:applications:app-sse
-
-serve-security-test:
-	$(MAKE) serve APP=:applications:security-configuration-test
-
-clean:
-	./gradlew $(APP):clean
-
-ip:
-	hostname -I
+	$(MAKE) serve APP=applications/ee/application-kubernetes-all
 
 # Creates a Spring boot application jar
-# Example: make build APP=:applications:analysis
+# Example: make build APP=applications/application-docker-all
 bootJar:
-	./gradlew $(APP):bootJar
+	./mvnw package spring-boot:repackage -pl $(APP)
 
 echo:
 	@echo $(VERSION)
-	@echo $(IP)

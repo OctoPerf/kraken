@@ -1,0 +1,24 @@
+kraken:
+  container:
+    taskid: taskId
+    tasktype: GATLING_RUN
+    hostid: hostid
+    name: containerId
+  backend:
+    url: http://localhost:8080
+  gatling:
+    home: /home/ubuntu/softs/gatling
+  results:
+    local: ${kraken.gatling.home}/results
+  logs:
+    debug: ${kraken.gatling.results.local}/debug.log
+
+logging:
+  level:
+    root: DEBUG
+  com:
+    kraken: DEBUG
+
+spring:
+  main:
+    web-application-type: NONE

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>commons</artifactId>
+        <groupId>com.octoperf.kraken</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>security</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>security-admin-client-api</module>
+        <module>security-admin-client-keycloak</module>
+        <module>security-authentication-api</module>
+        <module>security-authentication-client-api</module>
+        <module>security-authentication-client-spring</module>
+        <module>security-authentication-container</module>
+        <module>security-authentication-impersonate</module>
+        <module>security-authentication-noop</module>
+        <module>security-authentication-service-account</module>
+        <module>security-authentication-session</module>
+        <module>security-authentication-utils</module>
+        <module>security-client-api</module>
+        <module>security-client-keycloak</module>
+        <module>security-context-spring</module>
+        <module>security-decoder-api</module>
+        <module>security-decoder-spring</module>
+        <module>security-entity</module>
+        <module>security-entity-functions-api</module>
+        <module>security-entity-functions-spring</module>
+        <module>security-user-events-listener</module>
+        <module>security-configuration</module>
+        <module>security-spring-dependencies</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

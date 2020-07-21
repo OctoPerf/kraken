@@ -52,9 +52,9 @@ export class ImportHarDialogComponent {
       `Import har ${this.simulationPackage.value}.${this.simulationClass.value}`,
       [hostId],
       [
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASSNAME', this.simulationClass.value),
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGENAME', this.simulationPackage.value),
-        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HARPATH_REMOTE', this.data.harPath)
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_CLASS_NAME', this.simulationClass.value),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_SIMULATION_PACKAGE_NAME', this.simulationPackage.value),
+        new ExecutionEnvironmentEntry('', 'FRONTEND', 'KRAKEN_GATLING_HAR_PATH_REMOTE', this.data.harPath)
       ]
     );
     this.dialogRef.close(context);
