@@ -5,6 +5,8 @@ import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
+import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
+import {storageStaticServiceSpy} from 'projects/storage/src/lib/storage-static.service.spec';
 
 describe('DownloadMenuItemComponent', () => {
   let component: DownloadMenuItemComponent;
@@ -14,7 +16,7 @@ describe('DownloadMenuItemComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DownloadMenuItemComponent],
       providers: [
-        {provide: StorageService, useValue: storageServiceSpy()},
+        {provide: StorageStaticService, useValue: storageStaticServiceSpy()},
         {provide: StorageTreeControlService, useValue: storageTreeControlServiceSpy()},
       ]
     })

@@ -32,6 +32,7 @@ import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 public class StorageControllerTest extends AuthControllerTest {
 
@@ -54,6 +55,22 @@ public class StorageControllerTest extends AuthControllerTest {
   }
 
   @Test
+  public void shouldGetStaticFolder() {
+    given(service.getFileResource(applicationId + "/"))
+        .willReturn(Mono.just(new FileSystemResource("testDir/kraken.zip")));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/static")
+            .pathSegment(applicationId)
+            .build())
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_LENGTH, "2328645")
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_TYPE, "application/zip");
+  }
+
+  @Test
   public void shouldGetStaticTxt() {
     given(service.getFileResource(applicationId + "/sub/static.txt"))
         .willReturn(Mono.just(new FileSystemResource("testDir/sub/static.txt")));
@@ -70,6 +87,25 @@ public class StorageControllerTest extends AuthControllerTest {
         .expectHeader().valueEquals(HttpHeaders.CONTENT_TYPE, "text/plain")
         .expectBody(String.class)
         .isEqualTo("Spring Framework");
+  }
+
+  @Test
+  public void shouldGetStaticHAR() {
+    given(service.getFileResource(applicationId + "/sub/static.har"))
+        .willReturn(Mono.just(new FileSystemResource("testDir/sub/static.har")));
+
+    webTestClient.get()
+        .uri(uriBuilder -> uriBuilder.path("/files/static")
+            .pathSegment(applicationId)
+            .pathSegment("sub/static.har")
+            .build())
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_LENGTH, "2")
+        .expectHeader().valueEquals(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+        .expectBody(String.class)
+        .isEqualTo("{}");
   }
 
   @Test

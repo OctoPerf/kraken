@@ -289,6 +289,14 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
+  public void shouldGetFolderResource() {
+    final var resource = service.getFileResource("").block();
+    assertThat(resource).isNotNull();
+    assertThat(resource.exists()).isTrue();
+    assertThat(resource.getFilename()).endsWith(".zip");
+  }
+
+  @Test
   public void shouldGetRootFileName() {
     final var filename = service.getFileName("");
     assertThat(filename).isEqualTo("public.zip");

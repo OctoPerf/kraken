@@ -153,17 +153,18 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Mono<InputStream> getFileInputStream(final String path) {
-    try {
+    return Mono.fromCallable(() -> {
       final var currentPath = this.stringToPath(path);
-      return just(currentPath.toFile().isDirectory() ? this.downloadFolderZip(currentPath) : this.downloadFile(currentPath));
-    } catch (IOException e) {
-      return Mono.error(e);
-    }
+      return Files.newInputStream(currentPath.toFile().isDirectory() ? this.downloadFolderZip(currentPath) : currentPath);
+    });
   }
 
   @Override
   public Mono<Resource> getFileResource(final String path) {
-    return Mono.just(new FileSystemResource(this.stringToPath(path)));
+    return Mono.fromCallable(() -> {
+      final var currentPath = this.stringToPath(path);
+      return new FileSystemResource(currentPath.toFile().isDirectory() ? this.downloadFolderZip(currentPath) : currentPath);
+    });
   }
 
   @Override
@@ -294,7 +295,7 @@ final class FileSystemStorageService implements StorageService {
         .map(toStorageNode);
   }
 
-  private InputStream downloadFolderZip(final Path path) throws IOException {
+  private Path downloadFolderZip(final Path path) throws IOException {
     final var temp = File.createTempFile("kraken", ".zip");
     final var tempPath = temp.toPath();
     try (final var zos = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(tempPath)))) {
@@ -310,11 +311,7 @@ final class FileSystemStorageService implements StorageService {
             }
           });
     }
-    return Files.newInputStream(tempPath);
-  }
-
-  private InputStream downloadFile(final Path path) throws IOException {
-    return Files.newInputStream(path);
+    return tempPath;
   }
 
   private Path stringToPath(final String path) throws IllegalArgumentException {

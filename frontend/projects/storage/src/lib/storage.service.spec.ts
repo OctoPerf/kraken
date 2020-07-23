@@ -172,12 +172,6 @@ describe('StorageService', () => {
       });
   });
 
-  it('should download', () => {
-    const node = testStorageDirectoryNode();
-    expect(service.downloadLink(node)).toBe('backendApiUrl/files/get/file?path=' + node.path);
-    expect(service.downloadLink()).toBe('backendApiUrl/files/get/file?path=');
-  });
-
   it('should getContent', () => {
     const node = testStorageFileNode();
     service.getContent(node).subscribe();

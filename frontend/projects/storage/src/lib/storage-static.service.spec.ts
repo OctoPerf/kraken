@@ -17,6 +17,7 @@ import {
   configurationServiceMock,
   configurationServiceSpy
 } from 'projects/commons/src/lib/config/configuration.service.spec';
+import {testStorageDirectoryNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 
 export const storageStaticServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageStaticService', [
@@ -58,12 +59,34 @@ describe('StorageStaticService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should open page', () => {
+  it('should open static page', () => {
     (securityService as any).token = of('token');
-    window.open.and.callFake(url => url.subscribe((value) => expect(value).toEqual('backendApiUrl/files/static/application/path')));
+    window.open.and.callFake(url => url.subscribe((value) => expect(value).toEqual('backendApiUrl/files/static/path')));
     service.openStaticPage('path');
     expect(window.open).toHaveBeenCalled();
     expect(cookies.delete).toHaveBeenCalledWith('JWT');
     expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
   });
+
+  it('should open download link', () => {
+    const node = testStorageDirectoryNode();
+    (securityService as any).token = of('token');
+    window.open.and.callFake(url => url.subscribe((value) => expect(value).toEqual('backendApiUrl/files/static/' + node.path)));
+    service.openDownloadLink(node);
+    expect(window.open).toHaveBeenCalled();
+    expect(cookies.delete).toHaveBeenCalledWith('JWT');
+    expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
+    expect(storageConfiguration.storageApiUrl).toHaveBeenCalledWith('/static/' + node.path);
+  });
+
+  it('should open download link no node', () => {
+    (securityService as any).token = of('token');
+    window.open.and.callFake(url => url.subscribe((value) => expect(value).toEqual('backendApiUrl/files/static/')));
+    service.openDownloadLink();
+    expect(window.open).toHaveBeenCalled();
+    expect(cookies.delete).toHaveBeenCalledWith('JWT');
+    expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
+    expect(storageConfiguration.storageApiUrl).toHaveBeenCalledWith('/static/');
+  });
+
 });

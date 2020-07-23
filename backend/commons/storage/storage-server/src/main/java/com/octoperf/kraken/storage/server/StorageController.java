@@ -59,15 +59,20 @@ class StorageController {
   public Mono<ResponseEntity<Resource>> getStatic(final ServerWebExchange payload) {
     final var split = payload.getRequest().getPath().value().split("/", 5);
     final var applicationId = split[3];
-    final var path = URLDecoder.decode(applicationId + "/"+ split[4], Charset.defaultCharset());
+    final var filePath = split.length >= 5 ? split[4] : "";
+    final var path = URLDecoder.decode(applicationId + "/" + filePath, Charset.defaultCharset());
     log.info(String.format("Get static file %s", path));
     return this.getService(applicationId)
         .flatMap(service -> service.getFileResource(path))
-        .flatMap(fileSystemResource -> Mono.fromCallable(() ->
-            ResponseEntity.ok()
-                .contentLength(fileSystemResource.contentLength())
-                .contentType(MediaType.valueOf(Files.probeContentType(Path.of(fileSystemResource.getFilename()))))
-                .body(fileSystemResource)
+        .flatMap(fileSystemResource -> Mono.fromCallable(() -> {
+              final var mediaType = Mono.fromCallable(() -> MediaType.valueOf(Files.probeContentType(Path.of(fileSystemResource.getFilename()))))
+                  .onErrorReturn(MediaType.APPLICATION_OCTET_STREAM)
+                  .blockOptional();
+              return ResponseEntity.ok()
+                  .contentLength(fileSystemResource.contentLength())
+                  .contentType(mediaType.orElse(MediaType.APPLICATION_OCTET_STREAM))
+                  .body(fileSystemResource);
+            }
         ));
   }
 
