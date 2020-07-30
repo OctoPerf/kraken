@@ -10,8 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "check": "ncu",
-    "update": "ncu -u",
-    "postinstall": "ngcc"
+    "update": "ncu -u"
   },
   "private": true,
   "dependencies": {
