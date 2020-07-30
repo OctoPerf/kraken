@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.octoperf.kraken</groupId>
@@ -16,19 +16,19 @@
     <description>Kraken</description>
 
     <properties>
-        <java.version>11</java.version>
         <start-class>com.octoperf.kraken.Application</start-class>
+        <java.version>11</java.version>
         <guava.version>29.0-jre</guava.version>
-        <equalsverifier.version>3.3</equalsverifier.version>
+        <equalsverifier.version>3.4.1</equalsverifier.version>
         <findbugs.version>3.0.1</findbugs.version>
-        <reactor.version>3.3.5.RELEASE</reactor.version>
-        <lang3.version>3.10</lang3.version>
+        <reactor.version>3.3.8.RELEASE</reactor.version>
+        <lang3.version>3.11</lang3.version>
         <zt-zip.version>1.14</zt-zip.version>
         <zt-exec.version>1.11</zt-exec.version>
-        <director-ywatcher.version>0.9.9</director-ywatcher.version>
-        <nimbus.version>8.17</nimbus.version>
-        <kubernetes.version>7.0.0</kubernetes.version>
-        <tika.version>1.23</tika.version>
+        <directory-watcher.version>0.9.9</directory-watcher.version>
+        <nimbus.version>8.19</nimbus.version>
+        <kubernetes.version>9.0.0</kubernetes.version>
+        <tika.version>1.24.1</tika.version>
     </properties>
 
     <modules>
@@ -63,7 +63,7 @@
             <dependency>
                 <groupId>io.methvin</groupId>
                 <artifactId>directory-watcher</artifactId>
-                <version>${director-ywatcher.version}</version>
+                <version>${directory-watcher.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.zeroturnaround</groupId>
