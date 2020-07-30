@@ -1,158 +1,161 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "downlevelIteration": true,
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "paths": {
-      "commons": [
-        "dist/commons"
-      ],
-      "commons/*": [
-        "dist/commons/*"
-      ],
-      "vendors": [
-        "dist/vendors"
-      ],
-      "vendors/*": [
-        "dist/vendors/*"
-      ],
-      "date": [
-        "dist/date"
-      ],
-      "date/*": [
-        "dist/date/*"
-      ],
-      "event": [
-        "dist/event"
-      ],
-      "event/*": [
-        "dist/event/*"
-      ],
-      "icon": [
-        "dist/icon"
-      ],
-      "icon/*": [
-        "dist/icon/*"
-      ],
-      "color": [
-        "dist/color"
-      ],
-      "color/*": [
-        "dist/color/*"
-      ],
-      "modal": [
-        "dist/modal"
-      ],
-      "modal/*": [
-        "dist/modal/*"
-      ],
-      "tools": [
-        "dist/tools"
-      ],
-      "tools/*": [
-        "dist/tools/*"
-      ],
-      "tree": [
-        "dist/tree"
-      ],
-      "tree/*": [
-        "dist/tree/*"
-      ],
-      "tabs": [
-        "dist/tabs"
-      ],
-      "tabs/*": [
-        "dist/tabs/*"
-      ],
-      "split": [
-        "dist/split"
-      ],
-      "split/*": [
-        "dist/split/*"
-      ],
-      "workspaces": [
-        "dist/workspaces"
-      ],
-      "workspaces/*": [
-        "dist/workspaces/*"
-      ],
-      "components": [
-        "dist/components"
-      ],
-      "components/*": [
-        "dist/components/*"
-      ],
-      "help": [
-        "dist/help"
-      ],
-      "help/*": [
-        "dist/help/*"
-      ],
-      "notification": [
-        "dist/notification"
-      ],
-      "notification/*": [
-        "dist/notification/*"
-      ],
-      "editor": [
-        "dist/editor"
-      ],
-      "editors/*": [
-        "dist/editor/*"
-      ],
-      "dialog": [
-        "dist/dialog"
-      ],
-      "dialog/*": [
-        "dist/dialog/*"
-      ],
-      "storage": [
-        "dist/storage"
-      ],
-      "storage/*": [
-        "dist/storage/*"
-      ],
-      "grafana": [
-        "dist/grafana"
-      ],
-      "grafana/*": [
-        "dist/grafana/*"
-      ],
-      "analysis": [
-        "dist/analysis"
-      ],
-      "analysis/*": [
-        "dist/analysis/*"
-      ],
-      "runtime": [
-        "dist/runtime"
-      ],
-      "runtime/*": [
-        "dist/runtime/*"
-      ],
-      "sse": [
-        "dist/sse/sse",
-        "dist/sse"
-      ],
-      "security": [
-        "dist/security/security",
-        "dist/security"
-      ]
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/administration/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/administration/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/administration-e2e/tsconfig.e2e.json"
+    },
+    {
+      "path": "./projects/commons/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/commons/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/vendors/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/vendors/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/date/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/date/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/event/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/event/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/icon/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/icon/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/color/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/color/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/tools/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/tools/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/tree/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/tree/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/tabs/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/tabs/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/split/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/split/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/workspaces/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/workspaces/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/components/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/components/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/help/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/help/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/notification/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/notification/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/editor/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/editor/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/dialog/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/dialog/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/storage/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/storage/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/gatling/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/gatling/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/gatling-e2e/tsconfig.e2e.json"
+    },
+    {
+      "path": "./projects/analysis/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/analysis/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/runtime/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/runtime/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/sse/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/sse/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/security/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/security/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/sandbox/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/sandbox/tsconfig.spec.json"
     }
-  }
+  ]
 }
