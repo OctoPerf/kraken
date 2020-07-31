@@ -1,8 +1,9 @@
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import {OnDestroy, OnInit} from '@angular/core';
+import { OnDestroy, OnInit, Directive } from '@angular/core';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
+@Directive()
 export class KeyBoundMenuItem implements OnInit, OnDestroy {
 
   constructor(protected treeControl: StorageTreeControlService,

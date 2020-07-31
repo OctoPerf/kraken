@@ -1,0 +1,158 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "commons": [
+        "dist/commons"
+      ],
+      "commons/*": [
+        "dist/commons/*"
+      ],
+      "vendors": [
+        "dist/vendors"
+      ],
+      "vendors/*": [
+        "dist/vendors/*"
+      ],
+      "date": [
+        "dist/date"
+      ],
+      "date/*": [
+        "dist/date/*"
+      ],
+      "event": [
+        "dist/event"
+      ],
+      "event/*": [
+        "dist/event/*"
+      ],
+      "icon": [
+        "dist/icon"
+      ],
+      "icon/*": [
+        "dist/icon/*"
+      ],
+      "color": [
+        "dist/color"
+      ],
+      "color/*": [
+        "dist/color/*"
+      ],
+      "modal": [
+        "dist/modal"
+      ],
+      "modal/*": [
+        "dist/modal/*"
+      ],
+      "tools": [
+        "dist/tools"
+      ],
+      "tools/*": [
+        "dist/tools/*"
+      ],
+      "tree": [
+        "dist/tree"
+      ],
+      "tree/*": [
+        "dist/tree/*"
+      ],
+      "tabs": [
+        "dist/tabs"
+      ],
+      "tabs/*": [
+        "dist/tabs/*"
+      ],
+      "split": [
+        "dist/split"
+      ],
+      "split/*": [
+        "dist/split/*"
+      ],
+      "workspaces": [
+        "dist/workspaces"
+      ],
+      "workspaces/*": [
+        "dist/workspaces/*"
+      ],
+      "components": [
+        "dist/components"
+      ],
+      "components/*": [
+        "dist/components/*"
+      ],
+      "help": [
+        "dist/help"
+      ],
+      "help/*": [
+        "dist/help/*"
+      ],
+      "notification": [
+        "dist/notification"
+      ],
+      "notification/*": [
+        "dist/notification/*"
+      ],
+      "editor": [
+        "dist/editor"
+      ],
+      "editors/*": [
+        "dist/editor/*"
+      ],
+      "dialog": [
+        "dist/dialog"
+      ],
+      "dialog/*": [
+        "dist/dialog/*"
+      ],
+      "storage": [
+        "dist/storage"
+      ],
+      "storage/*": [
+        "dist/storage/*"
+      ],
+      "grafana": [
+        "dist/grafana"
+      ],
+      "grafana/*": [
+        "dist/grafana/*"
+      ],
+      "analysis": [
+        "dist/analysis"
+      ],
+      "analysis/*": [
+        "dist/analysis/*"
+      ],
+      "runtime": [
+        "dist/runtime"
+      ],
+      "runtime/*": [
+        "dist/runtime/*"
+      ],
+      "sse": [
+        "dist/sse/sse",
+        "dist/sse"
+      ],
+      "security": [
+        "dist/security/security",
+        "dist/security"
+      ]
+    }
+  }
+}
