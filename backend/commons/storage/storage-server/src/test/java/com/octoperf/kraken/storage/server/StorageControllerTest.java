@@ -2,9 +2,7 @@ package com.octoperf.kraken.storage.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.storage.entity.StorageNode;
-import com.octoperf.kraken.storage.entity.StorageNodeTest;
-import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
+import com.octoperf.kraken.storage.entity.*;
 import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
 import com.octoperf.kraken.tests.web.security.AuthControllerTest;
@@ -44,7 +42,7 @@ public class StorageControllerTest extends AuthControllerTest {
   SSEService sse;
 
   @BeforeEach
-  public void setUp() throws IOException{
+  public void setUp() throws IOException {
     super.setUp();
     given(builder.build(userOwner())).willReturn(service);
   }
@@ -174,7 +172,13 @@ public class StorageControllerTest extends AuthControllerTest {
   public void shouldDelete() {
     final var paths = Arrays.asList("toto/file.txt");
     given(service.delete(paths))
-        .willReturn(Flux.just(true));
+        .willReturn(Flux.just(
+            StorageWatcherEvent.builder()
+                .node(StorageNode.builder().path("toto/file.txt").depth(0).length(0L).lastModified(0L).type(DIRECTORY).build())
+                .type(StorageWatcherEventType.CREATE)
+                .owner(userOwner())
+                .build()
+        ));
 
     webTestClient.post()
         .uri("/files/delete")
@@ -202,7 +206,7 @@ public class StorageControllerTest extends AuthControllerTest {
   public void shouldSetFile() throws IOException {
     final var path = "toto";
     given(service.setFile(any(), any()))
-        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/file")
@@ -213,15 +217,15 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(StorageNode.class)
-        .isEqualTo(StorageNodeTest.STORAGE_NODE);
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
   public void shouldSetZip() throws IOException {
     final var path = "toto";
     given(service.setZip(any(), any()))
-        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/zip")
@@ -232,15 +236,15 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(StorageNode.class)
-        .isEqualTo(StorageNodeTest.STORAGE_NODE);
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
   public void shouldSetDirectory() {
     final var path = "someDir";
     given(service.setDirectory(path))
-        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/directory")
@@ -250,8 +254,8 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(StorageNode.class)
-        .isEqualTo(StorageNodeTest.STORAGE_NODE);
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
@@ -278,7 +282,7 @@ public class StorageControllerTest extends AuthControllerTest {
     final var newName = "newName.txt";
     final var node = StorageNode.builder().path(newName).depth(0).length(0L).lastModified(0L).type(DIRECTORY).build();
     given(service.rename("", oldName, newName))
-        .willReturn(Mono.just(node));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/rename")
@@ -289,8 +293,8 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(StorageNode.class)
-        .isEqualTo(node);
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
@@ -316,7 +320,7 @@ public class StorageControllerTest extends AuthControllerTest {
     final var path = "toto/file.txt";
     final var content = "Test content";
     given(service.setContent(path, content))
-        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/set/content")
@@ -327,8 +331,8 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody(StorageNode.class)
-        .isEqualTo(StorageNodeTest.STORAGE_NODE);
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
@@ -412,11 +416,11 @@ public class StorageControllerTest extends AuthControllerTest {
         .returnResult();
 
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"event\":\"Event\"}\n" +
+    Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"type\":\"PUBLIC\"}}\n" +
         "\n" +
         ":keep alive\n" +
         "\n" +
-        "data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"event\":\"Event\"}\n" +
+        "data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"type\":\"PUBLIC\"}}\n" +
         "\n");
   }
 
@@ -441,7 +445,7 @@ public class StorageControllerTest extends AuthControllerTest {
     final var paths = Arrays.asList("path1", "path2");
     final var destination = "destination";
     given(service.copy(paths, destination))
-        .willReturn(Flux.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/copy")
@@ -452,8 +456,8 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .jsonPath("$[0].path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
@@ -461,7 +465,7 @@ public class StorageControllerTest extends AuthControllerTest {
     final var paths = Arrays.asList("path1", "path2");
     final var destination = "destination";
     given(service.move(paths, destination))
-        .willReturn(Flux.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.post()
         .uri(uriBuilder -> uriBuilder.path("/files/move")
@@ -472,8 +476,8 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .jsonPath("$[0].path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 
   @Test
@@ -516,7 +520,7 @@ public class StorageControllerTest extends AuthControllerTest {
   public void shouldExtractZip() {
     final var path = "path/archive.zip";
     given(service.extractZip(path))
-        .willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+        .willReturn(Flux.just(STORAGE_WATCHER_EVENT));
 
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/extract/zip")
@@ -526,7 +530,7 @@ public class StorageControllerTest extends AuthControllerTest {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(MediaType.APPLICATION_JSON)
-        .expectBody()
-        .jsonPath("$.path").isEqualTo(StorageNodeTest.STORAGE_NODE.getPath());
+        .expectBodyList(StorageWatcherEvent.class)
+        .isEqualTo(ImmutableList.of(STORAGE_WATCHER_EVENT));
   }
 }

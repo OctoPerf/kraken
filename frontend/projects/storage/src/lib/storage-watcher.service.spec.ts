@@ -36,21 +36,21 @@ describe('StorageWatcherService', () => {
   });
 
   it('should handle CREATE event', () => {
-    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), event: 'CREATE'};
+    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), type: 'CREATE', owner: null};
     const spy = spyOn(eventBus, 'publish').and.callThrough();
     eventBus.publish(new SSEEvent({type: 'NODE', value: watcherEvent}));
     expect(spy).toHaveBeenCalledWith(new NodeCreatedEvent(watcherEvent.node));
   });
 
   it('should handle DELETE event', () => {
-    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), event: 'DELETE'};
+    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), type: 'DELETE', owner: null};
     const spy = spyOn(eventBus, 'publish').and.callThrough();
     eventBus.publish(new SSEEvent({type: 'NODE', value: watcherEvent}));
     expect(spy).toHaveBeenCalledWith(new NodeDeletedEvent(watcherEvent.node));
   });
 
   it('should handle MODIFY event', () => {
-    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), event: 'MODIFY'};
+    const watcherEvent: StorageWatcherEvent = {node: testStorageDirectoryNode(), type: 'MODIFY', owner: null};
     const spy = spyOn(eventBus, 'publish').and.callThrough();
     eventBus.publish(new SSEEvent({type: 'NODE', value: watcherEvent}));
     expect(spy).toHaveBeenCalledWith(new NodeModifiedEvent(watcherEvent.node));

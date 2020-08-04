@@ -64,8 +64,7 @@ export class StorageNodeEditorContentService implements OnDestroy {
       params: {
         path: this._node.path
       }
-    }).subscribe((node) => {
-      this._node = node;
+    }).subscribe(() => {
       this.eventBus.publish(new NodePendingSaveEvent(this._node, false));
     });
   }

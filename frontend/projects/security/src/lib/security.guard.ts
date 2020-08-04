@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
+  CanActivate,
   CanLoad,
   Route,
-  UrlSegment
+  RouterStateSnapshot,
+  UrlSegment,
+  UrlTree
 } from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {SecurityService} from 'projects/security/src/lib/security.service';
-import {flatMap, map} from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
 import {SecurityConfigurationService} from 'projects/security/src/lib/security-configuration.service';
 import * as _ from 'lodash';
 
@@ -34,7 +34,7 @@ export class SecurityGuard implements CanActivate, CanLoad {
 
   private can(): Observable<boolean> {
     return this.security.init().pipe(
-      flatMap(authenticated => {
+      mergeMap(authenticated => {
         if (!authenticated) {
           return this.security.login().pipe(map(() => false));
         } else if (!_.intersection(this.securityConfig.expectedRole, this.security.roles).length) {

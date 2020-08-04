@@ -35,6 +35,11 @@
                 "glob": "**/worker-*.js",
                 "input": "node_modules/ace-builds/src-min/",
                 "output": "assets/ace/"
+              },
+              {
+                "glob": "javascript.js",
+                "input": "node_modules/ace-builds/src-min/snippets/",
+                "output": "assets/ace/snippets/"
               }
             ],
             "styles": [
@@ -844,6 +849,11 @@
                 "glob": "**/worker-*.js",
                 "input": "node_modules/ace-builds/src-min/",
                 "output": "assets/ace/"
+              },
+              {
+                "glob": "javascript.js",
+                "input": "node_modules/ace-builds/src-min/snippets/",
+                "output": "assets/ace/snippets/"
               }
             ],
             "stylePreprocessorOptions": {
@@ -984,6 +994,11 @@
                 "glob": "**/worker-*.js",
                 "input": "node_modules/ace-builds/src-min/",
                 "output": "assets/ace/"
+              },
+              {
+                "glob": "javascript.js",
+                "input": "node_modules/ace-builds/src-min/snippets/",
+                "output": "assets/ace/snippets/"
               }
             ],
             "styles": [
@@ -1000,7 +1015,7 @@
               ]
             },
             "scripts": [
-              "node_modules/ace-builds/src-min/ace.js",
+                "node_modules/ace-builds/src-min/ace.js",
               "node_modules/ace-builds/src-min/mode-dockerfile.js",
               "node_modules/ace-builds/src-min/mode-css.js",
               "node_modules/ace-builds/src-min/mode-html.js",
@@ -1025,9 +1040,9 @@
               "node_modules/ace-builds/src-min/ext-searchbox.js",
               "node_modules/ace-builds/src-min/ext-language_tools.js",
               "node_modules/ace-builds/src-min/ext-modelist.js",
+              "node_modules/ace-builds/src-min/snippets/javascript.js",
               "ext/mode-log.js",
               "ext/theme-kraken.js",
-              "ext/snippets/scala.js",
               "node_modules/keycloak-js/dist/keycloak.js"
             ]
           },

@@ -27,13 +27,13 @@ final class SpringStorageClient implements StorageClient {
   ObjectMapper yamlMapper;
 
   @Override
-  public Mono<StorageNode> createFolder(String path) {
-    return service.setDirectory(path);
+  public Mono<StorageNode> createFolder(final String path) {
+    return eventsToNode(service.setDirectory(path), path);
   }
 
   @Override
   public Mono<Boolean> delete(String path) {
-    return service.delete(ImmutableList.of(path)).collectList().map(booleans -> booleans.get(0));
+    return service.delete(ImmutableList.of(path)).collectList().map(events -> true).onErrorReturn(false);
   }
 
   @Override
@@ -54,7 +54,7 @@ final class SpringStorageClient implements StorageClient {
 
   @Override
   public Mono<StorageNode> setContent(String path, String content) {
-    return service.setContent(path, content);
+    return eventsToNode(service.setContent(path, content), path);
   }
 
   @Override

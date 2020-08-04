@@ -13,7 +13,7 @@ import {ConfigurationService} from 'projects/commons/src/lib/config/configuratio
 import {SSEWrapper} from 'projects/sse/src/lib/entities/sse-wrapper';
 import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
 import {SecurityService} from 'projects/security/src/lib/security.service';
-import {flatMap} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class SSEService implements OnDestroy, Observer<SSEWrapper> {
@@ -42,7 +42,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    this._subscription = this.security.token.pipe(flatMap(token => this.eventSourceService.newObservable(this.sseConfiguration.sseApiUrl(`/watch`), {
+    this._subscription = this.security.token.pipe(mergeMap(token => this.eventSourceService.newObservable(this.sseConfiguration.sseApiUrl(`/watch`), {
       converter: JSON.parse,
       headers: {
         'ApplicationId': this.configuration.applicationId,

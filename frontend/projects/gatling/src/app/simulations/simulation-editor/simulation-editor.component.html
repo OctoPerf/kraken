@@ -10,7 +10,7 @@
 <lib-code-editor *ngIf="contentService.state === 'loaded'" [mode]="node.path | pathToCodeEditorMode"
                  [variablesAutoCompleter]="autoCompleter"
                  [tabsSize]="2"
-                 [enableSnippets]="true"
+                 [snippets]="snippets"
                  [value]="contentService.content" (contentChange)="contentService.content = $event"
                  [keyBindings]="this.keyBindings"></lib-code-editor>
 

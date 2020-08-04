@@ -4,7 +4,7 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {flatMap} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {OpenNodeEvent} from 'projects/storage/src/lib/events/open-node-event';
 import {DeleteFilesDialogComponent} from 'projects/storage/src/lib/storage-dialogs/delete-files-dialog/delete-files-dialog.component';
@@ -36,7 +36,7 @@ export class StorageService {
     const oldName = this.toName.transform(node);
     const directoryPath = parentDirectory.path;
     this.dialogs.open(FileNameDialogComponent, DialogSize.SIZE_SM, {title: 'Rename File', name: oldName})
-      .pipe(flatMap((newName: string) => {
+      .pipe(mergeMap((newName: string) => {
         return this.http.post<StorageNode>(this.configuration.storageApiUrl('/rename'), {}, {
           params: {
             directoryPath,
@@ -78,7 +78,7 @@ export class StorageService {
       name: '',
       helpPageId: 'ADMIN_CREATE_FILE'
     })
-      .pipe(flatMap((name: string) => {
+      .pipe(mergeMap((name: string) => {
         return this.http.post<StorageNode>(this.configuration.storageApiUrl(path), content, {
           params: {
             path: parent.path ? `${parent.path}/${name}` : name

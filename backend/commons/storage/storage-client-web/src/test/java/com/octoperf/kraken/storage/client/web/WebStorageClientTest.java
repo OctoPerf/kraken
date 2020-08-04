@@ -3,6 +3,7 @@ package com.octoperf.kraken.storage.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.analysis.entity.Result;
 import com.octoperf.kraken.analysis.entity.ResultStatus;
@@ -10,9 +11,12 @@ import com.octoperf.kraken.analysis.entity.ResultTest;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.entity.owner.PublicOwner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.StorageNode;
+import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
+import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
 import com.octoperf.kraken.tools.configuration.jackson.MediaTypes;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -44,6 +48,7 @@ import static com.octoperf.kraken.analysis.entity.ResultType.RUN;
 import static com.octoperf.kraken.storage.entity.StorageNodeTest.STORAGE_NODE;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.FILE;
+import static com.octoperf.kraken.storage.entity.StorageWatcherEventType.CREATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -92,7 +97,11 @@ public class WebStorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(directoryNode))
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder()
+                .node(directoryNode)
+                .type(CREATE)
+                .owner(PublicOwner.INSTANCE)
+                .build())))
     );
 
     final var response = client.createFolder("path").block();
@@ -108,7 +117,22 @@ public class WebStorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody("[true]")
+            .setBody("[]")
+    );
+    final var response = client.delete("path").block();
+    assertThat(response).isEqualTo(false);
+
+    final var recordedRequest = server.takeRequest();
+    assertThat(recordedRequest.getBody().readString(Charsets.UTF_8)).isEqualTo("[\"path\"]");
+  }
+
+  @Test
+  public void shouldDeleteTrue() throws InterruptedException, JsonProcessingException {
+    server.enqueue(
+        new MockResponse()
+            .setResponseCode(200)
+            .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEventTest.STORAGE_WATCHER_EVENT)))
     );
     final var response = client.delete("path").block();
     assertThat(response).isEqualTo(true);
@@ -131,10 +155,10 @@ public class WebStorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(fileNode))
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
     );
 
-    final var response = client.setContent("path", "content").block();
+    final var response = client.setContent(fileNode.getPath(), "content").block();
     assertThat(response).isEqualTo(fileNode);
 
     final var recordedRequest = server.takeRequest();
@@ -205,10 +229,10 @@ public class WebStorageClientTest {
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(fileNode))
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
     );
 
-    final var response = client.setJsonContent("path", result).block();
+    final var response = client.setJsonContent(fileNode.getPath(), result).block();
     assertThat(response).isEqualTo(fileNode);
 
     final var recordedRequest = server.takeRequest();
@@ -320,16 +344,23 @@ public class WebStorageClientTest {
   @Test
   public void shouldUploadFile() throws InterruptedException, IOException {
     final var testFile = Paths.get("testDir/test.xml");
+    final var fileNode = StorageNode.builder()
+        .depth(1)
+        .path("remote")
+        .type(FILE)
+        .length(0L)
+        .lastModified(0L)
+        .build();
 
     server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
     );
 
-    final var response = client.uploadFile(testFile, "").block();
-    assertThat(response).isEqualTo(STORAGE_NODE);
+    final var response = client.uploadFile(testFile, fileNode.getPath()).block();
+    assertThat(response).isEqualTo(fileNode);
 
     final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/zip?path=");
@@ -340,18 +371,25 @@ public class WebStorageClientTest {
   @Test
   public void shouldUploadFolder() throws InterruptedException, IOException {
     final var testFile = Paths.get("testDir/zipDir");
+    final var directoryNode = StorageNode.builder()
+        .depth(1)
+        .path("remote")
+        .type(FILE)
+        .length(0L)
+        .lastModified(0L)
+        .build();
 
     server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(STORAGE_NODE))
+            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(directoryNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
     );
 
-    final var response = client.uploadFile(testFile, "path").block();
-    assertThat(response).isEqualTo(STORAGE_NODE);
+    final var response = client.uploadFile(testFile, directoryNode.getPath()).block();
+    assertThat(response).isEqualTo(directoryNode);
 
     final RecordedRequest setRequest = server.takeRequest();
-    assertThat(setRequest.getPath()).isEqualTo("/files/set/zip?path=path");
+    assertThat(setRequest.getPath()).isEqualTo("/files/set/zip?path=remote");
   }
 }

@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Inject, OnDestroy} from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {Observable, Subscription, zip} from 'rxjs';
-import {debounceTime, flatMap} from 'rxjs/operators';
+import {debounceTime, mergeMap} from 'rxjs/operators';
 import * as _ from 'lodash';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
@@ -41,14 +41,14 @@ export class CompareDialogComponent implements OnDestroy {
               storage: StorageService,
               analysisConfiguration: AnalysisConfigurationService) {
     storage.find(analysisConfiguration.analysisRootNode.path, `.*\.debug`, 3)
-      .pipe(flatMap((nodes: StorageNode[]) => storage.listJSON(nodes)))
+      .pipe(mergeMap((nodes: StorageNode[]) => storage.listJSON(nodes)))
       .subscribe((entries: DebugEntry[]) => {
         this.debugEntries = entries;
         this.loading = false;
       });
 
-    this._subscriptions.push(zip(this._leftDebugEntryEmitter.pipe(flatMap(this.toString.transform.bind(this.toString))) as Observable<string>,
-      this._rightDebugEntryEmitter.pipe(flatMap(this.toString.transform.bind(this.toString)))).pipe(debounceTime(500))
+    this._subscriptions.push(zip(this._leftDebugEntryEmitter.pipe(mergeMap(this.toString.transform.bind(this.toString))) as Observable<string>,
+      this._rightDebugEntryEmitter.pipe(mergeMap(this.toString.transform.bind(this.toString)))).pipe(debounceTime(500))
       .subscribe((values: [string, string]) => {
         this.left = values[0];
         this.right = values[1];

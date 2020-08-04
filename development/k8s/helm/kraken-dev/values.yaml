@@ -3,11 +3,11 @@
 # Declare variables to be passed into your templates.
 
 default:
-  - &default_tag 3.0.0-beta
+  - &default_tag 3.0.1-rc2
   - &default_pull_policy IfNotPresent
   - &default_admin_username "admin"
   - &default_admin_password "kraken"
-  - &kraken_local_ip 192.168.2.44
+  - &kraken_local_ip 192.168.1.13
   - &kraken_hostname "kraken-local"
     ## Storage data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>

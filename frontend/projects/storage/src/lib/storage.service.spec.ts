@@ -181,11 +181,11 @@ describe('StorageService', () => {
     req.flush('content');
   });
 
-  xit('should getJSON', () => {
+  it('should getJSON', () => {
     const node = testStorageFileNode();
     const response = {key: 'value'};
     service.getJSON(node).subscribe(value => expect(value).toEqual(response));
-    const req = httpTestingController.expectOne( 'backendApiUrl/files/get/content');
+    const req = httpTestingController.expectOne( request => request.url === 'backendApiUrl/files/get/content');
     expect(req.request.method).toEqual('GET');
     expect(req.request.params.get('path')).toEqual(node.path);
     req.flush(response);

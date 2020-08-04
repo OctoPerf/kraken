@@ -3,6 +3,8 @@ package com.octoperf.kraken.storage.client.api;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
+import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
+import lombok.NonNull;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,5 +33,15 @@ public interface StorageClient extends AuthenticatedClient {
   Mono<StorageNode> uploadFile(Path localFilePath, String remotePath);
 
   Flux<StorageWatcherEvent> watch();
+
+  default Mono<StorageNode> eventsToNode(@NonNull final Flux<StorageWatcherEvent> flux, @NonNull final String path) {
+    return flux.collectList()
+        .map(events -> events.stream()
+            .filter(event -> event.getType() == StorageWatcherEventType.CREATE && event.getNode().getPath().equals(path))
+            .map(StorageWatcherEvent::getNode)
+            .findFirst()
+            .orElseThrow()
+        );
+  }
 
 }

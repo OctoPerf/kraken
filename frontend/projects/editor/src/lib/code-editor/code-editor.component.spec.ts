@@ -10,21 +10,26 @@ import SpyObj = jasmine.SpyObj;
 import {changeDetectorSpy} from 'projects/commons/src/lib/mock/angular.mock.spec';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
 import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
+import {CodeSnippetService} from 'projects/editor/src/lib/code-snippet.service';
+import {codeSnippetServiceSpy} from 'projects/editor/src/lib/code-snippet.service.spec';
 
 describe('CodeEditorComponent', () => {
   let component: CodeEditorComponent;
   let fixture: ComponentFixture<CodeEditorComponent>;
   let codeService: CodeService;
+  let codeSnippetService: CodeSnippetService;
   let changeDetector: SpyObj<ChangeDetectorRef>;
 
   beforeEach(async(() => {
     codeService = codeServiceSpy();
+    codeSnippetService = codeSnippetServiceSpy();
     changeDetector = changeDetectorSpy();
     TestBed
       .configureTestingModule({
         imports: [EditorModule],
         providers: [
           {provide: CodeService, useValue: codeService},
+          {provide: CodeSnippetService, useValue: codeSnippetService},
           {provide: ChangeDetectorRef, useValue: changeDetector}
         ]
       })
@@ -97,7 +102,7 @@ describe('CodeEditorComponent', () => {
   });
 
   it('should set mode no editor', () => {
-    const comp = new CodeEditorComponent(null, null, null);
+    const comp = new CodeEditorComponent(null, null, null, null);
     comp.mode = 'java';
     expect(comp._mode).toBe('java');
   });
@@ -114,13 +119,13 @@ describe('CodeEditorComponent', () => {
   });
 
   it('should set value no editor', () => {
-    const comp = new CodeEditorComponent(null, null, null);
+    const comp = new CodeEditorComponent(null, null, null, null);
     comp.value = 'new value';
     expect(comp._value).toBe('new value');
   });
 
   it('should append text no editor', () => {
-    const comp = new CodeEditorComponent(null, null, null);
+    const comp = new CodeEditorComponent(null, null, null, null);
     comp._value = 'foo';
     comp.appendText('bar');
     expect(comp._value).toBe('foobar');

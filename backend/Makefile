@@ -12,7 +12,7 @@ test-all:
 	./mvnw clean test -fn
 
 test-all-fast:
-	./mvnw -T 1C clean test -fn
+	./mvnw -T 1C clean test -ff
 
 dependencies:
 	./mvnw dependency:analyze
