@@ -351,16 +351,17 @@ public class WebStorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
+    final var events = ImmutableList.of(StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build());
 
     server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
+            .setBody(jsonMapper.writeValueAsString(events))
     );
 
-    final var response = client.uploadFile(testFile, fileNode.getPath()).block();
-    assertThat(response).isEqualTo(fileNode);
+    final var response = client.uploadFile(testFile, fileNode.getPath()).collectList().block();
+    assertThat(response).isEqualTo(events);
 
     final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getPath()).startsWith("/files/set/zip?path=");
@@ -378,16 +379,17 @@ public class WebStorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
+    final var events = ImmutableList.of(StorageWatcherEvent.builder().node(directoryNode).owner(PublicOwner.INSTANCE).type(CREATE).build());
 
     server.enqueue(
         new MockResponse()
             .setResponseCode(200)
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(jsonMapper.writeValueAsString(ImmutableList.of(StorageWatcherEvent.builder().node(directoryNode).owner(PublicOwner.INSTANCE).type(CREATE).build())))
+            .setBody(jsonMapper.writeValueAsString(events))
     );
 
-    final var response = client.uploadFile(testFile, directoryNode.getPath()).block();
-    assertThat(response).isEqualTo(directoryNode);
+    final var response = client.uploadFile(testFile, directoryNode.getPath()).collectList().block();
+    assertThat(response).isEqualTo(events);
 
     final RecordedRequest setRequest = server.takeRequest();
     assertThat(setRequest.getPath()).isEqualTo("/files/set/zip?path=remote");

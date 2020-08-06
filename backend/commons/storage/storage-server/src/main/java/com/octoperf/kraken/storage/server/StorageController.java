@@ -185,7 +185,7 @@ class StorageController {
   @PostMapping(value = "/list/json", produces = APPLICATION_JSON_VALUE)
   public Mono<String> listJSON(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                @RequestBody() final List<String> paths) {
-    log.info(String.format("List JSON for %s", String.join(", ", paths)));
+    log.info(String.format("List JSON for [%s]", String.join(", ", paths)));
     final var list = this.getService(applicationId).flatMapMany(service -> service.getContent(paths)).collectList().map(strings -> String.join(", ", strings));
     return Flux.concat(Flux.just("["), Flux.from(list), Flux.just("]")).reduce((s, s2) -> s + s2);
   }

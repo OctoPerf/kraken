@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 default:
-  - &default_tag 3.0.1-rc2
+  - &default_tag 3.0.1-rc6
   - &default_pull_policy IfNotPresent
   - &default_admin_username "admin"
   - &default_admin_password "kraken"

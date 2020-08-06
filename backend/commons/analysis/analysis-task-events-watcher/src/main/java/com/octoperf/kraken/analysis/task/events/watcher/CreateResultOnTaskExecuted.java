@@ -11,12 +11,14 @@ import com.octoperf.kraken.tools.event.bus.EventBusListener;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEvent> {
@@ -44,6 +46,7 @@ final class CreateResultOnTaskExecuted extends EventBusListener<TaskExecutedEven
         .description(context.getDescription())
         .type(taskTypeToResultType.apply(context.getTaskType()))
         .build();
+    log.info(String.format("Create result %s", context.getTaskId()));
     analysisService.create(event.getContext().getOwner(), result).subscribe();
   }
 }

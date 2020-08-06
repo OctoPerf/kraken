@@ -73,8 +73,8 @@ final class SpringStorageClient implements StorageClient {
   }
 
   @Override
-  public Mono<StorageNode> uploadFile(Path localFilePath, String remotePath) {
-    return Mono.error(new UnsupportedOperationException());
+  public Flux<StorageWatcherEvent> uploadFile(Path localFilePath, String remotePath) {
+    return Flux.error(new UnsupportedOperationException());
   }
 
   @Override

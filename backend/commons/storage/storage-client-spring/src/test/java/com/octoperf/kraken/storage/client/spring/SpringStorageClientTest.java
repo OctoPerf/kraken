@@ -26,6 +26,7 @@ import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.FILE;
 import static com.octoperf.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
 import static com.octoperf.kraken.storage.entity.StorageWatcherEventType.CREATE;
+import static com.octoperf.kraken.storage.entity.StorageWatcherEventType.MODIFY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -120,7 +121,7 @@ public class SpringStorageClientTest {
         .lastModified(0L)
         .build();
     given(storageService.setContent(fileNode.getPath(), jsonMapper.writeValueAsString(STORAGE_WATCHER_EVENT))).willReturn(Flux.just(StorageWatcherEvent.builder()
-        .type(CREATE)
+        .type(MODIFY)
         .owner(PublicOwner.INSTANCE)
         .node(fileNode)
         .build()));

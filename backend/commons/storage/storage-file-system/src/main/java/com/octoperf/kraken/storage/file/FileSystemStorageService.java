@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -134,13 +135,17 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageWatcherEvent> setDirectory(final String path) {
     return this.callOperation(sink -> {
-      final var completePath = this.stringToPath(path);
+      log.info(String.format("Set directory %s", path));
+      checkArgument(!path.contains(".."), "Cannot store file with relative path outside current directory "
+          + path);
+      final var completePath = Paths.get(path);
       final var iterator = completePath.iterator();
-      var resolved = Path.of("");
+      var resolved = root;
       // Loop over each part of the path to create required folders and send events
       while (iterator.hasNext()) {
         final var current = iterator.next();
         resolved = resolved.resolve(current);
+        log.debug(String.format("Parsing sub-folder %s", resolved.toString()));
         final var file = resolved.toFile();
         if (!file.exists()) {
           if (!file.mkdir()) {
@@ -238,8 +243,11 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Flux<StorageWatcherEvent> setContent(final String path, final String content) {
+    log.info(String.format("Set content at path %s: %s", path, content));
     final var completePath = this.stringToPath(path);
-    return this.callOperation(sink -> {
+    final var parentPath = Optional.ofNullable(Paths.get(path).getParent()).orElse(Path.of("")).toString();
+    final var setDirectory = this.stringToPath(parentPath).toFile().exists() ? Flux.<StorageWatcherEvent>empty() : this.setDirectory(parentPath);
+    final var setContent = this.callOperation(sink -> {
       final var exists = completePath.toFile().exists();
       Files.writeString(completePath, content);
       final var modified = toStorageNode.apply(completePath);
@@ -249,6 +257,7 @@ final class FileSystemStorageService implements StorageService {
           .owner(this.owner)
           .build());
     });
+    return Flux.concat(setDirectory, setContent);
   }
 
   @Override

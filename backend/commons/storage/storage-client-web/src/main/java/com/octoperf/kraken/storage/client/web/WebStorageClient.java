@@ -174,25 +174,25 @@ final class WebStorageClient implements StorageClient {
   }
 
   @Override
-  public Mono<StorageNode> uploadFile(final Path localFilePath, final String remotePath) {
+  public Flux<StorageWatcherEvent> uploadFile(final Path localFilePath, final String remotePath) {
     return retry(this.zipLocalFile(localFilePath)
-        .flatMap(path -> this.setZip(path, remotePath))
+        .flatMapMany(path -> this.setZip(path, remotePath))
         .doOnError(t -> log.error("Failed to upload file " + localFilePath, t))
         .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath))), log);
   }
 
-  private Mono<StorageNode> setZip(final Path localZipFile, final String path) {
+  private Flux<StorageWatcherEvent> setZip(final Path localZipFile, final String path) {
     try {
-      return retry(eventsToNode(webClient.post()
+      return retry(webClient.post()
           .uri(uri -> uri.path("/files/set/zip").queryParam("path", path).build())
           .body(BodyInserters.fromMultipartData("file", new UrlResource("file", localZipFile.toString())))
           .retrieve()
-          .bodyToFlux(StorageWatcherEvent.class), path)
+          .bodyToFlux(StorageWatcherEvent.class)
           .doOnError(t -> log.error("Failed to upload zip " + localZipFile, t))
           .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localZipFile, path))), log);
     } catch (MalformedURLException e) {
       log.error("Failed to upload file", e);
-      return error(e);
+      return Flux.error(e);
     }
   }
 

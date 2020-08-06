@@ -70,10 +70,10 @@ final class GatlingRunner {
           .doOnNext(log::info).blockLast();
     }, of((runtimeClient, me) -> {
       // Upload result
-      storageClientMono.flatMap(storage -> storage.uploadFile(
+      storageClientMono.flatMapMany(storage -> storage.uploadFile(
           Paths.get(gatling.getResults().getLocal()),
           get(getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
-      )).block();
+      )).blockLast();
     }));
   }
 

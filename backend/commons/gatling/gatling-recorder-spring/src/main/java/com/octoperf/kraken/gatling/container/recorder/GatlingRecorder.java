@@ -63,9 +63,9 @@ final class GatlingRecorder {
           .doOnNext(log::info).blockLast();
     }, of((runtimeClient, me) -> {
       // Upload simulation
-      storageClientMono.flatMap(storage ->
+      storageClientMono.flatMapMany(storage ->
           storage.uploadFile(Paths.get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote()))
-          .block();
+          .blockLast();
     }));
   }
 

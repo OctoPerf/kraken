@@ -30,14 +30,14 @@ public interface StorageClient extends AuthenticatedClient {
 
   Mono<Void> downloadFolder(Path localFolderPath, String path);
 
-  Mono<StorageNode> uploadFile(Path localFilePath, String remotePath);
+  Flux<StorageWatcherEvent> uploadFile(Path localFilePath, String remotePath);
 
   Flux<StorageWatcherEvent> watch();
 
   default Mono<StorageNode> eventsToNode(@NonNull final Flux<StorageWatcherEvent> flux, @NonNull final String path) {
     return flux.collectList()
         .map(events -> events.stream()
-            .filter(event -> event.getType() == StorageWatcherEventType.CREATE && event.getNode().getPath().equals(path))
+            .filter(event -> event.getNode().getPath().equals(path))
             .map(StorageWatcherEvent::getNode)
             .findFirst()
             .orElseThrow()

@@ -97,7 +97,7 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldList() {
     create(service.list())
-        .expectNextCount(34)
+        .expectNextCount(32)
         .expectComplete()
         .verify();
   }
@@ -137,6 +137,38 @@ public class FileSystemStorageServiceIntegrationTest {
 
     checkResult(service.setContent(filename, "Some Content"), events.subList(0, 1));
     checkResult(service.delete(of(filename)), events.subList(1, 2));
+    checkEvents(events);
+  }
+
+  @Test
+  public void shouldSetContentSubFolderAndDelete() {
+    final var events = ImmutableList.of(
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+    );
+
+    final var filename = "content/README2.md";
+
+    checkResult(service.setContent(filename, "Some Content"), events.subList(0, 2));
+    checkResult(service.delete(of("content")), events.subList(2, 4));
+    checkEvents(events);
+  }
+
+  @Test
+  public void shouldSetContentTwiceSubFolderAndDelete() {
+    final var events = ImmutableList.of(
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(MODIFY).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+    );
+    final var filename = "content/README2.md";
+    checkResult(service.setContent(filename, "Some Content"), events.subList(0, 2));
+    checkResult(service.setContent(filename, "Other Content"), events.subList(2, 3));
+    checkResult(service.delete(of("content")), events.subList(3, 5));
     checkEvents(events);
   }
 
