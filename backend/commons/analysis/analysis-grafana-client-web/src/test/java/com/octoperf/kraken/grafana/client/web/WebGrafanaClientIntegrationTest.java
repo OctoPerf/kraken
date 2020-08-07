@@ -55,14 +55,14 @@ public class WebGrafanaClientIntegrationTest {
 //    Updated user attributes {databaseUsername=[kraken_eb274740_db1e_4c6c_8050_3f0e3073d487], databasePassword=[cfhzmjgopm], databaseName=[kraken_eb274740_db1e_4c6c_8050_3f0e3073d487], dashboardUserId=[2], dashboardEmail=[kojiro.sazaki@gmail.com], dashboardPassword=[rkapa5sfs1], dashboardDatasourceName=[eb274740-db1e-4c6c-8050-3f0e3073d487], dashboardOrgId=[2]}
 
     dbUser = InfluxDBUser.builder()
-        .username("kraken_eb274740_db1e_4c6c_8050_3f0e3073d487")
-        .password("cfhzmjgopm")
-        .database("kraken_eb274740_db1e_4c6c_8050_3f0e3073d487")
+        .username("kraken_33368a11_9f9a_4e7f_9c36_2e5c6cd65090")
+        .password("lvfolkvwsi")
+        .database("kraken_33368a11_9f9a_4e7f_9c36_2e5c6cd65090")
         .build();
     grafanaUser = GrafanaUser.builder()
-        .datasourceName("eb274740-db1e-4c6c-8050-3f0e3073d487")
-        .email("kojiro.sazaki@gmail.com")
-        .password("rkapa5sfs1")
+        .datasourceName("33368a11-9f9a-4e7f-9c36-2e5c6cd65090")
+        .email("test@test")
+        .password("ef28sbznhp")
         .id("2")
         .orgId("2")
         .build();
@@ -81,6 +81,11 @@ public class WebGrafanaClientIntegrationTest {
   public void shouldCreateUser() {
     final var user = grafanaAdminClient.createUser("userId", "test1@octoperf.com").block();
     System.out.println(user);
+  }
+
+  @Test
+  public void shouldDeleteDashboard() {
+    grafanaUserClient.flatMap(client -> client.deleteDashboard("wghgcsbyz1")).block();
   }
 
   @Test

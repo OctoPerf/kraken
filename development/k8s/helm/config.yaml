@@ -1,5 +1,5 @@
 default:
-  - &default_tag 3.0.1-rc6
+  - &default_tag 3.0.1-rc7
   - &default_pull_policy Never
   - &default_host kraken-local
   - &default_admin_username "kraken-demo"

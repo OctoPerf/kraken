@@ -85,13 +85,13 @@ final class SpringAnalysisService implements AnalysisService {
         final var grafanaUser = grafanaUserConverter.apply(krakenUser);
         final var influxDBUser = influxDBUserConverter.apply(krakenUser);
         final var deleteDashboard = grafanaUserClientBuilder.grafanaUser(grafanaUser).influxDBUser(influxDBUser).build()
-            .map(client -> client.deleteDashboard(resultId));
+            .flatMap(client -> client.deleteDashboard(resultId));
         final var deleteSeries = influxDBClientBuilder.build().flatMap(client -> client.deleteSeries(influxDBUser.getDatabase(), resultId));
         return Mono.zip(deleteDashboard, deleteSeries);
       });
 
       final var deleteReport = getResult.flatMap(result -> result.getType().isDebug() ? Mono.just("ok") : deleteRunReport);
-      return Mono.zip(deleteFolder, deleteReport).map(objects -> resultId);
+      return deleteReport.then(deleteFolder).map(objects -> resultId);
     });
   }
 
