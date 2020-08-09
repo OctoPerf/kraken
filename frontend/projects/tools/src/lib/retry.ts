@@ -10,4 +10,8 @@ export class Retry {
     this.retries++;
     return Math.pow(2, this.retries) * 1000;
   }
+
+  isActive(): boolean {
+    return this.retries > 0;
+  }
 }

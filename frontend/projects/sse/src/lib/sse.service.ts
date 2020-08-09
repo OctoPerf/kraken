@@ -52,7 +52,12 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
   }
 
   next(sseWrapper: SSEWrapper) {
-    this._retry.reset();
+    if (this._retry.isActive()) {
+      this._retry.reset();
+      this.eventBus.publish(new NotificationEvent(new BaseNotification(
+        `Successfully reconnected to server events.`,
+        NotificationLevel.INFO)));
+    }
     this.eventBus.publish(new SSEEvent(sseWrapper));
   }
 
