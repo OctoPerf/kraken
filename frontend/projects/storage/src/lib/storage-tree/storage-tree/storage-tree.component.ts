@@ -94,6 +94,6 @@ export class StorageTreeComponent implements OnInit, AfterViewInit {
   }
 
   depth(node: StorageNode): number {
-    return node.depth - Math.max(this.rootNode.depth, 0);
+    return node.depth - this.rootNode.depth - 1;
   }
 }
