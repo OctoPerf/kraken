@@ -2,7 +2,10 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {STORAGE_CONTEXTUAL_MENU, StorageTreeComponent} from './storage-tree.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import {StorageTreeDataSourceService} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
+import {
+  STORAGE_ROOT_NODE,
+  StorageTreeDataSourceService
+} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 import {storageTreeDataSourceServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service.spec';
 import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste.service';
@@ -10,7 +13,7 @@ import {copyPasteServiceSpy} from 'projects/storage/src/lib/storage-tree/copy-pa
 import {
   testStorageDirectoryNode,
   testStorageFileNode,
-  testStorageNodes
+  testStorageNodes, testStorageRootNode
 } from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageContextualMenuComponent} from 'projects/storage/src/lib/storage-menu/storage-contextual-menu/storage-contextual-menu.component';
@@ -34,11 +37,13 @@ describe('StorageTreeComponent', () => {
   let eventBus: SpyObj<EventBusService>;
   let fileNode: StorageNode;
   let directoryNode: StorageNode;
+  let rootNode: StorageNode;
 
   beforeEach(async(() => {
     treeControl = storageTreeControlServiceSpy();
     dataSource = storageTreeDataSourceServiceSpy();
     eventBus = eventBusSpy();
+    rootNode = testStorageRootNode();
 
     TestBed.configureTestingModule({
       declarations: [StorageTreeComponent],
@@ -46,6 +51,7 @@ describe('StorageTreeComponent', () => {
         {provide: StorageService, useValue: storageServiceSpy()},
         {provide: STORAGE_CONTEXTUAL_MENU, useValue: StorageContextualMenuComponent},
         {provide: STORAGE_ID, useValue: 'storage'},
+        {provide: STORAGE_ROOT_NODE, useValue: rootNode},
         {provide: EventBusService, useValue: eventBus},
         {provide: StorageKeyBindingService, useValue: storageKeyBindingServiceSpy}
       ]
@@ -73,13 +79,18 @@ describe('StorageTreeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return hasChild', () => {
-    expect(component.hasChild(null, fileNode)).toBeFalsy();
-    expect(component.hasChild(null, directoryNode)).toBeTruthy();
-  });
-
   it('should selectHelpPage', () => {
     component.selectHelpPage();
     expect(eventBus.publish).toHaveBeenCalledWith(new SelectHelpEvent('storage' as any));
+  });
+
+  it('should depth', () => {
+    expect(component.depth(testStorageFileNode())).toEqual(1);
+    expect(component.depth(testStorageDirectoryNode())).toEqual(0);
+  });
+
+  it('should depth other root', () => {
+    rootNode.depth = 1;
+    expect(component.depth(testStorageFileNode())).toEqual(0);
   });
 });

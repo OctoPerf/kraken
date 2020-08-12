@@ -16,9 +16,10 @@ import {keyBindingsServiceSpy} from 'projects/tools/src/lib/key-bindings.service
 import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
+import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
+import {storageTreeScrollServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service.spec';
+import * as _ from 'lodash';
 import SpyObj = jasmine.SpyObj;
-import {GuiToolsService} from 'projects/tools/src/lib/gui-tools.service';
-import {guiToolsServiceSpy} from 'projects/tools/src/lib/gui-tools.service.spec';
 
 export const storageKeyBindingServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageKeyBindingService', [
@@ -28,76 +29,45 @@ export const storageKeyBindingServiceSpy = () => {
   return spy;
 };
 
-const scrollableTreeSpy = () => {
-  const spy = jasmine.createSpyObj('ElementRef', ['']);
-  spy.nativeElement = '<div>' +
-    '  <div id="username" >Hello</div>' +
-    '  <button id="button" />' +
-    '</div>';
-  return spy;
-};
-
-export const element = () => {
-  const spy = jasmine.createSpyObj('StorageNodeComponent', [
-    'ref'
-  ]);
-  spy.ref.nativeElement = '<div>' +
-    '  <div id="username" >Hello</div>' +
-    '  <button id="button" />' +
-    '</div>';
-  return spy;
-};
-
-export const treeChildren = () => {
-  const spy = jasmine.createSpyObj('QueryList', [
-    'filter'
-  ]);
-  return spy;
-};
-
 describe('StorageKeyBindingService', () => {
 
-  let treeControl: SpyObj<StorageTreeControlService>;
   let rootNode: StorageNode;
-  let keys: KeyBindingsService;
+  let treeControl: SpyObj<StorageTreeControlService>;
+  let keys: SpyObj<KeyBindingsService>;
   let dataSource: SpyObj<StorageTreeDataSourceService>;
   let storageService: SpyObj<StorageService>;
+  let scroll: SpyObj<StorageTreeScrollService>;
 
   let service: StorageKeyBindingService;
 
   beforeEach(() => {
     rootNode = testStorageRootNode();
+    keys = keyBindingsServiceSpy();
+    dataSource = storageTreeDataSourceServiceSpy();
+    dataSource.indexOf.and.callFake(node => _.indexOf(dataSource._expandedNodes, node));
+    treeControl = storageTreeControlServiceSpy();
+    storageService = storageServiceSpy();
+    scroll = storageTreeScrollServiceSpy();
 
     TestBed.configureTestingModule({
       providers: [
-        {provide: StorageTreeDataSourceService, useValue: storageTreeDataSourceServiceSpy()},
-        {provide: StorageTreeControlService, useValue: storageTreeControlServiceSpy()},
-        {provide: StorageService, useValue: storageServiceSpy()},
+        {provide: StorageTreeDataSourceService, useValue: dataSource},
+        {provide: StorageTreeControlService, useValue: treeControl},
+        {provide: StorageService, useValue: storageService},
         {provide: STORAGE_ID, useValue: 'test'},
         {provide: STORAGE_ROOT_NODE, useValue: rootNode},
-        {provide: KeyBindingsService, useValue: keyBindingsServiceSpy()},
-        {provide: StorageNodeComponent, useValue: element()},
-        {provide: GuiToolsService, useValue: guiToolsServiceSpy()},
+        {provide: KeyBindingsService, useValue: keys},
+        {provide: StorageTreeScrollService, useValue: scroll},
         StorageKeyBindingService,
       ]
     });
-    dataSource = TestBed.inject(StorageTreeDataSourceService) as SpyObj<StorageTreeDataSourceService>;
-    keys = TestBed.inject(KeyBindingsService);
-    treeControl = TestBed.inject(StorageTreeControlService) as SpyObj<StorageTreeControlService>;
-    storageService = TestBed.inject(StorageService) as SpyObj<StorageService>;
     service = TestBed.inject(StorageKeyBindingService);
-    const treeNodes = treeChildren();
-    // const elementObj = TestBed.inject(element());
-    service.init(treeNodes, scrollableTreeSpy());
-
-    treeNodes.filter.and.returnValue([element()]);
-    // elementObj.ref.nativeElement.offsetTop.and.returnValue(60);
+    service.init();
   });
 
   afterEach(() => {
     service.ngOnDestroy();
   });
-
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -129,32 +99,33 @@ describe('StorageKeyBindingService', () => {
       treeControl._lastSelection = dataSource._expandedNodes[7];
     });
 
-    it('should multi select down data', () => {
+    it('down data', () => {
       expect(service.downMultiSelection()).toBe(true);
       expect(treeControl.selectNode).toHaveBeenCalledTimes(1);
       expect(treeControl.selectNode).toHaveBeenCalledWith(dataSource._expandedNodes[8]);
     });
 
-    it('should multi select up data', () => {
+    it('up data', () => {
       expect(service.upMultiSelection()).toBe(true);
       expect(treeControl.selectNode).toHaveBeenCalledTimes(1);
       expect(treeControl.selectNode.withArgs(dataSource._expandedNodes[6]));
     });
 
-    it('should multi select down data with lines already selected', () => {
+    it('down data with lines already selected', () => {
       treeControl.isSelected.withArgs(dataSource._expandedNodes[8]).and.returnValue(true);
       expect(service.downMultiSelection()).toBe(true);
       expect(treeControl.deselectNode).toHaveBeenCalledTimes(1);
       expect(treeControl.deselectNode).toHaveBeenCalledWith(dataSource._expandedNodes[7], dataSource._expandedNodes[8]);
     });
 
-    it('should multi select up data with lines already selected', () => {
+    it('up data with lines already selected', () => {
       treeControl.isSelected.withArgs(dataSource._expandedNodes[6]).and.returnValue(true);
       expect(service.upMultiSelection()).toBe(true);
       expect(treeControl.deselectNode).toHaveBeenCalledTimes(1);
       expect(treeControl.deselectNode).toHaveBeenCalledWith(dataSource._expandedNodes[7], dataSource._expandedNodes[6]);
     });
   });
+
   it('should not select up data', () => {
     treeControl._lastSelection = dataSource._expandedNodes[0];
     expect(service.upSelection()).toBe(false);

@@ -20,7 +20,7 @@ import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes
 export class StorageTreeControlService extends FlatTreeControl<StorageNode> implements OnDestroy {
 
   _selection: SelectionModel<StorageNode>;
-  _lastSelection: StorageNode;
+  _lastSelection: StorageNode | null;
 
   private readonly expansionId: string;
 
@@ -36,9 +36,7 @@ export class StorageTreeControlService extends FlatTreeControl<StorageNode> impl
     this.expansionId = id + '-expansion';
     this._selection = new SelectionModel<StorageNode>(true /* multiple */);
     this.subscriptions.push(this.eventBus.of(NodeDeletedEvent.CHANNEL).subscribe(this._nodeDeleted.bind(this)));
-    this.subscriptions.push(this.expansionModel.changed.subscribe(
-      () => this.localStorage.setItem(this.expansionId, this.expansionModel.selected)
-    ));
+    this.subscriptions.push(this.expansionModel.changed.subscribe(() => this.localStorage.setItem(this.expansionId, this.expansionModel.selected)));
   }
 
   ngOnDestroy() {

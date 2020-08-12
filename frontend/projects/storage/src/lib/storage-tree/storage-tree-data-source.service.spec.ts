@@ -39,6 +39,8 @@ export const storageTreeDataSourceServiceSpy = () => {
     'connect',
     'disconnect',
     'parentNode',
+    'indexOf',
+    'findIndex',
     'ngOnDestroy',
   ]);
   spy.data = testStorageNodes();
@@ -128,4 +130,13 @@ describe('StorageTreeDataSourceService', () => {
     expect(service.parentNode(nodes[0])).toEqual(rootNode);
   });
 
+  it('should indexOf', () => {
+    service._expandedData.next(nodes);
+    expect(service.indexOf(nodes[2])).toBe(2);
+  });
+
+  it('should findIndex compare only path', () => {
+    service._expandedData.next(nodes);
+    expect(service.findIndex({path: nodes[2].path} as any)).toBe(2);
+  });
 });

@@ -12,21 +12,38 @@ export const STORAGE_NODE_BUTTONS = new InjectionToken<ComponentType<any>>('Stor
   templateUrl: './storage-node.component.html',
   styleUrls: ['./storage-node.component.scss']
 })
-export class StorageNodeComponent implements OnInit {
+export class StorageNodeComponent {
 
-  @Input() node: StorageNode;
-  @Input() expanded: boolean;
-
+  public hasChild: boolean;
   public nodeButtons: ComponentPortal<any>;
+  public hover = false;
+
+  private _expanded: boolean;
+  private _node: StorageNode;
 
   constructor(public ref: ElementRef,
-    public treeControl: StorageTreeControlService,
+              public treeControl: StorageTreeControlService,
               private injector: Injector,
               @Inject(STORAGE_NODE_BUTTONS) @Optional() private nodeButtonsType: any /*ComponentType<any>*/) {
   }
 
-  ngOnInit() {
+  @Input() set node(node: StorageNode) {
+    this._node = node;
     this.nodeButtons = new ComponentPortal(this.nodeButtonsType ? this.nodeButtonsType : StorageNodeButtonsComponent, null,
       new PortalInjector(this.injector, new WeakMap([[STORAGE_NODE, this.node]])));
+    this.hasChild = this.node.type === 'DIRECTORY';
   }
+
+  @Input() set expanded(expanded: boolean) {
+    this._expanded = expanded;
+  }
+
+  get node(): StorageNode {
+    return this._node;
+  }
+
+  get expanded(): boolean {
+    return this._expanded;
+  }
+
 }

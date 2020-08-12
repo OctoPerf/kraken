@@ -9,26 +9,30 @@ import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/s
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
-import {
-  testStorageDirectoryNode,
-  testStorageFileNode,
-  testStorageRootNode
-} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {testStorageDirectoryNode, testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
+import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
+import SpyObj = jasmine.SpyObj;
+import {storageTreeScrollServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service.spec';
 
 describe('LinkSelectionButtonComponent', () => {
+  let fileNode: StorageNode;
   let component: LinkSelectionButtonComponent;
   let fixture: ComponentFixture<LinkSelectionButtonComponent>;
   let eventBus: EventBusService;
-  let treeControl: StorageTreeControlService;
-  let fileNode: StorageNode;
+  let treeControl: SpyObj<StorageTreeControlService>;
+  let scroll: SpyObj<StorageTreeScrollService>;
 
   beforeEach(async(() => {
+    scroll = storageTreeScrollServiceSpy();
+    treeControl = storageTreeControlServiceSpy();
+
     TestBed.configureTestingModule({
       providers: [
         {provide: STORAGE_ID, useValue: 'test'},
         {provide: LocalStorageService, useValue: localStorageServiceSpy()},
-        {provide: StorageTreeControlService, useValue: storageTreeControlServiceSpy()},
+        {provide: StorageTreeScrollService, useValue: scroll},
+        {provide: StorageTreeControlService, useValue: treeControl},
         {provide: EventBusService, useValue: new EventBusService()},
         {provide: STORAGE_ID, useValue: 'storage'},
         {provide: STORAGE_ROOT_NODE, useValue: testStorageDirectoryNode()},
@@ -37,7 +41,6 @@ describe('LinkSelectionButtonComponent', () => {
     }).overrideTemplate(LinkSelectionButtonComponent, '')
     .compileComponents();
     eventBus = TestBed.inject(EventBusService);
-    treeControl = TestBed.inject(StorageTreeControlService);
     fileNode = testStorageFileNode();
   }));
 
@@ -54,6 +57,7 @@ describe('LinkSelectionButtonComponent', () => {
   it('should select node', () => {
     eventBus.publish(new SelectNodeEvent(fileNode));
     expect(treeControl.selectOne).toHaveBeenCalledWith(fileNode);
+    expect(scroll.updateScroll).toHaveBeenCalled();
   });
 
   it('should not select node', () => {

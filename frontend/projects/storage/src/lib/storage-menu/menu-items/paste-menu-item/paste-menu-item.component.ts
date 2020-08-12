@@ -3,7 +3,7 @@ import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste.service';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
-import {KeyBoundMenuItem} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item';
+import {KeyBoundMenuItemDirective} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item.directive';
 import {faPaste} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
@@ -15,7 +15,7 @@ library.add(faPaste);
   templateUrl: './paste-menu-item.component.html',
   styles: []
 })
-export class PasteMenuItemComponent extends KeyBoundMenuItem {
+export class PasteMenuItemComponent extends KeyBoundMenuItemDirective {
 
   readonly pasteIcon = new IconFa(faPaste);
 

@@ -10,16 +10,16 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {IconFaAddon} from 'projects/icon/src/lib/icon-fa-addon';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons/faEllipsisV';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import {StorageTreeDataSourceService} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
+import {
+  STORAGE_ROOT_NODE,
+  StorageTreeDataSourceService
+} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste.service';
-import {faChevronDown} from '@fortawesome/free-solid-svg-icons/faChevronDown';
-import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {StorageContextualMenuComponent} from 'projects/storage/src/lib/storage-menu/storage-contextual-menu/storage-contextual-menu.component';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
@@ -29,11 +29,13 @@ import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-even
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
 import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
+import {faCompress} from '@fortawesome/free-solid-svg-icons/faCompress';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
 
 library.add(
   faEllipsisV,
-  faChevronDown,
-  faMinus
+  faCompress
 );
 
 export const STORAGE_CONTEXTUAL_MENU = new InjectionToken<any /*ComponentType<any>*/>('StorageContextualMenu');
@@ -48,6 +50,7 @@ export const STORAGE_TREE_LABEL = new InjectionToken<string>('StorageTreeLabel')
     StorageTreeDataSourceService,
     StorageTreeControlService,
     StorageKeyBindingService,
+    StorageTreeScrollService,
     CopyPasteService,
   ]
 })
@@ -55,16 +58,12 @@ export class StorageTreeComponent implements OnInit, AfterViewInit {
 
   // Icons
   readonly menuIcon = new IconFa(faEllipsisV, 'primary');
-  readonly expandAllIcon = new IconFaAddon(
-    new IconFa(faChevronDown, 'foreground', 'down-4'),
-    new IconFa(faMinus, 'foreground', 'up-6'),
-  );
+  readonly collapseAllIcon = new IconFa(faCompress, 'foreground');
 
   public contextualMenu: ComponentPortal<any>;
   public label: string;
 
-  @ViewChild('scrollableTree') scrollableTree: ElementRef<HTMLElement>;
-  @ViewChildren(StorageNodeComponent) treeNodes: QueryList<StorageNodeComponent>;
+  @ViewChild('scrollableTree') scrollableTree: CdkVirtualScrollViewport;
 
   constructor(public treeControl: StorageTreeControlService,
               public dataSource: StorageTreeDataSourceService,
@@ -72,8 +71,10 @@ export class StorageTreeComponent implements OnInit, AfterViewInit {
               @Inject(STORAGE_CONTEXTUAL_MENU) @Optional() contextualMenuType: any /*ComponentType<any>*/,
               @Inject(STORAGE_TREE_LABEL) @Optional() label: string,
               @Inject(STORAGE_ID) public id: string,
+              @Inject(STORAGE_ROOT_NODE) private readonly rootNode: StorageNode,
               private eventBus: EventBusService,
-              private keyBinding: StorageKeyBindingService) {
+              private keyBinding: StorageKeyBindingService, // DO NOT REMOVE
+              private scroll: StorageTreeScrollService) {
     dataSource.treeControl = treeControl;
     this.contextualMenu = new ComponentPortal<any>(contextualMenuType ? contextualMenuType : StorageContextualMenuComponent);
     this.label = label ? label : 'Files';
@@ -84,13 +85,15 @@ export class StorageTreeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.keyBinding.init(this.treeNodes, this.scrollableTree);
+    this.scroll.init(this.scrollableTree);
+    this.keyBinding.init();
   }
 
   selectHelpPage() {
     this.eventBus.publish(new SelectHelpEvent(this.id as HelpPageId));
   }
 
-  hasChild = (_number: number, _nodeData: StorageNode) => _nodeData.type === 'DIRECTORY';
-
+  depth(node: StorageNode): number {
+    return node.depth - Math.max(this.rootNode.depth, 0);
+  }
 }

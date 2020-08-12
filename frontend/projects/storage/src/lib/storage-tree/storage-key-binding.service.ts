@@ -1,36 +1,31 @@
-import {ElementRef, Inject, Injectable, OnDestroy, QueryList} from '@angular/core';
+import {Inject, Injectable, OnDestroy} from '@angular/core';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import * as _ from 'lodash';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {
   STORAGE_ROOT_NODE,
   StorageTreeDataSourceService
 } from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
-import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {GuiToolsService} from 'projects/tools/src/lib/gui-tools.service';
+import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
 
 @Injectable()
 export class StorageKeyBindingService implements OnDestroy {
 
   private keyBindings: KeyBinding[] = [];
-  private treeNodes: QueryList<StorageNodeComponent>;
-  private scrollableTree: ElementRef<HTMLElement>;
-
 
   constructor(
+    private scroll: StorageTreeScrollService,
     public treeControl: StorageTreeControlService,
     @Inject(STORAGE_ID) public id: string,
     @Inject(STORAGE_ROOT_NODE) private readonly rootNode: StorageNode,
     private keys: KeyBindingsService,
     private dataSource: StorageTreeDataSourceService,
-    public storage: StorageService,
-    public guiTools: GuiToolsService) {
+    public storage: StorageService) {
   }
 
-  public init(matTreeNodes: QueryList<StorageNodeComponent>, scrollableTree: ElementRef<HTMLElement>): void {
+  init() {
     this.keyBindings.push(new KeyBinding(['ArrowUp', 'Up'], this.upSelection.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['ArrowDown', 'Down'], this.downSelection.bind(this), this.id));
     this.keyBindings.push(new KeyBinding(['shift + ArrowUp', 'shift + Up'], this.upMultiSelection.bind(this), this.id));
@@ -41,26 +36,17 @@ export class StorageKeyBindingService implements OnDestroy {
     this.keyBindings.forEach(binding => {
       this.keys.add([binding]);
     });
-    this.treeNodes = matTreeNodes;
-    this.scrollableTree = scrollableTree;
   }
 
   ngOnDestroy() {
     this.keyBindings.forEach(binding => this.keys.remove([binding]));
   }
 
-  private updateScroll() {
-    this.guiTools.scrollTo(this.scrollableTree, () => {
-      const selectedNodes = this.treeNodes.filter(item => this.treeControl._lastSelection.path === item.node.path);
-      return selectedNodes.length ? selectedNodes[0].ref.nativeElement : null;
-    });
-  }
-
   public upSelection(): boolean {
     const nodeToSelect = this.selectNextOpen(index => index - 1);
     if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
-      this.updateScroll();
+      this.scroll.updateScroll();
       return true;
     }
     return false;
@@ -74,7 +60,7 @@ export class StorageKeyBindingService implements OnDestroy {
       } else {
         this.treeControl.selectNode(nodeToSelect);
       }
-      this.updateScroll();
+      this.scroll.updateScroll();
       return true;
     }
     return false;
@@ -84,7 +70,7 @@ export class StorageKeyBindingService implements OnDestroy {
     const nodeToSelect = this.selectNextOpen(index => index + 1);
     if (nodeToSelect) {
       this.treeControl.selectOne(nodeToSelect);
-      this.updateScroll();
+      this.scroll.updateScroll();
       return true;
     }
     return false;
@@ -98,7 +84,7 @@ export class StorageKeyBindingService implements OnDestroy {
       } else {
         this.treeControl.selectNode(nextNode);
       }
-      this.updateScroll();
+      this.scroll.updateScroll();
       return true;
     }
     return false;
@@ -114,7 +100,7 @@ export class StorageKeyBindingService implements OnDestroy {
   }
 
   private get lastIndexSelection(): number {
-    return _.indexOf(this.dataSource._expandedNodes, this.treeControl._lastSelection);
+    return this.dataSource.indexOf(this.treeControl._lastSelection);
   }
 
   private get data(): StorageNode[] {
@@ -150,7 +136,7 @@ export class StorageKeyBindingService implements OnDestroy {
     } else {
       this.treeControl.collapse(node);
     }
-    this.updateScroll();
+    this.scroll.updateScroll();
     return true;
   }
 

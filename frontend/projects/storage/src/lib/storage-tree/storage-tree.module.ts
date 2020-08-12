@@ -11,9 +11,6 @@ import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage
 import {LinkSelectionButtonComponent} from './link-selection-button/link-selection-button.component';
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
-import {FileNameDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-name-dialog/file-name-dialog.component';
-import {DeleteFilesDialogComponent} from 'projects/storage/src/lib/storage-dialogs/delete-files-dialog/delete-files-dialog.component';
-import {FileUploadDialogComponent} from 'projects/storage/src/lib/storage-dialogs/file-upload-dialog/file-upload-dialog.component';
 import {StorageMenuModule} from 'projects/storage/src/lib/storage-menu/storage-menu.module';
 
 @NgModule({

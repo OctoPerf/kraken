@@ -4,7 +4,7 @@ import { OnDestroy, OnInit, Directive } from '@angular/core';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
 @Directive()
-export class KeyBoundMenuItem implements OnInit, OnDestroy {
+export class KeyBoundMenuItemDirective implements OnInit, OnDestroy {
 
   constructor(protected treeControl: StorageTreeControlService,
               protected keys: KeyBindingsService,
