@@ -1,6 +1,6 @@
 kraken:
   grafana:
-    url: http://localhost:3000
+    url: http://kraken-local/grafana
     dashboard: grafana/grafana-gatling-dashboard.json
     user: admin
     password: kraken

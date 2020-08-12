@@ -75,7 +75,7 @@
 }
 
 @mixin compact-tree($size: 34px) {
-  .mat-tree-node {
+  .app-tree-node, .mat-tree-node {
     min-height: auto !important;
     height: $size;
   }
@@ -119,8 +119,9 @@
   @include compact-stepper();
 }
 
+$nodeHeight: 26px;
 .compact-tree {
-  @include compact-tree(26px);
-  @include compact-button(26px);
-  @include compact-checkbox(26px);
+  @include compact-tree($nodeHeight);
+  @include compact-button($nodeHeight);
+  @include compact-checkbox($nodeHeight);
 }

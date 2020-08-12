@@ -28,7 +28,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import {A11yModule} from '@angular/cdk/a11y';
 import {PortalModule} from '@angular/cdk/portal';
-import {OverlayModule} from '@angular/cdk/overlay';
+import {OverlayModule, ScrollDispatcher} from '@angular/cdk/overlay';
+import {CdkScrollableModule, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     A11yModule,
     PortalModule,
     OverlayModule,
+    CdkScrollableModule,
   ],
   exports: [
     MatMenuModule,
@@ -94,6 +96,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
     A11yModule,
     PortalModule,
     OverlayModule,
+
+    CdkScrollableModule,
   ],
   providers: [
     MatIconRegistry,

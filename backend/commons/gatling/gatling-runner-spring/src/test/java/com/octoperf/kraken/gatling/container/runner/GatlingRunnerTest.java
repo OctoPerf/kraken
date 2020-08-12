@@ -11,6 +11,7 @@ import com.octoperf.kraken.runtime.command.CommandTest;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.StorageNodeTest;
+import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +65,7 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
   @Test
   public void shouldInit() {
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
-    given(storageClient.uploadFile(any(Path.class), any())).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+    given(storageClient.uploadFile(any(Path.class), any())).willReturn(Flux.just(StorageWatcherEventTest.STORAGE_WATCHER_EVENT));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     runner.init();
     verify(storageClient, times(3)).downloadFolder(any(Path.class), any());

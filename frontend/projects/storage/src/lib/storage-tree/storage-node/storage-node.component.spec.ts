@@ -4,6 +4,7 @@ import {STORAGE_NODE_BUTTONS, StorageNodeComponent} from './storage-node.compone
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 import {StorageNodeButtonsComponent} from 'projects/storage/src/lib/storage-menu/storage-node-buttons/storage-node-buttons.component';
+import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 
 describe('StorageNodeComponent', () => {
   let component: StorageNodeComponent;
@@ -18,7 +19,7 @@ describe('StorageNodeComponent', () => {
       ]
     })
       .overrideTemplate(StorageNodeComponent, '')
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,5 +30,17 @@ describe('StorageNodeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set and get node', () => {
+    const node = testStorageFileNode();
+    component.node = node;
+    expect(component.hasChild).toBeFalse();
+    expect(component.node).toBe(node);
+  });
+
+  it('should set and get expanded', () => {
+    component.expanded = true;
+    expect(component.expanded).toBeTrue();
   });
 });

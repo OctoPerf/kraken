@@ -1,0 +1,47 @@
+@import '~@angular/material/theming';
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$app-primary: mat-palette($mat-blue);
+$app-accent: mat-palette($mat-green);
+$app-info: mat-palette($mat-light-blue);
+$app-success: mat-palette($mat-light-green);
+$app-error: mat-palette($mat-deep-orange);
+$app-background: mat-palette($mat-gray);
+
+// The warn palette is optional (defaults to red).
+$app-warn: mat-palette($mat-amber);
+
+// Create the theme object (a Sass map containing all of the palettes).
+//$mat-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
+$app-white: mat-color($app-background, 100);
+
+$mat-theme: (
+  primary: $app-primary,
+  accent: $app-accent,
+  warn: $app-warn,
+  is-dark: true,
+  foreground: (
+    base:              $app-white,
+    divider:           $light-dividers,
+    dividers:          $light-dividers,
+    disabled:          $light-disabled-text,
+    disabled-button:   rgba($app-white, 0.3),
+    disabled-text:     $light-disabled-text,
+    hint-text:         $light-disabled-text,
+    secondary-text:    $light-secondary-text,
+    icon:              $app-white,
+    icons:             $app-white,
+    text:              $app-white,
+    slider-min:        $app-white,
+    slider-off:        rgba($app-white, 0.3),
+    slider-off-active: rgba($app-white, 0.3),
+  ),
+  background: $mat-dark-theme-background,
+);
+
+$_background: map-get($mat-theme, background);
+$_foreground: map-get($mat-theme, foreground);
+$app-background-color: mat-color($_background, background);
+$app-foreground-color: mat-color($_foreground, text);
+$app-foreground-secondary-color: mat-color($_foreground, secondary-text);

@@ -3,6 +3,7 @@ package com.octoperf.kraken.security.entity.owner;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
 import com.octoperf.kraken.tests.utils.TestUtils;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 public class UserOwnerTest {
@@ -12,11 +13,6 @@ public class UserOwnerTest {
       .applicationId("applicationId")
       .roles(ImmutableList.of(KrakenRole.USER))
       .build();
-
-  @Test
-  public void shouldPassEquals() {
-    TestUtils.shouldPassEquals(USER_OWNER.getClass());
-  }
 
   @Test
   public void shouldPassNPE() {

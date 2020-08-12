@@ -51,7 +51,7 @@ export class KeyBindingsService implements OnDestroy {
   public remove(bindings: KeyBinding[]) {
     _.forEach(bindings, (binding) => {
       _.forEach(binding.keys, (key) => {
-        delete this.bindings[key];
+        _.remove(this.bindings[key], binding);
       });
     });
   }

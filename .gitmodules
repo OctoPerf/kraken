@@ -1,12 +1,12 @@
 [submodule "backend/applications/ee"]
 	path = backend/applications/ee
-	url = git@github.com:geraldpereira/kraken-applications-ee.git
+	url = git@github.com:OctoPerf/kraken-applications-ee.git
 [submodule "backend/commons/ee"]
 	path = backend/commons/ee
-	url = git@github.com:geraldpereira/kraken-commons-ee.git
+	url = git@github.com:OctoPerf/kraken-commons-ee.git
 [submodule "deployment"]
 	path = deployment
-	url = git@github.com:geraldpereira/kraken-deployment.git
+	url = git@github.com:OctoPerf/kraken-deployment.git
 [submodule "documentation"]
 	path = documentation
-	url = git@github.com:geraldpereira/kraken-documentation.git
+	url = git@github.com:OctoPerf/kraken-documentation.git

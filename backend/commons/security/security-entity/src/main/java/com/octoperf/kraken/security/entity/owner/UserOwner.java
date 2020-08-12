@@ -3,10 +3,7 @@ package com.octoperf.kraken.security.entity.owner;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
-import lombok.With;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class UserOwner implements Owner {
   String userId;
   @With
   String applicationId;
+  @EqualsAndHashCode.Exclude
   List<KrakenRole> roles;
 
   @JsonCreator

@@ -58,7 +58,7 @@ public class WebStorageClientIntegrationTest {
     final var testFile = Paths.get("gatling/");
     final var outFile = Paths.get("testDir/zipDir");
 
-    storageClient.uploadFile(outFile, testFile.toString()).block();
+    storageClient.uploadFile(outFile, testFile.toString()).blockLast();
   }
 
   @Test

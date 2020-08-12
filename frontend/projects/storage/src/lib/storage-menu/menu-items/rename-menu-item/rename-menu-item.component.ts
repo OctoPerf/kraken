@@ -3,7 +3,7 @@ import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {RENAME_ICON} from 'projects/icon/src/lib/icons';
 import {StorageTreeDataSourceService} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import {KeyBoundMenuItem} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item';
+import {KeyBoundMenuItemDirective} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item.directive';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 
@@ -11,7 +11,7 @@ import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-binding
   selector: 'lib-rename-menu-item',
   templateUrl: './rename-menu-item.component.html',
 })
-export class RenameMenuItemComponent extends KeyBoundMenuItem {
+export class RenameMenuItemComponent extends KeyBoundMenuItemDirective {
 
   readonly renameIcon = RENAME_ICON;
 

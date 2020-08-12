@@ -1,17 +1,10 @@
 package com.octoperf.kraken.storage.file;
 
-import com.octoperf.kraken.Application;
 import com.octoperf.kraken.storage.entity.StorageNode;
-import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,18 +12,16 @@ import java.nio.file.Paths;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.FILE;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.NONE;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
 public class FileSystemPathToStorageNodeTest {
 
   FileSystemPathToStorageNode service;
 
-  @Autowired
-  ApplicationProperties krakenProperties;
+  Path root;
 
   @BeforeEach
   public void setUp() {
-    service = new FileSystemPathToStorageNode(Path.of(krakenProperties.getData(), "public"));
+    root = Paths.get("testDir");
+    service = new FileSystemPathToStorageNode(root);
   }
 
   @Test
@@ -40,23 +31,33 @@ public class FileSystemPathToStorageNodeTest {
 
   @Test
   public void shouldConvertExistingPath() {
-    final var data = Path.of(krakenProperties.getData(), "public", "README.md");
+    final var data = root.resolve(Path.of("public", "README.md"));
     Assert.assertEquals(StorageNode.builder()
-        .path("README.md")
+        .path("public/README.md")
         .type(FILE)
-        .depth(0)
+        .depth(1)
         .length(data.toFile().length())
         .lastModified(data.toFile().lastModified())
         .build(), service.apply(data));
   }
 
+  @Test
   public void shouldFail() {
     Assert.assertEquals(StorageNode.builder()
-        .path("niet/other.md")
+        .path("../niet/other.md")
         .type(NONE)
-        .depth(1)
+        .depth(2)
         .length(0L)
         .lastModified(0L)
         .build(), service.apply(Paths.get("niet/other.md")));
+  }
+
+  @Test
+  public void shouldHomeFail() {
+    Assert.assertThrows(IllegalArgumentException.class, () -> {
+      final Path root = Paths.get("/root");
+      final FileSystemPathToStorageNode service = new FileSystemPathToStorageNode(root);
+      service.apply(Paths.get("home"));
+    });
   }
 }

@@ -60,6 +60,7 @@ final class SpringAnalysisService implements AnalysisService {
     return storageClientMono.flatMap(storageClient -> {
       final var resultPath = resultsProperties.getResultPath(result.getId());
       final var resultJsonPath = resultPath.resolve(RESULT_JSON).toString();
+      log.info(String.format("Create result at %s", resultJsonPath));
 
       final var createGrafanaReport = this.getGrafanaUserClient(owner)
           .flatMap(client -> storageClient.getContent(grafanaProperties.getDashboard()).map(dashboard -> Tuples.of(client, dashboard)))
@@ -67,8 +68,7 @@ final class SpringAnalysisService implements AnalysisService {
 
       final var createGrafanaReportOrNot = Mono.just(result).flatMap(res -> res.getType().isDebug() ? Mono.just("ok") : createGrafanaReport);
 
-      return storageClient.createFolder(resultPath.toString())
-          .flatMap(storageNode -> storageClient.setJsonContent(resultJsonPath, result))
+      return storageClient.setJsonContent(resultJsonPath, result)
           .flatMap(storageNode -> createGrafanaReportOrNot.map(s -> storageNode));
     });
   }
@@ -85,13 +85,13 @@ final class SpringAnalysisService implements AnalysisService {
         final var grafanaUser = grafanaUserConverter.apply(krakenUser);
         final var influxDBUser = influxDBUserConverter.apply(krakenUser);
         final var deleteDashboard = grafanaUserClientBuilder.grafanaUser(grafanaUser).influxDBUser(influxDBUser).build()
-            .map(client -> client.deleteDashboard(resultId));
+            .flatMap(client -> client.deleteDashboard(resultId));
         final var deleteSeries = influxDBClientBuilder.build().flatMap(client -> client.deleteSeries(influxDBUser.getDatabase(), resultId));
         return Mono.zip(deleteDashboard, deleteSeries);
       });
 
       final var deleteReport = getResult.flatMap(result -> result.getType().isDebug() ? Mono.just("ok") : deleteRunReport);
-      return Mono.zip(deleteFolder, deleteReport).map(objects -> resultId);
+      return deleteReport.then(deleteFolder).map(objects -> resultId);
     });
   }
 

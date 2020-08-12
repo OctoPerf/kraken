@@ -96,4 +96,14 @@ export class StorageTreeDataSourceService extends DataSource<StorageNode> implem
     return results;
   }
 
+  indexOf(node: StorageNode): number {
+    const nodes = this._expandedData.getValue();
+    return _.indexOf(nodes, node);
+  }
+
+  findIndex(node: StorageNode): number {
+    const nodes = this._expandedData.getValue();
+    return _.findIndex(nodes, (current: StorageNode) => current.path === node.path);
+  }
+
 }

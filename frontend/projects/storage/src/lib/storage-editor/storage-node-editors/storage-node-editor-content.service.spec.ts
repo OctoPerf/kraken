@@ -90,8 +90,7 @@ describe('StorageNodeEditorContentService', () => {
     expect(req.request.body).toEqual('content');
     req.flush(directoryNode);
     httpTestingController.verify();
-    expect(service._node).toBe(directoryNode);
-    expect(publish).toHaveBeenCalledWith(new NodePendingSaveEvent(directoryNode, false));
+    expect(publish).toHaveBeenCalledWith(new NodePendingSaveEvent(fileNode, false));
   });
 
   it('should handle _nodeModified', () => {

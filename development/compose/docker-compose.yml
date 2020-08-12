@@ -6,7 +6,8 @@ networks:
 
 services:
   kraken-dev-influxdb:
-    image: influxdb:1.7.4
+    image: influxdb:1.8.1
+    # https://hub.docker.com/_/influxdb?tab=tags
     container_name: kraken-dev-influxdb
     networks:
       - kraken
@@ -22,7 +23,8 @@ services:
 
   kraken-dev-grafana:
     user: ${KRAKEN_HOST_UID}:${KRAKEN_HOST_GID}
-    image: grafana/grafana:6.7.1
+    image: grafana/grafana:7.1.1
+#    https://hub.docker.com/r/grafana/grafana/tags
     container_name: kraken-dev-grafana
     networks:
       - kraken
@@ -37,7 +39,8 @@ services:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
 
   kraken-dev-postgres:
-    image: postgres:12.2
+    image: postgres:12.3
+#    https://registry.hub.docker.com/_/postgres?tab=tags
     container_name: kraken-dev-postgres
     networks:
       - kraken
@@ -83,7 +86,8 @@ services:
       - "-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0 -Djboss.socket.binding.port-offset=1000 -Dkeycloak.profile=preview -Dkeycloak.import=/opt/jboss/keycloak/imports/kraken-realm.json"
 
   kraken-dev-haproxy:
-    image: haproxy:1.9.5-alpine
+    image: haproxy:2.2.1-alpine
+#    https://registry.hub.docker.com/_/haproxy?tab=tags
     container_name: kraken-dev-haproxy
     networks:
       - kraken

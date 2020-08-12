@@ -4,7 +4,7 @@ import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faCopy} from '@fortawesome/free-solid-svg-icons/faCopy';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {KeyBoundMenuItem} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item';
+import {KeyBoundMenuItemDirective} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item.directive';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
 
@@ -15,7 +15,7 @@ library.add(faCopy);
   templateUrl: './copy-menu-item.component.html',
   styles: []
 })
-export class CopyMenuItemComponent extends KeyBoundMenuItem {
+export class CopyMenuItemComponent extends KeyBoundMenuItemDirective {
 
   readonly copyIcon = new IconFa(faCopy);
 

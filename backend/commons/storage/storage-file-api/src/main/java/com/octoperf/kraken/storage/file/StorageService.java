@@ -18,13 +18,13 @@ public interface StorageService {
 
   Flux<StorageNode> find(String rootPath, Integer maxDepth, String matcher);
 
-  Flux<Boolean> delete(List<String> paths);
+  Flux<StorageWatcherEvent> delete(List<String> paths);
 
-  Mono<StorageNode> setDirectory(String path);
+  Flux<StorageWatcherEvent> setDirectory(String path);
 
-  Mono<StorageNode> setFile(String path, Mono<FilePart> file);
+  Flux<StorageWatcherEvent> setFile(String path, Mono<FilePart> file);
 
-  Mono<StorageNode> setZip(String path, Mono<FilePart> file);
+  Flux<StorageWatcherEvent> setZip(String path, Mono<FilePart> file);
 
   Mono<InputStream> getFileInputStream(String path);
 
@@ -32,21 +32,21 @@ public interface StorageService {
 
   String getFileName(String path);
 
-  Mono<StorageNode> setContent(String path, String content);
+  Flux<StorageWatcherEvent> setContent(String path, String content);
 
   Mono<String> getContent(String path);
 
   Flux<String> getContent(List<String> paths);
 
-  Mono<StorageNode> rename(String directoryPath, String oldName, String newName);
+  Flux<StorageWatcherEvent> rename(String directoryPath, String oldName, String newName);
 
-  Flux<StorageNode> move(List<String> paths, String destination);
+  Flux<StorageWatcherEvent> move(List<String> paths, String destination);
 
-  Flux<StorageNode> copy(List<String> paths, String destination);
+  Flux<StorageWatcherEvent> copy(List<String> paths, String destination);
 
   Flux<StorageNode> filterExisting(List<StorageNode> nodes);
 
-  Mono<StorageNode> extractZip(String path);
+  Flux<StorageWatcherEvent> extractZip(String path);
 
   Flux<StorageWatcherEvent> watch(String path);
 

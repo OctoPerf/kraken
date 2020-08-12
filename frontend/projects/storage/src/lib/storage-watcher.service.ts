@@ -18,7 +18,7 @@ export class StorageWatcherService implements OnDestroy {
       .pipe(filter(event => event.wrapper.type === 'NODE'),
         map(event => event.wrapper.value as StorageWatcherEvent))
       .subscribe(watcherEvent => {
-        switch (watcherEvent.event) {
+        switch (watcherEvent.type) {
           case 'CREATE':
             this.eventBus.publish(new NodeCreatedEvent(watcherEvent.node));
             break;

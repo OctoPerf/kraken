@@ -269,13 +269,6 @@ public class SpringAnalysisServiceTest {
   public void shouldCreateTestResult() {
     final var result = ResultTest.RESULT;
     final var dashboard = "dashboard";
-    final var directoryNode = StorageNode.builder()
-        .depth(0)
-        .path("path")
-        .type(DIRECTORY)
-        .length(0L)
-        .lastModified(0L)
-        .build();
     final var resultNode = StorageNode.builder()
         .depth(1)
         .path("path/result.son")
@@ -284,7 +277,6 @@ public class SpringAnalysisServiceTest {
         .lastModified(0L)
         .build();
 
-    given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
     given(storageClient.getContent(grafanaProperties.getDashboard())).willReturn(Mono.just(dashboard));
@@ -300,13 +292,6 @@ public class SpringAnalysisServiceTest {
   @Test
   public void shouldCreateDebugResult() {
     final var result = ResultTest.DEBUG_RESULT;
-    final var directoryNode = StorageNode.builder()
-        .depth(0)
-        .path("path")
-        .type(DIRECTORY)
-        .length(0L)
-        .lastModified(0L)
-        .build();
     final var resultNode = StorageNode.builder()
         .depth(1)
         .path("path/result.son")
@@ -315,7 +300,6 @@ public class SpringAnalysisServiceTest {
         .lastModified(0L)
         .build();
 
-    given(storageClient.createFolder(anyString())).willReturn(Mono.just(directoryNode));
     given(storageClient.setJsonContent(anyString(), any(Result.class))).willReturn(Mono.just(resultNode));
 
     final var response = service.create(PublicOwner.INSTANCE, result).block();

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {flatMap, map, tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {map, mergeMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {WindowService} from 'projects/tools/src/lib/window.service';
@@ -27,7 +27,7 @@ export class GatlingResultService {
   }
 
   deleteResult(result: Result, force = false): Observable<string> {
-    return this.dialogs.delete('test result', [result.description], force).pipe(flatMap(() => this.analysis.deleteTest(result.id)));
+    return this.dialogs.delete('test result', [result.description], force).pipe(mergeMap(() => this.analysis.deleteTest(result.id)));
   }
 
   openGrafanaReport(result: Result) {
@@ -36,7 +36,6 @@ export class GatlingResultService {
         resultId: result.id
       }
     }).pipe(tap((value: any) => {
-      console.log(value);
       this.cookieService.delete('grafana_session');
       // TODO Try with secured cookie
       this.cookieService.set('grafana_session', value.session, null, '/grafana/', null, false, 'Lax');

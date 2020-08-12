@@ -4,10 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
+import com.octoperf.kraken.security.entity.owner.PublicOwner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
-import com.octoperf.kraken.storage.entity.StorageNode;
-import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
-import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
+import com.octoperf.kraken.storage.entity.*;
 import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +24,9 @@ import java.io.IOException;
 
 import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.FILE;
+import static com.octoperf.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
+import static com.octoperf.kraken.storage.entity.StorageWatcherEventType.CREATE;
+import static com.octoperf.kraken.storage.entity.StorageWatcherEventType.MODIFY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -60,20 +62,21 @@ public class SpringStorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
-    given(storageService.setDirectory("path")).willReturn(Mono.just(directoryNode));
+    given(storageService.setDirectory("path")).willReturn(Flux.just(STORAGE_WATCHER_EVENT,
+        StorageWatcherEvent.builder().node(directoryNode).owner(PublicOwner.INSTANCE).type(CREATE).build()));
     final var response = client.createFolder("path").block();
     assertThat(response).isEqualTo(directoryNode);
   }
 
   @Test
   public void shouldDelete() {
-    given(storageService.delete(ImmutableList.of("path"))).willReturn(Flux.just(true));
+    given(storageService.delete(ImmutableList.of("path"))).willReturn(Flux.just(STORAGE_WATCHER_EVENT));
     final var response = client.delete("path").block();
     assertThat(response).isEqualTo(true);
   }
 
   @Test
-  public void shouldSetContent() throws InterruptedException, IOException {
+  public void shouldSetContent() {
     final var fileNode = StorageNode.builder()
         .depth(1)
         .path("path/result.son")
@@ -81,18 +84,20 @@ public class SpringStorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
-    given(storageService.setContent("path", "content")).willReturn(Mono.just(fileNode));
-    final var response = client.setContent("path", "content").block();
+    given(storageService.setContent(fileNode.getPath(), "content")).willReturn(Flux.just(STORAGE_WATCHER_EVENT,
+        StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build()));
+
+    final var response = client.setContent(fileNode.getPath(), "content").block();
     assertThat(response).isEqualTo(fileNode);
   }
 
   @Test
   public void shouldWatch() {
     given(storageService.watch("")).willReturn(Flux.just(
-        StorageWatcherEventTest.STORAGE_WATCHER_EVENT,
-        StorageWatcherEventTest.STORAGE_WATCHER_EVENT,
-        StorageWatcherEventTest.STORAGE_WATCHER_EVENT,
-        StorageWatcherEventTest.STORAGE_WATCHER_EVENT
+        STORAGE_WATCHER_EVENT,
+        STORAGE_WATCHER_EVENT,
+        STORAGE_WATCHER_EVENT,
+        STORAGE_WATCHER_EVENT
     ));
     final var response = client.watch().collectList().block();
     assertThat(response).isNotNull();
@@ -115,23 +120,27 @@ public class SpringStorageClientTest {
         .length(0L)
         .lastModified(0L)
         .build();
-    given(storageService.setContent("path", jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT))).willReturn(Mono.just(fileNode));
-    final var response = client.setJsonContent("path", StorageWatcherEventTest.STORAGE_WATCHER_EVENT).block();
+    given(storageService.setContent(fileNode.getPath(), jsonMapper.writeValueAsString(STORAGE_WATCHER_EVENT))).willReturn(Flux.just(StorageWatcherEvent.builder()
+        .type(MODIFY)
+        .owner(PublicOwner.INSTANCE)
+        .node(fileNode)
+        .build()));
+    final var response = client.setJsonContent(fileNode.getPath(), STORAGE_WATCHER_EVENT).block();
     assertThat(response).isEqualTo(fileNode);
   }
 
   @Test
   public void shouldGetJsonContent() throws IOException {
-    given(storageService.getContent("path")).willReturn(Mono.just(jsonMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT)));
+    given(storageService.getContent("path")).willReturn(Mono.just(jsonMapper.writeValueAsString(STORAGE_WATCHER_EVENT)));
     final var response = client.getJsonContent("path", StorageWatcherEvent.class).block();
-    assertThat(response).isEqualTo(StorageWatcherEventTest.STORAGE_WATCHER_EVENT);
+    assertThat(response).isEqualTo(STORAGE_WATCHER_EVENT);
   }
 
   @Test
   public void shouldGetYamlContent() throws IOException {
-    given(storageService.getContent("path")).willReturn(Mono.just(yamlMapper.writeValueAsString(StorageWatcherEventTest.STORAGE_WATCHER_EVENT)));
-    final var response = client.getYamlContent("path", StorageWatcherEvent.class).block();
-    assertThat(response).isEqualTo(StorageWatcherEventTest.STORAGE_WATCHER_EVENT);
+    given(storageService.getContent("path")).willReturn(Mono.just(yamlMapper.writeValueAsString(StorageNodeTest.STORAGE_NODE)));
+    final var response = client.getYamlContent("path", StorageNode.class).block();
+    assertThat(response).isEqualTo(StorageNodeTest.STORAGE_NODE);
   }
 
 }

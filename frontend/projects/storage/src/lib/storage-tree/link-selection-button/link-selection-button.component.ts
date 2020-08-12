@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 import {filter} from 'rxjs/operators';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
+import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
 
 
 library.add(faLink, faUnlink);
@@ -38,6 +39,7 @@ export class LinkSelectionButtonComponent implements OnDestroy {
 
   constructor(@Inject(STORAGE_ID) private id: string,
               @Inject(STORAGE_ROOT_NODE) private rootNode: StorageNode,
+              private scroll: StorageTreeScrollService,
               private treeControl: StorageTreeControlService,
               private eventBus: EventBusService,
               private localStorage: LocalStorageService) {
@@ -48,7 +50,10 @@ export class LinkSelectionButtonComponent implements OnDestroy {
       .pipe(filter((event) => {
         return this.link.value && event.node && event.node.path.startsWith(rootNode.path);
       }))
-      .subscribe((event) => this.treeControl.selectOne(event.node)));
+      .subscribe((event) => {
+        this.treeControl.selectOne(event.node);
+        this.scroll.updateScroll();
+      }));
   }
 
   ngOnDestroy() {

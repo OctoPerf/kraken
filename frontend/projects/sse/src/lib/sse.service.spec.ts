@@ -24,6 +24,7 @@ import {securityServiceSpy} from 'projects/security/src/lib/security.service.spe
 import SpyObj = jasmine.SpyObj;
 import {of} from 'rxjs';
 import {EventSourceService} from 'projects/sse/src/lib/event-source.service';
+import {Retry} from 'projects/tools/src/lib/retry';
 
 export const sseServiceSpy = () => {
   const spy = jasmine.createSpyObj('SSEService', [
@@ -103,10 +104,21 @@ describe('SSEService', () => {
   }));
 
   it('should send event on LOG message', () => {
+    (service._retry as SpyObj<Retry>).isActive.and.returnValue(false);
+    const log: Log = testLog();
+    const wrapper: SSEWrapper = {type: 'LOG', value: log};
+    service.next(wrapper);
+    expect(service._retry.reset).not.toHaveBeenCalled();
+    expect(eventBus.publish).toHaveBeenCalledWith(new SSEEvent(wrapper));
+  });
+
+  it('should send event on LOG message after error', () => {
+    (service._retry as SpyObj<Retry>).isActive.and.returnValue(true);
     const log: Log = testLog();
     const wrapper: SSEWrapper = {type: 'LOG', value: log};
     service.next(wrapper);
     expect(service._retry.reset).toHaveBeenCalled();
     expect(eventBus.publish).toHaveBeenCalledWith(new SSEEvent(wrapper));
+    expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
   });
 });

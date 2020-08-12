@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {KeyBoundMenuItem} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item';
+import {KeyBoundMenuItemDirective} from 'projects/storage/src/lib/storage-menu/menu-items/key-bound-menu-item.directive';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {CopyPasteService} from 'projects/storage/src/lib/storage-tree/copy-paste.service';
@@ -15,7 +15,7 @@ library.add(faCut);
   templateUrl: './cut-menu-item.component.html',
   styles: []
 })
-export class CutMenuItemComponent extends KeyBoundMenuItem {
+export class CutMenuItemComponent extends KeyBoundMenuItemDirective {
 
   readonly cutIcon = new IconFa(faCut);
 

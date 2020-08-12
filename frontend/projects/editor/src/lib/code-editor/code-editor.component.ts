@@ -11,7 +11,7 @@ import {
   Output
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Ace, edit} from 'ace-builds';
+import {Ace, edit, require} from 'ace-builds';
 import {CodeService} from 'projects/editor/src/lib/code.service';
 import {CodeMode} from 'projects/editor/src/lib/code-editor/code-mode';
 import {Subscription} from 'rxjs';
@@ -19,6 +19,8 @@ import * as _ from 'lodash';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
 import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
 import Editor = Ace.Editor;
+import {CodeSnippet} from 'projects/editor/src/lib/code-snippet';
+import {CodeSnippetService} from 'projects/editor/src/lib/code-snippet.service';
 
 @Component({
   selector: 'lib-code-editor',
@@ -26,6 +28,7 @@ import Editor = Ace.Editor;
   styleUrls: ['./code-editor.component.scss'],
   providers: [
     CodeService,
+    CodeSnippetService,
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CodeEditorComponent),
@@ -37,7 +40,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
 
   @Input() readonly = false;
   @Input() enableBasicAutoCompletion = true;
-  @Input() enableSnippets = false;
+  @Input() snippets: CodeSnippet[] = [];
   @Input() variablesAutoCompleter?: VariablesAutoCompleter;
   @Input() tabsSize?: number;
   @Input() keyBindings ?: KeyBinding[];
@@ -51,21 +54,24 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
   private subscriptions: Subscription[] = [];
 
   constructor(private codeService: CodeService,
+              private codeSnippetService: CodeSnippetService,
               private elRef: ElementRef,
               private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+    if (!!this.snippets.length) {
+      this.codeSnippetService.load(this.snippets, this._mode);
+    }
+
     this._editor = edit(this.elRef.nativeElement, {
       fontSize: '11pt',
       theme: 'ace/theme/kraken',
       mode: this.sessionMode,
       readOnly: this.readonly,
       value: this._value,
-      enableSnippets: this.enableSnippets,
+      enableSnippets: !!this.snippets.length,
       enableBasicAutocompletion: this.enableBasicAutoCompletion,
-
-
     } as any);
   }
 

@@ -9,6 +9,7 @@ import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
+@Slf4j
 @Component
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class SpringStorageClientBuilder extends SpringAuthenticatedClientBuilder<StorageClient> implements StorageClientBuilder {

@@ -128,7 +128,9 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
     return retry(webClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/api/dashboards/uid/{testId}").build(testId))
         .retrieve()
-        .bodyToMono(String.class), log);
+        .bodyToMono(String.class), log)
+        .doOnSubscribe(subscription -> log.info(String.format("Delete dashboard %s", testId)))
+        .doOnError(throwable -> log.error("Failed to delete dashboard", throwable));
   }
 
   private Mono<String> getDashboard(final String testId) {
@@ -214,7 +216,7 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
       final boolean refresh = endDate == 0L;
       final ObjectNode timeNode = ((ObjectNode) node.get("time"));
       if (refresh) {
-        objectNode.put("refresh", "1s");
+        objectNode.put("refresh", "5s");
         timeNode.put("to", "now");
       } else {
         objectNode.put("refresh", false);
