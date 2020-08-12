@@ -91,6 +91,6 @@ describe('StorageTreeComponent', () => {
 
   it('should depth other root', () => {
     rootNode.depth = 1;
-    expect(component.depth(testStorageFileNode())).toEqual(0);
+    expect(component.depth(testStorageFileNode())).toEqual(-1);
   });
 });
