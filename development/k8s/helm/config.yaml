@@ -72,21 +72,9 @@ keycloak:
     password: *default_admin_password
   config:
     recaptcha:
-      enabled: true
-      key: 6LcPAvkUAAAAAIBM3Ei6mS74W1BUyG4aNFUSpswC
-      secret: 6LcPAvkUAAAAABONZ8ztd8K9RIDA26j21EUNMn8o
+      enabled: false
     mail:
-      enabled: true
-      password: XxJFQvj6RCJqPvEZmHcN9w
-      starttls: false
-      auth: true
-      port: 587
-      host: smtp.mandrillapp.com
-      replyTo: support@octoperf.com
-      from: support@octoperf.com
-      fromDisplayName: Kraken
-      ssl: null
-      user: support@jellly.io
+      enabled: false
     client:
       web:
         secret: ed5974bb-e711-5b8b-9315-6ad315361f33
