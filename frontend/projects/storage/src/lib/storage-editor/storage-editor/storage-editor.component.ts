@@ -106,6 +106,10 @@ export class StorageEditorComponent implements OnDestroy {
   }
 
   public selectIndex(index: number) {
+    if (index === this.selectedIndex.getValue()) {
+      // Prevents sending unwanted SelectNodeEvents
+      return;
+    }
     this.selectedIndex.next(index);
     const node = this.nodes.value[index];
     if (node) {

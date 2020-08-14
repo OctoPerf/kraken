@@ -47,7 +47,7 @@ describe('StorageTreeScrollService', () => {
     treeData.findIndex.and.returnValue(42);
     service.init(spy);
     service.updateScroll();
-    expect(spy.scrollToIndex).toHaveBeenCalledWith(42);
+    expect(spy.scrollToIndex).toHaveBeenCalledWith(42, 'smooth');
     expect(treeData.findIndex).toHaveBeenCalledWith(node);
   });
 

@@ -1,5 +1,4 @@
-<!-- Warning: keep both the hover = true/false for performance and the css class hover-show-parent-2 as the virtual-scroll reuses created elements and the buttons may appear when not needed -->
-<div fxLayout="row" fxLayoutAlign="start center" class="node hover-show-parent-2"
+<div fxLayout="row" fxLayoutAlign="start center"
      (mouseenter)="hover = true"
      (mouseleave)="hover = false"
      (contextmenu)="treeControl.nodeContextMenu($event, node)">
@@ -13,7 +12,7 @@
     <lib-icon class="m-r-xs" [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
     {{node | storageNodeToName}}
   </span>
-  <div fxFlex="none" class="hover-show-child-2" *ngIf="hover">
+  <div fxFlex="none">
     <ng-template [cdkPortalOutlet]="nodeButtons"></ng-template>
   </div>
 </div>
