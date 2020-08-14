@@ -37,10 +37,38 @@ describe('StorageNodeComponent', () => {
     component.node = node;
     expect(component.hasChild).toBeFalse();
     expect(component.node).toBe(node);
+    expect(component.hasChild).toBeFalse();
   });
 
-  it('should set and get expanded', () => {
-    component.expanded = true;
-    expect(component.expanded).toBeTrue();
+  it('should set true and get hover', () => {
+    component.hover = true;
+    expect(component.hover).toBeTrue();
+    expect(component.nodeButtons).toBeDefined();
+  });
+
+  it('should set false and get hover', () => {
+    component.nodeButtons = null;
+    component.hover = false;
+    expect(component.hover).toBeFalse();
+  });
+
+  it('should set false and get hover (not attached)', () => {
+    const nodeButtons = jasmine.createSpyObj('nodeButtons', ['detach']);
+    nodeButtons.isAttached = false;
+    component.nodeButtons = nodeButtons;
+    component.hover = false;
+    expect(component.hover).toBeFalse();
+    expect(nodeButtons.detach).not.toHaveBeenCalled();
+  });
+
+  it('should set false and get hover (attached)', () => {
+    const nodeButtons = jasmine.createSpyObj('nodeButtons', ['detach']);
+    nodeButtons.isAttached = true;
+    component.nodeButtons = nodeButtons;
+    component.hover = false;
+    expect(component.hover).toBeFalse();
+    expect(nodeButtons.detach).toHaveBeenCalled();
   });
 });
+
+

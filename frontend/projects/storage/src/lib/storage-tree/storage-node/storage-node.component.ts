@@ -16,9 +16,9 @@ export class StorageNodeComponent {
 
   public hasChild: boolean;
   public nodeButtons: ComponentPortal<any>;
-  public hover = false;
 
-  private _expanded: boolean;
+  @Input() public expanded: boolean;
+  private _hover = false;
   private _node: StorageNode;
 
   constructor(public ref: ElementRef,
@@ -29,21 +29,25 @@ export class StorageNodeComponent {
 
   @Input() set node(node: StorageNode) {
     this._node = node;
-    this.nodeButtons = new ComponentPortal(this.nodeButtonsType ? this.nodeButtonsType : StorageNodeButtonsComponent, null,
-      new PortalInjector(this.injector, new WeakMap([[STORAGE_NODE, this.node]])));
-    this.hasChild = this.node.type === 'DIRECTORY';
-  }
-
-  @Input() set expanded(expanded: boolean) {
-    this._expanded = expanded;
+    this.hasChild = node.type === 'DIRECTORY';
+    this.hover = false;
   }
 
   get node(): StorageNode {
     return this._node;
   }
 
-  get expanded(): boolean {
-    return this._expanded;
+  set hover(hover: boolean) {
+    if (hover) {
+      this.nodeButtons = new ComponentPortal(this.nodeButtonsType ? this.nodeButtonsType : StorageNodeButtonsComponent, null,
+        new PortalInjector(this.injector, new WeakMap([[STORAGE_NODE, this.node]])));
+    } else if (this.nodeButtons && this.nodeButtons.isAttached) {
+      this.nodeButtons.detach();
+    }
+    this._hover = hover;
   }
 
+  get hover(): boolean {
+    return this._hover;
+  }
 }

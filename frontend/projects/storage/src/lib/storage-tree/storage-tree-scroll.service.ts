@@ -19,7 +19,7 @@ export class StorageTreeScrollService {
 
   public updateScroll() {
     if (this.treeControl._lastSelection) {
-      this.scrollableTree.scrollToIndex(this.dataSource.findIndex(this.treeControl._lastSelection));
+      this.scrollableTree.scrollToIndex(this.dataSource.findIndex(this.treeControl._lastSelection), 'smooth');
     }
   }
 }
