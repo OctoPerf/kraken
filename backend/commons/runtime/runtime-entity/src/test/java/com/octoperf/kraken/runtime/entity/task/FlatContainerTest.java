@@ -2,8 +2,7 @@ package com.octoperf.kraken.runtime.entity.task;
 
 import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwnerTest;
-import com.octoperf.kraken.security.entity.owner.UserOwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,7 @@ public class FlatContainerTest {
       .taskType(TaskType.GATLING_RUN)
       .description("description")
       .expectedCount(2)
-      .owner(UserOwnerTest.USER_OWNER)
+      .owner(OwnerTest.USER_OWNER)
       .build();
 
 
@@ -36,7 +35,7 @@ public class FlatContainerTest {
   @Test
   public void shouldPassNPE() {
     new NullPointerTester()
-        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .setDefault(Owner.class, Owner.PUBLIC)
         .testConstructors(CONTAINER.getClass(), PACKAGE);
   }
   @Test

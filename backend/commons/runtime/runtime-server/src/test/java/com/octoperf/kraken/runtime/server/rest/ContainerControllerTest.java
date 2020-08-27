@@ -20,12 +20,10 @@ public class ContainerControllerTest extends RuntimeControllerTest {
 
   @Test
   public void shouldAttachLogs() {
-    final var applicationId = "test";
-    final var owner = userOwner().withApplicationId(applicationId);
     final var containerId = "containerId";
     final var containerName = "containerName";
     final var taskId = "taskId";
-    given(service.attachLogs(owner, taskId, containerId, containerName))
+    given(service.attachLogs(userOwner(), taskId, containerId, containerName))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
@@ -34,12 +32,11 @@ public class ContainerControllerTest extends RuntimeControllerTest {
             .queryParam("containerName", containerName)
             .queryParam("containerId", containerId)
             .build())
-        .header("ApplicationId", applicationId)
         .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).attachLogs(owner, taskId, containerId, containerName);
+    verify(service).attachLogs(userOwner(), taskId, containerId, containerName);
   }
 
   @Test
@@ -60,33 +57,28 @@ public class ContainerControllerTest extends RuntimeControllerTest {
 
   @Test
   public void shouldDetachLogs() {
-    final var appId = "appid";
-    final var owner = userOwner().withApplicationId(appId);
     final var id = "id";
-    given(service.detachLogs(owner, id))
+    given(service.detachLogs(userOwner(), id))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.delete()
         .uri(uriBuilder -> uriBuilder.path("/container/logs/detach")
             .queryParam("id", "id")
             .build())
-        .header("ApplicationId", appId)
         .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).detachLogs(owner, id);
+    verify(service).detachLogs(userOwner(), id);
   }
 
   @Test
   public void shouldSetStatus() {
-    final var appId = "appid";
-    final var owner = userOwner().withApplicationId(appId);
     final var containerId = "containerId";
     final var containerName = "containerName";
     final var taskId = "taskId";
     final var container = ContainerTest.CONTAINER;
-    given(service.setStatus(owner, taskId, containerId, containerName, container.getStatus()))
+    given(service.setStatus(userOwner(), taskId, containerId, containerName, container.getStatus()))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()
@@ -96,22 +88,19 @@ public class ContainerControllerTest extends RuntimeControllerTest {
             .queryParam("containerName", containerName)
             .queryParam("containerId", containerId)
             .build())
-        .header("ApplicationId", appId)
         .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk();
 
-    verify(service).setStatus(owner, taskId, containerId, containerName, container.getStatus());
+    verify(service).setStatus(userOwner(), taskId, containerId, containerName, container.getStatus());
   }
 
   @Test
   public void shouldFind() {
-    final var appId = "appid";
-    final var owner = userOwner().withApplicationId(appId);
     final var containerName = "containerName";
     final var taskId = "taskId";
     final var container = FlatContainerTest.CONTAINER;
-    given(service.find(owner, taskId, containerName))
+    given(service.find(userOwner(), taskId, containerName))
         .willReturn(Mono.just(container));
 
     webTestClient.get()
@@ -119,13 +108,12 @@ public class ContainerControllerTest extends RuntimeControllerTest {
             .queryParam("taskId", taskId)
             .queryParam("containerName", containerName)
             .build())
-        .header("ApplicationId", appId)
         .header("Authorization", "Bearer user-token")
         .exchange()
         .expectStatus().isOk()
         .expectBody(FlatContainer.class)
         .isEqualTo(container);
 
-    verify(service).find(owner, taskId, containerName);
+    verify(service).find(userOwner(), taskId, containerName);
   }
 }

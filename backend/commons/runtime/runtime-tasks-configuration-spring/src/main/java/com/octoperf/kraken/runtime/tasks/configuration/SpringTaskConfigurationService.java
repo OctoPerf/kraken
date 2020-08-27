@@ -5,8 +5,7 @@ import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToApplicationId;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
@@ -30,8 +29,6 @@ import static lombok.AccessLevel.PRIVATE;
 final class SpringTaskConfigurationService implements TaskConfigurationService {
   @NonNull RuntimeServerProperties server;
   @NonNull StorageClientBuilder storageClientBuilder;
-  @NonNull OwnerToApplicationId toApplicationId;
-  @NonNull OwnerToUserId toUserId;
 
   public Mono<TaskConfiguration> getConfiguration(final Owner owner, final TaskType taskType) {
     return this.ownerToStorageClient(owner)
@@ -51,8 +48,11 @@ final class SpringTaskConfigurationService implements TaskConfigurationService {
 
   private Mono<StorageClient> ownerToStorageClient(final Owner owner) {
     return storageClientBuilder
-        .applicationId(toApplicationId.apply(owner).orElseThrow())
-        .mode(AuthenticationMode.SERVICE_ACCOUNT, toUserId.apply(owner).orElseThrow())
-        .build();
+        .build(AuthenticatedClientBuildOrder.builder()
+            .applicationId(owner.getApplicationId())
+            .projectId(owner.getProjectId())
+            .userId(owner.getUserId())
+            .mode(AuthenticationMode.SERVICE_ACCOUNT)
+            .build());
   }
 }

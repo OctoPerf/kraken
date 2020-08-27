@@ -1,15 +1,13 @@
-import {PublicOwner} from 'projects/security/src/lib/entities/public-owner';
-import {UserOwner} from 'projects/security/src/lib/entities/user-owner';
-import {ApplicationOwner} from 'projects/security/src/lib/entities/application-owner';
+import {Owner} from 'projects/security/src/lib/entities/owner';
 
-export const testPublicOwner: () => PublicOwner = () => {
-  return new PublicOwner();
+export const testPublicOwner: () => Owner = () => {
+  return new Owner();
 };
 
-export const testUserOwner: () => UserOwner = () => {
-  return new UserOwner('gatling', 'userId');
+export const testUserOwner: () => Owner = () => {
+  return new Owner('userId', 'projectId', 'gatling', 'USER');
 };
 
-export const testApplicationOwner: () => ApplicationOwner = () => {
-  return new ApplicationOwner('gatling');
+export const testApplicationOwner: () => Owner = () => {
+  return new Owner('', '', 'gatling', 'APPLICATION');
 };

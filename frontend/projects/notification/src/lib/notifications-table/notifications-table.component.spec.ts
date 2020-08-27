@@ -8,25 +8,25 @@ import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {testNotification} from 'projects/notification/src/lib/base-notification.spec';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {testErrorNotification} from 'projects/notification/src/lib/error-notification.spec';
+import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
+import {editorDialogServiceSpy} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service.spec';
 
 
 describe('NotificationsTableComponent', () => {
   let component: NotificationsTableComponent;
   let fixture: ComponentFixture<NotificationsTableComponent>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<EditorDialogService>;
 
   beforeEach(async(() => {
-    dialogs = dialogsServiceSpy();
+    dialogs = editorDialogServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule, NotificationModule],
       providers: [
         NotificationService,
         TabsService,
-        {provide: DialogService, useValue: dialogs}
+        {provide: EditorDialogService, useValue: dialogs}
       ]
     })
       .compileComponents();

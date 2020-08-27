@@ -41,6 +41,8 @@ public class SecurityConfiguration {
         // Storage
         .pathMatchers("/files/**").hasAnyAuthority(USER.name())
         .pathMatchers("/user-events/**").hasAnyAuthority(API.name())
+        // Project
+        .pathMatchers("/project/**").hasAnyAuthority(USER.name())
         // Test only
         .pathMatchers("/test/user/**").hasAnyAuthority(USER.name())
         .pathMatchers("/test/admin/**").hasAnyAuthority(ADMIN.name())

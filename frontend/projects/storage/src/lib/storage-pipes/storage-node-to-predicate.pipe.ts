@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 
 @Pipe({
-  name: 'storageNodeToPredicate'
+  name: 'storageNodeToPredicate',
 })
 export class StorageNodeToPredicatePipe implements PipeTransform {
 

@@ -156,6 +156,12 @@
     },
     {
       "path": "./projects/sandbox/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/project/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/project/tsconfig.spec.json"
     }
   ]
 }

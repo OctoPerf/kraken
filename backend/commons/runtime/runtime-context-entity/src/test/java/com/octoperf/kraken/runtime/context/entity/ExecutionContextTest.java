@@ -4,8 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwnerTest;
-import com.octoperf.kraken.security.entity.owner.UserOwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 public class ExecutionContextTest {
 
   public static final ExecutionContext EXECUTION_CONTEXT = ExecutionContext.builder()
-      .owner(UserOwnerTest.USER_OWNER)
+      .owner(OwnerTest.USER_OWNER)
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .description("description")
@@ -31,7 +30,7 @@ public class ExecutionContextTest {
   @Test
   public void shouldPassNPE() {
     new NullPointerTester()
-        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .setDefault(Owner.class, Owner.PUBLIC)
         .testConstructors(EXECUTION_CONTEXT.getClass(), PACKAGE);
   }
   @Test

@@ -102,8 +102,7 @@ final class WebGrafanaAdminClient implements GrafanaAdminClient {
         .defaultIfEmpty(""), log);
 
     return findUser
-        .flatMap(response -> Mono.zip(deleteUser.apply(response), deleteOrganization.apply(response)))
-        .map(t2 -> userId)
+        .flatMap(response -> deleteUser.apply(response).flatMap(s -> deleteOrganization.apply(response)).map(s -> userId))
         .doOnSubscribe(subscription -> log.info(String.format("Delete Grafana user %s", userId)))
         .doOnError(throwable -> log.error("Failed to delete Grafana user", throwable));
   }

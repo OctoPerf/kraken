@@ -1,16 +1,14 @@
 package com.octoperf.kraken.runtime.client.spring;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.runtime.backend.api.TaskListService;
-import com.octoperf.kraken.runtime.client.api.RuntimeClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.runtime.logs.LogsService;
 import com.octoperf.kraken.security.authentication.api.UserProviderFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.SpringAuthenticatedClientBuilder;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -34,8 +32,8 @@ final class SpringRuntimeWatchClientBuilder extends SpringAuthenticatedClientBui
   }
 
   @Override
-  public Mono<RuntimeWatchClient> build() {
-    return getOwner().map(owner -> new SpringRuntimeWatchClient(owner, logsService, taskListService));
+  public Mono<RuntimeWatchClient> build(final AuthenticatedClientBuildOrder order) {
+    return super.getOwner(order).map(owner -> new SpringRuntimeWatchClient(owner, logsService, taskListService));
   }
 
 }

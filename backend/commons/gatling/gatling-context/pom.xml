@@ -34,11 +34,6 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
             <artifactId>analysis-influxdb-client-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

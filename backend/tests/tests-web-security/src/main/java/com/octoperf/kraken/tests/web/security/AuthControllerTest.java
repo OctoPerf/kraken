@@ -3,7 +3,8 @@ package com.octoperf.kraken.tests.web.security;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.security.decoder.api.TokenDecoder;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
 import com.octoperf.kraken.security.entity.token.KrakenTokenUserTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,7 @@ public abstract class AuthControllerTest {
   protected TokenDecoder tokenDecoder;
 
   protected String applicationId = "app";
+  protected String projectId = "projectid9"; // 10 char long
 
   @BeforeEach
   public void setUp() throws IOException {
@@ -54,22 +56,29 @@ public abstract class AuthControllerTest {
 
 
     // WebTestClient set default header for ApplicationId
-    webTestClient = webTestClient.mutate().defaultHeader("ApplicationId", applicationId).build();
-  }
-
-  protected UserOwner userOwner() {
-    return UserOwner.builder()
-        .applicationId(applicationId)
-        .userId(KrakenTokenUserTest.KRAKEN_USER.getUserId())
-        .roles(KrakenTokenUserTest.KRAKEN_USER.getRoles())
+    webTestClient = webTestClient.mutate()
+        .defaultHeader("ApplicationId", applicationId)
+        .defaultHeader("ProjectId", projectId)
         .build();
   }
 
-  protected UserOwner adminOwner() {
-    return UserOwner.builder()
+  protected Owner userOwner() {
+    return Owner.builder()
         .applicationId(applicationId)
+        .projectId(projectId)
+        .userId(KrakenTokenUserTest.KRAKEN_USER.getUserId())
+        .roles(KrakenTokenUserTest.KRAKEN_USER.getRoles())
+        .type(OwnerType.USER)
+        .build();
+  }
+
+  protected Owner adminOwner() {
+    return Owner.builder()
+        .applicationId(applicationId)
+        .projectId(projectId)
         .userId(KrakenTokenUserTest.KRAKEN_ADMIN.getUserId())
         .roles(KrakenTokenUserTest.KRAKEN_ADMIN.getRoles())
+        .type(OwnerType.USER)
         .build();
   }
 

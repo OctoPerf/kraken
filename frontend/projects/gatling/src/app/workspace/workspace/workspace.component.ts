@@ -45,7 +45,7 @@ import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
 import {ContainersTableComponent} from 'projects/runtime/src/lib/runtime-task/containers-table/containers-table.component';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
-import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {ROOT_NODE} from 'projects/storage/src/lib/entities/storage-node';
 import {faCogs} from '@fortawesome/free-solid-svg-icons/faCogs';
 
 library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker, faCogs);

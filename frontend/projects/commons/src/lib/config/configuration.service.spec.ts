@@ -13,13 +13,15 @@ export const configurationServiceMock = (): ConfigurationService => {
 };
 
 export const configurationServiceSpy = (): SpyObj<ConfigurationService> => {
-  return jasmine.createSpyObj('ConfigurationService', ['url', 'value']);
+  const spy = jasmine.createSpyObj('ConfigurationService', ['url', 'value', 'projectApiUrl']);
+  spy.projectApiUrl.and.callFake((path = '') => `projectApiUrl/project${path}`);
+  return spy;
 };
 
 describe('ConfigurationService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  let service: ConfigurationService;
+  let configuration: ConfigurationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,11 +37,11 @@ describe('ConfigurationService', () => {
 
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(ConfigurationService);
+    configuration = TestBed.inject(ConfigurationService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(configuration).toBeTruthy();
   });
 
   it('should load config', () => {
@@ -49,11 +51,11 @@ describe('ConfigurationService', () => {
       backendApiUrl: 'backendApiUrl',
       docUrl: 'docUrl'
     };
-    service.load().then(config => expect(config).toBeDefined(), () => fail('load failed'));
+    configuration.load().then(config => expect(config).toBeDefined(), () => fail('load failed'));
     const req = httpTestingController.expectOne('assets/config.json');
     expect(req.request.method).toEqual('GET');
     req.flush(testConf);
-    expect(service._config.value).toEqual(testConf);
+    expect(configuration._config.value).toEqual(testConf);
   });
 
   it('should loadConfiguration hook', () => {
@@ -64,22 +66,35 @@ describe('ConfigurationService', () => {
   });
 
   it('should return applicationId', () => {
-    expect(service.applicationId).toBe('application');
+    expect(configuration.applicationId).toBe('application');
   });
 
   it('should return value', () => {
-    expect(service.value('docUrl')).toBe('docUrl');
+    expect(configuration.value('docUrl')).toBe('docUrl');
   });
 
   it('should return backend API URL', () => {
-    expect(service.backendApiUrl).toBe('backendApiUrl');
+    expect(configuration.backendApiUrl).toBe('backendApiUrl');
   });
 
   it('should return Doc URL', () => {
-    expect(service.docUrl('/path')).toBe('docUrl/path');
+    expect(configuration.docUrl('/path')).toBe('docUrl/path');
   });
 
   it('should return version', () => {
-    expect(service.version('key')).toBe('version_key');
+    expect(configuration.version('key')).toBe('version_key');
+  });
+
+  it('should return projectApiUrl', () => {
+    expect(configuration.projectApiUrl('/path')).toBe('backendApiUrl/project/path');
+  });
+
+  it('should return projectApiUrl no param', () => {
+    expect(configuration.projectApiUrl()).toBe('backendApiUrl/project');
+  });
+
+  it('should set/get projectId', () => {
+    configuration.projectId = 'id';
+    expect(configuration.projectId).toBe('id');
   });
 });

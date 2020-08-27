@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 default:
-  - &default_tag 3.0.1-rc7
+  - &default_tag 3.0.1-beta
   - &default_pull_policy IfNotPresent
   - &default_admin_username "admin"
   - &default_admin_password "kraken"
@@ -58,6 +58,13 @@ frontend:
       port: 4222
     ingress:
       path: /gatling
+  project:
+    port: 4223
+    ip: *kraken_local_ip
+    service:
+      port: 4223
+    ingress:
+      path: /project
 
 documentation:
   port: 8000

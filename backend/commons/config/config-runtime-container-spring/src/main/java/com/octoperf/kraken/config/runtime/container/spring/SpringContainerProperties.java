@@ -18,5 +18,6 @@ final class SpringContainerProperties implements ContainerProperties {
   @NonNull String taskId;
   @NonNull TaskType taskType;
   @NonNull String applicationId;
+  @NonNull String projectId;
   @NonNull String userId;
 }

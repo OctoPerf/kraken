@@ -1,0 +1,15 @@
+@import 'app-filler';
+
+:host {
+  @include block-filler();
+}
+
+.viewport {
+  @include block-filler();
+}
+
+.filter {
+  @include block-filler-y();
+  margin-bottom: -1.34375em;
+
+}

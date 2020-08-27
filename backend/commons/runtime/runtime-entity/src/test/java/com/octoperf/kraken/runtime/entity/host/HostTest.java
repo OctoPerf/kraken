@@ -3,8 +3,6 @@ package com.octoperf.kraken.runtime.entity.host;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
-import com.octoperf.kraken.security.entity.owner.PublicOwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,7 @@ public class HostTest {
       .capacity(HostCapacityTest.HOST_CAPACITY)
       .allocatable(HostCapacityTest.HOST_CAPACITY)
       .addresses(ImmutableList.of())
-      .owner(PublicOwner.INSTANCE)
+      .owner(Owner.PUBLIC)
       .build();
 
 
@@ -31,7 +29,7 @@ public class HostTest {
   public void shouldPassNPE() {
     new NullPointerTester()
         .setDefault(HostCapacity.class, HostCapacityTest.HOST_CAPACITY)
-        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .setDefault(Owner.class, Owner.PUBLIC)
         .testConstructors(HOST.getClass(), PACKAGE);
   }
   @Test

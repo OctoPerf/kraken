@@ -9,8 +9,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public interface StorageClient extends AuthenticatedClient {
+
+  Mono<Void> init();
 
   Mono<StorageNode> createFolder(String path);
 
@@ -31,6 +34,8 @@ public interface StorageClient extends AuthenticatedClient {
   Mono<Void> downloadFolder(Path localFolderPath, String path);
 
   Flux<StorageWatcherEvent> uploadFile(Path localFilePath, String remotePath);
+
+  Flux<StorageNode> find(String rootPath, Integer maxDepth, String matcher);
 
   Flux<StorageWatcherEvent> watch();
 

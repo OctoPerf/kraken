@@ -46,6 +46,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
       converter: JSON.parse,
       headers: {
         'ApplicationId': this.configuration.applicationId,
+        'ProjectId': this.configuration.projectId,
         'Authorization': `Bearer ${token}`
       }
     }))).subscribe(this);

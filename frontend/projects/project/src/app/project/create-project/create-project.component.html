@@ -1,0 +1,37 @@
+<lib-help-anchor pageId="PROJECT_CREATE"></lib-help-anchor>
+<form [formGroup]="projectForm" autocomplete=off class="block-filler" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+  <h1 fxFlex="nogrow">New Project</h1>
+  <mat-form-field fxFlex="nogrow" fxFlexOffset="20px">
+    <mat-label>Project Name</mat-label>
+    <input matInput formControlName="projectName"
+           cdkFocusInitial
+           required>
+    <mat-error *ngIf="projectName.hasError('required')">
+      Project name is required.
+    </mat-error>
+    <mat-error *ngIf="projectName.hasError('minlength')">
+      Project name must be more than 3 characters long.
+    </mat-error>
+    <mat-error *ngIf="projectName.hasError('maxlength')">
+      Project name must be less than 64 characters long.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field fxFlex="nogrow">
+    <mat-label>Application</mat-label>
+    <mat-select formControlName="applicationId">
+      <mat-option *ngFor="let application of applications" [value]="application">
+        {{application | prettyString}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div fxFlex="nogrow" fxFlexOffset="20px">
+    <button mat-button routerLink=".." type="button">Cancel</button>
+    <button mat-button (click)="create()"
+            type="submit" color="accent"
+            [disabled]="!projectForm.valid">
+      Create
+    </button>
+  </div>
+</form>

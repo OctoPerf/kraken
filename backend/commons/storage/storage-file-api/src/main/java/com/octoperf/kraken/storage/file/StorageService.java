@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface StorageService {
 
+  Mono<Void> init();
+
   Flux<StorageNode> list();
 
   Mono<StorageNode> get(String path);

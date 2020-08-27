@@ -23,6 +23,7 @@ import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {SecurityModule} from 'projects/security/src/lib/security.module';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
+import {CurrentProjectModule} from 'projects/commons/src/lib/current-project/current-project.module';
 
 @NgModule({
   declarations: [
@@ -39,21 +40,24 @@ import {SSEService} from 'projects/sse/src/lib/sse.service';
     IconModule,
     StorageModule.forRoot(
       'gatling-storage',
-      [{
-        regexp: '.*\\.scala',
-        editor: SimulationEditorComponent,
-        helpPageId: 'EDITOR_GATLING'
-      },
+      [
+        {
+          regexp: '.*\\.scala',
+          editor: SimulationEditorComponent,
+          helpPageId: 'EDITOR_GATLING'
+        },
         {
           regexp: '.*\\.debug',
           editor: DebugEditorComponent,
           helpPageId: 'EDITOR_DEBUG'
-        }]
+        }
+      ]
     ),
     SimulationsModule,
     ResultsModule,
     RuntimeModule,
     SecurityModule,
+    CurrentProjectModule,
   ],
   providers: [
     NotificationService,

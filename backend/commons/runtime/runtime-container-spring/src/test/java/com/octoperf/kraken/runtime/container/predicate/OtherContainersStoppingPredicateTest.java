@@ -1,24 +1,20 @@
 package com.octoperf.kraken.runtime.container.predicate;
 
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.Application;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
-import com.octoperf.kraken.runtime.client.api.RuntimeClient;
-import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
 import com.octoperf.kraken.runtime.entity.task.Container;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.Task;
 import com.octoperf.kraken.runtime.entity.task.TaskTest;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.octoperf.kraken.runtime.entity.task.TaskType.GATLING_RUN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,7 +68,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.STOPPING)
                 .build()
         ))
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .build())).isTrue();
   }
 
@@ -86,7 +82,7 @@ public class OtherContainersStoppingPredicateTest {
         .type(GATLING_RUN)
         .containers(ImmutableList.of())
         .expectedCount(2)
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .build())).isFalse();
   }
 
@@ -125,7 +121,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.STOPPING)
                 .build()
         ))
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .build())).isFalse();
   }
 
@@ -174,7 +170,7 @@ public class OtherContainersStoppingPredicateTest {
                 .status(ContainerStatus.RUNNING)
                 .build()
         ))
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .build())).isTrue();
   }
 

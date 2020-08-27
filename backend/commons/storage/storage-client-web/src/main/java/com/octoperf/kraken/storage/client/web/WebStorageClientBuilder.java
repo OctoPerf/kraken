@@ -3,6 +3,7 @@ package com.octoperf.kraken.storage.client.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
@@ -33,8 +34,8 @@ final class WebStorageClientBuilder extends WebAuthenticatedClientBuilder<Storag
   }
 
   @Override
-  public Mono<StorageClient> build() {
-    return Mono.just(new WebStorageClient(webClientBuilder.build(), mapper, yamlMapper));
+  public Mono<StorageClient> build(final AuthenticatedClientBuildOrder order) {
+    return Mono.just(new WebStorageClient(getWebClientBuilder(order).build(), mapper, yamlMapper));
   }
 
 }

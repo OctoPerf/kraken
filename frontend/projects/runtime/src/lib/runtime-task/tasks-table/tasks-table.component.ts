@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
 import {Task} from 'projects/runtime/src/lib/entities/task';
 import {CLEAR_ICON, REFRESH_ICON, STOP_ICON} from 'projects/icon/src/lib/icons';
 import {MatTableDataSource} from '@angular/material/table';
@@ -11,11 +10,10 @@ import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-e
 import {map} from 'rxjs/operators';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import * as _ from 'lodash';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
-import {Host} from 'projects/runtime/src/lib/entities/host';
 import {isTerminalContainerStatus} from 'projects/runtime/src/lib/entities/container-status';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 @Component({
   selector: 'lib-tasks-table',
@@ -39,7 +37,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
 
   constructor(private taskService: RuntimeTaskService,
               private eventBus: EventBusService,
-              private dialogs: DialogService,
+              private dialogs: DefaultDialogService,
               private statusIsTerminal: ContainerStatusIsTerminalPipe) {
     this._subscriptions.push(eventBus.of<TasksRefreshEvent>(TasksRefreshEvent.CHANNEL)
       .pipe(map(event => event.tasks)).subscribe(tasks => this.tasks = tasks));

@@ -182,9 +182,9 @@ public class TaskControllerTest extends RuntimeControllerTest {
         .expectBody()
         .returnResult();
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
+    assertThat(body).isEqualTo("data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"projectId\":\"projectId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"projectId\":\"projectId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
         "\n" +
-        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
+        "data:[{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"projectId\":\"projectId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}},{\"id\":\"id\",\"startDate\":42,\"status\":\"STARTING\",\"type\":\"GATLING_RUN\",\"containers\":[],\"expectedCount\":2,\"description\":\"description\",\"owner\":{\"userId\":\"userId\",\"projectId\":\"projectId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"}}]\n" +
         "\n");
   }
 
@@ -219,7 +219,7 @@ public class TaskControllerTest extends RuntimeControllerTest {
         .returnResult();
 
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    assertThat(body).isEqualTo("data:{\"type\":\"TaskExecutedEvent\",\"value\":{\"context\":{\"owner\":{\"userId\":\"userId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"},\"taskId\":\"taskId\",\"taskType\":\"GATLING_RUN\",\"description\":\"description\",\"templates\":{\"hostId\":\"template\"}}}}\n" +
+    assertThat(body).isEqualTo("data:{\"type\":\"TaskExecutedEvent\",\"value\":{\"context\":{\"owner\":{\"userId\":\"userId\",\"projectId\":\"projectId\",\"applicationId\":\"applicationId\",\"roles\":[\"USER\"],\"type\":\"USER\"},\"taskId\":\"taskId\",\"taskType\":\"GATLING_RUN\",\"description\":\"description\",\"templates\":{\"hostId\":\"template\"}}}}\n" +
         "\n");
   }
 }

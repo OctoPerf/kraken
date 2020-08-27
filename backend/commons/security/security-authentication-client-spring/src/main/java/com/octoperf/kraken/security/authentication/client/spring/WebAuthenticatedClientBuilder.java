@@ -5,50 +5,37 @@ import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilter;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuilder;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.octoperf.kraken.security.authentication.api.AuthenticationMode.IMPERSONATE;
 
-@FieldDefaults(level = AccessLevel.PROTECTED)
+@FieldDefaults(level = AccessLevel.PROTECTED, makeFinal = true)
+@AllArgsConstructor
 public abstract class WebAuthenticatedClientBuilder<T extends AuthenticatedClient, P extends UrlProperty> implements AuthenticatedClientBuilder<T> {
 
-  final List<ExchangeFilterFactory> exchangeFilterFactories;
-  final P properties;
-  WebClient.Builder webClientBuilder;
+  @NonNull final List<ExchangeFilterFactory> exchangeFilterFactories;
+  @NonNull final P properties;
 
-  protected WebAuthenticatedClientBuilder(@NonNull final List<ExchangeFilterFactory> exchangeFilterFactories,
-                                          @NonNull final P properties) {
-    this.exchangeFilterFactories = exchangeFilterFactories;
-    this.properties = properties;
-    this.webClientBuilder = WebClient.builder().baseUrl(properties.getUrl());
+  protected WebClient.Builder getWebClientBuilder(final AuthenticatedClientBuildOrder order) {
+    final var builder = WebClient.builder().baseUrl(properties.getUrl());
+    builder.filter(this.getExchangeFilter(order.getMode(), order.getUserId()));
+    builder.defaultHeader("ProjectId", order.getProjectId());
+    builder.defaultHeader("ApplicationId", order.getApplicationId());
+    return builder;
   }
 
-  @Override
-  public AuthenticatedClientBuilder<T> mode(AuthenticationMode mode) {
-    checkArgument(!mode.equals(IMPERSONATE), "The user id is required for the IMPERSONATE authentication mode");
-    return this.mode(mode, "");
-  }
-
-  @Override
-  public AuthenticatedClientBuilder<T> mode(AuthenticationMode mode, String userId) {
-    this.webClientBuilder = this.webClientBuilder.filter(this.getExchangeFilter(mode, userId));
-    return this;
-  }
-
-  @Override
-  public AuthenticatedClientBuilder<T> applicationId(String applicationId) {
-    this.webClientBuilder = this.webClientBuilder.defaultHeader("ApplicationId", applicationId);
-    return this;
-  }
-
-  protected ExchangeFilter getExchangeFilter(final AuthenticationMode mode, String userId) {
+  protected ExchangeFilter getExchangeFilter(final AuthenticationMode mode, final String userId) {
     return exchangeFilterFactories.stream()
         .filter(exchangeFilter -> exchangeFilter.getMode().equals(mode))
         .findFirst()

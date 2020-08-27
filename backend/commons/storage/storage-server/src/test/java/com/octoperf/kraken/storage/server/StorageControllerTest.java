@@ -60,6 +60,7 @@ public class StorageControllerTest extends AuthControllerTest {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/static")
             .pathSegment(applicationId)
+            .pathSegment(projectId)
             .build())
         .header("Authorization", "Bearer user-token")
         .exchange()
@@ -76,6 +77,7 @@ public class StorageControllerTest extends AuthControllerTest {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/static")
             .pathSegment(applicationId)
+            .pathSegment(projectId)
             .pathSegment("sub/static.txt")
             .build())
         .header("Authorization", "Bearer user-token")
@@ -95,6 +97,7 @@ public class StorageControllerTest extends AuthControllerTest {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/static")
             .pathSegment(applicationId)
+            .pathSegment(projectId)
             .pathSegment("sub/static.har")
             .build())
         .header("Authorization", "Bearer user-token")
@@ -114,6 +117,7 @@ public class StorageControllerTest extends AuthControllerTest {
     webTestClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/static")
             .pathSegment(applicationId)
+            .pathSegment(projectId)
             .pathSegment("sub/static.svg")
             .build())
         .header("Authorization", "Bearer user-token")
@@ -416,11 +420,11 @@ public class StorageControllerTest extends AuthControllerTest {
         .returnResult();
 
     final var body = new String(Optional.ofNullable(result.getResponseBody()).orElse(new byte[0]), Charsets.UTF_8);
-    Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"type\":\"PUBLIC\"}}\n" +
+    Assertions.assertThat(body).isEqualTo("data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"userId\":\"\",\"projectId\":\"\",\"applicationId\":\"\",\"roles\":[],\"type\":\"PUBLIC\"}}\n" +
         "\n" +
         ":keep alive\n" +
         "\n" +
-        "data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"type\":\"PUBLIC\"}}\n" +
+        "data:{\"node\":{\"path\":\"path\",\"type\":\"DIRECTORY\",\"depth\":0,\"length\":0,\"lastModified\":0},\"type\":\"CREATE\",\"owner\":{\"userId\":\"\",\"projectId\":\"\",\"applicationId\":\"\",\"roles\":[],\"type\":\"PUBLIC\"}}\n" +
         "\n");
   }
 

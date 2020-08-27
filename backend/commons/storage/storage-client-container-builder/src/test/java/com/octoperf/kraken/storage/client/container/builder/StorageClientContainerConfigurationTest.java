@@ -2,6 +2,7 @@ package com.octoperf.kraken.storage.client.container.builder;
 
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import org.assertj.core.api.Assertions;
@@ -29,9 +30,12 @@ public class StorageClientContainerConfigurationTest {
   @BeforeEach
   public void setUp() {
     given(properties.getApplicationId()).willReturn("applicationId");
-    given(clientBuilder.mode(AuthenticationMode.CONTAINER)).willReturn(clientBuilder);
-    given(clientBuilder.applicationId("applicationId")).willReturn(clientBuilder);
-    given(clientBuilder.build()).willReturn(Mono.just(client));
+    given(properties.getProjectId()).willReturn("projectId");
+    given(clientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .applicationId(properties.getApplicationId())
+        .projectId(properties.getProjectId())
+        .mode(AuthenticationMode.CONTAINER)
+        .build())).willReturn(Mono.just(client));
     configuration = new StorageClientContainerConfiguration();
   }
 

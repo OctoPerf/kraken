@@ -4,7 +4,7 @@ import com.octoperf.kraken.runtime.backend.api.FlatContainersToTask;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.security.entity.owner.ApplicationOwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
@@ -27,7 +27,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.READY)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var flux = Flux.just(container).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
@@ -52,7 +52,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.RUNNING)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var flux = Flux.just(container).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
@@ -77,7 +77,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.READY)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var container2 = FlatContainer.builder()
         .id("id1")
@@ -90,7 +90,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.RUNNING)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var flux = Flux.just(container1, container2).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();
@@ -115,7 +115,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.DONE)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var container2 = FlatContainer.builder()
         .id("id1")
@@ -128,7 +128,7 @@ public class SpringFlatContainersToTaskTest {
         .startDate(42L)
         .status(ContainerStatus.FAILED)
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build();
     final var flux = Flux.just(container1, container2).groupBy(FlatContainer::getTaskId).next().block();
     assertThat(flux).isNotNull();

@@ -10,7 +10,9 @@ import com.octoperf.kraken.runtime.entity.log.LogTest;
 import com.octoperf.kraken.runtime.entity.task.*;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
-import com.octoperf.kraken.security.entity.owner.ApplicationOwner;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
@@ -50,7 +52,7 @@ public class WebRuntimeClientTest {
     mapper = new ObjectMapper();
     final String url = server.url("/").toString();
     given(properties.getUrl()).willReturn(url);
-    client = new WebRuntimeClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build().block();
+    client = new WebRuntimeClientBuilder(filterFactories, properties).build(AuthenticatedClientBuildOrder.NOOP).block();
   }
 
   @AfterEach
@@ -83,7 +85,7 @@ public class WebRuntimeClientTest {
     final var expectedStatus = ContainerStatus.READY;
     final var flatContainer = FlatContainerTest.CONTAINER;
     final var taskId = flatContainer.getTaskId();
-    final var appOwner = ApplicationOwner.builder().applicationId("app").build();
+    final var appOwner = Owner.builder().applicationId("app").type(OwnerType.APPLICATION).build();
     final var task = Task.builder()
         .id(taskId)
         .startDate(42L)

@@ -38,6 +38,7 @@ export class SecurityGuard implements CanActivate, CanLoad {
         if (!authenticated) {
           return this.security.login().pipe(map(() => false));
         } else if (!_.intersection(this.securityConfig.expectedRole, this.security.roles).length) {
+          // TODO Check this
           return this.security.logout().pipe(map(() => false));
         }
         return of(true);

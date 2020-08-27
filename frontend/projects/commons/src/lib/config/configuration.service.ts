@@ -20,6 +20,8 @@ export class ConfigurationService {
     docUrl: 'docUrl'
   });
 
+  _projectId = '';
+
   constructor(private http: HttpClient,
               @Inject(ENVIRONMENT) private env) {
   }
@@ -57,4 +59,17 @@ export class ConfigurationService {
   value(key: string): any {
     return this._config.value[key];
   }
+
+  get projectId(): string {
+    return this._projectId;
+  }
+
+  set projectId(projectId: string) {
+    this._projectId = projectId;
+  }
+
+  projectApiUrl(path: string = ''): string {
+    return this.url('backendApiUrl', `/project${path}`);
+  }
+
 }

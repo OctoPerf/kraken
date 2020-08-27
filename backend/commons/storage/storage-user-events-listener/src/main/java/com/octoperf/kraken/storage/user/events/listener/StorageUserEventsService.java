@@ -24,6 +24,17 @@ final class StorageUserEventsService extends UserEventsServiceAdapter {
   ApplicationProperties properties;
 
   @Override
+  public Mono<String> onRegisterUser(String userId, String email, String username) {
+    return Mono.fromCallable(() -> {
+      log.info(String.format("Creating user folder for id %s", userId));
+      if (!Paths.get(properties.getData(), "users", userId).toFile().mkdirs()) {
+        throw new RuntimeException("Failed to create user directory");
+      }
+      return userId;
+    });
+  }
+
+  @Override
   public Mono<String> onDeleteUser(final String userId) {
     return Mono.fromCallable(() -> {
       log.info(String.format("Deleting user folder for id %s", userId));

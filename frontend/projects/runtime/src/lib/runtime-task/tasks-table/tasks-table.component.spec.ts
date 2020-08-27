@@ -10,32 +10,32 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 import {of} from 'rxjs';
 import * as _ from 'lodash';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
 import {Task} from 'projects/runtime/src/lib/entities/task';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
 import SpyObj = jasmine.SpyObj;
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
   let fixture: ComponentFixture<TasksTableComponent>;
   let taskService: SpyObj<RuntimeTaskService>;
   let eventBus: EventBusService;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
   const spyPipe = jasmine.createSpyObj('ContainerStatusIsTerminalPipe', [
     'transform',
   ]);
 
   beforeEach(async(() => {
     taskService = runtimeTaskServiceSpy();
-    dialogs = dialogsServiceSpy();
+    dialogs = defaultDialogServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [TasksTableComponent],
       providers: [
         {provide: RuntimeTaskService, useValue: taskService},
-        {provide: DialogService, useValue: dialogs},
+        {provide: DefaultDialogService, useValue: dialogs},
         {provide: ContainerStatusIsTerminalPipe, useValue: spyPipe},
         EventBusService,
       ]

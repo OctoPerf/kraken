@@ -7,7 +7,6 @@ import com.octoperf.kraken.runtime.command.CommandService;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,8 +55,8 @@ public class DockerContainerFindServiceTest {
     final var logs = Flux.just("logs");
     given(commandService.execute(command)).willReturn(logs);
     given(stringToFlatContainer.apply("logs")).willReturn(container);
-    given(ownerToFilters.apply(PublicOwner.INSTANCE)).willReturn(ImmutableList.of());
-    final var found = service.find(PublicOwner.INSTANCE, container.getTaskId(), container.getName()).block();
+    given(ownerToFilters.apply(Owner.PUBLIC)).willReturn(ImmutableList.of());
+    final var found = service.find(Owner.PUBLIC, container.getTaskId(), container.getName()).block();
     assertThat(found).isEqualTo(container);
   }
 }

@@ -8,6 +8,7 @@ public interface EnvironmentLabels {
   String COM_OCTOPERF_ACCESS = "com.octoperf/access";
   String COM_OCTOPERF_APPLICATION_ID = "com.octoperf/applicationId";
   String COM_OCTOPERF_USER_ID = "com.octoperf/userId";
+  String COM_OCTOPERF_PROJECT_ID = "com.octoperf/projectId";
   String COM_OCTOPERF_DESCRIPTION = "com.octoperf/description";
   String COM_OCTOPERF_EXPECTED_COUNT = "com.octoperf/expectedCount";
   String COM_OCTOPERF_STATUS = "com.octoperf/status.%s";

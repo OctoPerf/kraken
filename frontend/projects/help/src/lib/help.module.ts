@@ -9,6 +9,7 @@ import {OpenHelpDirective} from 'projects/help/src/lib/help-panel/open-help.dire
 import {HelpService} from 'projects/help/src/lib/help-panel/help.service';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import { HelpAnchorComponent } from './help-anchor/help-anchor.component';
+import {OpenHelpExtDirective} from 'projects/help/src/lib/help-panel/open-help-ext.directive';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { HelpAnchorComponent } from './help-anchor/help-anchor.component';
     HelpPanelComponent,
     InlineHelpComponent,
     OpenHelpDirective,
+    OpenHelpExtDirective,
     HelpAnchorComponent,
   ],
   exports: [
@@ -29,6 +31,7 @@ import { HelpAnchorComponent } from './help-anchor/help-anchor.component';
     InlineHelpComponent,
     HighlightModule,
     OpenHelpDirective,
+    OpenHelpExtDirective,
     HelpAnchorComponent,
   ],
 })

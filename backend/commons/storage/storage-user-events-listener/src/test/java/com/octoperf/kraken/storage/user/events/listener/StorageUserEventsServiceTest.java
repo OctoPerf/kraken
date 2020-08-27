@@ -26,13 +26,22 @@ public class StorageUserEventsServiceTest {
   public void setUp() {
     service = new StorageUserEventsService(properties);
     given(properties.getData()).willReturn("testDir");
-    data = Paths.get(properties.getData(), "users", "foo");
-    assertThat(data.toFile().mkdirs()).isTrue();
   }
 
   @Test
   public void shouldDeleteUserFolder() {
+    data = Paths.get(properties.getData(), "users", "foo");
+    assertThat(data.toFile().mkdirs()).isTrue();
     service.onDeleteUser("foo").block();
     assertThat(data.toFile().exists()).isFalse();
+  }
+
+  @Test
+  public void shouldCreateUserFolder() {
+    data = Paths.get(properties.getData(), "users", "bar");
+    assertThat(data.toFile().exists()).isFalse();
+    service.onRegisterUser("bar", "email", "username").block();
+    assertThat(data.toFile().exists()).isTrue();
+    service.onDeleteUser("bar").block();
   }
 }

@@ -25,12 +25,14 @@ public class HostController {
   @NonNull UserProvider userProvider;
 
   @GetMapping(value = "/list")
-  public Flux<Host> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return userProvider.getOwner(applicationId).flatMapMany(hostService::list);
+  public Flux<Host> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                         @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(hostService::list);
   }
 
   @GetMapping(value = "/all")
   public Flux<Host> listAll() {
+    log.info("List all hosts");
     return hostService.listAll();
   }
 

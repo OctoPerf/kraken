@@ -6,6 +6,7 @@ import com.octoperf.kraken.config.security.client.api.SecurityClientProperties;
 import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.user.KrakenUser;
 import com.octoperf.kraken.security.entity.user.KrakenUserTest;
 import okhttp3.mockwebserver.MockResponse;
@@ -49,7 +50,7 @@ public class KeycloakSecurityAdminClientTest {
     final String url = server.url("/auth").toString();
     given(properties.getUrl()).willReturn(url);
     given(properties.getRealm()).willReturn("kraken");
-    client = (SecurityAdminClient) new KeycloakSecurityAdminClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build().block();
+    client = new KeycloakSecurityAdminClientBuilder(filterFactories, properties).build(AuthenticatedClientBuildOrder.NOOP).block();
   }
 
   @AfterEach

@@ -7,7 +7,7 @@ import com.octoperf.kraken.runtime.entity.log.LogType;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
 import com.octoperf.kraken.runtime.logs.LogsService;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,11 +59,11 @@ public class DockerContainerServiceTest {
         .environment(ImmutableMap.of())
         .build();
     given(containerStatusToName.apply(containerName, status)).willReturn(containerName);
-    given(findService.find(PublicOwner.INSTANCE, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(findService.find(Owner.PUBLIC, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     final var renamed = Flux.just("renamed");
     given(commandService.execute(renameCommand)).willReturn(renamed);
 
-    service.setStatus(PublicOwner.INSTANCE, taskId, containerId, containerName, status).block();
+    service.setStatus(Owner.PUBLIC, taskId, containerId, containerName, status).block();
 
     verify(commandService).execute(renameCommand);
   }
@@ -85,15 +85,15 @@ public class DockerContainerServiceTest {
     final var logs = Flux.just("logs");
     final var id = "taskId-containerId-containerName";
     given(commandService.execute(logsCommand)).willReturn(logs);
-    given(findService.find(PublicOwner.INSTANCE, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
-    assertThat(service.attachLogs(PublicOwner.INSTANCE, taskId, containerId, containerName).block()).isEqualTo(id);
-    verify(logsService).push(PublicOwner.INSTANCE, id, LogType.CONTAINER, logs);
+    given(findService.find(Owner.PUBLIC, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    assertThat(service.attachLogs(Owner.PUBLIC, taskId, containerId, containerName).block()).isEqualTo(id);
+    verify(logsService).push(Owner.PUBLIC, id, LogType.CONTAINER, logs);
   }
 
   @Test
   public void shouldDetachLogs() {
-    service.detachLogs(PublicOwner.INSTANCE, "id").block();
-    verify(logsService).dispose(PublicOwner.INSTANCE, "id", LogType.CONTAINER);
+    service.detachLogs(Owner.PUBLIC, "id").block();
+    verify(logsService).dispose(Owner.PUBLIC, "id", LogType.CONTAINER);
   }
 
   @Test

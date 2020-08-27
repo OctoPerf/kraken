@@ -31,7 +31,8 @@ public class LogsController {
   SSEService sse;
 
   @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<Log>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return userProvider.getOwner(applicationId).flatMapMany(owner -> sse.keepAlive(logsService.listen(owner)));
+  public Flux<ServerSentEvent<Log>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                          @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(owner -> sse.keepAlive(logsService.listen(owner)));
   }
 }

@@ -3,7 +3,7 @@ import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {WindowService} from './window.service';
 import {of, throwError} from 'rxjs';
 
-export const windowSpy = () => jasmine.createSpyObj('WindowService', ['resize', 'resizeNow', 'open']);
+export const windowServiceSpy = () => jasmine.createSpyObj('WindowService', ['resize', 'resizeNow', 'open', 'url']);
 
 describe('WindowService', () => {
   beforeEach(() => {
@@ -59,4 +59,9 @@ describe('WindowService', () => {
     tick(1);
     expect(dispatch).toHaveBeenCalledWith(new Event('resize'));
   }));
+
+  it('should return url', () => {
+    const service = new WindowService();
+    expect(service.url()).toBeDefined();
+  });
 });

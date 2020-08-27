@@ -17,10 +17,10 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {faFileImport} from '@fortawesome/free-solid-svg-icons/faFileImport';
 import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
 import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/contextual-menu.component';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {MatPaginator} from '@angular/material/paginator';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
@@ -66,7 +66,7 @@ export class ResultsTableComponent implements OnInit {
 
   constructor(public gatling: GatlingResultService,
               public results: ResultsTableService,
-              private dialogs: DialogService) {
+              private dialogs: DefaultDialogService) {
   }
 
   ngOnInit() {

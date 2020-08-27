@@ -75,7 +75,22 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-task-events-watcher</artifactId>
+            <artifactId>analysis-task-events-listener</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>analysis-user-events-listener</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>analysis-project-events-listener</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>analysis-service-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -83,6 +98,18 @@
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>gatling-context</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Project -->
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>project-crud-storage</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>project-server</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -162,11 +189,6 @@
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>security-decoder-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-spring</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

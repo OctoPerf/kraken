@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.*;
 import com.octoperf.kraken.storage.file.StorageService;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
+import static com.octoperf.kraken.storage.entity.StorageNodeTest.STORAGE_NODE;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageNodeType.FILE;
 import static com.octoperf.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
@@ -50,7 +52,14 @@ public class SpringStorageClientTest {
   @BeforeEach
   public void before() {
     given(storageServiceBuilder.build(any())).willReturn(storageService);
-    client = new SpringStorageClientBuilder(ImmutableList.of(), storageServiceBuilder, jsonMapper, yamlMapper).mode(AuthenticationMode.NOOP).build().block();
+    client = new SpringStorageClientBuilder(ImmutableList.of(), storageServiceBuilder, jsonMapper, yamlMapper).build(AuthenticatedClientBuildOrder.NOOP).block();
+  }
+
+  @Test
+  public void shouldInit() {
+    given(storageService.init()).willReturn(Mono.empty());
+    final var response = client.init().block();
+    assertThat(response).isNull();
   }
 
   @Test
@@ -63,7 +72,7 @@ public class SpringStorageClientTest {
         .lastModified(0L)
         .build();
     given(storageService.setDirectory("path")).willReturn(Flux.just(STORAGE_WATCHER_EVENT,
-        StorageWatcherEvent.builder().node(directoryNode).owner(PublicOwner.INSTANCE).type(CREATE).build()));
+        StorageWatcherEvent.builder().node(directoryNode).owner(Owner.PUBLIC).type(CREATE).build()));
     final var response = client.createFolder("path").block();
     assertThat(response).isEqualTo(directoryNode);
   }
@@ -85,7 +94,7 @@ public class SpringStorageClientTest {
         .lastModified(0L)
         .build();
     given(storageService.setContent(fileNode.getPath(), "content")).willReturn(Flux.just(STORAGE_WATCHER_EVENT,
-        StorageWatcherEvent.builder().node(fileNode).owner(PublicOwner.INSTANCE).type(CREATE).build()));
+        StorageWatcherEvent.builder().node(fileNode).owner(Owner.PUBLIC).type(CREATE).build()));
 
     final var response = client.setContent(fileNode.getPath(), "content").block();
     assertThat(response).isEqualTo(fileNode);
@@ -122,7 +131,7 @@ public class SpringStorageClientTest {
         .build();
     given(storageService.setContent(fileNode.getPath(), jsonMapper.writeValueAsString(STORAGE_WATCHER_EVENT))).willReturn(Flux.just(StorageWatcherEvent.builder()
         .type(MODIFY)
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .node(fileNode)
         .build()));
     final var response = client.setJsonContent(fileNode.getPath(), STORAGE_WATCHER_EVENT).block();
@@ -138,9 +147,16 @@ public class SpringStorageClientTest {
 
   @Test
   public void shouldGetYamlContent() throws IOException {
-    given(storageService.getContent("path")).willReturn(Mono.just(yamlMapper.writeValueAsString(StorageNodeTest.STORAGE_NODE)));
+    given(storageService.getContent("path")).willReturn(Mono.just(yamlMapper.writeValueAsString(STORAGE_NODE)));
     final var response = client.getYamlContent("path", StorageNode.class).block();
-    assertThat(response).isEqualTo(StorageNodeTest.STORAGE_NODE);
+    assertThat(response).isEqualTo(STORAGE_NODE);
   }
 
+  @Test
+  public void shouldFind() throws IOException {
+    given(storageService.find("path", 42, ".*")).willReturn(Flux.just(STORAGE_NODE));
+    final var response = client.find("path", 42, ".*").collectList().block();
+    assertThat(response).isNotNull();
+    assertThat(response).isEqualTo(ImmutableList.of(STORAGE_NODE));
+  }
 }

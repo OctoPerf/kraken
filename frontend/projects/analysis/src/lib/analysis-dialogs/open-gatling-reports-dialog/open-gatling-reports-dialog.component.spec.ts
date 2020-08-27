@@ -10,7 +10,7 @@ import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-c
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';

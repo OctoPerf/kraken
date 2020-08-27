@@ -1,6 +1,8 @@
 package com.octoperf.kraken.storage.file;
 
 import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
+import com.octoperf.kraken.security.entity.token.KrakenRole;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
@@ -48,10 +50,16 @@ final class FileSystemStorageService implements StorageService {
   @NonNull Owner owner;
   @NonNull Path root;
   @NonNull PathToStorageNode toStorageNode;
+  @NonNull OwnerToPath ownerToPath;
   @NonNull EventBus eventBus;
 
-  public void init(final Path applicationPath) {
-    synchronized (applicationPath.toString().intern()) {
+  public Mono<Void> init() {
+    if (!OwnerType.USER.equals(owner.getType()) || owner.getRoles().stream().anyMatch(krakenRole -> krakenRole.equals(KrakenRole.ADMIN))) {
+      return Mono.error(new IllegalArgumentException(String.format("init() is only available for Users, not for %s owners", owner.getType())));
+    }
+    return Mono.fromCallable(() -> {
+      log.debug(String.format("Init storage service for owner %s - path: %s", owner.toString(), root.toString()));
+      final var applicationPath = ownerToPath.apply(Owner.builder().applicationId(owner.getApplicationId()).type(OwnerType.APPLICATION).build());
       final var rootFile = root.toFile();
       if (!rootFile.exists()) {
         if (!rootFile.mkdirs()) {
@@ -65,11 +73,10 @@ final class FileSystemStorageService implements StorageService {
               throw new RuntimeException(e.getMessage(), e);
             }
           });
-        } catch (IOException e) {
-          throw new RuntimeException(e.getMessage(), e);
         }
       }
-    }
+      return null;
+    });
   }
 
   @Override

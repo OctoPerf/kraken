@@ -15,6 +15,7 @@ services:
       com.octoperf/description: description
       com.octoperf/expectedCount: 2
       com.octoperf/applicationId: test
+      com.octoperf/projectId: project
       com.octoperf/userId: user
     container_name: taskId-container-one_STARTING
     image: nginx
@@ -31,6 +32,7 @@ services:
       com.octoperf/description: description
       com.octoperf/expectedCount: 2
       com.octoperf/applicationId: test
+      com.octoperf/projectId: project
       com.octoperf/userId: user
     container_name: taskId-container-two_STARTING
     image: nginx

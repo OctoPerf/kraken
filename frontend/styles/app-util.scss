@@ -1,5 +1,9 @@
 @import 'app-variables';
 
+@mixin clickable() {
+  cursor: pointer;
+}
+
 @mixin top-right-absolute() {
   z-index: 9;
   position: absolute;
@@ -39,6 +43,10 @@
       opacity: 1;
     }
   }
+}
+
+.clickable {
+  @include clickable();
 }
 
 .scrollable {

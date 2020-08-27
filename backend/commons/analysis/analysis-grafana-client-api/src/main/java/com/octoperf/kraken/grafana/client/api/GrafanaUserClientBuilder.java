@@ -5,11 +5,9 @@ import com.octoperf.kraken.tools.webclient.ClientBuilder;
 import org.springframework.http.ResponseCookie;
 import reactor.core.publisher.Mono;
 
-public interface GrafanaUserClientBuilder extends ClientBuilder<GrafanaUserClient> {
+public interface GrafanaUserClientBuilder {
 
-  GrafanaUserClientBuilder grafanaUser(GrafanaUser user);
+  Mono<GrafanaUserClient> build(GrafanaUser grafanaUser, InfluxDBUser influxDBUser);
 
-  GrafanaUserClientBuilder influxDBUser(InfluxDBUser user);
-
-  Mono<ResponseCookie> getSessionCookie();
+  Mono<ResponseCookie> getSessionCookie(GrafanaUser grafanaUser);
 }

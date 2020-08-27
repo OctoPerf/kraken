@@ -8,8 +8,8 @@ import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.runtime.event.TaskCreatedEvent;
 import com.octoperf.kraken.runtime.event.TaskRemovedEvent;
 import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEvent;
-import com.octoperf.kraken.security.entity.owner.ApplicationOwnerTest;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ public class SpringTaskUpdateHandlerTest {
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build());
     final var tasksStep2 = ImmutableList.of(Task.builder()
         .id("taskId")
@@ -58,11 +58,11 @@ public class SpringTaskUpdateHandlerTest {
         .containers(ImmutableList.of())
         .description("description")
         .expectedCount(2)
-        .owner(ApplicationOwnerTest.APPLICATION_OWNER)
+        .owner(OwnerTest.APPLICATION_OWNER)
         .build());
     final var tasksStep3 = ImmutableList.<Task>of();
 
-    given(taskListService.watch(PublicOwner.INSTANCE)).willReturn(Flux.just(tasksStep0, tasksStep1, tasksStep2, tasksStep3));
+    given(taskListService.watch(Owner.PUBLIC)).willReturn(Flux.just(tasksStep0, tasksStep1, tasksStep2, tasksStep3));
 
     updater.start();
 

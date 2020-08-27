@@ -27,11 +27,6 @@
             <artifactId>runtime-logs-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
@@ -56,12 +51,6 @@
         </dependency>
 
         <!-- Used in integration tests-->
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-spring</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>runtime-command-zt</artifactId>

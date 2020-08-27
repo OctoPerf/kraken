@@ -47,6 +47,11 @@ final class WebStorageClient implements StorageClient {
   ObjectMapper yamlMapper;
 
   @Override
+  public Mono<Void> init() {
+    return Mono.error(new UnsupportedOperationException());
+  }
+
+  @Override
   public Flux<StorageWatcherEvent> watch() {
     return webClient.get()
         .uri(uriBuilder -> uriBuilder.path("/files/watch").build())
@@ -179,6 +184,11 @@ final class WebStorageClient implements StorageClient {
         .flatMapMany(path -> this.setZip(path, remotePath))
         .doOnError(t -> log.error("Failed to upload file " + localFilePath, t))
         .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath))), log);
+  }
+
+  @Override
+  public Flux<StorageNode> find(String rootPath, Integer maxDepth, String matcher) {
+    return Flux.error(new UnsupportedOperationException());
   }
 
   private Flux<StorageWatcherEvent> setZip(final Path localZipFile, final String path) {

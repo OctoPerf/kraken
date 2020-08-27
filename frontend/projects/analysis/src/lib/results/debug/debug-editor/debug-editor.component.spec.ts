@@ -7,26 +7,26 @@ import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import SpyObj = jasmine.SpyObj;
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
+import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
+import {editorDialogServiceSpy} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service.spec';
 
 describe('DebugEditorComponent', () => {
   let component: DebugEditorComponent;
   let fixture: ComponentFixture<DebugEditorComponent>;
   let debug: SpyObj<DebugEditorContentService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<EditorDialogService>;
 
   beforeEach(async(() => {
     debug = debugEditorContentServiceSpy();
-    dialogs = dialogsServiceSpy();
+    dialogs = editorDialogServiceSpy();
 
     TestBed.configureTestingModule({
       declarations: [DebugEditorComponent],
       providers: [
         {provide: StorageNodeEditorContentService, useValue: debug},
         {provide: STORAGE_NODE, useValue: testStorageFileNode()},
-        {provide: DialogService, useValue: dialogs}
+        {provide: EditorDialogService, useValue: dialogs}
       ]
     })
       .overrideProvider(StorageNodeEditorContentService, {useValue: debug})

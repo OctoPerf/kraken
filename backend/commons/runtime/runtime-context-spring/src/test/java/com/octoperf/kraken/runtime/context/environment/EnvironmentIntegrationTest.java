@@ -1,14 +1,12 @@
 package com.octoperf.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
+import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.octoperf.kraken.config.api.ApplicationProperties;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToApplicationId;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource.USER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,16 +31,10 @@ public class EnvironmentIntegrationTest {
   @Mock
   ApplicationProperties application;
   @Mock
-  OwnerToApplicationId toApplicationId;
-  @Mock
-  OwnerToUserId toUserId;
-  @Mock
   BackendClientProperties properties;
 
   @BeforeEach
   public void before() {
-    given(toApplicationId.apply(any())).willReturn(Optional.of("app"));
-    given(toUserId.apply(any())).willReturn(Optional.of("user"));
     given(application.getVersion()).willReturn("version");
     given(properties.getPublishedUrl()).willReturn("url");
     given(properties.getHostname()).willReturn("localhost");
@@ -56,7 +46,7 @@ public class EnvironmentIntegrationTest {
         .value("bar")
         .build()));
     publishers = ImmutableList.of(
-        new ContextPublisher(toApplicationId, toUserId),
+        new ContextPublisher(),
         new HostIdsPublisher(),
         new KrakenVersionPublisher(application),
         new BackendUrlPublisher(properties)

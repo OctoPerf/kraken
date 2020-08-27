@@ -78,6 +78,11 @@
 
 // Fonts
 
+@mixin font-xs() {
+  font-size: $app-font-size-xs;
+  line-height: $app-line-height-xs;
+}
+
 @mixin font-sm() {
   font-size: $app-font-size-sm;
   line-height: $app-line-height-sm;
@@ -86,6 +91,11 @@
 @mixin font-lg() {
   font-size: $app-font-size-lg;
   line-height: $app-line-height-lg;
+}
+
+@mixin font-size($ratio) {
+  font-size: $app-font-size-sm * $ratio;
+  line-height: $app-font-size-sm * $ratio;
 }
 
 // Fonts

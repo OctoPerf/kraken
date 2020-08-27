@@ -7,7 +7,6 @@ import com.octoperf.kraken.influxdb.client.api.InfluxDBUserConverter;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUserTest;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
 import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
 import com.octoperf.kraken.security.entity.user.KrakenUserTest;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
@@ -24,6 +23,7 @@ import java.util.Optional;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
+import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
@@ -35,8 +35,6 @@ public class InfluxDBUrlPublisherTest {
   @Mock(lenient = true)
   InfluxDBUserConverter influxDBUserConverter;
   @Mock(lenient = true)
-  OwnerToUserId toUserId;
-  @Mock(lenient = true)
   SecurityAdminClient securityAdminClient;
 
   InfluxDBUrlPublisher publisher;
@@ -47,11 +45,10 @@ public class InfluxDBUrlPublisherTest {
     given(properties.getPassword()).willReturn("password");
     given(properties.getDatabase()).willReturn("database");
     given(properties.getPublishedUrl()).willReturn("url");
-    given(toUserId.apply(ExecutionContextBuilderTest.EXECUTION_CONTEXT_BUILDER.getOwner())).willReturn(Optional.of("userId"));
     given(securityAdminClient.getUser("userId")).willReturn(Mono.just(KrakenUserTest.KRAKEN_USER));
     given(influxDBUserConverter.apply(KrakenUserTest.KRAKEN_USER)).willReturn(InfluxDBUserTest.INFLUX_DB_USER);
 
-    publisher = new InfluxDBUrlPublisher(properties, influxDBUserConverter, toUserId, Mono.just(securityAdminClient));
+    publisher = new InfluxDBUrlPublisher(properties, influxDBUserConverter, Mono.just(securityAdminClient));
   }
 
   @Test

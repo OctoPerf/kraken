@@ -9,7 +9,7 @@ import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {of} from 'rxjs';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {
   testResult,
@@ -21,12 +21,12 @@ import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisServiceSpy} from 'projects/analysis/src/lib/analysis.service.spec';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {CookieService} from 'ngx-cookie-service';
 import {HttpTestingController} from '@angular/common/http/testing';
 import {cookiesServiceSpy} from 'projects/commons/src/lib/mock/cookies.mock.spec';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 
 export const gatlingResultServiceSpy = () => {
@@ -47,7 +47,7 @@ describe('GatlingResultService', () => {
   let events: SpyObj<EventBusService>;
   let window: SpyObj<WindowService>;
   let analysis: SpyObj<AnalysisService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
   let cookies: SpyObj<CookieService>;
   let httpTestingController: HttpTestingController;
 
@@ -63,8 +63,8 @@ describe('GatlingResultService', () => {
     analysis = analysisServiceSpy();
     storage = storageServiceSpy();
     events = eventBusSpy();
-    window = windowSpy();
-    dialogs = dialogsServiceSpy();
+    window = windowServiceSpy();
+    dialogs = defaultDialogServiceSpy();
     cookies = cookiesServiceSpy();
 
     TestBed.configureTestingModule({
@@ -75,7 +75,7 @@ describe('GatlingResultService', () => {
         {provide: WindowService, useValue: window},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         {provide: AnalysisService, useValue: analysis},
-        {provide: DialogService, useValue: dialogs},
+        {provide: DefaultDialogService, useValue: dialogs},
         {provide: CookieService, useValue: cookies},
         GatlingResultService,
       ]

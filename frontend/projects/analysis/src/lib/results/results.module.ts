@@ -6,7 +6,6 @@ import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {IconModule} from 'projects/icon/src/lib/icon.module';
 import {DialogModule} from 'projects/dialog/src/lib/dialog.module';
-import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {DebugModule} from 'projects/analysis/src/lib/results/debug/debug.module';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
 import {IsDebugEntryStorageNodePipe} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
@@ -16,7 +15,7 @@ import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {StoragePipesModule} from 'projects/storage/src/lib/storage-pipes/storage-pipes.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 import {AnalysisDialogsModule} from 'projects/analysis/src/lib/analysis-dialogs/analysis-dialogs.module';
-import { CookieService } from 'ngx-cookie-service';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [ResultsTableComponent, IsDebugEntryStorageNodePipe],
@@ -28,7 +27,6 @@ import { CookieService } from 'ngx-cookie-service';
     DateModule,
     IconModule,
     DialogModule,
-    AnalysisModule,
     TreeModule,
     ComponentsModule,
     StoragePipesModule,

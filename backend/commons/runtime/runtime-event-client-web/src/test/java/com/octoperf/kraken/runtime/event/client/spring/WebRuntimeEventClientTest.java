@@ -11,6 +11,7 @@ import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEventTest;
 import com.octoperf.kraken.runtime.event.client.api.RuntimeEventClient;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -52,7 +53,7 @@ public class WebRuntimeEventClientTest {
     server = new MockWebServer();
     final String baseUrl = server.url("/").toString();
     when(properties.getUrl()).thenReturn(baseUrl);
-    client = (RuntimeEventClient) new WebRuntimeEventClientBuilder(filterFactories, properties, objectMapper).mode(AuthenticationMode.NOOP).build().block();
+    client = new WebRuntimeEventClientBuilder(filterFactories, properties, objectMapper).build(AuthenticatedClientBuildOrder.NOOP).block();
   }
 
   @AfterEach

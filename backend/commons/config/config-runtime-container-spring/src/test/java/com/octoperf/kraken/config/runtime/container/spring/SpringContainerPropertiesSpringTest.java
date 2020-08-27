@@ -26,6 +26,7 @@ public class SpringContainerPropertiesSpringTest {
     Assertions.assertThat(properties.getTaskType()).isNotNull();
     assertThat(properties.getUserId()).isNotNull();
     assertThat(properties.getApplicationId()).isNotNull();
+    assertThat(properties.getProjectId()).isNotNull();
   }
 
 }

@@ -1,0 +1,11 @@
+@import 'app-filler';
+@import 'app-font';
+
+:host {
+  @include block-filler();
+}
+
+.link {
+  @include font-size(2);
+  text-decoration: none;
+}

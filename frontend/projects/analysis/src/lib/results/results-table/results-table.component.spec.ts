@@ -8,31 +8,31 @@ import {
   resultsTableServiceSpy,
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 
 describe('ResultsTableComponent', () => {
   let component: ResultsTableComponent;
   let fixture: ComponentFixture<ResultsTableComponent>;
   let results: SpyObj<ResultsTableService>;
   let gatling: SpyObj<GatlingResultService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
 
   beforeEach(async(() => {
     results = resultsTableServiceSpy();
     gatling = gatlingResultServiceSpy();
-    dialogs = dialogsServiceSpy();
+    dialogs = defaultDialogServiceSpy();
 
     TestBed.configureTestingModule({
       declarations: [ResultsTableComponent],
       providers: [
         {provide: GatlingResultService, useValue: gatling},
         {provide: ResultsTableService, useValue: results},
-        {provide: DialogService, useValue: dialogs}
+        {provide: DefaultDialogService, useValue: dialogs}
       ]
     })
       .overrideProvider(GatlingResultService, {useValue: gatling})

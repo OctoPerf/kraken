@@ -3,6 +3,7 @@ package com.octoperf.kraken.tools.sse.server;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import com.octoperf.kraken.tools.sse.SSEService;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
@@ -37,9 +38,18 @@ public class SSEController {
   @NonNull StorageClientBuilder storageClientBuilder;
 
   @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<SSEWrapper>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    final var storageClient = storageClientBuilder.mode(SESSION).applicationId(applicationId).build();
-    final var runtimeClient = runtimeClientBuilder.mode(SESSION).applicationId(applicationId).build();
+  public Flux<ServerSentEvent<SSEWrapper>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                                 @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
+    final var storageClient = storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .mode(SESSION)
+        .applicationId(applicationId)
+        .projectId(projectId)
+        .build());
+    final var runtimeClient = runtimeClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .mode(SESSION)
+        .applicationId(applicationId)
+        .projectId(projectId)
+        .build());
     return Mono.zip(storageClient, runtimeClient)
         .flatMapMany(clients ->
             sse.keepAlive(sse.merge(ImmutableMap.of(

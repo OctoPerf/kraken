@@ -6,10 +6,10 @@ import com.octoperf.kraken.influxdb.client.api.InfluxDBUserConverter;
 import com.octoperf.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
+import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
-import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -17,9 +17,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.google.common.collect.ImmutableList.of;
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static lombok.AccessLevel.PACKAGE;
 import static lombok.AccessLevel.PRIVATE;
@@ -31,7 +29,6 @@ final class InfluxDBUrlPublisher implements EnvironmentPublisher {
 
   @NonNull InfluxDBProperties properties;
   @NonNull InfluxDBUserConverter influxDBUserConverter;
-  @NonNull OwnerToUserId toUserId;
   @NonNull Mono<SecurityAdminClient> securityAdminClientMono;
 
   @Override
@@ -42,8 +39,7 @@ final class InfluxDBUrlPublisher implements EnvironmentPublisher {
   @Override
   public Mono<List<ExecutionEnvironmentEntry>> apply(final ExecutionContextBuilder context) {
     return Mono.just(context.getOwner())
-        .map(toUserId)
-        .map(Optional::orElseThrow)
+        .map(Owner::getUserId)
         .flatMap(userId -> securityAdminClientMono.flatMap(client -> client.getUser(userId)))
         .map(influxDBUserConverter)
         .map(user ->

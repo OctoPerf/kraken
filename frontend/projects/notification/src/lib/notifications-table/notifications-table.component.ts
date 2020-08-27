@@ -9,8 +9,8 @@ import {Notification} from 'projects/notification/src/lib/notification';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
 import {ErrorNotification} from 'projects/notification/src/lib/error-notification';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {faBroom} from '@fortawesome/free-solid-svg-icons/faBroom';
+import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
 
 library.add(faEye, faQuestionCircle, faFileAlt, faBroom);
 
@@ -42,7 +42,7 @@ export class NotificationsTableComponent {
   dataSource: NotificationsDataSource;
 
   constructor(public notificationsService: NotificationService,
-              private dialogs: DialogService) {
+              private dialogs: EditorDialogService) {
     this.dataSource = new NotificationsDataSource(notificationsService);
   }
 

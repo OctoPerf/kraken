@@ -27,11 +27,6 @@
             <artifactId>config-runtime-server-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
@@ -42,6 +37,13 @@
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>runtime-tasks-configuration-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>security-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>

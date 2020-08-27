@@ -10,7 +10,7 @@ import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.logs.LogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,8 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "app";
     final var userId = "user";
-    final var owner = UserOwner.builder().applicationId(appId).userId(userId).roles(ImmutableList.of(USER)).build();
+    final var projectId = "project";
+    final var owner = Owner.builder().applicationId(appId).projectId(projectId).userId(userId).roles(ImmutableList.of(USER)).type(OwnerType.USER).build();
     final var taskId = "taskIdBis";
     final var containerName = "containerThreeId";
     final var logs = new ArrayList<Log>();
@@ -90,7 +91,8 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldSetStatus() {
     final var appId = "app";
     final var userId = "user";
-    final var owner = UserOwner.builder().applicationId(appId).userId(userId).roles(ImmutableList.of(USER)).build();
+    final var projectId = "project";
+    final var owner = Owner.builder().applicationId(appId).projectId(projectId).userId(userId).roles(ImmutableList.of(USER)).type(OwnerType.USER).build();
     final var taskId = "taskId";
     final var containerName = "containerOneId";
 

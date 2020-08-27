@@ -2,6 +2,7 @@ package com.octoperf.kraken.storage.client.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.security.authentication.api.UserProviderFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.SpringAuthenticatedClientBuilder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
@@ -11,7 +12,9 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -38,8 +41,8 @@ final class SpringStorageClientBuilder extends SpringAuthenticatedClientBuilder<
   }
 
   @Override
-  public Mono<StorageClient> build() {
-    return getOwner().map(owner -> new SpringStorageClient(storageServiceBuilder.build(owner), mapper, yamlMapper));
+  public Mono<StorageClient> build(final AuthenticatedClientBuildOrder order) {
+    return super.getOwner(order).map(owner -> new SpringStorageClient(storageServiceBuilder.build(owner), mapper, yamlMapper));
   }
 
 }

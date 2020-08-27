@@ -8,7 +8,7 @@ import {cookiesServiceSpy} from 'projects/commons/src/lib/mock/cookies.mock.spec
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {CookieService} from 'ngx-cookie-service';
 import {SecurityService} from 'projects/security/src/lib/security.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {securityServiceSpy} from 'projects/security/src/lib/security.service.spec';
 import {of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
@@ -35,7 +35,7 @@ describe('StorageStaticService', () => {
   let configuration: ConfigurationService;
 
   beforeEach(() => {
-    window = windowSpy();
+    window = windowServiceSpy();
     cookies = cookiesServiceSpy();
     securityService = securityServiceSpy();
     storageConfiguration = storageConfigurationServiceSpy();

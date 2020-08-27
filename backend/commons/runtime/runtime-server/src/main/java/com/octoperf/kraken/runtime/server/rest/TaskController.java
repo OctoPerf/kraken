@@ -51,9 +51,10 @@ public class TaskController {
 
   @PostMapping(produces = TEXT_PLAIN_VALUE)
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                          @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
                           @RequestBody() final ExecutionEnvironment environment) {
     log.info(String.format("Execute %s task", environment.getTaskType().toString()));
-    return userProvider.getOwner(applicationId)
+    return userProvider.getOwner(applicationId, projectId)
         .flatMap(owner -> hostService.list(owner).map(Host::getId).collectList().map(hosts -> Tuples.of(owner, hosts)))
         .flatMap(t2 -> {
               if (environment.getHostIds().stream().anyMatch(hostId -> !t2.getT2().contains(hostId))) {
@@ -70,10 +71,11 @@ public class TaskController {
 
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                             @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
-    return userProvider.getOwner(applicationId)
+    return userProvider.getOwner(applicationId, projectId)
         .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::cancel)
         .doOnNext(context -> eventBus.publish(TaskCancelledEvent.builder().context(context).build()))
@@ -82,24 +84,27 @@ public class TaskController {
 
   @DeleteMapping(value = "/remove/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                             @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
                              @RequestParam("taskId") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Remove task %s", taskId));
-    return userProvider.getOwner(applicationId)
+    return userProvider.getOwner(applicationId, projectId)
         .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::remove)
         .map(CancelContext::getTaskId);
   }
 
   @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<List<Task>>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+  public Flux<ServerSentEvent<List<Task>>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                                 @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
     log.info("Watch tasks lists");
-    return userProvider.getOwner(applicationId).flatMapMany(owner -> sse.keepAlive(taskListService.watch(owner)));
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(owner -> sse.keepAlive(taskListService.watch(owner)));
   }
 
   @GetMapping(value = "/list")
-  public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return userProvider.getOwner(applicationId).flatMapMany(taskListService::list);
+  public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                         @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(taskListService::list);
   }
 
   @GetMapping(value = "/events")

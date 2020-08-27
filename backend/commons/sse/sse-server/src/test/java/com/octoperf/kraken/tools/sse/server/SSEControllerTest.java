@@ -9,6 +9,7 @@ import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.runtime.entity.log.LogTest;
 import com.octoperf.kraken.runtime.entity.task.TaskTest;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
@@ -50,12 +51,12 @@ public class SSEControllerTest extends AuthControllerTest {
   @BeforeEach
   public void setUp() throws IOException {
     super.setUp();
-    given(runtimeClientBuilder.mode(AuthenticationMode.SESSION)).willReturn(runtimeClientBuilder);
-    given(runtimeClientBuilder.applicationId(applicationId)).willReturn(runtimeClientBuilder);
-    given(runtimeClientBuilder.build()).willReturn(Mono.just(runtimeClient));
-    given(storageClientBuilder.mode(AuthenticationMode.SESSION)).willReturn(storageClientBuilder);
-    given(storageClientBuilder.applicationId(applicationId)).willReturn(storageClientBuilder);
-    given(storageClientBuilder.build()).willReturn(Mono.just(storageClient));
+    given(runtimeClientBuilder.build(AuthenticatedClientBuildOrder.builder().mode(AuthenticationMode.SESSION)
+        .projectId(projectId)
+        .applicationId(applicationId).build())).willReturn(Mono.just(runtimeClient));
+    given(storageClientBuilder.build(AuthenticatedClientBuildOrder.builder().mode(AuthenticationMode.SESSION)
+        .projectId(projectId)
+        .applicationId(applicationId).build())).willReturn(Mono.just(storageClient));
   }
 
   @Test

@@ -10,7 +10,7 @@ import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {of, throwError} from 'rxjs';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';

@@ -36,4 +36,7 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_UPLOAD_FILE: '/administration/files-manager-usage/#files-upload',
   ADMIN_DOWNLOAD_FILE: '/administration/files-manager-usage/#files-and-folders-download',
   ADMIN_ATTACH_HOST: '/administration/hosts-table/',
+
+  PROJECT_LIST: '/TODO list',
+  PROJECT_CREATE: '/TODO create'
 };

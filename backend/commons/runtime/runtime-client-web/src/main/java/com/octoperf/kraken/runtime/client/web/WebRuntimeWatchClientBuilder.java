@@ -4,6 +4,7 @@ import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,8 @@ final class WebRuntimeWatchClientBuilder extends WebAuthenticatedClientBuilder<R
   }
 
   @Override
-  public Mono<RuntimeWatchClient> build() {
-    return Mono.just(new WebRuntimeWatchClient(webClientBuilder.build()));
+  public Mono<RuntimeWatchClient> build(final AuthenticatedClientBuildOrder order) {
+    return Mono.just(new WebRuntimeWatchClient(getWebClientBuilder(order).build()));
   }
 
 }

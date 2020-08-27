@@ -26,7 +26,7 @@ public class Lang3IdGeneratorTest {
     final var id = idGenerator.generate();
     assertThat(id).isNotNull();
     assertThat(id.length()).isEqualTo(10);
-    assertThat(id).matches("[a-z0-9]*");
+    assertThat(id).matches("[a-z0-9]{10}");
   }
 
 }

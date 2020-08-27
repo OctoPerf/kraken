@@ -6,8 +6,7 @@ import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntryTest;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwnerTest;
-import com.octoperf.kraken.security.entity.owner.UserOwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExecutionContextBuilderTest {
 
   public static final Function<List<ExecutionEnvironmentEntry>, ExecutionContextBuilder> WITH_ENTRIES = (List<ExecutionEnvironmentEntry> entries) -> ExecutionContextBuilder.builder()
-      .owner(UserOwnerTest.USER_OWNER)
+      .owner(OwnerTest.USER_OWNER)
       .taskId("taskId")
       .taskType(TaskType.GATLING_RUN)
       .description("description")
@@ -41,7 +40,7 @@ public class ExecutionContextBuilderTest {
   public void shouldPassNPE() {
     new NullPointerTester()
         .setDefault(ExecutionEnvironmentEntry.class, ExecutionEnvironmentEntryTest.EXECUTION_ENVIRONMENT_ENTRY)
-        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .setDefault(Owner.class, Owner.PUBLIC)
         .testConstructors(EXECUTION_CONTEXT_BUILDER.getClass(), PACKAGE);
   }
   @Test

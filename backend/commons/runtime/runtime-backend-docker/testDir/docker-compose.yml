@@ -15,6 +15,7 @@ services:
       com.octoperf/description: Debug Task
       com.octoperf/expectedCount: 2
       com.octoperf/applicationId: app
+      com.octoperf/projectId: project
       com.octoperf/userId: user
     container_name: containerOneId_READY
     image: nginx
@@ -31,6 +32,7 @@ services:
       com.octoperf/description: Debug Task
       com.octoperf/expectedCount: 2
       com.octoperf/applicationId: app
+      com.octoperf/projectId: project
       com.octoperf/userId: user
     container_name: containerTwoId_DONE
     image: nginx
@@ -47,6 +49,7 @@ services:
       com.octoperf/description: Run Task
       com.octoperf/expectedCount: 1
       com.octoperf/applicationId: app
+      com.octoperf/projectId: project
       com.octoperf/userId: user
     container_name: containerThreeId_STARTING
     image: octoperf/kraken-echo:latest

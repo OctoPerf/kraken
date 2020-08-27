@@ -5,6 +5,7 @@ import com.octoperf.kraken.config.api.UrlProperty;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilter;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +41,8 @@ public class WebAuthenticatedClientBuilderTest {
     }
 
     @Override
-    public Mono<TestAuthenticatedClient> build() {
-      return Mono.just(new TestAuthenticatedClient(webClientBuilder.build()));
+    public Mono<TestAuthenticatedClient> build(final AuthenticatedClientBuildOrder order) {
+      return Mono.just(new TestAuthenticatedClient(getWebClientBuilder(order).build()));
     }
   }
 
@@ -70,26 +71,20 @@ public class WebAuthenticatedClientBuilderTest {
 
   @Test
   public void shouldCreateNoop() {
-    factory.mode(NOOP).build();
+    factory.build(AuthenticatedClientBuildOrder.builder().mode(NOOP).build());
     verify(noopFilterFactory).create("");
   }
 
   @Test
   public void shouldCreateWeb() {
-    factory.mode(SESSION).build();
+    factory.build(AuthenticatedClientBuildOrder.builder().mode(SESSION).build());
     verify(webFilterFactory).create("");
   }
 
   @Test
   public void shouldCreateUserId() {
-    factory.mode(SESSION, "userId").build();
+    factory.build(AuthenticatedClientBuildOrder.builder().mode(SESSION).userId("userId").build());
     verify(webFilterFactory).create("userId");
   }
 
-  @Test
-  public void shouldCreateImpersonateFail() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      factory.mode(IMPERSONATE);
-    });
-  }
 }

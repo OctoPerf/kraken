@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -25,6 +26,11 @@ final class SpringStorageClient implements StorageClient {
   ObjectMapper mapper;
   @NonNull
   ObjectMapper yamlMapper;
+
+  @Override
+  public Mono<Void> init() {
+    return service.init();
+  }
 
   @Override
   public Mono<StorageNode> createFolder(final String path) {
@@ -55,6 +61,11 @@ final class SpringStorageClient implements StorageClient {
   @Override
   public Mono<StorageNode> setContent(String path, String content) {
     return eventsToNode(service.setContent(path, content), path);
+  }
+
+  @Override
+  public Flux<StorageNode> find(final String rootPath, final Integer maxDepth, final String matcher) {
+    return service.find(rootPath, maxDepth, matcher);
   }
 
   @Override

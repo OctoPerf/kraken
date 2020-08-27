@@ -12,9 +12,8 @@ import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.runtime.logs.LogsService;
-import com.octoperf.kraken.security.entity.owner.ApplicationOwner;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,7 +90,7 @@ public class DockerTaskServiceTest {
   public void shouldExecuteFail() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
       final var context = ExecutionContext.builder()
-          .owner(ApplicationOwner.builder().applicationId("applicationId").build())
+          .owner(Owner.builder().applicationId("applicationId").type(OwnerType.APPLICATION).build())
           .taskId("taskId")
           .taskType(TaskType.GATLING_RUN)
           .templates(ImmutableMap.of())
@@ -106,7 +105,7 @@ public class DockerTaskServiceTest {
   public void shouldExecuteFailTooManyHosts() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
       final var context = ExecutionContext.builder()
-          .owner(ApplicationOwner.builder().applicationId("applicationId").build())
+          .owner(Owner.builder().applicationId("applicationId").type(OwnerType.APPLICATION).build())
           .taskId("taskId")
           .taskType(TaskType.GATLING_RUN)
           .templates(ImmutableMap.of("hostId", "tpl", "other", "tpl"))
@@ -154,11 +153,11 @@ public class DockerTaskServiceTest {
         .build();
 
     final var taskAsString = "taskAsString";
-    given(ownerToFilters.apply(PublicOwner.INSTANCE)).willReturn(ImmutableList.of());
+    given(ownerToFilters.apply(Owner.PUBLIC)).willReturn(ImmutableList.of());
     given(commandService.execute(listCommand)).willReturn(Flux.just(taskAsString));
     given(stringToFlatContainer.apply(taskAsString)).willReturn(FlatContainerTest.CONTAINER);
 
-    assertThat(service.list(PublicOwner.INSTANCE).blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
+    assertThat(service.list(Owner.PUBLIC).blockLast()).isEqualTo(FlatContainerTest.CONTAINER);
 
     verify(commandService).execute(listCommand);
   }

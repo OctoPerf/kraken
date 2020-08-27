@@ -19,7 +19,7 @@ import {faFolderOpen} from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import {StorageEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-editor/storage-editor.component';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notifications-event';
-import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {ROOT_NODE} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {HostsTableComponent} from 'projects/runtime/src/lib/runtime-host/hosts-table/hosts-table.component';

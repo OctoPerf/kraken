@@ -1,13 +1,10 @@
 import {TestBed} from '@angular/core/testing';
 
 import {StorageService} from './storage.service';
-import {cold} from 'jasmine-marbles';
 import {of} from 'rxjs';
 import {HttpTestingController} from '@angular/common/http/testing';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {OpenNodeEvent} from 'projects/storage/src/lib/events/open-node-event';
 import {DeleteFilesDialogComponent} from 'projects/storage/src/lib/storage-dialogs/delete-files-dialog/delete-files-dialog.component';
@@ -29,6 +26,8 @@ import * as _ from 'lodash';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import SpyObj = jasmine.SpyObj;
 import {PathToNamePipe} from 'projects/tools/src/lib/path-to-name.pipe';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 
 export const storageServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageService', [
@@ -58,7 +57,7 @@ describe('StorageService', () => {
   let service: StorageService;
   let httpTestingController: HttpTestingController;
   let eventBus: EventBusService;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,7 +65,7 @@ describe('StorageService', () => {
       providers: [
         {provide: StorageConfigurationService, useValue: storageConfigurationServiceSpy()},
         {provide: EventBusService, useValue: eventBusSpy()},
-        {provide: DialogService, useValue: dialogsServiceSpy()},
+        {provide: DefaultDialogService, useValue: defaultDialogServiceSpy()},
         StorageService,
         StorageNodeToNamePipe,
         NodeEventToNodePipe,
@@ -74,7 +73,7 @@ describe('StorageService', () => {
       ]
     });
     eventBus = TestBed.inject(EventBusService);
-    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
+    dialogs = TestBed.inject(DefaultDialogService) as SpyObj<DefaultDialogService>;
     service = TestBed.inject(StorageService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });

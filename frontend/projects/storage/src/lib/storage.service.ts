@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
@@ -16,13 +15,14 @@ import {StorageNodeToNamePipe} from 'projects/storage/src/lib/storage-pipes/stor
 import {NodeEventToNodePipe} from 'projects/storage/src/lib/storage-pipes/node-event-to-node.pipe';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 @Injectable()
 export class StorageService {
 
   constructor(private configuration: StorageConfigurationService,
               private eventBus: EventBusService,
-              private dialogs: DialogService,
+              private dialogs: DefaultDialogService,
               private http: HttpClient,
               private toNode: NodeEventToNodePipe,
               private toName: StorageNodeToNamePipe) {

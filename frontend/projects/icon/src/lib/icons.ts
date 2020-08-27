@@ -15,8 +15,9 @@ import {faFileAlt} from '@fortawesome/free-solid-svg-icons/faFileAlt';
 import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
 import {faStop} from '@fortawesome/free-solid-svg-icons/faStop';
 import {faBroom} from '@fortawesome/free-solid-svg-icons/faBroom';
+import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons/faQuestionCircle';
 
-library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt, faStop, faBroom);
+library.add(faPlus, faSync, faTimesCircle, faTrash, faSearch, faEllipsisV, faPlay, faSquare, faICursor, faBug, faFileAlt, faStop, faBroom, faQuestionCircle);
 
 export const LOADING_ICON = new IconFa(faSync, 'muted', '', true);
 
@@ -48,3 +49,5 @@ export const RENAME_ICON = new IconFaAddon(
 );
 
 export const LOGS_ICON = new IconFa(faFileAlt);
+
+export const HELP_ICON = new IconFa(faQuestionCircle, 'accent');

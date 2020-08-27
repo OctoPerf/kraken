@@ -3,6 +3,7 @@ package com.octoperf.kraken.storage.client.web;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.analysis.entity.Result;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import com.octoperf.kraken.tests.utils.ResourceUtils;
@@ -33,8 +34,14 @@ public class WebStorageClientIntegrationTest {
   StorageClient storageClient;
 
   @BeforeEach
-  public void setUp(){
-    storageClient = storageClientBuilder.applicationId("gatling").mode(AuthenticationMode.IMPERSONATE, "kraken-user").build().block();
+  public void setUp() {
+    storageClient = storageClientBuilder.build(
+        AuthenticatedClientBuildOrder.builder()
+            .mode(AuthenticationMode.IMPERSONATE)
+            .userId("kraken-user")
+            .applicationId("gatling")
+            .build()
+    ).block();
   }
 
   @Test

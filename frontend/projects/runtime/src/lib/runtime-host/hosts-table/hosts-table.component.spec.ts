@@ -8,25 +8,25 @@ import {of} from 'rxjs';
 import {testHost, testHosts} from 'projects/runtime/src/lib/entities/host.spec';
 import {AttachHostDialogComponent} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/attach-host-dialog/attach-host-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 
 describe('HostsTableComponent', () => {
   let component: HostsTableComponent;
   let fixture: ComponentFixture<HostsTableComponent>;
   let hostService: SpyObj<RuntimeHostService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
 
   beforeEach(async(() => {
-    dialogs = dialogsServiceSpy();
+    dialogs = defaultDialogServiceSpy();
     hostService = runtimeHostServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [HostsTableComponent],
       providers: [
         {provide: RuntimeHostService, useValue: hostService},
-        {provide: DialogService, useValue: dialogs},
+        {provide: DefaultDialogService, useValue: dialogs},
       ]
     })
       .overrideTemplate(HostsTableComponent, '')

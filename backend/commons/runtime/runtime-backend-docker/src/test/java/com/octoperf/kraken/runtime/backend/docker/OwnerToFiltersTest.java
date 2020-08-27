@@ -1,67 +1,60 @@
 package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToApplicationId;
-import com.octoperf.kraken.security.entity.functions.api.OwnerToUserId;
-import com.octoperf.kraken.security.entity.owner.*;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
-
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class OwnerToFiltersTest {
-
-  @Mock
-  OwnerToApplicationId toApplicationId;
-  @Mock
-  OwnerToUserId toUserId;
 
   OwnerToFilters ownerToFilters;
 
   @BeforeEach
   public void setUp() {
-    ownerToFilters = new OwnerToFilters(toApplicationId, toUserId);
+    ownerToFilters = new OwnerToFilters();
   }
 
   @Test
   public void shouldReturnEmptyList() {
-    final var owner = PublicOwner.INSTANCE;
-    given(toApplicationId.apply(owner)).willReturn(Optional.empty());
-    given(toUserId.apply(owner)).willReturn(Optional.empty());
+    final var owner = Owner.PUBLIC;
     Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of());
   }
 
   @Test
   public void shouldReturnApplicationFilter() {
-    final var owner = ApplicationOwnerTest.APPLICATION_OWNER;
-    given(toApplicationId.apply(owner)).willAnswer(invocation -> Optional.of(((ApplicationOwner) invocation.getArgument(0)).getApplicationId()));
-    given(toUserId.apply(owner)).willReturn(Optional.empty());
+    final var owner = OwnerTest.APPLICATION_OWNER;
     Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of(
         "--filter", "label=com.octoperf/applicationId=applicationId"
     ));
   }
 
   @Test
-  public void shouldReturnUserFilters() {
-    final var owner = UserOwnerTest.USER_OWNER;
-    given(toApplicationId.apply(owner)).willAnswer(invocation -> Optional.of(((UserOwner) invocation.getArgument(0)).getApplicationId()));
-    given(toUserId.apply(owner)).willAnswer(invocation -> Optional.of(((UserOwner) invocation.getArgument(0)).getUserId()));
+  public void shouldReturnProjectFilters() {
+    final var owner = OwnerTest.PROJECT_OWNER;
     Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of(
         "--filter", "label=com.octoperf/applicationId=applicationId",
+        "--filter", "label=com.octoperf/projectId=projectId"
+    ));
+  }
+
+  @Test
+  public void shouldReturnUserFilters() {
+    final var owner = OwnerTest.USER_OWNER;
+    Assertions.assertThat(ownerToFilters.apply(owner)).isEqualTo(ImmutableList.of(
+        "--filter", "label=com.octoperf/applicationId=applicationId",
+        "--filter", "label=com.octoperf/projectId=projectId",
         "--filter", "label=com.octoperf/userId=userId"
     ));
   }
 
   @Test
-  public void shouldPassNPE(){
+  public void shouldPassNPE() {
     TestUtils.shouldPassNPE(OwnerToFilters.class);
   }
 }

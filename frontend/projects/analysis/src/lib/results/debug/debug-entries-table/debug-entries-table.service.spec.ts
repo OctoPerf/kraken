@@ -11,11 +11,8 @@ import {DebugEntry} from 'projects/analysis/src/lib/entities/debug-entry';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
 import {ResultsTableService} from 'projects/analysis/src/lib/results/results-table/results-table.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {storageListServiceSpy} from 'projects/storage/src/lib/storage-list.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {SelectNodeEvent} from 'projects/storage/src/lib/events/select-node-event';
 import {DebugEntriesTableService} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service';
 import {
@@ -24,6 +21,9 @@ import {
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
+import {editorDialogServiceSpy} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 export const testDebugEntry: () => DebugEntry = () => {
   return {
@@ -70,7 +70,7 @@ describe('DebugEntriesTableService', () => {
   let storage: SpyObj<StorageService>;
   let storageList: SpyObj<StorageListService>;
   let eventBus: SpyObj<EventBusService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<EditorDialogService>;
   let results: SpyObj<ResultsTableService>;
 
   let debugEntryNode: StorageNode;
@@ -89,7 +89,7 @@ describe('DebugEntriesTableService', () => {
         {provide: StorageListService, useValue: storageList},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         {provide: ResultsTableService, useValue: resultsTableServiceSpy()},
-        {provide: DialogService, useValue: dialogsServiceSpy()},
+        {provide: EditorDialogService, useValue: editorDialogServiceSpy()},
         DebugEntryToPathPipe,
         StorageNodeToNamePipe,
         NodeEventToNodePipe,
@@ -99,7 +99,7 @@ describe('DebugEntriesTableService', () => {
     service = TestBed.inject(DebugEntriesTableService);
     results = TestBed.inject(ResultsTableService) as SpyObj<ResultsTableService>;
     eventBus = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
-    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
+    dialogs = TestBed.inject(EditorDialogService) as SpyObj<EditorDialogService>;
   });
 
   afterEach(() => {

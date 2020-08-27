@@ -7,9 +7,9 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {AnalysisService} from 'projects/analysis/src/lib/analysis.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 @Injectable()
 export class GatlingResultService {
@@ -20,7 +20,7 @@ export class GatlingResultService {
     private eventBus: EventBusService,
     private window: WindowService,
     private analysisConfiguration: AnalysisConfigurationService,
-    private dialogs: DialogService,
+    private dialogs: DefaultDialogService,
     private http: HttpClient,
     private cookieService: CookieService,
   ) {

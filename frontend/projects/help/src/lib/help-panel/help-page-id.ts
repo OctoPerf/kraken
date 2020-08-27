@@ -30,4 +30,6 @@ export type HelpPageId = 'HOME'
   | 'GATLING_LOGS'
   | 'GATLING_CONTAINERS_TABLE'
   | 'ADMIN_HOSTS_TABLE'
+  | 'PROJECT_LIST'
+  | 'PROJECT_CREATE'
   ;
