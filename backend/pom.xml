@@ -18,6 +18,7 @@
     <properties>
         <!-- Sonar -->
         <sonar.jacoco.version>0.8.3</sonar.jacoco.version>
+        <sonar.exclusions>**/*Test.java</sonar.exclusions>
         <!--Spring-->
         <start-class>com.octoperf.kraken.Application</start-class>
         <java.version>11</java.version>
