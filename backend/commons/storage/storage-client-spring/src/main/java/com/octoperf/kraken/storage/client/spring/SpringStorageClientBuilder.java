@@ -6,15 +6,12 @@ import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClien
 import com.octoperf.kraken.security.authentication.client.spring.SpringAuthenticatedClientBuilder;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
-import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.RequestScope;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

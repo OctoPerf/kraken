@@ -58,6 +58,7 @@ public class KrakenTokenUser {
   }
 
   @Builder(toBuilder = true)
+  @SuppressWarnings("squid:S00107")
   KrakenTokenUser(
       @NonNull String username,
       @NonNull String email,

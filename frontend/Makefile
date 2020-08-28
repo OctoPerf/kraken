@@ -33,7 +33,9 @@ test-coverage:
 	xdg-open ./coverage/$(APP)/index.html &
 
 test-coverage-all:
-	./test-coverage-all.sh
+	ng test --watch=false --codeCoverage=true --sourceMap=true
+	./node_modules/istanbul/lib/cli.js report --dir ./coverage-all/ html
+	xdg-open ./coverage-all/index.html &
 
 tslint: lint
 lint:

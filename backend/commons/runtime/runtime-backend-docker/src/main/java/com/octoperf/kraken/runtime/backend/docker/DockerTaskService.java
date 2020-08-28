@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_TASKID;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabel.COM_OCTOPERF_TASKID;
 
 @Slf4j
 @Component
@@ -54,7 +54,7 @@ final class DockerTaskService implements TaskService {
       final var path = this.createDockerComposeFolder(context.getTaskId(), template);
       final var command = Command.builder()
           .path(path.toString())
-          .command(Arrays.asList("docker-compose",
+          .commands(Arrays.asList("docker-compose",
               "--no-ansi",
               "up",
               "-d",
@@ -88,7 +88,7 @@ final class DockerTaskService implements TaskService {
 
       return Command.builder()
           .path(this.createCommandFolder(context.getTaskId()).toString())
-          .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
+          .commands(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
           .environment(ImmutableMap.of())
           .build();
     })
@@ -108,7 +108,7 @@ final class DockerTaskService implements TaskService {
 
     final var command = Command.builder()
         .path(".")
-        .command(commandBuilder.build())
+        .commands(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 
@@ -117,8 +117,7 @@ final class DockerTaskService implements TaskService {
   }
 
   private Path createCommandFolder(final String taskId) throws IOException {
-    final var taskPath = Files.createTempDirectory(taskId);
-    return taskPath;
+    return Files.createTempDirectory(taskId);
   }
 
   private Path createDockerComposeFolder(final String taskId, final String template) throws IOException {

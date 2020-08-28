@@ -2,8 +2,6 @@ package com.octoperf.kraken.tools.sse.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.runtime.client.api.RuntimeClient;
-import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.runtime.entity.log.LogTest;
@@ -13,8 +11,8 @@ import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClien
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
-import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
+import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import com.octoperf.kraken.tools.sse.SSEService;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
 import com.octoperf.kraken.tools.sse.SSEWrapperTest;
@@ -31,7 +29,6 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.BDDMockito.given;
 

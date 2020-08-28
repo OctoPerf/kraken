@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
+import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_GATLING_SIMULATION_NAME;
 
 @Component
 final class DebugChecker implements EnvironmentChecker {

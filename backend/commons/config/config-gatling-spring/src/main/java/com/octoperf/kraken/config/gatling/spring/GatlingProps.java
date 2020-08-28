@@ -16,7 +16,7 @@ import static java.util.Optional.ofNullable;
 @Builder(toBuilder = true)
 @ConstructorBinding
 @ConfigurationProperties("kraken.gatling")
-final class GatlingProps implements GatlingProperties {
+class GatlingProps implements GatlingProperties {
   String home;
   String bin;
   String description;
@@ -29,6 +29,7 @@ final class GatlingProps implements GatlingProperties {
   GatlingLocalRemoteProps harPath;
   GatlingSimulationProps simulation;
 
+  @SuppressWarnings("squid:S00107")
   GatlingProps(
     final String home,
     final String bin,

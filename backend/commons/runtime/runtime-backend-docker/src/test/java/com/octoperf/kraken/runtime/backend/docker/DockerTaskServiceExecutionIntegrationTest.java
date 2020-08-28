@@ -15,12 +15,12 @@ import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.tests.utils.ResourceUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
@@ -33,6 +33,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
+@Tag("integration")
+@SuppressWarnings("squid:S2925")
 public class DockerTaskServiceExecutionIntegrationTest {
 
   @Autowired
@@ -46,7 +48,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   public void before() {
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .commands(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(clean).onErrorReturn("").blockLast();

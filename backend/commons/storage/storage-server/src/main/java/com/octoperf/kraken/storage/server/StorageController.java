@@ -25,6 +25,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Pattern;
+import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -59,7 +60,7 @@ class StorageController {
     final var applicationId = split[3];
     final var projectId = split[4];
     final var filePath = split.length >= 6 ? split[5] : "";
-    final var path = URLDecoder.decode(applicationId + "/" + filePath, Charset.defaultCharset());
+    final var path = URLDecoder.decode(applicationId + File.separator + filePath, Charset.defaultCharset());
     log.info(String.format("Get static file %s", path));
     return this.getService(applicationId, projectId)
         .flatMap(service -> service.getFileResource(path))

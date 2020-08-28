@@ -2,6 +2,7 @@ package com.octoperf.kraken.runtime.server.rest;
 
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.backend.api.HostService;
+import com.octoperf.kraken.runtime.backend.api.TaskListService;
 import com.octoperf.kraken.runtime.backend.api.TaskService;
 import com.octoperf.kraken.runtime.context.api.ExecutionContextService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
@@ -10,12 +11,11 @@ import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.octoperf.kraken.runtime.entity.host.Host;
 import com.octoperf.kraken.runtime.entity.task.Task;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.runtime.backend.api.TaskListService;
+import com.octoperf.kraken.runtime.event.*;
 import com.octoperf.kraken.security.authentication.api.UserProvider;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import com.octoperf.kraken.tools.sse.SSEService;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
-import com.octoperf.kraken.runtime.event.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -26,7 +26,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -55,17 +54,19 @@ public class TaskController {
                           @RequestBody() final ExecutionEnvironment environment) {
     log.info(String.format("Execute %s task", environment.getTaskType().toString()));
     return userProvider.getOwner(applicationId, projectId)
-        .flatMap(owner -> hostService.list(owner).map(Host::getId).collectList().map(hosts -> Tuples.of(owner, hosts)))
-        .flatMap(t2 -> {
-              if (environment.getHostIds().stream().anyMatch(hostId -> !t2.getT2().contains(hostId))) {
-                return Mono.error(new IllegalArgumentException("Illegal access to hosts."));
-              }
-              return Mono.just(t2.getT1());
-            }
-        )
+        .flatMap(owner ->
+            hostService.list(owner)
+                .map(Host::getId)
+                .collectList()
+                .flatMap(hosts -> {
+                  if (environment.getHostIds().stream().anyMatch((String hostId) -> !hosts.contains(hostId))) {
+                    return Mono.error(new IllegalArgumentException("Illegal access to hosts."));
+                  }
+                  return Mono.just(owner);
+                }))
         .flatMap(owner -> executionContextService.newExecuteContext(owner, environment))
         .flatMap(taskService::execute)
-        .doOnNext(_context -> eventBus.publish(TaskExecutedEvent.builder().context(_context).build()))
+        .doOnNext(ctx -> eventBus.publish(TaskExecutedEvent.builder().context(ctx).build()))
         .map(ExecutionContext::getTaskId);
   }
 

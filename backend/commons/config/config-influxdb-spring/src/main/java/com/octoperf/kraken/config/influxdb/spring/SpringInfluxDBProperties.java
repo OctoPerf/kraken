@@ -7,9 +7,7 @@ import lombok.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
-import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.nullToEmpty;
-import static java.util.Optional.ofNullable;
 
 @Value
 @Builder(toBuilder = true)

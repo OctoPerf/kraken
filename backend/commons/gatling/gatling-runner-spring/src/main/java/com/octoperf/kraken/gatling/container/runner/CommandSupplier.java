@@ -30,7 +30,7 @@ final class CommandSupplier implements Supplier<Command> {
           KRAKEN_GATLING_LOGS_DEBUG, gatling.getLogs().getDebug(),
             JAVA_OPTS, gatling.getJavaOpts())
         )
-        .command(ImmutableList.of(
+        .commands(ImmutableList.of(
             "./gatling.sh",
             "-s", gatling.getSimulation().getName(),
             "-rd", gatling.getDescription(),

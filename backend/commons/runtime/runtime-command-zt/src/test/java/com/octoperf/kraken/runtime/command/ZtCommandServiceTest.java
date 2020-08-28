@@ -4,10 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zeroturnaround.exec.InvalidExitValueException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -20,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.KRAKEN_VERSION;
 import static com.octoperf.kraken.tools.reactor.utils.ReactorUtils.waitFor;
@@ -27,12 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {StringCleaner.class, ZtCommandService.class})
+@SuppressWarnings("squid:S2925")
 public class ZtCommandServiceTest {
 
   static final int SLEEP = 2000;
 
   @Autowired
-  Function<String, String> stringCleaner;
+  UnaryOperator<String> stringCleaner;
 
   @Autowired
   CommandService service;
@@ -41,7 +42,7 @@ public class ZtCommandServiceTest {
   public void shouldEchoEnvData() {
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("/bin/sh", "-c", "echo $KRAKEN_VERSION"))
+        .commands(Arrays.asList("/bin/sh", "-c", "echo $KRAKEN_VERSION"))
         .environment(ImmutableMap.of(KRAKEN_VERSION, "BAR"))
         .build();
     final var result = service.execute(command).take(1).collectList().block();
@@ -54,7 +55,7 @@ public class ZtCommandServiceTest {
   public void shouldPrintEnv() {
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("/bin/sh", "-c", "printenv"))
+        .commands(Arrays.asList("/bin/sh", "-c", "printenv"))
         .environment(ImmutableMap.of(KRAKEN_VERSION, "BAR"))
         .build();
     final var result = service.execute(command).collectList().block();
@@ -67,7 +68,7 @@ public class ZtCommandServiceTest {
   public void shouldCancelSleepSimple() throws InterruptedException {
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("/bin/sh", "-c", "sleep 5 && echo run"))
+        .commands(Arrays.asList("/bin/sh", "-c", "sleep 5 && echo run"))
         .environment(ImmutableMap.of())
         .build();
     final var logs = new ArrayList<String>();
@@ -84,7 +85,7 @@ public class ZtCommandServiceTest {
   public void shouldCommandFail() {
     final var command = Command.builder()
         .path(".")
-        .command(Collections.singletonList("ca va fail !"))
+        .commands(Collections.singletonList("ca va fail !"))
         .environment(ImmutableMap.of())
         .build();
     StepVerifier.create(service.execute(command))
@@ -96,7 +97,7 @@ public class ZtCommandServiceTest {
   public void shouldCommandExitStatus() {
     final var command = Command.builder()
         .path(".")
-        .command(ImmutableList.of("cat", "doesnotexist.txt"))
+        .commands(ImmutableList.of("cat", "doesnotexist.txt"))
         .environment(ImmutableMap.of())
         .build();
     StepVerifier.create(service.execute(command))
@@ -109,12 +110,12 @@ public class ZtCommandServiceTest {
   public void shouldRunDockerCommands() {
     final var up = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "up", "-d"))
+        .commands(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     final var ps = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.octoperf/id",
             "--filter", "status=running",
@@ -123,7 +124,7 @@ public class ZtCommandServiceTest {
         .build();
     final var rename = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "rename",
             "test-nginx-STARTING",
             "test-nginx-READY"))
@@ -131,7 +132,7 @@ public class ZtCommandServiceTest {
         .build();
     final var down = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "down"))
+        .commands(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     final var upResult = service.execute(up).collectList().block();
@@ -169,18 +170,18 @@ public class ZtCommandServiceTest {
     final var path = Paths.get("testDir/echo").toAbsolutePath().toString();
     final var up = Command.builder()
         .path(path)
-        .command(Arrays.asList("docker-compose", "up"))
+        .commands(Arrays.asList("docker-compose", "up"))
         .environment(ImmutableMap.of())
         .build();
     final var down = Command.builder()
         .path(path)
-        .command(Arrays.asList("docker-compose", "down"))
+        .commands(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
 
     final var logsBuilder = ImmutableList.<String>builder();
 
-    waitFor(service.execute(up).doOnNext(logsBuilder::add), Mono.just("Done !"), Duration.ofSeconds(3));
+    waitFor(service.execute(up).doOnNext(logsBuilder::add), Mono.just("Done !"), Duration.ofSeconds(10));
 
     service.execute(down).subscribe(logsBuilder::add);
 
@@ -199,7 +200,7 @@ public class ZtCommandServiceTest {
     final var path = Paths.get("testDir/echo").toAbsolutePath().toString();
     final var cat = Command.builder()
         .path(path)
-        .command(Arrays.asList("cat", "docker-compose.yml"))
+        .commands(Arrays.asList("cat", "docker-compose.yml"))
         .environment(ImmutableMap.of())
         .build();
 

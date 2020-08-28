@@ -17,8 +17,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_CONTAINER_NAME;
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_TASKID;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabel.COM_OCTOPERF_CONTAINER_NAME;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabel.COM_OCTOPERF_TASKID;
 
 @Slf4j
 @Component
@@ -42,7 +42,7 @@ final class DockerContainerFindService implements ContainerFindService {
 
     final var command = Command.builder()
         .path(".")
-        .command(commandBuilder.build())
+        .commands(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 

@@ -20,7 +20,6 @@ import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class DockerContainerFindServiceTest {
@@ -44,7 +43,7 @@ public class DockerContainerFindServiceTest {
     final var container = FlatContainerTest.CONTAINER;
     final var command = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "ps",
             "--filter", "label=com.octoperf/taskId=" + container.getTaskId(),
             "--filter", "label=com.octoperf/containerName=" + container.getName(),

@@ -52,7 +52,7 @@ public class DockerContainerServiceTest {
     // Rename
     final var renameCommand = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "rename",
             containerId,
             containerName))
@@ -77,7 +77,7 @@ public class DockerContainerServiceTest {
     // Logs
     final var logsCommand = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "logs",
             "-f", containerId))
         .environment(ImmutableMap.of())
@@ -99,5 +99,17 @@ public class DockerContainerServiceTest {
   @Test
   public void shouldLogsId() {
     assertThat(service.logsId("task", "host", "container")).isEqualTo("task-host-container");
+  }
+
+  @Test
+  public void shouldFind() {
+    final var taskId = "taskId";
+    final var containerName = "containerName";
+    final var owner = Owner.PUBLIC;
+    final var flat = FlatContainerTest.CONTAINER;
+    given(findService.find(owner, taskId, containerName)).willReturn(Mono.just(flat));
+    final var result = service.find(owner, taskId, containerName).block();
+    assertThat(result).isNotNull();
+    assertThat(result).isEqualTo(flat);
   }
 }

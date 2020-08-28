@@ -5,11 +5,10 @@ import com.octoperf.kraken.tests.utils.ResourceUtils;
 import com.octoperf.kraken.tools.configuration.jackson.JacksonConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 

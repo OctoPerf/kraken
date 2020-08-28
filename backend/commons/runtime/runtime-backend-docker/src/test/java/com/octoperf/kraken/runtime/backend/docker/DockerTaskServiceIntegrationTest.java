@@ -9,6 +9,7 @@ import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
+@Tag("integration")
 @EnableAutoConfiguration
 public class DockerTaskServiceIntegrationTest {
 
@@ -37,14 +39,14 @@ public class DockerTaskServiceIntegrationTest {
   public void before() {
     final var up = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .command(Arrays.asList("docker-compose", "up", "-d"))
+        .commands(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
 
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .commands(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(clean).onErrorReturn("").blockLast();
@@ -54,7 +56,7 @@ public class DockerTaskServiceIntegrationTest {
   public void after() {
     final var down = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .command(Arrays.asList("docker-compose", "down"))
+        .commands(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(down).blockLast();

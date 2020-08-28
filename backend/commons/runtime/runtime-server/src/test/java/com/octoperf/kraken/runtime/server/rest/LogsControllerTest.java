@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import static com.octoperf.kraken.tests.utils.TestUtils.shouldPassNPE;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 public class LogsControllerTest extends RuntimeControllerTest {
 

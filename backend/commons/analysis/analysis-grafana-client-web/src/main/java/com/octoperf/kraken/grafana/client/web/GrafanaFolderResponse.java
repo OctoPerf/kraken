@@ -12,8 +12,10 @@ import lombok.Value;
 @Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ExcludeFromObfuscation
+@SuppressWarnings("squid:CommentedOutCodeLine")
 class GrafanaFolderResponse {
-  //  {"id":4,"uid":"1Pgj9_NMk","title":"test","url":"/grafana/dashboards/f/1Pgj9_NMk/test","hasAcl":false,"canSave":true,"canEdit":true,"canAdmin":true,"createdBy":"559fe423-214e-4061-8651-dfc24b86c057","created":"2020-08-27T14:20:14Z","updatedBy":"559fe423-214e-4061-8651-dfc24b86c057","updated":"2020-08-27T14:20:14Z","version":1}
+
+  // {"id":4,"uid":"1Pgj9_NMk","title":"test","url":"/grafana/dashboards/f/1Pgj9_NMk/test","hasAcl":false,"canSave":true,"canEdit":true,"canAdmin":true,"createdBy":"559fe423-214e-4061-8651-dfc24b86c057","created":"2020-08-27T14:20:14Z","updatedBy":"559fe423-214e-4061-8651-dfc24b86c057","updated":"2020-08-27T14:20:14Z","version":1}
 
   Long id;
   String uid;

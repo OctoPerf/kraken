@@ -1,7 +1,6 @@
 package com.octoperf.kraken.storage.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.octoperf.kraken.security.entity.owner.Owner;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

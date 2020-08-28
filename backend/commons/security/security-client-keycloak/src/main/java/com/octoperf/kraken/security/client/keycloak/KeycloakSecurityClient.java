@@ -17,8 +17,14 @@ import static lombok.AccessLevel.PRIVATE;
 @Slf4j
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
+@SuppressWarnings("squid:S2068")
 final class KeycloakSecurityClient implements SecurityClient {
 
+  private static final String CLIENT_ID = "client_id";
+  private static final String CLIENT_SECRET = "client_secret";
+  private static final String REFRESH_TOKEN = "refresh_token";
+  private static final String GRANT_TYPE = "grant_type";
+  private static final String PASSWORD = "password";
   @NonNull
   SecurityClientProperties properties;
   @NonNull
@@ -32,9 +38,9 @@ final class KeycloakSecurityClient implements SecurityClient {
         .post()
         .uri(uriBuilder -> uriBuilder.path(this.getOpenIdTokenUrl()).build())
         .body(BodyInserters.fromFormData("username", username)
-            .with("password", password)
-            .with("grant_type", "password")
-            .with("client_id", client.getId()))
+            .with(PASSWORD, password)
+            .with(GRANT_TYPE, PASSWORD)
+            .with(CLIENT_ID, client.getId()))
         .retrieve()
         .bodyToMono(KrakenToken.class), log)
         .doOnSubscribe(subscription -> log.info(String.format("User login %s", username)));
@@ -45,9 +51,9 @@ final class KeycloakSecurityClient implements SecurityClient {
     return retry(webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path(this.getOpenIdTokenUrl()).build())
-        .body(BodyInserters.fromFormData("client_id", client.getId())
-            .with("client_secret", client.getSecret())
-            .with("grant_type", "client_credentials"))
+        .body(BodyInserters.fromFormData(CLIENT_ID, client.getId())
+            .with(CLIENT_SECRET, client.getSecret())
+            .with(GRANT_TYPE, "client_credentials"))
         .retrieve()
         .bodyToMono(KrakenToken.class), log)
         .doOnSubscribe(subscription -> log.info(String.format("Client login %s", client.getId())));
@@ -59,9 +65,9 @@ final class KeycloakSecurityClient implements SecurityClient {
     return retry(webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path(this.getOpenIdTokenUrl()).build())
-        .body(BodyInserters.fromFormData("client_id", client.getId())
-            .with("client_secret", client.getSecret())
-            .with("grant_type", "urn:ietf:params:oauth:grant-type:token-exchange")
+        .body(BodyInserters.fromFormData(CLIENT_ID, client.getId())
+            .with(CLIENT_SECRET, client.getSecret())
+            .with(GRANT_TYPE, "urn:ietf:params:oauth:grant-type:token-exchange")
             .with("subject_token", accessToken)
             .with("requested_token_type", "urn:ietf:params:oauth:token-type:refresh_token")
             .with("audience", client.getId()))
@@ -76,10 +82,10 @@ final class KeycloakSecurityClient implements SecurityClient {
     return retry(webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path(this.getOpenIdTokenUrl()).build())
-        .body(BodyInserters.fromFormData("grant_type", "refresh_token")
-            .with("refresh_token", refreshToken)
-            .with("client_id", client.getId())
-            .with("client_secret", client.getSecret()))
+        .body(BodyInserters.fromFormData(GRANT_TYPE, REFRESH_TOKEN)
+            .with(REFRESH_TOKEN, refreshToken)
+            .with(CLIENT_ID, client.getId())
+            .with(CLIENT_SECRET, client.getSecret()))
         .retrieve()
         .bodyToMono(KrakenToken.class), log)
         .doOnSubscribe(subscription -> log.info(String.format("Refresh token %s", refreshToken)));
@@ -91,9 +97,9 @@ final class KeycloakSecurityClient implements SecurityClient {
     return retry(webClient
         .post()
         .uri(uriBuilder -> uriBuilder.path(this.getOpenIdTokenUrl()).build())
-        .body(BodyInserters.fromFormData("client_id", client.getId())
-            .with("client_secret", client.getSecret())
-            .with("grant_type", "urn:ietf:params:oauth:grant-type:token-exchange")
+        .body(BodyInserters.fromFormData(CLIENT_ID, client.getId())
+            .with(CLIENT_SECRET, client.getSecret())
+            .with(GRANT_TYPE, "urn:ietf:params:oauth:grant-type:token-exchange")
             .with("requested_subject", userId))
         .retrieve()
         .bodyToMono(KrakenToken.class), log)

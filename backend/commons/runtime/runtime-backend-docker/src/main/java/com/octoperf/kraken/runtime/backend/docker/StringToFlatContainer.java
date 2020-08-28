@@ -1,7 +1,7 @@
 package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.runtime.backend.api.EnvironmentLabels;
+import com.octoperf.kraken.runtime.backend.api.EnvironmentLabel;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
@@ -21,17 +21,17 @@ import static com.octoperf.kraken.security.entity.token.KrakenRole.USER;
 @Slf4j
 final class StringToFlatContainer implements Function<String, FlatContainer> {
 
-  public static String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",      EnvironmentLabels.COM_OCTOPERF_TASKID,
-      EnvironmentLabels.COM_OCTOPERF_TASKTYPE,
-      EnvironmentLabels.COM_OCTOPERF_CONTAINER_NAME,
-      EnvironmentLabels.COM_OCTOPERF_HOSTID,
-      EnvironmentLabels.COM_OCTOPERF_EXPECTED_COUNT,
-      EnvironmentLabels.COM_OCTOPERF_LABEL,
-      EnvironmentLabels.COM_OCTOPERF_APPLICATION_ID,
-      EnvironmentLabels.COM_OCTOPERF_PROJECT_ID,
-      EnvironmentLabels.COM_OCTOPERF_USER_ID,
-      EnvironmentLabels.COM_OCTOPERF_DESCRIPTION);
-  private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
+  public static final String FORMAT = String.format("{{.ID}};{{.Names}};{{.CreatedAt}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}};{{.Label \"%s\"}}",      EnvironmentLabel.COM_OCTOPERF_TASKID,
+      EnvironmentLabel.COM_OCTOPERF_TASKTYPE,
+      EnvironmentLabel.COM_OCTOPERF_CONTAINER_NAME,
+      EnvironmentLabel.COM_OCTOPERF_HOSTID,
+      EnvironmentLabel.COM_OCTOPERF_EXPECTED_COUNT,
+      EnvironmentLabel.COM_OCTOPERF_LABEL,
+      EnvironmentLabel.COM_OCTOPERF_APPLICATION_ID,
+      EnvironmentLabel.COM_OCTOPERF_PROJECT_ID,
+      EnvironmentLabel.COM_OCTOPERF_USER_ID,
+      EnvironmentLabel.COM_OCTOPERF_DESCRIPTION);
+  private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z z";
 
   @Override
   public FlatContainer apply(final String str) {

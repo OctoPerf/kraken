@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.time.Instant;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 // Start grafana before running
@@ -72,6 +73,7 @@ public class WebGrafanaClientIntegrationTest {
   @Test
   public void shouldCreateFolder() {
     final var id = grafanaUserClient.flatMap(client -> client.createFolder("someNewId", "TheTitle")).block();
+    assertThat(id).isNotNull();
     System.out.println(id);
   }
 
@@ -80,40 +82,47 @@ public class WebGrafanaClientIntegrationTest {
     final var dashboard = ResourceUtils.getResourceContent("grafana-gatling-dashboard-integration.json");
     final var imported = grafanaUserClient.flatMap(client -> client.getFolderId("someNewId")
         .flatMap(id -> client.importDashboard("guluilscfl", id, "Title", Instant.now().toEpochMilli(), dashboard))).block();
+    assertThat(imported).isNotNull();
     System.out.println(imported);
   }
 
   @Test
   public void shouldDeleteFolder() {
-    grafanaUserClient.flatMap(client -> client.deleteFolder("someNewId")).block();
+    final var result = grafanaUserClient.flatMap(client -> client.deleteFolder("someNewId")).block();
+    assertThat(result).isNotNull();
   }
 
   @Test
   public void shouldImportDashboard() throws IOException {
     final var dashboard = ResourceUtils.getResourceContent("grafana-gatling-dashboard-integration.json");
     final var imported = grafanaUserClient.flatMap(client -> client.importDashboard("c8m9z9pkdq", 2L, "Title", Instant.now().toEpochMilli(), dashboard)).block();
+    assertThat(imported).isNotNull();
     System.out.println(imported);
   }
 
   @Test
   public void shouldCreateUser() {
     final var user = grafanaAdminClient.createUser("userId", "test1@octoperf.com").block();
+    assertThat(user).isNotNull();
     System.out.println(user);
   }
 
   @Test
   public void shouldDeleteDashboard() {
-    grafanaUserClient.flatMap(client -> client.deleteDashboard("wghgcsbyz1")).block();
+    final var result = grafanaUserClient.flatMap(client -> client.deleteDashboard("wghgcsbyz1")).block();
+    assertThat(result).isNotNull();
   }
 
   @Test
   public void shouldCreateDatasource() {
-    grafanaUserClient.flatMap(GrafanaUserClient::createDatasource).block();
+    final var result = grafanaUserClient.flatMap(GrafanaUserClient::createDatasource).block();
+    assertThat(result).isNotNull();
   }
 
 
   @Test
   public void shouldDeleteUser() {
-    grafanaAdminClient.deleteUser("e9a8b7ec-5b94-4155-8ca3-77c754d31322").block();
+    final var result = grafanaAdminClient.deleteUser("e9a8b7ec-5b94-4155-8ca3-77c754d31322").block();
+    assertThat(result).isNotNull();
   }
 }

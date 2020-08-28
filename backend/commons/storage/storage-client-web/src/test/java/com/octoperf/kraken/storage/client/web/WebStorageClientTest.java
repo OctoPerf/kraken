@@ -9,7 +9,6 @@ import com.octoperf.kraken.analysis.entity.Result;
 import com.octoperf.kraken.analysis.entity.ResultStatus;
 import com.octoperf.kraken.analysis.entity.ResultTest;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
-import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.owner.Owner;
@@ -17,7 +16,6 @@ import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
-import com.octoperf.kraken.tools.configuration.jackson.MediaTypes;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -28,14 +26,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
@@ -271,7 +268,7 @@ public class WebStorageClientTest {
     server.enqueue(
         new MockResponse()
             .setResponseCode(200)
-            .setHeader(HttpHeaders.CONTENT_TYPE, MediaTypes.TEXT_YAML_VALUE)
+            .setHeader(HttpHeaders.CONTENT_TYPE, "text/yaml")
             .setBody(yamlMapper.writeValueAsString(result))
     );
 

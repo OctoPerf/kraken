@@ -8,9 +8,14 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-public interface JwtTestFactory {
+public class JwtTestFactory {
 
-   JwtTestFactory JWT_FACTORY = (final String token, final List<String> roles, final List<String> groups, final Optional<String> group) -> {
+  public static final JwtTestFactory JWT_FACTORY = new JwtTestFactory();
+
+  private JwtTestFactory() {
+  }
+
+  public Jwt create(final String token, final List<String> roles, final List<String> groups, final Optional<String> group) {
     final var rolesArray = new JSONArray();
     roles.forEach(rolesArray::appendElement);
     final var realmAccess = new JSONObject();
@@ -29,8 +34,6 @@ public interface JwtTestFactory {
 
     group.ifPresent(g -> jwt.claim("current_group", g));
     return jwt.build();
-  };
-
-  Jwt create(String token, List<String> roles, List<String> groups, Optional<String> group);
+  }
 
 }

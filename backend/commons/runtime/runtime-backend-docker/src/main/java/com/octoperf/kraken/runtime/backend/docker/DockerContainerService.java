@@ -36,7 +36,7 @@ final class DockerContainerService implements ContainerService {
     return this.findService.find(owner, taskId, containerName).flatMap(flatContainer -> Mono.fromCallable(() -> {
       final var command = Command.builder()
           .path(".")
-          .command(Arrays.asList("docker",
+          .commands(Arrays.asList("docker",
               "logs",
               "-f", containerId))
           .environment(ImmutableMap.of())
@@ -61,7 +61,7 @@ final class DockerContainerService implements ContainerService {
     return this.findService.find(owner, taskId, containerName).flatMap(flatContainer -> {
       final var command = Command.builder()
           .path(".")
-          .command(Arrays.asList("docker",
+          .commands(Arrays.asList("docker",
               "rename",
               containerId,
               containerStatusToName.apply(containerName, status)))

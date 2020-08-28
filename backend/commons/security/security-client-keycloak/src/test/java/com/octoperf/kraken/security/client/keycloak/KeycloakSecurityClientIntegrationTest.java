@@ -38,11 +38,6 @@ public class KeycloakSecurityClientIntegrationTest {
   }
 
   @Test
-  public void shouldImpersonateFail() throws IOException {
-    client.impersonate(properties.getApi(), "nope").block();
-  }
-
-  @Test
   public void shouldImpersonate() throws IOException {
     final var impersonated = client.impersonate(properties.getApi(), "e09920ef-843b-41d3-9478-b0621b81c600").block();
     assertThat(impersonated).isNotNull();

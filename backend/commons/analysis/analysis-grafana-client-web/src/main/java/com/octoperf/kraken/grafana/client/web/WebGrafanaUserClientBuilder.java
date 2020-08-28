@@ -7,7 +7,6 @@ import com.octoperf.kraken.grafana.client.api.GrafanaUser;
 import com.octoperf.kraken.grafana.client.api.GrafanaUserClient;
 import com.octoperf.kraken.grafana.client.api.GrafanaUserClientBuilder;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUser;
-import com.octoperf.kraken.security.entity.user.KrakenUser;
 import com.octoperf.kraken.template.api.TemplateService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

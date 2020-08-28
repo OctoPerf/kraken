@@ -7,6 +7,9 @@ import reactor.core.publisher.Mono;
 
 public class TestUtils {
 
+  private TestUtils() {
+  }
+
   public static <T> void shouldPassAll(T entity) {
     shouldPassEquals(entity.getClass());
     shouldPassNPE(entity.getClass());

@@ -156,7 +156,7 @@ final class FileSystemStorageService implements StorageService {
         final var file = resolved.toFile();
         if (!file.exists()) {
           if (!file.mkdir()) {
-            throw new IOException("Failed to create directory " + resolved);
+            sink.error(new IOException("Failed to create directory " + resolved));
           }
           sink.next(StorageWatcherEvent.builder()
               .node(toStorageNode.apply(resolved))

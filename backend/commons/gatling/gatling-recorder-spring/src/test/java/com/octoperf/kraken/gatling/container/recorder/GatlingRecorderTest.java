@@ -2,7 +2,6 @@ package com.octoperf.kraken.gatling.container.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.config.api.LocalRemoteProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.runtime.command.Command;
@@ -10,7 +9,6 @@ import com.octoperf.kraken.runtime.command.CommandService;
 import com.octoperf.kraken.runtime.command.CommandTest;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.storage.client.api.StorageClient;
-import com.octoperf.kraken.storage.entity.StorageNodeTest;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,6 @@ import reactor.core.publisher.Mono;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -73,7 +70,7 @@ public class GatlingRecorderTest extends AbstractContainerExecutorTest {
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
         .path(gatlingProperties.getHome())
-        .command(ImmutableList.of("ls", "-lR"))
+        .commands(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
     verify(commandService).execute(CommandTest.SHELL_COMMAND);

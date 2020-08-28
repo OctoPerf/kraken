@@ -3,7 +3,6 @@ package com.octoperf.kraken.runtime.client.web;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.runtime.client.api.RuntimeClient;
 import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
-import com.octoperf.kraken.runtime.client.api.RuntimeWatchClient;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 // Start a dev InfluxDB
@@ -39,12 +40,15 @@ public class WebInfluxDBClientIntegrationTest {
   @Test
   public void shouldCreateUserDB() {
     System.out.println("======================>");
-    System.out.println(client.createUser("userId").block());
+    final var user = client.createUser("userId").block();
+    assertThat(user).isNotNull();
+    System.out.println(user);
     System.out.println("<======================");
   }
 
   @Test
   public void shouldDropUserDB() {
-    client.deleteUser("userId").block();
+    final var result = client.deleteUser("userId").block();
+    assertThat(result).isNotNull();
   }
 }

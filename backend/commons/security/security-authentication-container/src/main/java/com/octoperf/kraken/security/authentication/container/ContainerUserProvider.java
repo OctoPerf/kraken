@@ -15,7 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.function.Function;
+import java.util.function.LongFunction;
 
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -38,12 +38,12 @@ class ContainerUserProvider extends AtomicUserProvider {
 
 
   @VisibleForTesting
-  Flux<String> periodicRefresh(final Function<Long, Mono<String>> refresh) {
+  Flux<String> periodicRefresh(final LongFunction<Mono<String>> refresh) {
     final var duration = Duration.ofSeconds(containerProperties.getRefreshExpiresIn())
         .minusSeconds(containerProperties.getRefreshMinValidity());
 
     return Flux.interval(Duration.ZERO, duration)
-        .flatMap(refresh);
+        .flatMap(refresh::apply);
   }
 
   @Override

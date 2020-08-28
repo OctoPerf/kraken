@@ -21,8 +21,7 @@ final class FileSystemStorageServiceBuilder implements StorageServiceBuilder {
   @Override
   public StorageService build(final Owner owner) {
     final var root = ownerToPath.apply(owner);
-    final var service = new FileSystemStorageService(owner, root, new FileSystemPathToStorageNode(root), ownerToPath, eventBus);
-    return service;
+    return new FileSystemStorageService(owner, root, new FileSystemPathToStorageNode(root), ownerToPath, eventBus);
   }
 
 }

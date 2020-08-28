@@ -64,14 +64,14 @@ public class SpringAuthenticatedClientBuilderTest {
   public void shouldCreateDefault() {
     final var client = factory.build(AuthenticatedClientBuildOrder.builder().build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, Owner.PUBLIC);
+    assertEquals(Owner.PUBLIC, client.owner);
   }
 
   @Test
   public void shouldCreateNoop() {
     final var client = factory.build(AuthenticatedClientBuildOrder.builder().mode(NOOP).build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, Owner.PUBLIC);
+    assertEquals(Owner.PUBLIC, client.owner);
   }
 
   @Test
@@ -104,7 +104,7 @@ public class SpringAuthenticatedClientBuilderTest {
         .applicationId("applicationId")
         .build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, OwnerTest.USER_OWNER);
+    assertEquals(OwnerTest.USER_OWNER, client.owner);
   }
 
   @Test

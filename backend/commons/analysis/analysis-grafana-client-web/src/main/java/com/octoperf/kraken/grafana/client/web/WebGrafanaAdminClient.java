@@ -1,7 +1,6 @@
 package com.octoperf.kraken.grafana.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.octoperf.kraken.config.grafana.api.GrafanaProperties;
 import com.octoperf.kraken.grafana.client.api.GrafanaAdminClient;
 import com.octoperf.kraken.grafana.client.api.GrafanaUser;
@@ -63,7 +62,7 @@ final class WebGrafanaAdminClient implements GrafanaAdminClient {
         .retrieve()
         .bodyToMono(String.class), log)
         .flatMap(orgResponse -> Mono.fromCallable(() -> {
-          final ArrayNode responseNode = (ArrayNode) mapper.readTree(orgResponse);
+          final var responseNode = mapper.readTree(orgResponse);
           return GrafanaUser.builder()
               .id(response.getId().toString())
               .email(email)

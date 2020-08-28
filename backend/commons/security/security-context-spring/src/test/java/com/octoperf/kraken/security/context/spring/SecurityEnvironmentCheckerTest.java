@@ -31,9 +31,7 @@ public class SecurityEnvironmentCheckerTest {
 
   @Test
   public void shouldFailCheck() {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      checker.accept(ImmutableMap.of());
-    });
+    Assertions.assertThrows(NullPointerException.class, () -> checker.accept(ImmutableMap.of()));
   }
 
   @Test
@@ -49,7 +47,7 @@ public class SecurityEnvironmentCheckerTest {
         .put(KRAKEN_SECURITY_EXPIRES_IN.name(), "value")
         .put(KRAKEN_SECURITY_REFRESH_EXPIRES_IN.name(), "value")
         .build();
-    checker.accept(env);
+    Assertions.assertDoesNotThrow(() -> checker.accept(env));
   }
 
   @Test

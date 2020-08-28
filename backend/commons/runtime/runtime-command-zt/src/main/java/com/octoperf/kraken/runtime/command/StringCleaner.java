@@ -2,10 +2,10 @@ package com.octoperf.kraken.runtime.command;
 
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 @Component
-final class StringCleaner implements Function<String, String> {
+final class StringCleaner implements UnaryOperator<String> {
 
   @Override
   public String apply(String s) {

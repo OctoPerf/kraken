@@ -50,7 +50,7 @@ final class TelegrafRunner {
       final var displayTelegrafConf = commands.execute(Command.builder()
           .path("/etc/telegraf")
           .environment(ImmutableMap.of())
-          .command(ImmutableList.of("cat", "telegraf.conf"))
+          .commands(ImmutableList.of("cat", "telegraf.conf"))
           .build());
       Optional.ofNullable(displayTelegrafConf.collectList()
           .block()).orElse(emptyList()).forEach(log::info);

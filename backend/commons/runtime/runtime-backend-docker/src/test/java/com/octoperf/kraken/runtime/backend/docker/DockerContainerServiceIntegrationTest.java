@@ -13,12 +13,12 @@ import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.security.entity.owner.OwnerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
@@ -29,6 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
+@Tag("integration")
+@SuppressWarnings("squid:S2925")
 public class DockerContainerServiceIntegrationTest {
 
   @Autowired
@@ -44,7 +46,7 @@ public class DockerContainerServiceIntegrationTest {
   public void before() {
     final var up = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "up", "-d"))
+        .commands(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
@@ -54,7 +56,7 @@ public class DockerContainerServiceIntegrationTest {
   public void after() {
     final var down = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "down"))
+        .commands(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(down).blockLast();

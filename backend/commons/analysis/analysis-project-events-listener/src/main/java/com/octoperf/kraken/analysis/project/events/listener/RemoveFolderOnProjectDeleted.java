@@ -3,7 +3,6 @@ package com.octoperf.kraken.analysis.project.events.listener;
 import com.octoperf.kraken.grafana.client.api.GrafanaUserClientBuilder;
 import com.octoperf.kraken.grafana.client.api.GrafanaUserConverter;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUserConverter;
-import com.octoperf.kraken.project.event.CreateProjectEvent;
 import com.octoperf.kraken.project.event.DeleteProjectEvent;
 import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
 import com.octoperf.kraken.tools.event.bus.EventBus;

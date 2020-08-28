@@ -1,7 +1,6 @@
 package com.octoperf.kraken.tools.sse.server;
 
 import com.google.common.collect.ImmutableMap;
-import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
 import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.client.api.StorageClientBuilder;

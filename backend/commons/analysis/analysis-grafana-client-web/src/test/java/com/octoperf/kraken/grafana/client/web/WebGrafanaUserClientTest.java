@@ -3,14 +3,15 @@ package com.octoperf.kraken.grafana.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
+import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.Application;
 import com.octoperf.kraken.config.grafana.api.GrafanaProperties;
 import com.octoperf.kraken.config.influxdb.api.InfluxDBProperties;
 import com.octoperf.kraken.grafana.client.api.GrafanaUser;
-import com.octoperf.kraken.grafana.client.api.GrafanaUserClient;
 import com.octoperf.kraken.grafana.client.api.GrafanaUserTest;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUser;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUserTest;
+import com.octoperf.kraken.template.api.TemplateService;
 import com.octoperf.kraken.tests.utils.ResourceUtils;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -39,8 +40,6 @@ public class WebGrafanaUserClientTest {
   private ObjectMapper mapper;
   private MockWebServer server;
   private WebGrafanaUserClient client;
-  private GrafanaUser grafanaUser;
-  private InfluxDBUser influxDBUser;
 
   @Autowired
   WebGrafanaUserClientBuilder clientBuilder;
@@ -50,11 +49,11 @@ public class WebGrafanaUserClientTest {
   @MockBean
   InfluxDBProperties influxDBProperties;
 
+  @Autowired
+  TemplateService templateService;
+
   @BeforeEach
   public void before() throws InterruptedException {
-    grafanaUser = GrafanaUserTest.GRAFANA_USER;
-    influxDBUser = InfluxDBUserTest.INFLUX_DB_USER;
-
     mapper = new ObjectMapper();
     server = new MockWebServer();
     final String url = server.url("/").toString();
@@ -65,7 +64,7 @@ public class WebGrafanaUserClientTest {
             .setResponseCode(200)
             .setHeader(HttpHeaders.SET_COOKIE, WebGrafanaUserClientBuilder.GRAFANA_SESSION + "=sessionId")
     );
-    client = (WebGrafanaUserClient) clientBuilder.build(grafanaUser, influxDBUser).block();
+    client = (WebGrafanaUserClient) clientBuilder.build(GrafanaUserTest.GRAFANA_USER, InfluxDBUserTest.INFLUX_DB_USER).block();
     final RecordedRequest loginRequest = server.takeRequest();
     assertThat(loginRequest.getPath()).isEqualTo("/login");
     assertThat(loginRequest.getBody().readUtf8()).isEqualTo("{\"user\":\"email\",\"password\":\"password\",\"email\":\"email\"}");
@@ -74,6 +73,17 @@ public class WebGrafanaUserClientTest {
   @AfterEach
   public void tearDown() throws IOException {
     server.shutdown();
+  }
+
+  @Test
+  public void shouldTestUtils() {
+    new NullPointerTester()
+        .setDefault(GrafanaUser.class, GrafanaUserTest.GRAFANA_USER)
+        .setDefault(InfluxDBUser.class, InfluxDBUserTest.INFLUX_DB_USER)
+        .setDefault(ObjectMapper.class, mapper)
+        .setDefault(InfluxDBProperties.class, influxDBProperties)
+        .setDefault(TemplateService.class, templateService)
+        .testConstructors(WebGrafanaUserClient.class, NullPointerTester.Visibility.PACKAGE);
   }
 
   @Test

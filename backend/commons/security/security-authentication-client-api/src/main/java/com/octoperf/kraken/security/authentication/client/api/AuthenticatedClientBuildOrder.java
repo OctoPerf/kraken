@@ -14,7 +14,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 @Builder(toBuilder = true)
 public class AuthenticatedClientBuildOrder {
 
-  public final static AuthenticatedClientBuildOrder NOOP = AuthenticatedClientBuildOrder.builder()
+  public static final AuthenticatedClientBuildOrder NOOP = AuthenticatedClientBuildOrder.builder()
       .mode(AuthenticationMode.NOOP)
       .build();
 

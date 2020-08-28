@@ -7,7 +7,6 @@ import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;

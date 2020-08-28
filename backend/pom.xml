@@ -16,8 +16,12 @@
     <description>Kraken</description>
 
     <properties>
+        <!-- Sonar -->
+        <sonar.jacoco.version>0.8.3</sonar.jacoco.version>
+        <!--Spring-->
         <start-class>com.octoperf.kraken.Application</start-class>
         <java.version>11</java.version>
+        <!--Dependencies-->
         <guava.version>29.0-jre</guava.version>
         <equalsverifier.version>3.4.1</equalsverifier.version>
         <findbugs.version>3.0.1</findbugs.version>
@@ -211,6 +215,30 @@
                 <configuration>
                     <excludedGroups>integration, license</excludedGroups>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${sonar.jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-and-report</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/../target/site/jacoco-aggregate</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

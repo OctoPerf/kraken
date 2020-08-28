@@ -10,12 +10,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.function.Function;
+import java.util.function.ToLongFunction;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-final class StringToTimestamp implements Function<String, Long> {
+final class StringToTimestamp implements ToLongFunction<String> {
 
   SimpleDateFormat format;
 
@@ -26,7 +26,7 @@ final class StringToTimestamp implements Function<String, Long> {
   }
 
   @Override
-  public Long apply(String dateStr) {
+  public long applyAsLong(String dateStr) {
     Date date;
     try {
       date = this.format.parse(dateStr);

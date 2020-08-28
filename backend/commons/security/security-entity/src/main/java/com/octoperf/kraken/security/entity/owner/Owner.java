@@ -2,26 +2,23 @@ package com.octoperf.kraken.security.entity.owner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
-import lombok.*;
-
-import static com.google.common.base.Strings.nullToEmpty;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.Value;
 
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static com.google.common.base.Strings.nullToEmpty;
 
 @Value
 @Builder(toBuilder = true)
 public class Owner {
 
-  public final static Owner PUBLIC = Owner.builder()
+  public static final Owner PUBLIC = Owner.builder()
       .type(OwnerType.PUBLIC)
       .build();
 

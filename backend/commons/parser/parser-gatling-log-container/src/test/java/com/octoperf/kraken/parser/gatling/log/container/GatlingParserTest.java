@@ -2,7 +2,6 @@ package com.octoperf.kraken.parser.gatling.log.container;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.analysis.entity.DebugEntryTest;
 import com.octoperf.kraken.config.gatling.api.GatlingLog;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
@@ -24,7 +23,6 @@ import reactor.core.publisher.Mono;
 import java.nio.file.Path;
 import java.time.Duration;
 
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -76,7 +74,7 @@ public class GatlingParserTest extends AbstractContainerExecutorTest {
     verify(writer).write(any());
     verify(commandService).execute(Command.builder()
         .path(gatling.getHome())
-        .command(ImmutableList.of("ls", "-lR"))
+        .commands(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
     assertThat(entries.build().size()).isBetween(38, 40);

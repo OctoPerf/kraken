@@ -31,6 +31,7 @@ import static lombok.AccessLevel.PACKAGE;
 @Component
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@SuppressWarnings("squid:S1602")
 final class GatlingRunner {
 
   @NonNull Mono<StorageClient> storageClientMono;
@@ -57,7 +58,7 @@ final class GatlingRunner {
       // List files
       final var listFiles = commands.execute(Command.builder()
           .path(gatling.getHome())
-          .command(ImmutableList.of("ls", "-lR"))
+          .commands(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
           .build());
       Optional.ofNullable(listFiles

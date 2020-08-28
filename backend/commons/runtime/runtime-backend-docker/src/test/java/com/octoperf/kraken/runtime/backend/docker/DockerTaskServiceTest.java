@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_TASKID;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabel.COM_OCTOPERF_TASKID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -72,6 +72,8 @@ public class DockerTaskServiceTest {
     final var context = ExecutionContextTest.EXECUTION_CONTEXT;
     final var logs = Flux.just("logs");
     given(commandService.execute(any())).willReturn(logs);
+    given(logsService.push(eq(context.getOwner()), eq(context.getTaskId()), eq(LogType.TASK), any()))
+        .willAnswer(invocation -> invocation.getArgument(3, Flux.class).subscribe());
 
     assertThat(service.execute(context).block()).isEqualTo(context);
 
@@ -79,7 +81,7 @@ public class DockerTaskServiceTest {
     verify(logsService).push(eq(context.getOwner()), eq(context.getTaskId()), eq(LogType.TASK), any());
 
     final var executed = commandCaptor.getValue();
-    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("docker-compose",
+    assertThat(executed.getCommands()).isEqualTo(Arrays.asList("docker-compose",
         "--no-ansi",
         "up",
         "-d",
@@ -125,7 +127,7 @@ public class DockerTaskServiceTest {
     verify(commandService).execute(commandCaptor.capture());
 
     final var executed = commandCaptor.getValue();
-    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q --filter label=%s=%s --filter ownerToFilter)", COM_OCTOPERF_TASKID, context.getTaskId())));
+    assertThat(executed.getCommands()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q --filter label=%s=%s --filter ownerToFilter)", COM_OCTOPERF_TASKID, context.getTaskId())));
   }
 
   @Test
@@ -137,14 +139,14 @@ public class DockerTaskServiceTest {
     verify(commandService).execute(commandCaptor.capture());
 
     final var executed = commandCaptor.getValue();
-    assertThat(executed.getCommand()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q --filter label=%s=%s --filter ownerToFilter)", COM_OCTOPERF_TASKID, context.getTaskId())));
+    assertThat(executed.getCommands()).isEqualTo(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(docker ps -a -q --filter label=%s=%s --filter ownerToFilter)", COM_OCTOPERF_TASKID, context.getTaskId())));
   }
 
   @Test
   public void shouldList() {
     final var listCommand = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .commands(Arrays.asList("docker",
             "ps",
             "-a",
             "--filter", "label=com.octoperf/taskId",

@@ -28,7 +28,7 @@ final class StorageUserEventsService extends UserEventsServiceAdapter {
     return Mono.fromCallable(() -> {
       log.info(String.format("Creating user folder for id %s", userId));
       if (!Paths.get(properties.getData(), "users", userId).toFile().mkdirs()) {
-        throw new RuntimeException("Failed to create user directory");
+        throw new IllegalStateException("Failed to create user directory");
       }
       return userId;
     });

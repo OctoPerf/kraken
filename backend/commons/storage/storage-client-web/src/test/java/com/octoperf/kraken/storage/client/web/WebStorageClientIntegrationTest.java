@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -48,24 +49,27 @@ public class WebStorageClientIntegrationTest {
   public void shouldDownloadFile() {
     final var testFile = Paths.get("gatling/README.md");
     final var outFile = Paths.get("testDir/intTest/README.txt");
-
-    storageClient.downloadFile(outFile, testFile.toString()).block();
+    StepVerifier.create(storageClient.downloadFile(outFile, testFile.toString()))
+        .expectComplete()
+        .verify();
   }
 
   @Test
   public void shouldDownloadFolder() {
     final var testFile = Paths.get("gatling/");
     final var outFile = Paths.get("testDir/intTest");
-
-    storageClient.downloadFolder(outFile, testFile.toString()).block();
+    StepVerifier.create(storageClient.downloadFolder(outFile, testFile.toString()))
+        .expectComplete()
+        .verify();
   }
 
   @Test
   public void shouldUploadFolder() {
     final var testFile = Paths.get("gatling/");
     final var outFile = Paths.get("testDir/zipDir");
-
-    storageClient.uploadFile(outFile, testFile.toString()).blockLast();
+    StepVerifier.create( storageClient.uploadFile(outFile, testFile.toString()))
+        .expectComplete()
+        .verify();
   }
 
   @Test

@@ -21,7 +21,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -136,6 +135,7 @@ final class WebStorageClient implements StorageClient {
   }
 
   @Override
+  @SuppressWarnings("squid:S2095")
   public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
     final Flux<DataBuffer> flux = this.getFile(remotePath);
     try {
@@ -151,6 +151,7 @@ final class WebStorageClient implements StorageClient {
   }
 
   @Override
+  @SuppressWarnings("squid:S2095")
   public Mono<Void> downloadFolder(final Path localParentFolderPath, final String path) {
     final var zipName = UUID.randomUUID().toString() + ".zip";
     final var zipPath = localParentFolderPath.resolve(zipName);
@@ -164,15 +165,10 @@ final class WebStorageClient implements StorageClient {
           .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
             ZipUtil.iterate(zipPath.toFile(), (inputStream, zipEntry) -> log.info(zipEntry.getName()));
-            try {
-              Files.delete(zipPath);
-            } catch (IOException e) {
-              log.error("Failed to delete downloaded Zip file", e);
-              throw new RuntimeException(e);
-            }
+            Files.delete(zipPath);
             return null;
           }));
-    } catch (FileNotFoundException e) {
+    } catch (IOException e) {
       log.error("Failed to download folder", e);
       return error(e);
     }

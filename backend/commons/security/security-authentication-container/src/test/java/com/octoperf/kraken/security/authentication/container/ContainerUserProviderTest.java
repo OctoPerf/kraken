@@ -16,10 +16,10 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
-import java.util.function.Function;
+import java.util.function.LongFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -36,7 +36,7 @@ public class ContainerUserProviderTest {
   @Mock
   SecurityClient client;
   @Mock
-  Function<Long, Mono<String>> refresh;
+  LongFunction<Mono<String>> refresh;
 
   ContainerUserProvider userProvider;
 
@@ -68,7 +68,7 @@ public class ContainerUserProviderTest {
 
   @Test
   public void shouldPeriodicRefresh() {
-    given(refresh.apply(any())).willAnswer(invocation -> Mono.just(invocation.getArgument(0).toString()));
+    given(refresh.apply(anyLong())).willAnswer(invocation -> Mono.just(invocation.getArgument(0).toString()));
 
     StepVerifier
         .withVirtualTime(() -> userProvider.periodicRefresh(refresh).take(3))

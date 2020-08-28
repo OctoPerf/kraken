@@ -39,10 +39,10 @@ final class SpringLogsService implements LogsService {
     Flux.interval(INTERVAL)
         .onErrorContinue((throwable, o) -> log.error("Failed to parse debug entry " + o, throwable))
         .subscribeOn(Schedulers.newSingle("LogsService", true))
-        .subscribe(this::sendLogs);
+        .subscribe(timestamp -> this.sendLogs());
   }
 
-  private void sendLogs(Long timestamp) {
+  private void sendLogs() {
     Log current;
     while ((current = logs.poll()) != null) {
       for (Map.Entry<Owner, FluxSink<Log>> listener : this.listeners.entrySet()) {

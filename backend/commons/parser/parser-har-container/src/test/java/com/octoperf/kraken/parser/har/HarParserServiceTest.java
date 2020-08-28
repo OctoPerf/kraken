@@ -1,6 +1,5 @@
 package com.octoperf.kraken.parser.har;
 
-import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.analysis.entity.DebugEntryTest;
 import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.config.har.parser.api.HarParserProperties;
@@ -20,7 +19,6 @@ import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
 
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

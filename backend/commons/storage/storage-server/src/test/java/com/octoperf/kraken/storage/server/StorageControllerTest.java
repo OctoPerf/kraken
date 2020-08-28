@@ -2,12 +2,15 @@ package com.octoperf.kraken.storage.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.octoperf.kraken.storage.entity.*;
+import com.octoperf.kraken.storage.entity.StorageNode;
+import com.octoperf.kraken.storage.entity.StorageNodeTest;
+import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
+import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
 import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
+import com.octoperf.kraken.tests.utils.TestUtils;
 import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import com.octoperf.kraken.tools.sse.SSEService;
-import com.octoperf.kraken.tests.utils.TestUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +33,6 @@ import static com.octoperf.kraken.storage.entity.StorageNodeType.DIRECTORY;
 import static com.octoperf.kraken.storage.entity.StorageWatcherEventTest.STORAGE_WATCHER_EVENT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 public class StorageControllerTest extends AuthControllerTest {
 

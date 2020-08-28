@@ -45,7 +45,7 @@ final class GatlingParser {
       // List files
       final var listFiles = commandService.execute(Command.builder()
           .path(Paths.get(gatling.getHome()).toString())
-          .command(ImmutableList.of("ls", "-lR"))
+          .commands(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
           .build());
       Optional.ofNullable(listFiles

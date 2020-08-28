@@ -50,7 +50,7 @@ final class HarParserService {
       // List files
       final var listFiles = commands.execute(Command.builder()
           .path(application.getData())
-          .command(ImmutableList.of("ls", "-lR"))
+          .commands(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
           .build());
       Optional.ofNullable(listFiles

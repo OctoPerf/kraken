@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("squid:S2925")
 public class SpringLogsServiceTest {
 
   SpringLogsService service;

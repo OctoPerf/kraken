@@ -6,11 +6,11 @@ import com.octoperf.kraken.config.influxdb.api.InfluxDBProperties;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUserConverter;
 import com.octoperf.kraken.influxdb.client.api.InfluxDBUserTest;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
-import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
-import com.octoperf.kraken.security.entity.user.KrakenUserTest;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntrySource;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
+import com.octoperf.kraken.security.admin.client.api.SecurityAdminClient;
+import com.octoperf.kraken.security.entity.user.KrakenUserTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,11 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
-
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
-import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 

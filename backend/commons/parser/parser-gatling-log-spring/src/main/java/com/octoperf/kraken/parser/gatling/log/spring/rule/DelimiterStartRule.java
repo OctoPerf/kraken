@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 final class DelimiterStartRule implements ParserRule {
 
-  final static String LINE = ">>>>>>>>>>>>>>>>>>>>>>>>>>";
+  static final String LINE = ">>>>>>>>>>>>>>>>>>>>>>>>>>";
 
   @NonNull
   ParserContext parserContext;
