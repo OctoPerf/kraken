@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 @Component
 @AllArgsConstructor
@@ -28,7 +28,6 @@ final class FileSystemOwnerToPath implements OwnerToPath {
       OwnerType.PUBLIC, (final Owner owner) -> Path.of("public"),
       OwnerType.APPLICATION, (@NonNull final Owner owner) -> Path.of("applications", owner.getApplicationId()),
       OwnerType.USER, (@NonNull final Owner owner) -> {
-        requireNonNull(owner);
         checkArgument(!owner.getUserId().isEmpty());
         if (owner.getRoles().contains(KrakenRole.ADMIN)) {
           // Admin users can edit default files for every application
@@ -43,7 +42,7 @@ final class FileSystemOwnerToPath implements OwnerToPath {
 
   @Override
   public Path apply(@NonNull final Owner owner) {
-    final var ownerPath = MAPPERS.get(owner.getType()).apply(owner);
+    final var ownerPath = ofNullable(MAPPERS.get(owner.getType()).apply(owner)).orElseThrow();
     return Paths.get(properties.getData()).resolve(ownerPath);
   }
 }

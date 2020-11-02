@@ -1,5 +1,11 @@
 @import 'app-variables';
 
+@mixin centered {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 @mixin clickable() {
   cursor: pointer;
 }
@@ -43,6 +49,14 @@
       opacity: 1;
     }
   }
+}
+
+@mixin input-no-bottom() {
+  margin-bottom: -1.34375em;
+}
+
+.centered {
+  @include centered();
 }
 
 .clickable {

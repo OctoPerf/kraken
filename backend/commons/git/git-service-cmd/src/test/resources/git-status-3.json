@@ -1,0 +1,23 @@
+{
+  "branch" : {
+    "oid" : "2f02907c933370aaa79c1cbae18c0b29461eae07",
+    "head" : "(detached)"
+  },
+  "changed" : [ {
+    "xy" : "A.",
+    "path" : ".gitignore"
+  }, {
+    "xy" : "A.",
+    "path" : "other2.txt"
+  } ],
+  "renamedCopied" : [ ],
+  "unmerged" : [ {
+    "xy" : "UD",
+    "path" : "README.md"
+  }, {
+    "xy" : "DU",
+    "path" : "other.txt"
+  } ],
+  "untracked" : [ ],
+  "ignored" : [ ]
+}

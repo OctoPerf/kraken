@@ -23,7 +23,9 @@ import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {SecurityModule} from 'projects/security/src/lib/security.module';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
-import {CurrentProjectModule} from 'projects/commons/src/lib/current-project/current-project.module';
+import {GitProjectModule} from 'projects/git/src/lib/git-project/git-project.module';
+import {GitCommandModule} from 'projects/git/src/lib/git-command/git-command.module';
+import {GitFileStatusModule} from 'projects/git/src/lib/git-file-status/git-file-status.module';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import {CurrentProjectModule} from 'projects/commons/src/lib/current-project/cur
     ResultsModule,
     RuntimeModule,
     SecurityModule,
-    CurrentProjectModule,
+    GitProjectModule,
+    GitCommandModule,
+    GitFileStatusModule,
   ],
   providers: [
     NotificationService,

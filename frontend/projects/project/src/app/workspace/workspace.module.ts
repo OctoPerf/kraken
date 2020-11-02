@@ -31,7 +31,7 @@ import {DefaultDialogsModule} from 'projects/dialog/src/lib/default-dialogs/defa
     ProjectModule
   ],
   providers: [
-    ProjectListResolverService
+    ProjectListResolverService,
   ]
 })
 export class WorkspaceModule {

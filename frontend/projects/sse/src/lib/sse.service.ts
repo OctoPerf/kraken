@@ -14,14 +14,16 @@ import {SSEWrapper} from 'projects/sse/src/lib/entities/sse-wrapper';
 import {SSEEvent} from 'projects/sse/src/lib/events/sse-event';
 import {SecurityService} from 'projects/security/src/lib/security.service';
 import {mergeMap} from 'rxjs/operators';
+import * as _ from 'lodash';
+import {ReloadEventSourceEvent} from 'projects/sse/src/lib/events/reload-event-source-event';
 
 @Injectable()
 export class SSEService implements OnDestroy, Observer<SSEWrapper> {
 
   _subscription: Subscription;
+  _reloadSubscription: Subscription;
   _retry: Retry;
   closed = false;
-  public reconnected: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private configuration: ConfigurationService,
               private sseConfiguration: SSEConfigurationService,
@@ -30,11 +32,13 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
               private security: SecurityService,
               retries: RetriesService) {
     this._retry = retries.get();
+    this._reloadSubscription = this.eventBus.of(ReloadEventSourceEvent.CHANNEL).subscribe(value => this.watch());
     this.watch();
   }
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
+    this._reloadSubscription.unsubscribe();
     this.closed = true;
   }
 
@@ -42,7 +46,10 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
     if (this._subscription) {
       this._subscription.unsubscribe();
     }
-    this._subscription = this.security.token.pipe(mergeMap(token => this.eventSourceService.newObservable(this.sseConfiguration.sseApiUrl(`/watch`), {
+    const watchUrl = this.sseConfiguration.sseApiUrl(`/watch`);
+    const channels = this.sseConfiguration.sseChannels();
+    const url = `${watchUrl}?channel=${_.join(channels, '&channel=')}`;
+    this._subscription = this.security.token.pipe(mergeMap(token => this.eventSourceService.newObservable(url, {
       converter: JSON.parse,
       headers: {
         'ApplicationId': this.configuration.applicationId,
@@ -76,7 +83,7 @@ export class SSEService implements OnDestroy, Observer<SSEWrapper> {
     }
     setTimeout(() => {
       this.watch();
-      this.reconnected.emit();
+      this.eventBus.publish(new ReloadEventSourceEvent());
     }, delay);
   }
 

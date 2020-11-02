@@ -4,6 +4,8 @@ VERSION := $(shell cat ../version.txt)
 KRAKEN_VERSION := $(VERSION)
 KRAKEN_LICENSE_ENTERPRISE := ../ee/license.jwt
 SPRING_PROFILES_ACTIVE := dev
+KRAKEN_UID := $(shell id -u)
+KRAKEN_GID := $(shell id -g)
 
 clean-all:
 	./mvnw clean
@@ -25,10 +27,17 @@ build-fast:
 serve: build-fast
 	./mvnw spring-boot:run -pl $(APP)
 
+copy-data:
+	sudo mkdir -p $(KRAKEN_DATA)
+	sudo chown -R $(KRAKEN_UID):$(KRAKEN_GID) $(KRAKEN_DATA)
+	cp -r applications/devData/ $(KRAKEN_DATA)
+
 serve-docker-all:
+	$(MAKE) copy-data KRAKEN_DATA=/home/kraken/docker
 	$(MAKE) serve APP=applications/application-docker-all
 
 serve-kubernetes-all:
+	$(MAKE) copy-data KRAKEN_DATA=/home/kraken/k8s
 	$(MAKE) serve APP=applications/ee/application-kubernetes-all
 
 # Creates a Spring boot application jar
@@ -42,7 +51,7 @@ echo:
 
 # SONAR
 sonar-start:
-	docker run -d --name sonarqube -p 9000:9000 sonarqube:lts
+	docker run -d --rm --name sonarqube -p 9000:9000 sonarqube:lts
 
 sonar:
 	./mvnw clean verify -fn

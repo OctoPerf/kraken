@@ -11,7 +11,6 @@ import {RouterProgressModule} from 'projects/components/src/lib/router-progress/
 import {SecurityModule} from 'projects/security/src/lib/security.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ProjectIdHeaderInterceptor} from 'projects/commons/src/lib/config/project-id-header-interceptor.service';
-import {CurrentProjectModule} from 'projects/commons/src/lib/current-project/current-project.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import {CurrentProjectModule} from 'projects/commons/src/lib/current-project/cur
     RouterProgressModule,
     HighlightModule,
     SecurityModule,
-    CurrentProjectModule,
   ],
   bootstrap: [AppComponent],
   providers: [

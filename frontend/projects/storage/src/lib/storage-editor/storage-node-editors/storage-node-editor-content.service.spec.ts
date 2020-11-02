@@ -17,6 +17,7 @@ import SpyObj = jasmine.SpyObj;
 import {of, throwError} from 'rxjs';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
+import {GitRefreshStorageEvent} from 'projects/git/src/lib/events/git-refresh-storage-event';
 
 export const storageNodeEditorContentServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageNodeEditorContentService', [
@@ -176,4 +177,27 @@ describe('StorageNodeEditorContentService', () => {
     httpTestingController.verify();
   }));
 
+  it('should refresh on git event', fakeAsync(() => {
+    const spy = spyOn(service, 'load');
+    service._node = testStorageFileNode();
+    service.state = 'loaded';
+    eventBus.publish(new GitRefreshStorageEvent());
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('should not refresh on git event', fakeAsync(() => {
+    const spy = spyOn(service, 'load');
+    service._node = null;
+    service.state = 'loaded';
+    eventBus.publish(new GitRefreshStorageEvent());
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it('should not refresh on git event', fakeAsync(() => {
+    const spy = spyOn(service, 'load');
+    service._node = testStorageFileNode();
+    service.state = 'loading';
+    eventBus.publish(new GitRefreshStorageEvent());
+    expect(spy).not.toHaveBeenCalled();
+  }));
 });

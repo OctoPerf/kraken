@@ -42,6 +42,8 @@ public class SecurityConfiguration {
         .pathMatchers("/user-events/**").hasAnyAuthority(API.name())
         // Project
         .pathMatchers("/project/**").hasAnyAuthority(USER.name())
+        // Git
+        .pathMatchers("/git/**").hasAnyAuthority(USER.name())
         // Test only
         .pathMatchers("/test/user/**").hasAnyAuthority(USER.name())
         .pathMatchers("/test/admin/**").hasAnyAuthority(ADMIN.name())

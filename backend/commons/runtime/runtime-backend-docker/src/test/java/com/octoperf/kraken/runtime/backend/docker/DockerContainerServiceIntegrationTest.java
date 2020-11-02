@@ -3,12 +3,12 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.log.Log;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.security.entity.owner.OwnerType;
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +37,7 @@ public class DockerContainerServiceIntegrationTest {
   DockerContainerService containerService;
 
   @Autowired
-  LogsService logsService;
+  TaskLogsService logsService;
 
   @Autowired
   CommandService commandService;
@@ -46,7 +46,7 @@ public class DockerContainerServiceIntegrationTest {
   public void before() {
     final var up = Command.builder()
         .path("./testDir")
-        .commands(Arrays.asList("docker-compose", "up", "-d"))
+        .args(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
@@ -56,7 +56,7 @@ public class DockerContainerServiceIntegrationTest {
   public void after() {
     final var down = Command.builder()
         .path("./testDir")
-        .commands(Arrays.asList("docker-compose", "down"))
+        .args(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(down).blockLast();

@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
@@ -36,11 +37,20 @@ public class ProjectController {
   }
 
   @PostMapping()
-  public Mono<Project> create(@RequestParam("applicationId") final String applicationId,
-                              @RequestParam("name") final String name) {
+  public Mono<Project> create(@RequestParam("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                              @RequestParam("name") @Size(min = 3, max = 64) final String name) {
     log.info(String.format("Create project %s", name));
     return this.userProvider.getOwner("", "")
         .flatMap(owner -> projectCrudService.create(owner, applicationId, name));
+  }
+
+  @PostMapping("/import")
+  public Mono<Project> importFromGit(@RequestParam("applicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                     @RequestParam("name") @Size(min = 3, max = 64) final String name,
+                                     @RequestParam("repositoryUrl") @Pattern(regexp = "git@[^\\:]+[\\:][^\\/:]+\\/.+\\.git") final String repositoryUrl) {
+    log.info(String.format("Create project %s", name));
+    return this.userProvider.getOwner("", "")
+        .flatMap(owner -> projectCrudService.importFromGit(owner, applicationId, name, repositoryUrl));
   }
 
   @PutMapping()

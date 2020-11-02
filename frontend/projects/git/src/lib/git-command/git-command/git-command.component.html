@@ -1,0 +1,29 @@
+<lib-not-connected-to-git *ngIf="!gitProject.isConnected()"></lib-not-connected-to-git>
+<div *ngIf="gitProject.isConnected()" fxLayout="column" id="git-command"
+     class="panel-vertical hover-show-parent-opacity">
+  <div fxFlex="none">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="panel-header-table-like">
+      <div fxFlex="grow" class="monospace text-ellipsis">
+        Connected to {{gitProject.configurationSubject.getValue().repositoryUrl}}
+      </div>
+      <div fxFlex="none" class="hover-show-child-opacity">
+        <button mat-icon-button matTooltip="Disconnect from Git repository" libDisconnectProject>
+          <lib-icon [icon]="disconnectIcon"></lib-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <lib-code-editor mode="log" [readonly]="true" fxFlex>
+  </lib-code-editor>
+  <div fxFlex="nogrow" class="git-input-wrapper">
+    <mat-form-field class="git-input" appearance="standard" color="accent" r>
+      <input matInput type="text" [(ngModel)]="input" (keyup.enter)="execute()">
+      <span matPrefix>> git&nbsp;</span>
+      <span matSuffix>
+        <button mat-icon-button matTooltip="Execute command" class="compact-button" (click)="execute()">
+          <lib-icon [icon]="executeIcon" [state]="loading ? 'loading' : ''"></lib-icon>
+        </button>
+      </span>
+    </mat-form-field>
+  </div>
+</div>

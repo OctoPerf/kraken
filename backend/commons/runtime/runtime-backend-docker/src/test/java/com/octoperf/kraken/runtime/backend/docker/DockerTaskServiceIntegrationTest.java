@@ -2,8 +2,8 @@ package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.security.entity.owner.Owner;
@@ -39,14 +39,14 @@ public class DockerTaskServiceIntegrationTest {
   public void before() {
     final var up = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .commands(Arrays.asList("docker-compose", "up", "-d"))
+        .args(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
 
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .commands(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .args(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(clean).onErrorReturn("").blockLast();
@@ -56,7 +56,7 @@ public class DockerTaskServiceIntegrationTest {
   public void after() {
     final var down = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .commands(Arrays.asList("docker-compose", "down"))
+        .args(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(down).blockLast();

@@ -9,8 +9,8 @@
         [title]="node.path + ' - ' +  (node.length | fileSize) + ' - '+ (node.lastModified | dateTimeToStringMs)"
         (click)="treeControl.nodeClick($event, node)"
         (dblclick)="treeControl.mouseNodeDoubleClick($event, node)">
-    <lib-icon class="m-r-xs" [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
-    {{node | storageNodeToName}}
+    <lib-icon [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
+    <span [class]="color | colorToTextClass">{{node | storageNodeToName}}</span>
   </span>
   <div fxFlex="none">
     <ng-template [cdkPortalOutlet]="nodeButtons"></ng-template>

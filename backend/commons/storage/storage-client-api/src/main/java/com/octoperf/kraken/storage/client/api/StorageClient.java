@@ -1,6 +1,7 @@
 package com.octoperf.kraken.storage.client.api;
 
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import lombok.NonNull;
@@ -11,7 +12,7 @@ import java.nio.file.Path;
 
 public interface StorageClient extends AuthenticatedClient {
 
-  Mono<Void> init();
+  Mono<Void> init(StorageInitMode mode);
 
   Mono<StorageNode> createFolder(String path);
 

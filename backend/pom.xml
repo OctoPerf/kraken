@@ -34,8 +34,7 @@
         <nimbus.version>8.19</nimbus.version>
         <kubernetes.version>9.0.0</kubernetes.version>
         <tika.version>1.24.1</tika.version>
-        <jgit.version>5.8.1.202007141445-r</jgit.version>
-        <jsch.version>0.1.55</jsch.version>
+        <plexus.version>3.3.0</plexus.version>
     </properties>
 
     <modules>
@@ -48,19 +47,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.eclipse.jgit</groupId>
-                <artifactId>org.eclipse.jgit</artifactId>
-                <version>${jgit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jgit</groupId>
-                <artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
-                <version>${jgit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.jcraft</groupId>
-                <artifactId>jsch</artifactId>
-                <version>${jsch.version}</version>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tika</groupId>
@@ -127,6 +116,12 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-bom.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-guava</artifactId>
+                <version>${jackson-bom.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava-testlib</artifactId>

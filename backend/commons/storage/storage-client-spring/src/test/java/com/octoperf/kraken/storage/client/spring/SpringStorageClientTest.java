@@ -3,11 +3,12 @@ package com.octoperf.kraken.storage.client.spring;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
-import com.octoperf.kraken.storage.entity.*;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
+import com.octoperf.kraken.storage.entity.StorageNode;
+import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.file.StorageService;
 import com.octoperf.kraken.storage.file.StorageServiceBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,8 +58,8 @@ public class SpringStorageClientTest {
 
   @Test
   public void shouldInit() {
-    given(storageService.init()).willReturn(Mono.empty());
-    final var response = client.init().block();
+    given(storageService.init(StorageInitMode.COPY)).willReturn(Mono.empty());
+    final var response = client.init(StorageInitMode.COPY).block();
     assertThat(response).isNull();
   }
 

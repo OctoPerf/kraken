@@ -4,7 +4,6 @@ import com.octoperf.kraken.config.runtime.server.api.RuntimeServerProperties;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TasksConfiguration;
-import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
@@ -47,12 +46,8 @@ final class SpringTaskConfigurationService implements TaskConfigurationService {
   }
 
   private Mono<StorageClient> ownerToStorageClient(final Owner owner) {
-    return storageClientBuilder
-        .build(AuthenticatedClientBuildOrder.builder()
-            .applicationId(owner.getApplicationId())
-            .projectId(owner.getProjectId())
-            .userId(owner.getUserId())
-            .mode(AuthenticationMode.SERVICE_ACCOUNT)
-            .build());
+    return storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .serviceAccount(owner)
+        .build());
   }
 }

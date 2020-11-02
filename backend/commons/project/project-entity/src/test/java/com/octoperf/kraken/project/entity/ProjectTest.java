@@ -1,10 +1,7 @@
 package com.octoperf.kraken.project.entity;
 
-import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
-
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 
 public class ProjectTest {
 
@@ -24,9 +21,9 @@ public class ProjectTest {
 
   @Test
   public void shouldPassNPE() {
-    new NullPointerTester()
-        .testConstructors(PROJECT.getClass(), PACKAGE);
+    TestUtils.shouldPassNPE(PROJECT.getClass());
   }
+
   @Test
   public void shouldPassToString() {
     TestUtils.shouldPassToString(PROJECT);

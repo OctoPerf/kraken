@@ -1,6 +1,7 @@
 @import 'app-font';
 @import 'app-util';
 @import 'app-filler';
+@import 'app-panel';
 
 :host {
   @include block-filler();
@@ -9,14 +10,9 @@
 .container {
   @include scrollable();
   @include block-filler();
+  @include focusable-panel();
   position: relative;
-  border: 1px solid $app-background-color;
   box-sizing: border-box;
-}
-
-.container:focus {
-  outline: none;
-  border-color: mat-color($app-primary);
 }
 
 .loading-shade, .no-data-shade {

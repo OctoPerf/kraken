@@ -1,5 +1,31 @@
+@import 'app-background';
+
 .fa-layers-counter {
   top: -5px;
   right: -5px;
   font-size: 2.2em;
+}
+
+.background-success {
+  .fa-layers-counter {
+    @include background-success();
+  }
+}
+
+.background-error {
+  .fa-layers-counter {
+    @include background-error();
+  }
+}
+
+.background-warn {
+  .fa-layers-counter {
+    @include background-warn();
+  }
+}
+
+.background-info {
+  .fa-layers-counter {
+    @include background-info();
+  }
 }

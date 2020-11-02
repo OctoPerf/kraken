@@ -31,4 +31,8 @@ export class WindowService {
   url(): string {
     return `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
   }
+
+  reload(): void {
+    window.location.reload();
+  }
 }

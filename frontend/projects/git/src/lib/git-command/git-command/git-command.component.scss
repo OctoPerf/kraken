@@ -1,0 +1,15 @@
+@import 'app-filler';
+@import 'app-util';
+@import 'app-font';
+
+.git-input-wrapper {
+  margin-top: -20px;
+
+  .git-input {
+    // TODO Monospace font causes _ chars to be hidden in the text input on chrome (works on FF)
+    //@include monospace();
+    @include block-filler-x();
+    @include input-no-bottom();
+  }
+
+}

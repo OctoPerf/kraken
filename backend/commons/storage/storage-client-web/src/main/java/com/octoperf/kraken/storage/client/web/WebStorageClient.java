@@ -2,6 +2,7 @@ package com.octoperf.kraken.storage.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.storage.client.api.StorageClient;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ final class WebStorageClient implements StorageClient {
   ObjectMapper yamlMapper;
 
   @Override
-  public Mono<Void> init() {
+  public Mono<Void> init(final StorageInitMode mode) {
     return Mono.error(new UnsupportedOperationException());
   }
 

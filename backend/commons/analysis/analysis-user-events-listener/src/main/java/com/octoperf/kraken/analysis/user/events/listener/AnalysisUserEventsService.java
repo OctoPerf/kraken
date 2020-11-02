@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-class AnalysisUserEventsService implements UserEventsService {
+final class AnalysisUserEventsService implements UserEventsService {
 
   @NonNull InfluxDBClientBuilder influxDBClientBuilder;
   @NonNull InfluxDBUserAppender influxDBUserAppender;

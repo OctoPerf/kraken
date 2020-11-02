@@ -3,14 +3,14 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import com.octoperf.kraken.runtime.entity.log.Log;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.tests.utils.ResourceUtils;
@@ -40,7 +40,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   @Autowired
   DockerTaskService taskService;
   @Autowired
-  LogsService logsService;
+  TaskLogsService logsService;
   @Autowired
   CommandService commandService;
 
@@ -48,7 +48,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   public void before() {
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .commands(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .args(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(clean).onErrorReturn("").blockLast();

@@ -173,13 +173,9 @@ final class SpringAnalysisService implements AnalysisService {
 
   private Mono<StorageClient> getImpersonateStorage(final Owner owner) {
     log.info(String.format("Impersonate owner %s for storage access", owner.toString()));
-    return storageClientBuilder
-        .build(AuthenticatedClientBuildOrder.builder()
-            .mode(AuthenticationMode.IMPERSONATE)
-            .userId(owner.getUserId())
-            .applicationId(owner.getApplicationId())
-            .projectId(owner.getProjectId())
-            .build());
+    return storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .impersonate(owner)
+        .build());
   }
 
 }

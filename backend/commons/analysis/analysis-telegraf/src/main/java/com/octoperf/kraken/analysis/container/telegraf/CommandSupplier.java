@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.config.influxdb.api.InfluxDBProperties;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
-import com.octoperf.kraken.runtime.command.Command;
+import com.octoperf.kraken.command.entity.Command;
 import com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -40,7 +40,7 @@ final class CommandSupplier implements Supplier<Command> {
             .put(KRAKEN_HOST_ID, container.getHostId())
             .build()
         )
-        .commands(ImmutableList.of("telegraf"))
+        .args(ImmutableList.of("telegraf"))
         .build();
   }
 }

@@ -152,6 +152,10 @@
       "security": [
         "dist/security/security",
         "dist/security"
+      ],
+      "git": [
+        "dist/git/git",
+        "dist/git"
       ]
     }
   }

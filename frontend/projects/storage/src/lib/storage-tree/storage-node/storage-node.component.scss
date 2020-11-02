@@ -1,4 +1,5 @@
 @import 'app-filler';
+@import 'app-margin';
 
 :host {
   @include block-filler();
@@ -15,5 +16,13 @@
 
 .node-label {
   padding-top: 5px;
-  padding-bottom: 5px
+  padding-bottom: 5px;
+
+  lib-icon {
+    @include m-r-xs();
+  }
+
+  span {
+    display: inline-block;
+  }
 }

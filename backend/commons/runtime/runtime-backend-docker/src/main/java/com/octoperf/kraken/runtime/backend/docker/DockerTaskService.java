@@ -3,13 +3,13 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.backend.api.TaskService;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import com.octoperf.kraken.runtime.entity.log.LogType;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,7 +39,7 @@ final class DockerTaskService implements TaskService {
 
   public static final String DOCKER_COMPOSE_YML = "docker-compose.yml";
   @NonNull CommandService commandService;
-  @NonNull LogsService logsService;
+  @NonNull TaskLogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull Function<Owner, List<String>> ownerToFilters;
 
@@ -54,7 +54,7 @@ final class DockerTaskService implements TaskService {
       final var path = this.createDockerComposeFolder(context.getTaskId(), template);
       final var command = Command.builder()
           .path(path.toString())
-          .commands(Arrays.asList("docker-compose",
+          .args(Arrays.asList("docker-compose",
               "--no-ansi",
               "up",
               "-d",
@@ -63,7 +63,10 @@ final class DockerTaskService implements TaskService {
           .build();
 
       // Automatically display logs stream
-      final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(path));
+      final var logs = commandService
+          .validate(command)
+          .flatMapMany(commandService::execute)
+          .doOnTerminate(() -> this.removeDockerComposeFolder(path));
       logsService.push(context.getOwner(), context.getTaskId(), LogType.TASK, logs);
       return context;
     });
@@ -88,11 +91,11 @@ final class DockerTaskService implements TaskService {
 
       return Command.builder()
           .path(this.createCommandFolder(context.getTaskId()).toString())
-          .commands(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
+          .args(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
           .environment(ImmutableMap.of())
           .build();
     })
-        .flatMap(command -> commandService.execute(command).collectList())
+        .flatMap(command -> commandService.validate(command).flatMapMany(commandService::execute).collectList())
         .map(str -> context);
   }
 
@@ -108,11 +111,12 @@ final class DockerTaskService implements TaskService {
 
     final var command = Command.builder()
         .path(".")
-        .commands(commandBuilder.build())
+        .args(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 
-    return commandService.execute(command)
+    return commandService.validate(command)
+        .flatMapMany(commandService::execute)
         .map(stringToFlatContainer);
   }
 

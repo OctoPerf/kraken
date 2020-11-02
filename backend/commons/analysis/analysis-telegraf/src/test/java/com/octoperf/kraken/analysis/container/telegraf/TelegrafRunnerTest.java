@@ -1,11 +1,10 @@
 package com.octoperf.kraken.analysis.container.telegraf;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.config.telegraf.api.TelegrafProperties;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
-import com.octoperf.kraken.runtime.command.CommandTest;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
+import com.octoperf.kraken.command.entity.CommandTest;
 import com.octoperf.kraken.runtime.container.predicate.TaskPredicate;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
@@ -22,7 +21,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -63,6 +61,7 @@ public class TelegrafRunnerTest extends AbstractContainerExecutorTest {
   @Test
   public void shouldInit() {
     final var entries = ImmutableList.builder();
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("conf", "content"));
     given(commandService.execute(CommandTest.SHELL_COMMAND)).willReturn(Flux.interval(Duration.ofMillis(400)).map(Object::toString).doOnNext(entries::add));
     given(runtimeClient.waitForPredicate(FlatContainerTest.CONTAINER, taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));

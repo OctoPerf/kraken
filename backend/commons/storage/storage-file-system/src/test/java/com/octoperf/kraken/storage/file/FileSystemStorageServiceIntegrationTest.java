@@ -5,6 +5,7 @@ import com.octoperf.kraken.Application;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import org.junit.Assert;
@@ -75,7 +76,7 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
-  public void shouldInitFail() throws IOException {
+  public void shouldInitFail() {
     final var serviceAdmin = serviceBuilder.build(Owner.builder()
         .applicationId("gatling")
         .projectId("project-id")
@@ -83,7 +84,7 @@ public class FileSystemStorageServiceIntegrationTest {
         .roles(ImmutableList.of(KrakenRole.ADMIN))
         .type(OwnerType.USER)
         .build());
-    create(serviceAdmin.init())
+    create(serviceAdmin.init(StorageInitMode.COPY))
         .expectError()
         .verify();
   }
@@ -98,7 +99,7 @@ public class FileSystemStorageServiceIntegrationTest {
         .roles(ImmutableList.of(KrakenRole.USER))
         .type(OwnerType.USER)
         .build());
-    create(serviceUser.init())
+    create(serviceUser.init(StorageInitMode.COPY))
         .expectComplete()
         .verify();
     assertThat(path.toFile().exists()).isTrue();
@@ -106,9 +107,27 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
+  public void shouldInitEmpty() throws IOException {
+    final var path = Path.of("testDir", "users", "user", "project-id", "gatling");
+    assertThat(path.toFile().exists()).isFalse();
+    final var serviceUser =serviceBuilder.build(Owner.builder().applicationId("gatling")
+        .userId("user")
+        .projectId("project-id")
+        .roles(ImmutableList.of(KrakenRole.USER))
+        .type(OwnerType.USER)
+        .build());
+    create(serviceUser.init(StorageInitMode.EMPTY))
+        .expectComplete()
+        .verify();
+    assertThat(path.toFile().exists()).isTrue();
+    assertThat(path.resolve("README.md").toFile().exists()).isFalse();
+    FileSystemUtils.deleteRecursively(Path.of("testDir", "users"));
+  }
+
+  @Test
   public void shouldList() {
     create(service.list())
-        .expectNextCount(32)
+        .expectNextCount(33)
         .expectComplete()
         .verify();
   }
@@ -351,6 +370,31 @@ public class FileSystemStorageServiceIntegrationTest {
     checkEvents(events);
   }
 
+  @Test
+  public void shouldExtractGitZip() {
+    final var events = ImmutableList.of(
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git/config").type(FILE).depth(2).length(287L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git/config").type(FILE).depth(2).length(287L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
+    );
+    final var path = "zipDir/git.zip";
+
+    checkResult(service.extractZip(path), events.subList(0, 2));
+
+    final var files = service.find("zipDir/_git", 1, ".*").map(StorageNode::getPath).collect(Collectors.toList()).block();
+    assertThat(files).isNotNull();
+    System.out.println(files);
+    assertThat(files.size()).isEqualTo(1);
+
+    create(service.delete(Collections.singletonList("zipDir/_git")))
+        .expectNextCount(2)
+        .expectComplete()
+        .verify();
+
+    checkEvents(events);
+
+  }
 
   @Test
   public void shouldSetRootFileFailRelativePath() {

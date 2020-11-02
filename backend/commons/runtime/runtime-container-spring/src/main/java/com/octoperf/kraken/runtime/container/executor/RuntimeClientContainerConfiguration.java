@@ -17,8 +17,7 @@ class RuntimeClientContainerConfiguration {
   public Mono<RuntimeClient> runtimeClient(@NonNull final RuntimeClientBuilder clientBuilder, @NonNull final ContainerProperties properties) {
     return clientBuilder.build(
         AuthenticatedClientBuildOrder.builder()
-            .applicationId(properties.getApplicationId())
-            .projectId(properties.getProjectId())
+            .container(properties.getApplicationId(), properties.getProjectId())
             .mode(AuthenticationMode.CONTAINER)
             .build()
     );

@@ -4,13 +4,9 @@ import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor
 import {MatDialog} from '@angular/material/dialog';
 import {Component} from '@angular/core';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import {of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
-import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/delete-dialog/delete-dialog.component';
-import {ConfirmDialogComponent} from 'projects/dialog/src/lib/default-dialogs/confirm-dialog/confirm-dialog.component';
-import {WaitDialogComponent} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog.component';
 import {InspectDialogComponent} from 'projects/dialog/src/lib/editor-dialogs/inspect-dialog/inspect-dialog.component';
 import {LogsDialogComponent} from 'projects/dialog/src/lib/editor-dialogs/logs-dialog/logs-dialog.component';
+import SpyObj = jasmine.SpyObj;
 
 export const editorDialogServiceSpy = () => {
   const spy = jasmine.createSpyObj('EditorDialogService', [

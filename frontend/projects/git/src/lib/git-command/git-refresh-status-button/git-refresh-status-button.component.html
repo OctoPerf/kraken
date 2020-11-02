@@ -1,0 +1,3 @@
+<button mat-icon-button [disabled]="loading" (click)="refresh()" matTooltip="Refresh Git status">
+  <lib-icon [icon]="refreshIcon" [state]="loading ? 'loading' : ''"></lib-icon>
+</button>

@@ -25,6 +25,7 @@ import SpyObj = jasmine.SpyObj;
 import {of} from 'rxjs';
 import {EventSourceService} from 'projects/sse/src/lib/event-source.service';
 import {Retry} from 'projects/tools/src/lib/retry';
+import {ReloadEventSourceEvent} from 'projects/sse/src/lib/events/reload-event-source-event';
 
 export const sseServiceSpy = () => {
   const spy = jasmine.createSpyObj('SSEService', [
@@ -83,24 +84,20 @@ describe('SSEService', () => {
   });
 
   it('should handle error', fakeAsync(() => {
-    const reconnected = spyOn(service.reconnected, 'emit');
     const watch = spyOn(service, 'watch');
     service.error(null);
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(watch).toHaveBeenCalled();
-    expect(reconnected).toHaveBeenCalled();
   }));
 
   it('should not handle error destroyed', fakeAsync(() => {
-    const reconnected = spyOn(service.reconnected, 'emit');
     const watch = spyOn(service, 'watch');
     service.ngOnDestroy();
     service.complete();
     expect(eventBus.publish).toHaveBeenCalledWith(jasmine.any(NotificationEvent));
     tick(1000);
     expect(watch).not.toHaveBeenCalled();
-    expect(reconnected).not.toHaveBeenCalled();
   }));
 
   it('should send event on LOG message', () => {

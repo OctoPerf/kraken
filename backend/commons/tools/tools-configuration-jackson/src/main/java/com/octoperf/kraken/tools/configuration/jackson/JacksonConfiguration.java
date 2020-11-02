@@ -14,6 +14,7 @@ public class JacksonConfiguration {
   @Bean("objectMapper")
   ObjectMapper objectMapper() {
     final var mapper = new ObjectMapper();
+    mapper.findAndRegisterModules();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     return mapper;
   }
@@ -21,6 +22,7 @@ public class JacksonConfiguration {
   @Bean("yamlObjectMapper")
   ObjectMapper yamlObjectMapper() {
     final var mapper = new ObjectMapper(new YAMLFactory());
+    mapper.findAndRegisterModules();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     return mapper;
   }

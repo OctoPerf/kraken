@@ -44,6 +44,28 @@ class ProjectControllerTest extends AuthControllerTest {
   }
 
   @Test
+  public void shouldCreateImport() {
+    final var project = ProjectTest.PROJECT;
+    final var appId = "gatling";
+    final var projectName = "projName";
+    final var repositoryUrl = "repositoryUrl";
+
+    given(projectCrudService.importFromGit(userOwner().toBuilder().applicationId("").projectId("").build(), appId, projectName, repositoryUrl)).willReturn(Mono.just(project));
+
+    webTestClient.post()
+        .uri(uriBuilder -> uriBuilder.path("/project/import")
+            .queryParam("applicationId", appId)
+            .queryParam("name", projectName)
+            .queryParam("repositoryUrl", repositoryUrl)
+            .build())
+        .header("Authorization", "Bearer user-token")
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(Project.class)
+        .isEqualTo(project);
+  }
+
+  @Test
   public void shouldDelete() {
     final var project = ProjectTest.PROJECT;
 

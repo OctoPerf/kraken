@@ -5,7 +5,6 @@ import com.octoperf.kraken.analysis.client.api.AnalysisClientBuilder;
 import com.octoperf.kraken.analysis.entity.DebugEntry;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
-import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -26,13 +25,9 @@ final class RemoteDebugEntryWriter implements DebugEntryWriter {
   public RemoteDebugEntryWriter(@NonNull ContainerProperties containerProperties,
                                 @NonNull AnalysisClientBuilder clientBuilder) {
     this.containerProperties = containerProperties;
-    this.clientMono = clientBuilder.build(
-        AuthenticatedClientBuildOrder.builder()
-            .mode(AuthenticationMode.CONTAINER)
-            .applicationId(containerProperties.getApplicationId())
-            .projectId(containerProperties.getProjectId())
-            .build()
-    );
+    this.clientMono = clientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .container(containerProperties.getApplicationId(), containerProperties.getProjectId())
+        .build());
   }
 
   @Override

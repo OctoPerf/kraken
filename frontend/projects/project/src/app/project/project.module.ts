@@ -11,6 +11,11 @@ import {ProjectItemComponent} from './project-item/project-item.component';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 import {DefaultDialogsModule} from 'projects/dialog/src/lib/default-dialogs/default-dialog.module';
 import {HelpModule} from 'projects/help/src/lib/help.module';
+import {ImportProjectComponent} from './import-project/import-project.component';
+import {ProjectNameInputComponent} from './project-name-input/project-name-input.component';
+import {ApplicationInputComponent} from './application-input/application-input.component';
+import {GitUserModule} from 'projects/git/src/lib/git-user/git-user.module';
+import {GitProjectModule} from 'projects/git/src/lib/git-project/git-project.module';
 
 @NgModule({
   declarations: [
@@ -18,10 +23,14 @@ import {HelpModule} from 'projects/help/src/lib/help.module';
     CreateProjectComponent,
     WelcomeComponent,
     ProjectItemComponent,
+    ImportProjectComponent,
+    ProjectNameInputComponent,
+    ApplicationInputComponent,
   ],
   exports: [
     ProjectListComponent,
     CreateProjectComponent,
+    ImportProjectComponent,
     WelcomeComponent,
   ],
   imports: [
@@ -33,6 +42,8 @@ import {HelpModule} from 'projects/help/src/lib/help.module';
     ToolsModule,
     DefaultDialogsModule,
     HelpModule,
+    GitUserModule,
+    GitProjectModule,
   ],
 })
 export class ProjectModule {

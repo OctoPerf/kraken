@@ -3,7 +3,7 @@ package com.octoperf.kraken.gatling.container.runner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
-import com.octoperf.kraken.runtime.command.Command;
+import com.octoperf.kraken.command.entity.Command;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -30,7 +30,7 @@ final class CommandSupplier implements Supplier<Command> {
           KRAKEN_GATLING_LOGS_DEBUG, gatling.getLogs().getDebug(),
             JAVA_OPTS, gatling.getJavaOpts())
         )
-        .commands(ImmutableList.of(
+        .args(ImmutableList.of(
             "./gatling.sh",
             "-s", gatling.getSimulation().getName(),
             "-rd", gatling.getDescription(),

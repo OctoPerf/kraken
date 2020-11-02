@@ -11,16 +11,16 @@ import {
   Output
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Ace, edit, require} from 'ace-builds';
+import {Ace, edit} from 'ace-builds';
 import {CodeService} from 'projects/editor/src/lib/code.service';
 import {CodeMode} from 'projects/editor/src/lib/code-editor/code-mode';
 import {Subscription} from 'rxjs';
 import * as _ from 'lodash';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
 import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
-import Editor = Ace.Editor;
 import {CodeSnippet} from 'projects/editor/src/lib/code-snippet';
 import {CodeSnippetService} from 'projects/editor/src/lib/code-snippet.service';
+import Editor = Ace.Editor;
 
 @Component({
   selector: 'lib-code-editor',
@@ -73,6 +73,15 @@ export class CodeEditorComponent implements OnInit, OnDestroy, AfterViewInit, Co
       enableSnippets: !!this.snippets.length,
       enableBasicAutocompletion: this.enableBasicAutoCompletion,
     } as any);
+
+    // Force editor to scroll to bottom when initialized with a value
+    let scrolled = false;
+    this._editor.renderer.on('afterRender', () => {
+      if (!scrolled) {
+        this.scrollToBottom();
+        scrolled = true;
+      }
+    });
   }
 
   ngAfterViewInit() {

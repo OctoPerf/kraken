@@ -5,8 +5,8 @@ import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.config.har.parser.api.HarParserProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
 import com.octoperf.kraken.parser.har.api.HarParser;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.tests.utils.TestUtils;
@@ -59,6 +59,7 @@ public class HarParserServiceTest extends AbstractContainerExecutorTest {
     given(harParser.parse(any())).willReturn(Flux.empty());
     given(storageClient.downloadFile(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(writer.write(any())).willReturn(Flux.just(DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY, DebugEntryTest.DEBUG_ENTRY));
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     given(harParserProperties.getLocal()).willReturn("localHarPath");
     given(harParserProperties.getRemote()).willReturn("remoteHarPath");

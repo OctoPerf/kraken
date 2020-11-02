@@ -2,8 +2,8 @@ package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
@@ -42,11 +42,12 @@ final class DockerContainerFindService implements ContainerFindService {
 
     final var command = Command.builder()
         .path(".")
-        .commands(commandBuilder.build())
+        .args(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 
-    return commandService.execute(command)
+    return commandService.validate(command)
+        .flatMapMany(commandService::execute)
         .map(stringToFlatContainer)
         .next();
   }

@@ -8,6 +8,7 @@ import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/del
 import {WaitDialogComponent} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog.component';
 import {WaitDialogProgress} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog-progress';
 import {DialogService} from 'projects/dialog/src/lib/dialog.service';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,10 @@ export class DefaultDialogService extends DialogService {
       data: progress,
       disableClose: true,
     });
+  }
+
+  public waitFor<T>(operation: Observable<T>, title = 'Please wait...'): Observable<T> {
+    const dialogRef = this.wait({title, progress: -1});
+    return operation.pipe(tap(x => dialogRef.close()));
   }
 }

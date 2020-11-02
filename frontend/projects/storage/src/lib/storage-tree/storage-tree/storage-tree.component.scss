@@ -2,6 +2,7 @@
 @import 'app-util';
 @import 'app-background';
 @import 'app-font';
+@import 'app-panel';
 
 :host {
   @include block-filler();
@@ -16,11 +17,6 @@
 }
 
 .storage-tree {
-  border: 1px solid $app-background-color;
+  @include focusable-panel();
   padding-top: 1px;
-}
-
-.storage-tree:focus {
-  outline: none;
-  border-color: mat-color($app-primary);
 }

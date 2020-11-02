@@ -12,6 +12,22 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>git-test</module>
+        <module>git-entity</module>
+        <module>git-service-api</module>
+        <module>git-server</module>
+        <module>git-user-events-listener</module>
+        <module>git-client-api</module>
+        <module>git-client-spring</module>
+        <module>git-storage-events-listener</module>
+        <module>git-service-cmd</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>tools-application</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>

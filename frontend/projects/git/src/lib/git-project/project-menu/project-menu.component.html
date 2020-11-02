@@ -1,0 +1,17 @@
+<button mat-button [matMenuTriggerFor]="accountMenu">
+  <lib-icon [icon]="menuIcon"></lib-icon>
+  <lib-current-project></lib-current-project>
+</button>
+
+<mat-menu #accountMenu="matMenu">
+  <button *ngIf="!gitProjectService.isConnected()" mat-menu-item libConnectProject
+          matTooltip="Connect to Git repository">
+    <lib-icon [icon]="connectIcon"></lib-icon>
+    Connect
+  </button>
+  <button *ngIf="gitProjectService.isConnected()" mat-menu-item libDisconnectProject
+          matTooltip="Disconnect from Git repository">
+    <lib-icon [icon]="disconnectIcon"></lib-icon>
+    Disconnect
+  </button>
+</mat-menu>

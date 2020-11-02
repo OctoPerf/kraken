@@ -88,6 +88,11 @@
   line-height: $app-line-height-sm;
 }
 
+@mixin font-md() {
+  font-size: $app-font-size;
+  line-height: $app-line-height;
+}
+
 @mixin font-lg() {
   font-size: $app-font-size-lg;
   line-height: $app-line-height-lg;
@@ -96,6 +101,14 @@
 @mixin font-size($ratio) {
   font-size: $app-font-size-sm * $ratio;
   line-height: $app-font-size-sm * $ratio;
+}
+
+@mixin monospace {
+  font-family: 'monospace';
+}
+
+.monospace {
+  @include monospace();
 }
 
 // Fonts

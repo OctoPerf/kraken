@@ -162,6 +162,12 @@
     },
     {
       "path": "./projects/project/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/git/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/git/tsconfig.spec.json"
     }
   ]
 }

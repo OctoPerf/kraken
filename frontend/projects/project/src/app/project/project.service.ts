@@ -42,11 +42,17 @@ export class ProjectService {
         applicationId,
         name,
       }
-    }).pipe(tap(project => {
-      const projects = this.projectsSubject.getValue();
-      projects.push(project);
-      this.projectsSubject.next(projects);
-    }));
+    }).pipe(tap(this.addProject.bind(this)));
+  }
+
+  public importFromGit(name: string, applicationId: string, repositoryUrl: string): Observable<Project> {
+    return this.http.post<Project>(this.configuration.projectApiUrl('/import'), null, {
+      params: {
+        applicationId,
+        name,
+        repositoryUrl,
+      }
+    }).pipe(tap(this.addProject.bind(this)));
   }
 
   public deleteProject(project: Project, force = false): Observable<string> {
@@ -65,5 +71,11 @@ export class ProjectService {
 
   public listProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.configuration.projectApiUrl('/list')).pipe(tap(_projects => this.projectsSubject.next(_projects)));
+  }
+
+  private addProject(project: Project): void {
+    const projects = this.projectsSubject.getValue();
+    projects.push(project);
+    this.projectsSubject.next(projects);
   }
 }

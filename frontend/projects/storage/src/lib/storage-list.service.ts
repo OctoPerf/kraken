@@ -15,6 +15,8 @@ import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes
 import {StorageNodeToParentPathPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-parent-path.pipe';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
+import {ReconnectedEventSourceEvent} from 'projects/sse/src/lib/events/reconnected-event-source-event';
+import {GitRefreshStorageEvent} from 'projects/git/src/lib/events/git-refresh-storage-event';
 
 @Injectable()
 export class StorageListService implements OnDestroy {
@@ -25,8 +27,8 @@ export class StorageListService implements OnDestroy {
   public readonly nodesDeleted: EventEmitter<StorageNode[]> = new EventEmitter<StorageNode[]>();
   public readonly nodesListed: EventEmitter<StorageNode[]> = new EventEmitter<StorageNode[]>();
   private readonly _eventSubscriptions: Subscription[] = [];
-  private readonly _watcherSubscription: Subscription;
-  private rootPath: string;
+  private readonly _subscriptions: Subscription[] = [];
+  private rootPath = '';
   private matcher: string;
   private maxDepth: number;
 
@@ -35,12 +37,12 @@ export class StorageListService implements OnDestroy {
               private toNode: NodeEventToNodePipe,
               private toName: StorageNodeToNamePipe,
               private toParentPath: StorageNodeToParentPathPipe,
-              private toPredicate: StorageNodeToPredicatePipe,
-              watcher: SSEService) {
-    this._watcherSubscription = watcher.reconnected.subscribe(this._refresh.bind(this));
+              private toPredicate: StorageNodeToPredicatePipe) {
+    this._subscriptions.push(eventBus.of(ReconnectedEventSourceEvent.CHANNEL).subscribe(this._refresh.bind(this)));
+    this._subscriptions.push(eventBus.of(GitRefreshStorageEvent.CHANNEL).subscribe(this._refresh.bind(this)));
   }
 
-  init(rootPath: string, matcher?: string, maxDepth?: number) {
+  init(rootPath = '', matcher?: string, maxDepth?: number) {
     this.nodes = [];
     this.rootPath = rootPath;
     this.matcher = matcher;
@@ -73,7 +75,7 @@ export class StorageListService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this._watcherSubscription.unsubscribe();
+    _.invokeMap(this._subscriptions, 'unsubscribe');
     this._clearEventSubscriptions();
   }
 

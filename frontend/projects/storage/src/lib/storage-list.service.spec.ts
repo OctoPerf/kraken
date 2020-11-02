@@ -22,7 +22,6 @@ import {PathToParentPathPipe} from 'projects/tools/src/lib/path-to-parent-path.p
 import {sseServiceSpy} from 'projects/sse/src/lib/sse.service.spec';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
 import SpyObj = jasmine.SpyObj;
-import Spy = jasmine.Spy;
 
 export const storageListServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageListService', [
@@ -46,11 +45,9 @@ describe('StorageListService', () => {
   let storage: SpyObj<StorageService>;
   let eventBus: EventBusService;
   let sseService: SpyObj<SSEService>;
-  let reconnectedSpy: Spy;
 
   beforeEach(() => {
     sseService = sseServiceSpy();
-    reconnectedSpy = spyOn(sseService.reconnected, 'subscribe').and.callThrough();
     TestBed.configureTestingModule({
       providers: [
         {provide: StorageService, useValue: storageServiceSpy()},
@@ -77,7 +74,6 @@ describe('StorageListService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    expect(reconnectedSpy).toHaveBeenCalled();
   });
 
   it('should set/get nodes', () => {

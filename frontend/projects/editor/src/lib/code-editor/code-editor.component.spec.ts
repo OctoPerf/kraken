@@ -5,13 +5,20 @@ import {CodeEditorComponent} from 'projects/editor/src/lib/code-editor/code-edit
 import {CodeService} from 'projects/editor/src/lib/code.service';
 import {codeServiceSpy} from 'projects/editor/src/lib/code.service.spec';
 import {EditorModule} from 'projects/editor/src/lib/editor.module';
-import {ChangeDetectorRef, Input} from '@angular/core';
-import SpyObj = jasmine.SpyObj;
+import {ChangeDetectorRef} from '@angular/core';
 import {changeDetectorSpy} from 'projects/commons/src/lib/mock/angular.mock.spec';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
 import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
 import {CodeSnippetService} from 'projects/editor/src/lib/code-snippet.service';
 import {codeSnippetServiceSpy} from 'projects/editor/src/lib/code-snippet.service.spec';
+import SpyObj = jasmine.SpyObj;
+
+export const codeEditorComponentSpy = () => {
+  const spy = jasmine.createSpyObj('CodeEditorComponent', [
+    'appendText',
+  ]);
+  return spy;
+};
 
 describe('CodeEditorComponent', () => {
   let component: CodeEditorComponent;

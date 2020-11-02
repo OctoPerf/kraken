@@ -1,0 +1,25 @@
+<lib-help-anchor pageId="PROJECT_CONNECT"></lib-help-anchor>
+<form [formGroup]="connectForm" autocomplete=off>
+  <h1 mat-dialog-title>
+    Connect Project to Git
+    <button mat-icon-button libOpenHelpExt>
+      <lib-icon [icon]="helpIcon"></lib-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <lib-repository-url-input
+      class="block-filler-x"
+      [formGroup]="connectForm">
+    </lib-repository-url-input>
+
+    <lib-ssh-public-key class="block-filler-x m-t m-b-sm"></lib-ssh-public-key>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
+    <button mat-button (click)="connect()"
+            type="submit" color="accent"
+            [disabled]="!connectForm.valid">
+      Connect
+    </button>
+  </div>
+</form>

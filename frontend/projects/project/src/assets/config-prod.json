@@ -9,5 +9,6 @@
     "clientId": "kraken-web"
   },
   "expectedRoles": ["USER"],
-  "availableApplications": ["gatling"]
+  "availableApplications": ["gatling"],
+  "sseChannels" : []
 }

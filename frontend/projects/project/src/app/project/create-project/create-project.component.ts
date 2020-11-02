@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ProjectConfigurationService} from 'projects/project/src/app/project/project-configuration.service';
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {ProjectService} from 'projects/project/src/app/project/project.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ProjectNameInputComponent} from 'projects/project/src/app/project/project-name-input/project-name-input.component';
+import {ApplicationInputComponent} from 'projects/project/src/app/project/application-input/application-input.component';
 
 @Component({
   selector: 'app-create-project',
@@ -12,35 +13,21 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class CreateProjectComponent {
 
   projectForm: FormGroup;
-  applications: string[];
+
+  @ViewChild(ProjectNameInputComponent, {static: true})
+  projectName: ProjectNameInputComponent;
+
+  @ViewChild(ApplicationInputComponent, {static: true})
+  applicationId: ApplicationInputComponent;
 
   constructor(private fb: FormBuilder,
-              private configuration: ProjectConfigurationService,
               private projectService: ProjectService,
               private router: Router,
               private route: ActivatedRoute) {
-    this.applications = this.configuration.availableApplications();
-    this.projectForm = this.fb.group({
-      projectName: ['', [
-        Validators.required,
-        Validators.maxLength(63),
-        Validators.minLength(4),
-      ]],
-      applicationId: [this.applications[0], [
-        Validators.required,
-      ]],
-    });
-  }
-
-  get projectName() {
-    return this.projectForm.get('projectName');
-  }
-
-  get applicationId() {
-    return this.projectForm.get('applicationId');
+    this.projectForm = this.fb.group({});
   }
 
   create() {
-    this.projectService.createProject(this.projectName.value, this.applicationId.value).subscribe(value => this.router.navigate(['..'], {relativeTo: this.route}));
+    this.projectService.createProject(this.projectName.projectName.value, this.applicationId.applicationId.value).subscribe(value => this.router.navigate(['..'], {relativeTo: this.route}));
   }
 }

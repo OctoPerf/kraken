@@ -7,8 +7,8 @@ import com.octoperf.kraken.config.gatling.api.GatlingLog;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
 import com.octoperf.kraken.parser.gatling.log.api.LogParser;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.container.predicate.TaskPredicate;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
@@ -65,6 +65,7 @@ public class GatlingParserTest extends AbstractContainerExecutorTest {
   public void shouldInit() {
     given(logParser.parse(any())).willReturn(Flux.empty());
     given(runtimeClient.waitForPredicate(FlatContainerTest.CONTAINER, taskPredicate)).willReturn(Mono.delay(Duration.ofSeconds(1)).map(aLong -> TaskTest.TASK));
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     final var entries = ImmutableList.builder();
     given(writer.write(any())).willReturn(Flux.interval(Duration.ofMillis(400)).map(aLong -> DebugEntryTest.DEBUG_ENTRY).doOnNext(entries::add));
@@ -74,7 +75,7 @@ public class GatlingParserTest extends AbstractContainerExecutorTest {
     verify(writer).write(any());
     verify(commandService).execute(Command.builder()
         .path(gatling.getHome())
-        .commands(ImmutableList.of("ls", "-lR"))
+        .args(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
     assertThat(entries.build().size()).isBetween(38, 40);

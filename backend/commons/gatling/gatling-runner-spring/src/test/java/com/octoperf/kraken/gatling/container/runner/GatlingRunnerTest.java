@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.config.api.LocalRemoteProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
-import com.octoperf.kraken.runtime.command.CommandTest;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
+import com.octoperf.kraken.command.entity.CommandTest;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
@@ -63,13 +63,14 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
   public void shouldInit() {
     given(storageClient.downloadFolder(any(Path.class), any())).willReturn(Mono.fromCallable(() -> null));
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Flux.just(StorageWatcherEventTest.STORAGE_WATCHER_EVENT));
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
     runner.init();
     verify(storageClient, times(3)).downloadFolder(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
     verify(commandService).execute(Command.builder()
         .path(gatlingProperties.getHome())
-        .commands(ImmutableList.of("ls", "-lR"))
+        .args(ImmutableList.of("ls", "-lR"))
         .environment(ImmutableMap.of())
         .build());
     verify(commandService).execute(CommandTest.SHELL_COMMAND);

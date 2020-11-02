@@ -4,7 +4,7 @@ import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/defa
 import {MatDialog} from '@angular/material/dialog';
 import {Component} from '@angular/core';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import {of} from 'rxjs';
+import {from, of} from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/delete-dialog/delete-dialog.component';
 import {ConfirmDialogComponent} from 'projects/dialog/src/lib/default-dialogs/confirm-dialog/confirm-dialog.component';
@@ -16,7 +16,9 @@ export const defaultDialogServiceSpy = () => {
   const spy = jasmine.createSpyObj('DefaultDialogService', [
     'open',
     'delete',
-    'confirm'
+    'confirm',
+    'wait',
+    'waitFor',
   ]);
   return spy;
 };
@@ -108,6 +110,15 @@ describe('DefaultDialogService', () => {
     expect(dialog.open).toHaveBeenCalledWith(WaitDialogComponent, {
       panelClass: DialogSize.SIZE_MD,
       data: {title: 'title', progress: 50},
+      disableClose: true,
+    });
+  });
+
+  it('should wait for', () => {
+    service.waitFor(from('test'), 'title');
+    expect(dialog.open).toHaveBeenCalledWith(WaitDialogComponent, {
+      panelClass: DialogSize.SIZE_MD,
+      data: {title: 'title', progress: -1},
       disableClose: true,
     });
   });

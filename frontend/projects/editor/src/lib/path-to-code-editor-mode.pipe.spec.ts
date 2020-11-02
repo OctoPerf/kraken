@@ -1,6 +1,5 @@
 import {PathToCodeEditorModePipe} from './path-to-code-editor-mode.pipe';
 import {TestBed} from '@angular/core/testing';
-import {FormatterService} from 'projects/editor/src/lib/formatter.service';
 
 describe('PathToCodeEditorModePipe', () => {
 

@@ -3,6 +3,7 @@ package com.octoperf.kraken.storage.client.spring;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.storage.client.api.StorageClient;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.file.StorageService;
@@ -27,8 +28,8 @@ final class SpringStorageClient implements StorageClient {
   ObjectMapper yamlMapper;
 
   @Override
-  public Mono<Void> init() {
-    return service.init();
+  public Mono<Void> init(final StorageInitMode mode) {
+    return service.init(mode);
   }
 
   @Override

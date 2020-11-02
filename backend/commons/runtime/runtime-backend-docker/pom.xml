@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>runtime-command-api</artifactId>
+            <artifactId>command-executor-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -53,7 +53,7 @@
         <!-- Used in integration tests-->
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>runtime-command-zt</artifactId>
+            <artifactId>command-executor-zt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

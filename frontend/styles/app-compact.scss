@@ -89,7 +89,21 @@
     margin-bottom: 0;
     list-style-type: none;
   }
+}
 
+@mixin compact-accordion($size: 34px) {
+  .mat-expansion-panel-header {
+    height: $size;
+    @include p-h-sm();
+  }
+
+  .mat-expansion-panel-header.mat-expanded {
+    height: $size * 1.2;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0;
+  }
 }
 
 @mixin compact() {
@@ -117,6 +131,10 @@
 
 .compact-stepper {
   @include compact-stepper();
+}
+
+.compact-accordion {
+  @include compact-accordion();
 }
 
 $nodeHeight: 26px;

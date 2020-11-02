@@ -3,7 +3,7 @@
 @import 'app-compact';
 @import 'app-util';
 
-@mixin panel-header(){
+@mixin panel-header() {
   @include block-filler-x();
   background-color: mat-color($app-background, 800);
   border-bottom: 1px solid mat-color($app-background, 700);
@@ -29,6 +29,16 @@
 
 @mixin panel-horizontal {
   @include block-filler-x();
+}
+
+@mixin focusable-panel {
+  // Also set the panel attribute tabindex="0" to allow the panel to take the focus
+  border: 1px solid $app-background-color;
+
+  &:focus {
+    outline: none;
+    border-color: mat-color($app-primary);
+  }
 }
 
 .panel-header {
@@ -59,4 +69,8 @@
     @include p();
     @include p-t-n();
   }
+}
+
+.focusable-panel {
+  @include focusable-panel();
 }

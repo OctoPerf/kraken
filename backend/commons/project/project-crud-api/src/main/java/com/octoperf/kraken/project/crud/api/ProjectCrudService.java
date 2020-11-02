@@ -13,6 +13,8 @@ public interface ProjectCrudService {
 
   Mono<Project> create(Owner owner, String applicationId, String name);
 
+  Mono<Project> importFromGit(Owner owner, String applicationId, String name, String repositoryUrl);
+
   Mono<Project> update(Owner owner, Project project);
 
   Mono<Boolean> delete(Owner owner, Project project);

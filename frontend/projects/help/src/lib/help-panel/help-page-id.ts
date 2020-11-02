@@ -32,4 +32,8 @@ export type HelpPageId = 'HOME'
   | 'ADMIN_HOSTS_TABLE'
   | 'PROJECT_LIST'
   | 'PROJECT_CREATE'
+  | 'PROJECT_IMPORT'
+  | 'PROJECT_CONNECT'
+  | 'GIT_COMMAND'
+  | 'GIT_STATUS'
   ;

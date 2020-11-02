@@ -20,7 +20,8 @@ export const projectServiceSpy = () => {
     'openProject',
     'updateProject',
     'createProject',
-    'deleteProject'
+    'deleteProject',
+    'importFromGit',
   ]);
   spy.projectsSubject = new BehaviorSubject([]);
   return spy;
@@ -83,6 +84,15 @@ describe('ProjectService', () => {
     const project = testProject();
     service.createProject('name', 'app').subscribe(data => expect(data).toBe(project), () => fail('create failed'));
     const request = httpTestingController.expectOne('projectApiUrl/project?applicationId=app&name=name');
+    expect(request.request.method).toBe('POST');
+    request.flush(project);
+    expect(service.projectsSubject.value).toEqual([project]);
+  });
+
+  it('should import project', () => {
+    const project = testProject();
+    service.importFromGit('name', 'app', 'repositoryUrl').subscribe(data => expect(data).toBe(project), () => fail('create failed'));
+    const request = httpTestingController.expectOne('projectApiUrl/project/import?applicationId=app&name=name&repositoryUrl=repositoryUrl');
     expect(request.request.method).toBe('POST');
     request.flush(project);
     expect(service.projectsSubject.value).toEqual([project]);

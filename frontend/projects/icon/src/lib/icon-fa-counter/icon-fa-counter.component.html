@@ -1,5 +1,5 @@
-<fa-layers>
+<fa-layers [title]="icon.contentColor">
   <fa-icon [icon]="icon.icon.icon" [ngClass]="[icon.icon.color | colorToTextClass]"
            [transform]="icon.icon.transform"></fa-icon>
-  <fa-layers-counter *ngIf="icon.content !== '0'" [content]="icon.content" [ngClass]="[icon.contentColor | colorToTextClass]"></fa-layers-counter>
+  <fa-layers-counter *ngIf="icon.content !== '0'" [content]="icon.content" [ngClass]="[icon.contentColor | colorToBackgroundClass]"></fa-layers-counter>
 </fa-layers>

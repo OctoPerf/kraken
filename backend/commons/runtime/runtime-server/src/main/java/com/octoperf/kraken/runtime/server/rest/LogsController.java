@@ -1,7 +1,7 @@
 package com.octoperf.kraken.runtime.server.rest;
 
 import com.octoperf.kraken.runtime.entity.log.Log;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.authentication.api.UserProvider;
 import com.octoperf.kraken.tools.sse.SSEService;
 import lombok.AccessLevel;
@@ -27,7 +27,7 @@ import javax.validation.constraints.Pattern;
 @Validated
 public class LogsController {
 
-  @NonNull LogsService logsService;
+  @NonNull TaskLogsService logsService;
   @NonNull UserProvider userProvider;
 
   @NonNull

@@ -38,5 +38,10 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_ATTACH_HOST: '/administration/hosts-table/',
 
   PROJECT_LIST: '/TODO list',
-  PROJECT_CREATE: '/TODO create'
+  PROJECT_CREATE: '/TODO create',
+  PROJECT_IMPORT: '/TODO import',
+  PROJECT_CONNECT: '/TODO connect',
+
+  GIT_COMMAND: 'TODO',
+  GIT_STATUS: 'TODO'
 };

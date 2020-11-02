@@ -1,15 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  OnInit,
-  Optional,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, Component, Inject, InjectionToken, OnInit, Optional, ViewChild} from '@angular/core';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons/faEllipsisV';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -28,7 +17,6 @@ import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
 import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
-import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {faCompress} from '@fortawesome/free-solid-svg-icons/faCompress';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';

@@ -5,6 +5,7 @@ import {CreateProjectComponent} from 'projects/project/src/app/project/create-pr
 import {WorkspaceComponent} from 'projects/project/src/app/workspace/workspace/workspace.component';
 import {ProjectListResolverService} from 'projects/project/src/app/project/project-list-resolver.service';
 import {SecurityGuard} from 'projects/security/src/lib/security.guard';
+import {ImportProjectComponent} from 'projects/project/src/app/project/import-project/import-project.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     canActivate: [SecurityGuard],
     canLoad: [SecurityGuard],
     resolve: {
-      projects: ProjectListResolverService
+      projects: ProjectListResolverService,
     },
     children: [
       {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateProjectComponent,
+      },
+      {
+        path: 'import',
+        component: ImportProjectComponent,
       },
     ]
   },

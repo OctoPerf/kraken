@@ -23,6 +23,7 @@
         <module>template</module>
         <module>tools</module>
         <module>project</module>
+        <module>command</module>
     </modules>
 
     <dependencies>

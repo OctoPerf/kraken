@@ -5,7 +5,7 @@ import com.octoperf.kraken.config.api.LocalRemoteProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingLog;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingSimulation;
-import com.octoperf.kraken.runtime.command.Command;
+import com.octoperf.kraken.command.entity.Command;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,7 +54,7 @@ public class CommandSupplierTest {
         .environment(ImmutableMap.of(KRAKEN_GATLING_LOGS_INFO, "infoLog",
           KRAKEN_GATLING_LOGS_DEBUG, "debugLog",
             JAVA_OPTS, "-Dfoo=\"bar\""))
-        .commands(of("./gatling.sh",
+        .args(of("./gatling.sh",
             "-s",
             "simulation",
             "-rd",
