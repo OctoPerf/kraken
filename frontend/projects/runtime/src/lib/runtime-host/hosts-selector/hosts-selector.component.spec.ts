@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import * as _ from 'lodash';
 import {HostsSelectorComponent} from './hosts-selector.component';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
@@ -17,7 +17,7 @@ describe('HostsSelectorComponent', () => {
   let hostService: SpyObj<RuntimeHostService>;
   let storage: SpyObj<LocalStorageService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     hostService = runtimeHostServiceSpy();
     storage = localStorageServiceSpy();
     TestBed.configureTestingModule({
@@ -44,7 +44,7 @@ describe('HostsSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load hosts', async(() => {
+  it('should load hosts', waitForAsync(() => {
     const hosts = testHosts();
     const ids = _.map(hosts, 'id');
     hostService.hosts.and.returnValue(of(hosts));
@@ -53,7 +53,7 @@ describe('HostsSelectorComponent', () => {
     expect(component.hosts.value).toEqual(ids);
   }));
 
-  it('should load host', async(() => {
+  it('should load host', waitForAsync(() => {
     const hosts = testHosts();
     const ids = _.map(hosts, 'id');
     hostService.hosts.and.returnValue(of(hosts));

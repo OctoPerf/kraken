@@ -1,16 +1,14 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {GitCommandComponent} from './git-command.component';
 import {GitProjectService} from 'projects/git/src/lib/git-project/git-project.service';
 import {GitCommandService} from 'projects/git/src/lib/git-command/git-command.service';
-import SpyObj = jasmine.SpyObj;
 import {gitProjectServiceSpy} from 'projects/git/src/lib/git-project/git-project.service.spec';
 import {gitCommandServiceSpy} from 'projects/git/src/lib/git-command/git-command.service.spec';
 import {of, throwError} from 'rxjs';
 import {codeEditorComponentSpy} from 'projects/editor/src/lib/code-editor/code-editor.component.spec';
-import {error} from 'ng-packagr/lib/utils/log';
-import {testHttpErrorResponse} from 'projects/commons/src/lib/config/rest-server-error.spec';
 import {RestServerError} from 'projects/commons/src/lib/config/rest-server-error';
+import SpyObj = jasmine.SpyObj;
 
 describe('GitCommandComponent', () => {
   let component: GitCommandComponent;
@@ -18,7 +16,7 @@ describe('GitCommandComponent', () => {
   let gitProject: SpyObj<GitProjectService>;
   let gitCommand: SpyObj<GitCommandService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     gitProject = gitProjectServiceSpy();
     gitCommand = gitCommandServiceSpy();
     TestBed.configureTestingModule({

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {TabsHeaderComponent} from './tabs-header.component';
 import {TabsModule} from '../tabs.module';
@@ -42,7 +42,7 @@ describe('TabsHeaderComponent', () => {
   let fixture: ComponentFixture<TabsHeaderComponent>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

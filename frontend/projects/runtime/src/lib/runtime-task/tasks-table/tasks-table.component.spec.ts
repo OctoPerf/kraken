@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {TasksTableComponent} from 'projects/runtime/src/lib/runtime-task/tasks-table/tasks-table.component';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
@@ -13,9 +13,9 @@ import * as _ from 'lodash';
 import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
 import {Task} from 'projects/runtime/src/lib/entities/task';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
-import SpyObj = jasmine.SpyObj;
 import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('TaskTableComponent', () => {
   let component: TasksTableComponent;
@@ -27,7 +27,7 @@ describe('TaskTableComponent', () => {
     'transform',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     taskService = runtimeTaskServiceSpy();
     dialogs = defaultDialogServiceSpy();
     TestBed.configureTestingModule({

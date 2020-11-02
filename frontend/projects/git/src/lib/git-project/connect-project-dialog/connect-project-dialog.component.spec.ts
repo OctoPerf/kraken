@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ConnectProjectDialogComponent} from 'projects/git/src/lib/git-project/connect-project-dialog/connect-project-dialog.component';
 import {MatDialogRef} from '@angular/material/dialog';
@@ -12,7 +12,7 @@ describe('ConnectProjectDialogComponent', () => {
   let fixture: ComponentFixture<ConnectProjectDialogComponent>;
   let dialogRef: SpyObj<MatDialogRef<ConnectProjectDialogComponent>>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogRef = dialogRefSpy();
     TestBed.configureTestingModule({
       declarations: [ConnectProjectDialogComponent],

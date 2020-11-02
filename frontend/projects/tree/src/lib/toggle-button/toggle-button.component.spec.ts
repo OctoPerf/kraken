@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ToggleButtonComponent} from './toggle-button.component';
 import {TreeModule} from '../tree.module';
@@ -9,7 +9,7 @@ describe('ToggleButtonComponent', () => {
   let component: ToggleButtonComponent;
   let fixture: ComponentFixture<ToggleButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule, TreeModule],
       providers: [

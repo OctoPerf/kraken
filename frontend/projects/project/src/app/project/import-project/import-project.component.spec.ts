@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ImportProjectComponent} from './import-project.component';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -11,9 +11,9 @@ import {projectNameInputComponentSpy} from 'projects/project/src/app/project/pro
 import {of} from 'rxjs';
 import {testProject} from 'projects/project/src/app/project/entities/project.spec';
 import {repositoryUrlInputComponentSpy} from 'projects/git/src/lib/git-project/repository-url-input/repository-url-input.component.spec';
-import SpyObj = jasmine.SpyObj;
 import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('ImportProjectComponent', () => {
   let component: ImportProjectComponent;
@@ -23,7 +23,7 @@ describe('ImportProjectComponent', () => {
   let projectService: SpyObj<ProjectService>;
   let dialogs: SpyObj<DefaultDialogService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     router = routerSpy();
     activatedRoute = activatedRouteSpy();
     projectService = projectServiceSpy();

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
 import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
 import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -37,7 +37,7 @@ describe('TabHeaderComponent', () => {
   let fixture: ComponentFixture<TabHeaderComponent>;
   let testTab: Tab;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     testTab = newTestTab(TestComponent);
 
     TestBed.configureTestingModule({

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {RepositoryUrlInputComponent} from 'projects/git/src/lib/git-project/repository-url-input/repository-url-input.component';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -16,7 +16,7 @@ describe('RepositoryUrlInputComponent', () => {
   let component: RepositoryUrlInputComponent;
   let fixture: ComponentFixture<RepositoryUrlInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RepositoryUrlInputComponent],
       imports: [VendorsModule],

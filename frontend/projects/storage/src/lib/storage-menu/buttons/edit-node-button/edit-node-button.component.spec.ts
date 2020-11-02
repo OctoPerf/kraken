@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {EditNodeButtonComponent} from './edit-node-button.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
@@ -8,7 +8,7 @@ describe('EditNodeButtonComponent', () => {
   let component: EditNodeButtonComponent;
   let fixture: ComponentFixture<EditNodeButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EditNodeButtonComponent],
       providers: [

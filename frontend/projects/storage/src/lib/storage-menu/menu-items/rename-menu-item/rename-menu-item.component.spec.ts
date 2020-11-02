@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {RenameMenuItemComponent} from './rename-menu-item.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
@@ -8,8 +8,8 @@ import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tre
 import {StorageTreeDataSourceService} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {storageTreeDataSourceServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service.spec';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
-import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode, testStorageRootNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('RenameMenuItemComponent', () => {
   let component: RenameMenuItemComponent;
@@ -18,7 +18,7 @@ describe('RenameMenuItemComponent', () => {
   let datasource: SpyObj<StorageTreeDataSourceService>;
   let storage: SpyObj<StorageService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     treeControl = storageTreeControlServiceSpy();
     datasource = storageTreeDataSourceServiceSpy();
     storage = storageServiceSpy();

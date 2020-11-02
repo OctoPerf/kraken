@@ -1,14 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { GitRenamedCopiedStatusTableComponent } from 'projects/git/src/lib/git-command/git-renamed-copied-status-table/git-renamed-copied-status-table.component';
-import {testGitFileStatus} from 'projects/git/src/lib/entities/git-file-status.spec';
+import {GitRenamedCopiedStatusTableComponent} from 'projects/git/src/lib/git-command/git-renamed-copied-status-table/git-renamed-copied-status-table.component';
 import {testRenamedCopiedStatus} from 'projects/git/src/lib/entities/git-renamed-copied-status.spec';
 
 describe('GitFileStatusTableComponent', () => {
   let component: GitRenamedCopiedStatusTableComponent;
   let fixture: ComponentFixture<GitRenamedCopiedStatusTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GitRenamedCopiedStatusTableComponent ]
     })

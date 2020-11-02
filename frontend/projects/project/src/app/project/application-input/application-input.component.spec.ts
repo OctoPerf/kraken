@@ -1,11 +1,11 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ApplicationInputComponent} from './application-input.component';
 import {ProjectConfigurationService} from 'projects/project/src/app/project/project-configuration.service';
 import {projectConfigurationServiceSpy} from 'projects/project/src/app/project/project-configuration.service.spec';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import SpyObj = jasmine.SpyObj;
 import {FormControl, FormGroup} from '@angular/forms';
+import SpyObj = jasmine.SpyObj;
 
 export const applicationInputComponentSpy = () => {
   const spy = jasmine.createSpyObj('ApplicationInputComponent', [
@@ -20,7 +20,7 @@ describe('ApplicationInputComponent', () => {
   let fixture: ComponentFixture<ApplicationInputComponent>;
   let projectConfiguration: SpyObj<ProjectConfigurationService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     projectConfiguration = projectConfigurationServiceSpy();
 
     TestBed.configureTestingModule({

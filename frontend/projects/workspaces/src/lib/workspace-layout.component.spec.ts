@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {WorkspaceLayoutComponent} from 'projects/workspaces/src/lib/workspace-layout.component';
 import {Component, NgModule} from '@angular/core';
@@ -37,7 +37,7 @@ describe('WorkspaceLayoutComponent', () => {
     20,
   );
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule]
     })

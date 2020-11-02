@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
 
 import * as _ from 'lodash';
 import {CodeEditorComponent} from 'projects/editor/src/lib/code-editor/code-editor.component';
@@ -27,7 +27,7 @@ describe('CodeEditorComponent', () => {
   let codeSnippetService: CodeSnippetService;
   let changeDetector: SpyObj<ChangeDetectorRef>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     codeService = codeServiceSpy();
     codeSnippetService = codeSnippetServiceSpy();
     changeDetector = changeDetectorSpy();

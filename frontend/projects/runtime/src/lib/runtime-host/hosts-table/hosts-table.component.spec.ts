@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {HostsTableComponent} from './hosts-table.component';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
@@ -8,9 +8,9 @@ import {of} from 'rxjs';
 import {testHost, testHosts} from 'projects/runtime/src/lib/entities/host.spec';
 import {AttachHostDialogComponent} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/attach-host-dialog/attach-host-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import SpyObj = jasmine.SpyObj;
 import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('HostsTableComponent', () => {
   let component: HostsTableComponent;
@@ -18,7 +18,7 @@ describe('HostsTableComponent', () => {
   let hostService: SpyObj<RuntimeHostService>;
   let dialogs: SpyObj<DefaultDialogService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogs = defaultDialogServiceSpy();
     hostService = runtimeHostServiceSpy();
     TestBed.configureTestingModule({

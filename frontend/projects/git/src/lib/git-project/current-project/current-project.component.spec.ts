@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {CurrentProjectComponent} from 'projects/git/src/lib/git-project/current-project/current-project.component';
 import {CurrentProjectService} from 'projects/git/src/lib/git-project/current-project/current-project.service';
@@ -8,7 +8,7 @@ describe('CurrentProjectComponent', () => {
   let component: CurrentProjectComponent;
   let fixture: ComponentFixture<CurrentProjectComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CurrentProjectComponent],
       providers: [

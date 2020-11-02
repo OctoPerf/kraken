@@ -1,17 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  InjectionToken,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional
-} from '@angular/core';
+import {Component, ElementRef, Inject, InjectionToken, Injector, Input, OnDestroy, Optional} from '@angular/core';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
-import {ComponentPortal, ComponentType, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {StorageNodeButtonsComponent} from 'projects/storage/src/lib/storage-menu/storage-node-buttons/storage-node-buttons.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -72,7 +62,11 @@ export class StorageNodeComponent implements OnDestroy {
   set hover(hover: boolean) {
     if (hover) {
       this.nodeButtons = new ComponentPortal(this.nodeButtonsType ? this.nodeButtonsType : StorageNodeButtonsComponent, null,
-        new PortalInjector(this.injector, new WeakMap([[STORAGE_NODE, this.node]])));
+        Injector.create({
+          providers: [
+            {provide: STORAGE_NODE, useValue: this.node},
+          ]
+        }));
     } else if (this.nodeButtons && this.nodeButtons.isAttached) {
       this.nodeButtons.detach();
     }

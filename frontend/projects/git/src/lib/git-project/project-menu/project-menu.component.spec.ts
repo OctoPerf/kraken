@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ProjectMenuComponent} from 'projects/git/src/lib/git-project/project-menu/project-menu.component';
 import {GitProjectService} from 'projects/git/src/lib/git-project/git-project.service';
@@ -10,7 +10,7 @@ describe('ProjectMenuComponent', () => {
   let fixture: ComponentFixture<ProjectMenuComponent>;
   let gitProjectService: SpyObj<GitProjectService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     gitProjectService = gitCommandServiceSpy();
     TestBed.configureTestingModule({
       declarations: [ProjectMenuComponent],

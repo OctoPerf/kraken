@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {ProjectService} from 'projects/project/src/app/project/project.service';
 import {projectServiceSpy} from 'projects/project/src/app/project/project.service.spec';
@@ -9,7 +9,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let projectService: SpyObj<ProjectService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     projectService = projectServiceSpy();
     TestBed.configureTestingModule({
       declarations: [AppComponent],

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {AccountMenuComponent} from './account-menu.component';
 import {SecurityService} from 'projects/security/src/lib/security.service';
@@ -8,7 +8,7 @@ describe('AccountMenuComponent', () => {
   let component: AccountMenuComponent;
   let fixture: ComponentFixture<AccountMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AccountMenuComponent],
       providers: [

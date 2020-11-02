@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {CreateProjectComponent} from './create-project.component';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -19,7 +19,7 @@ describe('CreateProjectComponent', () => {
   let activatedRoute: SpyObj<ActivatedRoute>;
   let projectService: SpyObj<ProjectService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     router = routerSpy();
     activatedRoute = activatedRouteSpy();
     projectService = projectServiceSpy();

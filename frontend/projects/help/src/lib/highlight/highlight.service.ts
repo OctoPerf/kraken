@@ -1,9 +1,10 @@
 import {Injectable, Injector} from '@angular/core';
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {
   HIGHLIGHT_DURATION_DATA,
-  HIGHLIGHT_RECT_DATA, HighlightBackdropComponent
+  HIGHLIGHT_RECT_DATA,
+  HighlightBackdropComponent
 } from 'projects/help/src/lib/highlight/highlight-backdrop/highlight-backdrop.component';
 
 @Injectable({
@@ -34,10 +35,13 @@ export class HighlightService {
       return;
     }
     const rect = element.getBoundingClientRect();
-    const injectorTokens = new WeakMap();
-    injectorTokens.set(HIGHLIGHT_RECT_DATA, rect);
-    injectorTokens.set(HIGHLIGHT_DURATION_DATA, duration);
-    const portal = new ComponentPortal(HighlightBackdropComponent, null, new PortalInjector(this.injector, injectorTokens));
+    const portal = new ComponentPortal(HighlightBackdropComponent, null,
+      Injector.create({
+        providers: [
+          {provide: HIGHLIGHT_RECT_DATA, useValue: rect},
+          {provide: HIGHLIGHT_DURATION_DATA, useValue: duration},
+        ]
+      }));
     this.overlayRef.attach(portal);
     setTimeout(() => {
       this.overlayRef.detach();

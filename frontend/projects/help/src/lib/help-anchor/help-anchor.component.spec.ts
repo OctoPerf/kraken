@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { HelpAnchorComponent } from './help-anchor.component';
+import {HelpAnchorComponent} from './help-anchor.component';
 
 describe('HelpAnchorComponent', () => {
   let component: HelpAnchorComponent;
   let fixture: ComponentFixture<HelpAnchorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HelpAnchorComponent ]
     })

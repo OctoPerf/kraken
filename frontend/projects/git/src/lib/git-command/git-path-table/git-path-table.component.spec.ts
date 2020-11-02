@@ -1,13 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { GitPathTableComponent } from 'projects/git/src/lib/git-command/git-path-table/git-path-table.component';
-import {testRenamedCopiedStatus} from 'projects/git/src/lib/entities/git-renamed-copied-status.spec';
+import {GitPathTableComponent} from 'projects/git/src/lib/git-command/git-path-table/git-path-table.component';
 
 describe('GitFileStatusTableComponent', () => {
   let component: GitPathTableComponent;
   let fixture: ComponentFixture<GitPathTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GitPathTableComponent ]
     })

@@ -13,7 +13,6 @@ import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tre
 import {storageTreeDataSourceServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service.spec';
 import {testStorageRootNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {keyBindingsServiceSpy} from 'projects/tools/src/lib/key-bindings.service.spec';
-import {StorageNodeComponent} from 'projects/storage/src/lib/storage-tree/storage-node/storage-node.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';

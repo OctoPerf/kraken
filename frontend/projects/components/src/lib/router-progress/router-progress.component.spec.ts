@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
 import {of} from 'rxjs';
@@ -12,7 +12,7 @@ describe('RouterProgressComponent', () => {
   let fixture: ComponentFixture<RouterProgressComponent>;
   let router: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RouterProgressComponent],
       imports: [VendorsModule, CoreTestModule],

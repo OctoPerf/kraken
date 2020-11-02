@@ -1,20 +1,18 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {OpenGatlingReportsDialogComponent} from './open-gatling-reports-dialog.component';
 import {of, throwError} from 'rxjs';
 import {testResult, testResultNode} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
-import {WindowService} from 'projects/tools/src/lib/window.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysis-configuration.service.spec';
-import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageStaticService} from 'projects/storage/src/lib/storage-static.service';
 import {storageStaticServiceSpy} from 'projects/storage/src/lib/storage-static.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('OpenGatlingReportsDialogComponent', () => {
   let component: OpenGatlingReportsDialogComponent;
@@ -23,7 +21,7 @@ describe('OpenGatlingReportsDialogComponent', () => {
   let analysisConfiguration: SpyObj<AnalysisConfigurationService>;
   let storageStatic: SpyObj<StorageStaticService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     storage = storageServiceSpy();
     analysisConfiguration = analysisConfigurationServiceSpy();
     storageStatic = storageStaticServiceSpy();

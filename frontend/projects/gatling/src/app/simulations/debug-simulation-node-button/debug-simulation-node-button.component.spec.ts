@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {DebugSimulationNodeButtonComponent} from 'projects/gatling/src/app/simulations/debug-simulation-node-button/debug-simulation-node-button.component';
 import {SimulationService} from 'projects/gatling/src/app/simulations/simulation.service';
@@ -8,7 +8,7 @@ describe('DebugSimulationNodeButtonComponent', () => {
   let component: DebugSimulationNodeButtonComponent;
   let fixture: ComponentFixture<DebugSimulationNodeButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DebugSimulationNodeButtonComponent],
       providers: [

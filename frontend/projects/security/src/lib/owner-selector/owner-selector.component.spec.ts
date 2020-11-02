@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {OwnerSelectorComponent} from './owner-selector.component';
 import {FormGroup} from '@angular/forms';
@@ -9,7 +9,7 @@ describe('OwnerSelectorComponent', () => {
   let component: OwnerSelectorComponent;
   let fixture: ComponentFixture<OwnerSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OwnerSelectorComponent]
     })

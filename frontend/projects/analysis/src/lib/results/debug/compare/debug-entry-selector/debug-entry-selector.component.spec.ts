@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {DebugEntrySelectorComponent} from 'projects/analysis/src/lib/results/debug/compare/debug-entry-selector/debug-entry-selector.component';
 import {testResult, testResultDebug} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
@@ -8,7 +8,7 @@ describe('DebugEntrySelectorComponent', () => {
   let component: DebugEntrySelectorComponent;
   let fixture: ComponentFixture<DebugEntrySelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DebugEntrySelectorComponent]
     })

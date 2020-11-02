@@ -1,6 +1,6 @@
-import {Component, InjectionToken, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {SideConfiguration} from 'projects/workspaces/src/lib/side-configuration';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import {EMPTY_TABS_CONFIG, TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
@@ -52,9 +52,11 @@ export class WorkspaceComponent implements OnInit {
 
     const adminTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, ROOT_NODE],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE}
+        ]
+      }));
 
     this.left = new SideConfiguration(
       new TabsConfiguration(

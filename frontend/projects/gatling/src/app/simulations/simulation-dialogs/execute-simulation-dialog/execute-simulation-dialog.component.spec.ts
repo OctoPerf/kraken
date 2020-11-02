@@ -1,19 +1,19 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ExecuteSimulationDialogComponent} from './execute-simulation-dialog.component';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {ExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment';
-import SpyObj = jasmine.SpyObj;
 import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
+import SpyObj = jasmine.SpyObj;
 
 describe('ExecuteSimulationDialogComponent', () => {
   let component: ExecuteSimulationDialogComponent;
   let fixture: ComponentFixture<ExecuteSimulationDialogComponent>;
   let dialogRef: SpyObj<MatDialogRef<ExecuteSimulationDialogComponent>>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogRef = dialogRefSpy();
     TestBed.configureTestingModule({
       imports: [VendorsModule],

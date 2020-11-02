@@ -1,17 +1,17 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ProjectListComponent} from './project-list.component';
 import {ProjectService} from 'projects/project/src/app/project/project.service';
 import {projectServiceSpy} from 'projects/project/src/app/project/project.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {testProjects} from 'projects/project/src/app/project/entities/project.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
   let fixture: ComponentFixture<ProjectListComponent>;
   let projectService: SpyObj<ProjectService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     projectService = projectServiceSpy();
     TestBed.configureTestingModule({
       declarations: [ProjectListComponent],

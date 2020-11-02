@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {StorageNodeTabHeaderComponent} from './storage-node-tab-header.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -10,7 +10,7 @@ describe('StorageNodeTabHeaderComponent', () => {
   let fixture: ComponentFixture<StorageNodeTabHeaderComponent>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     eventBus = eventBusSpy();
     TestBed.configureTestingModule({
       declarations: [StorageNodeTabHeaderComponent],

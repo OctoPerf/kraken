@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ProjectNameInputComponent} from './project-name-input.component';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
@@ -16,7 +16,7 @@ describe('ProjectNameInputComponent', () => {
   let component: ProjectNameInputComponent;
   let fixture: ComponentFixture<ProjectNameInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectNameInputComponent],
       imports: [VendorsModule],

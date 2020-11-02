@@ -1,17 +1,17 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SshPublicKeyComponent} from './ssh-public-key.component';
-import SpyObj = jasmine.SpyObj;
 import {GitUserService} from 'projects/git/src/lib/git-user/git-user.service';
 import {gitUserServiceSpy} from 'projects/git/src/lib/git-user/git-user.service.spec';
 import {of} from 'rxjs';
+import SpyObj = jasmine.SpyObj;
 
 describe('SshPublicKeyComponent', () => {
   let component: SshPublicKeyComponent;
   let fixture: ComponentFixture<SshPublicKeyComponent>;
   let gitUserService: SpyObj<GitUserService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     gitUserService = gitUserServiceSpy();
     gitUserService.publicKey.and.returnValue(of('publicKey'));
     TestBed.configureTestingModule({

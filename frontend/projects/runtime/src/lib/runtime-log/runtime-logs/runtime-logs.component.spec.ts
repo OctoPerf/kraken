@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {RUNTIME_LOGS, RuntimeLogsComponent} from './runtime-logs.component';
 import {ReplaySubject} from 'rxjs';
@@ -9,7 +9,7 @@ describe('RuntimeLogsComponent', () => {
   let fixture: ComponentFixture<RuntimeLogsComponent>;
   let logs: ReplaySubject<Log>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     logs = new ReplaySubject();
     TestBed.configureTestingModule({
       declarations: [RuntimeLogsComponent],

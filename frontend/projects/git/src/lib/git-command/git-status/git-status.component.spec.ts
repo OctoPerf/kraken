@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {GitStatusComponent} from './git-status.component';
 import {GitProjectService} from 'projects/git/src/lib/git-project/git-project.service';
 import {GitCommandService} from 'projects/git/src/lib/git-command/git-command.service';
-import SpyObj = jasmine.SpyObj;
 import {gitProjectServiceSpy} from 'projects/git/src/lib/git-project/git-project.service.spec';
 import {gitCommandServiceSpy} from 'projects/git/src/lib/git-command/git-command.service.spec';
 import {testGitStatus} from 'projects/git/src/lib/entities/git-status.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('GitStatusComponent', () => {
   let component: GitStatusComponent;
@@ -14,7 +14,7 @@ describe('GitStatusComponent', () => {
   let gitProject: SpyObj<GitProjectService>;
   let gitCommand: SpyObj<GitCommandService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     gitProject = gitProjectServiceSpy();
     gitCommand = gitCommandServiceSpy();
     TestBed.configureTestingModule({

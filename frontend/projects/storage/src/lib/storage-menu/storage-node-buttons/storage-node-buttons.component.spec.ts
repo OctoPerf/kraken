@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {StorageNodeButtonsComponent} from './storage-node-buttons.component';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
@@ -8,7 +8,7 @@ describe('StorageNodeButtonsComponent', () => {
   let component: StorageNodeButtonsComponent;
   let fixture: ComponentFixture<StorageNodeButtonsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StorageNodeButtonsComponent],
       providers: [

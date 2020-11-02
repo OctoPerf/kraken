@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {DeleteMenuItemComponent} from './delete-menu-item.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -11,7 +11,7 @@ describe('DeleteMenuItemComponent', () => {
   let component: DeleteMenuItemComponent;
   let fixture: ComponentFixture<DeleteMenuItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DeleteMenuItemComponent],
       providers: [

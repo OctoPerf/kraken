@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {STORAGE_NODE_BUTTONS, StorageNodeComponent} from './storage-node.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -13,7 +13,7 @@ describe('StorageNodeComponent', () => {
   let fixture: ComponentFixture<StorageNodeComponent>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StorageNodeComponent],
       providers: [

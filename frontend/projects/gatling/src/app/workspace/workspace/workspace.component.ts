@@ -1,6 +1,6 @@
-import {Component, InjectionToken, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {SideConfiguration} from 'projects/workspaces/src/lib/side-configuration';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import {TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
@@ -48,7 +48,6 @@ import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
 import {ROOT_NODE} from 'projects/storage/src/lib/entities/storage-node';
 import {faCogs} from '@fortawesome/free-solid-svg-icons/faCogs';
 import {GitProjectService} from 'projects/git/src/lib/git-project/git-project.service';
-import {GitStatusEvent} from 'projects/git/src/lib/events/git-status-event';
 import {faGit} from '@fortawesome/free-brands-svg-icons/faGit';
 import {GitCommandComponent} from 'projects/git/src/lib/git-command/git-command/git-command.component';
 import {GitStatusComponent} from 'projects/git/src/lib/git-command/git-status/git-status.component';
@@ -88,35 +87,43 @@ export class WorkspaceComponent implements OnInit {
 
     this.center = new ComponentPortal(StorageEditorComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_EDITOR_README_NODE, {path: 'gatling/README.md', type: 'FILE', depth: 1}],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_EDITOR_README_NODE, useValue: {path: 'gatling/README.md', type: 'FILE', depth: 1}}
+        ]
+      }));
 
     const simulationsTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, this.gatlingConfiguration.simulationsRootNode],
-        [STORAGE_ID, `${this.id}-simulations-tree`],
-        [STORAGE_TREE_LABEL, 'Simulations'],
-        [STORAGE_NODE_BUTTONS, SimulationNodeButtonsComponent],
-        [STORAGE_CONTEXTUAL_MENU, SimulationContextualMenuComponent]
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: this.gatlingConfiguration.simulationsRootNode},
+          {provide: STORAGE_ID, useValue: `${this.id}-simulations-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Simulations'},
+          {provide: STORAGE_NODE_BUTTONS, useValue: SimulationNodeButtonsComponent},
+          {provide: STORAGE_CONTEXTUAL_MENU, useValue: SimulationContextualMenuComponent},
+        ]
+      }));
 
     const configurationTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, ROOT_NODE],
-        [STORAGE_ID, `${this.id}-gatling-files-tree`],
-        [STORAGE_TREE_LABEL, 'Configuration'],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE},
+          {provide: STORAGE_ID, useValue: `${this.id}-gatling-files-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Configuration'},
+        ]
+      }));
 
     const resourcesTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, this.gatlingConfiguration.resourcesRootNode],
-        [STORAGE_TREE_LABEL, 'Resource Files'],
-        [STORAGE_ID, `${this.id}-resources-tree`],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: this.gatlingConfiguration.resourcesRootNode},
+          {provide: STORAGE_ID, useValue: `${this.id}-resources-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Resource Files'},
+        ]
+      }));
 
     this.left = new SideConfiguration(
       new TabsConfiguration(

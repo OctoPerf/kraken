@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SideSplitComponent} from './side-split.component';
 import {Component, NgModule} from '@angular/core';
@@ -28,7 +28,7 @@ describe('SideSplitComponent', () => {
   let component: SideSplitComponent;
   let fixture: ComponentFixture<SideSplitComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule]
     })

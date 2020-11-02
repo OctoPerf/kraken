@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ContextualMenuComponent} from './contextual-menu.component';
 
@@ -6,7 +6,7 @@ describe('ContextualMenuComponent', () => {
   let component: ContextualMenuComponent;
   let fixture: ComponentFixture<ContextualMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ContextualMenuComponent],
     }).overrideTemplate(ContextualMenuComponent, '')

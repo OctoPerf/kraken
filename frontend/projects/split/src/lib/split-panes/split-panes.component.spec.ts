@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SplitPanesComponent} from './split-panes.component';
 import {SplitModule} from '../split.module';
@@ -35,7 +35,7 @@ describe('SplitPanesComponent', () => {
   let storage: LocalStorageService;
   let event: MouseEvent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     event = eventSpy();
     TestBed.configureTestingModule({
       imports: [TestModule],

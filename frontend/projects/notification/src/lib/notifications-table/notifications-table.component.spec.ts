@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {NotificationService} from 'projects/notification/src/lib/notification.service';
 import {NotificationsTableComponent} from 'projects/notification/src/lib/notifications-table/notifications-table.component';
@@ -8,10 +8,10 @@ import {TabsService} from 'projects/tabs/src/lib/tabs.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {NotificationEvent} from 'projects/notification/src/lib/notification-event';
 import {testNotification} from 'projects/notification/src/lib/base-notification.spec';
-import SpyObj = jasmine.SpyObj;
 import {testErrorNotification} from 'projects/notification/src/lib/error-notification.spec';
 import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
 import {editorDialogServiceSpy} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 
 describe('NotificationsTableComponent', () => {
@@ -19,7 +19,7 @@ describe('NotificationsTableComponent', () => {
   let fixture: ComponentFixture<NotificationsTableComponent>;
   let dialogs: SpyObj<EditorDialogService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogs = editorDialogServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule, NotificationModule],

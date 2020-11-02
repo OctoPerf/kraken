@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ContainersTableComponent} from './containers-table.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -8,9 +8,9 @@ import {runtimeContainerServiceSpy} from 'projects/runtime/src/lib/runtime-task/
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {testTask} from 'projects/runtime/src/lib/entities/task.spec';
 import {of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {runtimeHostServiceSpy} from 'projects/runtime/src/lib/runtime-host/runtime-host.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('ContainersTableComponent', () => {
   let component: ContainersTableComponent;
@@ -19,7 +19,7 @@ describe('ContainersTableComponent', () => {
   let hostsService: SpyObj<RuntimeHostService>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [ContainersTableComponent],

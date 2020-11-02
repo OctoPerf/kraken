@@ -1,18 +1,18 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {EnvironmentVariablesListComponent} from './environment-variables-list.component';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import SpyObj = jasmine.SpyObj;
 import {ExecutionEnvironmentEntry} from 'projects/runtime/src/lib/entities/execution-environment-entry';
+import SpyObj = jasmine.SpyObj;
 
 describe('EnvironmentVariablesListComponent', () => {
   let component: EnvironmentVariablesListComponent;
   let fixture: ComponentFixture<EnvironmentVariablesListComponent>;
   let localStorage: SpyObj<LocalStorageService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     localStorage = localStorageServiceSpy();
     TestBed.configureTestingModule({
       declarations: [EnvironmentVariablesListComponent],
