@@ -4,6 +4,12 @@ kraken:
     bin: gatlingBin
     description: Dev test
     java-opts: -Dfoo="bar"
+    scenario:
+      concurrent-users: 42
+      ramp-up-duration: PT2M
+      peak-duration: PT2M
+      custom-setup: true
+      mode: RUN
     simulation:
       name: computerdatabase.BasicSimulation
       class-name: BasicSimulation

@@ -11,17 +11,17 @@ import {MatSort} from '@angular/material/sort';
 export class GitFileStatusTableComponent implements OnInit {
 
   public readonly displayedColumns: string[] = ['path', 'xy'];
-  dataSource: MatTableDataSource<GitFileStatus>;
+  dataSource: MatTableDataSource<GitFileStatus> = new MatTableDataSource([]);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   @Input()
   set fileStatuses(statuses: GitFileStatus[]) {
-    this.dataSource = new MatTableDataSource(statuses);
+    this.dataSource.data = statuses;
     this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource([]);
     this.dataSource.sort = this.sort;
   }
+
 }

@@ -14,8 +14,7 @@ metadata:
   name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
 spec:
   containers:
-    -
-      image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
+    - image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
       name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
       resources:
         limits:
@@ -72,8 +71,9 @@ spec:
           value: "${KRAKEN_SECURITY_EXPIRES_IN}"
         - name: KRAKEN_SECURITY_REFRESHEXPIRESIN
           value: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
-    -
-      image: "octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}"
+        - name: KRAKEN_GATLING_SCENARIO_CUSTOM_SETUP
+          value: "${KRAKEN_GATLING_SCENARIO_CUSTOM_SETUP}"
+    - image: "octoperf/kraken-gatling-log-parser:${KRAKEN_VERSION}"
       name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
@@ -133,5 +133,5 @@ spec:
   restartPolicy: Never
   terminationGracePeriodSeconds: 5
   volumes:
-    - emptyDir: {}
+    - emptyDir: { }
       name: gatling-volume

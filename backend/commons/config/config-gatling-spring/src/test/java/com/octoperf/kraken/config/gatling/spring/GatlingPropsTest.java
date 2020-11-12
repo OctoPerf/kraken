@@ -4,6 +4,8 @@ import com.octoperf.kraken.tests.utils.TestUtils;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 import static org.junit.Assert.assertNotNull;
 
 class GatlingPropsTest {

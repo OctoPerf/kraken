@@ -20,6 +20,11 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
+            <artifactId>gatling-setup-spring</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
             <artifactId>command-executor-zt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

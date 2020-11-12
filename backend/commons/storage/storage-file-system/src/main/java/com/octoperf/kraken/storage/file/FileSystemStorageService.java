@@ -254,7 +254,7 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Flux<StorageWatcherEvent> setContent(final String path, final String content) {
-    log.info(String.format("Set content at path %s: %s", path, content));
+    log.debug(String.format("Set content at path %s: %s", path, content));
     final var completePath = this.stringToPath(path);
     final var parentPath = Optional.ofNullable(Paths.get(path).getParent()).orElse(Path.of("")).toString();
     final var setDirectory = this.stringToPath(parentPath).toFile().exists() ? Flux.<StorageWatcherEvent>empty() : this.setDirectory(parentPath);

@@ -17,7 +17,7 @@ import {StorageListService} from 'projects/storage/src/lib/storage-list.service'
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
-import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
+import {InjectDialogService} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service';
 
 @Injectable()
 export class DebugEntriesTableService extends StorageJsonService<DebugEntry> implements OnDestroy {
@@ -38,7 +38,7 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
     private analysisConfiguration: AnalysisConfigurationService,
     private resultsList: ResultsTableService,
     private toPath: DebugEntryToPathPipe,
-    private dialogs: EditorDialogService,
+    private dialogs: InjectDialogService,
   ) {
     super(storage, storageList, node => {
       const result = node.path.match(PATH_REGEXP);

@@ -31,7 +31,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   readonly removeIcon = CLEAR_ICON;
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'status', 'type', 'description', 'containers', 'buttons'];
   loading = true;
-  dataSource: MatTableDataSource<Task>;
+  dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>([]);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -47,6 +47,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dataSource.sort = this.sort;
     this.refresh();
   }
 
@@ -92,8 +93,7 @@ export class TasksTableComponent implements OnInit, OnDestroy {
     const currentNotTerminal = _.find(tasks, (task: Task) => task.id === taskId && !isTerminalContainerStatus(task.status));
     const current = _.find(tasks, {id: taskId});
     this._selection.selection = currentNotTerminal || first || current;
-    this.dataSource = new MatTableDataSource(tasks);
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = tasks;
     this.loading = false;
   }
 

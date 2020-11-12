@@ -1,7 +1,8 @@
 <form [formGroup]="simulationForm" autocomplete=off>
   <h1 mat-dialog-title>{{data.type | taskTypeToString}} Simulation</h1>
   <div mat-dialog-content>
-    <lib-help-anchor [pageId]="data.type === 'GATLING_DEBUG' ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
+    <lib-help-anchor
+      [pageId]="data.type === 'GATLING_DEBUG' ? 'GATLING_DEBUG_DIALOG' : 'GATLING_RUN_DIALOG'"></lib-help-anchor>
     <mat-form-field class="block-filler-x">
       <input matInput placeholder="package.Class" formControlName="simulationName"
              (keydown.enter)="simulationForm.valid ? run() : null"
@@ -15,20 +16,40 @@
     </mat-form-field>
     <app-description-input #descriptionInput [formGroup]="simulationForm"
                            [value]="(data.type | taskTypeToString) + ' '+ data.simulationClass"></app-description-input>
+    <mat-card class="mat-elevation-z4 m-b">
+      <mat-checkbox formControlName="customSetup">Use the injection policy defined in the Simulation script?</mat-checkbox>
+      <lib-message level="error" centered="true" class="text-error"
+                   *ngIf="data.type === 'GATLING_DEBUG' && !data.atOnce && customSetup.value">
+        Your simulation script is not configured to run only one iteration '.inject(atOnceUsers(1)'.
+        You might generate a lot of debug files and crash the system!
+      </lib-message>
+      <div *ngIf="data.type === 'GATLING_RUN' && !customSetup.value">
+        <lib-duration-input class="m-t" #rampUpDuration [formGroup]="simulationForm" label="Ramp Up Duration"
+                            id="ram-up" [storageId]="storageId"></lib-duration-input>
+        <lib-duration-input #peakDuration [formGroup]="simulationForm" label="Peak Duration"
+                            id="peak" [storageId]="storageId"></lib-duration-input>
+        <mat-form-field class="block-filler-x">
+          <input matInput type="number" placeholder="Concurrent Users" formControlName="concurrentUsers"
+                 required>
+          <mat-error *ngIf="concurrentUsers.hasError('required')">
+            The number of concurrent users is required.
+          </mat-error>
+          <mat-error *ngIf="concurrentUsers.hasError('min')">
+            The number of concurrent users must be >= 1.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
     <lib-hosts-selector #hostsSelector [formGroup]="simulationForm"
-                        [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
+                        [storageId]="storageId"
                         [multiple]="data.type === 'GATLING_RUN'"></lib-hosts-selector>
     <lib-environment-variables-list #envVarList [formGroup]="simulationForm"
-                                    [storageId]="data.type +'-'+ data.simulationPackage + '.'+ data.simulationClass"
+                                    [storageId]="storageId"
                                     [hostIds]="hostsSelector.hostIds"></lib-environment-variables-list>
-    <lib-message level="error" centered="true" class="text-error" *ngIf="data.type === 'GATLING_DEBUG' && !data.atOnce">
-      Please configure your script to run only one iteration '.inject(atOnceUsers(1)'.
-      You might generate a lot of debug files and crash the system otherwise!
-    </lib-message>
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="dialogRef.close()" type="button">Cancel</button>
-    <button mat-button (click)="run()" cdkFocusInitial
+    <button mat-button (click)="run()"
             type="submit" color="accent"
             [disabled]="!simulationForm.valid">
       {{data.type | taskTypeToString}}

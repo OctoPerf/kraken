@@ -48,7 +48,8 @@ export class TabsHeaderComponent implements OnInit, OnDestroy {
           providers: [
             {provide: TAB_HEADER_DATA, useValue: tab},
             {provide: SIDE_HEADER_DATA, useValue: this.side},
-          ]
+          ],
+          parent: this.injector
         }));
     });
   }

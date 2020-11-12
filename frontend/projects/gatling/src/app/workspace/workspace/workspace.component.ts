@@ -90,7 +90,8 @@ export class WorkspaceComponent implements OnInit {
       Injector.create({
         providers: [
           {provide: STORAGE_EDITOR_README_NODE, useValue: {path: 'gatling/README.md', type: 'FILE', depth: 1}}
-        ]
+        ],
+        parent: this.injector
       }));
 
     const simulationsTree = new ComponentPortal(StorageTreeComponent,
@@ -102,7 +103,8 @@ export class WorkspaceComponent implements OnInit {
           {provide: STORAGE_TREE_LABEL, useValue: 'Simulations'},
           {provide: STORAGE_NODE_BUTTONS, useValue: SimulationNodeButtonsComponent},
           {provide: STORAGE_CONTEXTUAL_MENU, useValue: SimulationContextualMenuComponent},
-        ]
+        ],
+        parent: this.injector
       }));
 
     const configurationTree = new ComponentPortal(StorageTreeComponent,
@@ -112,7 +114,8 @@ export class WorkspaceComponent implements OnInit {
           {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE},
           {provide: STORAGE_ID, useValue: `${this.id}-gatling-files-tree`},
           {provide: STORAGE_TREE_LABEL, useValue: 'Configuration'},
-        ]
+        ],
+        parent: this.injector
       }));
 
     const resourcesTree = new ComponentPortal(StorageTreeComponent,
@@ -122,7 +125,8 @@ export class WorkspaceComponent implements OnInit {
           {provide: STORAGE_ROOT_NODE, useValue: this.gatlingConfiguration.resourcesRootNode},
           {provide: STORAGE_ID, useValue: `${this.id}-resources-tree`},
           {provide: STORAGE_TREE_LABEL, useValue: 'Resource Files'},
-        ]
+        ],
+        parent: this.injector
       }));
 
     this.left = new SideConfiguration(

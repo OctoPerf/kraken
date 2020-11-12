@@ -7,6 +7,7 @@ import {ConnectProjectDialogComponent} from 'projects/git/src/lib/git-project/co
 import {of} from 'rxjs';
 import {testGitConfiguration} from 'projects/git/src/lib/entities/git-configuration.spec';
 import SpyObj = jasmine.SpyObj;
+import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 
 describe('ConnectProjectDirective', () => {
 
@@ -30,7 +31,7 @@ describe('ConnectProjectDirective', () => {
     dialogs.waitFor.and.returnValue(of('ok'));
     gitProject.connect.and.returnValue(of(testGitConfiguration()));
     directive.onClick();
-    expect(dialogs.open).toHaveBeenCalledWith(ConnectProjectDialogComponent);
+    expect(dialogs.open).toHaveBeenCalledWith(ConnectProjectDialogComponent, DialogSize.SIZE_MD);
     expect(dialogs.waitFor).toHaveBeenCalled();
     expect(gitProject.connect).toHaveBeenCalledWith(repositoryUrl);
   });

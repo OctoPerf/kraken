@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 
 import javax.validation.constraints.Pattern;
@@ -42,7 +43,6 @@ public class SSEController {
         .build();
 
     final var builders = Arrays.stream(channels).map(channelBuilders::get);
-
     return Flux.fromStream(builders).flatMap(sseChannelBuilder -> sseChannelBuilder.apply(order)).collectList().flatMapMany(maps -> {
       final var reduced = maps.stream().reduce((stringFluxMap, stringFluxMap2) -> ImmutableMap.<String, Flux<? extends Object>>builder().putAll(stringFluxMap).putAll(stringFluxMap2).build())
           .orElse(ImmutableMap.of());

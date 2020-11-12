@@ -21,7 +21,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   readonly displayedColumns: string[] = [/*'id',*/ 'startDate', 'hostId', 'status', 'label', 'name', 'logs'];
   readonly logsIcon = LOGS_ICON;
-  dataSource: MatTableDataSource<Container>;
+  dataSource: MatTableDataSource<Container> = new MatTableDataSource([]);
   private taskId: string;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -43,6 +43,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.hosts.hosts().subscribe();
+    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
@@ -50,8 +51,7 @@ export class ContainersTableComponent implements OnInit, OnDestroy {
   }
 
   set containers(containers: Container[]) {
-    this.dataSource = new MatTableDataSource(containers);
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = containers;
   }
 
   logs(container: Container) {

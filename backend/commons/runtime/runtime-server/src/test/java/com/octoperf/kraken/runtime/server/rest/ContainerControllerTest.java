@@ -22,7 +22,7 @@ public class ContainerControllerTest extends RuntimeControllerTest {
   public void shouldAttachLogs() {
     final var containerId = "containerId";
     final var containerName = "containerName";
-    final var taskId = "taskId";
+    final var taskId = "taskid";
     given(service.attachLogs(userOwner(), taskId, containerId, containerName))
         .willReturn(Mono.fromCallable(() -> null));
 
@@ -76,7 +76,7 @@ public class ContainerControllerTest extends RuntimeControllerTest {
   public void shouldSetStatus() {
     final var containerId = "containerId";
     final var containerName = "containerName";
-    final var taskId = "taskId";
+    final var taskId = "taskid";
     final var container = ContainerTest.CONTAINER;
     given(service.setStatus(userOwner(), taskId, containerId, containerName, container.getStatus()))
         .willReturn(Mono.fromCallable(() -> null));
@@ -98,7 +98,7 @@ public class ContainerControllerTest extends RuntimeControllerTest {
   @Test
   public void shouldFind() {
     final var containerName = "containerName";
-    final var taskId = "taskId";
+    final var taskId = "taskid";
     final var container = FlatContainerTest.CONTAINER;
     given(service.find(userOwner(), taskId, containerName))
         .willReturn(Mono.just(container));

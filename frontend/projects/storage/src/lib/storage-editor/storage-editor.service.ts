@@ -48,7 +48,8 @@ export class StorageEditorService {
       Injector.create({
         providers: [
           {provide: STORAGE_NODE, useValue: node},
-        ]
+        ],
+        parent: this.injector
       }));
   }
 

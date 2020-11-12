@@ -29,7 +29,7 @@ public class ContainerController {
   @PostMapping("/logs/attach")
   public Mono<String> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                  @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
-                                 @RequestParam("taskId") final String taskId,
+                                 @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                                  @RequestParam("containerId") final String containerId,
                                  @RequestParam("containerName") final String containerName) {
     return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.attachLogs(
@@ -51,7 +51,7 @@ public class ContainerController {
   @PostMapping("/status/{status}")
   public Mono<Void> setStatus(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                               @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
-                              @RequestParam("taskId") final String taskId,
+                              @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                               @RequestParam("containerId") final String containerId,
                               @RequestParam("containerName") final String containerName,
                               @PathVariable("status") final ContainerStatus status) {
@@ -67,7 +67,7 @@ public class ContainerController {
   @GetMapping(value = "/find")
   public Mono<FlatContainer> find(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                                   @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
-                                  @RequestParam("taskId") final String taskId,
+                                  @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                                   @RequestParam("containerName") final String containerName) {
     return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.find(
         owner,

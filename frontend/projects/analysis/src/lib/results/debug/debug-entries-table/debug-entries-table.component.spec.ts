@@ -16,6 +16,9 @@ import {
 } from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
 import {resultsTableServiceSpy} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {InjectDialogsModule} from 'projects/dialog/src/lib/inject-dialogs/inject-dialogs.module';
+import {InjectDialogService} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service';
+import {injectDialogServiceSpy} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service.spec';
 
 describe('DebugEntriesTableComponent', () => {
   let component: DebugEntriesTableComponent;
@@ -39,6 +42,7 @@ describe('DebugEntriesTableComponent', () => {
     })
       .overrideProvider(StorageListService, {useValue: storageListServiceSpy()})
       .overrideProvider(DebugEntriesTableService, {useValue: debugResult})
+      .overrideProvider(InjectDialogService, {useValue: injectDialogServiceSpy()})
       .overrideTemplate(DebugEntriesTableComponent, '')
       .compileComponents();
   }));

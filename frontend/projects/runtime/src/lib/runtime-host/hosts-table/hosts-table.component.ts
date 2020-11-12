@@ -34,7 +34,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   private keyBindings: KeyBinding[] = [];
 
   loading = true;
-  dataSource: MatTableDataSource<Host>;
+  dataSource: MatTableDataSource<Host> = new MatTableDataSource([]);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -43,7 +43,6 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   constructor(private dialogs: DefaultDialogService,
               private hostService: RuntimeHostService,
               private keys: KeyBindingsService) {
-    this.dataSource = new MatTableDataSource([]);
     this.subscription = this.hostService.allSubject.subscribe((hosts) => this.hosts = hosts);
     this.keyBindings.push(new KeyBinding(['Enter'], this._onEnter.bind(this), 'hosts'));
     this.keyBindings.forEach(binding => {
@@ -66,7 +65,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   }
 
   public set hosts(hosts: Host[]) {
-    this.dataSource = new MatTableDataSource(hosts);
+    this.dataSource.data = hosts;
     this.dataSource.sort = this.sort;
     this.loading = false;
   }

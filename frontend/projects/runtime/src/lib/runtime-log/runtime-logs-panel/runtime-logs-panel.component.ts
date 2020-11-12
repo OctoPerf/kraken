@@ -86,7 +86,8 @@ export class RuntimeLogsPanelComponent implements OnDestroy {
       Injector.create({
         providers: [
           {provide: RUNTIME_LOGS, useValue: logsSubject},
-        ]
+        ],
+        parent: this.injector
       }));
     const command: LogTab = {
       content,

@@ -7,6 +7,8 @@ import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.command.entity.Command;
 import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.command.entity.CommandTest;
+import com.octoperf.kraken.gatling.setup.api.GatlingSetupFileService;
+import com.octoperf.kraken.gatling.setup.api.GatlingSetupSimulationService;
 import com.octoperf.kraken.runtime.container.test.AbstractContainerExecutorTest;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventTest;
@@ -37,6 +39,10 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
   GatlingProperties gatlingProperties;
   @Mock(lenient = true)
   LocalRemoteProperties gatlingLocalRemote;
+  @Mock
+  GatlingSetupFileService setupFileService;
+  @Mock
+  GatlingSetupSimulationService setupSimulationService;
 
   GatlingRunner runner;
 
@@ -56,7 +62,9 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
         containerProperties,
         gatlingProperties,
         commandSupplier,
-        containerExecutor);
+        containerExecutor,
+        setupFileService,
+        setupSimulationService);
   }
 
   @Test
@@ -65,6 +73,9 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
     given(storageClient.uploadFile(any(Path.class), any())).willReturn(Flux.just(StorageWatcherEventTest.STORAGE_WATCHER_EVENT));
     given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(any(Command.class))).willReturn(Flux.just("cmd", "exec", "logs"));
+    given(setupFileService.loadSimulation()).willReturn(Mono.just("content"));
+    given(setupFileService.saveSimulation("updated")).willReturn(Mono.empty());
+    given(setupSimulationService.update("content")).willReturn(Mono.just("updated"));
     runner.init();
     verify(storageClient, times(3)).downloadFolder(any(Path.class), any());
     verify(storageClient).uploadFile(any(Path.class), any());
@@ -74,6 +85,7 @@ public class GatlingRunnerTest extends AbstractContainerExecutorTest {
         .environment(ImmutableMap.of())
         .build());
     verify(commandService).execute(CommandTest.SHELL_COMMAND);
+    verify(setupFileService).saveSimulation("updated");
   }
 
   @Test

@@ -40,7 +40,8 @@ export class HighlightService {
         providers: [
           {provide: HIGHLIGHT_RECT_DATA, useValue: rect},
           {provide: HIGHLIGHT_DURATION_DATA, useValue: duration},
-        ]
+        ],
+        parent: this.injector
       }));
     this.overlayRef.attach(portal);
     setTimeout(() => {

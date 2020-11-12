@@ -37,6 +37,11 @@
             <artifactId>analysis-influxdb-client-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>license-context-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
@@ -65,6 +70,13 @@
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>license-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

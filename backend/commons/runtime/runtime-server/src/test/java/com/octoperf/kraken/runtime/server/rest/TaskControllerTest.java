@@ -89,7 +89,7 @@ public class TaskControllerTest extends RuntimeControllerTest {
 
   @Test
   public void shouldCancel() {
-    final var context = CancelContextTest.CANCEL_CONTEXT;
+    final var context = CancelContextTest.CANCEL_CONTEXT.toBuilder().taskId("taskid").build();
     final var taskId = context.getTaskId();
     final var taskType = context.getTaskType();
 
@@ -114,7 +114,7 @@ public class TaskControllerTest extends RuntimeControllerTest {
 
   @Test
   public void shouldRemove() {
-    final var context = CancelContextTest.CANCEL_CONTEXT;
+    final var context = CancelContextTest.CANCEL_CONTEXT.toBuilder().taskId("taskid").build();
     final var taskId = context.getTaskId();
     final var taskType = context.getTaskType();
 

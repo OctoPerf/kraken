@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.Optional;
 
@@ -47,9 +48,10 @@ final class SpringContainerExecutor implements ContainerExecutor {
         consumer.accept(client, me);
       });
       client.setStatus(me, ContainerStatus.DONE).block();
-    } catch (Exception e) {
+    } catch (final Exception e) {
       log.error("Error occurred during container execution", e);
-      client.setStatus(me, ContainerStatus.FAILED).block();
+      // Schedule on the current thread to force the execution of the setStatus before Spring terminates because of the error (.block() does not work here)
+      client.setStatus(me, ContainerStatus.FAILED).subscribeOn(Schedulers.immediate()).subscribe();
     }
   }
 }

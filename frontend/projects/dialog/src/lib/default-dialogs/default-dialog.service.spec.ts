@@ -5,12 +5,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {Component} from '@angular/core';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {from, of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
 import {DeleteDialogComponent} from 'projects/dialog/src/lib/default-dialogs/delete-dialog/delete-dialog.component';
 import {ConfirmDialogComponent} from 'projects/dialog/src/lib/default-dialogs/confirm-dialog/confirm-dialog.component';
 import {WaitDialogComponent} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog.component';
-import {InspectDialogComponent} from 'projects/dialog/src/lib/editor-dialogs/inspect-dialog/inspect-dialog.component';
-import {LogsDialogComponent} from 'projects/dialog/src/lib/editor-dialogs/logs-dialog/logs-dialog.component';
+import SpyObj = jasmine.SpyObj;
 
 export const defaultDialogServiceSpy = () => {
   const spy = jasmine.createSpyObj('DefaultDialogService', [
@@ -22,13 +20,6 @@ export const defaultDialogServiceSpy = () => {
   ]);
   return spy;
 };
-
-@Component({
-  selector: 'lib-test',
-  template: `test`
-})
-class TestComponent {
-}
 
 describe('DefaultDialogService', () => {
 
@@ -48,28 +39,6 @@ describe('DefaultDialogService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should open/close dialog', () => {
-    dialog.open.and.returnValue({
-      afterClosed: () => of('result')
-    } as any);
-    service.open(TestComponent, DialogSize.SIZE_MD, {key: 'value'}).subscribe((result) => expect(result).toBe('result'));
-    expect(dialog.open).toHaveBeenCalledWith(TestComponent, {
-      panelClass: DialogSize.SIZE_MD,
-      data: {key: 'value'}
-    });
-  });
-
-  it('should open/dismiss dialog', () => {
-    dialog.open.and.returnValue({
-      afterClosed: () => of(undefined)
-    } as any);
-    service.open(TestComponent).subscribe(() => fail('should not call callback on dismiss'));
-    expect(dialog.open).toHaveBeenCalledWith(TestComponent, {
-      panelClass: DialogSize.SIZE_SM,
-      data: undefined,
-    });
   });
 
   it('should delete', () => {

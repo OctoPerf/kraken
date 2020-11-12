@@ -73,7 +73,7 @@ public class TaskController {
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
-                             @RequestParam("taskId") final String taskId,
+                             @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
     return userProvider.getOwner(applicationId, projectId)
@@ -86,7 +86,7 @@ public class TaskController {
   @DeleteMapping(value = "/remove/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
                              @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
-                             @RequestParam("taskId") final String taskId,
+                             @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Remove task %s", taskId));
     return userProvider.getOwner(applicationId, projectId)

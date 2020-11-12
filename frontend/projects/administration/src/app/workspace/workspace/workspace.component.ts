@@ -55,7 +55,8 @@ export class WorkspaceComponent implements OnInit {
       Injector.create({
         providers: [
           {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE}
-        ]
+        ],
+        parent: this.injector
       }));
 
     this.left = new SideConfiguration(

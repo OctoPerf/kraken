@@ -24,6 +24,8 @@ import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-nod
 import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
 import {editorDialogServiceSpy} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
+import {InjectDialogService} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service';
+import {injectDialogServiceSpy} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service.spec';
 
 export const testDebugEntry: () => DebugEntry = () => {
   return {
@@ -70,7 +72,7 @@ describe('DebugEntriesTableService', () => {
   let storage: SpyObj<StorageService>;
   let storageList: SpyObj<StorageListService>;
   let eventBus: SpyObj<EventBusService>;
-  let dialogs: SpyObj<EditorDialogService>;
+  let dialogs: SpyObj<InjectDialogService>;
   let results: SpyObj<ResultsTableService>;
 
   let debugEntryNode: StorageNode;
@@ -89,7 +91,7 @@ describe('DebugEntriesTableService', () => {
         {provide: StorageListService, useValue: storageList},
         {provide: AnalysisConfigurationService, useValue: analysisConfigurationServiceSpy()},
         {provide: ResultsTableService, useValue: resultsTableServiceSpy()},
-        {provide: EditorDialogService, useValue: editorDialogServiceSpy()},
+        {provide: InjectDialogService, useValue: injectDialogServiceSpy()},
         DebugEntryToPathPipe,
         StorageNodeToNamePipe,
         NodeEventToNodePipe,
@@ -99,7 +101,7 @@ describe('DebugEntriesTableService', () => {
     service = TestBed.inject(DebugEntriesTableService);
     results = TestBed.inject(ResultsTableService) as SpyObj<ResultsTableService>;
     eventBus = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
-    dialogs = TestBed.inject(EditorDialogService) as SpyObj<EditorDialogService>;
+    dialogs = TestBed.inject(InjectDialogService) as SpyObj<InjectDialogService>;
   });
 
   afterEach(() => {

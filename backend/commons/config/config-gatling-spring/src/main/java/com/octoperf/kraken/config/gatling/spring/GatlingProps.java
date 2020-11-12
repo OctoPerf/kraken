@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.octoperf.kraken.config.gatling.spring.GatlingLocalRemoteProps.DEFAULT_LOCAL_REMOTE;
 import static com.octoperf.kraken.config.gatling.spring.GatlingLogProp.DEFAULT_LOG;
+import static com.octoperf.kraken.config.gatling.spring.GatlingScenarioProps.DEFAULT_SETUP;
 import static com.octoperf.kraken.config.gatling.spring.GatlingSimulationProps.DEFAULT_SIMULATION;
 import static java.util.Optional.ofNullable;
 
@@ -28,6 +29,7 @@ class GatlingProps implements GatlingProperties {
   GatlingLogProp logs;
   GatlingLocalRemoteProps harPath;
   GatlingSimulationProps simulation;
+  GatlingScenarioProps scenario;
 
   @SuppressWarnings("squid:S00107")
   GatlingProps(
@@ -41,7 +43,8 @@ class GatlingProps implements GatlingProperties {
     final GatlingLocalRemoteProps results,
     final GatlingLogProp logs,
     final GatlingLocalRemoteProps harPath,
-    final GatlingSimulationProps simulation) {
+    final GatlingSimulationProps simulation,
+    final GatlingScenarioProps scenario) {
     super();
     this.home = nullToEmpty(home);
     this.bin = nullToEmpty(bin);
@@ -54,6 +57,7 @@ class GatlingProps implements GatlingProperties {
     this.logs = ofNullable(logs).orElse(DEFAULT_LOG);
     this.harPath = ofNullable(harPath).orElse(DEFAULT_LOCAL_REMOTE);
     this.simulation = ofNullable(simulation).orElse(DEFAULT_SIMULATION);
+    this.scenario = ofNullable(scenario).orElse(DEFAULT_SETUP);
   }
 }
 

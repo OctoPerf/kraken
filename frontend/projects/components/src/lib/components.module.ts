@@ -16,6 +16,7 @@ import { LazyIfDirective } from './lazy-if.directive';
 import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-overlay-selection/table-overlay-selection.component';
 import {CopyToClipboardDirective} from 'projects/components/src/lib/copy-to-clipboard.directive';
 import {RouterProgressModule} from 'projects/components/src/lib/router-progress/router-progress.module';
+import { DurationInputComponent } from './duration-input/duration-input.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import {RouterProgressModule} from 'projects/components/src/lib/router-progress/
     MessageComponent,
     LazyIfDirective,
     CopyToClipboardDirective,
+    DurationInputComponent,
   ],
   exports: [
     FullPageComponent,
@@ -49,6 +51,7 @@ import {RouterProgressModule} from 'projects/components/src/lib/router-progress/
     LazyIfDirective,
     CopyToClipboardDirective,
     RouterProgressModule,
+    DurationInputComponent,
   ],
 })
 export class ComponentsModule {

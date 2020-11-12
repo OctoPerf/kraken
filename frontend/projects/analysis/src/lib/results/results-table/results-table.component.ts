@@ -59,7 +59,7 @@ export class ResultsTableComponent implements OnInit {
     }
   );
 
-  dataSource: MatTableDataSource<Result>;
+  dataSource: MatTableDataSource<Result> = new MatTableDataSource<Result>([]);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('menu', {static: true}) menu: ContextualMenuComponent;
@@ -70,11 +70,11 @@ export class ResultsTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.results.init();
     this.results.valuesSubject.subscribe((resultsList) => {
-      this.dataSource = new MatTableDataSource(resultsList);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = resultsList;
     });
   }
 

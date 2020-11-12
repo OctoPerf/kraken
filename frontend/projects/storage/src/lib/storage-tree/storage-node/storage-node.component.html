@@ -6,11 +6,12 @@
                      (click)="treeControl.toggle(node)"></lib-toggle-button>
   <button *ngIf="!hasChild" mat-icon-button disabled></button>
   <span fxFlex class="node-label text-ellipsis no-selection"
+        [ngClass]="color | colorToTextClass"
         [title]="node.path + ' - ' +  (node.length | fileSize) + ' - '+ (node.lastModified | dateTimeToStringMs)"
         (click)="treeControl.nodeClick($event, node)"
         (dblclick)="treeControl.mouseNodeDoubleClick($event, node)">
     <lib-icon [icon]="node | storageNodeToIcon" [state]="expanded ? 'expanded' : ''"></lib-icon>
-    <span [class]="color | colorToTextClass">{{node | storageNodeToName}}</span>
+    {{node | storageNodeToName}}
   </span>
   <div fxFlex="none">
     <ng-template [cdkPortalOutlet]="nodeButtons"></ng-template>

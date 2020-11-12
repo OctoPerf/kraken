@@ -12,17 +12,16 @@ import {GitRenamedCopiedStatus} from 'projects/git/src/lib/entities/git-renamed-
 export class GitRenamedCopiedStatusTableComponent implements OnInit {
 
   public readonly displayedColumns: string[] = ['path', 'score', 'xy'];
-  dataSource: MatTableDataSource<GitRenamedCopiedStatus>;
+  dataSource: MatTableDataSource<GitRenamedCopiedStatus> = new MatTableDataSource([]);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   @Input()
   set renamedCopiedStatuses(statuses: GitRenamedCopiedStatus[]) {
-    this.dataSource = new MatTableDataSource(statuses);
+    this.dataSource.data = statuses;
     this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource([]);
     this.dataSource.sort = this.sort;
   }
 }

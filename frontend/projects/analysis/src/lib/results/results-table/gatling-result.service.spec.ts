@@ -109,7 +109,7 @@ describe('GatlingResultService', () => {
     req.flush({session: 'sessionId', url: 'url'});
     expect(window.open).toHaveBeenCalled();
     expect(cookies.delete).toHaveBeenCalledWith('grafana_session');
-    expect(cookies.set).toHaveBeenCalledWith('grafana_session', 'sessionId', null, '/grafana/', null, false, 'Lax');
+    expect(cookies.set as any).toHaveBeenCalledWith('grafana_session', 'sessionId', null, '/grafana/', null, false, 'Lax');
   });
 
   it('should canOpenGrafanaReport', () => {

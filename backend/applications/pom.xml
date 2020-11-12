@@ -15,6 +15,13 @@
     </modules>
 
     <dependencies>
+        <!--License-->
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>license-jwt</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!--Configuration-->
         <dependency>
             <groupId>com.octoperf.kraken</groupId>

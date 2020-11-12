@@ -91,11 +91,12 @@ final class DockerTaskService implements TaskService {
 
       return Command.builder()
           .path(this.createCommandFolder(context.getTaskId()).toString())
+          // TODO Find a way to do this that does not involve /bin/sh and validate the command (commandService.validate) before executing it
           .args(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
           .environment(ImmutableMap.of())
           .build();
     })
-        .flatMap(command -> commandService.validate(command).flatMapMany(commandService::execute).collectList())
+        .flatMap(command -> commandService.execute(command).collectList())
         .map(str -> context);
   }
 

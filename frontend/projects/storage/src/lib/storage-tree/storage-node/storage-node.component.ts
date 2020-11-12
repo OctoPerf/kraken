@@ -65,7 +65,8 @@ export class StorageNodeComponent implements OnDestroy {
         Injector.create({
           providers: [
             {provide: STORAGE_NODE, useValue: this.node},
-          ]
+          ],
+          parent: this.injector
         }));
     } else if (this.nodeButtons && this.nodeButtons.isAttached) {
       this.nodeButtons.detach();

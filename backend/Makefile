@@ -2,7 +2,6 @@
 
 VERSION := $(shell cat ../version.txt)
 KRAKEN_VERSION := $(VERSION)
-KRAKEN_LICENSE_ENTERPRISE := ../ee/license.jwt
 SPRING_PROFILES_ACTIVE := dev
 KRAKEN_UID := $(shell id -u)
 KRAKEN_GID := $(shell id -g)
@@ -47,7 +46,6 @@ bootJar:
 
 echo:
 	@echo $(VERSION)
-
 
 # SONAR
 sonar-start:
