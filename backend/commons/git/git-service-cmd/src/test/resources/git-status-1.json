@@ -1,0 +1,20 @@
+{
+  "branch" : {
+    "oid" : "9066f7fde0c5c79f9bf93caddaed21e94af123c3",
+    "head" : "master",
+    "upstream" : "origin/master",
+    "ahead" : 0,
+    "behind" : 0
+  },
+  "changed" : [ {
+    "xy" : ".D",
+    "path" : "README.md"
+  }, {
+    "xy" : ".M",
+    "path" : "other.txt"
+  } ],
+  "renamedCopied" : [ ],
+  "unmerged" : [ ],
+  "untracked" : [ ".gitignore", "other2.txt" ],
+  "ignored" : [ ]
+}

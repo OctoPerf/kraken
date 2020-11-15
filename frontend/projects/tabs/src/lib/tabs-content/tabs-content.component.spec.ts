@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {Component, NgModule} from '@angular/core';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
@@ -11,8 +11,8 @@ import {TabSelectedEvent} from 'projects/tabs/src/lib/tab-selected-event';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {TabUnselectedEvent} from 'projects/tabs/src/lib/tab-unselected-event';
 import {localStorageServiceSpy} from 'projects/tools/src/lib/local-storage.service.spec';
-import Spy = jasmine.Spy;
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
+import Spy = jasmine.Spy;
 
 @Component({
   selector: 'lib-test',
@@ -38,7 +38,7 @@ describe('TabsContentComponent', () => {
   let component: TabsContentComponent;
   let fixture: ComponentFixture<TabsContentComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

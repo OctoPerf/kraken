@@ -15,5 +15,7 @@ public interface ContainerProperties extends KrakenProperties {
 
   String getApplicationId();
 
+  String getProjectId();
+
   String getUserId();
 }

@@ -7,13 +7,13 @@ import {REFRESH_ICON, RENAME_ICON} from 'projects/icon/src/lib/icons';
 import {RuntimeHostService} from 'projects/runtime/src/lib/runtime-host/runtime-host.service';
 import {AttachHostDialogComponent} from 'projects/runtime/src/lib/runtime-host/runtime-host-dialogs/attach-host-dialog/attach-host-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faLink} from '@fortawesome/free-solid-svg-icons/faLink';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faUnlink} from '@fortawesome/free-solid-svg-icons/faUnlink';
 import {KeyBinding, KeyBindingsService} from 'projects/tools/src/lib/key-bindings.service';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 library.add(faLink, faUnlink);
 
@@ -34,16 +34,15 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   private keyBindings: KeyBinding[] = [];
 
   loading = true;
-  dataSource: MatTableDataSource<Host>;
+  dataSource: MatTableDataSource<Host> = new MatTableDataSource([]);
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   private subscription: Subscription;
 
-  constructor(private dialogs: DialogService,
+  constructor(private dialogs: DefaultDialogService,
               private hostService: RuntimeHostService,
               private keys: KeyBindingsService) {
-    this.dataSource = new MatTableDataSource([]);
     this.subscription = this.hostService.allSubject.subscribe((hosts) => this.hosts = hosts);
     this.keyBindings.push(new KeyBinding(['Enter'], this._onEnter.bind(this), 'hosts'));
     this.keyBindings.forEach(binding => {
@@ -66,7 +65,7 @@ export class HostsTableComponent implements OnInit, OnDestroy {
   }
 
   public set hosts(hosts: Host[]) {
-    this.dataSource = new MatTableDataSource(hosts);
+    this.dataSource.data = hosts;
     this.dataSource.sort = this.sort;
     this.loading = false;
   }

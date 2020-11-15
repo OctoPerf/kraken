@@ -5,10 +5,9 @@ import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,6 +25,7 @@ public class SpringContainerPropertiesSpringTest {
     Assertions.assertThat(properties.getTaskType()).isNotNull();
     assertThat(properties.getUserId()).isNotNull();
     assertThat(properties.getApplicationId()).isNotNull();
+    assertThat(properties.getProjectId()).isNotNull();
   }
 
 }

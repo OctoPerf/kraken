@@ -40,12 +40,12 @@ export class HostsSelectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.formGroup.addControl('hosts', new FormControl(this.multiple ? [] : null, [Validators.required]));
     this.selection = new SelectionModel(this.multiple);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
 
     this.hostService.hosts().subscribe(hosts => {
       this.loading = false;
-      this.dataSource = new MatTableDataSource(hosts);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = hosts;
       this.subscription = this.selection.changed.subscribe(this.selectionChanged.bind(this));
 
       const hostIds = _.map(hosts, 'id');

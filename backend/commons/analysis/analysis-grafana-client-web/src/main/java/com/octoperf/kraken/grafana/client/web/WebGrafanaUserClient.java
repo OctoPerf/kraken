@@ -31,6 +31,11 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class WebGrafanaUserClient implements GrafanaUserClient {
 
+  private static final String API_DATASOURCES = "/api/datasources";
+  private static final String API_DASHBOARDS = "/api/dashboards";
+  private static final String API_FOLDERS = "/api/folders";
+  private static final String DASHBOARD = "dashboard";
+
   GrafanaUser grafanaUser;
   InfluxDBUser influxDBUser;
   WebClient webClient;
@@ -59,7 +64,7 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
   @Override
   public Mono<Long> createDatasource() {
     final var createDatasource = retry(webClient.post()
-        .uri(uriBuilder -> uriBuilder.path("/api/datasources").build())
+        .uri(uriBuilder -> uriBuilder.path(API_DATASOURCES).build())
         .body(BodyInserters.fromValue(CreateGrafanaDatasourceRequest.builder()
             .name(grafanaUser.getDatasourceName())
             .access("proxy")
@@ -77,7 +82,7 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
 
   private Mono<Long> putDatasource(final Long datasourceId, final String datasourcePayload) {
     return Mono.defer(() -> retry(webClient.put()
-        .uri(uriBuilder -> uriBuilder.path("/api/datasources/{id}").build(datasourceId))
+        .uri(uriBuilder -> uriBuilder.path(API_DATASOURCES + "/{id}").build(datasourceId))
         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .body(BodyInserters.fromValue(datasourcePayload))
         .retrieve()
@@ -107,18 +112,19 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
 
   @Override
   public Mono<String> importDashboard(final String testId,
+                                      final Long folderId,
                                       final String title,
                                       final Long startDate,
                                       final String dashboard) {
     return this.initDashboard(testId, title, startDate, dashboard)
-        .flatMap(this::importDashboard);
+        .flatMap(dashboardStr -> this.importDashboard(dashboardStr, folderId));
   }
 
   @Override
-  public Mono<String> updateDashboard(final String testId, final Long endDate) {
+  public Mono<String> updateDashboard(final String testId, final Long folderId, final Long endDate) {
     return this.getDashboard(testId)
         .flatMap(dashboard -> this.updatedDashboard(endDate, dashboard))
-        .flatMap(this::setDashboard)
+        .flatMap(dashboard -> this.setDashboard(dashboard, folderId))
         .doOnSubscribe(subscription -> log.info(String.format("Update dashboard for test %s", testId)))
         .doOnNext(dashboard -> log.info(String.format("Updated dashboard for test %s", testId)));
   }
@@ -126,35 +132,67 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
   @Override
   public Mono<String> deleteDashboard(final String testId) {
     return retry(webClient.delete()
-        .uri(uriBuilder -> uriBuilder.path("/api/dashboards/uid/{testId}").build(testId))
+        .uri(uriBuilder -> uriBuilder.path(API_DASHBOARDS + "/uid/{testId}").build(testId))
         .retrieve()
         .bodyToMono(String.class), log)
         .doOnSubscribe(subscription -> log.info(String.format("Delete dashboard %s", testId)))
         .doOnError(throwable -> log.error("Failed to delete dashboard", throwable));
   }
 
+  @Override
+  public Mono<Long> createFolder(final String uid, final String title) {
+    return retry(webClient.post()
+        .uri(uriBuilder -> uriBuilder.path(API_FOLDERS).build())
+        .body(BodyInserters.fromValue(CreateGrafanaFolderRequest.builder()
+            .title(title)
+            .uid(uid)
+            .build()))
+        .retrieve()
+        .bodyToMono(GrafanaFolderResponse.class)
+        .map(GrafanaFolderResponse::getId), log);
+  }
+
+  @Override
+  public Mono<Long> getFolderId(final String uid) {
+    return retry(webClient.get()
+        .uri(uriBuilder -> uriBuilder.path(API_FOLDERS + "/{uid}").build(uid))
+        .retrieve()
+        .bodyToMono(GrafanaFolderResponse.class)
+        .map(GrafanaFolderResponse::getId), log);
+  }
+
+  @Override
+  public Mono<String> deleteFolder(final String uid) {
+    return retry(webClient.delete()
+        .uri(uriBuilder -> uriBuilder.path(API_FOLDERS + "/{uid}").build(uid))
+        .retrieve()
+        .bodyToMono(String.class), log)
+        .doOnSubscribe(subscription -> log.info(String.format("Delete folder %s", uid)))
+        .doOnError(throwable -> log.error("Failed to delete folder", throwable));
+  }
+
   private Mono<String> getDashboard(final String testId) {
     return retry(webClient.get()
-        .uri(uriBuilder -> uriBuilder.path("/api/dashboards/uid/{testId}").build(testId))
+        .uri(uriBuilder -> uriBuilder.path(API_DASHBOARDS + "/uid/{testId}").build(testId))
         .retrieve()
         .bodyToMono(String.class)
         .flatMap(this::decapsulateDashboard), log);
   }
 
-  private Mono<String> setDashboard(final String dashboard) {
-    return encapsulateSetDashboard(dashboard)
+  private Mono<String> setDashboard(final String dashboard, final Long folderId) {
+    return encapsulateSetDashboard(dashboard, folderId)
         .flatMap(encapsulated -> retry(webClient.post()
-            .uri(uriBuilder -> uriBuilder.path("/api/dashboards/db").build())
+            .uri(uriBuilder -> uriBuilder.path(API_DASHBOARDS + "/db").build())
             .body(BodyInserters.fromValue(encapsulated))
             .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
             .retrieve()
             .bodyToMono(String.class), log));
   }
 
-  private Mono<String> importDashboard(final String dashboard) {
-    return encapsulateImportDashboard(dashboard)
+  private Mono<String> importDashboard(final String dashboard, final Long folderId) {
+    return encapsulateImportDashboard(dashboard, folderId)
         .flatMap(encapsulated -> retry(webClient.post()
-            .uri(uriBuilder -> uriBuilder.path("/api/dashboards/import").build())
+            .uri(uriBuilder -> uriBuilder.path(API_DASHBOARDS + "/import").build())
             .body(BodyInserters.fromValue(encapsulated))
             .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
             .retrieve()
@@ -163,12 +201,13 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
         .doOnNext(tpl -> log.info("Imported dashboard"));
   }
 
-  private Mono<String> encapsulateSetDashboard(final String dashboard) {
+  private Mono<String> encapsulateSetDashboard(final String dashboard, final Long folderId) {
     return Mono.fromCallable(() -> {
       final JsonNode dashboardNode = mapper.readTree(dashboard);
       // Dashboard must be encapsulated in another object when updating value
       final ObjectNode setNode = mapper.createObjectNode();
-      setNode.set("dashboard", dashboardNode);
+      setNode.set(DASHBOARD, dashboardNode);
+      setNode.put("folderId", folderId);
       setNode.put("overwrite", false);
       setNode.put("message", this.format.format(new Date()));
       return mapper.writeValueAsString(setNode);
@@ -179,7 +218,7 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
     return Mono.fromCallable(() -> {
       final JsonNode dashboardResultNode = mapper.readTree(dashboardResult);
       // Dashboard must be decapsulated when received from grafana server
-      return mapper.writeValueAsString(dashboardResultNode.get("dashboard"));
+      return mapper.writeValueAsString(dashboardResultNode.get(DASHBOARD));
     });
   }
 
@@ -226,15 +265,15 @@ final class WebGrafanaUserClient implements GrafanaUserClient {
     });
   }
 
-  private Mono<String> encapsulateImportDashboard(final String dashboard) {
+  private Mono<String> encapsulateImportDashboard(final String dashboard, final Long folderId) {
     return Mono.fromCallable(() -> {
       final JsonNode dashboardNode = mapper.readTree(dashboard);
       // Dashboard must be encapsulated in another object when importing
       final ObjectNode importNode = mapper.createObjectNode();
-      importNode.set("dashboard", dashboardNode);
+      importNode.set(DASHBOARD, dashboardNode);
       importNode.put("overwrite", true);
       importNode.set("inputs", mapper.createArrayNode());
-      importNode.put("folderId", 0);
+      importNode.put("folderId", folderId);
       return mapper.writeValueAsString(importNode);
     });
   }

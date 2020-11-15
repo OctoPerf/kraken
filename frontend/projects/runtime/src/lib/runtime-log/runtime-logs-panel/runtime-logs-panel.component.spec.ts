@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {RuntimeLogsPanelComponent} from './runtime-logs-panel.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -6,9 +6,9 @@ import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-lo
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {runtimeLogServiceSpy} from 'projects/runtime/src/lib/runtime-log/runtime-log.service.spec';
 import {OpenLogsEvent} from 'projects/runtime/src/lib/events/open-logs-event';
-import SpyObj = jasmine.SpyObj;
 import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
+import SpyObj = jasmine.SpyObj;
 
 describe('RuntimeLogsPanelComponent', () => {
   let component: RuntimeLogsPanelComponent;
@@ -18,7 +18,7 @@ describe('RuntimeLogsPanelComponent', () => {
   let runningLogs: Log;
   let closedLogs: Log;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     service = runtimeLogServiceSpy();
     runningLogs = {applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'RUNNING', text: 'text'};
     closedLogs = {applicationId: 'applicationId', id: 'id', type: 'TASK', status: 'CLOSED', text: ''};

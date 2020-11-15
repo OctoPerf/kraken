@@ -11,13 +11,13 @@ import {map} from 'rxjs/operators';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {PATH_REGEXP} from 'projects/analysis/src/lib/results/is-debug-entry-storage-node.pipe';
 import {CompareDialogComponent} from 'projects/analysis/src/lib/results/debug/compare/compare-dialog/compare-dialog.component';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {StorageJsonService} from 'projects/storage/src/lib/storage-json.service';
 import {StorageListService} from 'projects/storage/src/lib/storage-list.service';
 import {Result} from 'projects/analysis/src/lib/entities/result';
 import {DebugEntryToPathPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-path.pipe';
 import {MonoSelectionWrapper} from 'projects/components/src/lib/selection/mono-selection-wrapper';
+import {InjectDialogService} from 'projects/dialog/src/lib/inject-dialogs/inject-dialog.service';
 
 @Injectable()
 export class DebugEntriesTableService extends StorageJsonService<DebugEntry> implements OnDestroy {
@@ -38,7 +38,7 @@ export class DebugEntriesTableService extends StorageJsonService<DebugEntry> imp
     private analysisConfiguration: AnalysisConfigurationService,
     private resultsList: ResultsTableService,
     private toPath: DebugEntryToPathPipe,
-    private dialogs: DialogService,
+    private dialogs: InjectDialogService,
   ) {
     super(storage, storageList, node => {
       const result = node.path.match(PATH_REGEXP);

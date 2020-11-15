@@ -4,7 +4,7 @@ import {
   STORAGE_DEFAULT_EDITOR,
   STORAGE_EDITORS_MAPPING,
 } from 'projects/storage/src/lib/storage-editors-mapping';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {
   STORAGE_NODE,
   StorageNodeEditor
@@ -44,9 +44,13 @@ export class StorageEditorService {
     const matcher: EditorMatcher = _.find(this.editorsMapping,
       (current: EditorMatcher) => node.path.match(current.regexp)) as EditorMatcher;
     const editor /*: ComponentType<StorageNodeEditor>*/ = matcher ? matcher.editor : this.defaultEditor;
-    const injectorTokens = new WeakMap();
-    injectorTokens.set(STORAGE_NODE, node);
-    return new ComponentPortal(editor, null, new PortalInjector(this.injector, injectorTokens));
+    return new ComponentPortal(editor, null,
+      Injector.create({
+        providers: [
+          {provide: STORAGE_NODE, useValue: node},
+        ],
+        parent: this.injector
+      }));
   }
 
   getHelpPageId(node: StorageNode): HelpPageId {

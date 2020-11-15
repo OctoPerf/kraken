@@ -11,7 +11,7 @@ describe('ApplicationIdHeaderInterceptor', () => {
 
   beforeEach(() => {
     configuration = configurationServiceMock();
-    interceptor = new ApplicationIdHeaderInterceptor(configuration, () => [configuration.backendApiUrl]);
+    interceptor = new ApplicationIdHeaderInterceptor(configuration);
     next = jasmine.createSpyObj('next', ['handle']);
   });
 

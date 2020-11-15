@@ -1,0 +1,22 @@
+@import 'app-background';
+@import 'app-variables';
+@import 'app-filler';
+
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  @include octagon-background();
+}
+
+.workspace {
+  @include absolute-filler();
+}
+
+.buttons {
+  position: absolute;
+  right: $app-margin-x;
+  bottom: 0;
+}

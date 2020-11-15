@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {MarkdownStorageNodeEditorComponent} from './markdown-storage-node-editor.component';
 import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service';
@@ -11,7 +11,7 @@ describe('MarkdownStorageNodeEditorComponent', () => {
   let fixture: ComponentFixture<MarkdownStorageNodeEditorComponent>;
   let contentService: StorageNodeEditorContentService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     contentService = storageNodeEditorContentServiceSpy();
     TestBed.configureTestingModule({
       declarations: [MarkdownStorageNodeEditorComponent],

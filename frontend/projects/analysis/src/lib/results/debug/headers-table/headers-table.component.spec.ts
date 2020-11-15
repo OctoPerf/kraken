@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {HeadersTableComponent} from 'projects/analysis/src/lib/results/debug/headers-table/headers-table.component';
 
@@ -6,7 +6,7 @@ describe('HeadersTableComponent', () => {
   let component: HeadersTableComponent;
   let fixture: ComponentFixture<HeadersTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeadersTableComponent]
     })

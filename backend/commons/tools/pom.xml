@@ -21,5 +21,6 @@
         <module>tools-reactor-utils</module>
         <module>tools-unique-id</module>
         <module>tools-webclient</module>
+        <module>tools-log</module>
     </modules>
 </project>

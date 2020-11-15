@@ -1,9 +1,9 @@
 package com.octoperf.kraken.storage.client.api;
 
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
-import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
 import lombok.NonNull;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,6 +11,8 @@ import reactor.core.publisher.Mono;
 import java.nio.file.Path;
 
 public interface StorageClient extends AuthenticatedClient {
+
+  Mono<Void> init(StorageInitMode mode);
 
   Mono<StorageNode> createFolder(String path);
 
@@ -31,6 +33,8 @@ public interface StorageClient extends AuthenticatedClient {
   Mono<Void> downloadFolder(Path localFolderPath, String path);
 
   Flux<StorageWatcherEvent> uploadFile(Path localFilePath, String remotePath);
+
+  Flux<StorageNode> find(String rootPath, Integer maxDepth, String matcher);
 
   Flux<StorageWatcherEvent> watch();
 

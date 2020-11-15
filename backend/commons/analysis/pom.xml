@@ -15,12 +15,16 @@
         <module>analysis-client-web</module>
         <module>analysis-entity</module>
         <module>analysis-server</module>
-        <module>analysis-task-events-watcher</module>
+        <module>analysis-task-events-listener</module>
         <module>analysis-telegraf</module>
         <module>analysis-grafana-client-api</module>
         <module>analysis-grafana-client-web</module>
         <module>analysis-influxdb-client-api</module>
         <module>analysis-influxdb-client-web</module>
+        <module>analysis-project-events-listener</module>
+        <module>analysis-service-api</module>
+        <module>analysis-service-spring</module>
+        <module>analysis-user-events-listener</module>
     </modules>
 
     <dependencies>

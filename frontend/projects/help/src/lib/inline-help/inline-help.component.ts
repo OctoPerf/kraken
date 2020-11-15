@@ -1,9 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {faQuestionCircle} from '@fortawesome/free-regular-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {IconFa} from 'projects/icon/src/lib/icon-fa';
-
-library.add(faQuestionCircle);
+import {HELP_ICON} from 'projects/icon/src/lib/icons';
 
 @Component({
   selector: 'lib-inline-help',
@@ -12,7 +8,7 @@ library.add(faQuestionCircle);
 })
 export class InlineHelpComponent {
 
-  readonly helpIcon = new IconFa(faQuestionCircle, 'accent');
+  readonly helpIcon = HELP_ICON;
 
   @Input() tooltip: string;
 

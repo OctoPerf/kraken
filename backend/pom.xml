@@ -16,8 +16,13 @@
     <description>Kraken</description>
 
     <properties>
+        <!-- Sonar -->
+        <sonar.jacoco.version>0.8.3</sonar.jacoco.version>
+        <sonar.exclusions>**/*Test.java</sonar.exclusions>
+        <!--Spring-->
         <start-class>com.octoperf.kraken.Application</start-class>
         <java.version>11</java.version>
+        <!--Dependencies-->
         <guava.version>29.0-jre</guava.version>
         <equalsverifier.version>3.4.1</equalsverifier.version>
         <findbugs.version>3.0.1</findbugs.version>
@@ -29,6 +34,7 @@
         <nimbus.version>8.19</nimbus.version>
         <kubernetes.version>9.0.0</kubernetes.version>
         <tika.version>1.24.1</tika.version>
+        <plexus.version>3.3.0</plexus.version>
     </properties>
 
     <modules>
@@ -40,6 +46,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.tika</groupId>
                 <artifactId>tika-core</artifactId>
@@ -105,6 +116,12 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-bom.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-guava</artifactId>
+                <version>${jackson-bom.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava-testlib</artifactId>
@@ -194,6 +211,30 @@
                 <configuration>
                     <excludedGroups>integration, license</excludedGroups>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${sonar.jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-and-report</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/../target/site/jacoco-aggregate</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

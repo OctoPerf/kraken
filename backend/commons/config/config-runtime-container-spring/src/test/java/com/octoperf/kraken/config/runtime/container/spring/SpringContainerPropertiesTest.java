@@ -12,6 +12,7 @@ public class SpringContainerPropertiesTest {
       .hostId("hostId")
       .userId("userId")
       .applicationId("applicationId")
+      .projectId("projectId")
       .build();
 
   @Test

@@ -8,16 +8,13 @@ import {cookiesServiceSpy} from 'projects/commons/src/lib/mock/cookies.mock.spec
 import {WindowService} from 'projects/tools/src/lib/window.service';
 import {CookieService} from 'ngx-cookie-service';
 import {SecurityService} from 'projects/security/src/lib/security.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {securityServiceSpy} from 'projects/security/src/lib/security.service.spec';
 import {of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
 import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
-import {
-  configurationServiceMock,
-  configurationServiceSpy
-} from 'projects/commons/src/lib/config/configuration.service.spec';
+import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
 import {testStorageDirectoryNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import SpyObj = jasmine.SpyObj;
 
 export const storageStaticServiceSpy = () => {
   const spy = jasmine.createSpyObj('StorageStaticService', [
@@ -35,7 +32,7 @@ describe('StorageStaticService', () => {
   let configuration: ConfigurationService;
 
   beforeEach(() => {
-    window = windowSpy();
+    window = windowServiceSpy();
     cookies = cookiesServiceSpy();
     securityService = securityServiceSpy();
     storageConfiguration = storageConfigurationServiceSpy();
@@ -65,7 +62,7 @@ describe('StorageStaticService', () => {
     service.openStaticPage('path');
     expect(window.open).toHaveBeenCalled();
     expect(cookies.delete).toHaveBeenCalledWith('JWT');
-    expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
+    expect(cookies.set as any).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
   });
 
   it('should open download link', () => {
@@ -75,7 +72,7 @@ describe('StorageStaticService', () => {
     service.openDownloadLink(node);
     expect(window.open).toHaveBeenCalled();
     expect(cookies.delete).toHaveBeenCalledWith('JWT');
-    expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
+    expect(cookies.set as any).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
     expect(storageConfiguration.storageApiUrl).toHaveBeenCalledWith('/static/' + node.path);
   });
 
@@ -85,7 +82,7 @@ describe('StorageStaticService', () => {
     service.openDownloadLink();
     expect(window.open).toHaveBeenCalled();
     expect(cookies.delete).toHaveBeenCalledWith('JWT');
-    expect(cookies.set).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
+    expect(cookies.set as any).toHaveBeenCalledWith('JWT', 'token', null, '/', null, false, 'Lax');
     expect(storageConfiguration.storageApiUrl).toHaveBeenCalledWith('/static/');
   });
 

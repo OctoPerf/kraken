@@ -4,9 +4,7 @@ import {SimulationService} from './simulation.service';
 import {StorageNodeToExtPipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-ext.pipe';
 import {testStorageDirectoryNode, testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {of} from 'rxjs';
 import {ExecuteSimulationDialogComponent} from 'projects/gatling/src/app/simulations/simulation-dialogs/execute-simulation-dialog/execute-simulation-dialog.component';
 import {DateTimeToStringPipe} from 'projects/date/src/lib/date-time-to-string.pipe';
@@ -25,6 +23,8 @@ import {RuntimeTaskService} from 'projects/runtime/src/lib/runtime-task/runtime-
 import {runtimeTaskServiceSpy} from 'projects/runtime/src/lib/runtime-task/runtime-task.service.spec';
 import {testExecutionEnvironment} from 'projects/runtime/src/lib/entities/execution-environment.spec';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
 
 export const simulationServiceSpy = () => {
@@ -40,7 +40,7 @@ export const simulationServiceSpy = () => {
 describe('SimulationService', () => {
   let service: SimulationService;
   let storage: SpyObj<StorageService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
   let eventBus: SpyObj<EventBusService>;
   let tasks: SpyObj<RuntimeTaskService>;
 
@@ -49,7 +49,7 @@ describe('SimulationService', () => {
       imports: [CoreTestModule],
       providers: [
         {provide: StorageService, useValue: storageServiceSpy()},
-        {provide: DialogService, useValue: dialogsServiceSpy()},
+        {provide: DefaultDialogService, useValue: defaultDialogServiceSpy()},
         {provide: RuntimeTaskService, useValue: runtimeTaskServiceSpy()},
         {provide: EventBusService, useValue: eventBusSpy()},
         {provide: StorageConfigurationService, useValue: storageConfigurationServiceSpy()},
@@ -62,7 +62,7 @@ describe('SimulationService', () => {
     service = TestBed.inject(SimulationService);
     tasks = TestBed.inject(RuntimeTaskService) as SpyObj<RuntimeTaskService>;
     storage = TestBed.inject(StorageService) as SpyObj<StorageService>;
-    dialogs = TestBed.inject(DialogService) as SpyObj<DialogService>;
+    dialogs = TestBed.inject(DefaultDialogService) as SpyObj<DefaultDialogService>;
     eventBus = TestBed.inject(EventBusService) as SpyObj<EventBusService>;
   });
 

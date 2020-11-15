@@ -31,23 +31,23 @@ public abstract class AtomicUserProvider implements UserProvider {
 
   @Override
   public Mono<KrakenTokenUser> getAuthenticatedUser() {
-    return this.getTokenValue().flatMap(token -> Mono.fromCallable(() -> decoder.decode(token)));
+    return this.getTokenValue().flatMap(currentToken -> Mono.fromCallable(() -> decoder.decode(currentToken)));
   }
 
   @Override
   public Mono<String> getTokenValue() {
     return Mono.just(this.token.get())
-        .flatMap(token -> {
-          if (token.isEmpty()) {
+        .flatMap(currentToken -> {
+          if (currentToken.isEmpty()) {
             return this.newToken().doOnNext(this::setToken);
           } else {
             return Mono
-                .fromCallable(() -> decoder.decode(token.get().getAccessToken()))
+                .fromCallable(() -> decoder.decode(currentToken.get().getAccessToken()))
                 .flatMap(user -> {
                   if (user.getExpirationTime().minusSeconds(minValidity).isBefore(Instant.now())) {
-                    return refreshToken(token.get()).doOnNext(this::setToken);
+                    return refreshToken(currentToken.get()).doOnNext(this::setToken);
                   }
-                  return Mono.just(token.get());
+                  return Mono.just(currentToken.get());
                 });
           }
         }).map(KrakenToken::getAccessToken);

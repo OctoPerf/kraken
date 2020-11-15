@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {STORAGE_CONTEXTUAL_MENU, StorageTreeComponent} from './storage-tree.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -13,7 +13,8 @@ import {copyPasteServiceSpy} from 'projects/storage/src/lib/storage-tree/copy-pa
 import {
   testStorageDirectoryNode,
   testStorageFileNode,
-  testStorageNodes, testStorageRootNode
+  testStorageNodes,
+  testStorageRootNode
 } from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {StorageContextualMenuComponent} from 'projects/storage/src/lib/storage-menu/storage-contextual-menu/storage-contextual-menu.component';
@@ -24,10 +25,10 @@ import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {eventBusSpy} from 'projects/event/src/lib/event-bus.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
 import {StorageKeyBindingService} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service';
 import {storageKeyBindingServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-key-binding.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('StorageTreeComponent', () => {
   let component: StorageTreeComponent;
@@ -39,7 +40,7 @@ describe('StorageTreeComponent', () => {
   let directoryNode: StorageNode;
   let rootNode: StorageNode;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     treeControl = storageTreeControlServiceSpy();
     dataSource = storageTreeDataSourceServiceSpy();
     eventBus = eventBusSpy();

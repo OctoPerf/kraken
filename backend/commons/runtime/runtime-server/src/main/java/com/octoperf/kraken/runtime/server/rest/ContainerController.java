@@ -28,10 +28,11 @@ public class ContainerController {
 
   @PostMapping("/logs/attach")
   public Mono<String> attachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                                 @RequestParam("taskId") final String taskId,
+                                 @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
+                                 @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                                  @RequestParam("containerId") final String containerId,
                                  @RequestParam("containerName") final String containerName) {
-    return userProvider.getOwner(applicationId).flatMap(owner -> service.attachLogs(
+    return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.attachLogs(
         owner,
         taskId,
         containerId,
@@ -40,20 +41,22 @@ public class ContainerController {
 
   @DeleteMapping("/logs/detach")
   public Mono<Void> detachLogs(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                               @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
                                @RequestParam("id") final String id) {
-    return userProvider.getOwner(applicationId).flatMap(owner -> service.detachLogs(
+    return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.detachLogs(
         owner,
         id));
   }
 
   @PostMapping("/status/{status}")
   public Mono<Void> setStatus(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                              @RequestParam("taskId") final String taskId,
+                              @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
+                              @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                               @RequestParam("containerId") final String containerId,
                               @RequestParam("containerName") final String containerName,
                               @PathVariable("status") final ContainerStatus status) {
     log.info(String.format("Set status %s for task %s, container %s", status, taskId, containerId));
-    return userProvider.getOwner(applicationId).flatMap(owner -> service.setStatus(
+    return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.setStatus(
         owner,
         taskId,
         containerId,
@@ -63,9 +66,10 @@ public class ContainerController {
 
   @GetMapping(value = "/find")
   public Mono<FlatContainer> find(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                                  @RequestParam("taskId") final String taskId,
+                                  @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
+                                  @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                                   @RequestParam("containerName") final String containerName) {
-    return userProvider.getOwner(applicationId).flatMap(owner -> service.find(
+    return userProvider.getOwner(applicationId, projectId).flatMap(owner -> service.find(
         owner,
         taskId,
         containerName));

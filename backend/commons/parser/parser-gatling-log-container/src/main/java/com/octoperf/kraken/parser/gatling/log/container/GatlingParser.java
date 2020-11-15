@@ -6,8 +6,8 @@ import com.octoperf.kraken.analysis.entity.DebugEntry;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
 import com.octoperf.kraken.parser.gatling.log.api.LogParser;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.container.executor.ContainerExecutor;
 import com.octoperf.kraken.runtime.container.predicate.TaskPredicate;
 import com.octoperf.kraken.tools.reactor.utils.ReactorUtils;
@@ -43,11 +43,11 @@ final class GatlingParser {
   public void init() {
     executor.execute(empty(), (runtimeClient, me) -> {
       // List files
-      final var listFiles = commandService.execute(Command.builder()
+      final var listFiles = commandService.validate(Command.builder()
           .path(Paths.get(gatling.getHome()).toString())
-          .command(ImmutableList.of("ls", "-lR"))
+          .args(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
-          .build());
+          .build()).flatMapMany(commandService::execute);
       Optional.ofNullable(listFiles
           .collectList()
           .block()).orElse(Collections.emptyList()).forEach(log::info);

@@ -24,6 +24,11 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
+            <artifactId>git-client-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
             <artifactId>tools-environment</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -67,6 +72,13 @@
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>sse-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>git-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>

@@ -1,7 +1,6 @@
 package com.octoperf.kraken.grafana.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.octoperf.kraken.config.grafana.api.GrafanaProperties;
 import com.octoperf.kraken.grafana.client.api.GrafanaAdminClient;
 import com.octoperf.kraken.grafana.client.api.GrafanaUser;
@@ -63,7 +62,7 @@ final class WebGrafanaAdminClient implements GrafanaAdminClient {
         .retrieve()
         .bodyToMono(String.class), log)
         .flatMap(orgResponse -> Mono.fromCallable(() -> {
-          final ArrayNode responseNode = (ArrayNode) mapper.readTree(orgResponse);
+          final var responseNode = mapper.readTree(orgResponse);
           return GrafanaUser.builder()
               .id(response.getId().toString())
               .email(email)
@@ -102,8 +101,7 @@ final class WebGrafanaAdminClient implements GrafanaAdminClient {
         .defaultIfEmpty(""), log);
 
     return findUser
-        .flatMap(response -> Mono.zip(deleteUser.apply(response), deleteOrganization.apply(response)))
-        .map(t2 -> userId)
+        .flatMap(response -> deleteUser.apply(response).flatMap(s -> deleteOrganization.apply(response)).map(s -> userId))
         .doOnSubscribe(subscription -> log.info(String.format("Delete Grafana user %s", userId)))
         .doOnError(throwable -> log.error("Failed to delete Grafana user", throwable));
   }

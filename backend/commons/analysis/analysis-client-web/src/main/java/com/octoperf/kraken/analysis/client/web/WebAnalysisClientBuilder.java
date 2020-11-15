@@ -4,6 +4,7 @@ import com.octoperf.kraken.analysis.client.api.AnalysisClient;
 import com.octoperf.kraken.analysis.client.api.AnalysisClientBuilder;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.authentication.client.spring.WebAuthenticatedClientBuilder;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ final class WebAnalysisClientBuilder extends WebAuthenticatedClientBuilder<Analy
   }
 
   @Override
-  public Mono<AnalysisClient> build() {
-    return Mono.just(new WebAnalysisClient(webClientBuilder.build()));
+  public Mono<AnalysisClient> build(final AuthenticatedClientBuildOrder order) {
+    return Mono.just(new WebAnalysisClient(getWebClientBuilder(order).build()));
   }
 }

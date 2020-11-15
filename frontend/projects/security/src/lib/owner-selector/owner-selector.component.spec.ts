@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {OwnerSelectorComponent} from './owner-selector.component';
 import {FormGroup} from '@angular/forms';
 import {testPublicOwner} from 'projects/security/src/lib/entities/owner.spec';
-import {ApplicationOwner} from 'projects/security/src/lib/entities/application-owner';
-import {UserOwner} from 'projects/security/src/lib/entities/user-owner';
+import {Owner} from 'projects/security/src/lib/entities/owner';
 
 describe('OwnerSelectorComponent', () => {
   let component: OwnerSelectorComponent;
   let fixture: ComponentFixture<OwnerSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OwnerSelectorComponent]
     })
@@ -38,7 +37,7 @@ describe('OwnerSelectorComponent', () => {
     component.type.setValue('APPLICATION');
     component.typeSelected('APPLICATION');
     component.applicationId.setValue('applicationId');
-    expect(component.owner).toEqual(new ApplicationOwner('applicationId'));
+    expect(component.owner).toEqual(new Owner('', '', 'applicationId', 'APPLICATION'));
   });
 
   it('should return user owner', () => {
@@ -46,6 +45,6 @@ describe('OwnerSelectorComponent', () => {
     component.typeSelected('USER');
     component.applicationId.setValue('applicationId');
     component.userId.setValue('userId');
-    expect(component.owner).toEqual(new UserOwner('applicationId', 'userId'));
+    expect(component.owner).toEqual(new Owner('userId', '', 'applicationId', 'USER'));
   });
 });

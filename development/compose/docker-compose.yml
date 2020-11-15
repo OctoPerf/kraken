@@ -98,6 +98,7 @@ services:
     extra_hosts:
       - "kraken-dev-gatling-ui:${KRAKEN_LOCAL_IP}"
       - "kraken-dev-administration-ui:${KRAKEN_LOCAL_IP}"
+      - "kraken-dev-project-ui:${KRAKEN_LOCAL_IP}"
       - "kraken-dev-backend:${KRAKEN_LOCAL_IP}"
       - "kraken-dev-documentation:${KRAKEN_LOCAL_IP}"
     depends_on:

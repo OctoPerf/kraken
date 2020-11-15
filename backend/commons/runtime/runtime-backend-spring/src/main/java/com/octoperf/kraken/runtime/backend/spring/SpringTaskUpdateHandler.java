@@ -6,7 +6,7 @@ import com.octoperf.kraken.runtime.entity.task.Task;
 import com.octoperf.kraken.runtime.event.TaskCreatedEvent;
 import com.octoperf.kraken.runtime.event.TaskRemovedEvent;
 import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEvent;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,7 +42,7 @@ final class SpringTaskUpdateHandler implements TaskUpdateHandler {
 
   @Override
   public Flux<List<Task>> scanForUpdates() {
-    return taskListService.watch(PublicOwner.INSTANCE)
+    return taskListService.watch(Owner.PUBLIC)
         .scan((previousTasks, currentTasks) -> {
           final var previousMap = previousTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));
           final var currentMap = currentTasks.stream().collect(Collectors.toMap(Task::getId, Function.identity()));

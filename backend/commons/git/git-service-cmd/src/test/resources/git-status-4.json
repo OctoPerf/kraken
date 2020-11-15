@@ -1,0 +1,14 @@
+{
+  "branch" : {
+    "oid" : "c47dc23cfd5fbe184dba57ace28b8203a3226edd",
+    "head" : "(detached)"
+  },
+  "changed" : [ ],
+  "renamedCopied" : [ ],
+  "unmerged" : [ {
+    "xy" : "UU",
+    "path" : "README_2.md"
+  } ],
+  "untracked" : [ ],
+  "ignored" : [ ]
+}

@@ -15,7 +15,7 @@ import com.octoperf.kraken.runtime.entity.task.TaskType;
 import com.octoperf.kraken.runtime.tasks.configuration.TaskConfigurationService;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TaskConfiguration;
 import com.octoperf.kraken.runtime.tasks.configuration.entity.TaskConfigurationTest;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import com.octoperf.kraken.template.api.TemplateService;
 import com.octoperf.kraken.tools.unique.id.IdGenerator;
@@ -89,9 +89,9 @@ public class SpringExecutionContextServiceTest {
     given(templateService.replaceAll(anyString(), any())).willReturn(Mono.just("replaced"));
     given(toMap.apply(anyString(), any())).willReturn(ImmutableMap.of("hello", "toMap"));
 
-    final var context = this.service.newExecuteContext(PublicOwner.INSTANCE, executionEnvironment).block();
+    final var context = this.service.newExecuteContext(Owner.PUBLIC, executionEnvironment).block();
     assertThat(context).isEqualTo(ExecutionContext.builder()
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .templates(ImmutableMap.of("hostId", "replaced", "other", "replaced"))
@@ -99,7 +99,7 @@ public class SpringExecutionContextServiceTest {
         .build());
     verify(publisher).apply(ExecutionContextBuilder.builder()
         .hostIds(executionEnvironment.getHostIds())
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .containersCount(taskConfiguration.getContainersCount() * executionEnvironment.getHostIds().size())
         .taskId("taskId")
         .taskType(executionEnvironment.getTaskType())
@@ -124,9 +124,9 @@ public class SpringExecutionContextServiceTest {
 
   @Test
   public void shouldCreateCancelContext() {
-    final var context = this.service.newCancelContext(PublicOwner.INSTANCE, "taskId", TaskType.GATLING_RUN).block();
+    final var context = this.service.newCancelContext(Owner.PUBLIC, "taskId", TaskType.GATLING_RUN).block();
     assertThat(context).isEqualTo(CancelContext.builder()
-        .owner(PublicOwner.INSTANCE)
+        .owner(Owner.PUBLIC)
         .taskType(TaskType.GATLING_RUN)
         .taskId("taskId")
         .build());

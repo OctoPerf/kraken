@@ -8,11 +8,12 @@ import lombok.Value;
 @Value
 @Builder(toBuilder = true)
 @ExcludeFromObfuscation
+@SuppressWarnings("squid:S2068")
 public class InfluxDBUser {
 
-  public static String USERNAME_ATTRIBUTE = "databaseUsername";
-  public static String PASSWORD_ATTRIBUTE = "databasePassword";
-  public static String DATABASE_ATTRIBUTE = "databaseName";
+  public static final String USERNAME_ATTRIBUTE = "databaseUsername";
+  public static final String PASSWORD_ATTRIBUTE = "databasePassword";
+  public static final String DATABASE_ATTRIBUTE = "databaseName";
 
   @NonNull String username;
   @NonNull String password;

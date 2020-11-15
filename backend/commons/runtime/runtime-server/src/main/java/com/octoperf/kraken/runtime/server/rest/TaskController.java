@@ -2,6 +2,7 @@ package com.octoperf.kraken.runtime.server.rest;
 
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.backend.api.HostService;
+import com.octoperf.kraken.runtime.backend.api.TaskListService;
 import com.octoperf.kraken.runtime.backend.api.TaskService;
 import com.octoperf.kraken.runtime.context.api.ExecutionContextService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
@@ -10,12 +11,11 @@ import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironment;
 import com.octoperf.kraken.runtime.entity.host.Host;
 import com.octoperf.kraken.runtime.entity.task.Task;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.runtime.backend.api.TaskListService;
+import com.octoperf.kraken.runtime.event.*;
 import com.octoperf.kraken.security.authentication.api.UserProvider;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import com.octoperf.kraken.tools.sse.SSEService;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
-import com.octoperf.kraken.runtime.event.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -26,7 +26,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -51,29 +50,33 @@ public class TaskController {
 
   @PostMapping(produces = TEXT_PLAIN_VALUE)
   public Mono<String> run(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                          @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
                           @RequestBody() final ExecutionEnvironment environment) {
     log.info(String.format("Execute %s task", environment.getTaskType().toString()));
-    return userProvider.getOwner(applicationId)
-        .flatMap(owner -> hostService.list(owner).map(Host::getId).collectList().map(hosts -> Tuples.of(owner, hosts)))
-        .flatMap(t2 -> {
-              if (environment.getHostIds().stream().anyMatch(hostId -> !t2.getT2().contains(hostId))) {
-                return Mono.error(new IllegalArgumentException("Illegal access to hosts."));
-              }
-              return Mono.just(t2.getT1());
-            }
-        )
+    return userProvider.getOwner(applicationId, projectId)
+        .flatMap(owner ->
+            hostService.list(owner)
+                .map(Host::getId)
+                .collectList()
+                .flatMap(hosts -> {
+                  if (environment.getHostIds().stream().anyMatch((String hostId) -> !hosts.contains(hostId))) {
+                    return Mono.error(new IllegalArgumentException("Illegal access to hosts."));
+                  }
+                  return Mono.just(owner);
+                }))
         .flatMap(owner -> executionContextService.newExecuteContext(owner, environment))
         .flatMap(taskService::execute)
-        .doOnNext(_context -> eventBus.publish(TaskExecutedEvent.builder().context(_context).build()))
+        .doOnNext(ctx -> eventBus.publish(TaskExecutedEvent.builder().context(ctx).build()))
         .map(ExecutionContext::getTaskId);
   }
 
   @DeleteMapping(value = "/cancel/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> cancel(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                             @RequestParam("taskId") final String taskId,
+                             @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
+                             @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Cancel task %s", taskId));
-    return userProvider.getOwner(applicationId)
+    return userProvider.getOwner(applicationId, projectId)
         .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::cancel)
         .doOnNext(context -> eventBus.publish(TaskCancelledEvent.builder().context(context).build()))
@@ -82,24 +85,27 @@ public class TaskController {
 
   @DeleteMapping(value = "/remove/{type}", produces = TEXT_PLAIN_VALUE)
   public Mono<String> remove(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
-                             @RequestParam("taskId") final String taskId,
+                             @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId,
+                             @RequestParam("taskId") @Pattern(regexp = "[a-z0-9]*") final String taskId,
                              @PathVariable("type") final TaskType type) {
     log.info(String.format("Remove task %s", taskId));
-    return userProvider.getOwner(applicationId)
+    return userProvider.getOwner(applicationId, projectId)
         .flatMap(owner -> executionContextService.newCancelContext(owner, taskId, type))
         .flatMap(taskService::remove)
         .map(CancelContext::getTaskId);
   }
 
   @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<List<Task>>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
+  public Flux<ServerSentEvent<List<Task>>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                                 @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
     log.info("Watch tasks lists");
-    return userProvider.getOwner(applicationId).flatMapMany(owner -> sse.keepAlive(taskListService.watch(owner)));
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(owner -> sse.keepAlive(taskListService.watch(owner)));
   }
 
   @GetMapping(value = "/list")
-  public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    return userProvider.getOwner(applicationId).flatMapMany(taskListService::list);
+  public Flux<Task> list(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                         @RequestHeader("ProjectId") @Pattern(regexp = "[a-z0-9]{10}") final String projectId) {
+    return userProvider.getOwner(applicationId, projectId).flatMapMany(taskListService::list);
   }
 
   @GetMapping(value = "/events")

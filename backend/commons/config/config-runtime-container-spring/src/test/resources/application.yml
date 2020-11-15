@@ -6,3 +6,4 @@ kraken:
     host-id: hostId
     user-id: userId
     application-id: applicationId
+    project-id: projectId

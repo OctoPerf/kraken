@@ -18,13 +18,15 @@ import static org.springframework.web.reactive.function.BodyInserters.fromFormDa
 @AllArgsConstructor
 final class WebInfluxDBClient implements InfluxDBClient {
 
+  private static final String QUERY = "/query";
+  
   IdGenerator idGenerator;
   WebClient webClient;
 
   @Override
   public Mono<String> deleteSeries(final String database, final String testId) {
     return retry(webClient.post()
-        .uri(uri -> uri.path("/query").queryParam("db", database).build())
+        .uri(uri -> uri.path(QUERY).queryParam("db", database).build())
         .body(fromFormData("q", format("DROP SERIES FROM /.*/ WHERE test = '%s'", testId)))
         .retrieve()
         .bodyToMono(String.class), log)
@@ -43,21 +45,21 @@ final class WebInfluxDBClient implements InfluxDBClient {
         .build();
 
     final var createUser = retry(webClient.post()
-        .uri(uri -> uri.path("/query").build())
+        .uri(uri -> uri.path(QUERY).build())
         .body(fromFormData("q", format("CREATE USER %s WITH PASSWORD '%s'", user.getUsername(), user.getPassword())))
         .retrieve()
         .bodyToMono(String.class)
         .defaultIfEmpty(""), log);
 
     final var createDB = retry(webClient.post()
-        .uri(uri -> uri.path("/query").build())
+        .uri(uri -> uri.path(QUERY).build())
         .body(fromFormData("q", format("CREATE DATABASE %s", user.getDatabase())))
         .retrieve()
         .bodyToMono(String.class)
         .defaultIfEmpty(""), log);
 
     final var grantPrivileges = retry(webClient.post()
-        .uri(uri -> uri.path("/query").build())
+        .uri(uri -> uri.path(QUERY).build())
         .body(fromFormData("q", format("GRANT ALL ON %s TO %s", user.getDatabase(), user.getUsername())))
         .retrieve()
         .bodyToMono(String.class)
@@ -73,14 +75,14 @@ final class WebInfluxDBClient implements InfluxDBClient {
     final String id = sanitize(userId);
 
     final var dropDB = retry(webClient.post()
-        .uri(uri -> uri.path("/query").build())
+        .uri(uri -> uri.path(QUERY).build())
         .body(fromFormData("q", format("DROP DATABASE %s", id)))
         .retrieve()
         .bodyToMono(String.class)
         .defaultIfEmpty(""), log);
 
     final var dropUser = retry(webClient.post()
-        .uri(uri -> uri.path("/query").build())
+        .uri(uri -> uri.path(QUERY).build())
         .body(fromFormData("q", format("DROP USER %s", id)))
         .retrieve()
         .bodyToMono(String.class)

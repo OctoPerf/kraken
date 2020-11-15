@@ -27,4 +27,12 @@ export class WindowService {
     const tab = this.window.open();
     url.subscribe((tabLocation) => tab.location.href = encodeURI(tabLocation), () => tab.close());
   }
+
+  url(): string {
+    return `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+  }
+
+  reload(): void {
+    window.location.reload();
+  }
 }

@@ -2,9 +2,10 @@ package com.octoperf.kraken.storage.file;
 
 import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import org.junit.Assert;
@@ -63,7 +64,7 @@ public class FileSystemStorageServiceIntegrationTest {
       Files.write(invocation.getArgument(0), "file content".getBytes(UTF_8));
       return empty();
     });
-    service = serviceBuilder.build(PublicOwner.INSTANCE);
+    service = serviceBuilder.build(Owner.PUBLIC);
 
     events = new LinkedList<>();
     service.watch("").subscribe(storageWatcherEvent -> events.add(storageWatcherEvent));
@@ -75,29 +76,58 @@ public class FileSystemStorageServiceIntegrationTest {
   }
 
   @Test
-  public void shouldInit() throws IOException {
-    final var path = Path.of("testDir", "users", "user", "gatling", "README.md");
-    assertThat(path.toFile().exists()).isFalse();
-
-    serviceBuilder.build(UserOwner.builder().applicationId("gatling")
+  public void shouldInitFail() {
+    final var serviceAdmin = serviceBuilder.build(Owner.builder()
+        .applicationId("gatling")
+        .projectId("project-id")
         .userId("user")
         .roles(ImmutableList.of(KrakenRole.ADMIN))
+        .type(OwnerType.USER)
         .build());
+    create(serviceAdmin.init(StorageInitMode.COPY))
+        .expectError()
+        .verify();
+  }
+
+  @Test
+  public void shouldInit() throws IOException {
+    final var path = Path.of("testDir", "users", "user", "project-id", "gatling", "README.md");
     assertThat(path.toFile().exists()).isFalse();
-
-    serviceBuilder.build(UserOwner.builder().applicationId("gatling")
+    final var serviceUser =serviceBuilder.build(Owner.builder().applicationId("gatling")
         .userId("user")
+        .projectId("project-id")
         .roles(ImmutableList.of(KrakenRole.USER))
+        .type(OwnerType.USER)
         .build());
+    create(serviceUser.init(StorageInitMode.COPY))
+        .expectComplete()
+        .verify();
     assertThat(path.toFile().exists()).isTrue();
+    FileSystemUtils.deleteRecursively(Path.of("testDir", "users"));
+  }
 
+  @Test
+  public void shouldInitEmpty() throws IOException {
+    final var path = Path.of("testDir", "users", "user", "project-id", "gatling");
+    assertThat(path.toFile().exists()).isFalse();
+    final var serviceUser =serviceBuilder.build(Owner.builder().applicationId("gatling")
+        .userId("user")
+        .projectId("project-id")
+        .roles(ImmutableList.of(KrakenRole.USER))
+        .type(OwnerType.USER)
+        .build());
+    create(serviceUser.init(StorageInitMode.EMPTY))
+        .expectComplete()
+        .verify();
+    assertThat(path.toFile().exists()).isTrue();
+    assertThat(path.resolve("README.md").toFile().exists()).isFalse();
     FileSystemUtils.deleteRecursively(Path.of("testDir", "users"));
   }
 
   @Test
   public void shouldList() {
     create(service.list())
-        .expectNextCount(32)
+        .expectNextCount(33)
         .expectComplete()
         .verify();
   }
@@ -129,8 +159,8 @@ public class FileSystemStorageServiceIntegrationTest {
   public void shouldSetContentAndDelete() {
 
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var filename = "README2.md";
@@ -143,10 +173,10 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetContentSubFolderAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var filename = "content/README2.md";
@@ -159,11 +189,11 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetContentTwiceSubFolderAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(MODIFY).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(MODIFY).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content/README2.md").type(FILE).depth(1).length(13L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("content").type(FILE).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var filename = "content/README2.md";
     checkResult(service.setContent(filename, "Some Content"), events.subList(0, 2));
@@ -175,9 +205,9 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetContentTwiceAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(13L).lastModified(0L).build()).type(MODIFY).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(13L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(13L).lastModified(0L).build()).type(MODIFY).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("README2.md").type(FILE).depth(0).length(13L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var filename = "README2.md";
     checkResult(service.setContent(filename, "Some Content"), events.subList(0, 1));
@@ -189,10 +219,10 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetContentRenameAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("oldName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("oldName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("newName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("newName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("oldName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("oldName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("newName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("newName.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var oldName = "oldName.txt";
@@ -206,10 +236,10 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetDirectoryAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("some").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("some/directory").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("some/directory").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("some").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("some").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("some/directory").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("some/directory").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("some").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var path = "some/directory";
     checkResult(service.setDirectory(path), events.subList(0, 2));
@@ -220,8 +250,8 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetRootFileAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("myFile.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("myFile.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("myFile.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("myFile.txt").type(FILE).depth(0).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var filename = "myFile.txt";
@@ -235,16 +265,16 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetZip() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-dev-architecture.png").type(FILE).depth(2).length(63356L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-preview.gif").type(FILE).depth(2).length(2283806L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/version.txt").type(FILE).depth(2).length(6L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-dev-architecture.png").type(FILE).depth(2).length(63356L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/version.txt").type(FILE).depth(2).length(6L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-preview.gif").type(FILE).depth(2).length(2283806L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(FILE).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-dev-architecture.png").type(FILE).depth(2).length(63356L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-preview.gif").type(FILE).depth(2).length(2283806L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/version.txt").type(FILE).depth(2).length(6L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-dev-architecture.png").type(FILE).depth(2).length(63356L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/version.txt").type(FILE).depth(2).length(6L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken-preview.gif").type(FILE).depth(2).length(2283806L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(FILE).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var filename = "kraken.zip";
@@ -267,24 +297,24 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetZipWithSubFolders() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830512L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/README.md").type(FILE).depth(3).length(3138L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version/version.txt").type(FILE).depth(4).length(6L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/kraken-preview.gif").type(FILE).depth(4).length(2283806L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch").type(DIRECTORY).depth(4).length(4096L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(5).length(63356L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(5).length(63356L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch").type(DIRECTORY).depth(4).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/kraken-preview.gif").type(FILE).depth(4).length(2283806L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/README.md").type(FILE).depth(3).length(3138L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version/version.txt").type(FILE).depth(4).length(6L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830512L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/README.md").type(FILE).depth(3).length(3138L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version/version.txt").type(FILE).depth(4).length(6L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/kraken-preview.gif").type(FILE).depth(4).length(2283806L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch").type(DIRECTORY).depth(4).length(4096L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(5).length(63356L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(5).length(63356L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/arch").type(DIRECTORY).depth(4).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images/kraken-preview.gif").type(FILE).depth(4).length(2283806L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/images").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/README.md").type(FILE).depth(3).length(3138L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version/version.txt").type(FILE).depth(4).length(6L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken/version").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest/kraken").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/dest").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var filename = "kraken-sub.zip";
     final var destPath = "zipDir/dest";
@@ -307,22 +337,22 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldExtractZip() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/README.md").type(FILE).depth(2).length(3138L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version/version.txt").type(FILE).depth(3).length(6L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/kraken-preview.gif").type(FILE).depth(3).length(2283806L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(4).length(63356L).lastModified(1596199830552L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(4).length(63356L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/kraken-preview.gif").type(FILE).depth(3).length(2283806L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version/version.txt").type(FILE).depth(3).length(6L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/README.md").type(FILE).depth(2).length(3138L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version/version.txt").type(FILE).depth(3).length(6L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images").type(DIRECTORY).depth(2).length(4096L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/kraken-preview.gif").type(FILE).depth(3).length(2283806L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch").type(DIRECTORY).depth(3).length(4096L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(4).length(63356L).lastModified(1596199830552L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch/kraken-dev-architecture.png").type(FILE).depth(4).length(63356L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/arch").type(DIRECTORY).depth(3).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images/kraken-preview.gif").type(FILE).depth(3).length(2283806L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/images").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/README.md").type(FILE).depth(2).length(3138L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version/version.txt").type(FILE).depth(3).length(6L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken/version").type(DIRECTORY).depth(2).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/kraken").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var path = "zipDir/kraken-sub.zip";
 
@@ -340,6 +370,31 @@ public class FileSystemStorageServiceIntegrationTest {
     checkEvents(events);
   }
 
+  @Test
+  public void shouldExtractGitZip() {
+    final var events = ImmutableList.of(
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git").type(DIRECTORY).depth(1).length(4096L).lastModified(1596199830536L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git/config").type(FILE).depth(2).length(287L).lastModified(1596199830540L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git/config").type(FILE).depth(2).length(287L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("zipDir/_git").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
+    );
+    final var path = "zipDir/git.zip";
+
+    checkResult(service.extractZip(path), events.subList(0, 2));
+
+    final var files = service.find("zipDir/_git", 1, ".*").map(StorageNode::getPath).collect(Collectors.toList()).block();
+    assertThat(files).isNotNull();
+    System.out.println(files);
+    assertThat(files.size()).isEqualTo(1);
+
+    create(service.delete(Collections.singletonList("zipDir/_git")))
+        .expectNextCount(2)
+        .expectComplete()
+        .verify();
+
+    checkEvents(events);
+
+  }
 
   @Test
   public void shouldSetRootFileFailRelativePath() {
@@ -354,8 +409,8 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldSetSubFolderFileAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/myFile.txt").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/myFile.txt").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/myFile.txt").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/myFile.txt").type(FILE).depth(1).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var filename = "myFile.txt";
     final var createdPath = "visitorTest/myFile.txt";
@@ -369,10 +424,10 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldNewSetSubFolderFileAndDelete() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther/myFile.txt").type(FILE).depth(2).length(12L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther/myFile.txt").type(FILE).depth(2).length(12L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther/myFile.txt").type(FILE).depth(2).length(12L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther/myFile.txt").type(FILE).depth(2).length(12L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("visitorTest/someOther").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
     final var filename = "myFile.txt";
     final var createdPath = "visitorTest/someOther/myFile.txt";
@@ -463,15 +518,15 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldMove() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir2/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveTest/dir2/file1.md").type(FILE).depth(2).length(9L).lastModified(0L).build()).type(DELETE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "moveDest";
@@ -500,9 +555,9 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldMoveSameFolder() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest").type(DIRECTORY).depth(0).length(4096L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("moveDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(0L).build()).type(CREATE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "moveDest";
@@ -520,15 +575,15 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopy() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(1596464465849L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11").type(DIRECTORY).depth(2).length(4096L).lastModified(1596464466261L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11/file12.md").type(FILE).depth(3).length(10L).lastModified(1596464466865L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11/file11.md").type(FILE).depth(3).length(10L).lastModified(1596464467089L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(1596464467261L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(1596464467473L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467933L).build()).type(MODIFY).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1").type(DIRECTORY).depth(1).length(4096L).lastModified(1596464465849L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11").type(DIRECTORY).depth(2).length(4096L).lastModified(1596464466261L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11/file12.md").type(FILE).depth(3).length(10L).lastModified(1596464466865L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/dir11/file11.md").type(FILE).depth(3).length(10L).lastModified(1596464467089L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/file1.md").type(FILE).depth(2).length(9L).lastModified(1596464467261L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/dir1/file2.md").type(FILE).depth(2).length(9L).lastModified(1596464467473L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467933L).build()).type(MODIFY).owner(Owner.PUBLIC).build()
     );
     final var testFolder = "copyDest";
     checkResult(service.setDirectory(testFolder), events.subList(0, 1));
@@ -549,9 +604,9 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolder() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "copyDest";
@@ -569,11 +624,11 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolder2() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file2.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file2_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file2.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file2_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "copyDest";
@@ -591,9 +646,9 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolder3() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/file1_copy.md").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "copyDest";
@@ -612,9 +667,9 @@ public class FileSystemStorageServiceIntegrationTest {
   @Test
   public void shouldCopySameFolderDot() {
     final var events = ImmutableList.of(
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/.someFile").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build(),
-        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/_copy.someFile").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(PublicOwner.INSTANCE).build()
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest").type(DIRECTORY).depth(0).length(4096L).lastModified(1596464461633L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/.someFile").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build(),
+        StorageWatcherEvent.builder().node(StorageNode.builder().path("copyDest/_copy.someFile").type(FILE).depth(1).length(9L).lastModified(1596464467713L).build()).type(CREATE).owner(Owner.PUBLIC).build()
     );
 
     final var testFolder = "copyDest";

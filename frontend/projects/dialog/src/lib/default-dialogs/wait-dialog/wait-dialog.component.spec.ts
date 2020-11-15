@@ -1,7 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {WaitDialogComponent} from './wait-dialog.component';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {WaitDialogProgress} from 'projects/dialog/src/lib/default-dialogs/wait-dialog/wait-dialog-progress';
 
 describe('WaitDialogComponent', () => {
@@ -9,7 +9,7 @@ describe('WaitDialogComponent', () => {
   let fixture: ComponentFixture<WaitDialogComponent>;
   let progress: WaitDialogProgress;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     progress = {
       title: 'title',
       progress: 50

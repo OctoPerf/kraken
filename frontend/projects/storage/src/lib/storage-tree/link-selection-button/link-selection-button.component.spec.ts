@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {LinkSelectionButtonComponent} from './link-selection-button.component';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
@@ -12,8 +12,8 @@ import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
 import {testStorageDirectoryNode, testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {StorageTreeScrollService} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service';
-import SpyObj = jasmine.SpyObj;
 import {storageTreeScrollServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-scroll.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('LinkSelectionButtonComponent', () => {
   let fileNode: StorageNode;
@@ -23,7 +23,7 @@ describe('LinkSelectionButtonComponent', () => {
   let treeControl: SpyObj<StorageTreeControlService>;
   let scroll: SpyObj<StorageTreeScrollService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     scroll = storageTreeScrollServiceSpy();
     treeControl = storageTreeControlServiceSpy();
 

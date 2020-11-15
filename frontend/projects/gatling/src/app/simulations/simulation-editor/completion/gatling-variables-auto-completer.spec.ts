@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {Ace, edit} from 'ace-builds';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {GatlingVariablesAutoCompleter} from 'projects/gatling/src/app/simulations/simulation-editor/completion/gatling-variables-auto-completer';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
 import {CompletionCallback} from 'projects/editor/src/lib/completion-callback';
@@ -33,7 +33,7 @@ describe('GatlingVariablesAutoCompleter', () => {
   let callback: CompletionCallback;
   let results: CompletionCommandResult[] = [];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed
       .configureTestingModule({
         imports: [VendorsModule],

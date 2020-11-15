@@ -1,7 +1,7 @@
 package com.octoperf.kraken.storage.entity;
 
 import com.google.common.testing.NullPointerTester;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class StorageWatcherEventTest {
   public static final StorageWatcherEvent STORAGE_WATCHER_EVENT = StorageWatcherEvent.builder()
       .type(com.octoperf.kraken.storage.entity.StorageWatcherEventType.CREATE)
       .node(StorageNodeTest.STORAGE_NODE)
-      .owner(PublicOwner.INSTANCE)
+      .owner(Owner.PUBLIC)
       .build();
 
   @Test

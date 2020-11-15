@@ -30,9 +30,7 @@ public class RecordCheckerTest {
 
   @Test
   public void shouldFailCheck() {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      checker.accept(ImmutableMap.of());
-    });
+    Assertions.assertThrows(NullPointerException.class, () -> checker.accept(ImmutableMap.of()));
   }
 
   @Test
@@ -42,7 +40,7 @@ public class RecordCheckerTest {
         .put(KRAKEN_GATLING_SIMULATION_PACKAGE_NAME.name(), "value")
         .put(KRAKEN_GATLING_HAR_PATH_REMOTE.name(), "value")
         .build();
-    checker.accept(env);
+    Assertions.assertDoesNotThrow(() -> checker.accept(env));
   }
 
   @Test

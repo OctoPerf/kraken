@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ResultsTableComponent} from 'projects/analysis/src/lib/results/results-table/results-table.component';
 import {GatlingResultService} from 'projects/analysis/src/lib/results/results-table/gatling-result.service';
@@ -8,11 +8,11 @@ import {
   resultsTableServiceSpy,
   testResult
 } from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {of} from 'rxjs';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
 
 describe('ResultsTableComponent', () => {
@@ -20,19 +20,19 @@ describe('ResultsTableComponent', () => {
   let fixture: ComponentFixture<ResultsTableComponent>;
   let results: SpyObj<ResultsTableService>;
   let gatling: SpyObj<GatlingResultService>;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     results = resultsTableServiceSpy();
     gatling = gatlingResultServiceSpy();
-    dialogs = dialogsServiceSpy();
+    dialogs = defaultDialogServiceSpy();
 
     TestBed.configureTestingModule({
       declarations: [ResultsTableComponent],
       providers: [
         {provide: GatlingResultService, useValue: gatling},
         {provide: ResultsTableService, useValue: results},
-        {provide: DialogService, useValue: dialogs}
+        {provide: DefaultDialogService, useValue: dialogs}
       ]
     })
       .overrideProvider(GatlingResultService, {useValue: gatling})

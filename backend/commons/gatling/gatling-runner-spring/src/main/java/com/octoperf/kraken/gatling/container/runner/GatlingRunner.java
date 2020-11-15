@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
+import com.octoperf.kraken.gatling.setup.api.GatlingSetupFileService;
+import com.octoperf.kraken.gatling.setup.api.GatlingSetupSimulationService;
 import com.octoperf.kraken.runtime.container.executor.ContainerExecutor;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import lombok.AccessLevel;
@@ -31,14 +33,17 @@ import static lombok.AccessLevel.PACKAGE;
 @Component
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@SuppressWarnings("squid:S1602")
 final class GatlingRunner {
 
   @NonNull Mono<StorageClient> storageClientMono;
-  @NonNull CommandService commands;
-  @NonNull ContainerProperties container;
-  @NonNull GatlingProperties gatling;
+  @NonNull CommandService commandService;
+  @NonNull ContainerProperties containerProperties;
+  @NonNull GatlingProperties gatlingProperties;
   @NonNull Supplier<Command> newCommand;
   @NonNull ContainerExecutor executor;
+  @NonNull GatlingSetupFileService setupFileService;
+  @NonNull GatlingSetupSimulationService setupSimulationService;
 
   @PostConstruct
   public void init() {
@@ -46,42 +51,48 @@ final class GatlingRunner {
       // Warning: Do NOT Mono.zip these calls!
       storageClientMono.flatMap(storage ->
           // Download configuration
-          storage.downloadFolder(Paths.get(gatling.getConf().getLocal()), getRemoteConf())).block();
+          storage.downloadFolder(Paths.get(gatlingProperties.getConf().getLocal()), getRemoteConf())).block();
       storageClientMono.flatMap(storage ->
           // Download user files
-          storage.downloadFolder(Paths.get(gatling.getUserFiles().getLocal()), gatling.getUserFiles().getRemote())).block();
+          storage.downloadFolder(Paths.get(gatlingProperties.getUserFiles().getLocal()), gatlingProperties.getUserFiles().getRemote())).block();
       storageClientMono.flatMap(storage ->
           // Download lib folder
-          storage.downloadFolder(Paths.get(gatling.getLib().getLocal()), gatling.getLib().getRemote())).block();
+          storage.downloadFolder(Paths.get(gatlingProperties.getLib().getLocal()), gatlingProperties.getLib().getRemote())).block();
 
       // List files
-      final var listFiles = commands.execute(Command.builder()
-          .path(gatling.getHome())
-          .command(ImmutableList.of("ls", "-lR"))
+      final var listFiles = commandService.validate(Command.builder()
+          .path(gatlingProperties.getHome())
+          .args(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
-          .build());
+          .build()).flatMapMany(commandService::execute);
       Optional.ofNullable(listFiles
           .collectList()
           .block()).orElse(Collections.emptyList())
           .forEach(log::info);
+
+      // Update simulation script according to properties
+      setupFileService.loadSimulation()
+          .flatMap(setupSimulationService::update)
+          .flatMap(setupFileService::saveSimulation)
+          .block();
     }), (runtimeClient, me) -> {
       // Start gatling
-      commands.execute(newCommand.get())
+      commandService.execute(newCommand.get())
           .doOnNext(log::info).blockLast();
     }, of((runtimeClient, me) -> {
       // Upload result
       storageClientMono.flatMapMany(storage -> storage.uploadFile(
-          Paths.get(gatling.getResults().getLocal()),
-          get(getRemoteResult()).resolve("groups").resolve(container.getHostId()).toString()
+          Paths.get(gatlingProperties.getResults().getLocal()),
+          get(getRemoteResult()).resolve("groups").resolve(containerProperties.getHostId()).toString()
       )).blockLast();
     }));
   }
 
   private String getRemoteResult() {
-    return get(nullToEmpty(gatling.getResults().getRemote())).resolve(container.getTaskId()).toString();
+    return get(nullToEmpty(gatlingProperties.getResults().getRemote())).resolve(containerProperties.getTaskId()).toString();
   }
 
   private String getRemoteConf() {
-    return get(nullToEmpty(gatling.getConf().getRemote())).resolve(container.getTaskType().toString()).toString();
+    return get(nullToEmpty(gatlingProperties.getConf().getRemote())).resolve(containerProperties.getTaskType().toString()).toString();
   }
 }

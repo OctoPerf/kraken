@@ -1,1 +1,1 @@
-export type OwnerType = 'USER' | 'APPLICATION' | 'PUBLIC';
+export type OwnerType = 'USER' | 'PROJECT' | 'APPLICATION' | 'PUBLIC';

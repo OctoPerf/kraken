@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>runtime-command-api</artifactId>
+            <artifactId>command-executor-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -66,7 +66,7 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>runtime-command-entity</artifactId>
+            <artifactId>command-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
             <type>test-jar</type>

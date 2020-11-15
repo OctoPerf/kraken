@@ -1,0 +1,19 @@
+<div class="workspace" @insertWorkspace>
+  <div class="buttons">
+    <lib-account-menu></lib-account-menu>
+    <button mat-icon-button libOpenHelpExt>
+      <lib-icon [icon]="helpIcon"></lib-icon>
+    </button>
+  </div>
+
+  <ng-template cdkPortal #projectsPortal="cdkPortal">
+    <app-project-list></app-project-list>
+  </ng-template>
+
+  <ng-template cdkPortal #welcomePortal="cdkPortal">
+    <router-outlet>
+    </router-outlet>
+  </ng-template>
+
+  <lib-split-panes [id]="'app-split'" [panes]="splits" direction="horizontal"></lib-split-panes>
+</div>

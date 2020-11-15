@@ -23,6 +23,9 @@ import {RuntimeModule} from 'projects/runtime/src/lib/runtime.module';
 import {StorageWatcherService} from 'projects/storage/src/lib/storage-watcher.service';
 import {SecurityModule} from 'projects/security/src/lib/security.module';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
+import {GitProjectModule} from 'projects/git/src/lib/git-project/git-project.module';
+import {GitCommandModule} from 'projects/git/src/lib/git-command/git-command.module';
+import {GitFileStatusModule} from 'projects/git/src/lib/git-file-status/git-file-status.module';
 
 @NgModule({
   declarations: [
@@ -39,21 +42,26 @@ import {SSEService} from 'projects/sse/src/lib/sse.service';
     IconModule,
     StorageModule.forRoot(
       'gatling-storage',
-      [{
-        regexp: '.*\\.scala',
-        editor: SimulationEditorComponent,
-        helpPageId: 'EDITOR_GATLING'
-      },
+      [
+        {
+          regexp: '.*\\.scala',
+          editor: SimulationEditorComponent,
+          helpPageId: 'EDITOR_GATLING'
+        },
         {
           regexp: '.*\\.debug',
           editor: DebugEditorComponent,
           helpPageId: 'EDITOR_DEBUG'
-        }]
+        }
+      ]
     ),
     SimulationsModule,
     ResultsModule,
     RuntimeModule,
     SecurityModule,
+    GitProjectModule,
+    GitCommandModule,
+    GitFileStatusModule,
   ],
   providers: [
     NotificationService,

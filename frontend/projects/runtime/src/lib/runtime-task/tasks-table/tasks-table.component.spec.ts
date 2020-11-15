@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {TasksTableComponent} from 'projects/runtime/src/lib/runtime-task/tasks-table/tasks-table.component';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
@@ -10,11 +10,11 @@ import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-e
 import {TasksRefreshEvent} from 'projects/runtime/src/lib/events/tasks-refresh-event';
 import {of} from 'rxjs';
 import * as _ from 'lodash';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
-import {dialogsServiceSpy} from 'projects/dialog/src/lib/dialog.service.spec';
 import {testContainers} from 'projects/runtime/src/lib/entities/container.spec';
 import {Task} from 'projects/runtime/src/lib/entities/task';
 import {ContainerStatusIsTerminalPipe} from 'projects/runtime/src/lib/runtime-task/container-status/container-status-is-terminal.pipe';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
+import {defaultDialogServiceSpy} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service.spec';
 import SpyObj = jasmine.SpyObj;
 
 describe('TaskTableComponent', () => {
@@ -22,20 +22,20 @@ describe('TaskTableComponent', () => {
   let fixture: ComponentFixture<TasksTableComponent>;
   let taskService: SpyObj<RuntimeTaskService>;
   let eventBus: EventBusService;
-  let dialogs: SpyObj<DialogService>;
+  let dialogs: SpyObj<DefaultDialogService>;
   const spyPipe = jasmine.createSpyObj('ContainerStatusIsTerminalPipe', [
     'transform',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     taskService = runtimeTaskServiceSpy();
-    dialogs = dialogsServiceSpy();
+    dialogs = defaultDialogServiceSpy();
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [TasksTableComponent],
       providers: [
         {provide: RuntimeTaskService, useValue: taskService},
-        {provide: DialogService, useValue: dialogs},
+        {provide: DefaultDialogService, useValue: dialogs},
         {provide: ContainerStatusIsTerminalPipe, useValue: spyPipe},
         EventBusService,
       ]

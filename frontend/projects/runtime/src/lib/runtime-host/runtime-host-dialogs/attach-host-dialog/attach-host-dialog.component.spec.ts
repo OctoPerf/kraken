@@ -1,19 +1,19 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {AttachHostDialogComponent} from './attach-host-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {VendorsModule} from 'projects/vendors/src/lib/vendors.module';
-import SpyObj = jasmine.SpyObj;
 import {testPublicOwner} from 'projects/security/src/lib/entities/owner.spec';
 import {testHost} from 'projects/runtime/src/lib/entities/host.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('AttachHostDialogComponent', () => {
   let component: AttachHostDialogComponent;
   let fixture: ComponentFixture<AttachHostDialogComponent>;
   let dialogRef: SpyObj<MatDialogRef<AttachHostDialogComponent>>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogRef = dialogRefSpy();
     TestBed.configureTestingModule({
       imports: [VendorsModule],

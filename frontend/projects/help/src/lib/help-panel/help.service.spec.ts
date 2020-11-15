@@ -3,6 +3,15 @@ import {HelpService} from 'projects/help/src/lib/help-panel/help.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
+import {BehaviorSubject} from 'rxjs';
+import {HelpPageId} from 'projects/help/src/lib/help-panel/help-page-id';
+
+
+export const helpServiceSpy = () => {
+  const spy = jasmine.createSpyObj('HelpService', ['']);
+  spy.lastPage = new BehaviorSubject<HelpPageId>('HOME');
+  return spy;
+};
 
 
 describe('HelpService', () => {

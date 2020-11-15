@@ -1,0 +1,22 @@
+<lib-message level="info" centered="true" *ngIf="!dataSource.data.length">No files.</lib-message>
+<table [hidden]="!dataSource.data.length" mat-table [dataSource]="dataSource" matSort matSortActive="path"
+       matSortDirection="asc">
+  <ng-container matColumnDef="path">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">File</th>
+    <td mat-cell *matCellDef="let element"
+        [title]="'Path: '+element.path + ' - Orig. Path: '+ element.origPath">{{element.path}}</td>
+  </ng-container>
+  <ng-container matColumnDef="xy">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header" matTooltip="(Index/Working tree)">
+      Status
+    </th>
+    <td mat-cell *matCellDef="let element" [class]="element.xy | xyToColor | colorToTextClass">{{element.xy | xyToStatus}}</td>
+  </ng-container>
+  <ng-container matColumnDef="score">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Score</th>
+    <td mat-cell *matCellDef="let element">{{element.score}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

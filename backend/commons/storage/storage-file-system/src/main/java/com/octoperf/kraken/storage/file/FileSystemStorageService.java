@@ -1,6 +1,9 @@
 package com.octoperf.kraken.storage.file;
 
 import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
+import com.octoperf.kraken.security.entity.token.KrakenRole;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import com.octoperf.kraken.storage.entity.StorageWatcherEventType;
@@ -13,6 +16,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.util.FileSystemUtils;
+import org.zeroturnaround.zip.NameMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -45,31 +49,34 @@ import static reactor.core.publisher.Mono.fromCallable;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class FileSystemStorageService implements StorageService {
 
+  private static final String GIT_CONFIG = ".git";
+  private static final String GIT_CONFIG_REPLACEMENT = "_git";
+
   @NonNull Owner owner;
   @NonNull Path root;
   @NonNull PathToStorageNode toStorageNode;
+  @NonNull OwnerToPath ownerToPath;
   @NonNull EventBus eventBus;
+  @NonNull List<InitHandler> initHandlers;
 
-  public void init(final Path applicationPath) {
-    synchronized (applicationPath.toString().intern()) {
+  @Override
+  public Mono<Void> init(final StorageInitMode mode) {
+    if (!OwnerType.USER.equals(owner.getType()) || owner.getRoles().stream().anyMatch(krakenRole -> krakenRole.equals(KrakenRole.ADMIN))) {
+      return Mono.error(new IllegalArgumentException(String.format("init() is only available for Users, not for %s owners", owner.getType())));
+    }
+    return Mono.fromCallable(() -> {
+      log.debug(String.format("Init storage service for owner %s - path: %s", owner.toString(), root.toString()));
+      final var applicationPath = ownerToPath.apply(Owner.builder().applicationId(owner.getApplicationId()).type(OwnerType.APPLICATION).build());
       final var rootFile = root.toFile();
       if (!rootFile.exists()) {
         if (!rootFile.mkdirs()) {
-          throw new RuntimeException("Failed to create directory " + root);
-        }
-        try (final var stream = Files.walk(applicationPath)) {
-          stream.forEach(subFile -> {
-            try {
-              Files.copy(subFile, root.resolve(applicationPath.relativize(subFile)), StandardCopyOption.REPLACE_EXISTING);
-            } catch (Exception e) {
-              throw new RuntimeException(e.getMessage(), e);
-            }
-          });
-        } catch (IOException e) {
-          throw new RuntimeException(e.getMessage(), e);
+          throw new IllegalStateException("Failed to create directory " + root);
         }
       }
-    }
+      final var initHandler = this.initHandlers.stream().filter(handler -> handler.test(mode)).findFirst().orElseThrow();
+      initHandler.init(root, applicationPath);
+      return null;
+    });
   }
 
   @Override
@@ -81,7 +88,10 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageNode> list() {
     try {
-      return fromStream(Files.walk(root).map(toStorageNode)).filter(StorageNode::notRoot);
+      return fromStream(Files.walk(root)
+          .filter(this::isNotGitConfig)
+          .map(toStorageNode))
+          .filter(StorageNode::notRoot);
     } catch (Exception e) {
       return error(e);
     }
@@ -149,7 +159,7 @@ final class FileSystemStorageService implements StorageService {
         final var file = resolved.toFile();
         if (!file.exists()) {
           if (!file.mkdir()) {
-            throw new IOException("Failed to create directory " + resolved);
+            sink.error(new IOException("Failed to create directory " + resolved));
           }
           sink.next(StorageWatcherEvent.builder()
               .node(toStorageNode.apply(resolved))
@@ -208,11 +218,12 @@ final class FileSystemStorageService implements StorageService {
   @Override
   public Flux<StorageWatcherEvent> extractZip(String path) {
     final var zipPath = this.stringToPath(path);
+    final NameMapper nameMapper = (String name) -> name.contains(GIT_CONFIG) ? name.replace(GIT_CONFIG, "_git") : name;
     return this.callOperation(sink -> {
       final var parent = zipPath.getParent();
-      unpack(zipPath.toFile(), zipPath.getParent().toFile());
+      unpack(zipPath.toFile(), zipPath.getParent().toFile(), nameMapper);
       iterate(zipPath.toFile(), (in, zipEntry) -> sink.next(StorageWatcherEvent.builder()
-          .node(toStorageNode.apply(parent.resolve(zipEntry.getName())))
+          .node(toStorageNode.apply(parent.resolve(nameMapper.map(zipEntry.getName()))))
           .type(CREATE)
           .owner(this.owner)
           .build()));
@@ -243,7 +254,7 @@ final class FileSystemStorageService implements StorageService {
 
   @Override
   public Flux<StorageWatcherEvent> setContent(final String path, final String content) {
-    log.info(String.format("Set content at path %s: %s", path, content));
+    log.debug(String.format("Set content at path %s: %s", path, content));
     final var completePath = this.stringToPath(path);
     final var parentPath = Optional.ofNullable(Paths.get(path).getParent()).orElse(Path.of("")).toString();
     final var setDirectory = this.stringToPath(parentPath).toFile().exists() ? Flux.<StorageWatcherEvent>empty() : this.setDirectory(parentPath);
@@ -297,7 +308,9 @@ final class FileSystemStorageService implements StorageService {
           maxDepth,
           (path, basicFileAttributes) -> path.toFile().getName().matches(matcher)
       );
-      return Flux.fromStream(stream.filter(path -> !path.equals(completePath))).map(this.toStorageNode);
+      return Flux.fromStream(stream.filter(path -> !path.equals(completePath)))
+          .filter(this::isNotGitConfig)
+          .map(this.toStorageNode);
     } catch (IOException e) {
       return Flux.error(e);
     }
@@ -432,6 +445,11 @@ final class FileSystemStorageService implements StorageService {
   private Path stringToPath(final String path) throws IllegalArgumentException {
     checkArgument(!path.contains(".."), "Cannot store file with relative path outside current directory "
         + path);
+    checkArgument(!path.contains(GIT_CONFIG), "Cannot access git configuration files");
     return root.resolve(path);
+  }
+
+  private boolean isNotGitConfig(final Path path) {
+    return !path.toString().contains(GIT_CONFIG);
   }
 }

@@ -1,16 +1,19 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {STORAGE_NODE_BUTTONS, StorageNodeComponent} from './storage-node.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 import {StorageNodeButtonsComponent} from 'projects/storage/src/lib/storage-menu/storage-node-buttons/storage-node-buttons.component';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import {EventBusService} from 'projects/event/src/lib/event-bus.service';
+import {GitFileStatusEvent} from 'projects/git/src/lib/events/git-file-status-event';
 
 describe('StorageNodeComponent', () => {
   let component: StorageNodeComponent;
   let fixture: ComponentFixture<StorageNodeComponent>;
+  let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StorageNodeComponent],
       providers: [
@@ -20,6 +23,8 @@ describe('StorageNodeComponent', () => {
     })
       .overrideTemplate(StorageNodeComponent, '')
       .compileComponents();
+
+    eventBus = TestBed.inject(EventBusService);
   }));
 
   beforeEach(() => {
@@ -68,6 +73,12 @@ describe('StorageNodeComponent', () => {
     component.hover = false;
     expect(component.hover).toBeFalse();
     expect(nodeButtons.detach).toHaveBeenCalled();
+  });
+
+  it('should handle git file status event', () => {
+    component.node = testStorageFileNode();
+    eventBus.publish(new GitFileStatusEvent(component.node.path, 'AM', 'info'));
+    expect(component.color).toBe('info');
   });
 });
 

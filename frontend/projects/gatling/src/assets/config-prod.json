@@ -36,5 +36,6 @@
     "realm": "kraken",
     "clientId": "kraken-web"
   },
-  "expectedRoles": ["USER"]
+  "expectedRoles": ["USER"],
+  "sseChannels" : ["STORAGE", "RUNTIME"]
 }

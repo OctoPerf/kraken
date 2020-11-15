@@ -1,18 +1,18 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {DefaultStorageNodeEditorComponent} from './default-storage-node-editor.component';
 import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service';
 import {storageNodeEditorContentServiceSpy} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service.spec';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
-import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('DefaultStorageNodeEditorComponent', () => {
   let component: DefaultStorageNodeEditorComponent;
   let fixture: ComponentFixture<DefaultStorageNodeEditorComponent>;
   let contentService: SpyObj<StorageNodeEditorContentService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     contentService = storageNodeEditorContentServiceSpy();
     TestBed.configureTestingModule({
       declarations: [DefaultStorageNodeEditorComponent],

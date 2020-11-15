@@ -1,0 +1,30 @@
+<lib-help-anchor pageId="PROJECT_CREATE"></lib-help-anchor>
+<form [formGroup]="projectForm" autocomplete=off
+      class="block-filler"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="10px">
+  <h1 fxFlex="nogrow">New Project</h1>
+
+  <app-project-name-input
+    class="project-form-field"
+    fxFlex="nogrow"
+    fxFlexOffset="20px"
+    [projectForm]="projectForm">
+  </app-project-name-input>
+
+  <app-application-input
+    class="project-form-field"
+    fxFlex="nogrow"
+    [projectForm]="projectForm">
+  </app-application-input>
+
+  <div fxFlex="nogrow" fxFlexOffset="20px">
+    <button mat-button routerLink=".." type="button">Cancel</button>
+    <button mat-button (click)="create()"
+            type="submit" color="accent"
+            [disabled]="!projectForm.valid">
+      Create
+    </button>
+  </div>
+</form>

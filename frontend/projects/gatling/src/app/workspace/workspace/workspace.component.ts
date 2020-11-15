@@ -1,6 +1,6 @@
-import {Component, InjectionToken, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {SideConfiguration} from 'projects/workspaces/src/lib/side-configuration';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import {TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
@@ -45,10 +45,17 @@ import {faDocker} from '@fortawesome/free-brands-svg-icons/faDocker';
 import {ContainersTableComponent} from 'projects/runtime/src/lib/runtime-task/containers-table/containers-table.component';
 import {TaskSelectedEvent} from 'projects/runtime/src/lib/events/task-selected-event';
 import {OpenTasksEvent} from 'projects/runtime/src/lib/events/open-tasks-event';
-import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {ROOT_NODE} from 'projects/storage/src/lib/entities/storage-node';
 import {faCogs} from '@fortawesome/free-solid-svg-icons/faCogs';
+import {GitProjectService} from 'projects/git/src/lib/git-project/git-project.service';
+import {faGit} from '@fortawesome/free-brands-svg-icons/faGit';
+import {GitCommandComponent} from 'projects/git/src/lib/git-command/git-command/git-command.component';
+import {GitStatusComponent} from 'projects/git/src/lib/git-command/git-status/git-status.component';
+import {faGitAlt} from '@fortawesome/free-brands-svg-icons/faGitAlt';
+import {CurrentProjectService} from 'projects/git/src/lib/git-project/current-project/current-project.service';
+import {GitStatusTabHeaderComponent} from 'projects/git/src/lib/git-command/git-status-tab-header/git-status-tab-header.component';
 
-library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker, faCogs);
+library.add(faCode, faQuestionCircle, faBell, faFile, faPoll, faDocker, faCogs, faGitAlt, faGit);
 
 @Component({
   selector: 'app-workspace',
@@ -67,42 +74,60 @@ export class WorkspaceComponent implements OnInit {
   bottom: SideConfiguration;
   center: ComponentPortal<StorageEditorComponent>;
 
+  id: string;
+
   constructor(private injector: Injector,
-              private gatlingConfiguration: GatlingConfigurationService) {
+              private gatlingConfiguration: GatlingConfigurationService,
+              private gitProject: GitProjectService,
+              private currentProject: CurrentProjectService) {
   }
 
   ngOnInit() {
+    this.id = this.currentProject.currentProject.getValue().id;
+
     this.center = new ComponentPortal(StorageEditorComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_EDITOR_README_NODE, {path: 'gatling/README.md', type: 'FILE', depth: 1}],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_EDITOR_README_NODE, useValue: {path: 'gatling/README.md', type: 'FILE', depth: 1}}
+        ],
+        parent: this.injector
+      }));
 
     const simulationsTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, this.gatlingConfiguration.simulationsRootNode],
-        [STORAGE_ID, 'simulations-tree'],
-        [STORAGE_TREE_LABEL, 'Simulations'],
-        [STORAGE_NODE_BUTTONS, SimulationNodeButtonsComponent],
-        [STORAGE_CONTEXTUAL_MENU, SimulationContextualMenuComponent]
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: this.gatlingConfiguration.simulationsRootNode},
+          {provide: STORAGE_ID, useValue: `${this.id}-simulations-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Simulations'},
+          {provide: STORAGE_NODE_BUTTONS, useValue: SimulationNodeButtonsComponent},
+          {provide: STORAGE_CONTEXTUAL_MENU, useValue: SimulationContextualMenuComponent},
+        ],
+        parent: this.injector
+      }));
 
     const configurationTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, ROOT_NODE],
-        [STORAGE_ID, 'gatling-files-tree'],
-        [STORAGE_TREE_LABEL, 'Configuration'],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE},
+          {provide: STORAGE_ID, useValue: `${this.id}-gatling-files-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Configuration'},
+        ],
+        parent: this.injector
+      }));
 
     const resourcesTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, this.gatlingConfiguration.resourcesRootNode],
-        [STORAGE_TREE_LABEL, 'Resource Files'],
-        [STORAGE_ID, 'resources-tree'],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: this.gatlingConfiguration.resourcesRootNode},
+          {provide: STORAGE_ID, useValue: `${this.id}-resources-tree`},
+          {provide: STORAGE_TREE_LABEL, useValue: 'Resource Files'},
+        ],
+        parent: this.injector
+      }));
 
     this.left = new SideConfiguration(
       new TabsConfiguration(
@@ -147,7 +172,6 @@ export class WorkspaceComponent implements OnInit {
         -1,
         50
       ),
-
       new TabsConfiguration(
         [
           new Tab(new ComponentPortal(DebugEntriesTableComponent), 'Debug', DEBUG_ICON,
@@ -178,12 +202,26 @@ export class WorkspaceComponent implements OnInit {
             'GATLING_LOGS',
             true,
             [OpenLogsEvent.CHANNEL]),
+          // new Tab(
+          //   new ComponentPortal(GitCommandComponent),
+          //   'Command',
+          //   new IconFa(faGit),
+          //   'GIT_COMMAND',
+          //   false)
         ],
         0,
         60
       ),
       new TabsConfiguration(
         [
+          // new Tab(
+          //   new ComponentPortal(GitStatusComponent),
+          //   'Status',
+          //   new IconFa(faGitAlt),
+          //   'GIT_STATUS',
+          //   false,
+          //   [],
+          //   GitStatusTabHeaderComponent),
           new Tab(
             new ComponentPortal(ContainersTableComponent),
             'Containers',
@@ -199,7 +237,7 @@ export class WorkspaceComponent implements OnInit {
             [OpenNotificationsEvent.CHANNEL],
             NotificationsTabHeaderComponent),
         ],
-        0,
+        2,
         40
       ),
       30

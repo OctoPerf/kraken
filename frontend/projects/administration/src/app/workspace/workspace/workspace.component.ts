@@ -1,6 +1,6 @@
-import {Component, InjectionToken, Injector, OnInit} from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import {SideConfiguration} from 'projects/workspaces/src/lib/side-configuration';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {IconFa} from 'projects/icon/src/lib/icon-fa';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import {EMPTY_TABS_CONFIG, TabsConfiguration} from 'projects/workspaces/src/lib/tabs-configuration';
@@ -19,7 +19,7 @@ import {faFolderOpen} from '@fortawesome/free-regular-svg-icons/faFolderOpen';
 import {StorageEditorComponent} from 'projects/storage/src/lib/storage-editor/storage-editor/storage-editor.component';
 import {OpenHelpEvent} from 'projects/help/src/lib/help-panel/open-help-event';
 import {OpenNotificationsEvent} from 'projects/notification/src/lib/open-notifications-event';
-import {ROOT_NODE, StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import {ROOT_NODE} from 'projects/storage/src/lib/entities/storage-node';
 import {STORAGE_ROOT_NODE} from 'projects/storage/src/lib/storage-tree/storage-tree-data-source.service';
 import {OpenStorageTreeEvent} from 'projects/storage/src/lib/events/open-storage-tree-event';
 import {HostsTableComponent} from 'projects/runtime/src/lib/runtime-host/hosts-table/hosts-table.component';
@@ -52,9 +52,12 @@ export class WorkspaceComponent implements OnInit {
 
     const adminTree = new ComponentPortal(StorageTreeComponent,
       null,
-      new PortalInjector(this.injector, new WeakMap<InjectionToken<any>, any>([
-        [STORAGE_ROOT_NODE, ROOT_NODE],
-      ])));
+      Injector.create({
+        providers: [
+          {provide: STORAGE_ROOT_NODE, useValue: ROOT_NODE}
+        ],
+        parent: this.injector
+      }));
 
     this.left = new SideConfiguration(
       new TabsConfiguration(

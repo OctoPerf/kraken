@@ -1,0 +1,34 @@
+{
+  "branch" : {
+    "oid" : "51c9c58e2175b768137c1e38865f394c76a7d49d",
+    "head" : "master",
+    "upstream" : "origin/master",
+    "ahead" : 1,
+    "behind" : 10
+  },
+  "changed" : [ {
+    "xy" : ".M",
+    "path" : "Gopkg.lock"
+  }, {
+    "xy" : ".M",
+    "path" : "Gopkg.toml"
+  }, {
+    "xy" : ".M",
+    "path" : "porcelain.go"
+  }, {
+    "xy" : ".D",
+    "path" : "porcelain_test.go"
+  } ],
+  "renamedCopied" : [ {
+    "xy" : "R.",
+    "score" : "R100",
+    "path" : "hm.rb",
+    "origPath" : "hw.rb"
+  } ],
+  "unmerged" : [ {
+    "xy" : "UU",
+    "path" : "hw.rb"
+  } ],
+  "untracked" : [ "_porcelain_test.go", "git.go", "git_test.go", "goreleaser.yml" ],
+  "ignored" : [ "vendor/" ]
+}

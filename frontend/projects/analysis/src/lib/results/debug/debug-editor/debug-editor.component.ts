@@ -10,11 +10,11 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {Portal} from '@angular/cdk/portal';
 import {SplitPane} from 'projects/split/src/lib/split-pane';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {StringToolsService} from 'projects/tools/src/lib/string-tools.service';
-import {faClipboard} from '@fortawesome/free-regular-svg-icons/faClipboard';
+import {EditorDialogService} from 'projects/dialog/src/lib/editor-dialogs/editor-dialog.service';
+import {CLIPBOARD_ICON} from 'projects/icon/src/lib/icons';
 
-library.add(faExternalLinkAlt, faInfoCircle, faClipboard);
+library.add(faExternalLinkAlt, faInfoCircle);
 
 @Component({
   selector: 'lib-debug-editor',
@@ -27,7 +27,7 @@ library.add(faExternalLinkAlt, faInfoCircle, faClipboard);
 export class DebugEditorComponent extends DefaultStorageNodeEditorComponent implements OnInit {
 
   readonly newTabIcon = new IconFa(faExternalLinkAlt, 'primary');
-  readonly copyToClipboardIcon = new IconFa(faClipboard, 'accent');
+  readonly copyToClipboardIcon = CLIPBOARD_ICON;
   readonly sessionIcon = new IconFa(faInfoCircle, 'accent');
 
   public debug: DebugEditorContentService;
@@ -37,7 +37,7 @@ export class DebugEditorComponent extends DefaultStorageNodeEditorComponent impl
 
   constructor(@Inject(STORAGE_NODE) node: StorageNode,
               public contentService: StorageNodeEditorContentService,
-              private dialogs: DialogService,
+              private dialogs: EditorDialogService,
               private strings: StringToolsService) {
     super(node, contentService);
     this.debug = contentService as DebugEditorContentService;

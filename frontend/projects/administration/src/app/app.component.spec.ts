@@ -1,11 +1,11 @@
-import {async, TestBed} from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {ConfigurationService} from 'projects/commons/src/lib/config/configuration.service';
 import {configurationServiceMock} from 'projects/commons/src/lib/config/configuration.service.spec';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule],
       declarations: [

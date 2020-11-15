@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.container.executor.ContainerExecutor;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import lombok.AllArgsConstructor;
@@ -31,6 +31,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Component
 @AllArgsConstructor(access = PACKAGE)
 @FieldDefaults(level = PRIVATE, makeFinal = true)
+@SuppressWarnings("squid:S1602")
 final class GatlingRecorder {
 
   @NonNull Mono<StorageClient> storageClientMono;
@@ -49,11 +50,11 @@ final class GatlingRecorder {
       // Download HAR
       storageClientMono.flatMap(storage -> storage.downloadFile(Paths.get(gatling.getHarPath().getLocal()), gatling.getHarPath().getRemote())).block();
       // List files
-      final var listFiles = commands.execute(Command.builder()
+      final var listFiles = commands.validate(Command.builder()
           .path(gatling.getHome())
-          .command(ImmutableList.of("ls", "-lR"))
+          .args(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
-          .build());
+          .build()).flatMapMany(commands::execute);
       Optional.ofNullable(listFiles
           .collectList()
           .block()).orElse(Collections.emptyList()).forEach(log::info);

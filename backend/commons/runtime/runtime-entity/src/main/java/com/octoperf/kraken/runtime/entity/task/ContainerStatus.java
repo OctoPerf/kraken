@@ -21,7 +21,7 @@ public enum ContainerStatus {
   }
 
   public static ContainerStatus parse(final String str) {
-    final var underscoreIndex = str.lastIndexOf("_");
+    final var underscoreIndex = str.lastIndexOf('_');
     return ContainerStatus.valueOf(str.substring(underscoreIndex + 1));
   }
 }

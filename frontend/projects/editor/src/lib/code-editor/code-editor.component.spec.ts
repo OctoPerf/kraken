@@ -1,17 +1,24 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
 
 import * as _ from 'lodash';
 import {CodeEditorComponent} from 'projects/editor/src/lib/code-editor/code-editor.component';
 import {CodeService} from 'projects/editor/src/lib/code.service';
 import {codeServiceSpy} from 'projects/editor/src/lib/code.service.spec';
 import {EditorModule} from 'projects/editor/src/lib/editor.module';
-import {ChangeDetectorRef, Input} from '@angular/core';
-import SpyObj = jasmine.SpyObj;
+import {ChangeDetectorRef} from '@angular/core';
 import {changeDetectorSpy} from 'projects/commons/src/lib/mock/angular.mock.spec';
 import {VariablesAutoCompleter} from 'projects/editor/src/lib/variables-auto-completer';
 import {KeyBinding} from 'projects/tools/src/lib/key-bindings.service';
 import {CodeSnippetService} from 'projects/editor/src/lib/code-snippet.service';
 import {codeSnippetServiceSpy} from 'projects/editor/src/lib/code-snippet.service.spec';
+import SpyObj = jasmine.SpyObj;
+
+export const codeEditorComponentSpy = () => {
+  const spy = jasmine.createSpyObj('CodeEditorComponent', [
+    'appendText',
+  ]);
+  return spy;
+};
 
 describe('CodeEditorComponent', () => {
   let component: CodeEditorComponent;
@@ -20,7 +27,7 @@ describe('CodeEditorComponent', () => {
   let codeSnippetService: CodeSnippetService;
   let changeDetector: SpyObj<ChangeDetectorRef>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     codeService = codeServiceSpy();
     codeSnippetService = codeSnippetServiceSpy();
     changeDetector = changeDetectorSpy();

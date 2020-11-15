@@ -3,23 +3,24 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import com.octoperf.kraken.runtime.entity.log.Log;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.runtime.logs.LogsService;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
+import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.tests.utils.ResourceUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
@@ -32,12 +33,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
+@Tag("integration")
+@SuppressWarnings("squid:S2925")
 public class DockerTaskServiceExecutionIntegrationTest {
 
   @Autowired
   DockerTaskService taskService;
   @Autowired
-  LogsService logsService;
+  TaskLogsService logsService;
   @Autowired
   CommandService commandService;
 
@@ -45,7 +48,7 @@ public class DockerTaskServiceExecutionIntegrationTest {
   public void before() {
     final var clean = Command.builder()
         .path(Paths.get("testDir").toAbsolutePath().toString())
-        .command(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
+        .args(Arrays.asList("/bin/sh", "-c", "docker rm -v $(docker ps -a -q -f status=exited)"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(clean).onErrorReturn("").blockLast();
@@ -55,8 +58,9 @@ public class DockerTaskServiceExecutionIntegrationTest {
   public void shouldExecuteAndCancelStatus() throws InterruptedException, IOException {
     final var taskId = "taskId";
     final var appId = "test";
+    final var projectId = "project";
     final var userId = "user";
-    final var owner = UserOwner.builder().applicationId(appId).userId(userId).roles(ImmutableList.of(USER)).build();
+    final var owner = Owner.builder().applicationId(appId).projectId(projectId).userId(userId).roles(ImmutableList.of(USER)).type(OwnerType.USER).build();
     final var taskType = TaskType.GATLING_RECORD;
     final var template = ResourceUtils.getResourceContent("docker-compose.yml");
     final var logs = new ArrayList<Log>();

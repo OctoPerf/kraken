@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import SpyObj = jasmine.SpyObj;
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {RuntimeLogService} from 'projects/runtime/src/lib/runtime-log/runtime-log.service';
 import {runtimeLogServiceSpy} from 'projects/runtime/src/lib/runtime-log/runtime-log.service.spec';
 import {RuntimeLogsHeaderComponent} from 'projects/runtime/src/lib/runtime-log/runtime-logs-header/runtime-logs-header.component';
+import SpyObj = jasmine.SpyObj;
 
 describe('RuntimeLogsHeaderComponent', () => {
   let component: RuntimeLogsHeaderComponent;
   let fixture: ComponentFixture<RuntimeLogsHeaderComponent>;
   let service: SpyObj<RuntimeLogService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     service = runtimeLogServiceSpy();
 
     TestBed.configureTestingModule({

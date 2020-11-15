@@ -1,0 +1,5 @@
+@import 'app-filler';
+
+:host, .mat-form-field {
+  @include block-filler-x();
+}

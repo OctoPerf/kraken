@@ -1,9 +1,9 @@
 package com.octoperf.kraken.runtime.event;
 
 import com.google.common.testing.NullPointerTester;
+import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
-import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;

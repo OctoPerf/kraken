@@ -1,0 +1,17 @@
+<div fxLayout="row" fxLayoutAlign="start center"
+     (mouseenter)="hover = true"
+     (mouseleave)="hover = false">
+  <div fxFlex fxFlexOffset="8px" class="text-ellipsis block-filler-y"
+        [title]="project.id"
+        (click)="open()">
+    <div fxLayout="column" fxLayoutAlign="center" class="block-filler-y">
+        <div class="name" fxFlex="nogrow" fxFlexOffset="8px">{{project.name}}</div>
+        <div class="application" fxFlex fxFlexOffset="2px">{{project.applicationId | prettyString}}</div>
+    </div>
+  </div>
+  <div fxFlex="none" *ngIf="hover">
+    <button mat-icon-button (click)="delete($event.ctrlKey)" matTooltip="Delete this project">
+      <lib-icon [icon]="deleteIcon"></lib-icon>
+    </button>
+  </div>
+</div>

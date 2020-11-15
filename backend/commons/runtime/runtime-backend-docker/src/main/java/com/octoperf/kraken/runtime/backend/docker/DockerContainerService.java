@@ -2,12 +2,12 @@ package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.backend.api.ContainerService;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.log.LogType;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.function.BiFunction;
 final class DockerContainerService implements ContainerService {
 
   @NonNull CommandService commandService;
-  @NonNull LogsService logsService;
+  @NonNull TaskLogsService logsService;
   @NonNull BiFunction<String, ContainerStatus, String> containerStatusToName;
   @NonNull ContainerFindService findService;
 
@@ -36,12 +36,12 @@ final class DockerContainerService implements ContainerService {
     return this.findService.find(owner, taskId, containerName).flatMap(flatContainer -> Mono.fromCallable(() -> {
       final var command = Command.builder()
           .path(".")
-          .command(Arrays.asList("docker",
+          .args(Arrays.asList("docker",
               "logs",
               "-f", containerId))
           .environment(ImmutableMap.of())
           .build();
-      final var logs = commandService.execute(command);
+      final var logs = commandService.validate(command).flatMapMany(commandService::execute);
       final var id = this.logsId(taskId, containerId, containerName);
       logsService.push(owner, id, LogType.CONTAINER, logs);
       return id;
@@ -61,19 +61,23 @@ final class DockerContainerService implements ContainerService {
     return this.findService.find(owner, taskId, containerName).flatMap(flatContainer -> {
       final var command = Command.builder()
           .path(".")
-          .command(Arrays.asList("docker",
+          .args(Arrays.asList("docker",
               "rename",
               containerId,
               containerStatusToName.apply(containerName, status)))
           .environment(ImmutableMap.of())
           .build();
 
-      return commandService.execute(command).collectList().map(strings -> {
-        final var logs = String.join("\n", strings);
-        log.info(logs);
-        return logs;
-      });
-    }).then();
+      return commandService.validate(command)
+          .flatMapMany(commandService::execute)
+          .collectList()
+          .map(strings -> {
+            final var logs = String.join("\n", strings);
+            log.info(logs);
+            return logs;
+          });
+    })
+        .then();
   }
 
   @Override

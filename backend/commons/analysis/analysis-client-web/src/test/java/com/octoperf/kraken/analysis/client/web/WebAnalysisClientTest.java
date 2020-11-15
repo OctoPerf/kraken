@@ -11,6 +11,7 @@ import com.octoperf.kraken.analysis.entity.ResultTest;
 import com.octoperf.kraken.config.backend.client.api.BackendClientProperties;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.storage.entity.StorageNodeTest;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -53,7 +54,7 @@ public class WebAnalysisClientTest {
 
     final String url = server.url("/").toString();
     when(properties.getUrl()).thenReturn(url);
-    client = new WebAnalysisClientBuilder(filterFactories, properties).mode(AuthenticationMode.NOOP).build().block();
+    client = new WebAnalysisClientBuilder(filterFactories, properties).build(AuthenticatedClientBuildOrder.NOOP).block();
   }
 
   @AfterEach

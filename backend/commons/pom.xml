@@ -14,6 +14,7 @@
         <module>config</module>
         <module>ee</module>
         <module>gatling</module>
+        <module>git</module>
         <module>parser</module>
         <module>runtime</module>
         <module>security</module>
@@ -21,6 +22,8 @@
         <module>storage</module>
         <module>template</module>
         <module>tools</module>
+        <module>project</module>
+        <module>command</module>
     </modules>
 
     <dependencies>

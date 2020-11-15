@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
@@ -41,6 +40,10 @@ public class SecurityConfiguration {
         // Storage
         .pathMatchers("/files/**").hasAnyAuthority(USER.name())
         .pathMatchers("/user-events/**").hasAnyAuthority(API.name())
+        // Project
+        .pathMatchers("/project/**").hasAnyAuthority(USER.name())
+        // Git
+        .pathMatchers("/git/**").hasAnyAuthority(USER.name())
         // Test only
         .pathMatchers("/test/user/**").hasAnyAuthority(USER.name())
         .pathMatchers("/test/admin/**").hasAnyAuthority(ADMIN.name())

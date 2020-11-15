@@ -1,0 +1,20 @@
+<div [formGroup]="formGroup" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <mat-form-field fxFlex="grow">
+    <input type="text" matInput [placeholder]="label" [formControl]="duration"
+           required>
+    <mat-error *ngIf="duration.hasError('required')">
+      Duration is required.
+    </mat-error>
+    <mat-error *ngIf="duration.hasError('min')">
+      Duration must be positive.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field fxFlex="nogrow">
+    <mat-select required [formControl]="unit">
+      <mat-option value="S">Seconds</mat-option>
+      <mat-option value="M">Minutes</mat-option>
+      <mat-option value="H">Hours</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+

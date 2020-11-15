@@ -96,7 +96,6 @@ import {CdkScrollableModule, CdkVirtualScrollViewport} from '@angular/cdk/scroll
     A11yModule,
     PortalModule,
     OverlayModule,
-
     CdkScrollableModule,
   ],
   providers: [
@@ -106,6 +105,6 @@ import {CdkScrollableModule, CdkVirtualScrollViewport} from '@angular/cdk/scroll
   ]
 })
 export class MaterialModule {
-  // FontAwesome ones are visible here https://fontawesome.com
-  // Material icon are visible here https://material.io/tools/icons/?style=baseline
+  // FontAwesome icons are visible here https://fontawesome.com
+  // Material icons are visible here https://material.io/tools/icons/?style=baseline
 }

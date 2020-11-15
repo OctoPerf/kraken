@@ -1,5 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {TableOverlayComponent} from 'projects/components/src/lib/table-overlay/table-overlay.component';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {ComponentsModule} from 'projects/components/src/lib/components.module';
 import {MatTableDataSource} from '@angular/material/table';
 import {TableOverlaySelectionComponent} from 'projects/components/src/lib/table-overlay-selection/table-overlay-selection.component';
@@ -12,7 +11,7 @@ describe('TableOverlaySelectionComponent', () => {
   let component: TableOverlaySelectionComponent<any>;
   let fixture: ComponentFixture<TableOverlaySelectionComponent<any>>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ComponentsModule],
       providers: [

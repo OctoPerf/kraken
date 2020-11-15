@@ -2,8 +2,7 @@ package com.octoperf.kraken.runtime.entity.log;
 
 import com.google.common.testing.NullPointerTester;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwnerTest;
-import com.octoperf.kraken.security.entity.owner.UserOwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ import static com.google.common.testing.NullPointerTester.Visibility.PACKAGE;
 public class LogTest {
 
   public static final Log LOG = Log.builder()
-      .owner(UserOwnerTest.USER_OWNER)
+      .owner(OwnerTest.USER_OWNER)
       .id("id")
       .type(LogType.CONTAINER)
       .text("text")
@@ -28,7 +27,7 @@ public class LogTest {
   @Test
   public void shouldPassNPE() {
     new NullPointerTester()
-        .setDefault(Owner.class, PublicOwnerTest.PUBLIC_OWNER)
+        .setDefault(Owner.class, Owner.PUBLIC)
         .testConstructors(LOG.getClass(), PACKAGE);
   }
   @Test

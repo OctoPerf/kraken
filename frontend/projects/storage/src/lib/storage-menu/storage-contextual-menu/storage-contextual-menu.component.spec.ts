@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {StorageContextualMenuComponent} from './storage-contextual-menu.component';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
@@ -14,7 +14,7 @@ describe('StorageContextualMenuComponent', () => {
   let fixture: ComponentFixture<StorageContextualMenuComponent>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StorageContextualMenuComponent],
       providers: [

@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SimulationContextualMenuComponent} from './simulation-contextual-menu.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
 import {storageTreeControlServiceSpy} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service.spec';
 import {SimulationService} from 'projects/gatling/src/app/simulations/simulation.service';
 import {simulationServiceSpy} from 'projects/gatling/src/app/simulations/simulation.service.spec';
-import SpyObj = jasmine.SpyObj;
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('SimulationContextualMenuComponent', () => {
   let component: SimulationContextualMenuComponent;
@@ -14,7 +14,7 @@ describe('SimulationContextualMenuComponent', () => {
   let treeControl: SpyObj<StorageTreeControlService>;
   let simulation: SpyObj<SimulationService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SimulationContextualMenuComponent],
       providers: [

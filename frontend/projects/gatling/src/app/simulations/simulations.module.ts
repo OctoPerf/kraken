@@ -13,7 +13,6 @@ import {StorageNodeEditorsModule} from 'projects/storage/src/lib/storage-editor/
 import {SimulationService} from 'projects/gatling/src/app/simulations/simulation.service';
 import {DialogModule} from 'projects/dialog/src/lib/dialog.module';
 import {DateModule} from 'projects/date/src/lib/date.module';
-import {AnalysisModule} from 'projects/analysis/src/lib/analysis.module';
 import {UploadHarMenuItemComponent} from './upload-har-menu-item/upload-har-menu-item.component';
 import {ImportHarMenuItemComponent} from './import-har-menu-item/import-har-menu-item.component';
 import {DebugSimulationMenuItemComponent} from 'projects/gatling/src/app/simulations/debug-simulation-menu-item/debug-simulation-menu-item.component';
@@ -29,8 +28,7 @@ import {SimulationDialogsModule} from 'projects/gatling/src/app/simulations/simu
     EditorModule,
     StorageNodeEditorsModule,
     DialogModule,
-    DateModule,
-    AnalysisModule
+    DateModule
   ],
   declarations: [
     RunSimulationNodeButtonComponent,

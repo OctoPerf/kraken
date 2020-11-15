@@ -1,0 +1,18 @@
+@import 'app-filler';
+@import 'app-compact';
+@import 'app-table';
+
+:host {
+  @include block-filler();
+  @include compact-table();
+  @include background-background-shade(900);
+}
+
+table {
+  @include table-filler();
+  @include background-background-shade(900);
+}
+
+.table-header {
+  @include background-background();
+}

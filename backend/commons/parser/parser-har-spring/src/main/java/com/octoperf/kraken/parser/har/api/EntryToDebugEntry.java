@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.ToLongFunction;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -27,7 +27,7 @@ final class EntryToDebugEntry implements BiFunction<JsonNode, String, DebugEntry
   @NonNull
   ObjectMapper mapper;
   @NonNull
-  Function<String, Long> stringToTimestamp;
+  ToLongFunction<String> stringToTimestamp;
 
   @Override
   public DebugEntry apply(final JsonNode entryNode, final String id) {
@@ -51,7 +51,7 @@ final class EntryToDebugEntry implements BiFunction<JsonNode, String, DebugEntry
 
     // Set date
     final var dateStr = entryNode.get("startedDateTime").asText();
-    builder.date(this.stringToTimestamp.apply(dateStr));
+    builder.date(this.stringToTimestamp.applyAsLong(dateStr));
 
     // Set request body
     var requestBody = "";

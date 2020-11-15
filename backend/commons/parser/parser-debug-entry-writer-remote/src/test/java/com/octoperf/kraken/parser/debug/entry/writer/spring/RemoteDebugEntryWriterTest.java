@@ -6,6 +6,7 @@ import com.octoperf.kraken.analysis.entity.DebugEntry;
 import com.octoperf.kraken.config.runtime.container.api.ContainerProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
 import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,10 +36,13 @@ public class RemoteDebugEntryWriterTest {
   @BeforeEach
   public void setUp() {
     given(containerProperties.getApplicationId()).willReturn("app");
+    given(containerProperties.getProjectId()).willReturn("project");
     given(containerProperties.getTaskId()).willReturn("taskId");
-    given(clientBuilder.mode(AuthenticationMode.CONTAINER)).willReturn(clientBuilder);
-    given(clientBuilder.applicationId("app")).willReturn(clientBuilder);
-    given(clientBuilder.build()).willReturn(Mono.just(client));
+    given(clientBuilder.build(AuthenticatedClientBuildOrder.builder()
+        .mode(AuthenticationMode.CONTAINER)
+        .applicationId(containerProperties.getApplicationId())
+        .projectId(containerProperties.getProjectId())
+        .build())).willReturn(Mono.just(client));
     writer = new RemoteDebugEntryWriter(containerProperties, clientBuilder);
   }
 

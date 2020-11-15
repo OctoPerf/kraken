@@ -1,0 +1,28 @@
+@import 'app-filler';
+@import 'app-margin';
+@import 'app-font';
+@import 'app-background';
+@import 'app-util';
+
+:host {
+  @include block-filler-x();
+  @include clickable();
+
+  > div {
+    height: 50px;
+  }
+  :hover {
+    @include background-background-shade(800);
+  }
+}
+
+.name {
+  @include text-ellipsis();
+}
+
+.application {
+  @include text-ellipsis();
+  @include text-muted();
+  @include font-sm();
+  font-style: italic;
+}

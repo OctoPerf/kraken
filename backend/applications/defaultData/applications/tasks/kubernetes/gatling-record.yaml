@@ -9,13 +9,13 @@ metadata:
     com.octoperf/hostId: "${KRAKEN_HOST_ID}"
     com.octoperf/taskId: "${KRAKEN_TASK_ID}"
     com.octoperf/applicationId: "${KRAKEN_APPLICATION_ID}"
+    com.octoperf/projectId: "${KRAKEN_PROJECT_ID}"
     com.octoperf/userId: "${KRAKEN_USER_ID}"
-  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
+  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
 spec:
   containers:
-    -
-      image: "octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+    - image: "octoperf/kraken-gatling-recorder:${KRAKEN_VERSION}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_GATLING_CPU_LIMIT}"
@@ -36,8 +36,10 @@ spec:
           value: "${KRAKEN_USER_ID}"
         - name: KRAKEN_CONTAINER_APPLICATIONID
           value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_PROJECTID
+          value: "${KRAKEN_PROJECT_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_CONTAINER_LABEL}"
         - name: KRAKEN_GATLING_JAVAOPTS
@@ -68,9 +70,8 @@ spec:
           value: "${KRAKEN_SECURITY_EXPIRES_IN}"
         - name: KRAKEN_SECURITY_REFRESHEXPIRESIN
           value: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
-    -
-      image: "octoperf/kraken-har-parser:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+    - image: "octoperf/kraken-har-parser:${KRAKEN_VERSION}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
@@ -91,8 +92,10 @@ spec:
           value: "${KRAKEN_USER_ID}"
         - name: KRAKEN_CONTAINER_APPLICATIONID
           value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_PROJECTID
+          value: "${KRAKEN_PROJECT_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
         - name: KRAKEN_BACKEND_URL

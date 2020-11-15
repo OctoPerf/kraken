@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {StorageEditorComponent} from './storage-editor.component';
 import {STORAGE_ID} from 'projects/storage/src/lib/storage-id';
@@ -16,15 +16,15 @@ import {StorageEditorService} from 'projects/storage/src/lib/storage-editor/stor
 import {storageEditorServiceSpy} from 'projects/storage/src/lib/storage-editor/storage-editor.service.spec';
 import {NodeDeletedEvent} from 'projects/storage/src/lib/events/node-deleted-event';
 import {SaveNodeEvent} from 'projects/storage/src/lib/events/save-node-event';
-import Spy = jasmine.Spy;
 import {NodePendingSaveEvent} from 'projects/storage/src/lib/events/node-pending-save-event';
 import {testStorageFileNode, testStorageNodes} from 'projects/storage/src/lib/entities/storage-node.spec';
 import {StorageNodeToPredicatePipe} from 'projects/storage/src/lib/storage-pipes/storage-node-to-predicate.pipe';
-import SpyObj = jasmine.SpyObj;
 import {cold, getTestScheduler} from 'jasmine-marbles';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
 import {storageConfigurationServiceSpy} from 'projects/storage/src/lib/storage-configuration.service.spec';
 import {SelectHelpEvent} from 'projects/help/src/lib/help-panel/select-help-event';
+import Spy = jasmine.Spy;
+import SpyObj = jasmine.SpyObj;
 
 describe('StorageEditorComponent', () => {
   let component: StorageEditorComponent;
@@ -35,7 +35,7 @@ describe('StorageEditorComponent', () => {
   let configuration: SpyObj<StorageConfigurationService>;
   let nodes: StorageNode[];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         {provide: STORAGE_ID, useValue: 'test'},

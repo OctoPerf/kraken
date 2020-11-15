@@ -10,6 +10,7 @@ import {NodePendingSaveEvent} from 'projects/storage/src/lib/events/node-pending
 import {SaveNodeEvent} from 'projects/storage/src/lib/events/save-node-event';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {StorageConfigurationService} from 'projects/storage/src/lib/storage-configuration.service';
+import {GitRefreshStorageEvent} from 'projects/git/src/lib/events/git-refresh-storage-event';
 
 @Injectable()
 export class StorageNodeEditorContentService implements OnDestroy {
@@ -40,6 +41,11 @@ export class StorageNodeEditorContentService implements OnDestroy {
           filter(() => !!this._node),
           filter(event => event.node.path === this._node.path)
         ).subscribe(this.save.bind(this))
+    );
+
+    this.subscriptions.push(
+      this.eventBus.of(GitRefreshStorageEvent.CHANNEL)
+        .subscribe(this._refreshOnGit.bind(this))
     );
 
     this.subscriptions.push(this._contentSubject.pipe(
@@ -99,5 +105,11 @@ export class StorageNodeEditorContentService implements OnDestroy {
         path: this._node.path
       }
     }).subscribe(this._setContent.bind(this));
+  }
+
+  _refreshOnGit() {
+    if (!!this._node && this.state === 'loaded') {
+      this.load(this._node);
+    }
   }
 }

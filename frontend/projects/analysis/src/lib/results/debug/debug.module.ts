@@ -17,6 +17,8 @@ import {CompareModule} from 'projects/analysis/src/lib/results/debug/compare/com
 import {DebugPipesModule} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-pipes.module';
 import {DebugEntriesTableComponent} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.component';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
+import {MatDialogModule} from '@angular/material/dialog';
+import {InjectDialogsModule} from 'projects/dialog/src/lib/inject-dialogs/inject-dialogs.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import {ToolsModule} from 'projects/tools/src/lib/tools.module';
     CompareModule,
     DebugPipesModule,
     ToolsModule,
+    InjectDialogsModule,
   ],
 })
 export class DebugModule {

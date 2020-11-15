@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {Component} from '@angular/core';
 import {NotificationsTabHeaderComponent} from 'projects/notification/src/lib/notifications-tab-header/notifications-tab-header.component';
@@ -21,7 +21,7 @@ describe('NotificationsTabHeaderComponent', () => {
   let component: NotificationsTabHeaderComponent;
   let fixture: ComponentFixture<NotificationsTabHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule, NotificationModule],
       declarations: [TestComponent],

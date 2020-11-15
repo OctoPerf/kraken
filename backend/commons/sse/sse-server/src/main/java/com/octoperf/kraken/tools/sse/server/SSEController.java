@@ -1,9 +1,7 @@
 package com.octoperf.kraken.tools.sse.server;
 
 import com.google.common.collect.ImmutableMap;
-import com.octoperf.kraken.runtime.client.api.RuntimeClientBuilder;
-import com.octoperf.kraken.runtime.client.api.RuntimeWatchClientBuilder;
-import com.octoperf.kraken.storage.client.api.StorageClientBuilder;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.tools.sse.SSEService;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
 import lombok.AccessLevel;
@@ -13,14 +11,13 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.Pattern;
+import java.util.Arrays;
+import java.util.Map;
 
 import static com.octoperf.kraken.security.authentication.api.AuthenticationMode.SESSION;
 
@@ -33,23 +30,26 @@ import static com.octoperf.kraken.security.authentication.api.AuthenticationMode
 public class SSEController {
 
   @NonNull SSEService sse;
-  @NonNull RuntimeWatchClientBuilder runtimeClientBuilder;
-  @NonNull StorageClientBuilder storageClientBuilder;
+  @NonNull Map<SSEChannel, SSEChannelBuilder> channelBuilders;
 
   @GetMapping(value = "/watch")
-  public Flux<ServerSentEvent<SSEWrapper>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId) {
-    final var storageClient = storageClientBuilder.mode(SESSION).applicationId(applicationId).build();
-    final var runtimeClient = runtimeClientBuilder.mode(SESSION).applicationId(applicationId).build();
-    return Mono.zip(storageClient, runtimeClient)
-        .flatMapMany(clients ->
-            sse.keepAlive(sse.merge(ImmutableMap.of(
-                "NODE", clients.getT1().watch(),
-                "LOG", clients.getT2().watchLogs(),
-                "TASKS", clients.getT2().watchTasks()
-            ))))
-        .map(event -> {
-          log.debug(event.toString());
-          return event;
-        });
+  public Flux<ServerSentEvent<SSEWrapper>> watch(@RequestHeader("ApplicationId") @Pattern(regexp = "[a-z0-9]*") final String applicationId,
+                                                 @RequestHeader(value = "ProjectId", required = false) final String projectId,
+                                                 @RequestParam("channel") final SSEChannel[] channels) {
+    final var order = AuthenticatedClientBuildOrder.builder()
+        .mode(SESSION)
+        .applicationId(applicationId)
+        .projectId(projectId)
+        .build();
+
+    final var builders = Arrays.stream(channels).map(channelBuilders::get);
+    return Flux.fromStream(builders).flatMap(sseChannelBuilder -> sseChannelBuilder.apply(order)).collectList().flatMapMany(maps -> {
+      final var reduced = maps.stream().reduce((stringFluxMap, stringFluxMap2) -> ImmutableMap.<String, Flux<? extends Object>>builder().putAll(stringFluxMap).putAll(stringFluxMap2).build())
+          .orElse(ImmutableMap.of());
+      return sse.keepAlive(sse.merge(reduced));
+    }).map(event -> {
+      log.debug(event.toString());
+      return event;
+    });
   }
 }

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SplitPanesComponent} from './split-panes.component';
 import {SplitModule} from '../split.module';
@@ -8,7 +8,7 @@ import {ComponentPortal} from '@angular/cdk/portal';
 import {SplitDrag} from './split-drag';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
 import {eventSpy} from 'projects/commons/src/lib/mock/event.mock.spec';
 
@@ -23,7 +23,7 @@ class TestComponent {
   imports: [CoreTestModule, SplitModule],
   declarations: [TestComponent],
   providers: [
-    {provide: WindowService, useValue: windowSpy()}
+    {provide: WindowService, useValue: windowServiceSpy()}
   ]
 })
 class TestModule {
@@ -35,7 +35,7 @@ describe('SplitPanesComponent', () => {
   let storage: LocalStorageService;
   let event: MouseEvent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     event = eventSpy();
     TestBed.configureTestingModule({
       imports: [TestModule],

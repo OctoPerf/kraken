@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {UploadMenuItemComponent} from './upload-menu-item.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
@@ -10,7 +10,7 @@ describe('UploadMenuItemComponent', () => {
   let component: UploadMenuItemComponent;
   let fixture: ComponentFixture<UploadMenuItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UploadMenuItemComponent],
       providers: [

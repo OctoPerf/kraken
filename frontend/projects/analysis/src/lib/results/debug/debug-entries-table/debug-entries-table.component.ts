@@ -38,7 +38,7 @@ export class DebugEntriesTableComponent implements OnInit {
   readonly ID = 'debugs';
 
   dataSource: MatTableDataSource<DebugEntry> = new MatTableDataSource([]);
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public debugResult: DebugEntriesTableService,
@@ -46,11 +46,11 @@ export class DebugEntriesTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.debugResult.init();
     this.debugResult.valuesSubject.subscribe((entries: DebugEntry[]) => {
-      this.dataSource = new MatTableDataSource(entries);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = entries;
     });
   }
 

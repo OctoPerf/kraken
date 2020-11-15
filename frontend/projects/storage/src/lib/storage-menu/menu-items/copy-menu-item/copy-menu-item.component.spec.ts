@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {CopyMenuItemComponent} from './copy-menu-item.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -11,7 +11,7 @@ describe('CopyMenuItemComponent', () => {
   let component: CopyMenuItemComponent;
   let fixture: ComponentFixture<CopyMenuItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CopyMenuItemComponent],
       providers: [

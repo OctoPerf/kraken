@@ -26,4 +26,6 @@ public interface GatlingProperties extends KrakenProperties {
   String getDescription();
 
   String getJavaOpts();
+
+  GatlingScenario getScenario();
 }

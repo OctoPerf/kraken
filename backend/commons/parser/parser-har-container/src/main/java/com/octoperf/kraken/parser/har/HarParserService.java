@@ -7,8 +7,8 @@ import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.config.har.parser.api.HarParserProperties;
 import com.octoperf.kraken.parser.debug.entry.writer.api.DebugEntryWriter;
 import com.octoperf.kraken.parser.har.api.HarParser;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.container.executor.ContainerExecutor;
 import com.octoperf.kraken.storage.client.api.StorageClient;
 import lombok.AccessLevel;
@@ -48,11 +48,11 @@ final class HarParserService {
       // Download HAR
       storageClientMono.flatMap(storage -> storage.downloadFile(localFolderPath, harParser.getRemote())).block();
       // List files
-      final var listFiles = commands.execute(Command.builder()
+      final var listFiles = commands.validate(Command.builder()
           .path(application.getData())
-          .command(ImmutableList.of("ls", "-lR"))
+          .args(ImmutableList.of("ls", "-lR"))
           .environment(ImmutableMap.of())
-          .build());
+          .build()).flatMapMany(commands::execute);
       Optional.ofNullable(listFiles
           .collectList()
           .block()).orElse(Collections.emptyList()).forEach(log::info);

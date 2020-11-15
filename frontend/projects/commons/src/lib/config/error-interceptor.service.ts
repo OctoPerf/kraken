@@ -11,15 +11,19 @@ import {ErrorNotification} from 'projects/notification/src/lib/error-notificatio
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+  public static readonly DISABLE_NOTIFICATION_HEADER = 'Kraken-Disable-Notification';
+
   constructor(private eventBus: EventBusService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError<any, any>((error) => {
       const restError = RestServerError.fromError(error);
-      this.eventBus.publish(new NotificationEvent(
-        new ErrorNotification(`${restError.title}: ${restError.message}`, NotificationLevel.ERROR, restError.trace)
-      ));
+      if (!request.headers.get(ErrorInterceptor.DISABLE_NOTIFICATION_HEADER)) {
+        this.eventBus.publish(new NotificationEvent(
+          new ErrorNotification(`${restError.title}: ${restError.message}`, NotificationLevel.ERROR, restError.trace)
+        ));
+      }
       return throwError(restError);
     }));
   }

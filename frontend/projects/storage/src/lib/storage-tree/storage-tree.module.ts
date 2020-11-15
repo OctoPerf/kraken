@@ -12,6 +12,7 @@ import {LinkSelectionButtonComponent} from './link-selection-button/link-selecti
 import {DateModule} from 'projects/date/src/lib/date.module';
 import {ToolsModule} from 'projects/tools/src/lib/tools.module';
 import {StorageMenuModule} from 'projects/storage/src/lib/storage-menu/storage-menu.module';
+import {ColorModule} from 'projects/color/src/lib/color.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {StorageMenuModule} from 'projects/storage/src/lib/storage-menu/storage-m
     StorageMenuModule,
     DateModule,
     ToolsModule,
+    ColorModule,
   ],
   exports: [
     StorageTreeComponent,

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {IconComponent} from './icon.component';
 import {IconModule} from '../icon.module';
@@ -19,7 +19,7 @@ describe('IconComponent', () => {
   const iconFaCounter = new IconFaCounter(iconFa, '10', 'error');
   const iconDynamic = new IconDynamic(iconFa, {'test': iconFaAddon});
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [IconModule]
     })

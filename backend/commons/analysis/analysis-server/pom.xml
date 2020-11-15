@@ -13,12 +13,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
+            <groupId>com.octoperf.kraken</groupId>
+            <artifactId>analysis-service-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-user-events-listener</artifactId>
+            <artifactId>config-grafana-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -26,47 +27,6 @@
             <artifactId>security-authentication-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-entity</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>config-analysis-server-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-grafana-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-influxdb-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>storage-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-entity-functions-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-admin-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>security-configuration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
             <artifactId>analysis-entity</artifactId>
@@ -90,17 +50,9 @@
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-influxdb-client-api</artifactId>
+            <artifactId>security-configuration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
-            <type>test-jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.octoperf.kraken</groupId>
-            <artifactId>analysis-grafana-client-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
-            <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>com.octoperf.kraken</groupId>

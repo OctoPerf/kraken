@@ -27,8 +27,6 @@
         <module>security-decoder-api</module>
         <module>security-decoder-spring</module>
         <module>security-entity</module>
-        <module>security-entity-functions-api</module>
-        <module>security-entity-functions-spring</module>
         <module>security-user-events-listener</module>
         <module>security-configuration</module>
         <module>security-spring-dependencies</module>

@@ -1,6 +1,6 @@
 @import 'app-margin';
 @import 'app-padding';
-@import 'app-filler';
+@import 'app-util';
 
 .message-icon {
   @include m-r-xs();
@@ -8,7 +8,6 @@
 }
 
 :host(.centered) {
-  @include block-filler-x();
+  @include centered();
   @include p-v();
-  text-align: center;
 }

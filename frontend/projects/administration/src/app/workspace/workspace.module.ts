@@ -52,6 +52,6 @@ export class WorkspaceModule {
               storageWatcherService: StorageWatcherService,
               sseService: SSEService) {
     // inject services to force initialization
-    hostService.hosts().subscribe();
+    hostService.all().subscribe();
   }
 }

@@ -1,0 +1,18 @@
+<mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (afterCollapse)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        SSH Public Key
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div [hidden]="!panelOpenState">
+      <textarea *ngIf="!!publicKey" matInput [value]="publicKey" rows="10" readonly></textarea>
+      <button *ngIf="!!publicKey" class="float-right" mat-icon-button [libCopyToClipboard]="publicKey"
+              matTooltip="Copy to clipboard">
+        <lib-icon [icon]="copyToClipboardIcon"></lib-icon>
+      </button>
+      <lib-message *ngIf="!publicKey" level="loading">Loading ...</lib-message>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

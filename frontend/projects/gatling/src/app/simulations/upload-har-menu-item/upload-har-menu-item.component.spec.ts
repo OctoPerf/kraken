@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {UploadHarMenuItemComponent} from './upload-har-menu-item.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -10,7 +10,7 @@ describe('UploadHarMenuItemComponent', () => {
   let component: UploadHarMenuItemComponent;
   let fixture: ComponentFixture<UploadHarMenuItemComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UploadHarMenuItemComponent],
       providers: [

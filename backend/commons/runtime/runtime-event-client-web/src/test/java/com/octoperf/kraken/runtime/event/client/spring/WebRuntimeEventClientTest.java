@@ -9,8 +9,8 @@ import com.octoperf.kraken.runtime.event.TaskCreatedEventTest;
 import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEvent;
 import com.octoperf.kraken.runtime.event.TaskStatusUpdatedEventTest;
 import com.octoperf.kraken.runtime.event.client.api.RuntimeEventClient;
-import com.octoperf.kraken.security.authentication.api.AuthenticationMode;
 import com.octoperf.kraken.security.authentication.api.ExchangeFilterFactory;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.tools.sse.SSEWrapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -18,13 +18,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +51,7 @@ public class WebRuntimeEventClientTest {
     server = new MockWebServer();
     final String baseUrl = server.url("/").toString();
     when(properties.getUrl()).thenReturn(baseUrl);
-    client = (RuntimeEventClient) new WebRuntimeEventClientBuilder(filterFactories, properties, objectMapper).mode(AuthenticationMode.NOOP).build().block();
+    client = new WebRuntimeEventClientBuilder(filterFactories, properties, objectMapper).build(AuthenticatedClientBuildOrder.NOOP).block();
   }
 
   @AfterEach

@@ -1,0 +1,15 @@
+@import 'app-filler';
+@import 'app-util';
+
+:host {
+  @include block-filler();
+}
+
+.viewport {
+  @include block-filler();
+}
+
+.filter {
+  @include block-filler-y();
+  @include input-no-bottom();
+}

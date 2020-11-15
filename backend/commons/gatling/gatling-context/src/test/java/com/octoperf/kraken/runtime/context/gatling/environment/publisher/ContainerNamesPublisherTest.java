@@ -1,17 +1,16 @@
 package com.octoperf.kraken.runtime.context.gatling.environment.publisher;
 
 import com.google.common.collect.ImmutableSet;
-import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
-import com.octoperf.kraken.tests.utils.TestUtils;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilderTest;
+import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
+import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static java.util.stream.Collectors.toUnmodifiableSet;

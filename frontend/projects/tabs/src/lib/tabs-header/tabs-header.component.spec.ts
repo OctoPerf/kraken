@@ -1,11 +1,11 @@
-import {async, ComponentFixture, fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {TabsHeaderComponent} from './tabs-header.component';
 import {TabsModule} from '../tabs.module';
 import {Component, NgModule} from '@angular/core';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {WindowService} from 'projects/tools/src/lib/window.service';
-import {windowSpy} from 'projects/tools/src/lib/window.service.spec';
+import {windowServiceSpy} from 'projects/tools/src/lib/window.service.spec';
 import {newTestTab} from 'projects/tabs/src/lib/tab-header/tab-header.component.spec';
 import {TabsSide} from 'projects/tabs/src/lib/tabs-side';
 import {LocalStorageService} from 'projects/tools/src/lib/local-storage.service';
@@ -31,7 +31,7 @@ class TestComponent {
   imports: [CoreTestModule, TabsModule],
   declarations: [TestComponent],
   providers: [
-    {provide: WindowService, useValue: windowSpy()}
+    {provide: WindowService, useValue: windowServiceSpy()}
   ]
 })
 class TestModule {
@@ -42,7 +42,7 @@ describe('TabsHeaderComponent', () => {
   let fixture: ComponentFixture<TabsHeaderComponent>;
   let eventBus: EventBusService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {FullPageComponent} from './full-page.component';
 import {Component, ViewChild} from '@angular/core';
@@ -26,7 +26,7 @@ describe('FullPageComponent', () => {
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [EventModule],
       declarations: [TestComponent, FullPageComponent]

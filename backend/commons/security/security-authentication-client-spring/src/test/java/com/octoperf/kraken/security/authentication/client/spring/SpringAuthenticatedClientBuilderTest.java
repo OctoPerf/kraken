@@ -4,9 +4,10 @@ import com.google.common.collect.ImmutableList;
 import com.octoperf.kraken.security.authentication.api.UserProvider;
 import com.octoperf.kraken.security.authentication.api.UserProviderFactory;
 import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClient;
+import com.octoperf.kraken.security.authentication.client.api.AuthenticatedClientBuildOrder;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.security.entity.owner.OwnerTest;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import com.octoperf.kraken.security.entity.token.KrakenRole;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 
@@ -41,8 +43,8 @@ public class SpringAuthenticatedClientBuilderTest {
     }
 
     @Override
-    public Mono<TestAuthenticatedClient> build() {
-      return getOwner().map(owner -> new TestAuthenticatedClient(owner));
+    public Mono<TestAuthenticatedClient> build(final AuthenticatedClientBuildOrder order) {
+      return getOwner(order).map(owner -> new TestAuthenticatedClient(owner));
     }
   }
 
@@ -50,8 +52,6 @@ public class SpringAuthenticatedClientBuilderTest {
   UserProviderFactory providerFactory;
   @Mock
   UserProvider provider;
-  @Mock
-  Owner owner;
 
   TestAuthenticatedClientBuilder factory;
 
@@ -62,51 +62,66 @@ public class SpringAuthenticatedClientBuilderTest {
 
   @Test
   public void shouldCreateDefault() {
-    final var client = factory.build().block();
+    final var client = factory.build(AuthenticatedClientBuildOrder.builder().build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, PublicOwner.INSTANCE);
+    assertEquals(Owner.PUBLIC, client.owner);
   }
 
   @Test
   public void shouldCreateNoop() {
-    final var client = factory.mode(NOOP).build().block();
+    final var client = factory.build(AuthenticatedClientBuildOrder.builder().mode(NOOP).build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, PublicOwner.INSTANCE);
+    assertEquals(Owner.PUBLIC, client.owner);
   }
 
   @Test
   public void shouldCreateServiceAccount() {
-    final var client = factory.mode(SERVICE_ACCOUNT, "userId")
-        .applicationId("applicationId").build().block();
-    assertNotNull(client);
-    assertEquals(client.owner, UserOwner.builder().userId("userId")
+    final var client = factory.build(AuthenticatedClientBuildOrder.builder()
+        .mode(SERVICE_ACCOUNT)
+        .userId("userId")
+        .projectId("projectId")
         .applicationId("applicationId")
-        .roles(ImmutableList.of(KrakenRole.ADMIN, KrakenRole.API)).build());
+        .build()).block();
+    assertNotNull(client);
+    assertEquals(client.owner, Owner.builder()
+        .userId("userId")
+        .applicationId("applicationId")
+        .projectId("projectId")
+        .roles(ImmutableList.of(KrakenRole.ADMIN, KrakenRole.API))
+        .type(OwnerType.USER)
+        .build());
   }
 
   @Test
   public void shouldCreateSession() {
     given(providerFactory.getMode()).willReturn(SESSION);
     given(providerFactory.create(anyString())).willReturn(provider);
-    given(provider.getOwner(anyString())).willReturn(Mono.just(owner));
-    final var client = factory.mode(SESSION, "userId").applicationId("applicationId").build().block();
+    given(provider.getOwner(anyString(), anyString())).willReturn(Mono.just(OwnerTest.USER_OWNER));
+    final var client = factory.build(AuthenticatedClientBuildOrder.builder()
+        .mode(SESSION)
+        .userId("userId")
+        .projectId("projectId")
+        .applicationId("applicationId")
+        .build()).block();
     assertNotNull(client);
-    assertEquals(client.owner, owner);
+    assertEquals(OwnerTest.USER_OWNER, client.owner);
   }
 
   @Test
   public void shouldCreateImpersonate() {
-    final var client = factory.mode(IMPERSONATE, "userId").applicationId("applicationId").build().block();
-    assertNotNull(client);
-    assertEquals(client.owner, UserOwner.builder().userId("userId")
+    final var client = factory.build(AuthenticatedClientBuildOrder.builder()
+        .mode(IMPERSONATE)
+        .userId("userId")
+        .projectId("projectId")
         .applicationId("applicationId")
-        .roles(ImmutableList.of(KrakenRole.USER)).build());
-  }
-
-  @Test
-  public void shouldCreateImpersonateFail() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      factory.mode(CONTAINER);
-    });
+        .build()).block();
+    assertNotNull(client);
+    assertEquals(client.owner, Owner.builder()
+        .userId("userId")
+        .applicationId("applicationId")
+        .projectId("projectId")
+        .roles(ImmutableList.of(KrakenRole.USER))
+        .type(OwnerType.USER)
+        .build());
   }
 }

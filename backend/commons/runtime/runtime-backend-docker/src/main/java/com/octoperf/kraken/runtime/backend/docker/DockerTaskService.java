@@ -3,13 +3,13 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.runtime.backend.api.TaskService;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.context.entity.CancelContext;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContext;
 import com.octoperf.kraken.runtime.entity.log.LogType;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabels.COM_OCTOPERF_TASKID;
+import static com.octoperf.kraken.runtime.backend.api.EnvironmentLabel.COM_OCTOPERF_TASKID;
 
 @Slf4j
 @Component
@@ -39,7 +39,7 @@ final class DockerTaskService implements TaskService {
 
   public static final String DOCKER_COMPOSE_YML = "docker-compose.yml";
   @NonNull CommandService commandService;
-  @NonNull LogsService logsService;
+  @NonNull TaskLogsService logsService;
   @NonNull Function<String, FlatContainer> stringToFlatContainer;
   @NonNull Function<Owner, List<String>> ownerToFilters;
 
@@ -54,7 +54,7 @@ final class DockerTaskService implements TaskService {
       final var path = this.createDockerComposeFolder(context.getTaskId(), template);
       final var command = Command.builder()
           .path(path.toString())
-          .command(Arrays.asList("docker-compose",
+          .args(Arrays.asList("docker-compose",
               "--no-ansi",
               "up",
               "-d",
@@ -63,7 +63,10 @@ final class DockerTaskService implements TaskService {
           .build();
 
       // Automatically display logs stream
-      final var logs = commandService.execute(command).doOnTerminate(() -> this.removeDockerComposeFolder(path));
+      final var logs = commandService
+          .validate(command)
+          .flatMapMany(commandService::execute)
+          .doOnTerminate(() -> this.removeDockerComposeFolder(path));
       logsService.push(context.getOwner(), context.getTaskId(), LogType.TASK, logs);
       return context;
     });
@@ -88,7 +91,8 @@ final class DockerTaskService implements TaskService {
 
       return Command.builder()
           .path(this.createCommandFolder(context.getTaskId()).toString())
-          .command(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
+          // TODO Find a way to do this that does not involve /bin/sh and validate the command (commandService.validate) before executing it
+          .args(Arrays.asList("/bin/sh", "-c", String.format("docker rm -v -f $(%s)", listCommand)))
           .environment(ImmutableMap.of())
           .build();
     })
@@ -108,17 +112,17 @@ final class DockerTaskService implements TaskService {
 
     final var command = Command.builder()
         .path(".")
-        .command(commandBuilder.build())
+        .args(commandBuilder.build())
         .environment(ImmutableMap.of())
         .build();
 
-    return commandService.execute(command)
+    return commandService.validate(command)
+        .flatMapMany(commandService::execute)
         .map(stringToFlatContainer);
   }
 
   private Path createCommandFolder(final String taskId) throws IOException {
-    final var taskPath = Files.createTempDirectory(taskId);
-    return taskPath;
+    return Files.createTempDirectory(taskId);
   }
 
   private Path createDockerComposeFolder(final String taskId, final String template) throws IOException {

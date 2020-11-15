@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.ToLongFunction;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -35,7 +36,7 @@ final class SpringHarParser implements HarParser {
   @NonNull
   BiFunction<JsonNode, String, DebugEntry> entryToDebugChunk;
   @NonNull
-  Function<String, Long> stringToTimestamp;
+  ToLongFunction<String> stringToTimestamp;
 
   @Override
   public Flux<DebugEntry> parse(final Path harFilePath) {
@@ -48,7 +49,7 @@ final class SpringHarParser implements HarParser {
     return this.parseHar(harLocalPath)
         .map(entryNode -> {
           final var dateStr = entryNode.get("startedDateTime").asText();
-          final var timestamp = this.stringToTimestamp.apply(dateStr);
+          final var timestamp = this.stringToTimestamp.applyAsLong(dateStr);
           final var inc = harEntryCount.incrementAndGet();
           return new HarEntry(timestamp, inc, "");
         })

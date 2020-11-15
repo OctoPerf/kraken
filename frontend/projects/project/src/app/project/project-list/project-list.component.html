@@ -1,0 +1,20 @@
+<div class="block-filler" fxLayout="column">
+  <div fxFlex="nogrow">
+    <mat-form-field appearance="fill" class="filter">
+      <mat-label>Projects filter</mat-label>
+      <input matInput type="text" (change)="filterChanged()" [(ngModel)]="filter">
+      <span matSuffix><lib-icon fxFlex="nogrow" [icon]="searchIcon"></lib-icon></span>
+    </mat-form-field>
+  </div>
+  <div fxFlex>
+    <cdk-virtual-scroll-viewport *ngIf="projects.length" itemSize="50" class="viewport">
+      <div *cdkVirtualFor="let project of filteredProjects">
+        <app-project-item [project]="project"></app-project-item>
+      </div>
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="!projects.length" class="block-filler text-center m-t">
+      <lib-message>No project(s) found.</lib-message>
+    </div>
+  </div>
+</div>
+

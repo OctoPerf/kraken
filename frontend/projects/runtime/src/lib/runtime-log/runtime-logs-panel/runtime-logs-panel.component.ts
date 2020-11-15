@@ -4,7 +4,7 @@ import {WindowService} from 'projects/tools/src/lib/window.service';
 import {EventBusService} from 'projects/event/src/lib/event-bus.service';
 import {map} from 'rxjs/operators';
 import * as _ from 'lodash';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {LogEvent} from 'projects/runtime/src/lib/events/log-event';
 import {Log} from 'projects/runtime/src/lib/entities/log';
 import {
@@ -81,10 +81,14 @@ export class RuntimeLogsPanelComponent implements OnDestroy {
   }
 
   _addLogsTab(log: Log) {
-    const injectorTokens = new WeakMap();
     const logsSubject = new ReplaySubject<Log>(10);
-    injectorTokens.set(RUNTIME_LOGS, logsSubject);
-    const content = new ComponentPortal(RuntimeLogsComponent, null, new PortalInjector(this.injector, injectorTokens));
+    const content = new ComponentPortal(RuntimeLogsComponent, null,
+      Injector.create({
+        providers: [
+          {provide: RUNTIME_LOGS, useValue: logsSubject},
+        ],
+        parent: this.injector
+      }));
     const command: LogTab = {
       content,
       logsSubject,

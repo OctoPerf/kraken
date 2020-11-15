@@ -4,12 +4,12 @@ import com.octoperf.kraken.analysis.entity.DebugEntryTest;
 import com.octoperf.kraken.analysis.entity.GrafanaLogin;
 import com.octoperf.kraken.analysis.entity.ResultStatus;
 import com.octoperf.kraken.analysis.entity.ResultTest;
-import com.octoperf.kraken.analysis.server.service.AnalysisService;
+import com.octoperf.kraken.analysis.service.api.AnalysisService;
 import com.octoperf.kraken.config.grafana.api.GrafanaProperties;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageNodeTest;
-import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import com.octoperf.kraken.tests.utils.TestUtils;
+import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseCookie;
@@ -25,8 +25,6 @@ public class AnalysisControllerTest extends AuthControllerTest {
   AnalysisService analysisService;
   @MockBean
   GrafanaProperties grafanaProperties;
-  @MockBean
-  AnalysisUserEventsService eventsService;
 
   @Test
   public void shouldPassTestUtils() {
@@ -38,7 +36,7 @@ public class AnalysisControllerTest extends AuthControllerTest {
     final var result = ResultTest.RESULT;
     final var node = StorageNodeTest.STORAGE_NODE;
 
-    given(analysisService.create(userOwner(), result))
+    given(analysisService.createResult(userOwner(), result))
         .willReturn(Mono.just(node));
 
     webTestClient.post()
@@ -67,7 +65,7 @@ public class AnalysisControllerTest extends AuthControllerTest {
   @Test
   public void shouldDelete() {
     final var resultId = "resultId";
-    given(analysisService.delete(userOwner(), resultId))
+    given(analysisService.deleteResult(userOwner(), resultId))
         .willReturn(Mono.just(resultId));
 
     webTestClient.delete()
@@ -105,7 +103,7 @@ public class AnalysisControllerTest extends AuthControllerTest {
         .lastModified(0L)
         .build();
 
-    given(analysisService.setStatus(userOwner(), resultId, status))
+    given(analysisService.setResultStatus(userOwner(), resultId, status))
         .willReturn(Mono.just(resultNode));
 
     webTestClient.post()
@@ -135,7 +133,7 @@ public class AnalysisControllerTest extends AuthControllerTest {
   public void shouldAddDebug() {
     final var debug = DebugEntryTest.DEBUG_ENTRY;
 
-    given(analysisService.addDebug(userOwner(), debug))
+    given(analysisService.addDebugEntry(userOwner(), debug))
         .willReturn(Mono.fromCallable(() -> null));
 
     webTestClient.post()

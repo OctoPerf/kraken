@@ -1,12 +1,15 @@
 package com.octoperf.kraken.runtime.client.web;
 
 import com.octoperf.kraken.runtime.client.api.RuntimeClient;
+import com.octoperf.kraken.runtime.entity.log.Log;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
 import com.octoperf.kraken.runtime.entity.task.Task;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,13 +23,39 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-final class WebRuntimeClient extends WebRuntimeWatchClient implements RuntimeClient {
+final class WebRuntimeClient implements RuntimeClient {
 
+  WebClient webClient;
   AtomicReference<ContainerStatus> lastStatus;
 
   WebRuntimeClient(@NonNull final WebClient webClient) {
-    super(webClient);
+    this.webClient = webClient;
     this.lastStatus = new AtomicReference<>(ContainerStatus.STARTING);
+  }
+
+  @Override
+  public Flux<Log> watchLogs() {
+    return webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/logs/watch").build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .retrieve()
+        .bodyToFlux(Log.class)
+        .doOnSubscribe(subscription -> log.info("Watch logs"))
+        .doOnError(t -> log.error("Failed to watch logs", t));
+  }
+
+  @Override
+  public Flux<List<Task>> watchTasks() {
+    return webClient
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("/task/watch").build())
+        .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+        .retrieve()
+        .bodyToFlux(new ParameterizedTypeReference<List<Task>>() {
+        })
+        .doOnSubscribe(subscription -> log.info("Watch tasks"))
+        .doOnError(t -> log.error("Failed to watch tasks", t));
   }
 
   @Override

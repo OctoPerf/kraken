@@ -1,12 +1,8 @@
 package com.octoperf.kraken.runtime.server.rest;
 
-import com.octoperf.kraken.runtime.backend.api.ContainerService;
-import com.octoperf.kraken.runtime.backend.api.HostService;
-import com.octoperf.kraken.runtime.backend.api.TaskService;
+import com.octoperf.kraken.runtime.backend.api.*;
 import com.octoperf.kraken.runtime.context.api.ExecutionContextService;
-import com.octoperf.kraken.runtime.logs.LogsService;
-import com.octoperf.kraken.runtime.backend.api.TaskListService;
-import com.octoperf.kraken.runtime.backend.api.TaskUpdateHandler;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.tests.web.security.AuthControllerTest;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import com.octoperf.kraken.tools.sse.SSEService;
@@ -21,7 +17,7 @@ public abstract class RuntimeControllerTest extends AuthControllerTest {
   protected HostService hostService;
 
   @MockBean
-  protected LogsService logsService;
+  protected TaskLogsService logsService;
 
   @MockBean
   protected SSEService sse;

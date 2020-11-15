@@ -2,11 +2,11 @@ package com.octoperf.kraken.gatling.container.recorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.octoperf.kraken.config.api.LocalRemoteProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingLog;
 import com.octoperf.kraken.config.gatling.api.GatlingProperties;
 import com.octoperf.kraken.config.gatling.api.GatlingSimulation;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.config.api.LocalRemoteProperties;
+import com.octoperf.kraken.command.entity.Command;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -36,7 +36,7 @@ final class CommandSupplier implements Supplier<Command> {
         KRAKEN_GATLING_LOGS_DEBUG, logs.getDebug(),
         JAVA_OPTS, gatling.getJavaOpts())
       )
-      .command(ImmutableList.of(
+      .args(ImmutableList.of(
         "./recorder.sh",
         "--headless", "true",
         "--mode", "Har",

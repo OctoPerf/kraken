@@ -1,11 +1,11 @@
 package com.octoperf.kraken.runtime.context.environment;
 
 import com.google.common.collect.ImmutableList;
+import com.octoperf.kraken.config.api.ApplicationProperties;
 import com.octoperf.kraken.runtime.context.api.environment.EnvironmentPublisher;
 import com.octoperf.kraken.runtime.context.entity.ExecutionContextBuilder;
 import com.octoperf.kraken.runtime.entity.environment.ExecutionEnvironmentEntry;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.config.api.ApplicationProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

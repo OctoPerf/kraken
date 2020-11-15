@@ -2,7 +2,6 @@ package com.octoperf.kraken.runtime.context.environment;
 
 import com.octoperf.kraken.runtime.context.api.environment.EnvironmentChecker;
 import com.octoperf.kraken.runtime.entity.task.TaskType;
-import com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -20,6 +19,8 @@ final class BaseChecker implements EnvironmentChecker {
         KRAKEN_TASK_TYPE,
         KRAKEN_EXPECTED_COUNT,
         KRAKEN_APPLICATION_ID,
+        KRAKEN_PROJECT_ID,
+        KRAKEN_USER_ID,
         KRAKEN_BACKEND_URL,
         KRAKEN_HOSTNAME,
         KRAKEN_IP,

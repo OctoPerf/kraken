@@ -16,6 +16,7 @@ update-hosts-localhost:
 # LAUNCH
 
 launch-frontend:
+	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=project'
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=administration'
 	gnome-terminal --tab -- /bin/sh -c 'cd frontend; make serve APP=gatling'
 

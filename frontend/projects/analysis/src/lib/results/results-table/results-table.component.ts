@@ -17,10 +17,10 @@ import {ResultsTableService} from 'projects/analysis/src/lib/results/results-tab
 import {faFileImport} from '@fortawesome/free-solid-svg-icons/faFileImport';
 import {faCircleNotch} from '@fortawesome/free-solid-svg-icons/faCircleNotch';
 import {ContextualMenuComponent} from 'projects/tree/src/lib/contextual-menu/contextual-menu.component';
-import {DialogService} from 'projects/dialog/src/lib/dialog.service';
 import {OpenGatlingReportsDialogComponent} from 'projects/analysis/src/lib/analysis-dialogs/open-gatling-reports-dialog/open-gatling-reports-dialog.component';
 import {DialogSize} from 'projects/dialog/src/lib/dialog-size';
 import {MatPaginator} from '@angular/material/paginator';
+import {DefaultDialogService} from 'projects/dialog/src/lib/default-dialogs/default-dialog.service';
 
 library.add(faCircleNotch, faQuestion, faCheckSquare, faExclamationTriangle, faExclamationCircle, faChartLine, faFileInvoice, faFileImport);
 
@@ -59,22 +59,22 @@ export class ResultsTableComponent implements OnInit {
     }
   );
 
-  dataSource: MatTableDataSource<Result>;
+  dataSource: MatTableDataSource<Result> = new MatTableDataSource<Result>([]);
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('menu', {static: true}) menu: ContextualMenuComponent;
 
   constructor(public gatling: GatlingResultService,
               public results: ResultsTableService,
-              private dialogs: DialogService) {
+              private dialogs: DefaultDialogService) {
   }
 
   ngOnInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.results.init();
     this.results.valuesSubject.subscribe((resultsList) => {
-      this.dataSource = new MatTableDataSource(resultsList);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.data = resultsList;
     });
   }
 

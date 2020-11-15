@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
 import {HelpPanelComponent} from 'projects/help/src/lib/help-panel/help-panel.component';
 import {CoreTestModule} from 'projects/commons/src/lib/core/core.module.spec';
 import {HelpModule} from 'projects/help/src/lib/help.module';
@@ -11,7 +11,7 @@ describe('HelpPanelComponent', () => {
   let component: HelpPanelComponent;
   let fixture: ComponentFixture<HelpPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CoreTestModule, HelpModule],
     })

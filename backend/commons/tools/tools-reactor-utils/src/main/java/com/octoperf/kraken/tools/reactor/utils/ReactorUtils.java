@@ -9,6 +9,9 @@ import java.util.concurrent.CountDownLatch;
 
 public class ReactorUtils {
 
+  private ReactorUtils() {
+  }
+
   public static <T, U> void waitFor(final Flux<T> flux, final Mono<U> mono, final Duration delay) {
     try {
       final var blocker = new CountDownLatch(1);
@@ -20,7 +23,9 @@ public class ReactorUtils {
           .blockLast();
       blocker.await();
     } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+      // Restore interrupted state...
+      Thread.currentThread().interrupt();
+      throw new IllegalStateException(e);
     }
   }
 

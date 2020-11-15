@@ -23,6 +23,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.time.Instant;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 // Start grafana before running
@@ -36,7 +37,7 @@ public class WebGrafanaClientIntegrationTest {
   GrafanaAdminClient grafanaAdminClient;
 
   @Autowired
-  GrafanaUserClientBuilder grafanaUserClientBuilder;
+  WebGrafanaUserClientBuilder grafanaUserClientBuilder;
 
   @MockBean
   IdGenerator idGenerator;
@@ -52,50 +53,76 @@ public class WebGrafanaClientIntegrationTest {
     given(dbProperties.getUrl()).willReturn("http://localhost:8086");
     given(idGenerator.generate()).willReturn("password", "datasourceName");
 
-//    Updated user attributes {databaseUsername=[kraken_eb274740_db1e_4c6c_8050_3f0e3073d487], databasePassword=[cfhzmjgopm], databaseName=[kraken_eb274740_db1e_4c6c_8050_3f0e3073d487], dashboardUserId=[2], dashboardEmail=[kojiro.sazaki@gmail.com], dashboardPassword=[rkapa5sfs1], dashboardDatasourceName=[eb274740-db1e-4c6c-8050-3f0e3073d487], dashboardOrgId=[2]}
 
     dbUser = InfluxDBUser.builder()
-        .username("kraken_33368a11_9f9a_4e7f_9c36_2e5c6cd65090")
-        .password("lvfolkvwsi")
-        .database("kraken_33368a11_9f9a_4e7f_9c36_2e5c6cd65090")
+        .username("kraken_559fe423_214e_4061_8651_dfc24b86c057")
+        .password("yc1hl8gir0")
+        .database("kraken_559fe423_214e_4061_8651_dfc24b86c057")
         .build();
     grafanaUser = GrafanaUser.builder()
-        .datasourceName("33368a11-9f9a-4e7f-9c36-2e5c6cd65090")
+        .datasourceName("559fe423-214e-4061-8651-dfc24b86c057")
         .email("test@test")
-        .password("ef28sbznhp")
+        .password("4rnqefazz9")
         .id("2")
         .orgId("2")
         .build();
 
-    grafanaUserClient = grafanaUserClientBuilder.grafanaUser(grafanaUser).influxDBUser(dbUser).build();
+    grafanaUserClient = grafanaUserClientBuilder.build(grafanaUser, dbUser);
+  }
+
+  @Test
+  public void shouldCreateFolder() {
+    final var id = grafanaUserClient.flatMap(client -> client.createFolder("someNewId", "TheTitle")).block();
+    assertThat(id).isNotNull();
+    System.out.println(id);
+  }
+
+  @Test
+  public void shouldGetFolderAndImportDashboard() throws IOException {
+    final var dashboard = ResourceUtils.getResourceContent("grafana-gatling-dashboard-integration.json");
+    final var imported = grafanaUserClient.flatMap(client -> client.getFolderId("someNewId")
+        .flatMap(id -> client.importDashboard("guluilscfl", id, "Title", Instant.now().toEpochMilli(), dashboard))).block();
+    assertThat(imported).isNotNull();
+    System.out.println(imported);
+  }
+
+  @Test
+  public void shouldDeleteFolder() {
+    final var result = grafanaUserClient.flatMap(client -> client.deleteFolder("someNewId")).block();
+    assertThat(result).isNotNull();
   }
 
   @Test
   public void shouldImportDashboard() throws IOException {
     final var dashboard = ResourceUtils.getResourceContent("grafana-gatling-dashboard-integration.json");
-    final var imported = grafanaUserClient.flatMap(client -> client.importDashboard("c8m9z9pkdq", "Title", Instant.now().toEpochMilli(), dashboard)).block();
+    final var imported = grafanaUserClient.flatMap(client -> client.importDashboard("c8m9z9pkdq", 2L, "Title", Instant.now().toEpochMilli(), dashboard)).block();
+    assertThat(imported).isNotNull();
     System.out.println(imported);
   }
 
   @Test
   public void shouldCreateUser() {
     final var user = grafanaAdminClient.createUser("userId", "test1@octoperf.com").block();
+    assertThat(user).isNotNull();
     System.out.println(user);
   }
 
   @Test
   public void shouldDeleteDashboard() {
-    grafanaUserClient.flatMap(client -> client.deleteDashboard("wghgcsbyz1")).block();
+    final var result = grafanaUserClient.flatMap(client -> client.deleteDashboard("wghgcsbyz1")).block();
+    assertThat(result).isNotNull();
   }
 
   @Test
   public void shouldCreateDatasource() {
-    grafanaUserClient.flatMap(GrafanaUserClient::createDatasource).block();
+    final var result = grafanaUserClient.flatMap(GrafanaUserClient::createDatasource).block();
+    assertThat(result).isNotNull();
   }
 
 
   @Test
   public void shouldDeleteUser() {
-    grafanaAdminClient.deleteUser("e9a8b7ec-5b94-4155-8ca3-77c754d31322").block();
+    final var result = grafanaAdminClient.deleteUser("e9a8b7ec-5b94-4155-8ca3-77c754d31322").block();
+    assertThat(result).isNotNull();
   }
 }

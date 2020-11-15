@@ -1,0 +1,82 @@
+<lib-not-connected-to-git *ngIf="!gitProject.isConnected()"></lib-not-connected-to-git>
+<lib-message level="info" centered="true" *ngIf="gitProject.isConnected() && !status">
+  No status yet.
+</lib-message>
+<div *ngIf="gitProject.isConnected() && status" fxLayout="column" id="git-status"
+     class="panel-vertical hover-show-parent-opacity">
+  <div fxFlex="none">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" class="panel-header-table-like">
+      <div fxFlex="grow" [matTooltip]="'oid: '+status.branch.oid" class="text-ellipsis">
+        Branch head: {{status.branch.head}}<span
+        *ngIf="status.branch.upstream"> - upstream: {{status.branch.upstream}}</span>
+      </div>
+      <div fxFlex="none">
+        <span class="text-success m-r-xs" *ngIf="status.branch.ahead">ahead +{{status.branch.ahead}}</span>
+        <span class="text-error" *ngIf="status.branch.behind">behind -{{status.branch.behind}}</span>
+      </div>
+      <div fxFlex="none">
+        <lib-git-refresh-status-button class="hover-show-child-opacity"></lib-git-refresh-status-button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex class="scrollable">
+    <mat-accordion displayMode="flat" multi class="mat-accordion-square mat-accordion-justified compact-accordion">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Changed
+          </mat-panel-title>
+          <mat-panel-description>
+            {{status.changed.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <lib-git-file-status-table [fileStatuses]="status.changed"></lib-git-file-status-table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Renamed/Copied
+          </mat-panel-title>
+          <mat-panel-description>
+            {{status.renamedCopied.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <lib-git-renamed-copied-status-table
+          [renamedCopiedStatuses]="status.renamedCopied"></lib-git-renamed-copied-status-table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Unmerged
+          </mat-panel-title>
+          <mat-panel-description>
+            {{status.unmerged.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <lib-git-file-status-table [fileStatuses]="status.unmerged"></lib-git-file-status-table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Untracked
+          </mat-panel-title>
+          <mat-panel-description>
+            {{status.untracked.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <lib-git-path-table [paths]="status.untracked"></lib-git-path-table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ignored
+          </mat-panel-title>
+          <mat-panel-description>
+            {{status.ignored.length}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <lib-git-path-table [paths]="status.ignored"></lib-git-path-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<mat-form-field [formGroup]="projectForm">
+  <mat-label>Project Name</mat-label>
+  <input matInput formControlName="projectName"
+         cdkFocusInitial
+         required>
+  <mat-error *ngIf="projectName.hasError('required')">
+    Project name is required.
+  </mat-error>
+  <mat-error *ngIf="projectName.hasError('minlength')">
+    Project name must be more than 3 characters long.
+  </mat-error>
+  <mat-error *ngIf="projectName.hasError('maxlength')">
+    Project name must be less than 64 characters long.
+  </mat-error>
+</mat-form-field>

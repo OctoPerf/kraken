@@ -1,5 +1,6 @@
 package com.octoperf.kraken.storage.file;
 
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import org.springframework.core.io.Resource;
@@ -11,6 +12,8 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface StorageService {
+
+  Mono<Void> init(StorageInitMode mode);
 
   Flux<StorageNode> list();
 

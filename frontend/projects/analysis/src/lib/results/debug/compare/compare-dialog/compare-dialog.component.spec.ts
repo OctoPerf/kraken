@@ -1,11 +1,10 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {CompareDialogComponent, CompareDialogData} from './compare-dialog.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {dialogRefSpy} from 'projects/commons/src/lib/mock/material.mock.spec';
 import {testResult} from 'projects/analysis/src/lib/results/results-table/results-table.service.spec';
 import {of} from 'rxjs';
-import SpyObj = jasmine.SpyObj;
 import {StorageService} from 'projects/storage/src/lib/storage.service';
 import {storageServiceSpy} from 'projects/storage/src/lib/storage.service.spec';
 import {AnalysisConfigurationService} from 'projects/analysis/src/lib/analysis-configuration.service';
@@ -13,6 +12,7 @@ import {analysisConfigurationServiceSpy} from 'projects/analysis/src/lib/analysi
 import {DebugEntryToStringPipe} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe';
 import {debugEntryToStringPipeSpy} from 'projects/analysis/src/lib/results/debug/debug-pipes/debug-entry-to-string.pipe.spec';
 import {testDebugEntry} from 'projects/analysis/src/lib/results/debug/debug-entries-table/debug-entries-table.service.spec';
+import SpyObj = jasmine.SpyObj;
 
 describe('CompareDialogComponent', () => {
   let component: CompareDialogComponent;
@@ -21,7 +21,7 @@ describe('CompareDialogComponent', () => {
   let data: CompareDialogData;
   let storage: SpyObj<StorageService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     data = {
       left: null,
       right: null,

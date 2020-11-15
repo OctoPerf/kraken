@@ -3,22 +3,22 @@ package com.octoperf.kraken.runtime.backend.docker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.Application;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.log.Log;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainer;
-import com.octoperf.kraken.runtime.logs.LogsService;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.security.entity.owner.UserOwner;
+import com.octoperf.kraken.security.entity.owner.OwnerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
@@ -29,13 +29,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
+@Tag("integration")
+@SuppressWarnings("squid:S2925")
 public class DockerContainerServiceIntegrationTest {
 
   @Autowired
   DockerContainerService containerService;
 
   @Autowired
-  LogsService logsService;
+  TaskLogsService logsService;
 
   @Autowired
   CommandService commandService;
@@ -44,7 +46,7 @@ public class DockerContainerServiceIntegrationTest {
   public void before() {
     final var up = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "up", "-d"))
+        .args(Arrays.asList("docker-compose", "up", "-d"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(up).blockLast();
@@ -54,7 +56,7 @@ public class DockerContainerServiceIntegrationTest {
   public void after() {
     final var down = Command.builder()
         .path("./testDir")
-        .command(Arrays.asList("docker-compose", "down"))
+        .args(Arrays.asList("docker-compose", "down"))
         .environment(ImmutableMap.of())
         .build();
     commandService.execute(down).blockLast();
@@ -64,7 +66,8 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldDisplayLogs() throws InterruptedException {
     final var appId = "app";
     final var userId = "user";
-    final var owner = UserOwner.builder().applicationId(appId).userId(userId).roles(ImmutableList.of(USER)).build();
+    final var projectId = "project";
+    final var owner = Owner.builder().applicationId(appId).projectId(projectId).userId(userId).roles(ImmutableList.of(USER)).type(OwnerType.USER).build();
     final var taskId = "taskIdBis";
     final var containerName = "containerThreeId";
     final var logs = new ArrayList<Log>();
@@ -90,7 +93,8 @@ public class DockerContainerServiceIntegrationTest {
   public void shouldSetStatus() {
     final var appId = "app";
     final var userId = "user";
-    final var owner = UserOwner.builder().applicationId(appId).userId(userId).roles(ImmutableList.of(USER)).build();
+    final var projectId = "project";
+    final var owner = Owner.builder().applicationId(appId).projectId(projectId).userId(userId).roles(ImmutableList.of(USER)).type(OwnerType.USER).build();
     final var taskId = "taskId";
     final var containerName = "containerOneId";
 

@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/internal/operators';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {
   SIDE_HEADER_DATA,
   TAB_HEADER_DATA,
@@ -43,10 +43,14 @@ export class TabsHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.eventBus.publish(new TabsAddedEvent(this.side, this.position));
     this.portals = _.map(this.tabs, tab => {
-      const injectorTokens = new WeakMap();
-      injectorTokens.set(TAB_HEADER_DATA, tab);
-      injectorTokens.set(SIDE_HEADER_DATA, this.side);
-      return new ComponentPortal(tab.headerComponentRef ? tab.headerComponentRef : TabHeaderComponent, null, new PortalInjector(this.injector, injectorTokens));
+      return new ComponentPortal(tab.headerComponentRef ? tab.headerComponentRef : TabHeaderComponent, null,
+        Injector.create({
+          providers: [
+            {provide: TAB_HEADER_DATA, useValue: tab},
+            {provide: SIDE_HEADER_DATA, useValue: this.side},
+          ],
+          parent: this.injector
+        }));
     });
   }
 

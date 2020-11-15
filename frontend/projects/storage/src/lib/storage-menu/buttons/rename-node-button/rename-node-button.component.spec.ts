@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {RenameNodeButtonComponent} from './rename-node-button.component';
 import {StorageService} from 'projects/storage/src/lib/storage.service';
@@ -10,7 +10,7 @@ describe('RenameNodeButtonComponent', () => {
   let component: RenameNodeButtonComponent;
   let fixture: ComponentFixture<RenameNodeButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RenameNodeButtonComponent],
       providers: [

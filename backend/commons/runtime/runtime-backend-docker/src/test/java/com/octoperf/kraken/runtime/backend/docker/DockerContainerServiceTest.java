@@ -1,13 +1,13 @@
 package com.octoperf.kraken.runtime.backend.docker;
 
 import com.google.common.collect.ImmutableMap;
-import com.octoperf.kraken.runtime.command.Command;
-import com.octoperf.kraken.runtime.command.CommandService;
+import com.octoperf.kraken.command.entity.Command;
+import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.runtime.entity.log.LogType;
 import com.octoperf.kraken.runtime.entity.task.ContainerStatus;
 import com.octoperf.kraken.runtime.entity.task.FlatContainerTest;
-import com.octoperf.kraken.runtime.logs.LogsService;
-import com.octoperf.kraken.security.entity.owner.PublicOwner;
+import com.octoperf.kraken.runtime.logs.TaskLogsService;
+import com.octoperf.kraken.security.entity.owner.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -29,7 +31,7 @@ public class DockerContainerServiceTest {
   @Mock
   CommandService commandService;
   @Mock
-  LogsService logsService;
+  TaskLogsService logsService;
   @Mock
   BiFunction<String, ContainerStatus, String> containerStatusToName;
   @Mock
@@ -52,18 +54,19 @@ public class DockerContainerServiceTest {
     // Rename
     final var renameCommand = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .args(Arrays.asList("docker",
             "rename",
             containerId,
             containerName))
         .environment(ImmutableMap.of())
         .build();
     given(containerStatusToName.apply(containerName, status)).willReturn(containerName);
-    given(findService.find(PublicOwner.INSTANCE, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    given(findService.find(Owner.PUBLIC, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
     final var renamed = Flux.just("renamed");
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
     given(commandService.execute(renameCommand)).willReturn(renamed);
 
-    service.setStatus(PublicOwner.INSTANCE, taskId, containerId, containerName, status).block();
+    service.setStatus(Owner.PUBLIC, taskId, containerId, containerName, status).block();
 
     verify(commandService).execute(renameCommand);
   }
@@ -77,27 +80,39 @@ public class DockerContainerServiceTest {
     // Logs
     final var logsCommand = Command.builder()
         .path(".")
-        .command(Arrays.asList("docker",
+        .args(Arrays.asList("docker",
             "logs",
             "-f", containerId))
         .environment(ImmutableMap.of())
         .build();
     final var logs = Flux.just("logs");
     final var id = "taskId-containerId-containerName";
-    given(commandService.execute(logsCommand)).willReturn(logs);
-    given(findService.find(PublicOwner.INSTANCE, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
-    assertThat(service.attachLogs(PublicOwner.INSTANCE, taskId, containerId, containerName).block()).isEqualTo(id);
-    verify(logsService).push(PublicOwner.INSTANCE, id, LogType.CONTAINER, logs);
+    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0, Command.class)));
+    given(findService.find(Owner.PUBLIC, taskId, containerName)).willReturn(Mono.just(FlatContainerTest.CONTAINER));
+    assertThat(service.attachLogs(Owner.PUBLIC, taskId, containerId, containerName).block()).isEqualTo(id);
+    verify(logsService).push(eq(Owner.PUBLIC), eq(id), eq(LogType.CONTAINER), any());
   }
 
   @Test
   public void shouldDetachLogs() {
-    service.detachLogs(PublicOwner.INSTANCE, "id").block();
-    verify(logsService).dispose(PublicOwner.INSTANCE, "id", LogType.CONTAINER);
+    service.detachLogs(Owner.PUBLIC, "id").block();
+    verify(logsService).dispose(Owner.PUBLIC, "id", LogType.CONTAINER);
   }
 
   @Test
   public void shouldLogsId() {
     assertThat(service.logsId("task", "host", "container")).isEqualTo("task-host-container");
+  }
+
+  @Test
+  public void shouldFind() {
+    final var taskId = "taskId";
+    final var containerName = "containerName";
+    final var owner = Owner.PUBLIC;
+    final var flat = FlatContainerTest.CONTAINER;
+    given(findService.find(owner, taskId, containerName)).willReturn(Mono.just(flat));
+    final var result = service.find(owner, taskId, containerName).block();
+    assertThat(result).isNotNull();
+    assertThat(result).isEqualTo(flat);
   }
 }

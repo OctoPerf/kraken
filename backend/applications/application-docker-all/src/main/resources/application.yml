@@ -83,7 +83,7 @@ kraken:
   #      - "*"
   #    allow-credentials: true
   #    max-age: 1h
-  data: ../devData/
+  data: /home/kraken/docker/devData/
   backend:
     hostname: kraken-local
     url: http://kraken-local:8080

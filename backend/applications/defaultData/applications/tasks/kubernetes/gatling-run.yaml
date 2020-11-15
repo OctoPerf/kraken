@@ -9,13 +9,14 @@ metadata:
     com.octoperf/hostId: "${KRAKEN_HOST_ID}"
     com.octoperf/taskId: "${KRAKEN_TASK_ID}"
     com.octoperf/applicationId: "${KRAKEN_APPLICATION_ID}"
+    com.octoperf/projectId: "${KRAKEN_PROJECT_ID}"
     com.octoperf/userId: "${KRAKEN_USER_ID}"
-  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
+  name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}"
 spec:
   containers:
     -
       image: "octoperf/kraken-gatling-runner:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_GATLING_CPU_LIMIT}"
@@ -36,8 +37,10 @@ spec:
           value: "${KRAKEN_USER_ID}"
         - name: KRAKEN_CONTAINER_APPLICATIONID
           value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_PROJECTID
+          value: "${KRAKEN_PROJECT_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_CONTAINER_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_CONTAINER_LABEL}"
         - name: KRAKEN_GATLING_JAVAOPTS
@@ -66,9 +69,17 @@ spec:
           value: "${KRAKEN_SECURITY_EXPIRES_IN}"
         - name: KRAKEN_SECURITY_REFRESHEXPIRESIN
           value: "${KRAKEN_SECURITY_REFRESH_EXPIRES_IN}"
+        - name: KRAKEN_GATLING_SCENARIO_CUSTOM_SETUP
+          value: "${KRAKEN_GATLING_SCENARIO_CUSTOM_SETUP}"
+        - name: KRAKEN_GATLING_SCENARIO_CONCURRENT_USERS
+          value: "${KRAKEN_GATLING_SCENARIO_CONCURRENT_USERS}"
+        - name: KRAKEN_GATLING_SCENARIO_RAMP_UP_DURATION
+          value: "${KRAKEN_GATLING_SCENARIO_RAMP_UP_DURATION}"
+        - name: KRAKEN_GATLING_SCENARIO_PEAK_DURATION
+          value: "${KRAKEN_GATLING_SCENARIO_PEAK_DURATION}"
     -
       image: "octoperf/kraken-telegraf:${KRAKEN_VERSION}"
-      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+      name: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
       resources:
         limits:
           cpu: "${KRAKEN_SIDEKICK_CPU_LIMIT}"
@@ -89,8 +100,10 @@ spec:
           value: "${KRAKEN_USER_ID}"
         - name: KRAKEN_CONTAINER_APPLICATIONID
           value: "${KRAKEN_APPLICATION_ID}"
+        - name: KRAKEN_CONTAINER_PROJECTID
+          value: "${KRAKEN_PROJECT_ID}"
         - name: KRAKEN_CONTAINER_NAME
-          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
+          value: "${KRAKEN_APPLICATION_ID}-${KRAKEN_PROJECT_ID}-${KRAKEN_TASK_ID}-${KRAKEN_HOST_ID}-${KRAKEN_GATLING_SIDEKICK_NAME}"
         - name: KRAKEN_CONTAINER_LABEL
           value: "${KRAKEN_GATLING_SIDEKICK_LABEL}"
         - name: KRAKEN_INFLUXDB_URL

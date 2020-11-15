@@ -2,6 +2,7 @@ package com.octoperf.kraken.storage.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.octoperf.kraken.storage.client.api.StorageClient;
+import com.octoperf.kraken.storage.entity.StorageInitMode;
 import com.octoperf.kraken.storage.entity.StorageNode;
 import com.octoperf.kraken.storage.entity.StorageWatcherEvent;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -45,6 +45,11 @@ final class WebStorageClient implements StorageClient {
   ObjectMapper mapper;
   @NonNull
   ObjectMapper yamlMapper;
+
+  @Override
+  public Mono<Void> init(final StorageInitMode mode) {
+    return Mono.error(new UnsupportedOperationException());
+  }
 
   @Override
   public Flux<StorageWatcherEvent> watch() {
@@ -131,6 +136,7 @@ final class WebStorageClient implements StorageClient {
   }
 
   @Override
+  @SuppressWarnings("squid:S2095")
   public Mono<Void> downloadFile(final Path localFilePath, final String remotePath) {
     final Flux<DataBuffer> flux = this.getFile(remotePath);
     try {
@@ -146,6 +152,7 @@ final class WebStorageClient implements StorageClient {
   }
 
   @Override
+  @SuppressWarnings("squid:S2095")
   public Mono<Void> downloadFolder(final Path localParentFolderPath, final String path) {
     final var zipName = UUID.randomUUID().toString() + ".zip";
     final var zipPath = localParentFolderPath.resolve(zipName);
@@ -159,15 +166,10 @@ final class WebStorageClient implements StorageClient {
           .then(Mono.fromCallable(() -> {
             ZipUtil.unpack(zipPath.toFile(), localParentFolderPath.toFile());
             ZipUtil.iterate(zipPath.toFile(), (inputStream, zipEntry) -> log.info(zipEntry.getName()));
-            try {
-              Files.delete(zipPath);
-            } catch (IOException e) {
-              log.error("Failed to delete downloaded Zip file", e);
-              throw new RuntimeException(e);
-            }
+            Files.delete(zipPath);
             return null;
           }));
-    } catch (FileNotFoundException e) {
+    } catch (IOException e) {
       log.error("Failed to download folder", e);
       return error(e);
     }
@@ -179,6 +181,11 @@ final class WebStorageClient implements StorageClient {
         .flatMapMany(path -> this.setZip(path, remotePath))
         .doOnError(t -> log.error("Failed to upload file " + localFilePath, t))
         .doOnSubscribe(subscription -> log.info(String.format("Uploading local: %s - remote: %s", localFilePath, remotePath))), log);
+  }
+
+  @Override
+  public Flux<StorageNode> find(String rootPath, Integer maxDepth, String matcher) {
+    return Flux.error(new UnsupportedOperationException());
   }
 
   private Flux<StorageWatcherEvent> setZip(final Path localZipFile, final String path) {

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SimulationEditorComponent} from './simulation-editor.component';
 import {SimulationService} from 'projects/gatling/src/app/simulations/simulation.service';
@@ -7,8 +7,8 @@ import {StorageNodeEditorContentService} from 'projects/storage/src/lib/storage-
 import {storageNodeEditorContentServiceSpy} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor-content.service.spec';
 import {STORAGE_NODE} from 'projects/storage/src/lib/storage-editor/storage-node-editors/storage-node-editor';
 import {testStorageFileNode} from 'projects/storage/src/lib/entities/storage-node.spec';
-import SpyObj = jasmine.SpyObj;
 import {StorageNode} from 'projects/storage/src/lib/entities/storage-node';
+import SpyObj = jasmine.SpyObj;
 
 describe('SimulationEditorComponent', () => {
   let component: SimulationEditorComponent;
@@ -16,7 +16,7 @@ describe('SimulationEditorComponent', () => {
   let simulation: SpyObj<SimulationService>;
   let node: StorageNode;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const contentService = storageNodeEditorContentServiceSpy();
     simulation = simulationServiceSpy();
     node = testStorageFileNode();

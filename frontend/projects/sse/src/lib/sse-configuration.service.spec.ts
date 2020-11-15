@@ -9,8 +9,10 @@ import SpyObj = jasmine.SpyObj;
 export const sseConfigurationServiceSpy = () => {
   const spy = jasmine.createSpyObj('SSEConfigurationService', [
     'sseApiUrl',
+    'sseChannels',
   ]);
   spy.sseApiUrl.and.callFake((path = '') => `backendApiUrl/sse${path}`);
+  spy.sseChannels.and.returnValue(['STORAGE', 'RUNTIME']);
   return spy;
 };
 
@@ -47,5 +49,11 @@ describe('SSEConfigurationService', () => {
     configuration.url.and.returnValue('url');
     expect(service.sseApiUrl()).toBe('url');
     expect(configuration.url).toHaveBeenCalledWith('backendApiUrl', '/sse');
+  });
+
+  it('should return channels no param', () => {
+    configuration.value.and.returnValue(['CHANNEL']);
+    expect(service.sseChannels()).toEqual(['CHANNEL']);
+    expect(configuration.value).toHaveBeenCalledWith('sseChannels');
   });
 });

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {DebugSimulationMenuItemComponent} from 'projects/gatling/src/app/simulations/debug-simulation-menu-item/debug-simulation-menu-item.component';
 import {StorageTreeControlService} from 'projects/storage/src/lib/storage-tree/storage-tree-control.service';
@@ -15,7 +15,7 @@ describe('DebugSimulationMenuItemComponent', () => {
   let treeControl: SpyObj<StorageTreeControlService>;
   let simulation: SpyObj<SimulationService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     treeControl = storageTreeControlServiceSpy();
     simulation = simulationServiceSpy();
 

@@ -1,0 +1,8 @@
+<mat-form-field [formGroup]="projectForm">
+  <mat-label>Application</mat-label>
+  <mat-select formControlName="applicationId">
+    <mat-option *ngFor="let application of applications" [value]="application">
+      {{application | prettyString}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,0 +1,14 @@
+{
+  "version": "project-test-1",
+  "applicationId": "project",
+  "backendApiUrl": "/api",
+  "docUrl": "/doc",
+  "keycloakConfiguration": {
+    "url": "/auth",
+    "realm": "kraken",
+    "clientId": "kraken-web"
+  },
+  "expectedRoles": ["USER"],
+  "availableApplications": ["gatling"],
+  "sseChannels" : []
+}

@@ -1,8 +1,8 @@
 package com.octoperf.kraken.parser.gatling.log.spring.rule;
 
 import com.octoperf.kraken.analysis.entity.DebugEntry;
-import com.octoperf.kraken.parser.gatling.log.spring.context.ParserContext;
 import com.octoperf.kraken.parser.gatling.log.spring.context.LogParserState;
+import com.octoperf.kraken.parser.gatling.log.spring.context.ParserContext;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 final class DelimiterEndRule implements ParserRule {
 
-  final static String LINE = "<<<<<<<<<<<<<<<<<<<<<<<<<";
+  static final String LINE = "<<<<<<<<<<<<<<<<<<<<<<<<<";
 
   @NonNull
   ParserContext parserContext;

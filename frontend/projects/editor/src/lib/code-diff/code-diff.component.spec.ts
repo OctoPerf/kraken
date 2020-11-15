@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {CodeDiffComponent} from 'projects/editor/src/lib/code-diff/code-diff.component';
 
 
@@ -6,7 +6,7 @@ describe('CodeDiffComponent', () => {
   let component: CodeDiffComponent;
   let fixture: ComponentFixture<CodeDiffComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CodeDiffComponent]
     })

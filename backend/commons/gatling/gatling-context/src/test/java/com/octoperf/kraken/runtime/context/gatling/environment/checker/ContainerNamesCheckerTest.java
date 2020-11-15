@@ -6,10 +6,9 @@ import com.octoperf.kraken.tests.utils.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +42,7 @@ public class ContainerNamesCheckerTest {
         .put(KRAKEN_GATLING_SIDEKICK_NAME.name(), "value")
         .put(KRAKEN_GATLING_SIDEKICK_LABEL.name(), "value")
         .build();
-    checker.accept(env);
+    Assertions.assertDoesNotThrow(() -> checker.accept(env));
   }
 
   @Test
