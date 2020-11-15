@@ -37,11 +37,11 @@ export const HELP_PAGES: { [key in HelpPageId]: string } = {
   ADMIN_DOWNLOAD_FILE: '/administration/files-manager-usage/#files-and-folders-download',
   ADMIN_ATTACH_HOST: '/administration/hosts-table/',
 
-  PROJECT_LIST: '/TODO list',
-  PROJECT_CREATE: '/TODO create',
-  PROJECT_IMPORT: '/TODO import',
-  PROJECT_CONNECT: '/TODO connect',
+  PROJECT_LIST: '/project/#list-projects',
+  PROJECT_CREATE: '/project/#create-a-new-project',
+  PROJECT_IMPORT: '/project/#import-a-project-from-git',
+  PROJECT_CONNECT: '/git/#connect-an-existing-project-to-git',
 
-  GIT_COMMAND: 'TODO',
-  GIT_STATUS: 'TODO'
+  GIT_COMMAND: '/git/#the-git-command-panel',
+  GIT_STATUS: '/git/#the-git-status-panel'
 };

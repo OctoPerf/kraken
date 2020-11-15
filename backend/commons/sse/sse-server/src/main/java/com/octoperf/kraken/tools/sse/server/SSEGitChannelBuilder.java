@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Component
+//@Component
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class SSEGitChannelBuilder implements SSEChannelBuilder {

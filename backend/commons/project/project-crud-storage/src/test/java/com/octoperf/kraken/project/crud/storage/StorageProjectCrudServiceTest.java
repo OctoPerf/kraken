@@ -46,10 +46,10 @@ class StorageProjectCrudServiceTest {
   EventBus eventBus;
   @Mock
   IdGenerator idGenerator;
-  @Mock
-  GitClientBuilder gitClientBuilder;
-  @Mock
-  GitClient gitClient;
+//  @Mock
+//  GitClientBuilder gitClientBuilder;
+//  @Mock
+//  GitClient gitClient;
   @Captor
   ArgumentCaptor<CreateProjectEvent> createProjectEventArgumentCaptor;
   @Captor
@@ -62,7 +62,7 @@ class StorageProjectCrudServiceTest {
 
   @BeforeEach
   void before() {
-    service = new StorageProjectCrudService(storageClientBuilder, eventBus, idGenerator, gitClientBuilder);
+    service = new StorageProjectCrudService(storageClientBuilder, eventBus, idGenerator/*, gitClientBuilder*/);
     owner = Owner.builder()
         .userId("userId")
         .roles(ImmutableList.of(KrakenRole.USER))
@@ -134,52 +134,52 @@ class StorageProjectCrudServiceTest {
     assertThat(event.getOwner()).isEqualTo(owner.toBuilder().applicationId(appId).projectId(projectId).build());
   }
 
-  @Test
-  void shouldImportProject() {
-    final var appId = "app";
-    final var projectId = "projId";
-    final var projectName = "projName";
-    final var repoUrl = "repoUrl";
-    given(idGenerator.generate()).willReturn(projectId);
-
-    // To write files in the application
-    given(storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
-        .mode(AuthenticationMode.SESSION)
-        .applicationId(appId)
-        .projectId(projectId)
-        .build())).willReturn(Mono.just(storageClient));
-    // To write files at the project level
-    given(storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
-        .mode(AuthenticationMode.SESSION)
-        .projectId(projectId)
-        .build())).willReturn(Mono.just(storageClient));
-
-    given(storageClient.init(StorageInitMode.EMPTY)).willReturn(Mono.empty());
-    given(storageClient.setJsonContent(eq("project.json"), any(Project.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
-
-    given(gitClientBuilder.build(AuthenticatedClientBuildOrder.builder()
-        .mode(AuthenticationMode.SESSION)
-        .projectId(projectId)
-        .applicationId(appId)
-        .build())).willReturn(Mono.just(gitClient));
-    given(gitClient.connect(repoUrl)).willReturn(Mono.just(GitConfiguration.builder().repositoryUrl(repoUrl).build()));
-
-    final var project = service.importFromGit(owner, appId, projectName, repoUrl).block();
-    verify(storageClient).init(StorageInitMode.EMPTY);
-    verify(storageClient).setJsonContent(eq("project.json"), projectArgumentCaptor.capture());
-    verify(eventBus).publish(createProjectEventArgumentCaptor.capture());
-
-    assertThat(project).isNotNull();
-    assertThat(project.getId()).isEqualTo(projectId);
-    assertThat(project.getName()).isEqualTo(projectName);
-    assertThat(project.getApplicationId()).isEqualTo(appId);
-
-    assertThat(project).isEqualTo(projectArgumentCaptor.getValue());
-
-    final var event = createProjectEventArgumentCaptor.getValue();
-    assertThat(event.getProject()).isEqualTo(project);
-    assertThat(event.getOwner()).isEqualTo(owner.toBuilder().applicationId(appId).projectId(projectId).build());
-  }
+//  @Test
+//  void shouldImportProject() {
+//    final var appId = "app";
+//    final var projectId = "projId";
+//    final var projectName = "projName";
+//    final var repoUrl = "repoUrl";
+//    given(idGenerator.generate()).willReturn(projectId);
+//
+//    // To write files in the application
+//    given(storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+//        .mode(AuthenticationMode.SESSION)
+//        .applicationId(appId)
+//        .projectId(projectId)
+//        .build())).willReturn(Mono.just(storageClient));
+//    // To write files at the project level
+//    given(storageClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+//        .mode(AuthenticationMode.SESSION)
+//        .projectId(projectId)
+//        .build())).willReturn(Mono.just(storageClient));
+//
+//    given(storageClient.init(StorageInitMode.EMPTY)).willReturn(Mono.empty());
+//    given(storageClient.setJsonContent(eq("project.json"), any(Project.class))).willReturn(Mono.just(StorageNodeTest.STORAGE_NODE));
+//
+//    given(gitClientBuilder.build(AuthenticatedClientBuildOrder.builder()
+//        .mode(AuthenticationMode.SESSION)
+//        .projectId(projectId)
+//        .applicationId(appId)
+//        .build())).willReturn(Mono.just(gitClient));
+//    given(gitClient.connect(repoUrl)).willReturn(Mono.just(GitConfiguration.builder().repositoryUrl(repoUrl).build()));
+//
+//    final var project = service.importFromGit(owner, appId, projectName, repoUrl).block();
+//    verify(storageClient).init(StorageInitMode.EMPTY);
+//    verify(storageClient).setJsonContent(eq("project.json"), projectArgumentCaptor.capture());
+//    verify(eventBus).publish(createProjectEventArgumentCaptor.capture());
+//
+//    assertThat(project).isNotNull();
+//    assertThat(project.getId()).isEqualTo(projectId);
+//    assertThat(project.getName()).isEqualTo(projectName);
+//    assertThat(project.getApplicationId()).isEqualTo(appId);
+//
+//    assertThat(project).isEqualTo(projectArgumentCaptor.getValue());
+//
+//    final var event = createProjectEventArgumentCaptor.getValue();
+//    assertThat(event.getProject()).isEqualTo(project);
+//    assertThat(event.getOwner()).isEqualTo(owner.toBuilder().applicationId(appId).projectId(projectId).build());
+//  }
 
   @Test
   void shouldUpdateProject() {

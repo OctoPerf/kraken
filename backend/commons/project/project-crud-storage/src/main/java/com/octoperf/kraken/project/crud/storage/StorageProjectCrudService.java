@@ -39,7 +39,7 @@ final class StorageProjectCrudService implements ProjectCrudService {
   @NonNull StorageClientBuilder storageClientBuilder;
   @NonNull EventBus eventBus;
   @NonNull IdGenerator idGenerator;
-  @NonNull GitClientBuilder gitClientBuilder;
+//  @NonNull GitClientBuilder gitClientBuilder;
 
   @Override
   public Mono<Project> get(final Owner owner) {
@@ -60,11 +60,20 @@ final class StorageProjectCrudService implements ProjectCrudService {
     return this.createProject(owner, applicationId, name, COPY);
   }
 
+//  @Override
+//  public Mono<Project> importFromGit(final Owner owner, final String applicationId, final String name, final String repositoryUrl) {
+//    return this.createProject(owner, applicationId, name, EMPTY).flatMap(project -> this.gitClientBuilder.build(AuthenticatedClientBuildOrder.builder().mode(SESSION).projectId(project.getId()).applicationId(project.getApplicationId()).build())
+//        .flatMap(gitClient -> gitClient.connect(repositoryUrl))
+//        .map(empty -> project));
+//  }
+
   @Override
-  public Mono<Project> importFromGit(final Owner owner, final String applicationId, final String name, final String repositoryUrl) {
-    return this.createProject(owner, applicationId, name, EMPTY).flatMap(project -> this.gitClientBuilder.build(AuthenticatedClientBuildOrder.builder().mode(SESSION).projectId(project.getId()).applicationId(project.getApplicationId()).build())
-        .flatMap(gitClient -> gitClient.connect(repositoryUrl))
-        .map(empty -> project));
+  public Mono<Project> update(final Owner owner, final Project project) {
+    final var storageClientMono = this.projectStorageClient(project.getId());
+    return storageClientMono.flatMap(storageClient -> storageClient
+        .getJsonContent(PROJECT_PATH, Project.class)
+        .map(retrieved -> retrieved.toBuilder().name(project.getName()).updateDate(Instant.now().toEpochMilli()).build())
+        .flatMap(updated -> storageClient.setJsonContent(PROJECT_PATH, updated).map(storageNode -> updated)));
   }
 
   private Mono<Project> createProject(final Owner owner, final String applicationId, final String name, final StorageInitMode mode) {
@@ -85,15 +94,6 @@ final class StorageProjectCrudService implements ProjectCrudService {
             .project(project)
             .build())
         );
-  }
-
-  @Override
-  public Mono<Project> update(final Owner owner, final Project project) {
-    final var storageClientMono = this.projectStorageClient(project.getId());
-    return storageClientMono.flatMap(storageClient -> storageClient
-        .getJsonContent(PROJECT_PATH, Project.class)
-        .map(retrieved -> retrieved.toBuilder().name(project.getName()).updateDate(Instant.now().toEpochMilli()).build())
-        .flatMap(updated -> storageClient.setJsonContent(PROJECT_PATH, updated).map(storageNode -> updated)));
   }
 
   @Override

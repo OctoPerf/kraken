@@ -1,7 +1,6 @@
 package com.octoperf.kraken.git.service.cmd;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.command.entity.Command;
 import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.config.api.ApplicationProperties;
@@ -10,6 +9,7 @@ import com.octoperf.kraken.git.event.GitRefreshStorageEvent;
 import com.octoperf.kraken.git.service.api.GitProjectService;
 import com.octoperf.kraken.security.authentication.api.UserProvider;
 import com.octoperf.kraken.security.entity.owner.Owner;
+import com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -23,7 +23,9 @@ import reactor.util.function.Tuples;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
+import static com.google.common.collect.ImmutableMap.of;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
@@ -41,7 +43,7 @@ final class CmdGitProjectService implements GitProjectService {
   @NonNull OwnerToPath ownerToPath;
   @NonNull CommandService commandService;
   @NonNull ApplicationProperties properties;
-  @NonNull UserIdToCommandEnvironment toCommandEnvironment;
+  @NonNull UserIdToSSH toSSH;
   @NonNull UserProvider userProvider;
   @NonNull EventBus eventBus;
 
@@ -51,22 +53,24 @@ final class CmdGitProjectService implements GitProjectService {
     return userProvider.getAuthenticatedUser()
         .flatMap(user -> Mono.fromCallable(() -> Files.createTempDirectory(Paths.get(properties.getData()), "git-tmp-" + owner.getUserId())).map(path -> Tuples.of(user, path)))
         .flatMap(t2 -> {
+              final Map<KrakenEnvironmentKeys, String> env = of();
               final var tmp = t2.getT2();
               final var email = t2.getT1().getEmail();
-              final var env = toCommandEnvironment.apply(owner.getUserId());
               final var commands = ImmutableList.of(
                   // Init repo
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, "init")).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, "init")).build(),
                   // Download symlinks as simple text files
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, CONFIG, "core.symlinks", "false")).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, CONFIG, "core.symlinks", "false")).build(),
+                  // Set ssh command
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, CONFIG, "core.sshCommand", toSSH.apply(owner.getUserId()))).build(),
                   // Config name / email
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, CONFIG, "user.email", email)).build(),
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, CONFIG, "author.email", email)).build(),
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, CONFIG, "committer.email", email)).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, CONFIG, "user.email", email)).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, CONFIG, "author.email", email)).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, CONFIG, "committer.email", email)).build(),
                   // Set remote and pull repository
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, "remote", "add", ORIGIN, repositoryUrl)).build(),
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, "remote", "add", ORIGIN, repositoryUrl)).build(),
                   Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, "pull", ORIGIN, MASTER)).build(),
-                  Command.builder().path(tmp.toString()).environment(ImmutableMap.of()).args(ImmutableList.of(GIT, "branch", "--set-upstream-to=origin/master", MASTER)).build()
+                  Command.builder().path(tmp.toString()).environment(env).args(ImmutableList.of(GIT, "branch", "--set-upstream-to=origin/master", MASTER)).build()
               );
               return commandService.validate(commands)
                   .flatMapMany(commandService::execute)
@@ -107,7 +111,7 @@ final class CmdGitProjectService implements GitProjectService {
     final var rootPath = ownerToPath.apply(owner);
     return commandService.validate(Command.builder()
         .path(rootPath.toString())
-        .environment(ImmutableMap.of())
+        .environment(of())
         .args(ImmutableList.of(GIT, CONFIG, "--get", "remote.origin.url"))
         .build())
         .flatMapMany(commandService::execute)

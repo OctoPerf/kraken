@@ -40,7 +40,7 @@ class CmdGitProjectServiceTest {
   @Mock
   ApplicationProperties properties;
   @Mock
-  UserIdToCommandEnvironment toCommandEnvironment;
+  UserIdToSSH toSSH;
   @Mock
   UserProvider userProvider;
   @Mock
@@ -54,7 +54,7 @@ class CmdGitProjectServiceTest {
 
   @BeforeEach
   public void beforeEach() {
-    projectService = new CmdGitProjectService(ownerToPath, commandService, properties, toCommandEnvironment, userProvider, eventBus);
+    projectService = new CmdGitProjectService(ownerToPath, commandService, properties, toSSH, userProvider, eventBus);
     rootPath = Paths.get("testDir");
     gitPath = rootPath.resolve(".git");
     System.out.println(gitPath.toAbsolutePath().toString());
@@ -70,7 +70,7 @@ class CmdGitProjectServiceTest {
   void shouldConnect() {
     final var owner = OwnerTest.USER_OWNER;
     final var repositoryUrl = "repoUrl";
-    given(toCommandEnvironment.apply(owner.getUserId())).willReturn(ImmutableMap.of());
+    given(toSSH.apply(owner.getUserId())).willReturn("ssh -i");
     given(properties.getData()).willReturn("testDir");
     given(userProvider.getAuthenticatedUser()).willReturn(Mono.just(KrakenTokenUserTest.KRAKEN_USER));
     given(ownerToPath.apply(owner)).willReturn(rootPath);

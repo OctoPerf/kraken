@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GitConfigurationService} from 'projects/git/src/lib/git-configuration.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {GitConfiguration} from 'projects/git/src/lib/entities/git-configuration';
 import {finalize, tap} from 'rxjs/operators';
 import {SSEService} from 'projects/sse/src/lib/sse.service';
@@ -35,8 +35,9 @@ export class GitProjectService {
   }
 
   public configuration(): Observable<GitConfiguration> {
-    return this.http.get<GitConfiguration>(this.gitConfigurationService.projectApiUrl('/configuration'))
-      .pipe(tap(configuration => this.configurationSubject.next(configuration)));
+    return of({repositoryUrl: ''});
+    // return this.http.get<GitConfiguration>(this.gitConfigurationService.projectApiUrl('/configuration'))
+    //   .pipe(tap(configuration => this.configurationSubject.next(configuration)));
   }
 
   public disconnect(): Observable<void> {

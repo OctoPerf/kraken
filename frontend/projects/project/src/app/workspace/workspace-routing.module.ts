@@ -25,10 +25,10 @@ const routes: Routes = [
         path: 'create',
         component: CreateProjectComponent,
       },
-      {
-        path: 'import',
-        component: ImportProjectComponent,
-      },
+      // {
+      //   path: 'import',
+      //   component: ImportProjectComponent,
+      // },
     ]
   },
 ];

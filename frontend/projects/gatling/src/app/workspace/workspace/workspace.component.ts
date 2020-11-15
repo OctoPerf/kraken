@@ -202,26 +202,26 @@ export class WorkspaceComponent implements OnInit {
             'GATLING_LOGS',
             true,
             [OpenLogsEvent.CHANNEL]),
-          new Tab(
-            new ComponentPortal(GitCommandComponent),
-            'Command',
-            new IconFa(faGit),
-            'GIT_COMMAND',
-            false)
+          // new Tab(
+          //   new ComponentPortal(GitCommandComponent),
+          //   'Command',
+          //   new IconFa(faGit),
+          //   'GIT_COMMAND',
+          //   false)
         ],
         0,
         60
       ),
       new TabsConfiguration(
         [
-          new Tab(
-            new ComponentPortal(GitStatusComponent),
-            'Status',
-            new IconFa(faGitAlt),
-            'GIT_STATUS',
-            false,
-            [],
-            GitStatusTabHeaderComponent),
+          // new Tab(
+          //   new ComponentPortal(GitStatusComponent),
+          //   'Status',
+          //   new IconFa(faGitAlt),
+          //   'GIT_STATUS',
+          //   false,
+          //   [],
+          //   GitStatusTabHeaderComponent),
           new Tab(
             new ComponentPortal(ContainersTableComponent),
             'Containers',

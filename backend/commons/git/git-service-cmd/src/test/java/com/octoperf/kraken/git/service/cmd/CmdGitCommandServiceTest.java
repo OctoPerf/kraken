@@ -11,7 +11,6 @@ import com.octoperf.kraken.git.service.api.GitLogsService;
 import com.octoperf.kraken.git.service.api.GitProjectService;
 import com.octoperf.kraken.git.service.cmd.parser.GitStatusParser;
 import com.octoperf.kraken.security.entity.owner.OwnerTest;
-import com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
-import java.time.Duration;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,8 +39,6 @@ class CmdGitCommandServiceTest {
   @Mock
   GitProjectService projectService;
   @Mock
-  UserIdToCommandEnvironment toCommandEnvironment;
-  @Mock
   GitStatusParser statusParser;
   @Mock
   EventBus eventBus;
@@ -56,7 +51,6 @@ class CmdGitCommandServiceTest {
         commandService,
         logsService,
         projectService,
-        toCommandEnvironment,
         statusParser,
         eventBus);
   }
@@ -133,25 +127,6 @@ class CmdGitCommandServiceTest {
         .args(args)
         .path(path.toString())
         .environment(ImmutableMap.of())
-        .build());
-  }
-
-  @Test
-  void shouldExecuteRemote() {
-    final var commandLine = "git pull";
-    final var args = ImmutableList.of("git", "pull");
-    final var path = Path.of("path");
-    final Map<KrakenEnvironmentKeys, String> env = ImmutableMap.of(KrakenEnvironmentKeys.GIT_SSH_COMMAND, "");
-    given(ownerToPath.apply(OwnerTest.USER_OWNER)).willReturn(path);
-    given(commandService.parseCommandLine(commandLine)).willReturn(Mono.just(args));
-    given(commandService.validate(any(Command.class))).willAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0)));
-    given(toCommandEnvironment.apply(OwnerTest.USER_OWNER.getUserId())).willReturn(env);
-    service.execute(OwnerTest.USER_OWNER, commandLine).block();
-    verify(logsService).push(any(), any());
-    verify(commandService).validate(Command.builder()
-        .args(args)
-        .path(path.toString())
-        .environment(env)
         .build());
   }
 

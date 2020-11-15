@@ -1,18 +1,16 @@
 package com.octoperf.kraken.git.service.cmd;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.octoperf.kraken.command.entity.Command;
 import com.octoperf.kraken.command.executor.api.CommandService;
 import com.octoperf.kraken.git.entity.GitStatus;
 import com.octoperf.kraken.git.event.GitRefreshStorageEvent;
 import com.octoperf.kraken.git.event.GitStatusUpdateEvent;
-import com.octoperf.kraken.git.service.api.GitLogsService;
 import com.octoperf.kraken.git.service.api.GitCommandService;
+import com.octoperf.kraken.git.service.api.GitLogsService;
 import com.octoperf.kraken.git.service.api.GitProjectService;
 import com.octoperf.kraken.git.service.cmd.parser.GitStatusParser;
 import com.octoperf.kraken.security.entity.owner.Owner;
-import com.octoperf.kraken.tools.environment.KrakenEnvironmentKeys;
 import com.octoperf.kraken.tools.event.bus.EventBus;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -25,6 +23,7 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableMap.of;
 import static lombok.AccessLevel.PRIVATE;
 
 @Slf4j
@@ -40,7 +39,6 @@ final class CmdGitCommandService implements GitCommandService {
   @NonNull CommandService commandService;
   @NonNull GitLogsService logsService;
   @NonNull GitProjectService projectService;
-  @NonNull UserIdToCommandEnvironment toCommandEnvironment;
   @NonNull GitStatusParser statusParser;
   @NonNull EventBus eventBus;
 
@@ -51,11 +49,10 @@ final class CmdGitCommandService implements GitCommandService {
           checkArgument(args.size() >= 2);
           checkArgument("git".equals(args.get(0)), "Only git commands are supported.");
           final var subCommand = GitSubCommand.valueOf(args.get(1).toUpperCase());
-          final var env = subCommand.isRemote() ? toCommandEnvironment.apply(owner.getUserId()) : ImmutableMap.<KrakenEnvironmentKeys, String>of();
           final var cmd = Command.builder()
               .args(args)
               .path(ownerToPath.apply(owner).toString())
-              .environment(env)
+              .environment(of())
               .build();
           final var logsFlux = commandService.validate(cmd)
               .flatMapMany(commandService::execute)
@@ -76,7 +73,7 @@ final class CmdGitCommandService implements GitCommandService {
       final var commandStatus = Command.builder()
           .args(ImmutableList.of("git", "--no-optional-locks", "status", "--porcelain=v2", "--branch"))
           .path(ownerToPath.apply(owner).toString())
-          .environment(ImmutableMap.of())
+          .environment(of())
           .build();
       return statusParser.apply(commandService.validate(commandStatus).flatMapMany(commandService::execute));
     }

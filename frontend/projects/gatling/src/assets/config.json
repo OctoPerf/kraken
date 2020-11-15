@@ -37,5 +37,5 @@
     "clientId": "kraken-web"
   },
   "expectedRoles": ["USER"],
-  "sseChannels" : ["STORAGE", "RUNTIME", "GIT"]
+  "sseChannels" : ["STORAGE", "RUNTIME"]
 }
