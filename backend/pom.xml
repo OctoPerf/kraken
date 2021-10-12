@@ -32,7 +32,7 @@
         <zt-exec.version>1.11</zt-exec.version>
         <directory-watcher.version>0.9.9</directory-watcher.version>
         <nimbus.version>8.19</nimbus.version>
-        <kubernetes.version>9.0.0</kubernetes.version>
+        <kubernetes.version>11.0.1</kubernetes.version>
         <tika.version>1.24.1</tika.version>
         <plexus.version>3.3.0</plexus.version>
     </properties>
