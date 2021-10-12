@@ -11,15 +11,6 @@ As such, Kraken provides a complete development environment to software programm
 
 ## Support and Community
 
-### Documentation
-
-* [Getting Started](https://kraken.octoperf.com/doc/)
-* [Download](https://kraken.octoperf.com/doc/download/)
-* [Install - Docker](https://kraken.octoperf.com/doc/install/linux/)
-* [Install - Kubernetes](https://kraken.octoperf.com/doc/install/kubernetes-prerequisites/)
-* [Gatling Integration](https://kraken.octoperf.com/doc/gatling/)
-* [Administration](https://kraken.octoperf.com/doc/administration/)
-
 ### Blog
 
 [Kraken blog on OctoPerf](https://octoperf.com/categories/kraken/)
@@ -29,10 +20,6 @@ As such, Kraken provides a complete development environment to software programm
 1. [Gatling - Getting Started with Simulation Scripts](https://octoperf.com/blog/2020/03/05/kraken-gatling-getting-started-with-simulation-scripts/)
 2. [Gatling - Simulation Scripts Parameterization](https://octoperf.com/blog/2020/03/14/kraken-gatling-simulation-script-parameterization/)
 2. [Gatling - Loops, Conditions and Pauses](https://octoperf.com/blog/2020/05/07/kraken-gatling-loops-conditions-pauses-think-times/)
-
-### Live Chat
-
-Open [Kraken's documentation](https://kraken.octoperf.com/) and click on the _NEED HELP?_ button at the bottom right corner of the page.
 
 ### Videos
 
