@@ -13,18 +13,13 @@ As such, Kraken provides a complete development environment to software programm
 
 ### Blog
 
-[Kraken blog on OctoPerf](https://octoperf.com/categories/kraken/)
+[Load Testing blog on OctoPerf](https://blog.octoperf.com/)
 
 #### Tutorials
 
-1. [Gatling - Getting Started with Simulation Scripts](https://octoperf.com/blog/2020/03/05/kraken-gatling-getting-started-with-simulation-scripts/)
-2. [Gatling - Simulation Scripts Parameterization](https://octoperf.com/blog/2020/03/14/kraken-gatling-simulation-script-parameterization/)
-2. [Gatling - Loops, Conditions and Pauses](https://octoperf.com/blog/2020/05/07/kraken-gatling-loops-conditions-pauses-think-times/)
-
-### Videos
-
-* [Kraken Playlist](https://www.youtube.com/playlist?list=PLpSi3AVZHI5pCtqsq-oQKA_W2CA78NJye)
-* [QAInsights](https://www.youtube.com/playlist?list=PLJ9A48W0kpRL_cAUalFmRcrbselrQsQFf)
+1. [Gatling - Getting Started with Simulation Scripts](https://blog.octoperf.com/gatling-getting-started-with-simulation-scripts/)
+2. [Gatling - Simulation Scripts Parameterization](https://blog.octoperf.com/gatling-simulation-scripts-parameterization/)
+2. [Gatling - Loops, Conditions and Pauses](https://blog.octoperf.com/gatling-loops-conditions-and-pauses/)
 
 ### Email
 
